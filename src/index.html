@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Appflow - Continuous Mobile DevOps</title>
+  <meta name="description" content="Move even faster with cloud native builds, live app deploys, and CI/CD automation for Ionic, Capacitor, and Cordova app delivery.">
+
+  <script>
+    navigator.serviceWorker.getRegistrations().then(function(registrations) {
+      for(let registration of registrations) {
+        registration.unregister()
+      }
+    });
+  </script>
+  <script type="module" src="/build/site.esm.js"></script>
+  <script nomodule src="/build/site.js"></script>
+
+  <link rel="preload" href="/assets/fonts/inter/Inter-variable-ASCII-subset.woff2" as="font" type="font/woff2">
+  <link rel="preload" href="/assets/fonts/eina/eina-01-bold.woff2" as="font" type="font/woff2">
+  <link rel="preload" href="/assets/fonts/eina/eina-01-semibold.woff2" as="font" type="font/woff2">
+
+  <link rel="stylesheet" href="/build/site.css">
+  
+  <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="msapplication-tap-highlight" content="no">
+  <meta name="theme-color" content="#4164FF">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" type="image/png" href="/assets/img/favicon.png">
+
+</head>
+<body>
+
+  <ionic-io-site></ionic-io-site>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-44023830-8"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-44023830-44');
+</script>
+
+</body>
+</html>

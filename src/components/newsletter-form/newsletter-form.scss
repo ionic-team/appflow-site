@@ -1,0 +1,55 @@
+
+newsletter-form {
+  width: 100%;
+}
+
+.success__message {
+  display:flex;
+  align-items:center;
+  
+  svg {
+    margin-right: 16px;
+  }
+
+  p {
+    color: white;
+  }
+}
+
+.error__message {
+  color:#ff4f42;
+  position:absolute;
+  top:100%;
+  left:0;
+}
+
+.newsletter__form {
+  position: relative;
+  max-width: 384px;
+  input {
+    height: 56px;
+    border-radius: var(--radii-2);
+    border: none;
+    padding: 22px 16px;
+    width:100%;
+  }
+
+  button {
+    cursor:pointer;
+    position:absolute;
+    display:flex;
+    align-items:center;
+    top:1px;
+    right: 1px;
+    height: 54px;
+    border-radius: var(--radii-2);
+    border: none;
+    background:white;
+    font-size: 24px;
+    font-weight: 300;
+
+    ion-icon {
+      color: #4164FF;
+    }
+  }
+}

@@ -1,0 +1,42 @@
+html {
+  body {
+    background: var(--color-back);
+  }
+
+  .ui-heading-1, .ui-heading-2, .ui-heading-3, .ui-heading-4, .ui-heading-5 {
+    color: var(--c-white);
+  }
+  .ui-heading-1 {
+    font-size: 96px;
+    margin-block-end: var(--space-6);
+  }
+
+  .ui-heading-2 {
+    letter-spacing: var(--f-tracking-dense);
+  }
+
+  .ui-heading-6 {
+    color: var(--c-blue-20);
+    margin-block-end: var(--space-8);
+  }
+
+  .ui-paragraph {
+    color: white;
+    font-size: var(--f-size-6);
+  }
+
+  input, textarea, input::placeholder, textarea::placeholder {
+    color: #7493FF;
+    font-family: var(--f-family-text);
+    font-size: var(--f-size-5);
+    letter-spacing: var(--f-tracking-solid);
+  }
+
+  input, textarea {
+    color: black;
+  }
+
+  main section {
+    margin-block-start: 200px;
+  }
+}

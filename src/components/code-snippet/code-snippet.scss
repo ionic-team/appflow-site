@@ -1,0 +1,17 @@
+@use '~prismjs/themes/prism-tomorrow.css';
+
+:host {
+  display: block;
+
+  --border-radius: 8px;
+}
+
+:not(pre) > code[class*="language-"], pre[class*="language-"] {
+  background: #0B2231;
+  border-radius: var(--border-radius);
+  margin-top: 0;
+  code {
+    font-size: 14px;
+    color: var(--c-carbon-10);
+  }
+}

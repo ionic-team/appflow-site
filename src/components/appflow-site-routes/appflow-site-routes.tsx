@@ -11,10 +11,10 @@ import state from '../../store';
 import Router from '../../router';
 
 @Component({
-  tag: 'ionic-io-site-routes',
-  styleUrl: 'ionic-io-site-routes.css',
+  tag: 'appflow-site-routes',
+  styleUrl: 'appflow-site-routes.css',
 })
-export class IonicIoSiteRoutes {
+export class AppflowSiteRoutes {
 
   componentWillLoad() {
     Router.onChange('url', (newValue: InternalRouterState['url'], _oldValue: InternalRouterState['url']) => {

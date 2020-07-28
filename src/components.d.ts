@@ -14,26 +14,29 @@ export namespace Components {
     interface AppIcon {
         "name": string;
     }
+    interface AppflowSite {
+    }
+    interface AppflowSiteFooter {
+    }
+    interface AppflowSiteHeader {
+    }
+    interface AppflowSiteRoutes {
+    }
     interface CodeSnippet {
         "code": string;
         "language": string;
-    }
-    interface IonicIoSite {
-    }
-    interface IonicIoSiteFooter {
-    }
-    interface IonicIoSiteHeader {
-    }
-    interface IonicIoSiteRoutes {
     }
     interface LandingPage {
     }
     interface NewsletterForm {
     }
+    interface SiteBackdrop {
+        "visible": boolean;
+    }
     interface SiteImg {
         "alt": string;
         "dimensions": string;
-        "loading"?: "lazy";
+        "loading"?: 'lazy';
         "name": string;
         "path": string;
         "type": string;
@@ -58,35 +61,35 @@ declare global {
         prototype: HTMLAppIconElement;
         new (): HTMLAppIconElement;
     };
+    interface HTMLAppflowSiteElement extends Components.AppflowSite, HTMLStencilElement {
+    }
+    var HTMLAppflowSiteElement: {
+        prototype: HTMLAppflowSiteElement;
+        new (): HTMLAppflowSiteElement;
+    };
+    interface HTMLAppflowSiteFooterElement extends Components.AppflowSiteFooter, HTMLStencilElement {
+    }
+    var HTMLAppflowSiteFooterElement: {
+        prototype: HTMLAppflowSiteFooterElement;
+        new (): HTMLAppflowSiteFooterElement;
+    };
+    interface HTMLAppflowSiteHeaderElement extends Components.AppflowSiteHeader, HTMLStencilElement {
+    }
+    var HTMLAppflowSiteHeaderElement: {
+        prototype: HTMLAppflowSiteHeaderElement;
+        new (): HTMLAppflowSiteHeaderElement;
+    };
+    interface HTMLAppflowSiteRoutesElement extends Components.AppflowSiteRoutes, HTMLStencilElement {
+    }
+    var HTMLAppflowSiteRoutesElement: {
+        prototype: HTMLAppflowSiteRoutesElement;
+        new (): HTMLAppflowSiteRoutesElement;
+    };
     interface HTMLCodeSnippetElement extends Components.CodeSnippet, HTMLStencilElement {
     }
     var HTMLCodeSnippetElement: {
         prototype: HTMLCodeSnippetElement;
         new (): HTMLCodeSnippetElement;
-    };
-    interface HTMLIonicIoSiteElement extends Components.IonicIoSite, HTMLStencilElement {
-    }
-    var HTMLIonicIoSiteElement: {
-        prototype: HTMLIonicIoSiteElement;
-        new (): HTMLIonicIoSiteElement;
-    };
-    interface HTMLIonicIoSiteFooterElement extends Components.IonicIoSiteFooter, HTMLStencilElement {
-    }
-    var HTMLIonicIoSiteFooterElement: {
-        prototype: HTMLIonicIoSiteFooterElement;
-        new (): HTMLIonicIoSiteFooterElement;
-    };
-    interface HTMLIonicIoSiteHeaderElement extends Components.IonicIoSiteHeader, HTMLStencilElement {
-    }
-    var HTMLIonicIoSiteHeaderElement: {
-        prototype: HTMLIonicIoSiteHeaderElement;
-        new (): HTMLIonicIoSiteHeaderElement;
-    };
-    interface HTMLIonicIoSiteRoutesElement extends Components.IonicIoSiteRoutes, HTMLStencilElement {
-    }
-    var HTMLIonicIoSiteRoutesElement: {
-        prototype: HTMLIonicIoSiteRoutesElement;
-        new (): HTMLIonicIoSiteRoutesElement;
     };
     interface HTMLLandingPageElement extends Components.LandingPage, HTMLStencilElement {
     }
@@ -100,6 +103,12 @@ declare global {
         prototype: HTMLNewsletterFormElement;
         new (): HTMLNewsletterFormElement;
     };
+    interface HTMLSiteBackdropElement extends Components.SiteBackdrop, HTMLStencilElement {
+    }
+    var HTMLSiteBackdropElement: {
+        prototype: HTMLSiteBackdropElement;
+        new (): HTMLSiteBackdropElement;
+    };
     interface HTMLSiteImgElement extends Components.SiteImg, HTMLStencilElement {
     }
     var HTMLSiteImgElement: {
@@ -110,13 +119,14 @@ declare global {
         "anchor-link": HTMLAnchorLinkElement;
         "app-burger": HTMLAppBurgerElement;
         "app-icon": HTMLAppIconElement;
+        "appflow-site": HTMLAppflowSiteElement;
+        "appflow-site-footer": HTMLAppflowSiteFooterElement;
+        "appflow-site-header": HTMLAppflowSiteHeaderElement;
+        "appflow-site-routes": HTMLAppflowSiteRoutesElement;
         "code-snippet": HTMLCodeSnippetElement;
-        "ionic-io-site": HTMLIonicIoSiteElement;
-        "ionic-io-site-footer": HTMLIonicIoSiteFooterElement;
-        "ionic-io-site-header": HTMLIonicIoSiteHeaderElement;
-        "ionic-io-site-routes": HTMLIonicIoSiteRoutesElement;
         "landing-page": HTMLLandingPageElement;
         "newsletter-form": HTMLNewsletterFormElement;
+        "site-backdrop": HTMLSiteBackdropElement;
         "site-img": HTMLSiteImgElement;
     }
 }
@@ -130,26 +140,29 @@ declare namespace LocalJSX {
     interface AppIcon {
         "name"?: string;
     }
+    interface AppflowSite {
+    }
+    interface AppflowSiteFooter {
+    }
+    interface AppflowSiteHeader {
+    }
+    interface AppflowSiteRoutes {
+    }
     interface CodeSnippet {
         "code"?: string;
         "language"?: string;
-    }
-    interface IonicIoSite {
-    }
-    interface IonicIoSiteFooter {
-    }
-    interface IonicIoSiteHeader {
-    }
-    interface IonicIoSiteRoutes {
     }
     interface LandingPage {
     }
     interface NewsletterForm {
     }
+    interface SiteBackdrop {
+        "visible"?: boolean;
+    }
     interface SiteImg {
         "alt"?: string;
         "dimensions"?: string;
-        "loading"?: "lazy";
+        "loading"?: 'lazy';
         "name"?: string;
         "path"?: string;
         "type"?: string;
@@ -158,13 +171,14 @@ declare namespace LocalJSX {
         "anchor-link": AnchorLink;
         "app-burger": AppBurger;
         "app-icon": AppIcon;
+        "appflow-site": AppflowSite;
+        "appflow-site-footer": AppflowSiteFooter;
+        "appflow-site-header": AppflowSiteHeader;
+        "appflow-site-routes": AppflowSiteRoutes;
         "code-snippet": CodeSnippet;
-        "ionic-io-site": IonicIoSite;
-        "ionic-io-site-footer": IonicIoSiteFooter;
-        "ionic-io-site-header": IonicIoSiteHeader;
-        "ionic-io-site-routes": IonicIoSiteRoutes;
         "landing-page": LandingPage;
         "newsletter-form": NewsletterForm;
+        "site-backdrop": SiteBackdrop;
         "site-img": SiteImg;
     }
 }
@@ -175,13 +189,14 @@ declare module "@stencil/core" {
             "anchor-link": LocalJSX.AnchorLink & JSXBase.HTMLAttributes<HTMLAnchorLinkElement>;
             "app-burger": LocalJSX.AppBurger & JSXBase.HTMLAttributes<HTMLAppBurgerElement>;
             "app-icon": LocalJSX.AppIcon & JSXBase.HTMLAttributes<HTMLAppIconElement>;
+            "appflow-site": LocalJSX.AppflowSite & JSXBase.HTMLAttributes<HTMLAppflowSiteElement>;
+            "appflow-site-footer": LocalJSX.AppflowSiteFooter & JSXBase.HTMLAttributes<HTMLAppflowSiteFooterElement>;
+            "appflow-site-header": LocalJSX.AppflowSiteHeader & JSXBase.HTMLAttributes<HTMLAppflowSiteHeaderElement>;
+            "appflow-site-routes": LocalJSX.AppflowSiteRoutes & JSXBase.HTMLAttributes<HTMLAppflowSiteRoutesElement>;
             "code-snippet": LocalJSX.CodeSnippet & JSXBase.HTMLAttributes<HTMLCodeSnippetElement>;
-            "ionic-io-site": LocalJSX.IonicIoSite & JSXBase.HTMLAttributes<HTMLIonicIoSiteElement>;
-            "ionic-io-site-footer": LocalJSX.IonicIoSiteFooter & JSXBase.HTMLAttributes<HTMLIonicIoSiteFooterElement>;
-            "ionic-io-site-header": LocalJSX.IonicIoSiteHeader & JSXBase.HTMLAttributes<HTMLIonicIoSiteHeaderElement>;
-            "ionic-io-site-routes": LocalJSX.IonicIoSiteRoutes & JSXBase.HTMLAttributes<HTMLIonicIoSiteRoutesElement>;
             "landing-page": LocalJSX.LandingPage & JSXBase.HTMLAttributes<HTMLLandingPageElement>;
             "newsletter-form": LocalJSX.NewsletterForm & JSXBase.HTMLAttributes<HTMLNewsletterFormElement>;
+            "site-backdrop": LocalJSX.SiteBackdrop & JSXBase.HTMLAttributes<HTMLSiteBackdropElement>;
             "site-img": LocalJSX.SiteImg & JSXBase.HTMLAttributes<HTMLSiteImgElement>;
         }
     }

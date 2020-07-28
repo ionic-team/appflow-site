@@ -1,5 +1,5 @@
 {
-  "name": "ionic-io/hydrate",
+  "name": "appflow-site/hydrate",
   "description": "site component hydration app.",
   "main": "index.js",
   "types": "index.d.ts"

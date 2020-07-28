@@ -4,8 +4,8 @@ import state from '../../store';
 import Helmet from '@stencil/helmet';
 
 @Component({
-  tag: 'ionic-io-site',
-  styleUrl: 'ionic-io-site.scss'
+  tag: 'appflow-site',
+  styleUrl: 'appflow-site.scss'
 })
 export class App {  
 
@@ -13,7 +13,7 @@ export class App {
     return (
       <site-root class={`page-theme--${state.pageTheme}`}>
         <MetaHead/>
-        <ionic-io-site-routes />
+        <appflow-site-routes />
       </site-root>      
     );
   }

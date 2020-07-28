@@ -1,0 +1,23 @@
+@use '~prismjs/themes/prism';
+
+@use '../../global/variables';
+
+@use '../../global/shared/utils';
+
+
+* {
+  box-sizing: border-box;
+}
+
+.page-theme--dark {
+  background: var(--c-carbon-100);
+
+  color: var(--c-indigo-10);
+
+  .ui-heading, h1, h2, h3, h4, h5 {
+    color: var(--c-indigo-10);
+  }
+  p {
+    color: var(--c-indigo-10);
+  }
+}

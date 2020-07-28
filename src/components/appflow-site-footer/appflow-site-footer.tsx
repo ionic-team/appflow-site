@@ -1,13 +1,13 @@
 import { Component, h } from '@stencil/core';
-import { ResponsiveContainer } from '@ionic-internal/sites-shared';
+import { ResponsiveContainer } from '@ionic-internal/ionic-ds';
 import {twitterLogo, slackLogo, githubLogo, facebookLogo, youtubeLogo, mediumLogo, stackOverflowLogo } from '../../svgs';
 
 @Component({
-  tag: 'ionic-io-site-footer',
-  styleUrl: 'ionic-io-site-footer.scss',
+  tag: 'appflow-site-footer',
+  styleUrl: 'appflow-site-footer.scss',
   scoped: true,
 })
-export class IonicIoSiteFooter {
+export class SiteFooter {
   render() {
     return (
       <footer id="footer">

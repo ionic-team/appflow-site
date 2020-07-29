@@ -9,8 +9,8 @@ import { publishIcon, updatesIcon, buildsIcon, automationsIcon } from './activat
   assetsDirs: ['assets']
 })
 export class AppflowActivator {
-  private gsap: GSAP;
   private tween: GSAPTween;
+  private gsapCdn = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.4.2/gsap.min.js';
   private screens: any = [
     {
       name: 'App Publishing',
@@ -46,45 +46,40 @@ export class AppflowActivator {
   indicators = [];
 
 
-  async componentWillLoad() {
-    this.gsap = await this.importGsapApi();
+  componentWillLoad() {
+    this.importGsap();
   }
 
-  componentDidLoad() {
-    this.start();
+  importGsap() {
+      if (window.gsap) return;
+  
+      const script = document.createElement('script');
+      script.src = this.gsapCdn;
+
+      script.onload = () => {
+        if (!window) return window.onload = this.start;
+        this.start()
+      }
+      // script.onerror = reject;      
+  
+      document.body.appendChild(script);
   }
 
   start() {    
     const indicator = this.indicators[this.currentScreen];    
 
-    this.gsap.set(indicator, {
+    gsap.set(indicator, {
       width: 0,
       alpha: 1
     });
 
-    this.tween = this.gsap.to(indicator, this.duration, {
+    this.tween = gsap.to(indicator, this.duration, {
       width: '100%',
       onComplete: () => {
         this.increment();
       }
     });
-  }
-
-  async importGsapApi() {
-    return new Promise<GSAP>((resolve, reject) => {
-      if ('gsap' in window) {
-        return resolve(window.gsap);
-      }
-  
-      const script = document.createElement('script');
-  
-      script.onload = () => resolve(window.gsap);
-      script.onerror = reject;
-      script.src = `https://cdnjs.cloudflare.com/ajax/libs/gsap/3.4.2/gsap.min.js`;
-  
-      document.body.appendChild(script);
-    });
-  }
+  }  
 
   override(index) {
     if (this.currentScreen === index) return;
@@ -93,7 +88,7 @@ export class AppflowActivator {
   }
 
   increment(index?) {
-    this.gsap.to(this.indicators[this.currentScreen], {
+    gsap.to(this.indicators[this.currentScreen], {
       duration: 0.4,
       alpha: 0
     });

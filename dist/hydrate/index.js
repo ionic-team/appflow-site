@@ -5799,35 +5799,33 @@ class AppflowActivator {
         this.duration = 6; //seconds
         this.indicators = [];
     }
-    async componentWillLoad() {
-        this.gsap = await this.importGsapApi();
+    componentWillLoad() {
+        this.importGsapApi();
     }
-    componentDidLoad() {
-        this.start();
+    importGsapApi() {
+        if ('gsap' in window)
+            return;
+        const script = document.createElement('script');
+        script.src = './assets/scripts/gsap.min.js';
+        script.onload = () => {
+            if (!window)
+                return window.onload = this.start;
+            this.start();
+        };
+        // script.onerror = reject;      
+        document.body.appendChild(script);
     }
     start() {
         const indicator = this.indicators[this.currentScreen];
-        this.gsap.set(indicator, {
+        gsap.set(indicator, {
             width: 0,
             alpha: 1
         });
-        this.tween = this.gsap.to(indicator, this.duration, {
+        this.tween = gsap.to(indicator, this.duration, {
             width: '100%',
             onComplete: () => {
                 this.increment();
             }
-        });
-    }
-    async importGsapApi() {
-        return new Promise((resolve, reject) => {
-            if ('gsap' in window) {
-                return resolve(window.gsap);
-            }
-            const script = document.createElement('script');
-            script.onload = () => resolve(window.gsap);
-            script.onerror = reject;
-            script.src = `https://cdnjs.cloudflare.com/ajax/libs/gsap/3.4.2/gsap.min.js`;
-            document.body.appendChild(script);
         });
     }
     override(index) {
@@ -5837,7 +5835,7 @@ class AppflowActivator {
         this.increment(index);
     }
     increment(index) {
-        this.gsap.to(this.indicators[this.currentScreen], {
+        gsap.to(this.indicators[this.currentScreen], {
             duration: 0.4,
             alpha: 0
         });

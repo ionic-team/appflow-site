@@ -5197,6 +5197,9 @@ const callRender = (e, t) => {
 }, setContentReference = e => {
   const t = e["s-cr"] = doc.createComment( "");
   t["s-cn"] = !0, e.insertBefore(t, e.firstChild);
+}, getAssetPath = e => {
+  const t = new URL(e, plt.$resourcesUrl$);
+  return t.origin !== win.location.origin ? t.href : t.pathname;
 }, insertVdomAnnotations = (e, t) => {
   if (null != e) {
     const o = {
@@ -5725,6 +5728,158 @@ class AppIcon {
             "name": [1]
         },
         "$listeners$": undefined,
+        "$lazyBundleId$": "-",
+        "$attrsToReflect$": []
+    }; }
+}
+
+const iconColors = {
+    active: [
+        '#6C89F7', '#8AB2FF', '#ABC7FE', '#DAEDFC'
+    ],
+    default: [
+        '#E3EFF9', '#9CB2F8', '#B7CBF1', '#C4D7FA'
+    ]
+};
+const publishIcon = (state = 'default') => (h("svg", { width: "48", height: "48", viewBox: "0 0 48 48", fill: "none", xmlns: "http://www.w3.org/2000/svg" },
+    h("circle", { cx: "24", cy: "24", r: "24", fill: iconColors[state][0] }),
+    h("path", { d: "M37.5 13C37.5 12.4477 37.0523 12 36.5 12H27.1282C26.6827 12 26.4596 12.5386 26.7746 12.8536L36.6464 22.7254C36.9614 23.0404 37.5 22.8173 37.5 22.3718V13Z", fill: "#B2CEFF" }),
+    h("path", { "fill-rule": "evenodd", "clip-rule": "evenodd", d: "M23.4267 23.3122C21.6604 26.895 20.74 30.9366 20.6261 35.6052C20.6126 36.1573 21.0618 36.6053 21.614 36.6053H24.4386C24.9909 36.6053 25.437 36.1569 25.4523 35.6049C25.5643 31.5688 26.3607 28.2717 27.754 25.4455C29.1338 22.6466 31.1549 20.1964 33.8805 17.9059C34.3033 17.5505 34.3777 16.9227 34.0348 16.4897L32.281 14.2756C31.9381 13.8427 31.308 13.7687 30.8839 14.1225C27.7012 16.7774 25.1771 19.7616 23.4267 23.3122Z", fill: "#B2CEFF" }),
+    h("path", { d: "M27.9875 35.9753C27.8705 31.2109 26.927 27.0438 25.0922 23.3293C23.2739 19.6481 20.6598 16.5731 17.4019 13.8604C16.5338 13.1376 15.2644 13.3014 14.5829 14.1602L12.8395 16.3569C12.147 17.2295 12.3108 18.4711 13.1344 19.1621C15.7648 21.3691 17.682 23.7009 18.9846 26.3379C20.2997 29.0003 21.0675 32.1342 21.1763 36.0275C21.2064 37.1017 22.0772 38 23.1897 38H26C27.0981 38 28.0153 37.1051 27.9875 35.9753Z", fill: iconColors[state][3], stroke: iconColors[state][0], "stroke-width": "2" }),
+    h("path", { d: "M10 13C10 12.4477 10.4477 12 11 12H20.3718C20.8173 12 21.0404 12.5386 20.7254 12.8536L10.8536 22.7254C10.5386 23.0404 10 22.8173 10 22.3718V13Z", fill: iconColors[state][3] }),
+    h("circle", { cx: "24", cy: "34", r: "6", fill: iconColors[state][3], stroke: iconColors[state][0], "stroke-width": "2" })));
+const updatesIcon = (state = 'default') => (h("svg", { width: "48", height: "48", viewBox: "0 0 48 48", fill: "none", xmlns: "http://www.w3.org/2000/svg" },
+    h("circle", { cx: "24", cy: "24", r: "24", fill: iconColors[state][0] }),
+    h("path", { d: "M35.5975 18.8571H12.4025C11.1713 18.8571 10.4644 20.2585 11.1963 21.2486L22.7937 36.9393C23.3933 37.7506 24.6067 37.7506 25.2063 36.9393L36.8037 21.2486C37.5356 20.2585 36.8287 18.8571 35.5975 18.8571Z", fill: iconColors[state][1] }),
+    h("path", { d: "M32.1075 11.1428H15.8925C14.65 11.1428 13.9462 12.567 14.701 13.554L22.8085 24.1561C23.4088 24.9412 24.5912 24.9412 25.1915 24.1561L33.299 13.554C34.0538 12.567 33.35 11.1428 32.1075 11.1428Z", fill: iconColors[state][3] })));
+const buildsIcon = (state = 'default') => (h("svg", { width: "48", height: "48", viewBox: "0 0 48 48", fill: "none", xmlns: "http://www.w3.org/2000/svg" },
+    h("circle", { cx: "24", cy: "24", r: "24", fill: iconColors[state][0] }),
+    h("path", { d: "M24 10.2858C23.7602 10.2858 23.5204 10.3388 23.3017 10.4451L11.0956 16.3707C10.5978 16.6123 10.2857 17.0911 10.2857 17.613V29.2302C10.2857 29.7522 10.5978 30.2309 11.0956 30.4726L23.3017 36.3982C23.5204 36.5044 23.7602 36.5575 24 36.5575V10.2858Z", fill: iconColors[state][3] }),
+    h("path", { d: "M24 10.2858C24.2398 10.2858 24.4796 10.3388 24.6983 10.4451L36.9044 16.3707C37.4022 16.6123 37.7143 17.0911 37.7143 17.613V29.2302C37.7143 29.7522 37.4022 30.2309 36.9044 30.4726L24.6983 36.3982C24.4796 36.5044 24.2398 36.5575 24 36.5575V10.2858Z", fill: iconColors[state][3] }),
+    h("path", { d: "M24 21.8572C24.8571 21.8572 25.7143 21.4314 25.7143 21.4314L35.5825 16.8486C36.5767 16.3869 37.7142 17.1129 37.7142 18.2091V29.8664C37.7142 31.034 37.0368 32.0955 35.9778 32.5873L25.7143 37.3537C25.7143 37.3537 24.8571 37.7143 24 37.7143V21.8572Z", fill: iconColors[state][1] }),
+    h("path", { d: "M24 21.8572C23.1429 21.8572 22.2797 21.4287 22.2797 21.4287L12.4175 16.8486C11.4233 16.3869 10.2857 17.1129 10.2857 18.2091V29.8664C10.2857 31.034 10.9632 32.0955 12.0221 32.5873L22.2857 37.3537C22.2857 37.3537 23.1429 37.7143 24 37.7143V21.8572Z", fill: iconColors[state][2] })));
+const automationsIcon = (state = 'default') => (h("svg", { width: "48", height: "48", viewBox: "0 0 48 48", fill: "none", xmlns: "http://www.w3.org/2000/svg" },
+    h("circle", { cx: "24", cy: "24", r: "24", fill: iconColors[state][0] }),
+    h("rect", { x: "12", y: "12", width: "24", height: "24", rx: "6", fill: state === 'active' ? iconColors[state][1] : iconColors[state][3] }),
+    h("path", { d: "M32.0488 21.6741H24.8049L28.313 8.0895C28.3733 7.76242 28.005 7.57344 27.831 7.84237L15.5324 25.3519C15.278 25.7589 15.519 26.3258 15.9542 26.3258H23.1981L19.6899 39.9104C19.6297 40.2375 19.9979 40.4265 20.172 40.1575L32.4706 22.6553C32.7183 22.241 32.484 21.6741 32.0488 21.6741Z", fill: state === 'active' ? iconColors[state][3] : iconColors[state][1] })));
+
+const appflowActivatorCss = ".sc-appflow-activator-h{overflow:hidden}.nav.sc-appflow-activator{width:100%;background:#fff;-webkit-box-shadow:0px -12px 24px rgba(2, 8, 20, 0.06), 0px -4px 8px rgba(2, 8, 20, 0.02);box-shadow:0px -12px 24px rgba(2, 8, 20, 0.06), 0px -4px 8px rgba(2, 8, 20, 0.02);z-index:20;position:relative;border-bottom:1px solid #F0F0F0}ul.sc-appflow-activator{position:relative;z-index:10;display:-ms-flexbox;display:flex;width:100%;margin:0;padding:0;overflow:hidden}li.sc-appflow-activator{padding-top:24px;display:inline-block;position:relative;list-style:none;-ms-flex:1;flex:1;cursor:default}li.sc-appflow-activator+li.sc-appflow-activator{margin-left:56px}li.sc-appflow-activator h5.sc-appflow-activator,li.sc-appflow-activator p.sc-appflow-activator{font-family:var(--f-family-text);-webkit-transition:color 0.2s;transition:color 0.2s}li.sc-appflow-activator h5.sc-appflow-activator{display:block;font-size:14px;line-height:22px;letter-spacing:0.08em;text-transform:uppercase;font-weight:600;color:#616E7E}li.sc-appflow-activator p.sc-appflow-activator{color:#92A1B3;margin-bottom:24px}li.sc-appflow-activator svg.sc-appflow-activator{-webkit-transition:-webkit-transform 0.2s;transition:-webkit-transform 0.2s;transition:transform 0.2s;transition:transform 0.2s, -webkit-transform 0.2s}li.active.sc-appflow-activator h5.sc-appflow-activator{color:#010610}li.active.sc-appflow-activator p.sc-appflow-activator{color:#5B708B}li.active.sc-appflow-activator svg.sc-appflow-activator{-webkit-transform:translateY(-2px);transform:translateY(-2px)}.indicator.sc-appflow-activator{position:absolute;bottom:0;left:0;height:2px;width:0%;background-color:#6C89F7}.app-screenshot.sc-appflow-activator{position:relative;z-index:5}.app-screenshot.sc-appflow-activator .screen.sc-appflow-activator{border-radius:16px;overflow:hidden;position:absolute;top:0;width:100%;opacity:0;-webkit-transform:translateY(6px);transform:translateY(6px);-webkit-animation-fill-mode:forwards;animation-fill-mode:forwards}.app-screenshot.sc-appflow-activator .screen.animate-in.sc-appflow-activator{-webkit-animation-timing-function:cubic-bezier(0.19, 1, 0.22, 1);animation-timing-function:cubic-bezier(0.19, 1, 0.22, 1);-webkit-animation-duration:1s;animation-duration:1s;-webkit-animation-name:animateIn;animation-name:animateIn;-webkit-animation-delay:0.1s;animation-delay:0.1s;z-index:15}.app-screenshot.sc-appflow-activator .screen.animate-out.sc-appflow-activator{-webkit-animation-timing-function:ease;animation-timing-function:ease;-webkit-animation-duration:0.6s;animation-duration:0.6s;-webkit-animation-name:animateOut;animation-name:animateOut;z-index:10}.app-screenshot.sc-appflow-activator img.sc-appflow-activator{vertical-align:bottom;width:100%}@-webkit-keyframes animateIn{from{opacity:0}to{opacity:1}}@keyframes animateIn{from{opacity:0}to{opacity:1}}@-webkit-keyframes animateOut{from{opacity:1}to{opacity:0}}@keyframes animateOut{from{opacity:1}to{opacity:0}}";
+
+class AppflowActivator {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        this.screens = [
+            {
+                name: 'App Publishing',
+                description: 'Publish directly to the Apple and Google App Stores.',
+                icon: publishIcon,
+                image: getAssetPath('./assets/screen-app-publishing.png')
+            },
+            {
+                name: 'Live Updates',
+                description: 'Deploy live app updates in real-time.',
+                icon: updatesIcon,
+                image: getAssetPath('./assets/screen-live-updates.png')
+            },
+            {
+                name: 'Native Builds',
+                description: 'Compile native app binaries in the cloud.',
+                icon: buildsIcon,
+                image: getAssetPath('./assets/screen-native-builds.png')
+            },
+            {
+                name: 'Automations',
+                description: 'Fully automate your app delivery pipeline.',
+                icon: automationsIcon,
+                image: getAssetPath('./assets/screen-automations.png')
+            },
+        ];
+        this.currentScreen = 0;
+        this.isPaused = false;
+        this.duration = 6; //seconds
+        this.indicators = [];
+    }
+    async componentWillLoad() {
+        this.gsap = await this.importGsapApi();
+    }
+    componentDidLoad() {
+        this.start();
+    }
+    start() {
+        const indicator = this.indicators[this.currentScreen];
+        this.gsap.set(indicator, {
+            width: 0,
+            alpha: 1
+        });
+        this.tween = this.gsap.to(indicator, this.duration, {
+            width: '100%',
+            onComplete: () => {
+                this.increment();
+            }
+        });
+    }
+    async importGsapApi() {
+        return new Promise((resolve, reject) => {
+            if ('gsap' in window) {
+                return resolve(window.gsap);
+            }
+            const script = document.createElement('script');
+            script.onload = () => resolve(window.gsap);
+            script.onerror = reject;
+            script.src = `https://cdnjs.cloudflare.com/ajax/libs/gsap/3.4.2/gsap.min.js`;
+            document.body.appendChild(script);
+        });
+    }
+    override(index) {
+        if (this.currentScreen === index)
+            return;
+        this.tween.pause();
+        this.increment(index);
+    }
+    increment(index) {
+        this.gsap.to(this.indicators[this.currentScreen], {
+            duration: 0.4,
+            alpha: 0
+        });
+        if (index !== undefined) {
+            this.currentScreen = index;
+            this.start();
+            return;
+        }
+        this.currentScreen = (this.currentScreen >= this.screens.length - 1) ? 0 : this.currentScreen + 1;
+        this.start();
+    }
+    onScroll() {
+        if (this.tween === null)
+            return false;
+        const rect = this.el.getBoundingClientRect();
+        const isVisible = (rect.top <= window.innerHeight) && (rect.bottom >= 0);
+        if (isVisible && this.isPaused) {
+            this.tween.play();
+            this.isPaused = false;
+        }
+        if (!isVisible && !this.isPaused) {
+            this.tween.pause();
+            this.isPaused = true;
+        }
+    }
+    render() {
+        return ([
+            h("div", { class: "app-screenshot" }, this.screens.map((screen, i) => h("div", { class: `screen ${i === this.currentScreen ? 'animate-in' : 'animate-out'}` }, h("img", { src: screen.image })))),
+            h("div", { class: "nav" }, h("div", { class: "container" }, h("ul", null, this.screens.map((screen, i) => h("li", { class: (i === this.currentScreen) ? 'active' : 'default', onMouseEnter: () => this.override(i) }, screen.icon(i === this.currentScreen ? 'active' : 'default'), h("h5", null, screen.name), h("p", null, screen.description), h("div", { class: "indicator", ref: (el) => this.indicators[i] = el }))))))
+        ]);
+    }
+    static get assetsDirs() { return ["assets"]; }
+    get el() { return getElement(this); }
+    static get style() { return appflowActivatorCss; }
+    static get cmpMeta() { return {
+        "$flags$": 2,
+        "$tagName$": "appflow-activator",
+        "$members$": {
+            "currentScreen": [32],
+            "isPaused": [32]
+        },
+        "$listeners$": [[9, "scroll", "onScroll"]],
         "$lazyBundleId$": "-",
         "$attrsToReflect$": []
     }; }
@@ -11975,7 +12130,6 @@ const getPage = async (prismicId) => {
 
 const landingPageCss = ":root{--color-back:#4164FF}";
 
-// import state from '../../store';
 class LandingPage {
     constructor(hostRef) {
         registerInstance(this, hostRef);
@@ -11984,8 +12138,9 @@ class LandingPage {
         await getPage('appflow_homepage');
     }
     render() {
-        // const page = state.pageData;
-        return (h(Host, null, h("header", null, h("appflow-site-header", null)), h("main", null), h("footer", null)));
+        const page = state.pageData;
+        console.log(page);
+        return (h(Host, null, h("header", null, h("appflow-site-header", null)), h("main", null, h("section", null, h("svg", { width: "1600", height: "992", viewBox: "0 0 1600 992", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, h("rect", { width: "1600", height: "992", fill: "url(#landing_bg_paint1_linear)" }), h("path", { d: "M1298.04 97.309L1494.1 970.579L1066.48 878.169L859.254 53.3663L1298.04 97.309Z", fill: "url(#landing_bg_paint3_linear)", "fill-opacity": "0.12" }), h("path", { d: "M1665.55 102.568L1760.72 1044.29L1304.71 873.559L1209.54 -68.1665L1665.55 102.568Z", fill: "url(#landing_bg_paint4_linear)", "fill-opacity": "0.08" }), h("path", { d: "M996.453 199.416L1325.18 982.749L887.983 955.103L559.252 171.77L996.453 199.416Z", fill: "url(#landing_bg_paint5_linear)", "fill-opacity": "0.1" }), h("path", { d: "M753.376 310.796L1135.39 1073.31L690.115 1071.58L308.1 309.07L753.376 310.796Z", fill: "url(#landing_bg_paint6_linear)", "fill-opacity": "0.1" }), h("path", { d: "M555.833 445.941L991.857 1178.91L547.616 1209.31L111.592 476.339L555.833 445.941Z", fill: "url(#landing_bg_paint7_linear)", "fill-opacity": "0.1" }), h("path", { d: "M389.921 598.053L857.694 1311.18L415.215 1361.05L-52.5576 647.919L389.921 598.053Z", fill: "url(#landing_bg_paint8_linear)", "fill-opacity": "0.1" }), h("path", { d: "M244.912 756.619L712.685 1469.75L270.206 1519.61L-197.567 806.485L244.912 756.619Z", fill: "url(#landing_bg_paint9_linear)", "fill-opacity": "0.1" }), h("defs", null, h("linearGradient", { id: "landing_bg_paint1_linear", x1: "0", y1: "496", x2: "1600", y2: "496", gradientUnits: "userSpaceOnUse" }, h("stop", { "stop-color": "#634CF2" }), h("stop", { offset: "1", "stop-color": "#67A5F8" })), h("linearGradient", { id: "landing_bg_paint2_linear", x1: "0", y1: "496", x2: "1600", y2: "496", gradientUnits: "userSpaceOnUse" }, h("stop", { "stop-color": "#634CF2" }), h("stop", { offset: "1", "stop-color": "#6799F8" })), h("linearGradient", { id: "landing_bg_paint3_linear", x1: "941.605", y1: "385.074", x2: "1301.97", y2: "330.074", gradientUnits: "userSpaceOnUse" }, h("stop", { "stop-color": "white" }), h("stop", { offset: "1", "stop-color": "white", "stop-opacity": "0" })), h("linearGradient", { id: "landing_bg_paint4_linear", x1: "1246.73", y1: "310.405", x2: "1652.44", y2: "307.959", gradientUnits: "userSpaceOnUse" }, h("stop", { "stop-color": "white" }), h("stop", { offset: "1", "stop-color": "white", "stop-opacity": "0" })), h("linearGradient", { id: "landing_bg_paint5_linear", x1: "690.478", y1: "486.947", x2: "1050.11", y2: "343.353", gradientUnits: "userSpaceOnUse" }, h("stop", { "stop-color": "white" }), h("stop", { offset: "1", "stop-color": "white", "stop-opacity": "0" })), h("linearGradient", { id: "landing_bg_paint6_linear", x1: "460.75", y1: "615.931", x2: "820.393", y2: "452.104", gradientUnits: "userSpaceOnUse" }, h("stop", { "stop-color": "white" }), h("stop", { offset: "1", "stop-color": "white", "stop-opacity": "0" })), h("linearGradient", { id: "landing_bg_paint7_linear", x1: "285.98", y1: "771.39", x2: "632.869", y2: "582.046", gradientUnits: "userSpaceOnUse" }, h("stop", { "stop-color": "white" }), h("stop", { offset: "1", "stop-color": "white", "stop-opacity": "0" })), h("linearGradient", { id: "landing_bg_paint8_linear", x1: "134.612", y1: "935.032", x2: "472.856", y2: "730.646", gradientUnits: "userSpaceOnUse" }, h("stop", { "stop-color": "white" }), h("stop", { offset: "1", "stop-color": "white", "stop-opacity": "0" })), h("linearGradient", { id: "landing_bg_paint9_linear", x1: "-10.397", y1: "1093.6", x2: "327.847", y2: "889.212", gradientUnits: "userSpaceOnUse" }, h("stop", { "stop-color": "white" }), h("stop", { offset: "1", "stop-color": "white", "stop-opacity": "0" })))), h("appflow-activator", null))), h("footer", null)));
     }
     static get style() { return landingPageCss; }
     static get cmpMeta() { return {
@@ -11998,33 +12153,9 @@ class LandingPage {
     }; }
 }
 
-const moreButtonCss = ".sc-more-button-h{height:32px;width:32px}button.sc-more-button{height:100%;width:100%;font-size:20px;background:transparent;border:none;outline:none;cursor:pointer}button.sc-more-button:hover{opacity:0.4}";
-
-class MoreButton {
-    constructor(hostRef) {
-        registerInstance(this, hostRef);
-        this.icon = 'ellipsis-vertical';
-    }
-    render() {
-        const { icon } = this;
-        return (h(Host, null, h("button", null, h("ion-icon", { icon: icon }))));
-    }
-    static get style() { return moreButtonCss; }
-    static get cmpMeta() { return {
-        "$flags$": 2,
-        "$tagName$": "more-button",
-        "$members$": {
-            "icon": [1]
-        },
-        "$listeners$": undefined,
-        "$lazyBundleId$": "-",
-        "$attrsToReflect$": []
-    }; }
-}
-
 const siteBackdropCss = ".sc-site-backdrop-h{position:fixed;top:0;height:100vh;left:0;right:0;background:rgba(0, 26, 58, 0.08);cursor:pointer;opacity:0;pointer-events:none;-webkit-transition:0.4s opacity, 0.4s visibility step-end;transition:0.4s opacity, 0.4s visibility step-end;visibility:hidden;z-index:-1}@media screen and (max-width: 768px){.site-backdrop--visible.sc-site-backdrop-h{opacity:1;pointer-events:all;visibility:visible;-webkit-transition:0.4s opacity, 0.4s visibility step-start;transition:0.4s opacity, 0.4s visibility step-start}}";
 
-class MoreButton$1 {
+class MoreButton {
     constructor(hostRef) {
         registerInstance(this, hostRef);
         this.visible = false;
@@ -12465,7 +12596,7 @@ class SiteFooter {
     }; }
 }
 
-const appflowSiteHeaderCss = ".sc-appflow-site-header-h{position:-webkit-sticky;position:sticky;z-index:1000;top:-1px;background:#fff;display:block;-webkit-box-shadow:0px 1px 0px rgba(0, 0, 0, 0.06);box-shadow:0px 1px 0px rgba(0, 0, 0, 0.06);-webkit-transition:background-color 0.4s ease, -webkit-box-shadow 0.4s ease;transition:background-color 0.4s ease, -webkit-box-shadow 0.4s ease;transition:background-color 0.4s ease, box-shadow 0.4s ease;transition:background-color 0.4s ease, box-shadow 0.4s ease, -webkit-box-shadow 0.4s ease;--link-color:var(--c-carbon-90)}.site-header--sticky.sc-appflow-site-header-h{background:#fff}.ui-container.sc-appflow-site-header{background:#fff;padding:14px 0 13px}.page-theme--dark .sc-appflow-site-header-h{background-color:transparent;--link-color:white}.site-header.sc-appflow-site-header{display:-ms-flexbox;display:flex}.site-header__container.sc-appflow-site-header{height:64px;display:-ms-flexbox;display:flex;-ms-flex-pack:justify;justify-content:space-between}.site-header__logo-link.sc-appflow-site-header{margin:0 0 2px 15px;display:-ms-flexbox;display:flex;-ms-flex-align:center;align-items:center;text-decoration:none;border:0}.site-header__logo-link.sc-appflow-site-header img.sc-appflow-site-header{height:24px}.site-header.sc-appflow-site-header .site-header-links.sc-appflow-site-header{display:-ms-flexbox;display:flex;-ms-flex:1;flex:1;margin-right:15px}.site-header.sc-appflow-site-header .site-header-links__menu.sc-appflow-site-header{-ms-flex:1;flex:1;display:-ms-flexbox;display:flex;-ms-flex-align:center;align-items:center;-ms-flex-pack:center;justify-content:center}.site-header.sc-appflow-site-header .site-header-links__menu--hovered.sc-appflow-site-header a.sc-appflow-site-header{opacity:0.4}.site-header.sc-appflow-site-header .site-header-links__menu--hovered.sc-appflow-site-header a.link--active.sc-appflow-site-header{opacity:0.4}.site-header.sc-appflow-site-header .site-header-links__menu.sc-appflow-site-header nav.sc-appflow-site-header{-ms-flex:1;flex:1;display:-ms-flexbox;display:flex;-ms-flex-align:center;align-items:center;-ms-flex-pack:space-evenly;justify-content:space-evenly;max-width:550px;margin-left:15px}.site-header.sc-appflow-site-header .site-header-links__menu.sc-appflow-site-header a.sc-appflow-site-header{border-bottom:0;-webkit-transition:color, opacity 0.4s;transition:color, opacity 0.4s;font-size:15px;line-height:18px;font-family:var(--f-family-text);color:#222d3a;text-decoration:none;font-weight:normal;letter-spacing:0;margin:0 2px 0 0}.site-header.sc-appflow-site-header .site-header-links__menu.sc-appflow-site-header a.sc-appflow-site-header:hover{opacity:1;border:0}.site-header.sc-appflow-site-header .site-header-links__menu.sc-appflow-site-header a.link--active.sc-appflow-site-header{opacity:1}.site-header.sc-appflow-site-header .site-header-links__menu.sc-appflow-site-header .link.sc-appflow-site-header,.site-header.sc-appflow-site-header .site-header-links__menu.sc-appflow-site-header .link--external.sc-appflow-site-header{position:relative;border:0;-webkit-transition:color 0.3s;transition:color 0.3s}.site-header.sc-appflow-site-header .site-header-links__menu.sc-appflow-site-header .link--external.sc-appflow-site-header .icon.sc-appflow-site-header{margin-left:6px;-webkit-transition:top 0.2s, left 0.2s;transition:top 0.2s, left 0.2s;position:relative}.site-header.sc-appflow-site-header .site-header-links__menu.sc-appflow-site-header .link--external.sc-appflow-site-header:hover{color:#000}.site-header.sc-appflow-site-header .site-header-links__menu.sc-appflow-site-header .link--external.sc-appflow-site-header:hover .icon.sc-appflow-site-header{left:1px;top:-1px}.site-header.sc-appflow-site-header .site-header-links__buttons.sc-appflow-site-header ul.sc-appflow-site-header{display:-ms-flexbox;display:flex}.site-header.sc-appflow-site-header .site-header-links__buttons.sc-appflow-site-header ul.sc-appflow-site-header li.sc-appflow-site-header{display:-ms-flexbox;display:flex;-ms-flex-align:center;align-items:center}.site-header.sc-appflow-site-header .site-header-links__buttons.sc-appflow-site-header .button--shaded.sc-appflow-site-header,.site-header.sc-appflow-site-header .site-header-links__buttons.sc-appflow-site-header .button--plain.sc-appflow-site-header{color:var(--c-lavender-80);line-height:100%;display:-ms-flexbox;display:flex;-ms-flex-align:center;align-items:center;-ms-flex-pack:center;justify-content:center}.site-header.sc-appflow-site-header .site-header-links__buttons.sc-appflow-site-header .button--shaded.sc-appflow-site-header{background:var(--c-blue-10);border-radius:1000px;padding:var(--space-1) var(--space-2)}more-button.sc-appflow-site-header{display:none;margin-right:10px}site-backdrop.sc-appflow-site-header{top:108px}@media screen and (max-width: 768px){.site-header.sc-appflow-site-header{display:-ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap;-ms-flex-pack:justify;justify-content:space-between}.site-header.sc-appflow-site-header more-button.sc-appflow-site-header{display:block}.site-header.sc-appflow-site-header .site-header-links.sc-appflow-site-header{position:absolute;top:100%;display:block;background:#fff;width:100%;height:auto;padding:10px 0;opacity:0;-webkit-transform:translateY(-10px);transform:translateY(-10px);-webkit-transition:opacity 0.2s linear, -webkit-transform 0.2s cubic-bezier(0.36, 0.66, 0.04, 1);transition:opacity 0.2s linear, -webkit-transform 0.2s cubic-bezier(0.36, 0.66, 0.04, 1);transition:transform 0.2s cubic-bezier(0.36, 0.66, 0.04, 1), opacity 0.2s linear;transition:transform 0.2s cubic-bezier(0.36, 0.66, 0.04, 1), opacity 0.2s linear, -webkit-transform 0.2s cubic-bezier(0.36, 0.66, 0.04, 1);-webkit-box-shadow:rgba(2, 8, 20, 0.06) 0px 1px 3px, rgba(2, 8, 20, 0.04) 0px 1px 2px;box-shadow:rgba(2, 8, 20, 0.06) 0px 1px 3px, rgba(2, 8, 20, 0.04) 0px 1px 2px}.site-header.sc-appflow-site-header .site-header-links__buttons.sc-appflow-site-header{display:none}.site-header.sc-appflow-site-header .site-header-links.sc-appflow-site-header nav.sc-appflow-site-header{max-width:100%;-ms-flex-direction:column;flex-direction:column;margin-left:0}.site-header.sc-appflow-site-header .site-header-links.sc-appflow-site-header a.sc-appflow-site-header{display:-ms-flexbox;display:flex;-ms-flex-align:center;align-items:center;width:100%;height:44px;margin:0;padding:0 20px;border:none;outline:none;color:#000}.site-header.sc-appflow-site-header .site-header-links.sc-appflow-site-header a.sc-appflow-site-header:hover{background:rgba(0, 0, 0, 0.03);color:initial}.site-header--expanded.sc-appflow-site-header-h .site-header-links.sc-appflow-site-header{opacity:1;pointer-events:all;-webkit-transform:translateY(-1px);transform:translateY(-1px);-webkit-transition:opacity 0.1s linear, -webkit-transform 0.25s cubic-bezier(0.17, 0.67, 0.52, 1);transition:opacity 0.1s linear, -webkit-transform 0.25s cubic-bezier(0.17, 0.67, 0.52, 1);transition:transform 0.25s cubic-bezier(0.17, 0.67, 0.52, 1), opacity 0.1s linear;transition:transform 0.25s cubic-bezier(0.17, 0.67, 0.52, 1), opacity 0.1s linear, -webkit-transform 0.25s cubic-bezier(0.17, 0.67, 0.52, 1)}}";
+const appflowSiteHeaderCss = ".sc-appflow-site-header-h{position:-webkit-sticky;position:sticky;z-index:1000;top:-1px;background:#fff;display:block;-webkit-box-shadow:0px 1px 0px rgba(0, 0, 0, 0.06);box-shadow:0px 1px 0px rgba(0, 0, 0, 0.06);-webkit-transition:background-color 0.4s ease, -webkit-box-shadow 0.4s ease;transition:background-color 0.4s ease, -webkit-box-shadow 0.4s ease;transition:background-color 0.4s ease, box-shadow 0.4s ease;transition:background-color 0.4s ease, box-shadow 0.4s ease, -webkit-box-shadow 0.4s ease;--link-color:var(--c-carbon-90)}.site-header--sticky.sc-appflow-site-header-h{background:#fff}.ui-container.sc-appflow-site-header{background:#fff;padding:14px 0 13px}.page-theme--dark .sc-appflow-site-header-h{background-color:transparent;--link-color:white}.site-header.sc-appflow-site-header{display:-ms-flexbox;display:flex}.site-header__container.sc-appflow-site-header{height:64px;display:-ms-flexbox;display:flex;-ms-flex-pack:justify;justify-content:space-between}.site-header__logo-link.sc-appflow-site-header{margin:0 0 2px 15px;display:-ms-flexbox;display:flex;-ms-flex-align:center;align-items:center;text-decoration:none;border:0}.site-header__logo-link.sc-appflow-site-header img.sc-appflow-site-header{height:24px}.site-header.sc-appflow-site-header .site-header-links.sc-appflow-site-header{display:-ms-flexbox;display:flex;-ms-flex:1;flex:1;margin-right:15px}.site-header.sc-appflow-site-header .site-header-links__menu.sc-appflow-site-header{-ms-flex:1;flex:1;display:-ms-flexbox;display:flex;-ms-flex-align:center;align-items:center;-ms-flex-pack:center;justify-content:center}.site-header.sc-appflow-site-header .site-header-links__menu--hovered.sc-appflow-site-header a.sc-appflow-site-header{opacity:0.4}.site-header.sc-appflow-site-header .site-header-links__menu--hovered.sc-appflow-site-header a.link--active.sc-appflow-site-header{opacity:0.4}.site-header.sc-appflow-site-header .site-header-links__menu.sc-appflow-site-header nav.sc-appflow-site-header{-ms-flex:1;flex:1;display:-ms-flexbox;display:flex;-ms-flex-align:center;align-items:center;-ms-flex-pack:space-evenly;justify-content:space-evenly;max-width:550px;margin-left:15px}.site-header.sc-appflow-site-header .site-header-links__menu.sc-appflow-site-header a.sc-appflow-site-header{border-bottom:0;-webkit-transition:color, opacity 0.4s;transition:color, opacity 0.4s;font-size:15px;line-height:18px;font-family:var(--f-family-text);color:#222d3a;text-decoration:none;font-weight:normal;letter-spacing:0;margin:0 2px 0 0}.site-header.sc-appflow-site-header .site-header-links__menu.sc-appflow-site-header a.sc-appflow-site-header:hover{opacity:1;border:0}.site-header.sc-appflow-site-header .site-header-links__menu.sc-appflow-site-header a.link--active.sc-appflow-site-header{opacity:1}.site-header.sc-appflow-site-header .site-header-links__menu.sc-appflow-site-header .link.sc-appflow-site-header,.site-header.sc-appflow-site-header .site-header-links__menu.sc-appflow-site-header .link--external.sc-appflow-site-header{position:relative;border:0;-webkit-transition:color 0.3s;transition:color 0.3s}.site-header.sc-appflow-site-header .site-header-links__menu.sc-appflow-site-header .link--external.sc-appflow-site-header .icon.sc-appflow-site-header{margin-left:6px;-webkit-transition:top 0.2s, left 0.2s;transition:top 0.2s, left 0.2s;position:relative}.site-header.sc-appflow-site-header .site-header-links__menu.sc-appflow-site-header .link--external.sc-appflow-site-header:hover{color:#000}.site-header.sc-appflow-site-header .site-header-links__menu.sc-appflow-site-header .link--external.sc-appflow-site-header:hover .icon.sc-appflow-site-header{left:1px;top:-1px}.site-header.sc-appflow-site-header .site-header-links__buttons.sc-appflow-site-header ul.sc-appflow-site-header{display:-ms-flexbox;display:flex}.site-header.sc-appflow-site-header .site-header-links__buttons.sc-appflow-site-header ul.sc-appflow-site-header li.sc-appflow-site-header{display:-ms-flexbox;display:flex;-ms-flex-align:center;align-items:center}.site-header.sc-appflow-site-header .site-header-links__buttons.sc-appflow-site-header .button--shaded.sc-appflow-site-header,.site-header.sc-appflow-site-header .site-header-links__buttons.sc-appflow-site-header .button--plain.sc-appflow-site-header{color:var(--c-lavender-80);line-height:100%;display:-ms-flexbox;display:flex;-ms-flex-align:center;align-items:center;-ms-flex-pack:center;justify-content:center}.site-header.sc-appflow-site-header .site-header-links__buttons.sc-appflow-site-header .button--shaded.sc-appflow-site-header{background:var(--c-blue-10);border-radius:1000px;padding:var(--space-1) var(--space-2);white-space:pre}.more-button.sc-appflow-site-header{height:32px;width:32px;display:none;margin-right:10px;font-size:20px;background:transparent;border:none;outline:none;cursor:pointer}.more-button.sc-appflow-site-header:hover{opacity:0.4}site-backdrop.sc-appflow-site-header{top:108px}@media screen and (max-width: 767px){.site-header.sc-appflow-site-header{display:-ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap;-ms-flex-pack:justify;justify-content:space-between}.site-header.sc-appflow-site-header .more-button.sc-appflow-site-header{display:block}.site-header.sc-appflow-site-header .site-header-links.sc-appflow-site-header{position:absolute;top:100%;display:block;background:#fff;width:100%;height:auto;padding:10px 0;opacity:0;-webkit-transform:translateY(-10px);transform:translateY(-10px);-webkit-transition:opacity 0.2s linear, -webkit-transform 0.2s cubic-bezier(0.36, 0.66, 0.04, 1);transition:opacity 0.2s linear, -webkit-transform 0.2s cubic-bezier(0.36, 0.66, 0.04, 1);transition:transform 0.2s cubic-bezier(0.36, 0.66, 0.04, 1), opacity 0.2s linear;transition:transform 0.2s cubic-bezier(0.36, 0.66, 0.04, 1), opacity 0.2s linear, -webkit-transform 0.2s cubic-bezier(0.36, 0.66, 0.04, 1);-webkit-box-shadow:rgba(2, 8, 20, 0.06) 0px 1px 3px, rgba(2, 8, 20, 0.04) 0px 1px 2px;box-shadow:rgba(2, 8, 20, 0.06) 0px 1px 3px, rgba(2, 8, 20, 0.04) 0px 1px 2px}.site-header.sc-appflow-site-header .site-header-links__buttons.sc-appflow-site-header{display:none}.site-header.sc-appflow-site-header .site-header-links.sc-appflow-site-header nav.sc-appflow-site-header{max-width:100%;-ms-flex-direction:column;flex-direction:column;margin-left:0}.site-header.sc-appflow-site-header .site-header-links.sc-appflow-site-header a.sc-appflow-site-header{display:-ms-flexbox;display:flex;-ms-flex-align:center;align-items:center;width:100%;height:44px;margin:0;padding:0 20px;border:none;outline:none;color:#000}.site-header.sc-appflow-site-header .site-header-links.sc-appflow-site-header a.sc-appflow-site-header:hover{background:rgba(0, 0, 0, 0.03);color:initial}.site-header--expanded.sc-appflow-site-header-h .site-header-links.sc-appflow-site-header{opacity:1;pointer-events:all;-webkit-transform:translateY(-1px);transform:translateY(-1px);-webkit-transition:opacity 0.1s linear, -webkit-transform 0.25s cubic-bezier(0.17, 0.67, 0.52, 1);transition:opacity 0.1s linear, -webkit-transform 0.25s cubic-bezier(0.17, 0.67, 0.52, 1);transition:transform 0.25s cubic-bezier(0.17, 0.67, 0.52, 1), opacity 0.1s linear;transition:transform 0.25s cubic-bezier(0.17, 0.67, 0.52, 1), opacity 0.1s linear, -webkit-transform 0.25s cubic-bezier(0.17, 0.67, 0.52, 1)}}";
 
 // import state from '../../store';
 class SiteHeader {
@@ -12508,7 +12639,7 @@ class SiteHeader {
         return (h(Host, { class: {
                 'site-header--sticky': sticky,
                 'site-header--expanded': expanded
-            } }, h("site-backdrop", { visible: expanded, onClick: () => this.toggleExpanded() }), h(ResponsiveContainer, { class: "site-header" }, h("a", Object.assign({}, href('/'), { class: "site-header__logo-link" }), h("svg", { width: "114", height: "24", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, h("path", { d: "M43.882 6.392v11.781h-2.994v-1.439c-.754 1.08-2.102 1.709-3.793 1.709-3.474 0-5.508-2.743-5.508-6.16 0-3.418 2.034-6.16 5.508-6.16 1.69 0 3.039.629 3.793 1.708V6.392h2.994zm-6.102 2.54c-1.805 0-2.948 1.44-2.948 3.35 0 1.912 1.143 3.35 2.948 3.35 1.806 0 2.948-1.438 2.948-3.35 0-1.91-1.142-3.35-2.948-3.35zM48.446 22.528H45.2V6.392h2.993v1.44c.755-1.08 2.103-1.71 3.794-1.71 3.474 0 5.507 2.743 5.507 6.16 0 3.418-2.033 6.16-5.507 6.16-1.691 0-2.925-.718-3.542-1.528v5.614zm2.856-6.895c1.806 0 2.948-1.44 2.948-3.35 0-1.911-1.142-3.35-2.948-3.35-1.805 0-2.947 1.439-2.947 3.35 0 1.91 1.142 3.35 2.947 3.35zM61.759 22.528h-3.245V6.392h2.993v1.44c.755-1.08 2.103-1.71 3.794-1.71 3.474 0 5.507 2.743 5.507 6.16 0 3.418-2.034 6.16-5.507 6.16-1.691 0-2.925-.718-3.542-1.528v5.614zm2.856-6.895c1.806 0 2.948-1.44 2.948-3.35 0-1.911-1.142-3.35-2.948-3.35-1.805 0-2.947 1.439-2.947 3.35 0 1.91 1.142 3.35 2.947 3.35zM81.363 1.472h-3.245v16.701h3.245V1.472zM75.02 5.541c0-.99.584-1.304 1.361-1.304.366 0 .748.023.748.023V1.517s-.715-.045-1.287-.045c-2.422 0-4.067 1.304-4.067 4.136v12.565h3.245V8.91h2.177V6.392H75.02v-.851zM82.305 12.283c0-3.35 2.445-6.16 6.285-6.16 3.839 0 6.284 2.81 6.284 6.16s-2.445 6.16-6.284 6.16c-3.84 0-6.285-2.81-6.285-6.16zm6.285 3.35c1.713 0 3.039-1.237 3.039-3.35 0-2.114-1.326-3.35-3.04-3.35-1.713 0-3.039 1.236-3.039 3.35 0 2.113 1.326 3.35 3.04 3.35zM103.816 10.889h-.045l-2.445 7.284h-3.04l-4.182-11.78h3.36l2.4 7.756 2.467-7.757h2.925l2.491 7.802 2.422-7.802h3.291l-4.182 11.781h-3.039l-2.423-7.284z", fill: "#001A3A" }), h("ellipse", { cx: "13.764", cy: "16.755", rx: "2.99", ry: "2.943", fill: "#4F68FF" }), h("path", { d: "M26.988 24L16.823 0h-6.099L20.89 24h6.099z", fill: "#4F68FF" }), h("path", { opacity: ".2", d: "M14.854 9.75L16.824 0h-6.1l2.541 6 1.271 3 .159.375.159.375z", fill: "#000" }), h("path", { d: "M.54 24L10.705 0h6.098L6.64 24H.54z", fill: "#639CFF" }))), h("more-button", { onClick: () => this.toggleExpanded() }), h("div", { class: "site-header-links" }, h("div", { class: {
+            } }, h("site-backdrop", { visible: expanded, onClick: () => this.toggleExpanded() }), h(ResponsiveContainer, { class: "site-header" }, h("a", Object.assign({}, href('/'), { class: "site-header__logo-link" }), h("svg", { width: "114", height: "24", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, h("path", { d: "M43.882 6.392v11.781h-2.994v-1.439c-.754 1.08-2.102 1.709-3.793 1.709-3.474 0-5.508-2.743-5.508-6.16 0-3.418 2.034-6.16 5.508-6.16 1.69 0 3.039.629 3.793 1.708V6.392h2.994zm-6.102 2.54c-1.805 0-2.948 1.44-2.948 3.35 0 1.912 1.143 3.35 2.948 3.35 1.806 0 2.948-1.438 2.948-3.35 0-1.91-1.142-3.35-2.948-3.35zM48.446 22.528H45.2V6.392h2.993v1.44c.755-1.08 2.103-1.71 3.794-1.71 3.474 0 5.507 2.743 5.507 6.16 0 3.418-2.033 6.16-5.507 6.16-1.691 0-2.925-.718-3.542-1.528v5.614zm2.856-6.895c1.806 0 2.948-1.44 2.948-3.35 0-1.911-1.142-3.35-2.948-3.35-1.805 0-2.947 1.439-2.947 3.35 0 1.91 1.142 3.35 2.947 3.35zM61.759 22.528h-3.245V6.392h2.993v1.44c.755-1.08 2.103-1.71 3.794-1.71 3.474 0 5.507 2.743 5.507 6.16 0 3.418-2.034 6.16-5.507 6.16-1.691 0-2.925-.718-3.542-1.528v5.614zm2.856-6.895c1.806 0 2.948-1.44 2.948-3.35 0-1.911-1.142-3.35-2.948-3.35-1.805 0-2.947 1.439-2.947 3.35 0 1.91 1.142 3.35 2.947 3.35zM81.363 1.472h-3.245v16.701h3.245V1.472zM75.02 5.541c0-.99.584-1.304 1.361-1.304.366 0 .748.023.748.023V1.517s-.715-.045-1.287-.045c-2.422 0-4.067 1.304-4.067 4.136v12.565h3.245V8.91h2.177V6.392H75.02v-.851zM82.305 12.283c0-3.35 2.445-6.16 6.285-6.16 3.839 0 6.284 2.81 6.284 6.16s-2.445 6.16-6.284 6.16c-3.84 0-6.285-2.81-6.285-6.16zm6.285 3.35c1.713 0 3.039-1.237 3.039-3.35 0-2.114-1.326-3.35-3.04-3.35-1.713 0-3.039 1.236-3.039 3.35 0 2.113 1.326 3.35 3.04 3.35zM103.816 10.889h-.045l-2.445 7.284h-3.04l-4.182-11.78h3.36l2.4 7.756 2.467-7.757h2.925l2.491 7.802 2.422-7.802h3.291l-4.182 11.781h-3.039l-2.423-7.284z", fill: "#001A3A" }), h("ellipse", { cx: "13.764", cy: "16.755", rx: "2.99", ry: "2.943", fill: "#4F68FF" }), h("path", { d: "M26.988 24L16.823 0h-6.099L20.89 24h6.099z", fill: "#4F68FF" }), h("path", { opacity: ".2", d: "M14.854 9.75L16.824 0h-6.1l2.541 6 1.271 3 .159.375.159.375z", fill: "#000" }), h("path", { d: "M.54 24L10.705 0h6.098L6.64 24H.54z", fill: "#639CFF" }))), h("button", { onClick: () => this.toggleExpanded(), class: "more-button" }, h("ion-icon", { icon: "ellipsis-vertical" })), h("div", { class: "site-header-links" }, h("div", { class: {
                 'site-header-links__menu': true,
                 'site-header-links__menu--hovered': !!hovered || !!forceHovered
             } }, h("nav", null, h(NavLink, { path: "/#features", hovered: (hovered || forceHovered) === 'features', onHover: this.setHovered('features'), onExit: clearHover }, "Product"), h(NavLink, { path: "/docs", hovered: hovered === 'docs', onHover: this.setHovered('docs'), onExit: clearHover }, "Why Appflow"), h(NavLink, { path: "/community", hovered: hovered === 'community' || forceHovered === 'community', onHover: this.setHovered('community'), onExit: clearHover }, "Resources"), h(NavLink, { path: "/blog", hovered: hovered === 'blog', onHover: this.setHovered('blog'), onExit: clearHover }, "Pricing"), h("a", { href: "https://ionicframework.com/native", target: "_blank", onMouseOver: this.setHovered('enterprise'), onMouseOut: clearHover, class: {
@@ -13017,6 +13148,7 @@ registerComponents([
   App,
   AppBurger,
   AppIcon,
+  AppflowActivator,
   AppflowSiteRoutes,
   CodeSnippet,
   ComponentDetail,
@@ -13029,7 +13161,6 @@ registerComponents([
   InternalAd,
   LandingPage,
   MoreButton,
-  MoreButton$1,
   MoreResources,
   NewsletterForm,
   PlatformBar,

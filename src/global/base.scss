@@ -4,3 +4,7 @@ button {
   background: none;
   font: inherit;
 }  
+
+span, svg, img {
+  display: inline-block;
+}

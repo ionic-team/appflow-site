@@ -14,6 +14,8 @@ export namespace Components {
     interface AppIcon {
         "name": string;
     }
+    interface AppflowActivator {
+    }
     interface AppflowSite {
     }
     interface AppflowSiteFooter {
@@ -60,6 +62,12 @@ declare global {
     var HTMLAppIconElement: {
         prototype: HTMLAppIconElement;
         new (): HTMLAppIconElement;
+    };
+    interface HTMLAppflowActivatorElement extends Components.AppflowActivator, HTMLStencilElement {
+    }
+    var HTMLAppflowActivatorElement: {
+        prototype: HTMLAppflowActivatorElement;
+        new (): HTMLAppflowActivatorElement;
     };
     interface HTMLAppflowSiteElement extends Components.AppflowSite, HTMLStencilElement {
     }
@@ -119,6 +127,7 @@ declare global {
         "anchor-link": HTMLAnchorLinkElement;
         "app-burger": HTMLAppBurgerElement;
         "app-icon": HTMLAppIconElement;
+        "appflow-activator": HTMLAppflowActivatorElement;
         "appflow-site": HTMLAppflowSiteElement;
         "appflow-site-footer": HTMLAppflowSiteFooterElement;
         "appflow-site-header": HTMLAppflowSiteHeaderElement;
@@ -139,6 +148,8 @@ declare namespace LocalJSX {
     }
     interface AppIcon {
         "name"?: string;
+    }
+    interface AppflowActivator {
     }
     interface AppflowSite {
     }
@@ -171,6 +182,7 @@ declare namespace LocalJSX {
         "anchor-link": AnchorLink;
         "app-burger": AppBurger;
         "app-icon": AppIcon;
+        "appflow-activator": AppflowActivator;
         "appflow-site": AppflowSite;
         "appflow-site-footer": AppflowSiteFooter;
         "appflow-site-header": AppflowSiteHeader;
@@ -189,6 +201,7 @@ declare module "@stencil/core" {
             "anchor-link": LocalJSX.AnchorLink & JSXBase.HTMLAttributes<HTMLAnchorLinkElement>;
             "app-burger": LocalJSX.AppBurger & JSXBase.HTMLAttributes<HTMLAppBurgerElement>;
             "app-icon": LocalJSX.AppIcon & JSXBase.HTMLAttributes<HTMLAppIconElement>;
+            "appflow-activator": LocalJSX.AppflowActivator & JSXBase.HTMLAttributes<HTMLAppflowActivatorElement>;
             "appflow-site": LocalJSX.AppflowSite & JSXBase.HTMLAttributes<HTMLAppflowSiteElement>;
             "appflow-site-footer": LocalJSX.AppflowSiteFooter & JSXBase.HTMLAttributes<HTMLAppflowSiteFooterElement>;
             "appflow-site-header": LocalJSX.AppflowSiteHeader & JSXBase.HTMLAttributes<HTMLAppflowSiteHeaderElement>;

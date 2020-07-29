@@ -1,0 +1,147 @@
+@use '../../../../global/variables' as var;
+
+:host {
+  overflow: hidden;
+}
+
+.nav {
+  width: 100%;
+  background: #fff;
+  box-shadow: 0px -12px 24px rgba(2, 8, 20, 0.06), 0px -4px 8px rgba(2, 8, 20, 0.02);
+  z-index: 20;
+  position: relative;
+  border-bottom: 1px solid #F0F0F0;
+}
+
+ul {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+li {
+  padding-top: 24px;
+  display: inline-block;
+  position: relative;
+  list-style: none;
+  flex: 1;
+  cursor: default;
+}
+
+li + li {
+  margin-left: 56px;
+}
+
+li {
+  h5,
+  p {
+    font-family: var(--f-family-text);
+    transition: color 0.2s;
+  }
+
+  h5 {
+    display: block;
+    font-size: 14px;
+    line-height: 22px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: #616E7E;
+  }
+
+  p {
+    color: #92A1B3;
+    margin-bottom: 24px;
+  }
+
+  svg {
+    transition: transform 0.2s;
+  }
+}
+
+li.active {
+  h5 {
+    color: #010610;
+  }
+  p {
+    color: #5B708B;
+  }
+
+  svg {
+    transform: translateY(-2px);
+  }
+}
+
+.indicator {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 0%;
+  background-color: #6C89F7;
+}
+
+.app-screenshot {
+  position: relative;
+  z-index: 5;
+
+  .screen {
+    border-radius: 16px;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    opacity: 0;
+    transform: translateY(6px);
+    animation-fill-mode: forwards;
+
+    &.animate-in {
+      animation-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
+      animation-duration: 1s;
+      animation-name: animateIn;
+      animation-delay: 0.1s;
+      z-index: 15;
+    }
+
+    &.animate-out {
+      animation-timing-function: ease;
+      animation-duration: 0.6s;
+      animation-name: animateOut;
+      z-index: 10;
+    }
+  }
+
+  img {
+    vertical-align: bottom;
+    width: 100%;
+  }
+}
+
+
+@keyframes animateIn {
+  from {
+    // transform: translateY(6px);
+    opacity: 0;
+  }
+
+  to {
+    // transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes animateOut {
+  from {
+    // transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+
+  to {
+    // transform: translateY(4px) scale(0.98);
+    opacity: 0;
+  }
+}

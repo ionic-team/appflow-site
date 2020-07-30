@@ -4,6 +4,8 @@
 //#endregion --------------------------------------------------------------------------------------------------
 
 // #region ------------------------------ VARIABLES/THEME ------------------------------------------------
+$section-space: 160px;
+
 :root {
   --p2-color: var(--c-indigo-80);
   --p3-color: var(--c-indigo-80);
@@ -29,6 +31,22 @@
 // #region ------------------------------ GENERIC STYLES -------------------------------------------------
 a {
   color: var(--c-lavender-80);
+}
+
+.ui-heading-2 {
+@include util.box($mbe:var(--space-5))
+}
+.ui-heading-4 {
+@include util.box($mbe:var(--space-3))
+}
+.ui-heading-5 {
+@include util.box($mbe:var(--space-3))
+}
+.ui-heading-6 {
+@include util.box($mbe:var(--space-6))
+}
+.ui-container {
+@include util.media($type:min-width, $val:var.$screen-lg, $w:1120px, $pis:0, $pie:0)
 }
 //#endregion --------------------------------------------------------------------------------------------------
 
@@ -62,6 +80,41 @@ a {
     .app-screenshot {
     @include util.box($mxw:1168px);
     }
+  }
+}
+
+#companies {
+@include util.box($mbs:$section-space);
+
+  .ui-heading {
+  @include util.box($color:var(--c-indigo-70), $ta:center, $mbe:var(--space-8));
+  }
+
+  .logos {
+  @include util.box($d:flex, $mxw:1019px, $mis:auto, $mie:auto, $ai:center, $jc:space-between, $fg:1, $fw:wrap);
+
+    .wrapper {
+    @include util.box($d: inline-grid, $ji:center, $ai:center, $fg:1, $mnw:400px,
+                      $gtc:repeat(auto-fit, minmax(64px, 1fr)), $rg:var(--space-6));
+    @include util.media($val:var.$screen-sm-max, $fb:400px, $mnw: auto);
+
+      &:first-of-type {
+      @include util.box($fg:4 / 3)
+      }
+      
+    }
+  }
+}
+
+#ship {
+@include util.box($mbs:$section-space);
+
+  .heading-group {
+  @include util.box($mxw:736px, $ta:center, $mis:auto, $mie:auto, $mbe:var(--space-11));
+  }
+
+  .list {
+  @include util.box($d:grid, $cg:var(--space-6), $rg:var(--space-6), $gtc:repeat(auto-fit, minmax(auto, 352px)));
   }
 }
 //#endregion --------------------------------------------------------------------------------------------------

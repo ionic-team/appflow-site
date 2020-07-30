@@ -109,7 +109,7 @@ export class AppflowActivator {
       return;
     }
 
-    this.currentScreen = (this.currentScreen >= this.screens.length - 1) ? 0 : this.currentScreen + 1;
+    this.currentScreen = ++this.currentScreen % this.screens.length
     this.start();
   }
 

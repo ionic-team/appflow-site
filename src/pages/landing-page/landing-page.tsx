@@ -27,8 +27,8 @@ export class LandingPage {
       </header>
 
       <main>
-        <section>
-          <svg width="1600" height="992" viewBox="0 0 1600 992" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <section id="top">
+          <svg class="background" viewBox="0 0 1600 992" xmlns="http://www.w3.org/2000/svg">
           <rect width="1600" height="992" fill="url(#landing_bg_paint1_linear)" />
 
           <path d="M1298.04 97.309L1494.1 970.579L1066.48 878.169L859.254 53.3663L1298.04 97.309Z"
@@ -91,8 +91,17 @@ export class LandingPage {
             </linearGradient>
           </defs>
         </svg>
-          <PrismicRichText richText={page.top} poster paragraphLevel={2} />
+          <ResponsiveContainer>
+            <div class="heading-group">
+              <PrismicRichText richText={page.top} poster paragraphLevel={2} />
+              <a href="" class="cta" role="button">{page.top__cta}</a>
+            </div>
+          </ResponsiveContainer>
+
           <appflow-activator></appflow-activator>
+          
+          
+          
         </section>
 
         <ResponsiveContainer as="section">

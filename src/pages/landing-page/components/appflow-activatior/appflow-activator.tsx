@@ -1,5 +1,6 @@
-import { Component, State, Listen, Element, h, getAssetPath } from '@stencil/core';
+import { Component, State, Listen, Element, Host, h, getAssetPath, Watch, Prop } from '@stencil/core';
 import { publishIcon, updatesIcon, buildsIcon, automationsIcon } from './activator-icons'
+import { ResponsiveContainer, Heading, Paragraph } from '@ionic-internal/ionic-ds';
 
 
 @Component({
@@ -20,7 +21,7 @@ export class AppflowActivator {
     },
     {
       name: 'Live Updates',
-      description: 'Deploy live app updates in real-time.',
+      description: 'Send live updates to users without waiting on app store approval.',
       icon: updatesIcon,
       image: getAssetPath('./assets/screen-live-updates.png')
     },
@@ -37,8 +38,13 @@ export class AppflowActivator {
       image: getAssetPath('./assets/screen-automations.png')
     },
   ];
+
   @Element() el: HTMLElement;
 
+  @State() imageList: { maxHeight: number, images: HTMLElement[] } = {
+    maxHeight: 0,
+    images: []
+  };
   @State() currentScreen = 0;
   @State() isPaused: boolean = false;
 
@@ -48,6 +54,10 @@ export class AppflowActivator {
 
   componentWillLoad() {
     this.importGsap();
+  }
+
+  componentDidLoad() {
+    // this.pictureHeight = this.images.length > 0 ? this.images[0].offsetHeight : 0;
   }
 
   importGsap() {
@@ -103,6 +113,18 @@ export class AppflowActivator {
     this.start();
   }
 
+
+  handleImageLoad(el: HTMLElement) {
+    this.imageList.images.push(el);
+
+    if (el.offsetHeight > this.imageList.maxHeight) {
+      this.imageList = {
+        maxHeight: el.offsetHeight,
+        images: [...this.imageList.images]
+      }
+    }
+  }
+
   @Listen('scroll', {target: 'window'})
   onScroll() {
     if (this.tween === null) return false;
@@ -119,32 +141,44 @@ export class AppflowActivator {
     }
   }
 
+  @Listen('resize', { target: 'window'})
+  updateSize() {
+    this.imageList = {
+      maxHeight: this.imageList.images[0].offsetHeight,
+      images: [...this.imageList.images]
+    }
+  }
+
   render() {
-    return ([
+    return (
+    <Host>
       <div class="app-screenshot">
-        {this.screens.map((screen, i) =>
-          <div class={`screen ${i === this.currentScreen ? 'animate-in' : 'animate-out'}`}>
-            <img src={screen.image}/>
-          </div>
-        )}
-      </div>,
+        <div class="wrapper" style={{ 'height': this.imageList.maxHeight + 'px' }}>
+          {this.screens.map((screen, i) =>
+            <div class={`screen ${i === this.currentScreen ? 'animate-in' : 'animate-out'}`}>
+              <img src={screen.image} onLoad={({target}) => this.handleImageLoad(target as HTMLElement)}/>
+            </div>
+          )}
+        </div>
+      </div>
       <div class="nav">
-        <div class="container">
+        <ResponsiveContainer>
           <ul>
             {this.screens.map((screen, i) =>
               <li
                 class={(i === this.currentScreen) ? 'active' : 'default'}
                 onMouseEnter={() => this.override(i)}>
                 {screen.icon(i === this.currentScreen ? 'active' : 'default')}
-                <h5>{screen.name}</h5>
-                <p>{screen.description}</p>
+                <Heading level={5}>{screen.name}</Heading>
+                <Paragraph level={4}>{screen.description}</Paragraph>
                 <div class="indicator" ref={(el) => this.indicators[i] = el}></div>
               </li>
             )}
           </ul>
-        </div>
+        </ResponsiveContainer>
       </div>
-    ]);
+    </Host>
+    );
   }
 }
 

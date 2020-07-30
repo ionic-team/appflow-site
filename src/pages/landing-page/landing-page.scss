@@ -1,9 +1,20 @@
 // #region ------------------------------ IMPORTS -------------------------------------------------------
 @use '../../global/variables' as var;
+@use '../../global/utils.scss' as util;
 //#endregion --------------------------------------------------------------------------------------------------
 
 // #region ------------------------------ VARIABLES/THEME ------------------------------------------------
 :root {
+  --p2-color: var(--c-indigo-80);
+  --p3-color: var(--c-indigo-80);
+  --p4-color: var(--c-indigo-80);
+
+  --poster1-color: #fff;
+  --h2-color: var(--c-carbon-100);
+  --h4-color: var(--c-carbon-100);
+  --h5-color: var(--c-carbon-100);
+  --h6-color: var(--c-lavender-70);
+
   --p2-color: var(--c-indigo-80);
   --p3-color: var(--c-indigo-80);
   --p4-color: var(--c-indigo-80);
@@ -15,6 +26,42 @@
 }
 //#endregion --------------------------------------------------------------------------------------------------
 
-// #region ------------------------------ PAGE STYLES ----------------------------------------------------
+// #region ------------------------------ GENERIC STYLES -------------------------------------------------
+a {
+  color: var(--c-lavender-80);
+}
+//#endregion --------------------------------------------------------------------------------------------------
 
+// #region ------------------------------ PAGE STYLES ----------------------------------------------------
+#top {
+@include util.box($mnh:992px);
+
+  .background {
+  @include util.box($pos:absolute, $z:-1, $w:max(1800px, 100%), $l:min(calc((100% - 1800px) / 2), 0px));
+  }
+
+  .heading-group {
+  @include util.box($pbs:var(--space-11), $pbe:74px, $mnh:326px, $mxw:800px, $ta:center, $mis:auto, $mie:auto);
+
+    .ui-paragraph {
+    @include util.box($color:#fff, $mbs:var(--space-5), $mbe:var(--space-6));
+    }
+
+    .cta {
+    @include util.box($d:inline-flex, $ai:center, $jc:center, $back:#fff, $p: 15px 16px, $br:var(--radius-4));
+    @include util.font($fs:14px, $lh:112%, $fw:600, $ls:-0.02em);
+
+      &::after {
+      @include util.box($c:' ->');
+      @include util.font($ws:pre, $ls:0, $fs: 18px);
+      }
+    }
+  }
+
+  appflow-activator {
+    .app-screenshot {
+    @include util.box($mxw:1168px);
+    }
+  }
+}
 //#endregion --------------------------------------------------------------------------------------------------

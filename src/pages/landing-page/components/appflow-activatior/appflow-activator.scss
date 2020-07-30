@@ -2,6 +2,7 @@
 
 :host {
   overflow: hidden;
+  position:relative;
 }
 
 .nav {
@@ -10,6 +11,8 @@
   box-shadow: 0px -12px 24px rgba(2, 8, 20, 0.06), 0px -4px 8px rgba(2, 8, 20, 0.02);
   z-index: 20;
   position: relative;
+  top: -20px;
+  margin-block-end: -20px;
   border-bottom: 1px solid #F0F0F0;
 }
 
@@ -33,7 +36,7 @@ li {
 }
 
 li + li {
-  margin-left: 56px;
+  margin-inline-start: var(--space-6);
 }
 
 li {
@@ -86,14 +89,25 @@ li.active {
 }
 
 .app-screenshot {
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  padding-inline-start: 8px;
+  padding-inline-end: 8px;
+  justify-content: center;
   position: relative;
   z-index: 5;
 
+  .wrapper {
+    width: 100%;
+    position: relative;
+  }
+
   .screen {
     border-radius: 16px;
+    
     overflow: hidden;
     position: absolute;
-    top: 0;
     width: 100%;
     opacity: 0;
     transform: translateY(6px);

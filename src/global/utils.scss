@@ -1,0 +1,129 @@
+@mixin box($back:null, $color:null, $fb: null, $mis:null, $mie:null, $mbs:null, $mbe:null, $c:null,
+           $fg: null, $w: null, $h: null, $mxw: null, $mnw: null, $mxh:null, $mnh:null, $pos: null, $va:null,
+           $t:null, $r:null, $b:null, $l:null, $z:null, $bord:null, $bt:null, $br:null, $bb:null, $bl:null, $bi:null,
+           $pbs:null, $pbe:null, $pis:null, $pie:null, $pi:null, $pb:null, $d:null, $gtc:null, $gg:null, $jc:null, $js:null, $ai:null, $as:null, $p: null,
+           $order:null, $fd:null, $fw:null, $bs:null, $o:null, $rg:null, $cg:null, $trans:null, $tf:null, $of:null, $ta:null,
+           $v:null, $curs:null, $contain:null, $f:null, $a:null, $afm:null) {
+  display:#{$d};
+  @if $c {
+    content: "#{$c}";
+  }  
+  padding: #{$p};
+  margin-inline-start: #{$mis};
+  margin-inline-end: #{$mie};
+  margin-block-start: #{$mbs};
+  margin-block-end: #{$mbe};
+  background: #{$back};
+  color: #{$color};
+  flex-basis: #{$fb};   
+  flex-grow: #{$fg};
+  width: #{$w};
+  height: #{$h};
+  max-width: #{$mxw};
+  min-width: #{$mnw};
+  max-height: #{$mxh};
+  min-height: #{$mnh};
+  border-radius: #{$br};
+  border-image: #{$bi};
+  position: #{$pos};
+  top: #{$t};
+  right: #{$r};
+  bottom: #{$b};
+  left: #{$l};
+  z-index: #{$z};
+  border: #{$bord};
+  padding-inline-start: #{$pis};
+  padding-inline-end: #{$pie};
+  padding-block-start: #{$pbs};
+  padding-block-end: #{$pbe};
+  padding-inline: #{$pi};
+  padding-block: #{$pb};
+  grid-template-columns: #{$gtc};
+  grid-gap: #{$gg};
+  column-gap: #{$cg};
+  row-gap: #{$rg};
+  justify-content:#{$jc};
+  justify-self:#{$js};
+  align-items:#{$ai};
+  align-self:#{$as};
+  order: #{$order};
+  flex-direction: #{$fd};
+  flex-wrap: #{$fw};
+  box-shadow: #{$bs};
+  opacity: #{$o};
+  transition: #{$trans};
+  overflow:#{$of};
+  transform:#{$tf};
+  text-align:#{$ta};
+  vertical-align: #{$va};
+  visibility: #{$v};
+  cursor: #{$curs};
+  contain: #{$contain};
+  fill: #{$f};
+  animation:#{$a};
+  animation-fill-mode: #{$afm};
+}
+
+@mixin media($type:'max-width', $val:null, $back:null, $color:null, $fb: null, $mis:null, $mie:null, $mbs:null, $mbe:null,
+$fg: null, $w: null, $h: null, $mxw: null, $mnw: null, $mxh:null, $mnh:null, $pos: null,
+$t:null, $r:null, $b:null, $l:null, $z:null, $bord:null, $bt:null, $br:null, $bb:null, $bl:null,
+$pbs:null, $pbe:null, $pis:null, $pie:null, $d:null, $gtc:null, $gg:null, $jc:null, $js:null, $ai:null, $as:null, $p: null,
+$order:null, $fd:null, $fw:null, $bs:null, $o:null, $rg:null, $cg:null, $ta:null) {
+  @media screen and (#{$type}: $val) {
+    display:#{$d};
+    padding: #{$p};
+    margin-inline-start: #{$mis};
+    margin-inline-end: #{$mie};
+    margin-block-start: #{$mbs};
+    margin-block-end: #{$mbe};
+    background: #{$back};
+    color: #{$color};
+    flex-basis: #{$fb};   
+    flex-grow: #{$fg};
+    width: #{$w};
+    height: #{$h};
+    max-width: #{$mxw};
+    min-width: #{$mnw};
+    max-height: #{$mxh};
+    min-height: #{$mnh};
+    border-radius: #{$br};
+    position: #{$pos};
+    top: #{$t};
+    right: #{$r};
+    bottom: #{$b};
+    left: #{$l};
+    z-index: #{$z};
+    border: #{$bord};
+    padding-inline-start: #{$pis};
+    padding-inline-end: #{$pie};
+    padding-block-start: #{$pbs};
+    padding-block-end: #{$pbe};
+    grid-template-columns: #{$gtc};
+    grid-gap: #{$gg};
+    column-gap: #{$cg};
+    row-gap: #{$rg};
+    justify-content:#{$jc};
+    justify-self:#{$js};
+    align-items:#{$ai};
+    align-self:#{$as};
+    order: #{$order};
+    flex-direction: #{$fd};
+    flex-wrap: #{$fw};
+    box-shadow: #{$bs};
+    opacity: #{$o};
+    text-align: #{$ta}
+  }
+}
+
+
+@mixin font($ff: null, $fw: null, $fs: null, $lh: null, $ls: null, $tt: null, $ws: null, $color:null, $o:null) {
+  font-family: #{$ff};
+  font-weight: #{$fw};
+  font-size: #{$fs};
+  line-height: #{$lh};
+  letter-spacing: #{$ls};
+  text-transform: #{$tt};
+  white-space: #{$ws};
+  color: #{$color};
+  opacity: #{$o};
+}

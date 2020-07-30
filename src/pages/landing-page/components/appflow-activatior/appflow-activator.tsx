@@ -60,7 +60,7 @@ export class AppflowActivator {
         if (!window) return window.onload = this.start;
         this.start()
       }
-      // script.onerror = reject;      
+      script.onerror = () => console.error('error loading gsap library from: ', this.gsapCdn);      
   
       document.body.appendChild(script);
   }

@@ -1,6 +1,7 @@
 import { Component, Host, h} from '@stencil/core';
 
-// import { ResponsiveContainer, Grid, Col, Button, PrismicRichText, Heading } from '@ionic-internal/ionic-ds';
+import { ResponsiveContainer, Paragraph, PrismicRichText, Heading } from '@ionic-internal/ionic-ds';
+import { aaaLogo, amtrakLogo, nasaLogo, burgerKingLogo, catLogo, targetLogo } from '../../svgs';
 import { getPage } from '../../prismic';
 import state from '../../store';
 
@@ -90,9 +91,79 @@ export class LandingPage {
             </linearGradient>
           </defs>
         </svg>
-
+          <PrismicRichText richText={page.top} poster paragraphLevel={2} />
           <appflow-activator></appflow-activator>
         </section>
+
+        <ResponsiveContainer as="section">
+          <Heading level={6}>{page.companies}</Heading>
+          {aaaLogo()}
+          {amtrakLogo()}
+          {nasaLogo()}
+          {burgerKingLogo()}
+          {catLogo()}
+          {targetLogo()}
+        </ResponsiveContainer>
+
+        <ResponsiveContainer as="section">
+          <PrismicRichText richText={page.ship} paragraphLevel={2} />
+
+          {page.ship__list.map(({ content }) => (
+            <PrismicRichText richText={content}/>
+          ))}
+        </ResponsiveContainer>
+
+        <section>
+          <ResponsiveContainer>
+            <PrismicRichText richText={page.push} paragraphLevel={2} />
+            {page.push__list.map(({ content }) => (
+              <PrismicRichText richText={content} paragraphLevel={4}/>
+            ))}
+          </ResponsiveContainer>
+        </section>
+
+        <section>
+          <ResponsiveContainer>
+            <PrismicRichText richText={page.live} paragraphLevel={2} />
+            <ul>
+              {page.live__list.map(({ content }) => (
+                <li><Paragraph>{content}</Paragraph></li>
+              ))}
+            </ul>            
+          </ResponsiveContainer>
+        </section>
+
+        <section>
+          <ResponsiveContainer>
+            <PrismicRichText richText={page.native} paragraphLevel={2} />
+            <PrismicRichText richText={page.native__subtext} paragraphLevel={4} />
+          </ResponsiveContainer>
+        </section>
+
+        <section>
+          <ResponsiveContainer>
+            <PrismicRichText richText={page.automate} paragraphLevel={2} />
+          </ResponsiveContainer>
+        </section>
+
+        <section>
+          <ResponsiveContainer>
+            <PrismicRichText richText={page.managed} paragraphLevel={2} />
+          </ResponsiveContainer>
+        </section>
+        
+        <ResponsiveContainer as="section">
+          <PrismicRichText richText={page.experience} paragraphLevel={2} />
+          <ul>
+            {page.experience__list.map(({ content }) => (
+              <li><Paragraph>{content}</Paragraph></li>
+            ))}
+          </ul> 
+        </ResponsiveContainer>
+
+        <ResponsiveContainer as="section">
+          <PrismicRichText richText={page['get-started']} paragraphLevel={2} />
+        </ResponsiveContainer>
 
       </main>
 

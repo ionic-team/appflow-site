@@ -1,24 +1,25 @@
 import { Component, Host, h} from '@stencil/core';
 
-import { ResponsiveContainer, Paragraph, PrismicRichText, Heading } from '@ionic-internal/ionic-ds';
+import { ResponsiveContainer, Paragraph, PrismicRichText, Heading, Skeleton } from '@ionic-internal/ionic-ds';
 import { aaaLogo, amtrakLogo, nasaLogo, burgerKingLogo, catLogo, targetLogo, ibmLogo } from '../../svgs';
 import { getPage } from '../../prismic';
 import state from '../../store';
+
+
 
 @Component({
   tag: 'landing-page',
   styleUrl: 'landing-page.scss',
 })
 export class LandingPage {
-
+  
   async componentWillLoad() {
     await getPage('appflow_homepage');
   }
 
   render() {
     const page = state.pageData;
-
-    console.log(page);
+    
 
     return (
     <Host>
@@ -26,27 +27,10 @@ export class LandingPage {
         <appflow-site-header></appflow-site-header>
       </header>
 
-      <Top content={{ stuff: page.top, moreStuff: page.top__cta }}></Top>
-
       <main>
-        
+        <Top {...{ top: page.top, top__cta: page.top__cta }}></Top>
 
-        <ResponsiveContainer id="companies" as="section">
-          <Heading level={6}>{page.companies}</Heading>
-          <div class="logos">
-            <div class="wrapper">
-              {aaaLogo({}, { width: '50' })}
-              {amtrakLogo({}, { width: '64' })}
-              {nasaLogo({}, { width: '50' })}
-              {ibmLogo({}, { width: '53' })}
-            </div>
-            <div class="wrapper">
-              {burgerKingLogo({}, { width: '50' })}
-              {catLogo({}, { width: '50' })}
-              {targetLogo({}, { width: '50' })}
-            </div>
-          </div>
-        </ResponsiveContainer>
+        <Companies {...{ companies: page.companies}}></Companies>
 
         <ResponsiveContainer id="ship" as="section">
           <div class="heading-group">
@@ -124,9 +108,44 @@ export class LandingPage {
   }
 }
 
-const Top = ({ content, cta }) => (
+const Top = ({ top, top__cta}) => {
+  if (!top || !top__cta) {
+    return <Skeleton></Skeleton>
+  }
+
+  return (
   <section id="top">
-    <svg class="background" viewBox="0 0 1600 992" xmlns="http://www.w3.org/2000/svg">
+    <ResponsiveContainer>
+      <div class="heading-group">
+        <PrismicRichText richText={top} poster paragraphLevel={2} />
+        <a href="" class="cta" role="button">{top__cta}</a>
+      </div>
+    </ResponsiveContainer>
+
+    <appflow-activator></appflow-activator>
+  </section> )
+}
+
+const Companies = ({ companies }) => (
+  <ResponsiveContainer id="companies" as="section">
+    <Heading level={6}>{companies}</Heading>
+    <div class="logos">
+      <div class="wrapper">
+        {aaaLogo({}, { width: '50' })}
+        {amtrakLogo({}, { width: '64' })}
+        {nasaLogo({}, { width: '50' })}
+        {ibmLogo({}, { width: '53' })}
+      </div>
+      <div class="wrapper">
+        {burgerKingLogo({}, { width: '50' })}
+        {catLogo({}, { width: '50' })}
+        {targetLogo({}, { width: '50' })}
+      </div>
+    </div>
+  </ResponsiveContainer>
+)
+
+{/* <svg class="background" viewBox="0 0 1600 992" xmlns="http://www.w3.org/2000/svg">
     <rect width="1600" height="992" fill="url(#landing_bg_paint1_linear)" />
 
     <path d="M1298.04 97.309L1494.1 970.579L1066.48 878.169L859.254 53.3663L1298.04 97.309Z"
@@ -188,14 +207,5 @@ const Top = ({ content, cta }) => (
         <stop offset="1" stop-color="white" stop-opacity="0" />
       </linearGradient>
     </defs>
-  </svg>
-    <ResponsiveContainer>
-      <div class="heading-group">
-        <PrismicRichText richText={page.top} poster paragraphLevel={2} />
-        <a href="" class="cta" role="button">{page.top__cta}</a>
-      </div>
-    </ResponsiveContainer>
-
-    <appflow-activator></appflow-activator>
-  </section>
-)
+  </svg> */}
+    

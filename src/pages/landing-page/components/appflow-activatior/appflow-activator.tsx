@@ -56,10 +56,6 @@ export class AppflowActivator {
     this.importGsap();
   }
 
-  componentDidLoad() {
-    // this.pictureHeight = this.images.length > 0 ? this.images[0].offsetHeight : 0;
-  }
-
   importGsap() {
       if (window.gsap) return;
   
@@ -109,7 +105,7 @@ export class AppflowActivator {
       return;
     }
 
-    this.currentScreen = ++this.currentScreen % this.screens.length
+    this.currentScreen = ++this.currentScreen % this.screens.length;
     this.start();
   }
 

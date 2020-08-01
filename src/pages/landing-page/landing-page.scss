@@ -77,9 +77,9 @@ a {
   }
 
   appflow-activator {
-    .app-screenshot {
-    @include util.box($mxw:1168px);
-    }
+    // .app-screenshot {
+    // @include util.box($mxw:1168px);
+    // }
   }
 }
 
@@ -107,14 +107,46 @@ a {
 }
 
 #ship {
-@include util.box($mbs:$section-space);
+@include util.box($mbs:$section-space, $mbe:$section-space);
 
   .heading-group {
   @include util.box($mxw:736px, $ta:center, $mis:auto, $mie:auto, $mbe:var(--space-11));
   }
 
   .list {
-  @include util.box($d:grid, $cg:var(--space-6), $rg:var(--space-6), $gtc:repeat(auto-fit, minmax(auto, 352px)));
+  @include util.box($d:flex, $fw:wrap, $fb:352px, $jc:space-between);
+
+    .list-item {
+    @include util.box($fb:352px, $mis:auto, $mie:auto);
+    }
   }
+}
+
+#push {
+
+}
+
+#live {
+
+}
+
+#native {
+
+}
+
+#automation {
+
+}
+
+#managed {
+
+}
+
+#experience {
+
+}
+
+#get-started {
+  
 }
 //#endregion --------------------------------------------------------------------------------------------------

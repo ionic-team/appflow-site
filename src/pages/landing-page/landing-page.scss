@@ -123,27 +123,95 @@ a {
 }
 
 #push {
-
+  .list {    
+    .list-item {
+      svg {
+      @include util.box($mbe:var(--space-5));
+      }
+    
+    }
+  }  
 }
 
 #live {
+@include util.box($pbs:$section-space, $pbe:$section-space);
+  .list {    
+  @include util.box($mbs:var(--space-8));
 
+    .list-item {
+    @include util.box($d:flex, $ai:center);
+
+      svg {
+      @include util.box($mie:var(--space-3));
+      }
+
+      & + .list-item {
+      @include util.box($mbs:var(--space-2));
+      }
+
+      
+    }
+  }  
 }
 
 #native {
+@include util.box($pbs:$section-space, $pbe:$section-space, $back:var(--c-indigo-0));
 
+  .heading-group {
+  @include util.box($mbe:72px);
+  }
+
+  .subtext svg{
+  @include util.box($mbe:var(--space-5));
+  }
 }
 
-#automation {
-
+#automate {
+@include util.box($pbs:$section-space, $pbe:302px);
 }
 
 #managed {
-
+@include util.box($pbs:256px, $pbe:260px);
 }
 
 #experience {
+@include util.box($back:var(--c-purple-60), $pbs:$section-space, $pbe:$section-space);
 
+  .ui-heading {
+  @include util.box($color:#fff);
+  }
+
+  .ui-heading-4 {
+  @include util.box($)
+  }
+
+  .cta {
+  @include util.box($d:inline-flex, $ai:center, $jc:center, $back:#8C93FF,
+                    $color:#fff, $p: 14px 16px, $br:var(--radius-4));
+  @include util.font($fs:14px, $lh:112%, $fw:600, $ls:-0.02em);
+
+    &::after {
+    @include util.box($c:' ->', $d:inline);
+    vertical-align: middle;
+    @include util.font($ws:pre, $ls:0, $fw:normal, $fs: 18px);
+    }
+  }
+
+  .list-item {
+  @include util.box($d:flex, $ai:center);
+
+    & + .list-item {
+    @include util.box($mbs:14px)
+    }
+
+    svg {
+    @include util.box($mie:var(--space-3));
+    }
+
+    .ui-paragraph {
+    @include util.box($color:var(--c-lavender-0))
+    }
+  }
 }
 
 #get-started {

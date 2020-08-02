@@ -80,10 +80,10 @@ export const burgerKingLogo = ({ main = '#EE1D23', second = '#185494', third = '
   </svg>
 );
 
-export const checkmarkCircleIcon = ({ main = '#597EFF', second = '#EEFEFF' }: colors = {}, props?) => (
+export const checkmarkCircle = ({ main = '#597EFF', second = '#EEFEFF' }: colors = {}, props?) => (
   <svg viewBox="0 0 16 16" {...props}>
     <circle cx="8" cy="8" r="8" fill={main}/>
-    <path d="M11 5l-4.2 6L5 8.75" stroke={second} stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M11 5l-4.2 6L5 8.75" fill="none" stroke={second} stroke-linecap="round" stroke-linejoin="round"/>
   </svg>
 );
 

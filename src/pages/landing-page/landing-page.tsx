@@ -3,7 +3,7 @@ import { Component, Host, h} from '@stencil/core';
 import { ResponsiveContainer, Paragraph, PrismicRichText, Heading, Skeleton, Grid, Col } from '@ionic-internal/ionic-ds';
 import { aaaLogo, amtrakLogo, nasaLogo, burgerKingLogo, catLogo, targetLogo, ibmLogo, triplePhoneIcon, tripleLayerIcon,
          buildingBlocksIcon, publishingIcon, appleCloudIcon, appleStoreCheckedIcon, testflightLogo,
-         googleStoreCheckedIcon } from '../../svgs';
+         googleStoreCheckedIcon, checkmarkCircle, cloudCircleIcon } from '../../svgs';
 import { getPage } from '../../prismic';
 import state from '../../store';
 
@@ -116,7 +116,7 @@ const Top = () => {
       <ResponsiveContainer>
         <div class="heading-group">
           <PrismicRichText richText={top} poster paragraphLevel={2} />
-          <a href="" class="cta" role="button">{top__cta}</a>
+          <a href="" class="cta">{top__cta}</a>
         </div>
       </ResponsiveContainer>
 
@@ -183,27 +183,22 @@ const Push = () => {
     appleCloudIcon({}, { width: 48, height: 48 })
   ]
 
-  const platforms: HTMLElement[] = [
-    appleStoreCheckedIcon({}, { width: 52, height: 52 }),
-    testflightLogo({}, { width: 52, height: 52 })
-  ]
-
   return (
-    <section>
+    <section id="push">
       <ResponsiveContainer>
-        {appleStoreCheckedIcon({}, { width: 52, height: 52 })}
-        {testflightLogo({}, { width: 52, height: 52 })}
-        {googleStoreCheckedIcon({}, { width: 52, height: 52 })}
         <PrismicRichText richText={push} paragraphLevel={2} />
-        <ul>
+        <ul class="list">
           {push__list.map(({ content }, i) => (
-            <li>
+            <li class="list-item">
               {icons[i]}
               <PrismicRichText richText={content} paragraphLevel={4}/>
             </li>
           ))}
         </ul>
       </ResponsiveContainer>
+      {appleStoreCheckedIcon({}, { width: 52, height: 52 })}
+      {testflightLogo({}, { width: 52, height: 52 })}
+      {googleStoreCheckedIcon({}, { width: 52, height: 52 })}
     </section>
   )
 }
@@ -212,12 +207,15 @@ const Live = () => {
   const { live, live__list } = state.pageData;
 
   return (
-    <section>
+    <section id="live">
       <ResponsiveContainer>
         <PrismicRichText richText={live} paragraphLevel={2} />
-        <ul>
+        <ul class="list">
           {live__list.map(({ content }) => (
-            <li><Paragraph>{content}</Paragraph></li>
+            <li class="list-item">
+              {checkmarkCircle({}, { width: 16, height: 16})}
+              <Paragraph>{content}</Paragraph>
+            </li>
           ))}
         </ul>            
       </ResponsiveContainer>
@@ -229,22 +227,32 @@ const Native = () => {
   const { native, native__subtext } = state.pageData;
 
   return (
-    <section>
+    <section id="native">
       <ResponsiveContainer>
-        <PrismicRichText richText={native} paragraphLevel={2} />
-        <PrismicRichText richText={native__subtext} paragraphLevel={4} />
+        <div class="heading-group">
+          <PrismicRichText richText={native} paragraphLevel={2} />
+        </div>
+        <div class="subtext">
+          {cloudCircleIcon({}, { width: 48, height: 48})}
+          <PrismicRichText richText={native__subtext} paragraphLevel={4} />
+        </div>        
       </ResponsiveContainer>
     </section>
   )
 }
 
 const Automate = () => {
-  const { automate } = state.pageData;
+  const { automate, automate__subtext } = state.pageData;
 
   return (
-    <section>
+    <section id="automate">
       <ResponsiveContainer>
-        <PrismicRichText richText={automate} paragraphLevel={2} />
+        <div class="heading-group">
+          <PrismicRichText richText={automate} paragraphLevel={2} />
+        </div>
+        <div class="subtext">
+          <PrismicRichText richText={automate__subtext} paragraphLevel={3} />
+        </div>
       </ResponsiveContainer>
     </section>
   )
@@ -253,7 +261,7 @@ const Managed = () => {
   const { managed } = state.pageData;
 
   return (
-    <section>
+    <section id="managed">
       <ResponsiveContainer>
         <PrismicRichText richText={managed} paragraphLevel={2} />
       </ResponsiveContainer>
@@ -261,17 +269,28 @@ const Managed = () => {
   )
 }
 const Experience = () => {
-  const { experience, experience__list } = state.pageData;
+  const { experience__title, experience__subtext, experience__cta, experience__list } = state.pageData;
 
   return (
-    <ResponsiveContainer as="section">
-      <PrismicRichText richText={experience} paragraphLevel={2} />
-      <ul>
-        {experience__list.map(({ content }) => (
-          <li><Paragraph>{content}</Paragraph></li>
-        ))}
-      </ul> 
-    </ResponsiveContainer>
+    <section id="experience">
+      <ResponsiveContainer>
+        <PrismicRichText richText={experience__title} />
+        <div>
+          <div class="subtext">
+            <PrismicRichText richText={experience__subtext} paragraphLevel={2} />
+            <a href="" class="cta">{experience__cta}</a>
+          </div>
+          <ul class="list">
+            {experience__list.map(({ content }) => (
+              <li class="list-item">
+                {checkmarkCircle({ main: '#8C93FF' }, { width: 16, height: 16 })}
+                <Paragraph>{content}</Paragraph>
+              </li>
+            ))}
+          </ul> 
+        </div>        
+      </ResponsiveContainer>
+    </section>
   )
 }
 const GetStarted = () => {

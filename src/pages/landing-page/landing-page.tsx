@@ -297,8 +297,11 @@ const GetStarted = () => {
   const { getstarted, getstarted__cta } = state.pageData;
 
   return (
-    <ResponsiveContainer as="section">
-      <PrismicRichText richText={getstarted} paragraphLevel={2} />
-    </ResponsiveContainer>
+    <section id="get-started">
+      <ResponsiveContainer>
+        <PrismicRichText richText={getstarted} paragraphLevel={1} />
+        <a href="" class="cta">{getstarted__cta}</a>
+      </ResponsiveContainer>
+    </section>
   )
 }

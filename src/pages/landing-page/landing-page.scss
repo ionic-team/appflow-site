@@ -177,13 +177,23 @@ a {
 #experience {
 @include util.box($back:var(--c-purple-60), $pbs:$section-space, $pbe:$section-space);
 
+  .subtext {
+  @include util.box();
+
+    .ui-heading {
+    @include util.box($mbe:var(--space-2));
+    }
+
+    .ui-paragraph {
+    @include util.box($color:var(--c-lavender-10), $mbe:var(--space-6));
+    }
+  }
+
   .ui-heading {
   @include util.box($color:#fff);
   }
 
-  .ui-heading-4 {
-  @include util.box($)
-  }
+  
 
   .cta {
   @include util.box($d:inline-flex, $ai:center, $jc:center, $back:#8C93FF,
@@ -191,9 +201,8 @@ a {
   @include util.font($fs:14px, $lh:112%, $fw:600, $ls:-0.02em);
 
     &::after {
-    @include util.box($c:' ->', $d:inline);
-    vertical-align: middle;
-    @include util.font($ws:pre, $ls:0, $fw:normal, $fs: 18px);
+    @include util.box($c:' ->');
+    @include util.font($ws:pre, $ls:0);
     }
   }
 
@@ -215,6 +224,25 @@ a {
 }
 
 #get-started {
-  
+@include util.box($back:#212752, $pbs:120px, $pbe:119px);
+
+  .ui-heading {
+  @include util.box($color:#fff, $mbe:7px);
+  }
+
+  .ui-paragraph {
+  @include util.box($color:var(--c-lavender-50));
+  }
+
+  .cta {
+  @include util.box($d:inline-flex, $ai:center, $jc:center, $back:var(--c-lavender-60),
+                    $color:#fff, $p: 14px 16px, $br:var(--radius-4));
+  @include util.font($fs:16px, $lh:112%, $fw:600, $ls:-0.02em);
+
+    &::after {
+    @include util.box($c:' ->');
+    @include util.font($ws:pre, $ls:0);
+    }
+  }
 }
 //#endregion --------------------------------------------------------------------------------------------------

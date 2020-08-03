@@ -1,13 +1,13 @@
-import { Component, State, Listen, Element, Host, h, getAssetPath, Watch, Prop } from '@stencil/core';
-import { publishIcon, updatesIcon, buildsIcon, automationsIcon } from './assets/icons'
-import { ResponsiveContainer, Heading, Paragraph, Skeleton } from '@ionic-internal/ionic-ds';
+import { Component, State, Listen, Element, Host, h, getAssetPath } from '@stencil/core';
+import { publishIcon, updatesIcon, buildsIcon, automationsIcon } from './icons'
+import { ResponsiveContainer, Heading, Paragraph } from '@ionic-internal/ionic-ds';
 
 
 @Component({
   tag: 'appflow-activator',
   styleUrl: 'appflow-activator.scss',
   scoped: true,
-  assetsDirs: ['assets']
+  assetsDir: 'img'
 })
 export class AppflowActivator {
   private tween: GSAPTween;
@@ -17,25 +17,25 @@ export class AppflowActivator {
       name: 'App Publishing',
       description: 'Publish directly to the Apple and Google App Stores.',
       icon: publishIcon,
-      image: getAssetPath('./assets/img/screen-app-publishing.png')
+      image: getAssetPath('./img/screen-app-publishing.png')
     },
     {
       name: 'Live Updates',
       description: 'Send live updates to users without waiting on app store approval.',
       icon: updatesIcon,
-      image: getAssetPath('./assets/img/screen-live-updates.png')
+      image: getAssetPath('./img/screen-live-updates.png')
     },
     {
       name: 'Native Builds',
       description: 'Compile native app binaries in the cloud.',
       icon: buildsIcon,
-      image: getAssetPath('./assets/img/screen-native-builds.png')
+      image: getAssetPath('./img/screen-native-builds.png')
     },
     {
       name: 'Automations',
       description: 'Fully automate your app delivery pipeline.',
       icon: automationsIcon,
-      image: getAssetPath('./assets/img/screen-automations.png')
+      image: getAssetPath('./img/screen-automations.png')
     },
   ];
 
@@ -105,11 +105,6 @@ export class AppflowActivator {
     this.start();
   }
 
-
-  handleImageLoad(el: HTMLElement) {
-
-  }
-
   @Listen('scroll', {target: 'window'})
   onScroll() {
     if (this.tween === null) return false;
@@ -137,7 +132,6 @@ export class AppflowActivator {
             width="1153"
             height="611"
             loading={i === 0 ? 'eager' : 'lazy'}
-            onLoad={({target}) => this.handleImageLoad(target as HTMLElement)}
             style={{'position': i !== 0 ? 'absolute' : undefined}}
           />
         ))}

@@ -32,6 +32,8 @@ export namespace Components {
     }
     interface NewsletterForm {
     }
+    interface PhoneAnimator {
+    }
     interface SiteBackdrop {
         "visible": boolean;
     }
@@ -111,6 +113,12 @@ declare global {
         prototype: HTMLNewsletterFormElement;
         new (): HTMLNewsletterFormElement;
     };
+    interface HTMLPhoneAnimatorElement extends Components.PhoneAnimator, HTMLStencilElement {
+    }
+    var HTMLPhoneAnimatorElement: {
+        prototype: HTMLPhoneAnimatorElement;
+        new (): HTMLPhoneAnimatorElement;
+    };
     interface HTMLSiteBackdropElement extends Components.SiteBackdrop, HTMLStencilElement {
     }
     var HTMLSiteBackdropElement: {
@@ -135,6 +143,7 @@ declare global {
         "code-snippet": HTMLCodeSnippetElement;
         "landing-page": HTMLLandingPageElement;
         "newsletter-form": HTMLNewsletterFormElement;
+        "phone-animator": HTMLPhoneAnimatorElement;
         "site-backdrop": HTMLSiteBackdropElement;
         "site-img": HTMLSiteImgElement;
     }
@@ -167,6 +176,8 @@ declare namespace LocalJSX {
     }
     interface NewsletterForm {
     }
+    interface PhoneAnimator {
+    }
     interface SiteBackdrop {
         "visible"?: boolean;
     }
@@ -190,6 +201,7 @@ declare namespace LocalJSX {
         "code-snippet": CodeSnippet;
         "landing-page": LandingPage;
         "newsletter-form": NewsletterForm;
+        "phone-animator": PhoneAnimator;
         "site-backdrop": SiteBackdrop;
         "site-img": SiteImg;
     }
@@ -209,6 +221,7 @@ declare module "@stencil/core" {
             "code-snippet": LocalJSX.CodeSnippet & JSXBase.HTMLAttributes<HTMLCodeSnippetElement>;
             "landing-page": LocalJSX.LandingPage & JSXBase.HTMLAttributes<HTMLLandingPageElement>;
             "newsletter-form": LocalJSX.NewsletterForm & JSXBase.HTMLAttributes<HTMLNewsletterFormElement>;
+            "phone-animator": LocalJSX.PhoneAnimator & JSXBase.HTMLAttributes<HTMLPhoneAnimatorElement>;
             "site-backdrop": LocalJSX.SiteBackdrop & JSXBase.HTMLAttributes<HTMLSiteBackdropElement>;
             "site-img": LocalJSX.SiteImg & JSXBase.HTMLAttributes<HTMLSiteImgElement>;
         }

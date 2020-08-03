@@ -1,0 +1,12 @@
+@use '../../../../global/variables' as var;
+
+:host {
+  display: inline-block;
+  height: 100%;
+  position: relative;
+}
+
+.phone {
+  position: absolute;
+}
+

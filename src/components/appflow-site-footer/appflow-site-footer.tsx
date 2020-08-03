@@ -1,6 +1,6 @@
 import { Component, h } from '@stencil/core';
 import { ResponsiveContainer } from '@ionic-internal/ionic-ds';
-import {twitterLogo, slackLogo, githubLogo, facebookLogo, youtubeLogo, mediumLogo, stackOverflowLogo } from '../../svgs';
+// import {twitterLogo, slackLogo, githubLogo, facebookLogo, youtubeLogo, mediumLogo, stackOverflowLogo } from '../../svgs';
 
 @Component({
   tag: 'appflow-site-footer',

@@ -1,6 +1,6 @@
 import { Component, Host, h} from '@stencil/core';
 
-import { ResponsiveContainer, Paragraph, PrismicRichText, Heading, Skeleton, Grid, Col } from '@ionic-internal/ionic-ds';
+import { ResponsiveContainer, Paragraph, PrismicRichText, Heading, Grid, Col } from '@ionic-internal/ionic-ds';
 import { aaaLogo, amtrakLogo, nasaLogo, burgerKingLogo, catLogo, targetLogo, ibmLogo, triplePhoneIcon, tripleLayerIcon,
          buildingBlocksIcon, publishingIcon, appleCloudIcon, appleStoreCheckedIcon, testflightLogo,
          googleStoreCheckedIcon, checkmarkCircle, cloudCircleIcon } from '../../svgs';
@@ -217,7 +217,8 @@ const Live = () => {
               <Paragraph>{content}</Paragraph>
             </li>
           ))}
-        </ul>            
+        </ul>      
+        <phone-animator></phone-animator>      
       </ResponsiveContainer>
     </section>
   )

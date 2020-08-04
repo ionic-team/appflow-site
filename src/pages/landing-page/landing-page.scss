@@ -123,7 +123,23 @@ a {
 }
 
 #push {
-  .list {    
+@include util.box($pbs:$section-space, $pbe:$section-space, $back:var(--c-indigo-0), $contain:content);
+
+  .ui-container {
+  @include util.box($d:flex);
+  }
+
+  .text {
+  @include util.box($mxw:448px);
+
+    .heading-group {
+    @include util.box($mbe:72px);
+    }
+  }
+
+  .list {  
+  @include util.box($d:grid, $gtc:repeat(auto-fit, minmax(0px, 192px)), $cg:var(--space-9));
+
     .list-item {
       svg {
       @include util.box($mbe:var(--space-5));
@@ -131,10 +147,40 @@ a {
     
     }
   }  
+
+  .image {
+  @include util.box($fg:1, $d:flex, $jc:center);
+
+    &__wrapper {
+    @include util.box($pos:absolute, $d:flex, $fd:column,
+                      $w:auto, $l:50%);
+
+      .icons {
+      @include util.box($mis:var(--space-6));
+
+        svg + svg {
+        @include util.box($mis:var(--space-5));
+        }
+      }
+      
+      img {
+      @include util.box($w:auto, $mxw:1092px);
+      }
+    }  
+  }
 }
 
 #live {
-@include util.box($pbs:$section-space, $pbe:$section-space);
+@include util.box($pbs:$section-space, $pbe:$section-space, $contain:content);
+
+  .ui-container {
+  @include util.box($d:flex);
+  }
+
+  .text {
+  @include util.box($mxw:448px);
+  }
+
   .list {    
   @include util.box($mbs:var(--space-8));
 
@@ -152,17 +198,49 @@ a {
       
     }
   }  
+
+  phone-animator {
+  @include util.box($fg:1);
+  }
 }
 
 #native {
 @include util.box($pbs:$section-space, $pbe:$section-space, $back:var(--c-indigo-0));
 
-  .heading-group {
-  @include util.box($mbe:72px);
+  .ui-container {
+  @include util.box($d:flex);
   }
 
-  .subtext svg{
-  @include util.box($mbe:var(--space-5));
+  .heading-group {
+  @include util.box($mbe:72px);
+
+    .ui-heading {
+    @include util.box($mxw:576px);
+    }
+
+    .ui-paragraph {
+    @include util.box($mxw:448px);
+    }
+  }
+
+  .subtext {
+  @include util.box($mxw:256px);
+
+    svg{
+    @include util.box($mbe:var(--space-5));
+    }
+  }
+
+  .image {
+  @include util.box($pos:relative, $fg:1, $d:flex, $jc:center);
+
+    &__wrapper {
+    @include util.box($pos:absolute, $w:auto, $l:-250px, $t:calc(50% + 150px), $tf:translateY(-50%), $r: -150px);
+      
+      img {
+      @include util.box($mxw:857px)
+      }
+    }  
   }
 }
 
@@ -171,7 +249,27 @@ a {
 }
 
 #managed {
-@include util.box($pbs:256px, $pbe:260px);
+@include util.box($pbs:256px, $pbe:260px, $pos:relative);
+
+  .ui-container {
+  @include util.box($d:flex);
+  }
+
+  .text {
+  @include util.box($mxw:448px);
+  }
+
+  .image {
+  @include util.box($pos:relative, $fg:1, $d:flex, $jc:center);
+
+    &__wrapper {
+    @include util.box($pos:absolute, $w:auto, $l:-25px, $t:50%, $tf:translateY(-50%), $r: -150px);
+      
+      img {
+      @include util.box($mxw:827px)
+      }
+    }  
+  }
 }
 
 #experience {
@@ -192,8 +290,6 @@ a {
   .ui-heading {
   @include util.box($color:#fff);
   }
-
-  
 
   .cta {
   @include util.box($d:inline-flex, $ai:center, $jc:center, $back:#8C93FF,

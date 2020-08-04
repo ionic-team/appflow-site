@@ -6712,34 +6712,34 @@ const PrismicRichText = (_a, _, utils) => {
 
 const appflowActivatorCss = ".sc-appflow-activator-h{overflow:hidden;position:relative}img.sc-appflow-activator{display:inline-block;width:100%;height:auto}.nav.sc-appflow-activator{width:100%;background:#fff;-webkit-box-shadow:0px -12px 24px rgba(2, 8, 20, 0.06), 0px -4px 8px rgba(2, 8, 20, 0.02);box-shadow:0px -12px 24px rgba(2, 8, 20, 0.06), 0px -4px 8px rgba(2, 8, 20, 0.02);z-index:20;position:relative;top:-20px;-webkit-margin-after:-20px;margin-block-end:-20px;border-bottom:1px solid #F0F0F0}ul.sc-appflow-activator{z-index:10;display:-ms-flexbox;display:flex;width:100%;margin:0;padding:0;overflow:hidden}li.sc-appflow-activator{position:relative;padding-top:24px;display:inline-block;list-style:none;-ms-flex:1;flex:1;cursor:default}li.sc-appflow-activator+li.sc-appflow-activator{-webkit-margin-start:var(--space-6);margin-inline-start:var(--space-6)}li.sc-appflow-activator h5.sc-appflow-activator,li.sc-appflow-activator p.sc-appflow-activator{font-family:var(--f-family-text);-webkit-transition:color 0.2s;transition:color 0.2s}li.sc-appflow-activator h5.sc-appflow-activator{display:block;font-size:14px;line-height:22px;letter-spacing:0.08em;text-transform:uppercase;font-weight:600;color:#616E7E}li.sc-appflow-activator p.sc-appflow-activator{color:#92A1B3;margin-bottom:24px}li.sc-appflow-activator svg.sc-appflow-activator{-webkit-transition:-webkit-transform 0.2s;transition:-webkit-transform 0.2s;transition:transform 0.2s;transition:transform 0.2s, -webkit-transform 0.2s}li.active.sc-appflow-activator h5.sc-appflow-activator{color:#010610}li.active.sc-appflow-activator p.sc-appflow-activator{color:#5B708B}li.active.sc-appflow-activator svg.sc-appflow-activator{-webkit-transform:translateY(-2px);transform:translateY(-2px)}.indicator.sc-appflow-activator{position:absolute;bottom:0;left:0;height:2px;width:0%;background-color:#6C89F7}.app-screenshot.sc-appflow-activator{margin-left:auto;margin-right:auto;display:-ms-flexbox;display:flex;-ms-flex-direction:column;flex-direction:column;position:relative;z-index:5}.app-screenshot.sc-appflow-activator .ui-skeleton.sc-appflow-activator{position:absolute;left:0;right:0;top:0;bottom:0}.app-screenshot.sc-appflow-activator .screen.sc-appflow-activator{-o-object-fit:contain;object-fit:contain;border-radius:16px;left:0;top:0;overflow:hidden;width:100%;opacity:0;-webkit-transform:translateY(6px);transform:translateY(6px);-webkit-animation-fill-mode:forwards;animation-fill-mode:forwards}.app-screenshot.sc-appflow-activator .screen.animate-in.sc-appflow-activator{-webkit-animation-timing-function:cubic-bezier(0.19, 1, 0.22, 1);animation-timing-function:cubic-bezier(0.19, 1, 0.22, 1);-webkit-animation-duration:1s;animation-duration:1s;-webkit-animation-name:animateIn;animation-name:animateIn;-webkit-animation-delay:0.1s;animation-delay:0.1s;z-index:15}.app-screenshot.sc-appflow-activator .screen.animate-out.sc-appflow-activator{-webkit-animation-timing-function:ease;animation-timing-function:ease;-webkit-animation-duration:0.6s;animation-duration:0.6s;-webkit-animation-name:animateOut;animation-name:animateOut;z-index:10}@-webkit-keyframes animateIn{from{opacity:0}to{opacity:1}}@keyframes animateIn{from{opacity:0}to{opacity:1}}@-webkit-keyframes animateOut{from{opacity:1}to{opacity:0}}@keyframes animateOut{from{opacity:1}to{opacity:0}}";
 
+// import { gsap } from 'gsap';
 class AppflowActivator {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.gsapCdn = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.4.2/gsap.min.js';
         this.screens = [
             {
                 name: 'App Publishing',
                 description: 'Publish directly to the Apple and Google App Stores.',
                 icon: publishIcon,
-                image: getAssetPath('./assets/img/screen-app-publishing.png')
+                image: getAssetPath('./img-appflow-activator/screen-app-publishing.png')
             },
             {
                 name: 'Live Updates',
                 description: 'Send live updates to users without waiting on app store approval.',
                 icon: updatesIcon,
-                image: getAssetPath('./assets/img/screen-live-updates.png')
+                image: getAssetPath('./img-appflow-activator/screen-live-updates.png')
             },
             {
                 name: 'Native Builds',
                 description: 'Compile native app binaries in the cloud.',
                 icon: buildsIcon,
-                image: getAssetPath('./assets/img/screen-native-builds.png')
+                image: getAssetPath('./img-appflow-activator/screen-native-builds.png')
             },
             {
                 name: 'Automations',
                 description: 'Fully automate your app delivery pipeline.',
                 icon: automationsIcon,
-                image: getAssetPath('./assets/img/screen-automations.png')
+                image: getAssetPath('./img-appflow-activator/screen-automations.png')
             },
         ];
         this.currentScreen = 0;
@@ -6748,19 +6748,20 @@ class AppflowActivator {
         this.indicators = [];
     }
     componentWillLoad() {
-        this.importGsap();
+        // if (!window) return window.onload = this.start;
+        // this.start()
     }
     importGsap() {
         if (window.gsap)
             return;
         const script = document.createElement('script');
-        script.src = this.gsapCdn;
+        // script.src = this.gsapCdn;
         script.onload = () => {
             if (!window)
                 return window.onload = this.start;
             this.start();
         };
-        script.onerror = () => console.error('error loading gsap library from: ', this.gsapCdn);
+        script.onerror = () => console.error('error loading gsap library from: ');
         document.body.appendChild(script);
     }
     start() {
@@ -6812,7 +6813,7 @@ class AppflowActivator {
     render() {
         return (h(Host, null, h("div", { class: "app-screenshot" }, this.screens.map((screen, i) => (h("img", { class: `screen ${i === this.currentScreen ? 'animate-in' : 'animate-out'}`, src: screen.image, width: "1153", height: "611", loading: i === 0 ? 'eager' : 'lazy', style: { 'position': i !== 0 ? 'absolute' : undefined } }))), h("div", { class: "nav" }, h(ResponsiveContainer, null, h("ul", null, this.screens.map((screen, i) => h("li", { class: (i === this.currentScreen) ? 'active' : 'default', onMouseEnter: () => this.override(i) }, screen.icon(i === this.currentScreen ? 'active' : 'default'), h(Heading, { level: 5 }, screen.name), h(Paragraph, { level: 4 }, screen.description), h("div", { class: "indicator", ref: (el) => this.indicators[i] = el })))))))));
     }
-    static get assetsDirs() { return ["assets"]; }
+    static get assetsDirs() { return ["img-appflow-activator"]; }
     get el() { return getElement(this); }
     static get style() { return appflowActivatorCss; }
     static get cmpMeta() { return {
@@ -12359,6 +12360,12 @@ const aaaLogo = ({ main = '#E21827' } = {}, props) => (h("svg", Object.assign({ 
 const amtrakLogo = ({ main = '#1E8DB5' } = {}, props) => (h("svg", Object.assign({ viewBox: "0 0 63.78 26.25" }, props),
     h("path", { fill: main, d: "M29.93 4.77l-.64-2.5-1.52 2.5h-1.79l-1.52-2.5-.63 2.5H21.9l1.24-3.9h2.11l1.64 2.67L28.5.87h2.1l1.24 3.9h-1.91zM15.98.88L13.2 4.73h1.87l.44-.68h2.91l.44.68h2.08L18.13.87h-2.15zm0 2.47l1-1.54 1 1.54h-2zM51.47.88l-2.8 3.86h1.88l.44-.68h2.91l.44.68h2.07L53.62.87h-2.15zm0 2.47l1-1.54 1 1.54h-2zM61.99 4.77L59.7 2.94v1.83H57.8V.87h1.91V2.6L62 .87h2.3l-2.58 1.88 2.79 2.02h-2.51zM45.42 4.77h2.2l-1.44-1.5c.8-.18 1.11-.63 1.11-1.12 0-.6-.44-.9-1.07-1.09-.68-.15-1.56-.19-2.4-.19h-2.95v3.87h1.92V3.57h1.63l1 1.2zm-2.63-3.1h1.2c.99 0 1.39.18 1.39.55 0 .3-.28.53-.6.57-.24.03-.48.07-.84.07H42.8v-1.2zM36.9 1.77v3h-1.96v-3h-2.47l.2-.9h6.74l-.2.9H36.9zM27.23 23.08c3.95 1.56 8 3 11.53 4.05 4.17-8.1 11.75-14.53 25.74-20.44v-.31c-17.94 4.77-29.16 8.2-37.27 16.7zM34.57 7.3C30.62 7.08 9.9 6.49.7 10.86c2.46 1.65 5.13 3.3 8.33 5.2 9.19-4.73 20.94-6.38 31.83-7.09v-.35c-2.14-.24-4.48-.71-6.3-1.3z" }),
     h("path", { fill: main, d: "M44.63 8.81C36.41 9.66 22 12 13.77 17.06c2.99 1.49 6.09 2.97 9.3 4.34 8.53-7.3 20.07-10.58 31.71-12.8V8.3c-2.88.31-7.37.52-10.15.52z" })));
+const appflowLogoWithText = ({ main = '#639CFF', second = '#4F68FF', third = '#001A3A' } = {}, props) => (h("svg", Object.assign({ viewBox: "0 0 114 24" }, props),
+    h("path", { fill: third, d: "M43.882 6.392v11.781h-2.994v-1.439c-.754 1.08-2.102 1.709-3.793 1.709-3.474 0-5.508-2.743-5.508-6.16 0-3.418 2.034-6.16 5.508-6.16 1.69 0 3.039.629 3.793 1.708V6.392h2.994zm-6.102 2.54c-1.805 0-2.948 1.44-2.948 3.35 0 1.912 1.143 3.35 2.948 3.35 1.806 0 2.948-1.438 2.948-3.35 0-1.91-1.142-3.35-2.948-3.35zM48.446 22.528H45.2V6.392h2.993v1.44c.755-1.08 2.103-1.71 3.794-1.71 3.474 0 5.507 2.743 5.507 6.16 0 3.418-2.033 6.16-5.507 6.16-1.691 0-2.925-.718-3.542-1.528v5.614zm2.856-6.895c1.806 0 2.948-1.44 2.948-3.35 0-1.911-1.142-3.35-2.948-3.35-1.805 0-2.947 1.439-2.947 3.35 0 1.91 1.142 3.35 2.947 3.35zM61.759 22.528h-3.245V6.392h2.993v1.44c.755-1.08 2.103-1.71 3.794-1.71 3.474 0 5.507 2.743 5.507 6.16 0 3.418-2.034 6.16-5.507 6.16-1.691 0-2.925-.718-3.542-1.528v5.614zm2.856-6.895c1.806 0 2.948-1.44 2.948-3.35 0-1.911-1.142-3.35-2.948-3.35-1.805 0-2.947 1.439-2.947 3.35 0 1.91 1.142 3.35 2.947 3.35zM81.363 1.472h-3.245v16.701h3.245V1.472zM75.02 5.541c0-.99.584-1.304 1.361-1.304.366 0 .748.023.748.023V1.517s-.715-.045-1.287-.045c-2.422 0-4.067 1.304-4.067 4.136v12.565h3.245V8.91h2.177V6.392H75.02v-.851zM82.305 12.283c0-3.35 2.445-6.16 6.285-6.16 3.839 0 6.284 2.81 6.284 6.16s-2.445 6.16-6.284 6.16c-3.84 0-6.285-2.81-6.285-6.16zm6.285 3.35c1.713 0 3.039-1.237 3.039-3.35 0-2.114-1.326-3.35-3.04-3.35-1.713 0-3.039 1.236-3.039 3.35 0 2.113 1.326 3.35 3.04 3.35zM103.816 10.889h-.045l-2.445 7.284h-3.04l-4.182-11.78h3.36l2.4 7.756 2.467-7.757h2.925l2.491 7.802 2.422-7.802h3.291l-4.182 11.781h-3.039l-2.423-7.284z" }),
+    h("ellipse", { cx: "13.764", cy: "16.755", rx: "2.99", ry: "2.943", fill: second }),
+    h("path", { d: "M26.988 24L16.823 0h-6.099L20.89 24h6.099z", fill: second }),
+    h("path", { opacity: ".2", d: "M14.854 9.75L16.824 0h-6.1l2.541 6 1.271 3 .159.375.159.375z", fill: "#000" }),
+    h("path", { d: "M.54 24L10.705 0h6.098L6.64 24H.54z", fill: main })));
 const appleStoreCheckedIcon = ({ main = '#30cdfb', second = '#1d70f1', third = '#597EFF', fourth = '#fff' } = {}, props) => (h("svg", Object.assign({ viewBox: "0 0 52 52" }, props),
     h("rect", { fill: "url(#app_store_checked_icon_gradient_0)", y: "4", width: "48", height: "48", rx: "15.2852" }),
     h("circle", { fill: fourth, cx: "43.9999", cy: "7.99991", r: "5.99991" }),
@@ -12487,16 +12494,17 @@ const getPage = async (prismicId) => {
     }
 };
 
-const landingPageCss = ":root{--p2-color:var(--c-indigo-80);--p3-color:var(--c-indigo-80);--p4-color:var(--c-indigo-80);--poster1-color:#fff;--h2-color:var(--c-carbon-100);--h4-color:var(--c-carbon-100);--h5-color:var(--c-carbon-100);--h6-color:var(--c-lavender-70);--p2-color:var(--c-indigo-80);--p3-color:var(--c-indigo-80);--p4-color:var(--c-indigo-80)}a{color:var(--c-lavender-80)}.ui-heading-2{-webkit-margin-after:var(--space-5);margin-block-end:var(--space-5)}.ui-heading-4{-webkit-margin-after:var(--space-3);margin-block-end:var(--space-3)}.ui-heading-5{-webkit-margin-after:var(--space-3);margin-block-end:var(--space-3)}.ui-heading-6{-webkit-margin-after:var(--space-6);margin-block-end:var(--space-6)}@media screen and (min-width: 1200px){.ui-container{width:1120px;-webkit-padding-start:0;padding-inline-start:0;-webkit-padding-end:0;padding-inline-end:0}}#top{min-height:992px}#top .background{width:max(1800px, 100%);position:absolute;left:min(calc((100% - 1800px) / 2), 0px);z-index:-1}#top .heading-group{-webkit-margin-start:auto;margin-inline-start:auto;-webkit-margin-end:auto;margin-inline-end:auto;max-width:800px;min-height:326px;-webkit-padding-before:var(--space-11);padding-block-start:var(--space-11);-webkit-padding-after:74px;padding-block-end:74px;text-align:center}#top .heading-group .ui-paragraph{-webkit-margin-before:var(--space-5);margin-block-start:var(--space-5);-webkit-margin-after:var(--space-6);margin-block-end:var(--space-6);color:#fff}#top .heading-group .cta{display:-ms-inline-flexbox;display:inline-flex;padding:15px 16px;background:#fff;border-radius:var(--radius-4);-ms-flex-pack:center;justify-content:center;-ms-flex-align:center;align-items:center;font-weight:600;font-size:14px;line-height:112%;letter-spacing:-0.02em}#top .heading-group .cta::after{content:\" ->\";font-size:18px;letter-spacing:0;white-space:pre}#companies{-webkit-margin-before:160px;margin-block-start:160px}#companies .ui-heading{-webkit-margin-after:var(--space-8);margin-block-end:var(--space-8);color:var(--c-indigo-70);text-align:center}#companies .logos{display:-ms-flexbox;display:flex;-webkit-margin-start:auto;margin-inline-start:auto;-webkit-margin-end:auto;margin-inline-end:auto;-ms-flex-positive:1;flex-grow:1;max-width:1019px;-ms-flex-pack:justify;justify-content:space-between;-ms-flex-align:center;align-items:center;-ms-flex-wrap:wrap;flex-wrap:wrap}#companies .logos .wrapper{display:inline-grid;-ms-flex-positive:1;flex-grow:1;min-width:400px;grid-template-columns:repeat(auto-fit, minmax(64px, 1fr));row-gap:var(--space-6);justify-items:center;-ms-flex-align:center;align-items:center}@media screen and (max-width: 767px){#companies .logos .wrapper{-ms-flex-preferred-size:400px;flex-basis:400px;min-width:auto}}#companies .logos .wrapper:first-of-type{-ms-flex-positive:1.3333333333;flex-grow:1.3333333333}#ship{-webkit-margin-before:160px;margin-block-start:160px;-webkit-margin-after:160px;margin-block-end:160px}#ship .heading-group{-webkit-margin-start:auto;margin-inline-start:auto;-webkit-margin-end:auto;margin-inline-end:auto;-webkit-margin-after:var(--space-11);margin-block-end:var(--space-11);max-width:736px;text-align:center}#ship .list{display:-ms-flexbox;display:flex;-ms-flex-preferred-size:352px;flex-basis:352px;-ms-flex-pack:justify;justify-content:space-between;-ms-flex-wrap:wrap;flex-wrap:wrap}#ship .list .list-item{-webkit-margin-start:auto;margin-inline-start:auto;-webkit-margin-end:auto;margin-inline-end:auto;-ms-flex-preferred-size:352px;flex-basis:352px}#push .list .list-item svg{-webkit-margin-after:var(--space-5);margin-block-end:var(--space-5)}#live{-webkit-padding-before:160px;padding-block-start:160px;-webkit-padding-after:160px;padding-block-end:160px}#live .list{-webkit-margin-before:var(--space-8);margin-block-start:var(--space-8)}#live .list .list-item{display:-ms-flexbox;display:flex;-ms-flex-align:center;align-items:center}#live .list .list-item svg{-webkit-margin-end:var(--space-3);margin-inline-end:var(--space-3)}#live .list .list-item+.list-item{-webkit-margin-before:var(--space-2);margin-block-start:var(--space-2)}#native{background:var(--c-indigo-0);-webkit-padding-before:160px;padding-block-start:160px;-webkit-padding-after:160px;padding-block-end:160px}#native .heading-group{-webkit-margin-after:72px;margin-block-end:72px}#native .subtext svg{-webkit-margin-after:var(--space-5);margin-block-end:var(--space-5)}#automate{-webkit-padding-before:160px;padding-block-start:160px;-webkit-padding-after:302px;padding-block-end:302px}#managed{-webkit-padding-before:256px;padding-block-start:256px;-webkit-padding-after:260px;padding-block-end:260px}#experience{background:var(--c-purple-60);-webkit-padding-before:160px;padding-block-start:160px;-webkit-padding-after:160px;padding-block-end:160px}#experience .subtext .ui-heading{-webkit-margin-after:var(--space-2);margin-block-end:var(--space-2)}#experience .subtext .ui-paragraph{-webkit-margin-after:var(--space-6);margin-block-end:var(--space-6);color:var(--c-lavender-10)}#experience .ui-heading{color:#fff}#experience .cta{display:-ms-inline-flexbox;display:inline-flex;padding:14px 16px;background:#8C93FF;color:#fff;border-radius:var(--radius-4);-ms-flex-pack:center;justify-content:center;-ms-flex-align:center;align-items:center;font-weight:600;font-size:14px;line-height:112%;letter-spacing:-0.02em}#experience .cta::after{content:\" ->\";letter-spacing:0;white-space:pre}#experience .list-item{display:-ms-flexbox;display:flex;-ms-flex-align:center;align-items:center}#experience .list-item+.list-item{-webkit-margin-before:14px;margin-block-start:14px}#experience .list-item svg{-webkit-margin-end:var(--space-3);margin-inline-end:var(--space-3)}#experience .list-item .ui-paragraph{color:var(--c-lavender-0)}#get-started{background:#212752;-webkit-padding-before:120px;padding-block-start:120px;-webkit-padding-after:119px;padding-block-end:119px}#get-started .ui-heading{-webkit-margin-after:7px;margin-block-end:7px;color:#fff}#get-started .ui-paragraph{color:var(--c-lavender-50)}#get-started .cta{display:-ms-inline-flexbox;display:inline-flex;padding:14px 16px;background:var(--c-lavender-60);color:#fff;border-radius:var(--radius-4);-ms-flex-pack:center;justify-content:center;-ms-flex-align:center;align-items:center;font-weight:600;font-size:16px;line-height:112%;letter-spacing:-0.02em}#get-started .cta::after{content:\" ->\";letter-spacing:0;white-space:pre}";
+const landingPageCss = ":root{--p2-color:var(--c-indigo-80);--p3-color:var(--c-indigo-80);--p4-color:var(--c-indigo-80);--poster1-color:#fff;--h2-color:var(--c-carbon-100);--h4-color:var(--c-carbon-100);--h5-color:var(--c-carbon-100);--h6-color:var(--c-lavender-70);--p2-color:var(--c-indigo-80);--p3-color:var(--c-indigo-80);--p4-color:var(--c-indigo-80)}a{color:var(--c-lavender-80)}.ui-heading-2{-webkit-margin-after:var(--space-5);margin-block-end:var(--space-5)}.ui-heading-4{-webkit-margin-after:var(--space-3);margin-block-end:var(--space-3)}.ui-heading-5{-webkit-margin-after:var(--space-3);margin-block-end:var(--space-3)}.ui-heading-6{-webkit-margin-after:var(--space-6);margin-block-end:var(--space-6)}@media screen and (min-width: 1200px){.ui-container{width:1120px;-webkit-padding-start:0;padding-inline-start:0;-webkit-padding-end:0;padding-inline-end:0}}#top{min-height:992px}#top .background{width:max(1800px, 100%);position:absolute;left:min(calc((100% - 1800px) / 2), 0px);z-index:-1}#top .heading-group{-webkit-margin-start:auto;margin-inline-start:auto;-webkit-margin-end:auto;margin-inline-end:auto;max-width:800px;min-height:326px;-webkit-padding-before:var(--space-11);padding-block-start:var(--space-11);-webkit-padding-after:74px;padding-block-end:74px;text-align:center}#top .heading-group .ui-paragraph{-webkit-margin-before:var(--space-5);margin-block-start:var(--space-5);-webkit-margin-after:var(--space-6);margin-block-end:var(--space-6);color:#fff}#top .heading-group .cta{display:-ms-inline-flexbox;display:inline-flex;padding:15px 16px;background:#fff;border-radius:var(--radius-4);-ms-flex-pack:center;justify-content:center;-ms-flex-align:center;align-items:center;font-weight:600;font-size:14px;line-height:112%;letter-spacing:-0.02em}#top .heading-group .cta::after{content:\" ->\";font-size:18px;letter-spacing:0;white-space:pre}#companies{-webkit-margin-before:160px;margin-block-start:160px}#companies .ui-heading{-webkit-margin-after:var(--space-8);margin-block-end:var(--space-8);color:var(--c-indigo-70);text-align:center}#companies .logos{display:-ms-flexbox;display:flex;-webkit-margin-start:auto;margin-inline-start:auto;-webkit-margin-end:auto;margin-inline-end:auto;-ms-flex-positive:1;flex-grow:1;max-width:1019px;-ms-flex-pack:justify;justify-content:space-between;-ms-flex-align:center;align-items:center;-ms-flex-wrap:wrap;flex-wrap:wrap}#companies .logos .wrapper{display:inline-grid;-ms-flex-positive:1;flex-grow:1;min-width:400px;grid-template-columns:repeat(auto-fit, minmax(64px, 1fr));row-gap:var(--space-6);justify-items:center;-ms-flex-align:center;align-items:center}@media screen and (max-width: 767px){#companies .logos .wrapper{-ms-flex-preferred-size:400px;flex-basis:400px;min-width:auto}}#companies .logos .wrapper:first-of-type{-ms-flex-positive:1.3333333333;flex-grow:1.3333333333}#ship{-webkit-margin-before:160px;margin-block-start:160px;-webkit-margin-after:160px;margin-block-end:160px}#ship .heading-group{-webkit-margin-start:auto;margin-inline-start:auto;-webkit-margin-end:auto;margin-inline-end:auto;-webkit-margin-after:var(--space-11);margin-block-end:var(--space-11);max-width:736px;text-align:center}#ship .list{display:-ms-flexbox;display:flex;-ms-flex-preferred-size:352px;flex-basis:352px;-ms-flex-pack:justify;justify-content:space-between;-ms-flex-wrap:wrap;flex-wrap:wrap}#ship .list .list-item{-webkit-margin-start:auto;margin-inline-start:auto;-webkit-margin-end:auto;margin-inline-end:auto;-ms-flex-preferred-size:352px;flex-basis:352px}#push{background:var(--c-indigo-0);-webkit-padding-before:160px;padding-block-start:160px;-webkit-padding-after:160px;padding-block-end:160px;contain:content}#push .ui-container{display:-ms-flexbox;display:flex}#push .text{max-width:448px}#push .text .heading-group{-webkit-margin-after:72px;margin-block-end:72px}#push .list{display:grid;grid-template-columns:repeat(auto-fit, minmax(0px, 192px));-webkit-column-gap:var(--space-9);-moz-column-gap:var(--space-9);column-gap:var(--space-9)}#push .list .list-item svg{-webkit-margin-after:var(--space-5);margin-block-end:var(--space-5)}#push .image{display:-ms-flexbox;display:flex;-ms-flex-positive:1;flex-grow:1;-ms-flex-pack:center;justify-content:center}#push .image__wrapper{display:-ms-flexbox;display:flex;width:auto;position:absolute;left:50%;-ms-flex-direction:column;flex-direction:column}#push .image__wrapper .icons{-webkit-margin-start:var(--space-6);margin-inline-start:var(--space-6)}#push .image__wrapper .icons svg+svg{-webkit-margin-start:var(--space-5);margin-inline-start:var(--space-5)}#push .image__wrapper img{width:auto;max-width:1092px}#live{-webkit-padding-before:160px;padding-block-start:160px;-webkit-padding-after:160px;padding-block-end:160px}#live .text{max-width:448px}#live .list{-webkit-margin-before:var(--space-8);margin-block-start:var(--space-8)}#live .list .list-item{display:-ms-flexbox;display:flex;-ms-flex-align:center;align-items:center}#live .list .list-item svg{-webkit-margin-end:var(--space-3);margin-inline-end:var(--space-3)}#live .list .list-item+.list-item{-webkit-margin-before:var(--space-2);margin-block-start:var(--space-2)}#native{background:var(--c-indigo-0);-webkit-padding-before:160px;padding-block-start:160px;-webkit-padding-after:160px;padding-block-end:160px}#native .ui-container{display:-ms-flexbox;display:flex}#native .heading-group{-webkit-margin-after:72px;margin-block-end:72px}#native .heading-group .ui-heading{max-width:576px}#native .heading-group .ui-paragraph{max-width:448px}#native .subtext{max-width:256px}#native .subtext svg{-webkit-margin-after:var(--space-5);margin-block-end:var(--space-5)}#native .image{display:-ms-flexbox;display:flex;-ms-flex-positive:1;flex-grow:1;position:relative;-ms-flex-pack:center;justify-content:center}#native .image__wrapper{width:auto;position:absolute;top:calc(50% + 150px);right:-150px;left:-250px;-webkit-transform:translateY(-50%);transform:translateY(-50%)}#native .image__wrapper img{max-width:857px}#automate{-webkit-padding-before:160px;padding-block-start:160px;-webkit-padding-after:302px;padding-block-end:302px}#managed{position:relative;-webkit-padding-before:256px;padding-block-start:256px;-webkit-padding-after:260px;padding-block-end:260px}#managed .ui-container{display:-ms-flexbox;display:flex}#managed .text{max-width:448px}#managed .image{display:-ms-flexbox;display:flex;-ms-flex-positive:1;flex-grow:1;position:relative;-ms-flex-pack:center;justify-content:center}#managed .image__wrapper{width:auto;position:absolute;top:50%;right:-150px;left:-25px;-webkit-transform:translateY(-50%);transform:translateY(-50%)}#managed .image__wrapper img{max-width:827px}#experience{background:var(--c-purple-60);-webkit-padding-before:160px;padding-block-start:160px;-webkit-padding-after:160px;padding-block-end:160px}#experience .subtext .ui-heading{-webkit-margin-after:var(--space-2);margin-block-end:var(--space-2)}#experience .subtext .ui-paragraph{-webkit-margin-after:var(--space-6);margin-block-end:var(--space-6);color:var(--c-lavender-10)}#experience .ui-heading{color:#fff}#experience .cta{display:-ms-inline-flexbox;display:inline-flex;padding:14px 16px;background:#8C93FF;color:#fff;border-radius:var(--radius-4);-ms-flex-pack:center;justify-content:center;-ms-flex-align:center;align-items:center;font-weight:600;font-size:14px;line-height:112%;letter-spacing:-0.02em}#experience .cta::after{content:\" ->\";letter-spacing:0;white-space:pre}#experience .list-item{display:-ms-flexbox;display:flex;-ms-flex-align:center;align-items:center}#experience .list-item+.list-item{-webkit-margin-before:14px;margin-block-start:14px}#experience .list-item svg{-webkit-margin-end:var(--space-3);margin-inline-end:var(--space-3)}#experience .list-item .ui-paragraph{color:var(--c-lavender-0)}#get-started{background:#212752;-webkit-padding-before:120px;padding-block-start:120px;-webkit-padding-after:119px;padding-block-end:119px}#get-started .ui-heading{-webkit-margin-after:7px;margin-block-end:7px;color:#fff}#get-started .ui-paragraph{color:var(--c-lavender-50)}#get-started .cta{display:-ms-inline-flexbox;display:inline-flex;padding:14px 16px;background:var(--c-lavender-60);color:#fff;border-radius:var(--radius-4);-ms-flex-pack:center;justify-content:center;-ms-flex-align:center;align-items:center;font-weight:600;font-size:16px;line-height:112%;letter-spacing:-0.02em}#get-started .cta::after{content:\" ->\";letter-spacing:0;white-space:pre}";
 
 class LandingPage {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.render = () => (h(Host, null, h("header", null, h("appflow-site-header", null)), h("main", null, h(Top, null), h(Companies, null), h(Ship, null), h(Push, null), h(Live, null), h(Native, null), h(Automate, null), h(Managed, null), h(Experience, null), h(GetStarted, null)), h("footer", null)));
+        this.render = () => (h(Host, null, h("header", null, h("appflow-site-header", null)), h("main", null, h(Top, null), h(Companies, null), h(Ship, null), h(Push, null), h(Live, null), h(Native, null), h(Automate, null), h(Managed, null), h(Experience, null), h(GetStarted, null)), h("footer", null, h("appflow-site-footer", null))));
     }
     async componentWillLoad() {
         await getPage('appflow_homepage');
     }
+    static get assetsDirs() { return ["img-landing-page"]; }
     static get style() { return landingPageCss; }
     static get cmpMeta() { return {
         "$flags$": 0,
@@ -12530,15 +12538,15 @@ const Push = () => {
         publishingIcon({}, { width: 48, height: 48 }),
         appleCloudIcon({}, { width: 48, height: 48 })
     ];
-    return (h("section", { id: "push" }, h(ResponsiveContainer, null, h(PrismicRichText, { richText: push, paragraphLevel: 2 }), h("ul", { class: "list" }, push__list.map(({ content }, i) => (h("li", { class: "list-item" }, icons[i], h(PrismicRichText, { richText: content, paragraphLevel: 4 })))))), appleStoreCheckedIcon({}, { width: 52, height: 52 }), testflightLogo({}, { width: 52, height: 52 }), googleStoreCheckedIcon({}, { width: 52, height: 52 })));
+    return (h("section", { id: "push" }, h("div", { class: "push__wrapper" }, h(ResponsiveContainer, null, h("div", { class: "text" }, h("div", { class: "heading-group" }, h(PrismicRichText, { richText: push, paragraphLevel: 2 })), h("ul", { class: "list" }, push__list.map(({ content }, i) => (h("li", { class: "list-item" }, icons[i], h(PrismicRichText, { richText: content, paragraphLevel: 4 })))))), h("div", { class: "image" }, h("div", { class: "image__wrapper" }, h("div", { class: "icons" }, appleStoreCheckedIcon({}, { width: 52, height: 52 }), testflightLogo({}, { width: 52, height: 52 }), googleStoreCheckedIcon({}, { width: 52, height: 52 })), h("img", { src: getAssetPath('./img-landing-page/push@2x.png'), srcset: `${getAssetPath('./img-landing-page/push.png')}, ${getAssetPath('./img-landing-page/push@2x.png')} 2x`, loading: "lazy", width: "1568", height: "1234" })))))));
 };
 const Live = () => {
     const { live, live__list } = state.pageData;
-    return (h("section", { id: "live" }, h(ResponsiveContainer, null, h(PrismicRichText, { richText: live, paragraphLevel: 2 }), h("ul", { class: "list" }, live__list.map(({ content }) => (h("li", { class: "list-item" }, checkmarkCircle({}, { width: 16, height: 16 }), h(Paragraph, null, content))))), h("phone-animator", null))));
+    return (h("section", { id: "live" }, h(ResponsiveContainer, null, h("div", { class: "text" }, h(PrismicRichText, { richText: live, paragraphLevel: 2 }), h("ul", { class: "list" }, live__list.map(({ content }) => (h("li", { class: "list-item" }, checkmarkCircle({}, { width: 16, height: 16 }), h(Paragraph, null, content)))))))));
 };
 const Native = () => {
     const { native, native__subtext } = state.pageData;
-    return (h("section", { id: "native" }, h(ResponsiveContainer, null, h("div", { class: "heading-group" }, h(PrismicRichText, { richText: native, paragraphLevel: 2 })), h("div", { class: "subtext" }, cloudCircleIcon({}, { width: 48, height: 48 }), h(PrismicRichText, { richText: native__subtext, paragraphLevel: 4 })))));
+    return (h("section", { id: "native" }, h(ResponsiveContainer, null, h("div", null, h("div", { class: "heading-group" }, h(PrismicRichText, { richText: native, paragraphLevel: 2 })), h("div", { class: "subtext" }, cloudCircleIcon({}, { width: 48, height: 48 }), h(PrismicRichText, { richText: native__subtext, paragraphLevel: 4 }))), h("div", { class: "image" }, h("div", { class: "image__wrapper" }, h("img", { src: getAssetPath('./img-landing-page/native@2x.png'), srcset: `${getAssetPath('./img-landing-page/native.png')}, ${getAssetPath('./img-landing-page/native@2x.png')} 2x`, loading: "lazy", width: "1805", height: "1177" }))))));
 };
 const Automate = () => {
     const { automate, automate__subtext } = state.pageData;
@@ -12546,7 +12554,8 @@ const Automate = () => {
 };
 const Managed = () => {
     const { managed } = state.pageData;
-    return (h("section", { id: "managed" }, h(ResponsiveContainer, null, h(PrismicRichText, { richText: managed, paragraphLevel: 2 }))));
+    return (h("section", { id: "managed" }, h(ResponsiveContainer, null, h("div", { class: "text" }, h(PrismicRichText, { richText: managed, paragraphLevel: 2 })), h("div", { class: "image" }, h("div", { class: "image__wrapper" }, h("img", { src: getAssetPath('./img-landing-page/managed@2x.png'), srcset: `${getAssetPath('./img-landing-page/managed.png')} 1x,
+                      ${getAssetPath('./img-landing-page/managed@2x.png')} 2x`, loading: "lazy", width: "1704", height: "1511" }))))));
 };
 const Experience = () => {
     const { experience__title, experience__subtext, experience__cta, experience__list } = state.pageData;
@@ -12940,38 +12949,124 @@ class NewsletterForm {
     }; }
 }
 
-const phoneAnimatorCss = ".sc-phone-animator-h{display:inline-block}.anim-updates.sc-phone-animator{position:absolute;z-index:4;top:0;bottom:0;left:50%;-webkit-transform:translateX(-100px);transform:translateX(-100px);display:-ms-flexbox;display:flex;-ms-flex-align:center;align-items:center}.anim-updates__root.sc-phone-animator{width:726px;height:437px;position:relative}.anim-updates__foreground.sc-phone-animator,.anim-updates__background.sc-phone-animator{width:100%;height:100%;position:absolute;top:0;left:0}.anim-updates__foreground.sc-phone-animator{z-index:10;-webkit-transform:translateZ(1000px);transform:translateZ(1000px)}.anim-updates__background.sc-phone-animator{z-index:1;-webkit-transform:translateZ(100px);transform:translateZ(100px)}.anim-updates__device.sc-phone-animator{width:801px;height:481px;background-image:url(\"/img/pro/updates-illustration-device.png\");background-repeat:no-repeat;background-size:801px 481px;position:absolute;top:0;left:0;z-index:5;-webkit-transform:translateZ(500px);transform:translateZ(500px)}.anim-updates__screen.sc-phone-animator{width:298px;height:924px;background:#5d37ff;position:absolute;top:3px;left:506px;-webkit-transform-origin:top left;transform-origin:top left;-webkit-transform:rotateX(65.4deg) rotateY(1.4deg) rotateZ(32.9deg) skew(-2deg, -4.1deg);transform:rotateX(65.4deg) rotateY(1.4deg) rotateZ(32.9deg) skew(-2deg, -4.1deg);border-radius:32px}@media (max-width: 992px){.anim-updates.sc-phone-animator{-webkit-transform:translate(-180px, -56px) scale(0.7);transform:translate(-180px, -56px) scale(0.7)}.content.sc-phone-animator{padding-top:164px;padding-bottom:164px;min-height:unset}}@media (max-width: 768px){.anim-updates.sc-phone-animator{-webkit-transform:translateX(-50%) scale(0.7);transform:translateX(-50%) scale(0.7);opacity:0.3}.content.sc-phone-animator{min-height:unset;padding-top:164px;padding-bottom:164px;width:100%;max-width:500px;margin-left:auto;margin-right:auto;text-align:center}}@media (max-width: 480px){.anim-updates.sc-phone-animator{-webkit-transform:translateX(-50%) scale(0.5);transform:translateX(-50%) scale(0.5)}.content.sc-phone-animator{padding-top:100px;padding-bottom:100px}}";
+const phoneAnimatorCss = ".sc-phone-animator-h{display:inline-block}.anim-updates.sc-phone-animator{position:absolute;z-index:4;top:0;bottom:0;left:50%;-webkit-transform:translateX(-100px);transform:translateX(-100px);display:-ms-flexbox;display:flex;-ms-flex-align:center;align-items:center}.anim-updates__root.sc-phone-animator{width:726px;height:437px;position:relative}.anim-updates__foreground.sc-phone-animator,.anim-updates__background.sc-phone-animator{width:100%;height:100%;position:absolute;top:0;left:0}.anim-updates__foreground.sc-phone-animator{z-index:10;-webkit-transform:translateZ(1000px);transform:translateZ(1000px)}.anim-updates__background.sc-phone-animator{z-index:1;-webkit-transform:translateZ(100px);transform:translateZ(100px)}.anim-updates__device.sc-phone-animator{width:801px;height:481px;position:absolute;top:0;left:0;z-index:5;-webkit-transform:translateZ(500px);transform:translateZ(500px)}.anim-updates__screen.sc-phone-animator{width:298px;height:924px;background:#5d37ff;position:absolute;top:3px;left:506px;-webkit-transform-origin:top left;transform-origin:top left;-webkit-transform:rotateX(65.4deg) rotateY(1.4deg) rotateZ(32.9deg) skew(-2deg, -4.1deg);transform:rotateX(65.4deg) rotateY(1.4deg) rotateZ(32.9deg) skew(-2deg, -4.1deg);border-radius:32px}@media (max-width: 992px){.anim-updates.sc-phone-animator{-webkit-transform:translate(-180px, -56px) scale(0.7);transform:translate(-180px, -56px) scale(0.7)}.content.sc-phone-animator{padding-top:164px;padding-bottom:164px;min-height:unset}}@media (max-width: 768px){.anim-updates.sc-phone-animator{-webkit-transform:translateX(-50%) scale(0.7);transform:translateX(-50%) scale(0.7);opacity:0.3}.content.sc-phone-animator{min-height:unset;padding-top:164px;padding-bottom:164px;width:100%;max-width:500px;margin-left:auto;margin-right:auto;text-align:center}}@media (max-width: 480px){.anim-updates.sc-phone-animator{-webkit-transform:translateX(-50%) scale(0.5);transform:translateX(-50%) scale(0.5)}.content.sc-phone-animator{padding-top:100px;padding-bottom:100px}}";
 
 // import { IntersectionHelper } from '@ionic-internal/ionic-ds'
 class PhoneAnimator {
     constructor(hostRef) {
         registerInstance(this, hostRef);
-        this.gsapCdn = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.4.2/gsap.min.js';
+        this.gsapCdns = [
+            'https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.4/TweenLite.min.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.4/TimelineLite.min.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.4/easing/EasePack.min.js'
+        ];
+        this.foregroundColors = ['#5d37ff', '#7b69ff', '#b9bbff', '#f9fafc'];
+        this.backgroundColors = ['#5d37ff', '#7b69ff', '#b9bbff', '#f9fafc'];
+        this.spacing = 208;
+        this.foregroundScreens = [];
+        this.backgroundScreens = [];
         this.isPaused = false;
-        this.phoneOutline = (props, color = '#5947FB') => (h("svg", Object.assign({ width: "572", viewBox: "3.79372501373291 42.47918701171875 565.734130859375 307.3506164550781" }, props), h("path", { fill: color, "fill-rule": "evenodd", "clip-rule": "evenodd", d: "M552.914 83.812L399.797 43.6352C385.537 40.4843 366.436 44.1538 357.561 50.0635L7.68016 286.093C0.286579 293.323 3.75508 301.665 15.4273 304.725L185.396 348.781C197.068 351.841 209.539 347.868 219.917 341.23L560.777 103.338C575.541 92.6268 570.759 88.6685 552.914 83.812Z" })));
     }
     componentWillLoad() {
         this.importGsap();
     }
     importGsap() {
-        if (window.gsap) {
-            this.start();
-            return;
-        }
-        const script = document.createElement('script');
-        script.src = this.gsapCdn;
-        script.onload = () => {
-            if (!window)
-                return window.onload = this.start;
-            this.start();
-        };
-        script.onerror = () => console.error('error loading gsap library from: ', this.gsapCdn);
-        document.body.appendChild(script);
+        this.gsapCdns.forEach((cdn) => {
+            // if (window.gsap) {
+            //   return;
+            // }
+            const script = document.createElement('script');
+            script.src = cdn;
+            script.onload = () => {
+                if (!window)
+                    return window.onload = this.start;
+                this.start();
+            };
+            script.onerror = () => console.error('error loading gsap library from: ', cdn);
+            document.body.appendChild(script);
+        });
     }
     start() {
-        this.timeline = gsap.timeline();
-        console.log(this.timeline);
-        // timeline.to()
+        for (let i = 0; i < 4; i++) {
+            let screen = document.createElement('div');
+            screen.className = 'anim-updates__screen';
+            this.foregroundEl.appendChild(screen);
+            gsap.set(screen, {
+                backgroundColor: this.foregroundColors[i],
+                y: -i * this.spacing + 'px'
+            });
+            this.foregroundScreens.push(screen);
+        }
+        // create background screens
+        for (let j = 0; j < 4; j++) {
+            let screen = document.createElement('div');
+            screen.className = 'anim-updates__screen';
+            this.backgroundEl.insertBefore(screen, this.backgroundEl.firstChild);
+            gsap.set(screen, {
+                backgroundColor: this.backgroundColors[j],
+                y: (j) * this.spacing + 'px'
+            });
+            this.backgroundScreens.push(screen);
+        }
+        this.updatesTl = gsap.timeline();
+        this.createTimeline();
+        this.updatesTl.pause();
+        this.updatesTl.play();
+    }
+    createTimeline() {
+        this.updatesTl.add(function () {
+            for (let f = this.foregroundScreens.length - 1; f > 0; f--) {
+                let screen = this.foregroundScreens[f];
+                gsap.to(screen, 1, {
+                    backgroundColor: this.foregroundColors[f - 1],
+                    y: -(f - 1) * this.spacing + 'px',
+                    ease: Power3.easeInOut
+                });
+            }
+            for (let b = 0; b < this.backgroundScreens.length - 1; b++) {
+                let screen = this.backgroundScreens[b];
+                gsap.to(screen, 1, {
+                    backgroundColor: this.backgroundColors[b + 1],
+                    y: (b + 1) * this.spacing + 'px',
+                    ease: Power3.easeInOut
+                });
+            }
+        }, 0);
+        this.updatesTl.to(this.foregroundScreens[0], 1, {
+            backgroundColor: '#4d4668',
+        }, 0.3);
+        this.updatesTl.to(this.foregroundScreens[1], 0.5, {
+            boxShadow: '0px 0px 0px 0 #5d37ff',
+        }, 0.3);
+        this.updatesTl.add(function () {
+            let screen;
+            // cleanup foreground
+            this.foregroundScreens[0].remove();
+            this.foregroundScreens.shift();
+            screen = document.createElement('div');
+            screen.className = 'anim-updates__screen new';
+            this.foreground.appendChild(screen);
+            gsap.set(screen, {
+                backgroundColor: this.foregroundColors[3],
+                y: -(3) * this.spacing + 'px'
+            });
+            this.foregroundScreens.push(screen);
+            // cleanup background
+            this.backgroundScreens[this.backgroundScreens.length - 1].remove();
+            this.backgroundScreens.pop();
+            screen = document.createElement('div');
+            screen.className = 'anim-updates__screen new';
+            this.background.appendChild(screen);
+            gsap.set(screen, {
+                backgroundColor: this.backgroundColors[0],
+                y: 0
+            });
+            this.backgroundScreens.unshift(screen);
+        }, 1.2);
+        this.updatesTl.add(() => {
+            this.updatesTl.clear();
+            this.createTimeline();
+        }, 2.4);
     }
     onScroll() {
         // if (this.tween === null) return false;
@@ -12986,10 +13081,12 @@ class PhoneAnimator {
         //   this.isPaused = true;
         // }
     }
+    // phoneOutline = (props?, color = '#5947FB') => (
+    // );
     render() {
-        return (h(Host, null, this.phoneOutline({ id: 'phone1' }, 'transparent'), this.phoneOutline({ id: 'phone2' }, '#B8BDFD'), this.phoneOutline({ id: 'phone3' }, '#7870FB'), this.phoneOutline({ id: 'phone4' }, '#5947FB'), h("img", { src: getAssetPath('./assets/img/updates-illustration-device.png'), loading: "lazy" }), this.phoneOutline({ id: 'phone5' }, '#7870FB'), this.phoneOutline({ id: 'phone6' }, '#B8BDFD'), this.phoneOutline({ id: 'phone7' }, '#B8BDFD'), this.phoneOutline({ id: 'phone8' }, 'transparent')));
+        return (h(Host, null, h("div", { class: "anim-updates" }, h("div", { class: "anim-updates__root" }, h("div", { class: "anim-updates__foreground", ref: e => this.foregroundEl = e }), h("img", { src: getAssetPath('./img-phone-animator/updates-illustration-device.png'), class: "anim-updates__device" }), h("div", { class: "anim-updates__background", ref: e => this.backgroundEl = e })))));
     }
-    static get assetsDirs() { return ["assets"]; }
+    static get assetsDirs() { return ["img-phone-animator"]; }
     get el() { return getElement(this); }
     static get style() { return phoneAnimatorCss; }
     static get cmpMeta() { return {
@@ -13026,15 +13123,14 @@ class PlatformBar {
     }; }
 }
 
-const appflowSiteFooterCss = "";
+const appflowSiteFooterCss = ".sc-appflow-site-footer-h{display:block;-webkit-padding-before:var(--space-9);padding-block-start:var(--space-9);-webkit-padding-after:var(--space-9);padding-block-end:var(--space-9)}table.sc-appflow-site-footer th.sc-appflow-site-footer{font-weight:500;color:var(--c-indigo-100);text-align:start}table.sc-appflow-site-footer td.sc-appflow-site-footer{color:var(--c-indigo-80)}.main.sc-appflow-site-footer{display:-ms-flexbox;display:flex;-ms-flex-pack:justify;justify-content:space-between}.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer .title.sc-appflow-site-footer{font-weight:500;color:var(--c-indigo-100);-webkit-margin-after:13px;margin-block-end:13px}.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer form.sc-appflow-site-footer input.sc-appflow-site-footer{background:#FFFFFF;border:1px solid var(--c-indigo-40);-webkit-box-sizing:border-box;box-sizing:border-box;border-radius:var(--radius-4);padding:7px 14px;-webkit-margin-end:var(--space-1);margin-inline-end:var(--space-1)}.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer form.sc-appflow-site-footer input.sc-appflow-site-footer::-webkit-input-placeholder{color:var(--c-indigo-60)}.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer form.sc-appflow-site-footer input.sc-appflow-site-footer::-moz-placeholder{color:var(--c-indigo-60)}.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer form.sc-appflow-site-footer input.sc-appflow-site-footer:-ms-input-placeholder{color:var(--c-indigo-60)}.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer form.sc-appflow-site-footer input.sc-appflow-site-footer::-ms-input-placeholder{color:var(--c-indigo-60)}.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer form.sc-appflow-site-footer input.sc-appflow-site-footer::placeholder{color:var(--c-indigo-60)}.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer form.sc-appflow-site-footer button.sc-appflow-site-footer{font-weight:600;background:var(--c-lavender-70);border-radius:var(--radius-4);line-height:112%;color:#fff;padding:8.5px 12px}.bottom.sc-appflow-site-footer{display:-ms-flexbox;display:flex;-ms-flex-wrap:wrap;flex-wrap:wrap}.bottom.sc-appflow-site-footer>*.sc-appflow-site-footer{color:var(--c-indigo-50)}.bottom.sc-appflow-site-footer div.sc-appflow-site-footer+div.sc-appflow-site-footer{-webkit-margin-start:var(--space-3);margin-inline-start:var(--space-3)}.bottom.sc-appflow-site-footer .end.sc-appflow-site-footer{-ms-flex-positive:1;flex-grow:1;text-align:end}.bottom.sc-appflow-site-footer a.sc-appflow-site-footer{color:var(--c-indigo-70)}";
 
-// import {twitterLogo, slackLogo, githubLogo, facebookLogo, youtubeLogo, mediumLogo, stackOverflowLogo } from '../../svgs';
 class SiteFooter {
     constructor(hostRef) {
         registerInstance(this, hostRef);
     }
     render() {
-        return (h("footer", { id: "footer" }, h(ResponsiveContainer, { class: "footer__content" })));
+        return (h("footer", { id: "footer" }, h(ResponsiveContainer, { class: "footer__content" }, h("div", { class: "main" }, appflowLogoWithText({}, { width: 114, height: 24 }), h("table", null, h("thead", null, h("tr", null, h("th", { scope: "col", class: "ui-paragraph-5" }, "Product"), h("th", { scope: "col", class: "ui-paragraph-5" }, "Contact"))), h("tbody", null, h("tr", null, h("td", null, h("a", { href: "#", class: "ui-paragraph-5" }, "Why Appflow")), h("td", null, h("a", { href: "#", class: "ui-paragraph-5" }, "Contact us"))), h("tr", null, h("td", null, h("a", { href: "#", class: "ui-paragraph-5" }, "Resources")), h("td", null, h("a", { href: "#", class: "ui-paragraph-5" }, "Support"))), h("tr", null, h("td", null, h("a", { href: "#", class: "ui-paragraph-5" }, "Pricing")), h("td", null, h("a", { href: "#", class: "ui-paragraph-5" }, "Twitter"))), h("tr", null, h("td", null, h("a", { href: "#", class: "ui-paragraph-5" }, "Docs")), h("td", null, h("a", { href: "#", class: "ui-paragraph-5" }, "FAQ"))))), h("div", { class: "newsletter" }, h(Paragraph, { class: "title", level: 5 }, "Sign up for our newsletter and stay up-to-date"), h("div", null, h("form", { action: "" }, h("input", { type: "text", placeholder: "Email" }), h("button", { class: "ui-paragraph-5" }, "Send"))))), h("div", { class: "bottom" }, h("div", { class: "ui-paragraph-6" }, "\u00A9 ", (new Date).getFullYear(), " Appflow"), h("div", { class: "ui-paragraph-6" }, h("a", { href: "#" }, "Terms")), h("div", { class: "ui-paragraph-6" }, h("a", { href: "#" }, "Privacy")), h("div", { class: "end | ui-paragraph-6" }, "Part of the ", h("a", { href: "https://ionic.io/" }, "Ionic"), " ecosystem")))));
     }
     static get style() { return appflowSiteFooterCss; }
     static get cmpMeta() { return {
@@ -13090,7 +13186,7 @@ class SiteHeader {
         return (h(Host, { class: {
                 'site-header--sticky': sticky,
                 'site-header--expanded': expanded
-            } }, h("site-backdrop", { visible: expanded, onClick: () => this.toggleExpanded() }), h(ResponsiveContainer, { class: "site-header" }, h("a", Object.assign({}, href('/'), { class: "site-header__logo-link" }), h("svg", { width: "114", height: "24", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, h("path", { d: "M43.882 6.392v11.781h-2.994v-1.439c-.754 1.08-2.102 1.709-3.793 1.709-3.474 0-5.508-2.743-5.508-6.16 0-3.418 2.034-6.16 5.508-6.16 1.69 0 3.039.629 3.793 1.708V6.392h2.994zm-6.102 2.54c-1.805 0-2.948 1.44-2.948 3.35 0 1.912 1.143 3.35 2.948 3.35 1.806 0 2.948-1.438 2.948-3.35 0-1.91-1.142-3.35-2.948-3.35zM48.446 22.528H45.2V6.392h2.993v1.44c.755-1.08 2.103-1.71 3.794-1.71 3.474 0 5.507 2.743 5.507 6.16 0 3.418-2.033 6.16-5.507 6.16-1.691 0-2.925-.718-3.542-1.528v5.614zm2.856-6.895c1.806 0 2.948-1.44 2.948-3.35 0-1.911-1.142-3.35-2.948-3.35-1.805 0-2.947 1.439-2.947 3.35 0 1.91 1.142 3.35 2.947 3.35zM61.759 22.528h-3.245V6.392h2.993v1.44c.755-1.08 2.103-1.71 3.794-1.71 3.474 0 5.507 2.743 5.507 6.16 0 3.418-2.034 6.16-5.507 6.16-1.691 0-2.925-.718-3.542-1.528v5.614zm2.856-6.895c1.806 0 2.948-1.44 2.948-3.35 0-1.911-1.142-3.35-2.948-3.35-1.805 0-2.947 1.439-2.947 3.35 0 1.91 1.142 3.35 2.947 3.35zM81.363 1.472h-3.245v16.701h3.245V1.472zM75.02 5.541c0-.99.584-1.304 1.361-1.304.366 0 .748.023.748.023V1.517s-.715-.045-1.287-.045c-2.422 0-4.067 1.304-4.067 4.136v12.565h3.245V8.91h2.177V6.392H75.02v-.851zM82.305 12.283c0-3.35 2.445-6.16 6.285-6.16 3.839 0 6.284 2.81 6.284 6.16s-2.445 6.16-6.284 6.16c-3.84 0-6.285-2.81-6.285-6.16zm6.285 3.35c1.713 0 3.039-1.237 3.039-3.35 0-2.114-1.326-3.35-3.04-3.35-1.713 0-3.039 1.236-3.039 3.35 0 2.113 1.326 3.35 3.04 3.35zM103.816 10.889h-.045l-2.445 7.284h-3.04l-4.182-11.78h3.36l2.4 7.756 2.467-7.757h2.925l2.491 7.802 2.422-7.802h3.291l-4.182 11.781h-3.039l-2.423-7.284z", fill: "#001A3A" }), h("ellipse", { cx: "13.764", cy: "16.755", rx: "2.99", ry: "2.943", fill: "#4F68FF" }), h("path", { d: "M26.988 24L16.823 0h-6.099L20.89 24h6.099z", fill: "#4F68FF" }), h("path", { opacity: ".2", d: "M14.854 9.75L16.824 0h-6.1l2.541 6 1.271 3 .159.375.159.375z", fill: "#000" }), h("path", { d: "M.54 24L10.705 0h6.098L6.64 24H.54z", fill: "#639CFF" }))), h("button", { onClick: () => this.toggleExpanded(), class: "more-button" }, h("ion-icon", { icon: "ellipsis-vertical" })), h("div", { class: "site-header-links" }, h("div", { class: {
+            } }, h("site-backdrop", { visible: expanded, onClick: () => this.toggleExpanded() }), h(ResponsiveContainer, { class: "site-header" }, h("a", Object.assign({}, href('/'), { class: "site-header__logo-link" }), appflowLogoWithText({}, { width: 114, height: 24 })), h("button", { onClick: () => this.toggleExpanded(), class: "more-button" }, h("ion-icon", { icon: "ellipsis-vertical" })), h("div", { class: "site-header-links" }, h("div", { class: {
                 'site-header-links__menu': true,
                 'site-header-links__menu--hovered': !!hovered || !!forceHovered
             } }, h("nav", null, h(NavLink, { path: "/#features", hovered: (hovered || forceHovered) === 'features', onHover: this.setHovered('features'), onExit: clearHover }, "Product"), h(NavLink, { path: "/docs", hovered: hovered === 'docs', onHover: this.setHovered('docs'), onExit: clearHover }, "Why Appflow"), h(NavLink, { path: "/community", hovered: hovered === 'community' || forceHovered === 'community', onHover: this.setHovered('community'), onExit: clearHover }, "Resources"), h(NavLink, { path: "/blog", hovered: hovered === 'blog', onHover: this.setHovered('blog'), onExit: clearHover }, "Pricing"), h("a", { href: "https://ionicframework.com/native", target: "_blank", onMouseOver: this.setHovered('enterprise'), onMouseOut: clearHover, class: {

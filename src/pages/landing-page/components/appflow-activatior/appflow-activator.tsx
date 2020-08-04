@@ -7,35 +7,35 @@ import { ResponsiveContainer, Heading, Paragraph } from '@ionic-internal/ionic-d
   tag: 'appflow-activator',
   styleUrl: 'appflow-activator.scss',
   scoped: true,
-  assetsDir: 'img'
+  assetsDir: 'img-appflow-activator'
 })
 export class AppflowActivator {
-  private tween: GSAPTween;
   private gsapCdn = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.4.2/gsap.min.js';
+  private tween: GSAPTween;
   private screens: any = [
     {
       name: 'App Publishing',
       description: 'Publish directly to the Apple and Google App Stores.',
       icon: publishIcon,
-      image: getAssetPath('./img/screen-app-publishing.png')
+      image: getAssetPath('./img-appflow-activator/screen-app-publishing.png')
     },
     {
       name: 'Live Updates',
       description: 'Send live updates to users without waiting on app store approval.',
       icon: updatesIcon,
-      image: getAssetPath('./img/screen-live-updates.png')
+      image: getAssetPath('./img-appflow-activator/screen-live-updates.png')
     },
     {
       name: 'Native Builds',
       description: 'Compile native app binaries in the cloud.',
       icon: buildsIcon,
-      image: getAssetPath('./img/screen-native-builds.png')
+      image: getAssetPath('./img-appflow-activator/screen-native-builds.png')
     },
     {
       name: 'Automations',
       description: 'Fully automate your app delivery pipeline.',
       icon: automationsIcon,
-      image: getAssetPath('./img/screen-automations.png')
+      image: getAssetPath('./img-appflow-activator/screen-automations.png')
     },
   ];
 
@@ -47,24 +47,24 @@ export class AppflowActivator {
   duration = 6;//seconds
   indicators = [];
 
-
   componentWillLoad() {
     this.importGsap();
   }
 
-  importGsap() {
-      if (window.gsap) return;
-  
-      const script = document.createElement('script');
-      script.src = this.gsapCdn;
 
-      script.onload = () => {
-        if (!window) return window.onload = this.start;
-        this.start()
-      }
-      script.onerror = () => console.error('error loading gsap library from: ', this.gsapCdn);      
-  
-      document.body.appendChild(script);
+  importGsap() {
+    if (window.gsap) return;
+
+    const script = document.createElement('script');
+    script.src = this.gsapCdn;
+
+    script.onload = () => {
+      if (!window) return window.onload = this.start;
+      this.start()
+    }
+    script.onerror = () => console.error('error loading gsap library from: ', this.gsapCdn);      
+
+    document.body.appendChild(script);
   }
 
   start() {    

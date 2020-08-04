@@ -1,4 +1,4 @@
-import { Component, Host, h} from '@stencil/core';
+import { Component, Host, h, getAssetPath} from '@stencil/core';
 
 import { ResponsiveContainer, Paragraph, PrismicRichText, Heading, Grid, Col } from '@ionic-internal/ionic-ds';
 import { aaaLogo, amtrakLogo, nasaLogo, burgerKingLogo, catLogo, targetLogo, ibmLogo, triplePhoneIcon, tripleLayerIcon,
@@ -12,6 +12,7 @@ import state from '../../store';
 @Component({
   tag: 'landing-page',
   styleUrl: 'landing-page.scss',
+  assetsDir: 'img-landing-page'
 })
 export class LandingPage {
   
@@ -39,7 +40,7 @@ export class LandingPage {
       </main>
 
       <footer>
-
+        <appflow-site-footer></appflow-site-footer>
       </footer>
     </Host>
   )
@@ -185,20 +186,39 @@ const Push = () => {
 
   return (
     <section id="push">
-      <ResponsiveContainer>
-        <PrismicRichText richText={push} paragraphLevel={2} />
-        <ul class="list">
-          {push__list.map(({ content }, i) => (
-            <li class="list-item">
-              {icons[i]}
-              <PrismicRichText richText={content} paragraphLevel={4}/>
-            </li>
-          ))}
-        </ul>
-      </ResponsiveContainer>
-      {appleStoreCheckedIcon({}, { width: 52, height: 52 })}
-      {testflightLogo({}, { width: 52, height: 52 })}
-      {googleStoreCheckedIcon({}, { width: 52, height: 52 })}
+      <div class="push__wrapper">
+        <ResponsiveContainer>
+          <div class="text">
+            <div class="heading-group">
+              <PrismicRichText richText={push} paragraphLevel={2} />
+            </div>
+            <ul class="list">
+              {push__list.map(({ content }, i) => (
+                <li class="list-item">
+                  {icons[i]}
+                  <PrismicRichText richText={content} paragraphLevel={4}/>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div class="image"> 
+            <div class="image__wrapper">
+              <div class="icons">
+                {appleStoreCheckedIcon({}, { width: 52, height: 52 })}
+                {testflightLogo({}, { width: 52, height: 52 })}
+                {googleStoreCheckedIcon({}, { width: 52, height: 52 })}
+              </div>
+              <img
+                src={getAssetPath('./img-landing-page/push@2x.png')}
+                srcset={`${getAssetPath('./img-landing-page/push.png')}, ${getAssetPath('./img-landing-page/push@2x.png')} 2x`}
+                loading="lazy"
+                width="1568"
+                height="1234"
+              />
+            </div>
+          </div>
+        </ResponsiveContainer>
+      </div>
     </section>
   )
 }
@@ -209,15 +229,17 @@ const Live = () => {
   return (
     <section id="live">
       <ResponsiveContainer>
-        <PrismicRichText richText={live} paragraphLevel={2} />
-        <ul class="list">
-          {live__list.map(({ content }) => (
-            <li class="list-item">
-              {checkmarkCircle({}, { width: 16, height: 16})}
-              <Paragraph>{content}</Paragraph>
-            </li>
-          ))}
-        </ul>      
+        <div class="text">
+          <PrismicRichText richText={live} paragraphLevel={2} />
+          <ul class="list">
+            {live__list.map(({ content }) => (
+              <li class="list-item">
+                {checkmarkCircle({}, { width: 16, height: 16})}
+                <Paragraph>{content}</Paragraph>
+              </li>
+            ))}
+          </ul>      
+        </div>
         <phone-animator></phone-animator>      
       </ResponsiveContainer>
     </section>
@@ -230,14 +252,28 @@ const Native = () => {
   return (
     <section id="native">
       <ResponsiveContainer>
-        <div class="heading-group">
-          <PrismicRichText richText={native} paragraphLevel={2} />
+        <div>
+          <div class="heading-group">
+            <PrismicRichText richText={native} paragraphLevel={2} />
+          </div>
+          <div class="subtext">
+            {cloudCircleIcon({}, { width: 48, height: 48})}
+            <PrismicRichText richText={native__subtext} paragraphLevel={4} />
+          </div>   
+        </div>    
+        <div class="image"> 
+          <div class="image__wrapper">
+            <img
+              src={getAssetPath('./img-landing-page/native@2x.png')}
+              srcset={`${getAssetPath('./img-landing-page/native.png')}, ${getAssetPath('./img-landing-page/native@2x.png')} 2x`}
+              loading="lazy"
+              width="1805"
+              height="1177"
+            />
+          </div>
         </div>
-        <div class="subtext">
-          {cloudCircleIcon({}, { width: 48, height: 48})}
-          <PrismicRichText richText={native__subtext} paragraphLevel={4} />
-        </div>        
       </ResponsiveContainer>
+      
     </section>
   )
 }
@@ -264,8 +300,23 @@ const Managed = () => {
   return (
     <section id="managed">
       <ResponsiveContainer>
-        <PrismicRichText richText={managed} paragraphLevel={2} />
+        <div class="text">
+          <PrismicRichText richText={managed} paragraphLevel={2} />
+        </div>
+        <div class="image">
+          <div class="image__wrapper">
+            <img
+              src={getAssetPath('./img-landing-page/managed@2x.png')}
+              srcset={`${getAssetPath('./img-landing-page/managed.png')} 1x,
+                      ${getAssetPath('./img-landing-page/managed@2x.png')} 2x`}
+              loading="lazy"
+              width="1704"
+              height="1511"
+            />
+          </div>
+        </div>
       </ResponsiveContainer>
+      
     </section>
   )
 }

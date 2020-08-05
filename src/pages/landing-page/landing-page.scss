@@ -246,6 +246,27 @@ a {
 
 #automate {
 @include util.box($pbs:$section-space, $pbe:302px);
+
+  .ui-container {
+  @include util.box($d:flex);
+  }
+
+  .heading-group {
+    .ui-heading {
+    @include util.box($mxw:480px);
+    }
+    .ui-paragraph {
+    @include util.box($mxw:448px);
+    }
+  }
+
+  .subtext {
+  @include util.box($mxw:430px)
+  }
+
+  pipeline-animator {
+  @include util.box($fg:1);
+  }
 }
 
 #managed {

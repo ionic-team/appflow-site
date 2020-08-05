@@ -42,6 +42,7 @@
   background-image: var(--asset-path);
   background-repeat: no-repeat;
   background-size: 801px 481px;
+  background-position: -2px -8px;
   position: absolute;
   top: 0;
   left: 0;
@@ -57,7 +58,7 @@
   top: 3px;
   left: 506px;
   transform-origin: top left;
-  transform: rotateX(65.4deg) rotateY(1.4deg) rotateZ(32.9deg) skew(-2.0deg, -4.1deg);
+  transform: rotateX(65.4deg) rotateY(1.4deg) rotateZ(32.9deg) skew(-0deg, -4.1deg);
   border-radius: 32px;
 }
 @media (max-width: var.$screen-md)  {

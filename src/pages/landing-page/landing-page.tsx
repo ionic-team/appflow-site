@@ -284,12 +284,15 @@ const Automate = () => {
   return (
     <section id="automate">
       <ResponsiveContainer>
-        <div class="heading-group">
-          <PrismicRichText richText={automate} paragraphLevel={2} />
+        <div>
+          <div class="heading-group">
+            <PrismicRichText richText={automate} paragraphLevel={2} />
+          </div>
+          <div class="subtext">
+            <PrismicRichText richText={automate__subtext} paragraphLevel={3} />
+          </div>
         </div>
-        <div class="subtext">
-          <PrismicRichText richText={automate__subtext} paragraphLevel={3} />
-        </div>
+        <pipeline-animator></pipeline-animator>
       </ResponsiveContainer>
     </section>
   )

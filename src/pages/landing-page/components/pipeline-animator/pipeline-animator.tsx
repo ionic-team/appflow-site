@@ -1,5 +1,5 @@
-import { Component, State, Element, Host, h, getAssetPath } from '@stencil/core';
-// import { IntersectionHelper } from '@ionic-internal/ionic-ds'
+import { Component, State, Element, h } from '@stencil/core';
+import { Paragraph } from '@ionic-internal/ionic-ds';
 
 
 @Component({
@@ -77,7 +77,6 @@ export class PipelineAnimator {
     }
   };
 
-  private tilesEl: SVGElement;
   private bottomEl: SVGElement;
   private topEl: SVGElement;
   private stageEl: HTMLElement;
@@ -127,14 +126,14 @@ export class PipelineAnimator {
       duration: 1.4,
       // alpha: 0,
       scale: 1.07,
-      transformOrigin:"center center",
+      transformOrigin: 'center center',
       ease: Expo.easeOut
     });
 
     gsap.set(uiEl, {
       alpha: 0,
       y: '-40%',
-      transformOrigin:"center center",
+      transformOrigin: 'center center',
     });
 
     gsap.to(uiEl, {
@@ -190,11 +189,12 @@ export class PipelineAnimator {
 
   setupAutomateAnimation() {
     const automateTl = gsap.timeline({
+      defaultEase: Linear.easeNone,
       onComplete: function(){
         automateTl.restart();
       }
     });
-    // gsap.defaultEase = Linear.easeNone;
+
     automateTl.pause();
 
     const sequence1 = gsap.timeline();
@@ -222,7 +222,9 @@ export class PipelineAnimator {
     automateTl.add(sequence1, 0);
 
 
-    const sequence2 = new TimelineLite();
+    const sequence2 = gsap.timeline({
+      defaultEase: Linear.easeNone
+    });
     sequence2
     .add(() => {
       this.animateTileIn('qa');
@@ -244,7 +246,10 @@ export class PipelineAnimator {
     automateTl.add(sequence2, 6);
 
 
-    const sequence3 = new TimelineLite()
+    const sequence3 = gsap.timeline({
+      defaultEase: Linear.easeNone
+    })
+    sequence3
     .add(() => {
       this.animateTileIn('master');
       this.animateConnector('master', 'R')
@@ -274,18 +279,18 @@ export class PipelineAnimator {
     return (
     <div class="anim-automate" ref={e => this.stageEl = e}>
       <div class="anim-automate_ui">
-        <div class="master"><p>Push code</p></div>
-        <div class="staging"><p>Push code</p></div>
-        <div class="qa"><p>Push code</p></div>
-        <div class="android"><p>Trigger Android build</p></div>
-        <div class="ios"><p>Trigger iOS build</p></div>
-        <div class="web"><p>Trigger Web build</p></div>
-        <div class="testflight"><p>Deploy to TestFlight</p></div>
-        <div class="playstore"><p>Deploy to Google Play</p></div>
-        <div class="webhook"><p>Trigger webhook</p></div>
+        <div class="master"><Paragraph level={5}>Push code</Paragraph></div>
+        <div class="staging"><Paragraph level={5}>Push code</Paragraph></div>
+        <div class="qa"><Paragraph level={5}>Push code</Paragraph></div>
+        <div class="android"><Paragraph level={5}>Trigger Android build</Paragraph></div>
+        <div class="ios"><Paragraph level={5}>Trigger iOS build</Paragraph></div>
+        <div class="web"><Paragraph level={5}>Trigger Web build</Paragraph></div>
+        <div class="testflight"><Paragraph level={5}>Deploy to TestFlight</Paragraph></div>
+        <div class="playstore"><Paragraph level={5}>Deploy to Google Play</Paragraph></div>
+        <div class="webhook"><Paragraph level={5}>Trigger webhook</Paragraph></div>
       </div>
       <svg width="1346" height="790" xmlns="http://www.w3.org/2000/svg">
-        <g ref={e => this.tilesEl = e} transform="translate(-14 -14)">
+        <g transform="translate(-14 -14)">
           <g ref={e => this.bottomEl = e} >
             <rect class="threeC" fill="#F5F7FD" transform="rotate(135 1022.725 496.6375)" x="919.725" y="393.6375" width="206" height="206" rx="34"/>
             <rect class="threeB" fill="#F5F7FD" transform="rotate(135 672 496.6375)" x="569" y="393.6375" width="206" height="206" rx="34"/>

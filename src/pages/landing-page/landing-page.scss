@@ -245,7 +245,7 @@ a {
 }
 
 #automate {
-@include util.box($pbs:$section-space, $pbe:302px);
+@include util.box($pbs:$section-space, $pbe:302px, $contain:content);
 
   .ui-container {
   @include util.box($d:flex);
@@ -261,7 +261,16 @@ a {
   }
 
   .subtext {
-  @include util.box($mxw:430px)
+  @include util.box($pos:relative, $mxw:430px, $mbs:var(--space-8), $mis:var(--space-3));
+
+    &::before {
+    @include util.box($c:' ', $pos:absolute, $l:-16px, $h:64px, $w:2px,
+                      $back:var(--c-lavender-70), $t:50%, $tf:translateY(-50%));
+    }
+
+    strong {
+    @include util.font($fw:500, $color:var(--c-indigo-100));
+    }
   }
 
   pipeline-animator {

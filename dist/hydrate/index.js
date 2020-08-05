@@ -12493,7 +12493,7 @@ const getPage = async (prismicId) => {
     }
 };
 
-const landingPageCss = ":root{--p2-color:var(--c-indigo-80);--p3-color:var(--c-indigo-80);--p4-color:var(--c-indigo-80);--poster1-color:#fff;--h2-color:var(--c-carbon-100);--h4-color:var(--c-carbon-100);--h5-color:var(--c-carbon-100);--h6-color:var(--c-lavender-70);--p2-color:var(--c-indigo-80);--p3-color:var(--c-indigo-80);--p4-color:var(--c-indigo-80)}a{color:var(--c-lavender-80)}.ui-heading-2{-webkit-margin-after:var(--space-5);margin-block-end:var(--space-5)}.ui-heading-4{-webkit-margin-after:var(--space-3);margin-block-end:var(--space-3)}.ui-heading-5{-webkit-margin-after:var(--space-3);margin-block-end:var(--space-3)}.ui-heading-6{-webkit-margin-after:var(--space-6);margin-block-end:var(--space-6)}@media screen and (min-width: 1200px){.ui-container{width:1120px;-webkit-padding-start:0;padding-inline-start:0;-webkit-padding-end:0;padding-inline-end:0}}#top{min-height:992px}#top .background{width:max(1800px, 100%);position:absolute;left:min(calc((100% - 1800px) / 2), 0px);z-index:-1}#top .heading-group{-webkit-margin-start:auto;margin-inline-start:auto;-webkit-margin-end:auto;margin-inline-end:auto;max-width:800px;min-height:326px;-webkit-padding-before:var(--space-11);padding-block-start:var(--space-11);-webkit-padding-after:74px;padding-block-end:74px;text-align:center}#top .heading-group .ui-paragraph{-webkit-margin-before:var(--space-5);margin-block-start:var(--space-5);-webkit-margin-after:var(--space-6);margin-block-end:var(--space-6);color:#fff}#top .heading-group .cta{display:-ms-inline-flexbox;display:inline-flex;padding:15px 16px;background:#fff;border-radius:var(--radius-4);-ms-flex-pack:center;justify-content:center;-ms-flex-align:center;align-items:center;font-weight:600;font-size:14px;line-height:112%;letter-spacing:-0.02em}#top .heading-group .cta::after{content:\" ->\";font-size:18px;letter-spacing:0;white-space:pre}#companies{-webkit-margin-before:160px;margin-block-start:160px}#companies .ui-heading{-webkit-margin-after:var(--space-8);margin-block-end:var(--space-8);color:var(--c-indigo-70);text-align:center}#companies .logos{display:-ms-flexbox;display:flex;-webkit-margin-start:auto;margin-inline-start:auto;-webkit-margin-end:auto;margin-inline-end:auto;-ms-flex-positive:1;flex-grow:1;max-width:1019px;-ms-flex-pack:justify;justify-content:space-between;-ms-flex-align:center;align-items:center;-ms-flex-wrap:wrap;flex-wrap:wrap}#companies .logos .wrapper{display:inline-grid;-ms-flex-positive:1;flex-grow:1;min-width:400px;grid-template-columns:repeat(auto-fit, minmax(64px, 1fr));row-gap:var(--space-6);justify-items:center;-ms-flex-align:center;align-items:center}@media screen and (max-width: 767px){#companies .logos .wrapper{-ms-flex-preferred-size:400px;flex-basis:400px;min-width:auto}}#companies .logos .wrapper:first-of-type{-ms-flex-positive:1.3333333333;flex-grow:1.3333333333}#ship{-webkit-margin-before:160px;margin-block-start:160px;-webkit-margin-after:160px;margin-block-end:160px}#ship .heading-group{-webkit-margin-start:auto;margin-inline-start:auto;-webkit-margin-end:auto;margin-inline-end:auto;-webkit-margin-after:var(--space-11);margin-block-end:var(--space-11);max-width:736px;text-align:center}#ship .list{display:-ms-flexbox;display:flex;-ms-flex-preferred-size:352px;flex-basis:352px;-ms-flex-pack:justify;justify-content:space-between;-ms-flex-wrap:wrap;flex-wrap:wrap}#ship .list .list-item{-webkit-margin-start:auto;margin-inline-start:auto;-webkit-margin-end:auto;margin-inline-end:auto;-ms-flex-preferred-size:352px;flex-basis:352px}#push{background:var(--c-indigo-0);-webkit-padding-before:160px;padding-block-start:160px;-webkit-padding-after:160px;padding-block-end:160px;contain:content}#push .ui-container{display:-ms-flexbox;display:flex}#push .text{max-width:448px}#push .text .heading-group{-webkit-margin-after:72px;margin-block-end:72px}#push .list{display:grid;grid-template-columns:repeat(auto-fit, minmax(0px, 192px));-webkit-column-gap:var(--space-9);-moz-column-gap:var(--space-9);column-gap:var(--space-9)}#push .list .list-item svg{-webkit-margin-after:var(--space-5);margin-block-end:var(--space-5)}#push .image{display:-ms-flexbox;display:flex;-ms-flex-positive:1;flex-grow:1;-ms-flex-pack:center;justify-content:center}#push .image__wrapper{display:-ms-flexbox;display:flex;width:auto;position:absolute;left:50%;-ms-flex-direction:column;flex-direction:column}#push .image__wrapper .icons{-webkit-margin-start:var(--space-6);margin-inline-start:var(--space-6)}#push .image__wrapper .icons svg+svg{-webkit-margin-start:var(--space-5);margin-inline-start:var(--space-5)}#push .image__wrapper img{width:auto;max-width:1092px}#live{-webkit-padding-before:160px;padding-block-start:160px;-webkit-padding-after:160px;padding-block-end:160px;contain:content}#live .ui-container{display:-ms-flexbox;display:flex}#live .text{max-width:448px}#live .list{-webkit-margin-before:var(--space-8);margin-block-start:var(--space-8)}#live .list .list-item{display:-ms-flexbox;display:flex;-ms-flex-align:center;align-items:center}#live .list .list-item svg{-webkit-margin-end:var(--space-3);margin-inline-end:var(--space-3)}#live .list .list-item+.list-item{-webkit-margin-before:var(--space-2);margin-block-start:var(--space-2)}#live phone-animator{-ms-flex-positive:1;flex-grow:1}#native{background:var(--c-indigo-0);-webkit-padding-before:160px;padding-block-start:160px;-webkit-padding-after:160px;padding-block-end:160px}#native .ui-container{display:-ms-flexbox;display:flex}#native .heading-group{-webkit-margin-after:72px;margin-block-end:72px}#native .heading-group .ui-heading{max-width:576px}#native .heading-group .ui-paragraph{max-width:448px}#native .subtext{max-width:256px}#native .subtext svg{-webkit-margin-after:var(--space-5);margin-block-end:var(--space-5)}#native .image{display:-ms-flexbox;display:flex;-ms-flex-positive:1;flex-grow:1;position:relative;-ms-flex-pack:center;justify-content:center}#native .image__wrapper{width:auto;position:absolute;top:calc(50% + 150px);right:-150px;left:-250px;-webkit-transform:translateY(-50%);transform:translateY(-50%)}#native .image__wrapper img{max-width:857px}#automate{-webkit-padding-before:160px;padding-block-start:160px;-webkit-padding-after:302px;padding-block-end:302px}#managed{position:relative;-webkit-padding-before:256px;padding-block-start:256px;-webkit-padding-after:260px;padding-block-end:260px}#managed .ui-container{display:-ms-flexbox;display:flex}#managed .text{max-width:448px}#managed .image{display:-ms-flexbox;display:flex;-ms-flex-positive:1;flex-grow:1;position:relative;-ms-flex-pack:center;justify-content:center}#managed .image__wrapper{width:auto;position:absolute;top:50%;right:-150px;left:-25px;-webkit-transform:translateY(-50%);transform:translateY(-50%)}#managed .image__wrapper img{max-width:827px}#experience{background:var(--c-purple-60);-webkit-padding-before:160px;padding-block-start:160px;-webkit-padding-after:160px;padding-block-end:160px}#experience .subtext .ui-heading{-webkit-margin-after:var(--space-2);margin-block-end:var(--space-2)}#experience .subtext .ui-paragraph{-webkit-margin-after:var(--space-6);margin-block-end:var(--space-6);color:var(--c-lavender-10)}#experience .ui-heading{color:#fff}#experience .cta{display:-ms-inline-flexbox;display:inline-flex;padding:14px 16px;background:#8C93FF;color:#fff;border-radius:var(--radius-4);-ms-flex-pack:center;justify-content:center;-ms-flex-align:center;align-items:center;font-weight:600;font-size:14px;line-height:112%;letter-spacing:-0.02em}#experience .cta::after{content:\" ->\";letter-spacing:0;white-space:pre}#experience .list-item{display:-ms-flexbox;display:flex;-ms-flex-align:center;align-items:center}#experience .list-item+.list-item{-webkit-margin-before:14px;margin-block-start:14px}#experience .list-item svg{-webkit-margin-end:var(--space-3);margin-inline-end:var(--space-3)}#experience .list-item .ui-paragraph{color:var(--c-lavender-0)}#get-started{background:#212752;-webkit-padding-before:120px;padding-block-start:120px;-webkit-padding-after:119px;padding-block-end:119px}#get-started .ui-heading{-webkit-margin-after:7px;margin-block-end:7px;color:#fff}#get-started .ui-paragraph{color:var(--c-lavender-50)}#get-started .cta{display:-ms-inline-flexbox;display:inline-flex;padding:14px 16px;background:var(--c-lavender-60);color:#fff;border-radius:var(--radius-4);-ms-flex-pack:center;justify-content:center;-ms-flex-align:center;align-items:center;font-weight:600;font-size:16px;line-height:112%;letter-spacing:-0.02em}#get-started .cta::after{content:\" ->\";letter-spacing:0;white-space:pre}";
+const landingPageCss = ":root{--p2-color:var(--c-indigo-80);--p3-color:var(--c-indigo-80);--p4-color:var(--c-indigo-80);--poster1-color:#fff;--h2-color:var(--c-carbon-100);--h4-color:var(--c-carbon-100);--h5-color:var(--c-carbon-100);--h6-color:var(--c-lavender-70);--p2-color:var(--c-indigo-80);--p3-color:var(--c-indigo-80);--p4-color:var(--c-indigo-80)}a{color:var(--c-lavender-80)}.ui-heading-2{-webkit-margin-after:var(--space-5);margin-block-end:var(--space-5)}.ui-heading-4{-webkit-margin-after:var(--space-3);margin-block-end:var(--space-3)}.ui-heading-5{-webkit-margin-after:var(--space-3);margin-block-end:var(--space-3)}.ui-heading-6{-webkit-margin-after:var(--space-6);margin-block-end:var(--space-6)}@media screen and (min-width: 1200px){.ui-container{width:1120px;-webkit-padding-start:0;padding-inline-start:0;-webkit-padding-end:0;padding-inline-end:0}}#top{min-height:992px}#top .background{width:max(1800px, 100%);position:absolute;left:min(calc((100% - 1800px) / 2), 0px);z-index:-1}#top .heading-group{-webkit-margin-start:auto;margin-inline-start:auto;-webkit-margin-end:auto;margin-inline-end:auto;max-width:800px;min-height:326px;-webkit-padding-before:var(--space-11);padding-block-start:var(--space-11);-webkit-padding-after:74px;padding-block-end:74px;text-align:center}#top .heading-group .ui-paragraph{-webkit-margin-before:var(--space-5);margin-block-start:var(--space-5);-webkit-margin-after:var(--space-6);margin-block-end:var(--space-6);color:#fff}#top .heading-group .cta{display:-ms-inline-flexbox;display:inline-flex;padding:15px 16px;background:#fff;border-radius:var(--radius-4);-ms-flex-pack:center;justify-content:center;-ms-flex-align:center;align-items:center;font-weight:600;font-size:14px;line-height:112%;letter-spacing:-0.02em}#top .heading-group .cta::after{content:\" ->\";font-size:18px;letter-spacing:0;white-space:pre}#companies{-webkit-margin-before:160px;margin-block-start:160px}#companies .ui-heading{-webkit-margin-after:var(--space-8);margin-block-end:var(--space-8);color:var(--c-indigo-70);text-align:center}#companies .logos{display:-ms-flexbox;display:flex;-webkit-margin-start:auto;margin-inline-start:auto;-webkit-margin-end:auto;margin-inline-end:auto;-ms-flex-positive:1;flex-grow:1;max-width:1019px;-ms-flex-pack:justify;justify-content:space-between;-ms-flex-align:center;align-items:center;-ms-flex-wrap:wrap;flex-wrap:wrap}#companies .logos .wrapper{display:inline-grid;-ms-flex-positive:1;flex-grow:1;min-width:400px;grid-template-columns:repeat(auto-fit, minmax(64px, 1fr));row-gap:var(--space-6);justify-items:center;-ms-flex-align:center;align-items:center}@media screen and (max-width: 767px){#companies .logos .wrapper{-ms-flex-preferred-size:400px;flex-basis:400px;min-width:auto}}#companies .logos .wrapper:first-of-type{-ms-flex-positive:1.3333333333;flex-grow:1.3333333333}#ship{-webkit-margin-before:160px;margin-block-start:160px;-webkit-margin-after:160px;margin-block-end:160px}#ship .heading-group{-webkit-margin-start:auto;margin-inline-start:auto;-webkit-margin-end:auto;margin-inline-end:auto;-webkit-margin-after:var(--space-11);margin-block-end:var(--space-11);max-width:736px;text-align:center}#ship .list{display:-ms-flexbox;display:flex;-ms-flex-preferred-size:352px;flex-basis:352px;-ms-flex-pack:justify;justify-content:space-between;-ms-flex-wrap:wrap;flex-wrap:wrap}#ship .list .list-item{-webkit-margin-start:auto;margin-inline-start:auto;-webkit-margin-end:auto;margin-inline-end:auto;-ms-flex-preferred-size:352px;flex-basis:352px}#push{background:var(--c-indigo-0);-webkit-padding-before:160px;padding-block-start:160px;-webkit-padding-after:160px;padding-block-end:160px;contain:content}#push .ui-container{display:-ms-flexbox;display:flex}#push .text{max-width:448px}#push .text .heading-group{-webkit-margin-after:72px;margin-block-end:72px}#push .list{display:grid;grid-template-columns:repeat(auto-fit, minmax(0px, 192px));-webkit-column-gap:var(--space-9);-moz-column-gap:var(--space-9);column-gap:var(--space-9)}#push .list .list-item svg{-webkit-margin-after:var(--space-5);margin-block-end:var(--space-5)}#push .image{display:-ms-flexbox;display:flex;-ms-flex-positive:1;flex-grow:1;-ms-flex-pack:center;justify-content:center}#push .image__wrapper{display:-ms-flexbox;display:flex;width:auto;position:absolute;left:50%;-ms-flex-direction:column;flex-direction:column}#push .image__wrapper .icons{-webkit-margin-start:var(--space-6);margin-inline-start:var(--space-6)}#push .image__wrapper .icons svg+svg{-webkit-margin-start:var(--space-5);margin-inline-start:var(--space-5)}#push .image__wrapper img{width:auto;max-width:1092px}#live{-webkit-padding-before:160px;padding-block-start:160px;-webkit-padding-after:160px;padding-block-end:160px;contain:content}#live .ui-container{display:-ms-flexbox;display:flex}#live .text{max-width:448px}#live .list{-webkit-margin-before:var(--space-8);margin-block-start:var(--space-8)}#live .list .list-item{display:-ms-flexbox;display:flex;-ms-flex-align:center;align-items:center}#live .list .list-item svg{-webkit-margin-end:var(--space-3);margin-inline-end:var(--space-3)}#live .list .list-item+.list-item{-webkit-margin-before:var(--space-2);margin-block-start:var(--space-2)}#live phone-animator{-ms-flex-positive:1;flex-grow:1}#native{background:var(--c-indigo-0);-webkit-padding-before:160px;padding-block-start:160px;-webkit-padding-after:160px;padding-block-end:160px}#native .ui-container{display:-ms-flexbox;display:flex}#native .heading-group{-webkit-margin-after:72px;margin-block-end:72px}#native .heading-group .ui-heading{max-width:576px}#native .heading-group .ui-paragraph{max-width:448px}#native .subtext{max-width:256px}#native .subtext svg{-webkit-margin-after:var(--space-5);margin-block-end:var(--space-5)}#native .image{display:-ms-flexbox;display:flex;-ms-flex-positive:1;flex-grow:1;position:relative;-ms-flex-pack:center;justify-content:center}#native .image__wrapper{width:auto;position:absolute;top:calc(50% + 150px);right:-150px;left:-250px;-webkit-transform:translateY(-50%);transform:translateY(-50%)}#native .image__wrapper img{max-width:857px}#automate{-webkit-padding-before:160px;padding-block-start:160px;-webkit-padding-after:302px;padding-block-end:302px}#automate .ui-container{display:-ms-flexbox;display:flex}#automate .heading-group .ui-heading{max-width:480px}#automate .heading-group .ui-paragraph{max-width:448px}#automate .subtext{max-width:430px}#automate pipeline-animator{-ms-flex-positive:1;flex-grow:1}#managed{position:relative;-webkit-padding-before:256px;padding-block-start:256px;-webkit-padding-after:260px;padding-block-end:260px}#managed .ui-container{display:-ms-flexbox;display:flex}#managed .text{max-width:448px}#managed .image{display:-ms-flexbox;display:flex;-ms-flex-positive:1;flex-grow:1;position:relative;-ms-flex-pack:center;justify-content:center}#managed .image__wrapper{width:auto;position:absolute;top:50%;right:-150px;left:-25px;-webkit-transform:translateY(-50%);transform:translateY(-50%)}#managed .image__wrapper img{max-width:827px}#experience{background:var(--c-purple-60);-webkit-padding-before:160px;padding-block-start:160px;-webkit-padding-after:160px;padding-block-end:160px}#experience .subtext .ui-heading{-webkit-margin-after:var(--space-2);margin-block-end:var(--space-2)}#experience .subtext .ui-paragraph{-webkit-margin-after:var(--space-6);margin-block-end:var(--space-6);color:var(--c-lavender-10)}#experience .ui-heading{color:#fff}#experience .cta{display:-ms-inline-flexbox;display:inline-flex;padding:14px 16px;background:#8C93FF;color:#fff;border-radius:var(--radius-4);-ms-flex-pack:center;justify-content:center;-ms-flex-align:center;align-items:center;font-weight:600;font-size:14px;line-height:112%;letter-spacing:-0.02em}#experience .cta::after{content:\" ->\";letter-spacing:0;white-space:pre}#experience .list-item{display:-ms-flexbox;display:flex;-ms-flex-align:center;align-items:center}#experience .list-item+.list-item{-webkit-margin-before:14px;margin-block-start:14px}#experience .list-item svg{-webkit-margin-end:var(--space-3);margin-inline-end:var(--space-3)}#experience .list-item .ui-paragraph{color:var(--c-lavender-0)}#get-started{background:#212752;-webkit-padding-before:120px;padding-block-start:120px;-webkit-padding-after:119px;padding-block-end:119px}#get-started .ui-heading{-webkit-margin-after:7px;margin-block-end:7px;color:#fff}#get-started .ui-paragraph{color:var(--c-lavender-50)}#get-started .cta{display:-ms-inline-flexbox;display:inline-flex;padding:14px 16px;background:var(--c-lavender-60);color:#fff;border-radius:var(--radius-4);-ms-flex-pack:center;justify-content:center;-ms-flex-align:center;align-items:center;font-weight:600;font-size:16px;line-height:112%;letter-spacing:-0.02em}#get-started .cta::after{content:\" ->\";letter-spacing:0;white-space:pre}";
 
 class LandingPage {
     constructor(hostRef) {
@@ -12549,7 +12549,7 @@ const Native = () => {
 };
 const Automate = () => {
     const { automate, automate__subtext } = state.pageData;
-    return (h("section", { id: "automate" }, h(ResponsiveContainer, null, h("div", { class: "heading-group" }, h(PrismicRichText, { richText: automate, paragraphLevel: 2 })), h("div", { class: "subtext" }, h(PrismicRichText, { richText: automate__subtext, paragraphLevel: 3 })))));
+    return (h("section", { id: "automate" }, h(ResponsiveContainer, null, h("div", null, h("div", { class: "heading-group" }, h(PrismicRichText, { richText: automate, paragraphLevel: 2 })), h("div", { class: "subtext" }, h(PrismicRichText, { richText: automate__subtext, paragraphLevel: 3 }))), h("pipeline-animator", null))));
 };
 const Managed = () => {
     const { managed } = state.pageData;
@@ -12948,7 +12948,7 @@ class NewsletterForm {
     }; }
 }
 
-const phoneAnimatorCss = ".sc-phone-animator-h{display:inline-block}.anim-updates.sc-phone-animator{position:absolute;z-index:4;top:0;bottom:0;left:50%;-webkit-transform:translateX(-100px);transform:translateX(-100px);display:-ms-flexbox;display:flex;-ms-flex-align:center;align-items:center}.anim-updates__root.sc-phone-animator{width:726px;height:437px;position:relative}.anim-updates__foreground.sc-phone-animator,.anim-updates__background.sc-phone-animator{width:100%;height:100%;position:absolute;top:0;left:0}.anim-updates__foreground.sc-phone-animator{z-index:10;-webkit-transform:translateZ(1000px);transform:translateZ(1000px)}.anim-updates__background.sc-phone-animator{z-index:1;-webkit-transform:translateZ(100px);transform:translateZ(100px)}.anim-updates__device.sc-phone-animator{width:801px;height:481px;background-image:var(--asset-path);background-repeat:no-repeat;background-size:801px 481px;background-position:-2px -8px;position:absolute;top:0;left:0;z-index:5;-webkit-transform:translateZ(500px);transform:translateZ(500px)}.anim-updates__screen.sc-phone-animator{width:298px;height:924px;background:#5d37ff;position:absolute;top:3px;left:506px;-webkit-transform-origin:top left;transform-origin:top left;-webkit-transform:rotateX(65.4deg) rotateY(1.4deg) rotateZ(32.9deg) skew(-2deg, -4.1deg);transform:rotateX(65.4deg) rotateY(1.4deg) rotateZ(32.9deg) skew(-2deg, -4.1deg);border-radius:32px}@media (max-width: 992px){.anim-updates.sc-phone-animator{-webkit-transform:translate(-180px, -56px) scale(0.7);transform:translate(-180px, -56px) scale(0.7)}.content.sc-phone-animator{padding-top:164px;padding-bottom:164px;min-height:unset}}@media (max-width: 768px){.anim-updates.sc-phone-animator{-webkit-transform:translateX(-50%) scale(0.7);transform:translateX(-50%) scale(0.7);opacity:0.3}.content.sc-phone-animator{min-height:unset;padding-top:164px;padding-bottom:164px;width:100%;max-width:500px;margin-left:auto;margin-right:auto;text-align:center}}@media (max-width: 480px){.anim-updates.sc-phone-animator{-webkit-transform:translateX(-50%) scale(0.5);transform:translateX(-50%) scale(0.5)}.content.sc-phone-animator{padding-top:100px;padding-bottom:100px}}";
+const phoneAnimatorCss = ".sc-phone-animator-h{display:inline-block}.anim-updates.sc-phone-animator{position:absolute;z-index:4;top:0;bottom:0;left:50%;-webkit-transform:translateX(-100px);transform:translateX(-100px);display:-ms-flexbox;display:flex;-ms-flex-align:center;align-items:center}.anim-updates__root.sc-phone-animator{width:726px;height:437px;position:relative}.anim-updates__foreground.sc-phone-animator,.anim-updates__background.sc-phone-animator{width:100%;height:100%;position:absolute;top:0;left:0}.anim-updates__foreground.sc-phone-animator{z-index:10;-webkit-transform:translateZ(1000px);transform:translateZ(1000px)}.anim-updates__background.sc-phone-animator{z-index:1;-webkit-transform:translateZ(100px);transform:translateZ(100px)}.anim-updates__device.sc-phone-animator{width:801px;height:481px;background-image:var(--asset-path);background-repeat:no-repeat;background-size:801px 481px;background-position:-2px -8px;position:absolute;top:0;left:0;z-index:5;-webkit-transform:translateZ(500px);transform:translateZ(500px)}.anim-updates__screen.sc-phone-animator{width:298px;height:924px;background:#5d37ff;position:absolute;top:3px;left:506px;-webkit-transform-origin:top left;transform-origin:top left;-webkit-transform:rotateX(65.4deg) rotateY(1.4deg) rotateZ(32.9deg) skew(0deg, -4.1deg);transform:rotateX(65.4deg) rotateY(1.4deg) rotateZ(32.9deg) skew(0deg, -4.1deg);border-radius:32px}@media (max-width: 992px){.anim-updates.sc-phone-animator{-webkit-transform:translate(-180px, -56px) scale(0.7);transform:translate(-180px, -56px) scale(0.7)}.content.sc-phone-animator{padding-top:164px;padding-bottom:164px;min-height:unset}}@media (max-width: 768px){.anim-updates.sc-phone-animator{-webkit-transform:translateX(-50%) scale(0.7);transform:translateX(-50%) scale(0.7);opacity:0.3}.content.sc-phone-animator{min-height:unset;padding-top:164px;padding-bottom:164px;width:100%;max-width:500px;margin-left:auto;margin-right:auto;text-align:center}}@media (max-width: 480px){.anim-updates.sc-phone-animator{-webkit-transform:translateX(-50%) scale(0.5);transform:translateX(-50%) scale(0.5)}.content.sc-phone-animator{padding-top:100px;padding-bottom:100px}}";
 
 // import { IntersectionHelper } from '@ionic-internal/ionic-ds'
 class PhoneAnimator {
@@ -12956,12 +12956,17 @@ class PhoneAnimator {
         registerInstance(this, hostRef);
         this.assetPath = getAssetPath('./img-phone-animator/updates-illustration-device.png');
         this.gsapCdn = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.4.2/gsap.min.js';
+        this.foregroundColors = ['#5d37ff', '#7b69ff', '#b9bbff', '#f9fafc'];
+        this.backgroundColors = ['#5d37ff', '#7b69ff', '#b9bbff', '#f9fafc'];
+        this.spacing = 208;
+        this.foregroundScreens = [];
+        this.backgroundScreens = [];
         this.isPaused = false;
     }
     componentWillLoad() {
         this.importGsap();
     }
-    async importGsap() {
+    importGsap() {
         const script = document.createElement('script');
         script.src = this.gsapCdn;
         script.onload = () => {
@@ -12975,126 +12980,109 @@ class PhoneAnimator {
         script.onerror = () => console.error('error loading gsap library from: ', this.gsapCdn);
         document.body.appendChild(script);
     }
-    start() {
-    }
     setupUpdatesAnimation() {
-        const foreground = document.querySelector('.anim-updates__foreground');
-        const background = document.querySelector('.anim-updates__background');
-        const foregroundColors = ['#5d37ff', '#7b69ff', '#b9bbff', '#f9fafc'];
-        const backgroundColors = ['#5d37ff', '#7b69ff', '#b9bbff', '#f9fafc'];
-        const spacing = 208;
-        let foregroundScreens = [];
-        let backgroundScreens = [];
         this.timeline = gsap.timeline();
         // create foreground screens
-        for (let i = 0; i < 4; i++) {
-            let screen = document.createElement('div');
-            screen.className = 'anim-updates__screen';
-            foreground.appendChild(screen);
-            // console.log("appended foreground", screen, -i * spacing)
-            this.timeline.set(screen, {
-                backgroundColor: foregroundColors[i],
-                y: -i * spacing
+        this.foregroundScreens.forEach((screen, i) => {
+            gsap.set(screen, {
+                backgroundColor: this.foregroundColors[i],
+                y: -i * this.spacing
             });
-            foregroundScreens.push(screen);
-        }
+        });
         // create background screens
-        for (let j = 0; j < 4; j++) {
-            let screen = document.createElement('div');
-            screen.className = 'anim-updates__screen';
-            background.insertBefore(screen, background.firstChild);
-            this.timeline.set(screen, {
-                backgroundColor: backgroundColors[j],
-                y: (j) * spacing
+        this.backgroundScreens.forEach((screen, i, arr) => {
+            gsap.set(screen, {
+                backgroundColor: this.backgroundColors[i],
+                y: -i * this.spacing,
+                z: arr.length - i
             });
-            backgroundScreens.push(screen);
-        }
-        const createTimeline = () => {
-            this.timeline.add(function () {
-                for (let f = foregroundScreens.length - 1; f > 0; f--) {
-                    let screen = foregroundScreens[f];
-                    console.log('foreground positions', -(f - 1) * spacing);
-                    gsap.to(screen, {
-                        duration: 1,
-                        backgroundColor: foregroundColors[f - 1],
-                        y: -(f - 1) * spacing,
-                        ease: Power3.easeInOut
-                    });
-                }
-                for (let b = 0; b < backgroundScreens.length - 1; b++) {
-                    let screen = backgroundScreens[b];
-                    gsap.to(screen, {
-                        duration: 1,
-                        backgroundColor: backgroundColors[b + 1],
-                        y: (b + 1) * spacing,
-                        ease: Power3.easeInOut
-                    });
-                }
-            }, 0);
-            this.timeline.to(foregroundScreens[0], {
-                duration: 1,
-                backgroundColor: '#4d4668',
-            }, 0.3);
-            this.timeline.to(foregroundScreens[1], {
-                duration: .5,
-                boxShadow: '0px 0px 0px 0 #5d37ff',
-            }, 0.3);
-            this.timeline.add(function () {
-                let screen;
-                // cleanup foreground
-                foregroundScreens[0].remove();
-                foregroundScreens.shift();
-                screen = document.createElement('div');
-                screen.style.cssText = `
-          width: 298px;
-          height: 924px;
-          background: #5d37ff;
-          position: absolute;
-          left: 506px;
-          transform-origin: top left;
-          transform: rotateX(65.4deg) rotateY(1.4deg) rotateZ(32.9deg) skew(-0deg, -4.1deg);
-          border-radius: 32px;
-        `;
-                foreground.appendChild(screen);
-                this.timeline.set(screen, {
-                    backgroundColor: foregroundColors[3],
-                    y: -(3) * spacing
-                });
-                foregroundScreens.push(screen);
-                // cleanup background
-                backgroundScreens[backgroundScreens.length - 1].remove();
-                backgroundScreens.pop();
-                screen = document.createElement('div');
-                screen.className = 'anim-updates__screen new';
-                screen.style.cssText = `
-          width: 298px;
-          height: 924px;
-          background: #5d37ff;
-          position: absolute;
-          left: 506px;
-          transform-origin: top left;
-          transform: rotateX(65.4deg) rotateY(1.4deg) rotateZ(32.9deg) skew(0deg, -4.1deg);
-          border-radius: 32px;
-        `;
-                background.appendChild(screen);
-                this.timeline.set(screen, {
-                    backgroundColor: backgroundColors[0],
-                    y: 0
-                });
-                backgroundScreens.unshift(screen);
-            }, 1.2);
-            this.timeline.add(() => {
-                this.timeline.clear();
-                createTimeline();
-            }, 2.4);
-        };
-        createTimeline();
+        });
+        this.createTimeline();
         this.timeline.play();
+    }
+    createTimeline() {
+        this.timeline.add(() => {
+            for (let f = this.foregroundScreens.length - 1; f > 0; f--) {
+                let screen = this.foregroundScreens[f];
+                gsap.to(screen, {
+                    duration: 1,
+                    backgroundColor: this.foregroundColors[f - 1],
+                    y: -(f - 1) * this.spacing,
+                    ease: Power3.easeInOut
+                });
+            }
+            for (let b = 0; b < this.backgroundScreens.length - 1; b++) {
+                let screen = this.backgroundScreens[b];
+                gsap.to(screen, {
+                    duration: 1,
+                    backgroundColor: this.backgroundColors[b + 1],
+                    y: (b + 1) * this.spacing,
+                    ease: Power3.easeInOut
+                });
+            }
+        }, 0);
+        this.timeline.to(this.foregroundScreens[0], {
+            duration: 1,
+            backgroundColor: '#4d4668',
+        }, 0.3);
+        this.timeline.to(this.foregroundScreens[1], {
+            duration: .5,
+            boxShadow: '0px 0px 0px 0 #5d37ff',
+        }, 0.3);
+        this.timeline.add(() => {
+            let screen;
+            // cleanup foreground
+            this.foregroundScreens[0].remove();
+            this.foregroundScreens.shift();
+            screen = document.createElement('div');
+            // screen.classList.add('anim-updates__screen');
+            screen.style.cssText = `
+        width: 298px;
+        height: 924px;
+        background: #5d37ff;
+        position: absolute;
+        left: 506px;
+        transform-origin: top left;
+        transform: rotateX(65.4deg) rotateY(1.4deg) rotateZ(32.9deg) skew(-0deg, -4.1deg);
+        border-radius: 32px;
+      `;
+            this.foreground.appendChild(screen);
+            gsap.set(screen, {
+                backgroundColor: this.foregroundColors[3],
+                y: -(3) * this.spacing
+            });
+            this.foregroundScreens.push(screen);
+            // cleanup background
+            this.backgroundScreens[this.backgroundScreens.length - 1].remove();
+            this.backgroundScreens.pop();
+            screen = document.createElement('div');
+            screen.className = 'anim-updates__screen new';
+            screen.style.cssText = `
+        width: 298px;
+        height: 924px;
+        background: #5d37ff;
+        position: absolute;
+        left: 506px;
+        transform-origin: top left;
+        transform: rotateX(65.4deg) rotateY(1.4deg) rotateZ(32.9deg) skew(0deg, -4.1deg);
+        border-radius: 32px;
+      `;
+            this.background.appendChild(screen);
+            gsap.set(screen, {
+                backgroundColor: this.backgroundColors[0],
+                y: 0
+            });
+            this.backgroundScreens.unshift(screen);
+        }, 1.2);
+        this.timeline.add(() => {
+            this.timeline.clear();
+            this.createTimeline();
+        }, 2.4);
     }
     render() {
         return (h(Host, { style: {
                 '--asset-path': `url('${this.assetPath}')`
-            } }, h("div", { class: "anim-updates" }, h("div", { class: "anim-updates__root" }, h("div", { class: "anim-updates__foreground" }), h("div", { class: "anim-updates__device" }), h("div", { class: "anim-updates__background" })))));
+            } }, h("div", { class: "anim-updates" }, h("div", { class: "anim-updates__root" }, h("div", { class: "anim-updates__foreground", ref: e => this.foreground = e }, h("div", { class: "anim-updates__screen", ref: e => this.foregroundScreens.push(e) }), h("div", { class: "anim-updates__screen", ref: e => this.foregroundScreens.push(e) }), h("div", { class: "anim-updates__screen", ref: e => this.foregroundScreens.push(e) }), h("div", { class: "anim-updates__screen", ref: e => this.foregroundScreens.push(e) })), h("div", { class: "anim-updates__device" }), h("div", { class: "anim-updates__background", ref: e => this.background = e }, h("div", { class: "anim-updates__screen", ref: e => this.backgroundScreens.push(e) }), h("div", { class: "anim-updates__screen", ref: e => this.backgroundScreens.push(e) }), h("div", { class: "anim-updates__screen", ref: e => this.backgroundScreens.push(e) }), h("div", { class: "anim-updates__screen", ref: e => this.backgroundScreens.push(e) }))))));
     }
     static get assetsDirs() { return ["img-phone-animator"]; }
     get el() { return getElement(this); }
@@ -13102,6 +13090,261 @@ class PhoneAnimator {
     static get cmpMeta() { return {
         "$flags$": 2,
         "$tagName$": "phone-animator",
+        "$members$": {
+            "isPaused": [32]
+        },
+        "$listeners$": undefined,
+        "$lazyBundleId$": "-",
+        "$attrsToReflect$": []
+    }; }
+}
+
+const pipelineAnimatorCss = ".sc-pipeline-animator-h{display:inline-block;position:relative}.anim-automate.sc-pipeline-animator{position:absolute;top:130px;left:25%;margin-left:-400px;-webkit-transform:scale(1.1);transform:scale(1.1)}.anim-automate.sc-pipeline-animator svg.sc-pipeline-animator .connector.sc-pipeline-animator{opacity:0;stroke-dasharray:80px}.anim-automate.sc-pipeline-animator svg.sc-pipeline-animator rect.four.sc-pipeline-animator{opacity:0.6}.anim-automate.sc-pipeline-animator svg.sc-pipeline-animator #top.sc-pipeline-animator,.anim-automate.sc-pipeline-animator svg.sc-pipeline-animator #bottom.sc-pipeline-animator{position:relative}.anim-automate.sc-pipeline-animator svg.sc-pipeline-animator #bottom.sc-pipeline-animator{z-index:1}.anim-automate.sc-pipeline-animator svg.sc-pipeline-animator #top.sc-pipeline-animator{z-index:2}.anim-automate.sc-pipeline-animator svg.sc-pipeline-animator>g.sc-pipeline-animator{-webkit-transform:translateY(50px);transform:translateY(50px)}@media (max-width: 992px){.anim-automate.sc-pipeline-animator{-webkit-transform:scale(0.8);transform:scale(0.8);top:380px;margin-left:-670px}}@media (max-width: 768px){.anim-automate.sc-pipeline-animator{-webkit-transform:scale(0.7);transform:scale(0.7);top:260px}}.anim-automate_ui.sc-pipeline-animator{position:absolute;width:100%;height:100%}.anim-automate_ui.sc-pipeline-animator>div.sc-pipeline-animator{position:absolute;-webkit-transform:translate(-50%, -100%);transform:translate(-50%, -100%);max-width:114px;text-align:center;display:-ms-flexbox;display:flex;-ms-flex-direction:column;flex-direction:column;-ms-flex-align:center;align-items:center;opacity:0}.anim-automate_ui.sc-pipeline-animator>div.sc-pipeline-animator p.sc-pipeline-animator{font-family:var(--f-family-text);margin:0;color:#fff;font-size:13px;font-weight:500;line-height:17px}.anim-automate_ui.sc-pipeline-animator>div.sc-pipeline-animator span.sc-pipeline-animator{display:block;opacity:0.6;font-family:12px}.anim-automate_ui.sc-pipeline-animator>div.sc-pipeline-animator:before{content:\"\";display:block;width:20px;height:50px;margin-bottom:12px;background-repeat:no-repeat;background-size:100%}.anim-automate_ui.sc-pipeline-animator .master.sc-pipeline-animator:before{background-image:url(\"/assets/img/pro-automate-animation/master.png\");width:100px;height:30px;background-size:100px 30px}.anim-automate_ui.sc-pipeline-animator .staging.sc-pipeline-animator:before{background-image:url(\"/assets/img/pro-automate-animation/staging.png\");width:110px;height:30px;background-size:110px 30px}.anim-automate_ui.sc-pipeline-animator .qa.sc-pipeline-animator:before{background-image:url(\"/assets/img/pro-automate-animation/qa.png\");width:61px;height:30px;background-size:61px 30px}.anim-automate_ui.sc-pipeline-animator .android.sc-pipeline-animator:before,.anim-automate_ui.sc-pipeline-animator .ios.sc-pipeline-animator:before,.anim-automate_ui.sc-pipeline-animator .web.sc-pipeline-animator:before{width:62px;height:62px;background-size:62px 62px}.anim-automate_ui.sc-pipeline-animator .android.sc-pipeline-animator:before{background-image:url(\"/assets/img/pro-automate-animation/android.png\")}.anim-automate_ui.sc-pipeline-animator .ios.sc-pipeline-animator:before{background-image:url(\"/assets/img/pro-automate-animation/ios.png\")}.anim-automate_ui.sc-pipeline-animator .web.sc-pipeline-animator:before{background-image:url(\"/assets/img/pro-automate-animation/js.png\")}.anim-automate_ui.sc-pipeline-animator .testflight.sc-pipeline-animator:before{background-image:url(\"/assets/img/pro-automate-animation/testflight.png\");width:53px;height:53px;background-size:53px 53px}.anim-automate_ui.sc-pipeline-animator .playstore.sc-pipeline-animator:before{background-image:url(\"/assets/img/pro-automate-animation/playstore.png\");width:50px;height:55px;background-size:50px 55px}.anim-automate_ui.sc-pipeline-animator .webhook.sc-pipeline-animator:before{background-image:url(\"/assets/img/pro-automate-animation/webhook.png\");width:58px;height:54px;background-size:58px 54px}.anim-automate_ui.sc-pipeline-animator .master.sc-pipeline-animator,.anim-automate_ui.sc-pipeline-animator .staging.sc-pipeline-animator,.anim-automate_ui.sc-pipeline-animator .qa.sc-pipeline-animator{left:50%;top:195px}.anim-automate_ui.sc-pipeline-animator .android.sc-pipeline-animator,.anim-automate_ui.sc-pipeline-animator .ios.sc-pipeline-animator,.anim-automate_ui.sc-pipeline-animator .web.sc-pipeline-animator{left:50%;top:368px}.anim-automate_ui.sc-pipeline-animator .android.sc-pipeline-animator,.anim-automate_ui.sc-pipeline-animator .web.sc-pipeline-animator{margin-left:174px}.anim-automate_ui.sc-pipeline-animator .ios.sc-pipeline-animator{margin-left:-178px}.anim-automate_ui.sc-pipeline-animator .testflight.sc-pipeline-animator,.anim-automate_ui.sc-pipeline-animator .playstore.sc-pipeline-animator,.anim-automate_ui.sc-pipeline-animator .webhook.sc-pipeline-animator{left:50%;top:540px}.anim-automate_ui.sc-pipeline-animator .testflight.sc-pipeline-animator{margin-left:-352px}.anim-automate_ui.sc-pipeline-animator .playstore.sc-pipeline-animator{margin-left:352px}";
+
+class PipelineAnimator {
+    constructor(hostRef) {
+        registerInstance(this, hostRef);
+        this.gsapCdn = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.4.2/gsap.min.js';
+        this.tileConfig = {
+            master: {
+                location: 'one',
+                color: {
+                    top: '#22216A',
+                    bottom: '#5C59EE'
+                }
+            },
+            staging: {
+                location: 'one',
+                color: {
+                    top: '#6D0D3D',
+                    bottom: '#F24199'
+                }
+            },
+            qa: {
+                location: 'one',
+                color: {
+                    top: '#023C47',
+                    bottom: '#00BCDF'
+                }
+            },
+            android: {
+                location: 'twoB',
+                color: {
+                    top: '#0F5134',
+                    bottom: '#7EC951'
+                }
+            },
+            ios: {
+                location: 'twoA',
+                color: {
+                    top: '#484F5E',
+                    bottom: '#A9AEB7'
+                }
+            },
+            web: {
+                location: 'twoB',
+                color: {
+                    top: '#5F5200',
+                    bottom: '#F6D500'
+                }
+            },
+            playstore: {
+                location: 'threeC',
+                color: {
+                    top: '#1D5169',
+                    bottom: '#00F9FF'
+                }
+            },
+            testflight: {
+                location: 'threeA',
+                color: {
+                    top: '#183F74',
+                    bottom: '#1AC1FA'
+                }
+            },
+            webhook: {
+                location: 'threeB',
+                color: {
+                    top: '#4E0057',
+                    bottom: '#C600DC'
+                }
+            }
+        };
+        this.isPaused = false;
+    }
+    componentWillLoad() {
+        this.importGsap();
+    }
+    importGsap() {
+        const script = document.createElement('script');
+        script.src = this.gsapCdn;
+        script.onload = () => {
+            if (window) {
+                this.setupAutomateAnimation();
+            }
+            else {
+                window.onload = this.setupAutomateAnimation;
+            }
+        };
+        script.onerror = () => console.error('error loading gsap library from: ', this.gsapCdn);
+        document.body.appendChild(script);
+    }
+    animateTileIn(name) {
+        var tile = this.tileConfig[name];
+        var elTop = this.topEl.querySelector('.' + tile.location);
+        var elBottom = this.bottomEl.querySelector('.' + tile.location);
+        var uiEl = this.stageEl.querySelector('.' + name);
+        gsap.to(elTop, {
+            duration: 0.2,
+            fill: tile.color.top
+        });
+        gsap.set(elBottom, {
+            fill: tile.color.bottom,
+            alpha: 1
+        });
+        gsap.to(elBottom, {
+            duration: 1.4,
+            // alpha: 0,
+            scale: 1.07,
+            transformOrigin: 'center center',
+            ease: Expo.easeOut
+        });
+        gsap.set(uiEl, {
+            alpha: 0,
+            y: '-40%',
+            transformOrigin: 'center center',
+        });
+        gsap.to(uiEl, {
+            duration: 0.6,
+            alpha: 1,
+            y: '-50%',
+            ease: Expo.easeOut
+        });
+    }
+    animateTileOut(name, _delay) {
+        var tile = this.tileConfig[name];
+        var elTop = this.topEl.querySelector('.' + tile.location);
+        var elBottom = this.bottomEl.querySelector('.' + tile.location);
+        var uiEl = this.stageEl.querySelector('.' + name);
+        var delay = _delay || 0;
+        var defaultColor = tile.location === 'one' ? '#DDE6F7' : '#F5F7FD';
+        gsap.to(elBottom, {
+            duration: 0.3,
+            alpha: 0,
+            scale: 1
+        });
+        gsap.to(elTop, {
+            duration: 0.2,
+            fill: defaultColor,
+            delay: delay
+        });
+        gsap.to(uiEl, {
+            duration: 0.3,
+            alpha: 0,
+            y: '-40%',
+            delay: delay
+        });
+    }
+    animateConnector(name, direction) {
+        var tile = this.tileConfig[name];
+        var el = this.stageEl.querySelector('#' + tile.location + '_' + direction);
+        gsap.set(el, {
+            stroke: tile.color.top,
+            alpha: 1,
+            'stroke-dashoffset': '240px'
+        });
+        gsap.to(el, {
+            duration: 0.8,
+            'stroke-dashoffset': '100px',
+            delay: 0.3
+        });
+    }
+    setupAutomateAnimation() {
+        const automateTl = gsap.timeline({
+            defaultEase: Linear.easeNone,
+            onComplete: function () {
+                automateTl.restart();
+            }
+        });
+        automateTl.pause();
+        const sequence1 = gsap.timeline();
+        sequence1
+            .add(() => {
+            this.animateTileIn('staging');
+            this.animateConnector('staging', 'L');
+        }, 1)
+            .add(() => {
+            this.animateTileIn('ios');
+            this.animateConnector('ios', 'L');
+            this.animateConnector('ios', 'R');
+        }, 1.5)
+            .add(() => {
+            this.animateTileIn('testflight');
+            this.animateTileIn('webhook');
+        }, 2)
+            .add(() => {
+            this.animateTileOut('staging');
+            this.animateTileOut('ios', 0.15);
+            this.animateTileOut('testflight', 0.3);
+            this.animateTileOut('webhook', 0.3);
+        }, 6);
+        automateTl.add(sequence1, 0);
+        const sequence2 = gsap.timeline({
+            defaultEase: Linear.easeNone
+        });
+        sequence2
+            .add(() => {
+            this.animateTileIn('qa');
+            this.animateConnector('qa', 'R');
+        }, 1)
+            .add(() => {
+            this.animateTileIn('web');
+            this.animateConnector('web', 'L');
+        }, 1.5)
+            .add(() => {
+            this.animateTileIn('webhook');
+        }, 2)
+            .add(() => {
+            this.animateTileOut('qa');
+            this.animateTileOut('web', 0.15);
+            this.animateTileOut('webhook', 0.3);
+        }, 6);
+        automateTl.add(sequence2, 6);
+        const sequence3 = gsap.timeline({
+            defaultEase: Linear.easeNone
+        });
+        sequence3
+            .add(() => {
+            this.animateTileIn('master');
+            this.animateConnector('master', 'R');
+        }, 1)
+            .add(() => {
+            this.animateTileIn('android');
+            this.animateConnector('android', 'R');
+            this.animateConnector('android', 'L');
+        }, 1.5)
+            .add(() => {
+            this.animateTileIn('playstore');
+            this.animateTileIn('webhook');
+        }, 2)
+            .add(() => {
+            this.animateTileOut('master');
+            this.animateTileOut('android', 0.15);
+            this.animateTileOut('playstore', 0.3);
+            this.animateTileOut('webhook', 0.3);
+        }, 6);
+        automateTl.add(sequence3, 12);
+        automateTl.play();
+    }
+    render() {
+        return (h("div", { class: "anim-automate", ref: e => this.stageEl = e }, h("div", { class: "anim-automate_ui" }, h("div", { class: "master" }, h(Paragraph, { level: 5 }, "Push code")), h("div", { class: "staging" }, h(Paragraph, { level: 5 }, "Push code")), h("div", { class: "qa" }, h(Paragraph, { level: 5 }, "Push code")), h("div", { class: "android" }, h(Paragraph, { level: 5 }, "Trigger Android build")), h("div", { class: "ios" }, h(Paragraph, { level: 5 }, "Trigger iOS build")), h("div", { class: "web" }, h(Paragraph, { level: 5 }, "Trigger Web build")), h("div", { class: "testflight" }, h(Paragraph, { level: 5 }, "Deploy to TestFlight")), h("div", { class: "playstore" }, h(Paragraph, { level: 5 }, "Deploy to Google Play")), h("div", { class: "webhook" }, h(Paragraph, { level: 5 }, "Trigger webhook"))), h("svg", { width: "1346", height: "790", xmlns: "http://www.w3.org/2000/svg" }, h("g", { transform: "translate(-14 -14)" }, h("g", { ref: e => this.bottomEl = e }, h("rect", { class: "threeC", fill: "#F5F7FD", transform: "rotate(135 1022.725 496.6375)", x: "919.725", y: "393.6375", width: "206", height: "206", rx: "34" }), h("rect", { class: "threeB", fill: "#F5F7FD", transform: "rotate(135 672 496.6375)", x: "569", y: "393.6375", width: "206", height: "206", rx: "34" }), h("rect", { class: "threeA", fill: "#F5F7FD", transform: "rotate(135 321.275 496.6375)", x: "218.275", y: "393.6375", width: "206", height: "206", rx: "34" }), h("rect", { class: "twoA", fill: "#F5F7FD", transform: "rotate(135 496.6375 321.275)", x: "393.6375", y: "218.275", width: "206", height: "206", rx: "34" }), h("rect", { class: "twoB", fill: "#F5F7FD", transform: "rotate(135 847.3625 321.275)", x: "744.3625", y: "218.275", width: "206", height: "206", rx: "34" }), h("rect", { class: "one", fill: "#DDE6F7", transform: "rotate(135 672 145.9126)", x: "569", y: "42.9126", width: "206", height: "206", rx: "34" })), h("path", { d: "M920.4007 393.1937l28.9914 28.9914", class: "connector", id: "twoB_R", stroke: "#F2F6FF", "stroke-width": "5", "stroke-linecap": "square" }), h("path", { d: "M774.3242 394.6079l-28.9913 28.9914", class: "connector", id: "twoB_L", stroke: "#F2F6FF", "stroke-width": "5", "stroke-linecap": "square" }), h("path", { d: "M568.9392 395.3445l28.9914 28.9914", class: "connector", id: "twoA_R", stroke: "#F2F6FF", "stroke-width": "5", "stroke-linecap": "square" }), h("path", { d: "M422.9216 393.9303l-28.9913 28.9913", class: "connector", id: "twoA_L", stroke: "#F2F6FF", "stroke-width": "5", "stroke-linecap": "square" }), h("path", { d: "M745.0088 219.2749l28.9914 28.9914", class: "connector", id: "one_R", stroke: "#F2F6FF", "stroke-width": "5", "stroke-linecap": "square" }), h("path", { d: "M598.2841 218.5678l-28.9914 28.9914", class: "connector", id: "one_L", stroke: "#F2F6FF", "stroke-width": "5", "stroke-linecap": "square" }), h("g", { ref: e => this.topEl = e }, h("rect", { class: "four", fill: "#F5F7FD", transform: "rotate(135 1198.0874 672)", x: "1095.0874", y: "569", width: "206", height: "206", rx: "34" }), h("rect", { class: "four", fill: "#F5F7FD", transform: "rotate(135 145.9126 672)", x: "42.9126", y: "569", width: "206", height: "206", rx: "34" }), h("rect", { class: "four", fill: "#F5F7FD", transform: "rotate(135 496.6375 672)", x: "393.6375", y: "569", width: "206", height: "206", rx: "34" }), h("rect", { class: "four", fill: "#F5F7FD", transform: "rotate(135 847.3625 672)", x: "744.3625", y: "569", width: "206", height: "206", rx: "34" }), h("rect", { class: "threeC", fill: "#F5F7FD", transform: "rotate(135 1022.725 496.6375)", x: "919.725", y: "393.6375", width: "206", height: "206", rx: "34" }), h("rect", { class: "threeB", fill: "#F5F7FD", transform: "rotate(135 672 496.6375)", x: "569", y: "393.6375", width: "206", height: "206", rx: "34" }), h("rect", { class: "threeA", fill: "#F5F7FD", transform: "rotate(135 321.275 496.6375)", x: "218.275", y: "393.6375", width: "206", height: "206", rx: "34" }), h("rect", { class: "twoA", fill: "#F5F7FD", transform: "rotate(135 496.6375 321.275)", x: "393.6375", y: "218.275", width: "206", height: "206", rx: "34" }), h("rect", { class: "twoB", fill: "#F5F7FD", transform: "rotate(135 847.3625 321.275)", x: "744.3625", y: "218.275", width: "206", height: "206", rx: "34" }), h("rect", { class: "one", fill: "#DDE6F7", transform: "rotate(135 672 145.9126)", x: "569", y: "42.9126", width: "206", height: "206", rx: "34" }))))));
+    }
+    static get assetsDirs() { return ["img-pipeline-animator"]; }
+    get el() { return getElement(this); }
+    static get style() { return pipelineAnimatorCss; }
+    static get cmpMeta() { return {
+        "$flags$": 2,
+        "$tagName$": "pipeline-animator",
         "$members$": {
             "isPaused": [32]
         },
@@ -13721,6 +13964,7 @@ registerComponents([
   MoreResources,
   NewsletterForm,
   PhoneAnimator,
+  PipelineAnimator,
   PlatformBar,
   SiteFooter,
   SiteHeader,

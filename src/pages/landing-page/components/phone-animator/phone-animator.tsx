@@ -1,4 +1,4 @@
-import { Component, State, Element, Host, h, getAssetPath } from '@stencil/core';
+import { Component, State, Element, Host, h, getAssetPath} from '@stencil/core';
 // import { IntersectionHelper } from '@ionic-internal/ionic-ds'
 
 
@@ -9,16 +9,15 @@ import { Component, State, Element, Host, h, getAssetPath } from '@stencil/core'
   assetsDir: 'img-phone-animator'
 })
 export class PhoneAnimator {
-  private assetPath = getAssetPath('./img-phone-animator/updates-illustration-device.png');
   private gsapCdn = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.4.2/gsap.min.js';
-  private foreground: HTMLElement;
-  private background: HTMLElement;
-  private foregroundColors = ['#5d37ff','#7b69ff', '#b9bbff', '#f9fafc' ];
-  private backgroundColors = ['#5d37ff','#7b69ff', '#b9bbff', '#f9fafc' ];
-  private spacing = 208;
+  private foreground: SVGElement[] = []
+  private background: SVGElement[] = []
+  private foregroundColor = ['#5947FB', '#7870FB', '#B8BDFD', '#e2e4fe']
+  private backgroundColor = ['#5947FB', '#7870FB', '#B8BDFD', 'rgba(255, 255, 255, 0)']
   private timeline: GSAPTimeline;
-  private foregroundScreens: HTMLElement[] = [];
-  private backgroundScreens: HTMLElement[] = [];
+  private spacing = 160;
+  private screenEl: SVGElement;
+
 
   // private updatesTl;
   @Element() el: HTMLElement;
@@ -38,9 +37,9 @@ export class PhoneAnimator {
 
     script.onload = () => {
       if (window) {
-        this.setupUpdatesAnimation();
+        this.setUpAnimation();
       } else {
-        window.onload = this.setupUpdatesAnimation;
+        window.onload = this.setUpAnimation;
       }
     }
     script.onerror = () => console.error('error loading gsap library from: ', this.gsapCdn);      
@@ -48,149 +47,127 @@ export class PhoneAnimator {
     document.body.appendChild(script);  
   }
 
-  setupUpdatesAnimation() {
-    this.timeline = gsap.timeline();
-
-    // create foreground screens
-    this.foregroundScreens.forEach((screen, i) => {
-      gsap.set(screen, {
-        backgroundColor: this.foregroundColors[i],
-        y: -i * this.spacing
-      });
-    });
-      
-
-    // create background screens
-    this.backgroundScreens.forEach((screen, i, arr) => {
-      gsap.set(screen, {
-        backgroundColor: this.backgroundColors[i],
-        y: -i * this.spacing,
-      });
+  setUpAnimation() {
+    this.timeline = gsap.timeline({
+      repeat: -1,
+      repeatDelay: 1.4,
+      onRepeat: () => {
+        this.timeline.clear()
+        this.setUpTimeline();
+      },
+      defaults: {
+        duration: 1,
+        ease: Power3.easeInOut
+      }
     });
 
-    this.createTimeline();
+    
+
+    this.setUpTimeline();
     this.timeline.play();
   }
 
-  createTimeline() {
+  setUpTimeline() {
     this.timeline.add(() => {
-      for (let f=this.foregroundScreens.length - 1; f > 0; f--) {
-        let screen = this.foregroundScreens[f];
-        screen.style.zIndex = (f+1).toString();
-        gsap.to(screen, {
-          duration: 1,
-          backgroundColor: this.foregroundColors[f-1],
-          y: - (f - 1) * this.spacing,
-          ease: Power3.easeInOut
-        });
+      for(let r = this.foreground.length - 1; r > 0; r--) {
+        //set foreground
+        this.timeline.set(this.foreground[r], {
+          y: -r * this.spacing,
+          fill: this.foregroundColor[r],
+          opacity: r === this.foreground.length - 1 ? 0 : 1
+        }, 0)
+
+        //foreground animation
+        this.timeline.to(this.foreground[r], {
+          y: -r * this.spacing + this.spacing,
+          fill: this.foregroundColor[r - 1 < 0 ? this.foreground.length - 1 : r - 1],
+        }, 0)
       }
-      for (let b = 0; b < this.backgroundScreens.length - 1; b++) {
-        let screen = this.backgroundScreens[b];
-        gsap.to(screen, {
-          duration: 1,
-          backgroundColor: this.backgroundColors[b+1],
-          y: (b + 1) * this.spacing,
-          ease: Power3.easeInOut
-        });
+
+      let index = 0;
+      for(let r = this.background.length - 1; r >= 0; r--) {
+        //set background
+        this.timeline.set(this.background[r], {
+          y: index * this.spacing,
+          fill: this.backgroundColor[index],
+        }, 0)
+
+        // background animation
+        this.timeline.to(this.background[r], {
+          y: index * this.spacing + this.spacing,
+          fill: this.backgroundColor[index + 1 > this.foreground.length - 1 ? 0 : index + 1],
+        }, 0)
+
+        index ++;
       }
+
+      this.timeline.to(this.foreground[this.foreground.length - 1], {
+        opacity: 1,
+        duration: .3
+      }, .3)
     }, 0)
 
-    // this.timeline.to(this.foregroundScreens[0], {
-    //   duration: 1,
-    //   backgroundColor: '#4d4668',
-    //   zIndex: 1,
-    // }, 0.3)
+    this.timeline.set(this.foreground[0], {
+      y: (this.foreground.length - 1) * this.spacing,
+      fill: this.foregroundColor[this.foreground.length - 1],
+      zIndex: this.foreground.length + 2,
+    }, 0)
+  
 
-    // this.timeline.to(this.foregroundScreens[1], {
-    //   duration: .5,
-    //   boxShadow: '0px 0px 0px 0 #5d37ff',
-    // }, 0.3)
+    this.timeline.set(this.screenEl, {
+      fill: this.foregroundColor[0],
+    }, 0)
+    this.timeline.to(this.screenEl, {
+      fill: '#4d4668',
+      ease: 'normal'
+    }, 0.3)
+    this.timeline.set(this.screenEl, {
+      fill: this.foregroundColor[0],
+    }, 1.3)
 
-    this.timeline.add(() => {
+    this.timeline.to(this.foreground[1], {
+      duration: .5,
+      boxShadow: '0px 0px 0px 0 #5d37ff',
+    }, 0.3)
 
-      // cleanup foreground
-      const screen = this.foregroundScreens.shift();
-      this.foregroundScreens.push(screen);
-      // screen = document.createElement('div');
-      // screen.classList.add('anim-updates__screen');
-      // screen.style.cssText = `
-      //   width: 298px;
-      //   height: 924px;
-      //   background: #5d37ff;
-      //   position: absolute;
-      //   left: 506px;
-      //   transform-origin: top left;
-      //   transform: rotateX(65.4deg) rotateY(1.4deg) rotateZ(32.9deg) skew(-0deg, -4.1deg);
-      //   border-radius: 32px;
-      // `;
-      // this.foreground.appendChild(screen);
-      gsap.set(screen, {
-        backgroundColor: this.foregroundColors[3],
-        y: -(3) * this.spacing,
-        opacity: 0,
-      });
-      gsap.to(screen, {
-        delay: 1.4,
-        duration: .3,
-        opacity: 1,
-      });
-      // this.foregroundScreens.push(screen);
+    this.timeline.to(this.foreground[1], {
+      duration: .5,
+      boxShadow: '0px 0px 0px 0 #5d37ff',
+    }, 0.3)
 
-      // cleanup background
-      // this.backgroundScreens[this.backgroundScreens.length - 1].remove();
-      // this.backgroundScreens.pop();
-      // screen = document.createElement('div');
-      // screen.className = 'anim-updates__screen new';
-      // screen.style.cssText = `
-      //   width: 298px;
-      //   height: 924px;
-      //   background: #5d37ff;
-      //   position: absolute;
-      //   left: 506px;
-      //   transform-origin: top left;
-      //   transform: rotateX(65.4deg) rotateY(1.4deg) rotateZ(32.9deg) skew(0deg, -4.1deg);
-      //   border-radius: 32px;
-      // `;
-      // this.background.appendChild(screen);
-      // gsap.set(screen, {
-      //   backgroundColor: this.backgroundColors[0],
-      //   y: 0
-      // });
-      // this.backgroundScreens.unshift(screen);
-    }, 1.2)
 
-    this.timeline.add(()=>{
-      this.timeline.clear();
-      this.createTimeline();
-    }, 2.4);
+    this.timeline.play();
   }
-
 
   render() {
     return (
-    <Host
-      style={{
-        '--asset-path': `url('${this.assetPath}')`
-      }}
-    >
-      <div class="anim-updates">
-        
-        <div class="anim-updates__root">
-          <div class="anim-updates__foreground" ref={e => this.foreground = e}>
-            <div class="anim-updates__screen" ref={e => this.foregroundScreens.push(e)}></div>
-            <div class="anim-updates__screen" ref={e => this.foregroundScreens.push(e)}></div>
-            <div class="anim-updates__screen" ref={e => this.foregroundScreens.push(e)}></div>
-            <div class="anim-updates__screen" ref={e => this.foregroundScreens.push(e)}></div>
-          </div>
-          <div class="anim-updates__device"></div>
-          <div class="anim-updates__background" ref={e => this.background = e}>
-            <div class="anim-updates__screen" ref={e => this.backgroundScreens.push(e)}></div>
-            <div class="anim-updates__screen" ref={e => this.backgroundScreens.push(e)}></div>
-            <div class="anim-updates__screen" ref={e => this.backgroundScreens.push(e)}></div>
-            <div class="anim-updates__screen" ref={e => this.backgroundScreens.push(e)}></div>
-          </div>
-        </div>
+    <Host>
+      <svg class="foreground screen" viewBox="3.79372501373291 133.2659912109375 565.734130859375 307.3507995605469" xmlns="http://www.w3.org/2000/svg">
+        <path ref={e => this.foreground.push(e)} opacity="0" d="M552.914 174.599L399.797 134.422C385.537 131.271 366.436 134.941 357.561 140.85L7.68016 376.88C0.286579 384.11 3.75508 392.452 15.4273 395.512L185.396 439.568C197.068 442.628 209.539 438.655 219.917 432.017L560.777 194.124C575.541 183.414 570.759 179.455 552.914 174.599Z"></path>
+        <path ref={e => this.foreground.push(e)} d="M552.914 174.599L399.797 134.422C385.537 131.271 366.436 134.941 357.561 140.85L7.68016 376.88C0.286579 384.11 3.75508 392.452 15.4273 395.512L185.396 439.568C197.068 442.628 209.539 438.655 219.917 432.017L560.777 194.124C575.541 183.414 570.759 179.455 552.914 174.599Z"></path>
+        <path ref={e => this.foreground.push(e)} d="M552.914 174.599L399.797 134.422C385.537 131.271 366.436 134.941 357.561 140.85L7.68016 376.88C0.286579 384.11 3.75508 392.452 15.4273 395.512L185.396 439.568C197.068 442.628 209.539 438.655 219.917 432.017L560.777 194.124C575.541 183.414 570.759 179.455 552.914 174.599Z"></path>
+        <path ref={e => this.foreground.push(e)} d="M552.914 174.599L399.797 134.422C385.537 131.271 366.436 134.941 357.561 140.85L7.68016 376.88C0.286579 384.11 3.75508 392.452 15.4273 395.512L185.396 439.568C197.068 442.628 209.539 438.655 219.917 432.017L560.777 194.124C575.541 183.414 570.759 179.455 552.914 174.599Z"></path>
+      </svg>
+
+      <div class="iphone">
+        <svg
+          class="screen"
+          viewBox="3.79372501373291 133.2659912109375 565.734130859375 307.3507995605469" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path ref={e => this.screenEl = e} fill="#5947FB" d="M552.914 174.599L399.797 134.422C385.537 131.271 366.436 134.941 357.561 140.85L7.68016 376.88C0.286579 384.11 3.75508 392.452 15.4273 395.512L185.396 439.568C197.068 442.628 209.539 438.655 219.917 432.017L560.777 194.124C575.541 183.414 570.759 179.455 552.914 174.599Z"></path>
+        </svg>
+        <img
+          src={getAssetPath('img-phone-animator/iphone-x.png')}
+          srcset={`${getAssetPath('img-phone-animator/iphone-x.png')} 1x,
+                  ${getAssetPath('img-phone-animator/iphone-x@2x.png')} 2x`}
+          loading="lazy"
+          width="1780" height="1541"
+        />
       </div>
+      <svg class="background screen" viewBox="3.79372501373291 133.2659912109375 565.734130859375 307.3507995605469" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path ref={e => this.background.push(e)} d="M552.914 174.599L399.797 134.422C385.537 131.271 366.436 134.941 357.561 140.85L7.68016 376.88C0.286579 384.11 3.75508 392.452 15.4273 395.512L185.396 439.568C197.068 442.628 209.539 438.655 219.917 432.017L560.777 194.124C575.541 183.414 570.759 179.455 552.914 174.599Z"></path>
+        <path ref={e => this.background.push(e)} d="M552.914 174.599L399.797 134.422C385.537 131.271 366.436 134.941 357.561 140.85L7.68016 376.88C0.286579 384.11 3.75508 392.452 15.4273 395.512L185.396 439.568C197.068 442.628 209.539 438.655 219.917 432.017L560.777 194.124C575.541 183.414 570.759 179.455 552.914 174.599Z"></path>
+        <path ref={e => this.background.push(e)} d="M552.914 174.599L399.797 134.422C385.537 131.271 366.436 134.941 357.561 140.85L7.68016 376.88C0.286579 384.11 3.75508 392.452 15.4273 395.512L185.396 439.568C197.068 442.628 209.539 438.655 219.917 432.017L560.777 194.124C575.541 183.414 570.759 179.455 552.914 174.599Z"></path>
+      </svg>
     </Host>
     );
   }

@@ -125,16 +125,18 @@ export class AppflowActivator {
     return (
     <Host>
       <div class="app-screenshot">
-        {this.screens.map((screen, i) => (
-          <img
-            class={`screen ${i === this.currentScreen ? 'animate-in' : 'animate-out'}`}
-            src={screen.image}
-            width="1153"
-            height="611"
-            loading={i === 0 ? 'eager' : 'lazy'}
-            style={{'position': i !== 0 ? 'absolute' : undefined}}
-          />
-        ))}
+        <div class="image">
+          {this.screens.map((screen, i) => (
+            <img
+              class={`screen ${i === this.currentScreen ? 'animate-in' : 'animate-out'}`}
+              src={screen.image}
+              width="1153"
+              height="611"
+              loading={i === 0 ? 'eager' : 'lazy'}
+              style={{'position': i !== 0 ? 'absolute' : undefined}}
+            />
+          ))}
+        </div>
         <div class="nav">
           <ResponsiveContainer>
             <ul>

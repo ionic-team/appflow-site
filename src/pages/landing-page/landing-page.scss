@@ -77,9 +77,9 @@ a {
   }
 
   appflow-activator {
-    // .app-screenshot {
-    // @include util.box($mxw:1168px);
-    // }
+    .screen {
+    @include util.box($mxw:1152px, $mis:auto, $mie:auto);
+    }
   }
 }
 

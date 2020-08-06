@@ -101,12 +101,10 @@ li.active {
   position: relative;
   z-index: 5;
 
-  .ui-skeleton {
-    position:absolute;
-    left:0;
-    right:0;
-    top:0;
-    bottom:0;
+  .image {
+    position:relative;
+    margin-inline-start: auto;
+    margin-inline-end: auto;
   }
 
   .screen {

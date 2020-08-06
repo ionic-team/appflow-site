@@ -57,7 +57,7 @@
 
   > div {
     position: absolute;
-    transform: translate(-50%, -100%);
+    transform: translate(-50%, -50%);
     max-width: 114px;
     text-align: center;
     display: flex;
@@ -65,11 +65,14 @@
     align-items: center;
     opacity: 0;
 
+    img {
+      margin-bottom: var(--space-2);
+    }
+
     p {
-      font-family: var(--f-family-text);
-      margin: 0;
       color: #fff;
       font-weight: 500;
+      line-height: 17px;
     }
 
     span {
@@ -77,92 +80,56 @@
       opacity: 0.6;
       font-family: 12px;
     }
-
-    &:before {
-      content: '';
-      display: block;
-      width: 20px;
-      height: 50px;
-      margin-bottom: 12px;
-      background-repeat: no-repeat;
-      background-size: 100%;
-    }
   }
 
-  .master:before {
-    background-image: url('/assets/img/pro-automate-animation/master.png');
+  .master img {
     width: 100px;
     height: 30px;
-    background-size: 100px 30px;
   }
 
-  .staging:before {
-    background-image: url('/assets/img/pro-automate-animation/staging.png');
+  .staging img {
     width: 110px;
     height: 30px;
-    background-size: 110px 30px;
   }
 
-  .qa:before {
-    background-image: url('/assets/img/pro-automate-animation/qa.png');
+  .qa img {
     width: 61px;
     height: 30px;
-    background-size: 61px 30px;
   }
 
-  .android:before,
-  .ios:before,
-  .web:before {
+  .android img,
+  .ios img,
+  .web img {
     width: 62px;
     height: 62px;
-    background-size: 62px 62px;
   }
 
-  .android:before {
-    background-image: url('/assets/img/pro-automate-animation/android.png');
-  }
-
-  .ios:before {
-    background-image: url('/assets/img/pro-automate-animation/ios.png');
-  }
-
-  .web:before {
-    background-image: url('/assets/img/pro-automate-animation/js.png');
-  }
-
-  .testflight:before {
-    background-image: url('/assets/img/pro-automate-animation/testflight.png');
+  .testflight img {
     width: 53px;
     height: 53px;
-    background-size: 53px 53px;
   }
 
-  .playstore:before {
-    background-image: url('/assets/img/pro-automate-animation/playstore.png');
+  .playstore img{
     width: 50px;
     height: 55px;
-    background-size: 50px 55px;
   }
 
-  .webhook:before {
-    background-image: url('/assets/img/pro-automate-animation/webhook.png');
+  .webhook img {
     width: 58px;
     height: 54px;
-    background-size: 58px 54px;
   }
 
   .master,
   .staging,
   .qa {
     left: 50%;
-    top: 195px;
+    top: 220px;
   }
 
   .android,
-  .ios,
   .web {
     left: 50%;
-    top: 368px;
+    top: 410px;
   }
 
   .android,
@@ -172,13 +139,19 @@
 
   .ios {
     margin-left: -178px;
+    left: 50%;
+    top: 400px;
   }
 
   .testflight,
-  .playstore,
+  .playstore {
+    left: 50%;
+    top: 590px;
+  }
+
   .webhook {
     left: 50%;
-    top: 540px;
+    top: 578px;
   }
 
   .testflight {

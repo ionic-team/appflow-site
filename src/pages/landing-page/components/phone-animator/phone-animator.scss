@@ -64,6 +64,7 @@
 @media (max-width: var.$screen-md)  {
   .anim-updates {
     transform: translate(-180px, -56px) scale(0.7);
+    opacity: 0.1;
   }
   .content {
     padding-top: 164px;
@@ -74,7 +75,6 @@
 @media (max-width: var.$screen-sm)  {
   .anim-updates {
     transform: translateX(-50%) scale(0.7);
-    opacity: 0.3;
   }
 
   .content {

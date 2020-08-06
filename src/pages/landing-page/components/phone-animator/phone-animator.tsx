@@ -31,6 +31,8 @@ export class PhoneAnimator {
   } 
 
   importGsap() {    
+    if (window.gsap) return;
+    
     const script = document.createElement('script');
     script.src = this.gsapCdn;
 
@@ -63,7 +65,6 @@ export class PhoneAnimator {
       gsap.set(screen, {
         backgroundColor: this.backgroundColors[i],
         y: -i * this.spacing,
-        z: arr.length - i
       });
     });
 
@@ -75,6 +76,7 @@ export class PhoneAnimator {
     this.timeline.add(() => {
       for (let f=this.foregroundScreens.length - 1; f > 0; f--) {
         let screen = this.foregroundScreens[f];
+        screen.style.zIndex = (f+1).toString();
         gsap.to(screen, {
           duration: 1,
           backgroundColor: this.foregroundColors[f-1],
@@ -93,62 +95,68 @@ export class PhoneAnimator {
       }
     }, 0)
 
-    this.timeline.to(this.foregroundScreens[0], {
-      duration: 1,
-      backgroundColor: '#4d4668',
-    }, 0.3)
+    // this.timeline.to(this.foregroundScreens[0], {
+    //   duration: 1,
+    //   backgroundColor: '#4d4668',
+    //   zIndex: 1,
+    // }, 0.3)
 
-    this.timeline.to(this.foregroundScreens[1], {
-      duration: .5,
-      boxShadow: '0px 0px 0px 0 #5d37ff',
-    }, 0.3)
+    // this.timeline.to(this.foregroundScreens[1], {
+    //   duration: .5,
+    //   boxShadow: '0px 0px 0px 0 #5d37ff',
+    // }, 0.3)
 
     this.timeline.add(() => {
-      let screen;
 
       // cleanup foreground
-      this.foregroundScreens[0].remove();
-      this.foregroundScreens.shift();
-      screen = document.createElement('div');
+      const screen = this.foregroundScreens.shift();
+      this.foregroundScreens.push(screen);
+      // screen = document.createElement('div');
       // screen.classList.add('anim-updates__screen');
-      screen.style.cssText = `
-        width: 298px;
-        height: 924px;
-        background: #5d37ff;
-        position: absolute;
-        left: 506px;
-        transform-origin: top left;
-        transform: rotateX(65.4deg) rotateY(1.4deg) rotateZ(32.9deg) skew(-0deg, -4.1deg);
-        border-radius: 32px;
-      `;
-      this.foreground.appendChild(screen);
+      // screen.style.cssText = `
+      //   width: 298px;
+      //   height: 924px;
+      //   background: #5d37ff;
+      //   position: absolute;
+      //   left: 506px;
+      //   transform-origin: top left;
+      //   transform: rotateX(65.4deg) rotateY(1.4deg) rotateZ(32.9deg) skew(-0deg, -4.1deg);
+      //   border-radius: 32px;
+      // `;
+      // this.foreground.appendChild(screen);
       gsap.set(screen, {
         backgroundColor: this.foregroundColors[3],
-        y: -(3) * this.spacing
+        y: -(3) * this.spacing,
+        opacity: 0,
       });
-      this.foregroundScreens.push(screen);
+      gsap.to(screen, {
+        delay: 1.4,
+        duration: .3,
+        opacity: 1,
+      });
+      // this.foregroundScreens.push(screen);
 
       // cleanup background
-      this.backgroundScreens[this.backgroundScreens.length - 1].remove();
-      this.backgroundScreens.pop();
-      screen = document.createElement('div');
-      screen.className = 'anim-updates__screen new';
-      screen.style.cssText = `
-        width: 298px;
-        height: 924px;
-        background: #5d37ff;
-        position: absolute;
-        left: 506px;
-        transform-origin: top left;
-        transform: rotateX(65.4deg) rotateY(1.4deg) rotateZ(32.9deg) skew(0deg, -4.1deg);
-        border-radius: 32px;
-      `;
-      this.background.appendChild(screen);
-      gsap.set(screen, {
-        backgroundColor: this.backgroundColors[0],
-        y: 0
-      });
-      this.backgroundScreens.unshift(screen);
+      // this.backgroundScreens[this.backgroundScreens.length - 1].remove();
+      // this.backgroundScreens.pop();
+      // screen = document.createElement('div');
+      // screen.className = 'anim-updates__screen new';
+      // screen.style.cssText = `
+      //   width: 298px;
+      //   height: 924px;
+      //   background: #5d37ff;
+      //   position: absolute;
+      //   left: 506px;
+      //   transform-origin: top left;
+      //   transform: rotateX(65.4deg) rotateY(1.4deg) rotateZ(32.9deg) skew(0deg, -4.1deg);
+      //   border-radius: 32px;
+      // `;
+      // this.background.appendChild(screen);
+      // gsap.set(screen, {
+      //   backgroundColor: this.backgroundColors[0],
+      //   y: 0
+      // });
+      // this.backgroundScreens.unshift(screen);
     }, 1.2)
 
     this.timeline.add(()=>{

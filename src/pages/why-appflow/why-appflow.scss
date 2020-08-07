@@ -71,11 +71,22 @@ a {
     .ui-heading-6 {
     @include util.box($mbe:26px);
     }
+
+    .cta {
+    @include util.box($back:var(--c-lavender-60), $br:var(--radius-4), $color:#fff, $p:14px 16px, $mbs:var(--space-6));
+    @include util.font($fw:600, $fs:14px, $ls:-0.02em, $lh:112%);
+
+      &::after {
+      @include util.box($c:' ->');
+      @include util.font($ws:pre, $ls:0);
+      }
+    }
   }
 
   .image {
+  @include util.box($pos:relative, $fg:1, $d:flex, $jc:center);
     img {
-    @include util.box($mxw:457px, $pos:relative, $t:-30px);
+    @include util.box($mxw:457px, $pos:absolute, $t:-30px);
     }
   }
 }
@@ -96,5 +107,80 @@ a {
 
   img {
   @include util.box($w:auto);
+  }
+}
+
+#benefits {
+@include util.box($pbs:$section-space, $pbe:$section-space);
+
+  .heading-group {
+  @include util.box($mxw:640px, $mbe:var(--space-5));
+  }
+
+  .subtext {
+  @include util.box($pos:relative, $mis:var(--space-3), $mxw:624px, $mbe:var(--space-11));
+
+    &::before {
+    @include util.box($c:'', $pos:absolute, $w:2px, $h:64px, $back:var(--c-lavender-70),
+                      $t:50%, $tf:translateY(-50%), $l:calc(-1 * var(--space-3)));
+    }
+  }
+}
+
+#integrated {
+@include util.box($pbs:$section-space, $pbe:$section-space);
+
+  img {
+  @include util.box($w:auto);
+  }
+
+  .heading-group {
+  @include util.box($mbe:var(--space-11));
+  }
+}
+
+#problems {
+@include util.box($pbs:$section-space, $pbe:$section-space, $back:var(--c-indigo-0));
+
+  img {
+  @include util.box($w:auto);
+  }
+
+  .heading-group {
+  @include util.box($mbe:var(--space-11), $mxw:768px);
+  }
+
+  .list-item {
+  @include util.box($d:flex, $ai:flex-start);
+
+    & + .list-item {
+    @include util.box($mbs:80px);
+    }
+
+    .paragraphs {
+    @include util.box($d:flex, $fd:column);
+
+      .ui-paragraph + .ui-paragraph {
+      @include util.box($mbs:var(--space-5));
+      }
+    }
+  }
+}
+
+#different {
+@include util.box($pbs:$section-space, $pbe:$section-space, $back:#090C22);
+
+  --h6-color: var(--lavender-60);
+  --h2-color: #fff;
+
+  --h4-color: #fff;
+  --p3-color: var(--c-indigo-30);
+
+  img {
+  @include util.box($w:auto);
+  }
+
+  .heading-group {
+  @include util.box($mbe:var(--space-11));
   }
 }

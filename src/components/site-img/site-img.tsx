@@ -21,7 +21,7 @@ import { Component, h, Prop, Element } from '@stencil/core';
 })
 export class SiteImg {
   @Element() el: HTMLElement;
-  @Prop() loading?: 'lazy' = 'lazy';
+  @Prop() loading?: 'lazy' | 'eager' = 'lazy';
   @Prop() path: string;
   @Prop() name: string;
   @Prop() type: string;
@@ -31,7 +31,7 @@ export class SiteImg {
   render() {
     return (
     <img  src={`${this.path}${this.name}@2x.${this.type}`}
-          srcset={`${this.path}${this.name}@1x.${this.type} 1x,
+          srcset={`${this.path}${this.name}.${this.type} 1x,
                   ${this.path}${this.name}@2x.${this.type} 2x`}
           loading={this.loading}
           width={this.dimensions.split('x')[0]}

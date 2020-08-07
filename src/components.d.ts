@@ -28,6 +28,8 @@ export namespace Components {
         "code": string;
         "language": string;
     }
+    interface GetStartedSection {
+    }
     interface LandingPage {
     }
     interface NewsletterForm {
@@ -42,7 +44,7 @@ export namespace Components {
     interface SiteImg {
         "alt": string;
         "dimensions": string;
-        "loading"?: 'lazy';
+        "loading"?: 'lazy' | 'eager';
         "name": string;
         "path": string;
         "type": string;
@@ -105,6 +107,12 @@ declare global {
         prototype: HTMLCodeSnippetElement;
         new (): HTMLCodeSnippetElement;
     };
+    interface HTMLGetStartedSectionElement extends Components.GetStartedSection, HTMLStencilElement {
+    }
+    var HTMLGetStartedSectionElement: {
+        prototype: HTMLGetStartedSectionElement;
+        new (): HTMLGetStartedSectionElement;
+    };
     interface HTMLLandingPageElement extends Components.LandingPage, HTMLStencilElement {
     }
     var HTMLLandingPageElement: {
@@ -157,6 +165,7 @@ declare global {
         "appflow-site-header": HTMLAppflowSiteHeaderElement;
         "appflow-site-routes": HTMLAppflowSiteRoutesElement;
         "code-snippet": HTMLCodeSnippetElement;
+        "get-started-section": HTMLGetStartedSectionElement;
         "landing-page": HTMLLandingPageElement;
         "newsletter-form": HTMLNewsletterFormElement;
         "phone-animator": HTMLPhoneAnimatorElement;
@@ -190,6 +199,8 @@ declare namespace LocalJSX {
         "code"?: string;
         "language"?: string;
     }
+    interface GetStartedSection {
+    }
     interface LandingPage {
     }
     interface NewsletterForm {
@@ -204,7 +215,7 @@ declare namespace LocalJSX {
     interface SiteImg {
         "alt"?: string;
         "dimensions"?: string;
-        "loading"?: 'lazy';
+        "loading"?: 'lazy' | 'eager';
         "name"?: string;
         "path"?: string;
         "type"?: string;
@@ -221,6 +232,7 @@ declare namespace LocalJSX {
         "appflow-site-header": AppflowSiteHeader;
         "appflow-site-routes": AppflowSiteRoutes;
         "code-snippet": CodeSnippet;
+        "get-started-section": GetStartedSection;
         "landing-page": LandingPage;
         "newsletter-form": NewsletterForm;
         "phone-animator": PhoneAnimator;
@@ -243,6 +255,7 @@ declare module "@stencil/core" {
             "appflow-site-header": LocalJSX.AppflowSiteHeader & JSXBase.HTMLAttributes<HTMLAppflowSiteHeaderElement>;
             "appflow-site-routes": LocalJSX.AppflowSiteRoutes & JSXBase.HTMLAttributes<HTMLAppflowSiteRoutesElement>;
             "code-snippet": LocalJSX.CodeSnippet & JSXBase.HTMLAttributes<HTMLCodeSnippetElement>;
+            "get-started-section": LocalJSX.GetStartedSection & JSXBase.HTMLAttributes<HTMLGetStartedSectionElement>;
             "landing-page": LocalJSX.LandingPage & JSXBase.HTMLAttributes<HTMLLandingPageElement>;
             "newsletter-form": LocalJSX.NewsletterForm & JSXBase.HTMLAttributes<HTMLNewsletterFormElement>;
             "phone-animator": LocalJSX.PhoneAnimator & JSXBase.HTMLAttributes<HTMLPhoneAnimatorElement>;

@@ -144,7 +144,7 @@ export class AppflowActivator {
                 <li
                   class={(i === this.currentScreen) ? 'active' : 'default'}
                   onMouseEnter={() => this.override(i)}>
-                  {screen.icon(i === this.currentScreen ? 'active' : 'default')}
+                  {screen.icon(i === this.currentScreen ? 'active' : 'default')}                  
                   <Heading level={5}>{screen.name}</Heading>
                   <Paragraph level={4}>{screen.description}</Paragraph>
                   <div class="indicator" ref={(el) => this.indicators[i] = el}></div>

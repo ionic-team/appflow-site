@@ -44,6 +44,31 @@ li + li {
   margin-inline-start: var(--space-6);
 }
 
+@media screen and (max-width: var.$screen-sm-max) {
+  li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    & + li {
+      margin-inline-start: var(--space-2);
+    }
+
+    svg {
+      margin-block-end: var(--space-1);
+    }
+
+    .ui-heading {
+      text-align: center;
+      font-size: 10px;
+    }
+
+    .ui-paragraph {
+      display: none;
+    }
+  }
+}
+
 li {
   h5,
   p {

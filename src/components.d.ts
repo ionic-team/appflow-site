@@ -47,6 +47,8 @@ export namespace Components {
         "path": string;
         "type": string;
     }
+    interface WhyAppflow {
+    }
 }
 declare global {
     interface HTMLAnchorLinkElement extends Components.AnchorLink, HTMLStencilElement {
@@ -139,6 +141,12 @@ declare global {
         prototype: HTMLSiteImgElement;
         new (): HTMLSiteImgElement;
     };
+    interface HTMLWhyAppflowElement extends Components.WhyAppflow, HTMLStencilElement {
+    }
+    var HTMLWhyAppflowElement: {
+        prototype: HTMLWhyAppflowElement;
+        new (): HTMLWhyAppflowElement;
+    };
     interface HTMLElementTagNameMap {
         "anchor-link": HTMLAnchorLinkElement;
         "app-burger": HTMLAppBurgerElement;
@@ -155,6 +163,7 @@ declare global {
         "pipeline-animator": HTMLPipelineAnimatorElement;
         "site-backdrop": HTMLSiteBackdropElement;
         "site-img": HTMLSiteImgElement;
+        "why-appflow": HTMLWhyAppflowElement;
     }
 }
 declare namespace LocalJSX {
@@ -200,6 +209,8 @@ declare namespace LocalJSX {
         "path"?: string;
         "type"?: string;
     }
+    interface WhyAppflow {
+    }
     interface IntrinsicElements {
         "anchor-link": AnchorLink;
         "app-burger": AppBurger;
@@ -216,6 +227,7 @@ declare namespace LocalJSX {
         "pipeline-animator": PipelineAnimator;
         "site-backdrop": SiteBackdrop;
         "site-img": SiteImg;
+        "why-appflow": WhyAppflow;
     }
 }
 export { LocalJSX as JSX };
@@ -237,6 +249,7 @@ declare module "@stencil/core" {
             "pipeline-animator": LocalJSX.PipelineAnimator & JSXBase.HTMLAttributes<HTMLPipelineAnimatorElement>;
             "site-backdrop": LocalJSX.SiteBackdrop & JSXBase.HTMLAttributes<HTMLSiteBackdropElement>;
             "site-img": LocalJSX.SiteImg & JSXBase.HTMLAttributes<HTMLSiteImgElement>;
+            "why-appflow": LocalJSX.WhyAppflow & JSXBase.HTMLAttributes<HTMLWhyAppflowElement>;
         }
     }
 }

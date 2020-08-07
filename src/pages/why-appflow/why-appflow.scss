@@ -1,0 +1,100 @@
+// #region ------------------------------ IMPORTS -------------------------------------------------------
+@use '../../global/variables' as var;
+@use '../../global/utils.scss' as util;
+//#endregion --------------------------------------------------------------------------------------------------
+
+// #region ------------------------------ VARIABLES/THEME ------------------------------------------------
+$section-space: 160px;
+
+:root {
+  --p2-color: var(--c-indigo-80);
+  --p3-color: var(--c-indigo-80);
+  --p4-color: var(--c-indigo-80);
+
+  --poster1-color: #fff;
+  --h2-color: var(--c-carbon-100);
+  --h4-color: var(--c-carbon-100);
+  --h5-color: var(--c-carbon-100);
+  --h6-color: var(--c-lavender-70);
+
+  --p2-color: var(--c-indigo-80);
+  --p3-color: var(--c-indigo-80);
+  --p4-color: var(--c-indigo-80);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    // --color-back: black;
+  }
+}
+//#endregion --------------------------------------------------------------------------------------------------
+
+// #region ------------------------------ GENERIC STYLES -------------------------------------------------
+a {
+  color: var(--c-lavender-80);
+}
+
+.ui-heading-2 {
+@include util.box($mbe:var(--space-5))
+}
+.ui-heading-4 {
+@include util.box($mbe:var(--space-3))
+}
+.ui-heading-5 {
+@include util.box($mbe:var(--space-3))
+}
+.ui-heading-6 {
+@include util.box($mbe:var(--space-6))
+}
+.ui-paragraph-2 {
+@include util.box($mbs:var(--space-5));
+}
+.ui-container {
+@include util.media($type:min-width, $val:var.$screen-lg, $w:1120px, $pis:0, $pie:0)
+}
+//#endregion --------------------------------------------------------------------------------------------------
+
+// #region ------------------------------ PAGE STYLES ----------------------------------------------------
+#top {
+@include util.box($back:#212752, $pbs:162px, $pbe:162px);
+
+  --h6-color: var(--c-lavender-50);
+  --h1-color: #fff;
+  --p2-color: var(--c-lavender-10);
+
+  .ui-container {
+  @include util.box($d:flex, $jc:space-between);
+  }
+
+  .heading-group {
+  @include util.box($mxw:544px);
+
+    .ui-heading-6 {
+    @include util.box($mbe:26px);
+    }
+  }
+
+  .image {
+    img {
+    @include util.box($mxw:457px, $pos:relative, $t:-30px);
+    }
+  }
+}
+
+#companies {
+@include util.box($pbs:$section-space, $pbe:$section-space);
+
+  .row{
+  @include util.box($d:flex, $ai:center, $jc:space-around, $fg:1, $mis:auto, $mie:auto);
+  }
+  
+  .row1 {
+  @include util.box($mxw:1018px);
+  }
+  .row2{
+  @include util.box($mxw:946px);
+  }
+
+  img {
+  @include util.box($w:auto);
+  }
+}

@@ -30,6 +30,9 @@ export class AppflowSiteRoutes {
           <Route path="/">
             <landing-page />
           </Route>
+          <Route path="/why-appflow">
+            <why-appflow />
+          </Route>
         </Router.Switch>
       </Host>
     );

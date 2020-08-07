@@ -91,10 +91,11 @@ a {
   }
 
   .logos {
-  @include util.box($d:flex, $mxw:1019px, $mis:auto, $mie:auto, $ai:center, $jc:space-between, $fg:1, $fw:wrap);
+  @include util.box($d:flex, $mxw:1019px, $mis:auto, $mie:auto, $ai:center, $jc:space-between, $fg:1,
+                    $fw:wrap, $mbe:calc(-1 * var(--space-6)));
 
     .wrapper {
-    @include util.box($d: inline-grid, $ji:center, $ai:center, $fg:1, $mnw:400px,
+    @include util.box($d: inline-grid, $ji:center, $ai:center, $fg:1, $mnw:400px, $mbe:var(--space-6),
                       $gtc:repeat(auto-fit, minmax(64px, 1fr)), $rg:var(--space-6));
     @include util.media($val:var.$screen-sm-max, $fb:400px, $mnw: auto);
 

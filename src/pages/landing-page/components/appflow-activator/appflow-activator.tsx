@@ -1,6 +1,6 @@
 import { Component, State, Listen, Element, Host, h, getAssetPath } from '@stencil/core';
 import { publishIcon, updatesIcon, buildsIcon, automationsIcon } from './icons'
-import { ResponsiveContainer, Heading, Paragraph } from '@ionic-internal/ionic-ds';
+import { ResponsiveContainer, Heading, Paragraph, IntersectionHelper } from '@ionic-internal/ionic-ds';
 
 
 @Component({
@@ -51,6 +51,22 @@ export class AppflowActivator {
     this.importGsap();
   }
 
+  componentDidLoad() {
+    IntersectionHelper.addListener(({ entries }) => {
+      const e = entries.find((e) => (e.target as HTMLElement) === this.el);
+      if (!this.tween || !e) {
+        return;
+      }
+
+      if (e.intersectionRatio === 0) {
+        this.tween.pause();
+      } else {
+        this.tween.play();
+      }
+    });
+    IntersectionHelper.observe(this.el!);
+  }
+
 
   importGsap() {
     if (window.gsap) return;
@@ -75,7 +91,9 @@ export class AppflowActivator {
       alpha: 1
     });
 
-    this.tween = gsap.to(indicator, this.duration, {
+    this.tween = gsap.to(indicator, {
+      duration: this.duration,
+      ease: 'none',
       width: '100%',
       onComplete: () => {
         this.increment();
@@ -105,22 +123,6 @@ export class AppflowActivator {
     this.start();
   }
 
-  @Listen('scroll', {target: 'window'})
-  onScroll() {
-    if (this.tween === null) return false;
-    const rect = this.el.getBoundingClientRect();
-    const isVisible = (rect.top <= window.innerHeight) && (rect.bottom >= 0);
-
-    if (isVisible && this.isPaused) {
-      this.tween.play();
-      this.isPaused = false;
-    }
-    if (!isVisible && !this.isPaused) {
-      this.tween.pause();
-      this.isPaused = true;
-    }
-  }
-
   render() {
     return (
     <Host>
@@ -143,7 +145,8 @@ export class AppflowActivator {
               {this.screens.map((screen, i) =>
                 <li
                   class={(i === this.currentScreen) ? 'active' : 'default'}
-                  onMouseEnter={() => this.override(i)}>
+                  onMouseEnter={() => {this.override(i); this.tween.pause()}}
+                  onMouseLeave={() => this.tween.play()}>
                   {screen.icon(i === this.currentScreen ? 'active' : 'default')}                  
                   <Heading level={5}>{screen.name}</Heading>
                   <Paragraph level={4}>{screen.description}</Paragraph>

@@ -30,7 +30,7 @@ export class SiteHeader {
 
     Router.onChange('activePath', (v: any) => {
       // TODO: Make this an object and share it w/ render
-      if (['/#features', '/docs', '/blog', '/enterprise', '/community'].findIndex(x => x === v) >= 0) {
+      if (['/', '/docs', '/why-appflow', '/resources', '/pricing', '/docs'].findIndex(x => x === v) >= 0) {
         this.forceHovered = v.replace('/', '').replace('#', '');
       }
     });
@@ -82,37 +82,37 @@ export class SiteHeader {
             }}>
               <nav>
                 <NavLink
-                  path="/#features"
+                  path="/"
                   hovered={(hovered || forceHovered) === 'features'}
-                  onHover={this.setHovered('features')}
+                  onHover={this.setHovered('product')}
                   onExit={clearHover}>
                   Product
                 </NavLink>
                 <NavLink
-                  path="/docs"
+                  path="/why-appflow"
                   hovered={hovered === 'docs'}
-                  onHover={this.setHovered('docs')}
+                  onHover={this.setHovered('why-appflow')}
                   onExit={clearHover}>
                   Why Appflow
                 </NavLink>
                 <NavLink
-                  path="/community"
+                  path="/resources"
                   hovered={hovered === 'community' || forceHovered === 'community'}
-                  onHover={this.setHovered('community')}
+                  onHover={this.setHovered('resources')}
                   onExit={clearHover}>
                   Resources
                 </NavLink>
                 <NavLink
-                  path="/blog"
+                  path="/pricing"
                   hovered={hovered === 'blog'}
-                  onHover={this.setHovered('blog')}
+                  onHover={this.setHovered('pricing')}
                   onExit={clearHover}>
                   Pricing
                 </NavLink>
                 <a
-                  href="https://ionicframework.com/native"
+                  href="/docs"
                   target="_blank"
-                  onMouseOver={this.setHovered('enterprise')}
+                  onMouseOver={this.setHovered('docs')}
                   onMouseOut={clearHover}
                   class={{
                     'link--hovered': hovered === 'enterprise'

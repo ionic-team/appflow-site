@@ -10,6 +10,7 @@ import state from '../../store';
 @Component({
   tag: 'why-appflow',
   styleUrl: 'why-appflow.scss',
+  scoped: true,
   assetsDirs: ['img-why-appflow']
 })
 export class WhyAppflow {

@@ -6,7 +6,7 @@
 // #region ------------------------------ VARIABLES/THEME ------------------------------------------------
 $section-space: 160px;
 
-:root {
+:host {
   --p2-color: var(--c-indigo-80);
   --p3-color: var(--c-indigo-80);
   --p4-color: var(--c-indigo-80);
@@ -22,7 +22,7 @@ $section-space: 160px;
   --p4-color: var(--c-indigo-80);
 }
 @media (prefers-color-scheme: dark) {
-  :root {
+  :host {
     // --color-back: black;
   }
 }

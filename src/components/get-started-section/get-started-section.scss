@@ -9,6 +9,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: flex-end;
+  justify-content: space-between;
 }
 
 .heading-group {
@@ -18,7 +19,7 @@
 .ui-heading {
   color: #fff;
   margin-block-end: 7px;
-  font-size: var(--f-size-8);
+  // font-size: var(--f-size-8);
 }
 
 .ui-paragraph {
@@ -37,6 +38,8 @@
   line-height: 112%;
   font-weight: 600;
   letter-spacing: -.02em;
+  margin-block-start: var(--space-6);
+  margin-block-end: var(--space-2);
 
   &::after {
     content: ' ->';

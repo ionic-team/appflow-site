@@ -1,5 +1,5 @@
 import { Component, State, Element, Host, h, getAssetPath} from '@stencil/core';
-// import { IntersectionHelper } from '@ionic-internal/ionic-ds'
+import { IntersectionHelper } from '@ionic-internal/ionic-ds'
 
 
 @Component({
@@ -28,6 +28,22 @@ export class PhoneAnimator {
   componentWillLoad() {
     this.importGsap();
   } 
+
+  componentDidLoad() {
+    IntersectionHelper.addListener(({ entries }) => {
+      const e = entries.find((e) => (e.target as HTMLElement) === this.el);
+      if (!this.timeline || !e) {
+        return;
+      }
+
+      if (e.intersectionRatio === 0) {
+        this.timeline.pause();
+      } else {
+        this.timeline.play();
+      }
+    });
+    IntersectionHelper.observe(this.el!);
+  }
 
   importGsap() {    
     if (window.gsap) return;

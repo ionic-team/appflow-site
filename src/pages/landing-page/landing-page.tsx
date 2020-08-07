@@ -12,7 +12,8 @@ import state from '../../store';
 @Component({
   tag: 'landing-page',
   styleUrl: 'landing-page.scss',
-  assetsDir: 'img-landing-page'
+  assetsDir: 'img-landing-page',
+  scoped: true
 })
 export class LandingPage {
   
@@ -36,7 +37,7 @@ export class LandingPage {
         <Automate />
         <Managed />
         <Experience />
-        <GetStarted />
+        <get-started-section />
       </main>
 
       <footer>
@@ -344,18 +345,6 @@ const Experience = () => {
             ))}
           </ul> 
         </div>        
-      </ResponsiveContainer>
-    </section>
-  )
-}
-const GetStarted = () => {
-  const { getstarted, getstarted__cta } = state.pageData;
-
-  return (
-    <section id="get-started">
-      <ResponsiveContainer>
-        <PrismicRichText richText={getstarted} paragraphLevel={1} />
-        <a href="" class="cta">{getstarted__cta}</a>
       </ResponsiveContainer>
     </section>
   )

@@ -1,4 +1,4 @@
-import { Component, Prop, h } from '@stencil/core';
+import { Component, h } from '@stencil/core';
 import { ResponsiveContainer, Heading, Paragraph } from '@ionic-internal/ionic-ds';
 
 @Component({

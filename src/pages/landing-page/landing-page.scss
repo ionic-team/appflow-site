@@ -46,9 +46,9 @@ a {
 .ui-heading-6 {
 @include util.box($mbe:var(--space-6))
 }
-.ui-container {
-@include util.media($type:min-width, $val:var.$screen-lg, $w:1120px, $pis:0, $pie:0)
-}
+// .ui-container {
+// @include util.media($type:min-width, $val:var.$screen-lg, $w:1120px, $pis:0, $pie:0)
+// }
 //#endregion --------------------------------------------------------------------------------------------------
 
 // #region ------------------------------ PAGE STYLES ----------------------------------------------------
@@ -110,10 +110,10 @@ a {
   }
 
   .list {
-  @include util.box($d:flex, $fw:wrap, $fb:352px, $jc:space-between);
+  // @include util.box($d:flex, $fw:wrap, $fb:352px, $jc:space-between);
 
     .list-item {
-    @include util.box($fb:352px, $mis:auto, $mie:auto);
+    // @include util.box($fb:352px, $mis:auto, $mie:auto);
     }
   }
 }

@@ -173,7 +173,7 @@ const Ship = () => {
 
       <Grid class="list">
         {ship__list.map(({ content }, i) => (
-          <Col class="list-item">
+          <Col class="list-item" xs={12} sm={4}>
             {icons[i]}
             <PrismicRichText richText={content}/>
           </Col>

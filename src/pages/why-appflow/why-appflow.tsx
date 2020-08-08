@@ -117,7 +117,7 @@ const Benefits = () => {
         <PrismicRichText richText={benefits__subtext} />
       </div> 
       <Grid class="list">
-        {benefits__list.map(({ content }, i) => (
+        {benefits__list.map(({ content }) => (
           <Col class="list-item" cols={4}>
             <PrismicRichText richText={content}/>
           </Col>

@@ -1,4 +1,4 @@
-import { Component, State, Listen, Element, Host, h, getAssetPath } from '@stencil/core';
+import { Component, State, Element, Host, h, getAssetPath } from '@stencil/core';
 import { publishIcon, updatesIcon, buildsIcon, automationsIcon } from './icons'
 import { ResponsiveContainer, Heading, Paragraph, IntersectionHelper } from '@ionic-internal/ionic-ds';
 

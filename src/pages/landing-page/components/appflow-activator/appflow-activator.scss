@@ -61,6 +61,7 @@ li + li {
     .ui-heading {
       text-align: center;
       font-size: 10px;
+      margin-block-end: var(--space-5);
     }
 
     .ui-paragraph {
@@ -126,13 +127,20 @@ li.active {
   position: relative;
   z-index: 5;
 
-  .image {
-    position:relative;
+  .images {
+    position: relative;
     margin-inline-start: auto;
     margin-inline-end: auto;
+
+    &__wrapper {
+      position:relative;
+      margin-inline-start: var(--space-3);
+      margin-inline-end: var(--space-3);
+    }
   }
 
   .screen {
+    max-width: 1152px;
     object-fit: contain;
     border-radius: 16px;
     left: 0;

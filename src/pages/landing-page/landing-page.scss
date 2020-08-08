@@ -12,6 +12,7 @@ $section-space: 160px;
   --p4-color: var(--c-indigo-80);
 
   --poster1-color: #fff;
+  --h1-color: #fff;
   --h2-color: var(--c-carbon-100);
   --h4-color: var(--c-carbon-100);
   --h5-color: var(--c-carbon-100);
@@ -52,7 +53,7 @@ a {
 
 // #region ------------------------------ PAGE STYLES ----------------------------------------------------
 #top {
-@include util.box($mnh:992px);
+@include util.box($contain:content);
 
   .background {
   @include util.box($pos:absolute, $z:-1, $w:max(1800px, 100%), $l:min(calc((100% - 1800px) / 2), 0px));
@@ -73,12 +74,6 @@ a {
       @include util.box($c:' ->');
       @include util.font($ws:pre, $ls:0, $fs: 18px);
       }
-    }
-  }
-
-  appflow-activator {
-    .screen {
-    @include util.box($mxw:1152px, $mis:auto, $mie:auto);
     }
   }
 }

@@ -1,6 +1,6 @@
 import { Component, Host, h, getAssetPath} from '@stencil/core';
 
-import { ResponsiveContainer, Paragraph, PrismicRichText, Heading, Grid, Col } from '@ionic-internal/ionic-ds';
+import { ResponsiveContainer, Paragraph, PrismicRichText, Heading, Grid, Col, Breakpoint } from '@ionic-internal/ionic-ds';
 import { aaaLogo, amtrakLogo, nasaLogo, burgerKingLogo, catLogo, targetLogo, ibmLogo, triplePhoneIcon, tripleLayerIcon,
          buildingBlocksIcon, publishingIcon, appleCloudIcon, appleStoreCheckedIcon, testflightLogo,
          googleStoreCheckedIcon, checkmarkCircle, cloudCircleIcon } from '../../svgs';
@@ -117,7 +117,13 @@ const Top = () => {
       </svg>
       <ResponsiveContainer>
         <div class="heading-group">
-          <PrismicRichText richText={top} poster paragraphLevel={2} />
+          <Breakpoint sm={true}>
+            <PrismicRichText richText={top} poster paragraphLevel={2} />
+          </Breakpoint>
+          <Breakpoint xs={true} sm={false}>
+            <PrismicRichText richText={top} paragraphLevel={2} />
+          </Breakpoint>
+          
           <a href="" class="cta">{top__cta}</a>
         </div>
       </ResponsiveContainer>

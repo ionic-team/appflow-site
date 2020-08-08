@@ -1,5 +1,5 @@
 import { Component, State, Element, h, Host, getAssetPath } from '@stencil/core';
-import { Paragraph } from '@ionic-internal/ionic-ds';
+import { Paragraph, IntersectionHelper } from '@ionic-internal/ionic-ds';
 
 
 @Component({
@@ -10,6 +10,7 @@ import { Paragraph } from '@ionic-internal/ionic-ds';
 })
 export class PipelineAnimator {
   private gsapCdn = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.4.2/gsap.min.js';
+  private timeline: GSAPTimeline;
   private tiles: Map<string, HTMLElement> = new Map();
   private bottomLocations: Map<string, SVGElement> = new Map();
   private topLocations: Map<string, SVGElement> = new Map();
@@ -91,8 +92,27 @@ export class PipelineAnimator {
     this.importGsap();
   } 
 
+  setIntersectionHelper() {
+    IntersectionHelper.addListener(({ entries }) => {
+      const e = entries.find((e) => (e.target as HTMLElement) === this.el);
+      if (!e) {
+        return;
+      }
+
+      if (e.intersectionRatio === 0) {
+        this.timeline.pause();
+      } else {
+        this.timeline.play();
+      }
+    });
+    IntersectionHelper.observe(this.el!);
+  }
+
   importGsap() {    
-    if (window.gsap) return;
+    if (window.gsap) {
+      this.setupAutomateAnimation();
+      return;
+    }
 
     const script = document.createElement('script');
     script.src = this.gsapCdn;
@@ -189,12 +209,12 @@ export class PipelineAnimator {
     }
 
   setupAutomateAnimation() {
-    const automateTl = gsap.timeline({
+    this.timeline = gsap.timeline({
       defaultEase: Linear.easeNone,
       repeat: -1
     });
 
-    automateTl.pause();
+    this.timeline.pause();
 
     const sequence1 = gsap.timeline();
     sequence1
@@ -218,7 +238,7 @@ export class PipelineAnimator {
       this.animateTileOut('webhook', 0.3);
     }, 6);
 
-    automateTl.add(sequence1, 0);
+    this.timeline.add(sequence1, 0);
 
 
     const sequence2 = gsap.timeline({
@@ -242,7 +262,7 @@ export class PipelineAnimator {
       this.animateTileOut('webhook', 0.3);
     }, 6);
 
-    automateTl.add(sequence2, 6);
+    this.timeline.add(sequence2, 6);
 
 
     const sequence3 = gsap.timeline({
@@ -269,9 +289,9 @@ export class PipelineAnimator {
       this.animateTileOut('webhook', 0.3);
     }, 6);
 
-    automateTl.add(sequence3, 12);
+    this.timeline.add(sequence3, 12);
 
-    automateTl.play();
+    this.setIntersectionHelper();
   }
 
   render() {

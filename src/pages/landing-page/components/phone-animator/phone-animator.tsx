@@ -29,7 +29,7 @@ export class PhoneAnimator {
     this.importGsap();
   } 
 
-  componentDidLoad() {
+  setIntersectionHelper() {
     IntersectionHelper.addListener(({ entries }) => {
       const e = entries.find((e) => (e.target as HTMLElement) === this.el);
       if (!this.timeline || !e) {
@@ -46,7 +46,10 @@ export class PhoneAnimator {
   }
 
   importGsap() {    
-    if (window.gsap) return;
+    if (window.gsap) {
+      this.setUpAnimation();
+      return;
+    };
     
     const script = document.createElement('script');
     script.src = this.gsapCdn;
@@ -152,7 +155,7 @@ export class PhoneAnimator {
     }, 0.3)
 
 
-    this.timeline.play();
+    this.setIntersectionHelper();
   }
 
   render() {

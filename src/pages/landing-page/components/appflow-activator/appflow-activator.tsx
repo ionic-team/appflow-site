@@ -51,7 +51,7 @@ export class AppflowActivator {
     this.importGsap();
   }
 
-  componentDidLoad() {
+  setIntersectionHelper() {
     IntersectionHelper.addListener(({ entries }) => {
       const e = entries.find((e) => (e.target as HTMLElement) === this.el);
       if (!this.tween || !e) {
@@ -69,7 +69,10 @@ export class AppflowActivator {
 
 
   importGsap() {
-    if (window.gsap) return;
+    if (window.gsap) {
+      this.start();
+      return;
+    };
 
     const script = document.createElement('script');
     script.src = this.gsapCdn;
@@ -99,6 +102,8 @@ export class AppflowActivator {
         this.increment();
       }
     });
+
+    this.setIntersectionHelper();
   }  
 
   override(index) {
@@ -127,17 +132,19 @@ export class AppflowActivator {
     return (
     <Host>
       <div class="app-screenshot">
-        <div class="image">
-          {this.screens.map((screen, i) => (
-            <img
-              class={`screen ${i === this.currentScreen ? 'animate-in' : 'animate-out'}`}
-              src={screen.image}
-              width="1153"
-              height="611"
-              loading={i === 0 ? 'eager' : 'lazy'}
-              style={{'position': i !== 0 ? 'absolute' : undefined}}
-            />
-          ))}
+        <div class="images">
+          <div class="images__wrapper">
+            {this.screens.map((screen, i) => (
+              <img
+                class={`screen ${i === this.currentScreen ? 'animate-in' : 'animate-out'}`}
+                src={screen.image}
+                width="1153"
+                height="611"
+                loading={i === 0 ? 'eager' : 'lazy'}
+                style={{'position': i !== 0 ? 'absolute' : undefined}}
+              />
+            ))}
+          </div>
         </div>
         <div class="nav">
           <ResponsiveContainer>

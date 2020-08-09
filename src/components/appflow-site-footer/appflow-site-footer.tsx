@@ -1,5 +1,5 @@
 import { Component, h } from '@stencil/core';
-import { ResponsiveContainer, Paragraph } from '@ionic-internal/ionic-ds';
+import { ResponsiveContainer, Paragraph, Grid, Col } from '@ionic-internal/ionic-ds';
 import { appflowLogoWithText } from '../../svgs';
 
 @Component({
@@ -10,37 +10,31 @@ import { appflowLogoWithText } from '../../svgs';
 export class SiteFooter {
   render() {
     return (
-      <footer id="footer">
+      <footer>
         <ResponsiveContainer class="footer__content">
-          <div class="main">
-            {appflowLogoWithText({}, {width: 114, height: 24 })}
-            <table>
-              <thead>
-                <tr>
-                  <th scope="col" class="ui-paragraph-5">Product</th>
-                  <th scope="col" class="ui-paragraph-5">Contact</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><a href="#" class="ui-paragraph-5">Why Appflow</a></td>
-                  <td><a href="#" class="ui-paragraph-5">Contact us</a></td>
-                </tr>
-                <tr>
-                  <td><a href="#" class="ui-paragraph-5">Resources</a></td>
-                  <td><a href="#" class="ui-paragraph-5">Support</a></td>
-                </tr>
-                <tr>
-                  <td><a href="#" class="ui-paragraph-5">Pricing</a></td>
-                  <td><a href="#" class="ui-paragraph-5">Twitter</a></td>
-                </tr>
-                <tr>
-                  <td><a href="#" class="ui-paragraph-5">Docs</a></td>
-                  <td><a href="#" class="ui-paragraph-5">FAQ</a></td>
-                </tr>
-              </tbody>
-            </table>
-            <div class="newsletter">
+          <Grid class="main">
+            <Col cols={12} md={3}>
+              {appflowLogoWithText({}, {width: 114, height: 24 })}
+            </Col>
+            <Col cols={6} sm={3} md={3}>
+              <ul>
+                <li class="title | ui-paragraph-5">Product</li>
+                <li><a href="#" class="ui-paragraph-5">Why Appflow</a></li>
+                <li><a href="#" class="ui-paragraph-5">Resources</a></li>
+                <li><a href="#" class="ui-paragraph-5">Pricing</a></li>
+                <li><a href="#" class="ui-paragraph-5">Docs</a></li>
+              </ul>
+            </Col>
+            <Col cols={6} sm={3} md={2}>
+              <ul>
+                <li class="title | ui-paragraph-5">Contact</li>
+                <li><a href="#" class="ui-paragraph-5">Contact Us</a></li>
+                <li><a href="#" class="ui-paragraph-5">Support</a></li>
+                <li><a href="#" class="ui-paragraph-5">Twitter</a></li>
+                <li><a href="#" class="ui-paragraph-5">FAQ</a></li>
+              </ul>
+            </Col>
+            <Col cols={12} sm={6} md={4} class="newsletter">
               <Paragraph class="title" level={5}>Sign up for our newsletter and stay up-to-date</Paragraph>
               <div>
                 <form action="">
@@ -48,8 +42,8 @@ export class SiteFooter {
                   <button class="ui-paragraph-5">Send</button>
                 </form>
               </div>
-            </div>
-          </div>
+            </Col>
+          </Grid>
           <div class="bottom">
             <div class="ui-paragraph-6">© {(new Date).getFullYear()} Appflow</div>
             <div class="ui-paragraph-6"><a href="#">Terms</a></div>

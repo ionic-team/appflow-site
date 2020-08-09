@@ -4,22 +4,11 @@
   padding-block-end: var(--space-9);
 }
 
-table {
-  th {
-    font-weight: 500;
-    color: var(--c-indigo-100);
-    text-align: start;
-  }
-
-  td {
-    color: var(--c-indigo-80);
-  }
+.ui-grid {
+  row-gap: var(--space-6);
 }
 
 .main {
-  display: flex;
-  justify-content: space-between;
-
   .newsletter {
     .title {
       font-weight: 500;
@@ -51,10 +40,16 @@ table {
       }
     }
   }
+
+  li.title {
+    font-weight: 500;
+    color: var(--c-indigo-100);
+  }
 }
 .bottom {
   display: flex;
   flex-wrap: wrap;
+  margin-block-start: 40px;
 
   & > * {
     color: var(--c-indigo-50);

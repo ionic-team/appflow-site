@@ -121,8 +121,14 @@ a {
   @include util.box($pos:relative, $mis:var(--space-3), $mxw:624px, $mbe:var(--space-11));
 
     &::before {
-    @include util.box($c:'', $pos:absolute, $w:2px, $h:64px, $back:var(--c-lavender-70),
+    @include util.box($c:'', $pos:absolute, $w:2px, $h:calc(100% - 11px), $back:var(--c-lavender-70),
                       $t:50%, $tf:translateY(-50%), $l:calc(-1 * var(--space-3)));
+    }
+  }
+
+  .list {
+    &.ui-grid {
+    @include util.box($rg:var(--space-9));
     }
   }
 }
@@ -130,12 +136,20 @@ a {
 #integrated {
 @include util.box($pbs:$section-space, $pbe:$section-space);
 
-  img {
-  @include util.box($w:auto);
-  }
 
   .heading-group {
-  @include util.box($mbe:var(--space-11));
+  @include util.box($mbe:var(--space-11), $mxw:640px);
+  }
+
+  .list.ui-grid {
+  @include util.media($val:var.$screen-sm-max, $rg:var(--space-9));
+  
+    .list-item {
+      img {
+      @include util.box($w:auto, $mbe:var(--space-4));
+      }
+      
+    }
   }
 }
 
@@ -176,11 +190,17 @@ a {
   --h4-color: #fff;
   --p3-color: var(--c-indigo-30);
 
-  img {
-  @include util.box($w:auto);
-  }
-
   .heading-group {
   @include util.box($mbe:var(--space-11));
+  }
+
+  .list.ui-grid {
+  @include util.media($val:var.$screen-sm-max, $rg:var(--space-11));
+
+    .list-item{
+      img {
+        @include util.box($w:auto, $mbe:56px, $mxh:160px);
+      }
+    }
   }
 }

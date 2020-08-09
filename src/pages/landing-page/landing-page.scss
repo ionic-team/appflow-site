@@ -301,6 +301,10 @@ a {
 #experience {
 @include util.box($back:var(--c-purple-60), $pbs:$section-space, $pbe:$section-space);
 
+  .title {
+  @include util.box($mxw:740px, $mbe:var(--space-9));
+  }
+
   .subtext {
   @include util.box();
 

@@ -118,7 +118,7 @@ const Benefits = () => {
       </div> 
       <Grid class="list">
         {benefits__list.map(({ content }) => (
-          <Col class="list-item" cols={4}>
+          <Col class="list-item" cols={12} sm={4}>
             <PrismicRichText richText={content}/>
           </Col>
         ))}
@@ -149,7 +149,7 @@ const Integrated = () => {
 
       <Grid class="list">
         {integrated__list.map(({ content }, i) => (
-          <Col class="list-item" cols={3}>
+          <Col class="list-item" xs={6} sm={6} md={4} lg={3}>
             <img
               src={getAssetPath(`./img-why-appflow/icon-${icons[i][0]}@2x.png`)} 
               srcset={`${getAssetPath(`./img-why-appflow/icon-${icons[i][0]}.png`)} 1x,
@@ -187,7 +187,7 @@ const Problems = () => {
           {problems__list.map(({ content }, i) => (
             <li class="list-item">
               <Grid>
-                <Col cols={1}>
+                <Col xs={12} sm={1}>
                   <img
                     src={getAssetPath(`./img-why-appflow/icon-${icons[i][0]}@2x.png`)} 
                     srcset={`${getAssetPath(`./img-why-appflow/icon-${icons[i][0]}.png`)} 1x,
@@ -196,10 +196,10 @@ const Problems = () => {
                     width={icons[i][1]} height={icons[i][2]}
                   />
                 </Col>
-                <Col cols={4}>
+                <Col xs={6} sm={4}>
                   <Heading level={content[0].type.slice(-1)}>{content[0].text}</Heading>
                 </Col>
-                <Col cols={7} class="paragraphs">
+                <Col xs={12} sm={7} class="paragraphs">
                   <PrismicRichText richText={content.slice(1)}/>
                 </Col>
               </Grid>              
@@ -228,7 +228,7 @@ const Different = () => {
         </div>
         <Grid class="list">
         {different__list.map(({ content }, i) => (
-          <Col class="list-item" cols={4}>
+          <Col class="list-item" cols={12} sm={6} md={4}>
             <img
               src={getAssetPath(`./img-why-appflow/icon-${icons[i][0]}@2x.png`)} 
               srcset={`${getAssetPath(`./img-why-appflow/icon-${icons[i][0]}.png`)} 1x,

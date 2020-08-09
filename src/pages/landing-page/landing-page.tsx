@@ -336,21 +336,24 @@ const Experience = () => {
   return (
     <section id="experience">
       <ResponsiveContainer>
-        <PrismicRichText richText={experience__title} />
-        <div>
-          <div class="subtext">
+        <PrismicRichText class="title" richText={experience__title} />
+        <Grid>
+          <Col class="subtext" xs={12} md={5}>
             <PrismicRichText richText={experience__subtext} paragraphLevel={2} />
             <a href="" class="cta">{experience__cta}</a>
-          </div>
-          <ul class="list">
-            {experience__list.map(({ content }) => (
-              <li class="list-item">
-                {checkmarkCircle({ main: '#8C93FF' }, { width: 16, height: 16 })}
-                <Paragraph>{content}</Paragraph>
-              </li>
-            ))}
-          </ul> 
-        </div>        
+          </Col>
+          <Col md={1}></Col>
+          <Col xs={12} md={6}>
+            <ul class="list">
+              {experience__list.map(({ content }) => (
+                <li class="list-item">
+                  {checkmarkCircle({ main: '#8C93FF' }, { width: 16, height: 16 })}
+                  <Paragraph>{content}</Paragraph>
+                </li>
+              ))}
+            </ul> 
+          </Col>
+        </Grid>        
       </ResponsiveContainer>
     </section>
   )

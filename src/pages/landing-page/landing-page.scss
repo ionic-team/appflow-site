@@ -119,10 +119,14 @@ a {
 }
 
 #push {
-@include util.box($pbs:$section-space, $pbe:$section-space, $back:var(--c-indigo-0), $contain:content);
+@include util.box($pbs:$section-space, $back:var(--c-indigo-0), $contain:content);
 
   .ui-container {
   @include util.box($d:flex);
+  }
+
+  .ui-grid {
+  @include util.box($rg:var(--space-11))
   }
 
   .text {
@@ -145,27 +149,20 @@ a {
   }  
 
   .image {
-  @include util.box($fg:1, $d:flex, $jc:center);
-  
+  @include util.box($fg:1, $d:flex, $fd:column, $pos:relative, $l:var(--space-5));
+  @include util.media($val:var.$screen-sm-max, $l:0);
 
+    .icons {
+    @include util.box($mbe:var(--space-6));
 
-    &__wrapper {
-    @include util.box($pos:absolute, $d:flex, $fd:column,
-                      $w:auto, $l:50%);
-    @include util.media($val:var.$screen-md-max, $pos:relative, $l:0, $w:100%);
-
-      .icons {
-      @include util.box($mis:var(--space-6));
-
-        svg + svg {
-        @include util.box($mis:var(--space-5));
-        }
+      svg + svg {
+      @include util.box($mis:var(--space-5));
       }
-      
-      img {
-      @include util.box($w:auto, $mxw:1092px);
-      }
-    }  
+    }
+    
+    img {
+    @include util.box($w:1092px, $h:585px);
+    }
   }
 }
 
@@ -247,9 +244,18 @@ a {
 
 #automate {
 @include util.box($pbs:$section-space, $pbe:302px, $contain:content);
+@include util.media($val:var.$screen-sm-max, $pbe:0);
 
   .ui-container {
   @include util.box($d:flex);
+  }
+
+  .ui-grid {
+  @include util.box($rg:var(--space-5));
+
+    .ui-col:last-of-type {
+    @include util.box($mbe:-245px);
+    }
   }
 
   .heading-group {
@@ -292,6 +298,7 @@ a {
 
   .image {
   @include util.box($pos:relative, $fg:1, $d:flex, $jc:center);
+  @include util.media($val:var.$screen-xs-max, $d:none);
 
     &__wrapper {
     @include util.box($pos:absolute, $w:auto, $l:-25px, $t:50%, $tf:translateY(-50%), $r: -150px);
@@ -305,6 +312,10 @@ a {
 
 #experience {
 @include util.box($back:var(--c-purple-60), $pbs:$section-space, $pbe:$section-space);
+
+  .ui-grid {
+  @include util.box($rg:var(--space-9));
+  }
 
   .title {
   @include util.box($mxw:740px, $mbe:var(--space-9));

@@ -3,6 +3,12 @@
 :host {
   display: inline-block;
   position:relative;
+
+  @media (max-width: var.$screen-md-max)  {  
+    position:relative;
+    height:500px;
+    left: calc((100% - 590px) / 2);
+  }
 }
 
 .anim-automate {
@@ -39,15 +45,16 @@
     transform: translateY(50px);
   }
 
-  @media (max-width: var.$screen-md)  {  
+  @media (max-width: var.$screen-md-max)  {  
+    position:relative;
     transform: scale(0.8);
-    position: relative;
-    top: -150px;
+    top: -120px;
   }
-  @media (max-width: var.$screen-sm)  {
+  @media (max-width: var.$screen-sm-max)  {
     transform: scale(0.7);
   }
 }
+
 
 .anim-automate_ui {
   position: absolute;

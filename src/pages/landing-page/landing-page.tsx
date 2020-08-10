@@ -196,7 +196,7 @@ const Push = () => {
       <div class="push__wrapper">
         <ResponsiveContainer>
           <Grid>
-            <Col class="text" cols={12} md={6}>
+            <Col class="text" cols={12} lg={6}>
               <div class="heading-group">
                 <PrismicRichText richText={push} paragraphLevel={2} />
               </div>
@@ -209,21 +209,19 @@ const Push = () => {
                 ))}
               </ul>
             </Col>
-            <Col class="image" cols={12} md={6}> 
-              <div class="image__wrapper">
-                <div class="icons">
-                  {appleStoreCheckedIcon({}, { width: 52, height: 52 })}
-                  {testflightLogo({}, { width: 52, height: 52 })}
-                  {googleStoreCheckedIcon({}, { width: 52, height: 52 })}
-                </div>
-                <img
-                  src={getAssetPath('./assets/push@2x.png')}
-                  srcset={`${getAssetPath('./assets/push.png')}, ${getAssetPath('./assets/push@2x.png')} 2x`}
-                  loading="lazy"
-                  width="1568"
-                  height="1234"
-                />
+            <Col class="image" cols={12} lg={6}> 
+              <div class="icons">
+                {appleStoreCheckedIcon({}, { width: 52, height: 52 })}
+                {testflightLogo({}, { width: 52, height: 52 })}
+                {googleStoreCheckedIcon({}, { width: 52, height: 52 })}
               </div>
+              <img
+                src={getAssetPath('./assets/push@2x.png')}
+                srcset={`${getAssetPath('./assets/push.png')}, ${getAssetPath('./assets/push@2x.png')} 2x`}
+                loading="lazy"
+                width="1568"
+                height="1234"
+              />
             </Col>
           </Grid>
         </ResponsiveContainer>
@@ -294,7 +292,7 @@ const Automate = () => {
     <section id="automate">
       <ResponsiveContainer>
         <Grid>
-          <Col cols={12} md={6}>
+          <Col cols={12} lg={6}>
             <div class="heading-group">
               <PrismicRichText richText={automate} paragraphLevel={2} />
             </div>
@@ -302,7 +300,7 @@ const Automate = () => {
               <PrismicRichText richText={automate__subtext} paragraphLevel={3} />
             </div>
           </Col>
-          <Col cols={12} md={6}>
+          <Col cols={12} lg={6}>
             <pipeline-animator></pipeline-animator>
           </Col>
         </Grid>        
@@ -350,7 +348,6 @@ const Experience = () => {
             <PrismicRichText richText={experience__subtext} paragraphLevel={2} />
             <a href="" class="cta">{experience__cta}</a>
           </Col>
-          <Col md={1}></Col>
           <Col xs={12} md={6}>
             <ul class="list">
               {experience__list.map(({ content }) => (

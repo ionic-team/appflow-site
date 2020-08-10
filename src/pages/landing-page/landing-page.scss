@@ -103,6 +103,10 @@ a {
 #ship {
 @include util.box($mbs:$section-space, $mbe:$section-space);
 
+  .ui-grid {
+  @include util.box($rg:var(--space-9));
+  }
+
   .heading-group {
   @include util.box($mxw:736px, $ta:center, $mis:auto, $mie:auto, $mbe:var(--space-11));
   }
@@ -150,7 +154,7 @@ a {
 
   .image {
   @include util.box($fg:1, $d:flex, $fd:column, $pos:relative, $l:var(--space-5));
-  @include util.media($val:var.$screen-sm-max, $l:0);
+  @include util.media($val:var.$screen-md-max, $l:0);
 
     .icons {
     @include util.box($mbe:var(--space-6));
@@ -356,7 +360,7 @@ a {
     }
 
     svg {
-    @include util.box($mie:var(--space-3));
+    @include util.box($mie:var(--space-3), $mnw:16px, $mnh:16px);
     }
 
     .ui-paragraph {

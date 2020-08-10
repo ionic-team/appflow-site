@@ -84,9 +84,11 @@ a {
   }
 
   .image {
-  @include util.box($pos:relative, $fg:1, $d:flex, $jc:center, $ai:center);
+  @include util.box($pos:relative, $fg:1, $d:flex, $jc:center, $ai:center, $l:50px, $t:30px);
     img {
-    // @include util.box($mxw:457px, $pos:absolute, $t:-30px);
+    @include util.box($w:457px, $pos:absolute, $l:0);
+    @include util.media($val:var.$screen-md-max, $l:-56px);
+    @include util.media($val:var.$screen-xs-max, $d:none);
     }
   }
 }
@@ -157,6 +159,7 @@ a {
   }
 
   .list.ui-grid {
+  @include util.box($cg:var(--space-6));
   @include util.media($val:var.$screen-sm-max, $rg:var(--space-9));
   
     .list-item {

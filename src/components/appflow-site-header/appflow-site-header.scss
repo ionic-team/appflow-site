@@ -180,7 +180,7 @@ site-backdrop {
 }
 
 /* Small width / mobile screens */
-@media screen and (max-width: var.$screen-sm-max) {
+@media screen and (max-width: var.$screen-xs-max) {
   .site-header {
     display: flex;
     flex-wrap: wrap;

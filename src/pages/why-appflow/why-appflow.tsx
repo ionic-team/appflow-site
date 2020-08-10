@@ -170,7 +170,7 @@ const Integrated = () => {
               loading="lazy"
               width={icons[i][1]} height={icons[i][2]}
             />
-            <PrismicRichText richText={content}/>
+            <PrismicRichText richText={content} paragraphLevel={4}/>
           </Col>
         ))}
       </Grid>

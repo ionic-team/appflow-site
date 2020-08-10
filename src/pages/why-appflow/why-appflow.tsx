@@ -11,7 +11,7 @@ import state from '../../store';
   tag: 'why-appflow',
   styleUrl: 'why-appflow.scss',
   scoped: true,
-  assetsDirs: ['img-why-appflow']
+  assetsDirs: ['assets']
 })
 export class WhyAppflow {
   
@@ -48,19 +48,21 @@ const Top = () => {
   return (
     <section id="top">
       <ResponsiveContainer>
-        <div class="heading-group">
-          <PrismicRichText richText={top} paragraphLevel={2}/>
-          <a class="cta" href="#">{top__cta}</a>
-        </div>      
-        <div class="image">
-          <img
-            src={getAssetPath('./img-why-appflow/top@2x.png')}
-            srcset={`${getAssetPath('./img-why-appflow/top@2x.png')} 2x,
-                    ${getAssetPath('./img-why-appflow/top.png')} 1x`}
-            loading="eager"
-            width="1024" height="1328"
-          />
-        </div>         
+        <Grid>
+          <Col class="heading-group" cols={12} sm={6}>
+            <PrismicRichText richText={top} paragraphLevel={2}/>
+            <a class="cta" href="#">{top__cta}</a>
+          </Col>
+          <Col class="image" cols={12} sm={6}>
+            <img
+              src={getAssetPath('./assets/top@2x.png')}
+              srcset={`${getAssetPath('./assets/top@2x.png')} 2x,
+                      ${getAssetPath('./assets/top.png')} 1x`}
+              loading="eager"
+              width="1024" height="1328"
+            />          
+          </Col>
+        </Grid>            
       </ResponsiveContainer>
     </section>
   );
@@ -68,38 +70,47 @@ const Top = () => {
 
 const Companies = () => {
   const icons = [
-    ['bcbs', 128, 24],
     ['nhs', 56, 24],
-    ['target', 116, 26],
+    ['bcbs', 128, 24],
     ['amtrak', 180, 22],
+    ['target', 116, 26],
     ['supr-daily', 68, 32],
     ['study-com', 153, 24],
     ['caterpillar', 138, 22],
     ['norfolk-southern', 96, 24]
   ]
 
-  return (
-    <ResponsiveContainer id="companies" as="section">
-      <div class="row row1">
-        {icons.slice(0,4).map(item => (
-          <img
-          src={getAssetPath(`./img-why-appflow/logo-${item[0]}@2x.png`)} 
-          srcset={`${getAssetPath(`./img-why-appflow/logo-${item[0]}.png`)} 1x,
-                   ${getAssetPath(`./img-why-appflow/logo-${item[0]}@2x.png`)} 2x`}
+  const iconFactory = (icons, { start, count }) => (
+    icons.slice(start, start + count).map(item => (
+      <div class="image">
+        <img
+          src={getAssetPath(`./assets/logo-${item[0]}@2x.png`)} 
+          srcset={`${getAssetPath(`./assets/logo-${item[0]}.png`)} 1x,
+                  ${getAssetPath(`./assets/logo-${item[0]}@2x.png`)} 2x`}
           loading="lazy"
           width={item[1]} height={item[2]}
-          /> )
-        )}
+        />
+      </div> )
+    )
+  )
+
+  return (
+    <ResponsiveContainer id="companies" class="content" as="section">
+      <div class="row row1">
+        <div class="subrow">
+          {iconFactory(icons, { start: 0, count: 2 })}
+        </div>
+        <div class="subrow">
+          {iconFactory(icons, { start: 2, count: 2 })}
+        </div>
       </div>
       <div class="row row2">
-        {icons.slice(4,8).map(item => (
-          <img
-          src={getAssetPath(`./img-why-appflow/logo-${item[0]}@2x.png`)} 
-          srcset={`${getAssetPath(`./img-why-appflow/logo-${item[0]}.png`)} 1x,
-                   ${getAssetPath(`./img-why-appflow/logo-${item[0]}@2x.png`)} 2x`}
-          loading="lazy"
-          width={item[1]} height={item[2]}
-        /> ))}
+        <div class="subrow">
+          {iconFactory(icons, { start: 4, count: 2 })}
+        </div>
+        <div class="subrow">
+          {iconFactory(icons, { start: 6, count: 2 })}
+        </div>
       </div>    
     </ResponsiveContainer>
   );
@@ -109,21 +120,23 @@ const Benefits = () => {
   const { benefits, benefits__subtext, benefits__list } = state.pageData;
 
   return (
-    <ResponsiveContainer id="benefits" as="section">
-      <div class="heading-group">
-        <PrismicRichText richText={benefits} paragraphLevel={2}/>  
-      </div>        
-      <div class="subtext">
-        <PrismicRichText richText={benefits__subtext} />
-      </div> 
-      <Grid class="list">
-        {benefits__list.map(({ content }) => (
-          <Col class="list-item" cols={12} sm={4}>
-            <PrismicRichText richText={content}/>
-          </Col>
-        ))}
-      </Grid>
-    </ResponsiveContainer>
+    <section id="benefits">
+      <ResponsiveContainer>
+        <div class="heading-group">
+          <PrismicRichText richText={benefits} paragraphLevel={2}/>  
+        </div>        
+        <div class="subtext">
+          <PrismicRichText richText={benefits__subtext} />
+        </div> 
+        <Grid class="list">
+          {benefits__list.map(({ content }) => (
+            <Col class="list-item" cols={12} sm={4}>
+              <PrismicRichText richText={content}/>
+            </Col>
+          ))}
+        </Grid>
+      </ResponsiveContainer>
+    </section>
   );
 }
 
@@ -151,9 +164,9 @@ const Integrated = () => {
         {integrated__list.map(({ content }, i) => (
           <Col class="list-item" xs={6} sm={6} md={4} lg={3}>
             <img
-              src={getAssetPath(`./img-why-appflow/icon-${icons[i][0]}@2x.png`)} 
-              srcset={`${getAssetPath(`./img-why-appflow/icon-${icons[i][0]}.png`)} 1x,
-                      ${getAssetPath(`./img-why-appflow/icon-${icons[i][0]}@2x.png`)} 2x`}
+              src={getAssetPath(`./assets/icon-${icons[i][0]}@2x.png`)} 
+              srcset={`${getAssetPath(`./assets/icon-${icons[i][0]}.png`)} 1x,
+                      ${getAssetPath(`./assets/icon-${icons[i][0]}@2x.png`)} 2x`}
               loading="lazy"
               width={icons[i][1]} height={icons[i][2]}
             />
@@ -187,19 +200,19 @@ const Problems = () => {
           {problems__list.map(({ content }, i) => (
             <li class="list-item">
               <Grid>
-                <Col xs={12} sm={1}>
+                <Col xs={12} md={1}>
                   <img
-                    src={getAssetPath(`./img-why-appflow/icon-${icons[i][0]}@2x.png`)} 
-                    srcset={`${getAssetPath(`./img-why-appflow/icon-${icons[i][0]}.png`)} 1x,
-                            ${getAssetPath(`./img-why-appflow/icon-${icons[i][0]}@2x.png`)} 2x`}
+                    src={getAssetPath(`./assets/icon-${icons[i][0]}@2x.png`)} 
+                    srcset={`${getAssetPath(`./assets/icon-${icons[i][0]}.png`)} 1x,
+                            ${getAssetPath(`./assets/icon-${icons[i][0]}@2x.png`)} 2x`}
                     loading="lazy"
                     width={icons[i][1]} height={icons[i][2]}
                   />
                 </Col>
-                <Col xs={6} sm={4}>
+                <Col xs={6} md={4}>
                   <Heading level={content[0].type.slice(-1)}>{content[0].text}</Heading>
                 </Col>
-                <Col xs={12} sm={7} class="paragraphs">
+                <Col xs={12} md={7} class="paragraphs">
                   <PrismicRichText richText={content.slice(1)}/>
                 </Col>
               </Grid>              
@@ -230,9 +243,9 @@ const Different = () => {
         {different__list.map(({ content }, i) => (
           <Col class="list-item" cols={12} sm={6} md={4}>
             <img
-              src={getAssetPath(`./img-why-appflow/icon-${icons[i][0]}@2x.png`)} 
-              srcset={`${getAssetPath(`./img-why-appflow/icon-${icons[i][0]}.png`)} 1x,
-                      ${getAssetPath(`./img-why-appflow/icon-${icons[i][0]}@2x.png`)} 2x`}
+              src={getAssetPath(`./assets/icon-${icons[i][0]}@2x.png`)} 
+              srcset={`${getAssetPath(`./assets/icon-${icons[i][0]}.png`)} 1x,
+                      ${getAssetPath(`./assets/icon-${icons[i][0]}@2x.png`)} 2x`}
               loading="lazy"
               width={icons[i][1]} height={icons[i][2]}
             />

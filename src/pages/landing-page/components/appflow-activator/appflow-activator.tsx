@@ -1,5 +1,5 @@
 import { Component, State, Element, Host, h, getAssetPath } from '@stencil/core';
-import { publishIcon, updatesIcon, buildsIcon, automationsIcon } from './icons'
+import { publishIcon, updatesIcon, buildsIcon, automationsIcon } from './assets/icons'
 import { ResponsiveContainer, Heading, Paragraph, IntersectionHelper } from '@ionic-internal/ionic-ds';
 
 
@@ -7,7 +7,7 @@ import { ResponsiveContainer, Heading, Paragraph, IntersectionHelper } from '@io
   tag: 'appflow-activator',
   styleUrl: 'appflow-activator.scss',
   scoped: true,
-  assetsDir: 'img-appflow-activator'
+  assetsDirs: ['assets']
 })
 export class AppflowActivator {
   private gsapCdn = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.4.2/gsap.min.js';
@@ -17,25 +17,25 @@ export class AppflowActivator {
       name: 'App Publishing',
       description: 'Publish directly to the Apple and Google App Stores.',
       icon: publishIcon,
-      image: getAssetPath('./img-appflow-activator/screen-app-publishing.png')
+      image: getAssetPath('./assets/screen-app-publishing.png')
     },
     {
       name: 'Live Updates',
       description: 'Send live updates to users without waiting on app store approval.',
       icon: updatesIcon,
-      image: getAssetPath('./img-appflow-activator/screen-live-updates.png')
+      image: getAssetPath('./assets/screen-live-updates.png')
     },
     {
       name: 'Native Builds',
       description: 'Compile native app binaries in the cloud.',
       icon: buildsIcon,
-      image: getAssetPath('./img-appflow-activator/screen-native-builds.png')
+      image: getAssetPath('./assets/screen-native-builds.png')
     },
     {
       name: 'Automations',
       description: 'Fully automate your app delivery pipeline.',
       icon: automationsIcon,
-      image: getAssetPath('./img-appflow-activator/screen-automations.png')
+      image: getAssetPath('./assets/screen-automations.png')
     },
   ];
 

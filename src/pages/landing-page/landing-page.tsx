@@ -12,7 +12,7 @@ import state from '../../store';
 @Component({
   tag: 'landing-page',
   styleUrl: 'landing-page.scss',
-  assetsDir: 'img-landing-page',
+  assetsDirs: ['assets'],
   scoped: true
 })
 export class LandingPage {
@@ -216,8 +216,8 @@ const Push = () => {
                 {googleStoreCheckedIcon({}, { width: 52, height: 52 })}
               </div>
               <img
-                src={getAssetPath('./img-landing-page/push@2x.png')}
-                srcset={`${getAssetPath('./img-landing-page/push.png')}, ${getAssetPath('./img-landing-page/push@2x.png')} 2x`}
+                src={getAssetPath('./assets/push@2x.png')}
+                srcset={`${getAssetPath('./assets/push.png')}, ${getAssetPath('./assets/push@2x.png')} 2x`}
                 loading="lazy"
                 width="1568"
                 height="1234"
@@ -271,8 +271,8 @@ const Native = () => {
         <div class="image"> 
           <div class="image__wrapper">
             <img
-              src={getAssetPath('./img-landing-page/native@2x.png')}
-              srcset={`${getAssetPath('./img-landing-page/native.png')}, ${getAssetPath('./img-landing-page/native@2x.png')} 2x`}
+              src={getAssetPath('./assets/native@2x.png')}
+              srcset={`${getAssetPath('./assets/native.png')}, ${getAssetPath('./assets/native@2x.png')} 2x`}
               loading="lazy"
               width="1805"
               height="1177"
@@ -316,9 +316,9 @@ const Managed = () => {
         <div class="image">
           <div class="image__wrapper">
             <img
-              src={getAssetPath('./img-landing-page/managed@2x.png')}
-              srcset={`${getAssetPath('./img-landing-page/managed.png')} 1x,
-                      ${getAssetPath('./img-landing-page/managed@2x.png')} 2x`}
+              src={getAssetPath('./assets/managed@2x.png')}
+              srcset={`${getAssetPath('./assets/managed.png')} 1x,
+                      ${getAssetPath('./assets/managed@2x.png')} 2x`}
               loading="lazy"
               width="1704"
               height="1511"

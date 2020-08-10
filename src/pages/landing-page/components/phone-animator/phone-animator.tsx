@@ -6,7 +6,7 @@ import { IntersectionHelper } from '@ionic-internal/ionic-ds'
   tag: 'phone-animator',
   styleUrl: 'phone-animator.scss',
   scoped: true,
-  assetsDir: 'img-phone-animator'
+  assetsDirs: ['assets']
 })
 export class PhoneAnimator {
   private gsapCdn = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.4.2/gsap.min.js';
@@ -175,9 +175,9 @@ export class PhoneAnimator {
           <path ref={e => this.screenEl = e} fill="#5947FB" d="M552.914 174.599L399.797 134.422C385.537 131.271 366.436 134.941 357.561 140.85L7.68016 376.88C0.286579 384.11 3.75508 392.452 15.4273 395.512L185.396 439.568C197.068 442.628 209.539 438.655 219.917 432.017L560.777 194.124C575.541 183.414 570.759 179.455 552.914 174.599Z"></path>
         </svg>
         <img
-          src={getAssetPath('img-phone-animator/iphone-x.png')}
-          srcset={`${getAssetPath('img-phone-animator/iphone-x.png')} 1x,
-                  ${getAssetPath('img-phone-animator/iphone-x@2x.png')} 2x`}
+          src={getAssetPath('assets/iphone-x.png')}
+          srcset={`${getAssetPath('assets/iphone-x.png')} 1x,
+                  ${getAssetPath('assets/iphone-x@2x.png')} 2x`}
           loading="lazy"
           width="1780" height="1541"
         />

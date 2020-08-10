@@ -61,8 +61,8 @@ a {
   --h1-color: #fff;
   --p2-color: var(--c-lavender-10);
 
-  .ui-container {
-  @include util.box($d:flex, $jc:space-between);
+  .ui-grid {
+  @include util.box($rg:var(--space-11));
   }
 
   .heading-group {
@@ -84,9 +84,9 @@ a {
   }
 
   .image {
-  @include util.box($pos:relative, $fg:1, $d:flex, $jc:center);
+  @include util.box($pos:relative, $fg:1, $d:flex, $jc:center, $ai:center);
     img {
-    @include util.box($mxw:457px, $pos:absolute, $t:-30px);
+    // @include util.box($mxw:457px, $pos:absolute, $t:-30px);
     }
   }
 }
@@ -94,8 +94,23 @@ a {
 #companies {
 @include util.box($pbs:$section-space, $pbe:$section-space);
 
+  &.content {
+  @include util.box($mbs:-77px);
+  }
+
   .row{
-  @include util.box($d:flex, $ai:center, $jc:space-around, $fg:1, $mis:auto, $mie:auto);
+  @include util.box($d:flex, $ai:center, $jc:space-around, $fw:wrap, $fg:1, $mis:auto, $mie:auto);
+  }
+  .subrow {
+  @include util.box($d:flex, $jc:space-around, $fg:1, $fw:wrap);
+
+    .image {
+    @include util.box($pis:var(--space-4), $pie:var(--space-4));
+    }
+
+    img {
+    @include util.box($mbs:77px)
+    }
   }
   
   .row1 {
@@ -111,7 +126,7 @@ a {
 }
 
 #benefits {
-@include util.box($pbs:$section-space, $pbe:$section-space);
+@include util.box($pbs:$section-space, $pbe:$section-space, $back:var(--c-indigo-0));
 
   .heading-group {
   @include util.box($mxw:640px, $mbe:var(--space-5));
@@ -162,6 +177,10 @@ a {
 
   .heading-group {
   @include util.box($mbe:var(--space-11), $mxw:768px);
+  }
+
+  .ui-grid {
+  @include util.box($rg:var(--space-3));
   }
 
   .list-item {

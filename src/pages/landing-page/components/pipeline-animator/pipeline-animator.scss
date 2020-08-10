@@ -1,4 +1,4 @@
-@use '../../../../global/variables' as var;
+@use '../../../../global/vars' as var;
 
 :host {
   display: inline-block;
@@ -41,12 +41,11 @@
 
   @media (max-width: var.$screen-md)  {  
     transform: scale(0.8);
-    top: 380px;
-    margin-left: -670px;
+    position: relative;
+    top: -150px;
   }
   @media (max-width: var.$screen-sm)  {
     transform: scale(0.7);
-    top: 260px;
   }
 }
 

@@ -22,9 +22,7 @@ export const config: Config = {
     },
   ],
   plugins: [
-    sass({
-      includePaths: ['ds'],
-    }),
+    sass(),
     dotenvPlugin(),
   ],
 };

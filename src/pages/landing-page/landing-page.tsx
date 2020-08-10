@@ -195,35 +195,37 @@ const Push = () => {
     <section id="push">
       <div class="push__wrapper">
         <ResponsiveContainer>
-          <div class="text">
-            <div class="heading-group">
-              <PrismicRichText richText={push} paragraphLevel={2} />
-            </div>
-            <ul class="list">
-              {push__list.map(({ content }, i) => (
-                <li class="list-item">
-                  {icons[i]}
-                  <PrismicRichText richText={content} paragraphLevel={4}/>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div class="image"> 
-            <div class="image__wrapper">
-              <div class="icons">
-                {appleStoreCheckedIcon({}, { width: 52, height: 52 })}
-                {testflightLogo({}, { width: 52, height: 52 })}
-                {googleStoreCheckedIcon({}, { width: 52, height: 52 })}
+          <Grid>
+            <Col class="text" cols={12} md={6}>
+              <div class="heading-group">
+                <PrismicRichText richText={push} paragraphLevel={2} />
               </div>
-              <img
-                src={getAssetPath('./assets/push@2x.png')}
-                srcset={`${getAssetPath('./assets/push.png')}, ${getAssetPath('./assets/push@2x.png')} 2x`}
-                loading="lazy"
-                width="1568"
-                height="1234"
-              />
-            </div>
-          </div>
+              <ul class="list">
+                {push__list.map(({ content }, i) => (
+                  <li class="list-item">
+                    {icons[i]}
+                    <PrismicRichText richText={content} paragraphLevel={4}/>
+                  </li>
+                ))}
+              </ul>
+            </Col>
+            <Col class="image" cols={12} md={6}> 
+              <div class="image__wrapper">
+                <div class="icons">
+                  {appleStoreCheckedIcon({}, { width: 52, height: 52 })}
+                  {testflightLogo({}, { width: 52, height: 52 })}
+                  {googleStoreCheckedIcon({}, { width: 52, height: 52 })}
+                </div>
+                <img
+                  src={getAssetPath('./assets/push@2x.png')}
+                  srcset={`${getAssetPath('./assets/push.png')}, ${getAssetPath('./assets/push@2x.png')} 2x`}
+                  loading="lazy"
+                  width="1568"
+                  height="1234"
+                />
+              </div>
+            </Col>
+          </Grid>
         </ResponsiveContainer>
       </div>
     </section>
@@ -291,19 +293,24 @@ const Automate = () => {
   return (
     <section id="automate">
       <ResponsiveContainer>
-        <div>
-          <div class="heading-group">
-            <PrismicRichText richText={automate} paragraphLevel={2} />
-          </div>
-          <div class="subtext">
-            <PrismicRichText richText={automate__subtext} paragraphLevel={3} />
-          </div>
-        </div>
-        <pipeline-animator></pipeline-animator>
+        <Grid>
+          <Col cols={12} md={6}>
+            <div class="heading-group">
+              <PrismicRichText richText={automate} paragraphLevel={2} />
+            </div>
+            <div class="subtext">
+              <PrismicRichText richText={automate__subtext} paragraphLevel={3} />
+            </div>
+          </Col>
+          <Col cols={12} md={6}>
+            <pipeline-animator></pipeline-animator>
+          </Col>
+        </Grid>        
       </ResponsiveContainer>
     </section>
   )
 }
+
 const Managed = () => {
   const { managed } = state.pageData;
 
@@ -330,6 +337,7 @@ const Managed = () => {
     </section>
   )
 }
+
 const Experience = () => {
   const { experience__title, experience__subtext, experience__cta, experience__list } = state.pageData;
 

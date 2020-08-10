@@ -1,6 +1,6 @@
 // #region ------------------------------ IMPORTS -------------------------------------------------------
-@use '../../global/variables' as var;
-@use '../../global/utils.scss' as util;
+@use '../../global/vars' as var;
+@use '../../global/utils' as util;
 //#endregion --------------------------------------------------------------------------------------------------
 
 // #region ------------------------------ VARIABLES/THEME ------------------------------------------------
@@ -46,9 +46,7 @@ a {
 .ui-heading-6 {
 @include util.box($mbe:var(--space-6))
 }
-// .ui-container {
-// @include util.media($type:min-width, $val:var.$screen-lg, $w:1120px, $pis:0, $pie:0)
-// }
+
 //#endregion --------------------------------------------------------------------------------------------------
 
 // #region ------------------------------ PAGE STYLES ----------------------------------------------------
@@ -110,10 +108,12 @@ a {
   }
 
   .list {
-  // @include util.box($d:flex, $fw:wrap, $fb:352px, $jc:space-between);
+
 
     .list-item {
-    // @include util.box($fb:352px, $mis:auto, $mie:auto);
+      svg {
+      @include util.box($mbe:var(--space-6))
+      }
     }
   }
 }
@@ -146,10 +146,13 @@ a {
 
   .image {
   @include util.box($fg:1, $d:flex, $jc:center);
+  
+
 
     &__wrapper {
     @include util.box($pos:absolute, $d:flex, $fd:column,
                       $w:auto, $l:50%);
+    @include util.media($val:var.$screen-md-max, $pos:relative, $l:0, $w:100%);
 
       .icons {
       @include util.box($mis:var(--space-6));
@@ -170,7 +173,7 @@ a {
 @include util.box($pbs:$section-space, $pbe:$section-space, $contain:content);
 
   .ui-container {
-  @include util.box($d:flex);
+  @include util.box($d:flex, $pos:relative);
   }
 
   .text {
@@ -197,6 +200,7 @@ a {
 
   phone-animator {
   @include util.box($fg:1);
+  @include util.media($val:var.$screen-sm-max, $pos:absolute, $w:100%, $h:100%, $z:-1, $o:.07);
   }
 }
 
@@ -229,6 +233,7 @@ a {
 
   .image {
   @include util.box($pos:relative, $fg:1, $d:flex, $jc:center);
+  @include util.media($val:var.$screen-xs-max, $d:none);
 
     &__wrapper {
     @include util.box($pos:absolute, $w:auto, $l:-250px, $t:calc(50% + 150px), $tf:translateY(-50%), $r: -150px);

@@ -25,6 +25,20 @@
   }
 }
 
+site-modal .heading-group {
+  max-width: 420px;
+  margin-inline-start: auto;
+  margin-inline-end: auto;
+  text-align: center;
+
+  .ui-heading {
+    margin-block-end: var(--space-3);
+  }
+  .ui-paragraph {
+    margin-block-end: var(--space-6);
+  }
+}
+
 .plans {
   display: grid;
   margin-left: -58px;

@@ -9,10 +9,11 @@
     "build": "stencil build --prerender",
     "start": "stencil build --dev --watch --serve",
     "generate": "stencil generate",
-    "serve": "stencil build --dev --watch"
+    "serve": "stencil build --dev --watch",
+    "dev": "stencil build --dev --watch --serve"
   },
   "devDependencies": {
-    "@ionic-internal/ionic-ds": "2.0.5",
+    "@ionic-internal/ionic-ds": "2.1.0",
     "@ionic/prettier-config": "^1.0.0",
     "@stencil/core": "^2.0.0-0",
     "@stencil/helmet": "^0.3.2",

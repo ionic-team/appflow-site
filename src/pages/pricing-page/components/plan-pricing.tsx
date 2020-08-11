@@ -1,5 +1,6 @@
 import { Component, State, h, Host, getAssetPath } from '@stencil/core';
 import { checkmarkRounded } from '../../../svgs';
+import { Heading, Paragraph } from '@ionic-internal/ionic-ds';
 
 
 @Component({
@@ -12,12 +13,6 @@ export class PlanPricing {
   private contactModal: HTMLSiteModalElement;
   @State() planType: 'monthly' | 'yearly' = 'yearly';
 
-  componentDidLoad = async () => {
-    const response = await fetch(`/api/hubspot`);
-    const data = await response.json();
-    console.log(data);
-  }
-
 
   render() {
     return (
@@ -27,7 +22,14 @@ export class PlanPricing {
       }}
     >
       <site-modal ref={e => this.contactModal = e}>
-
+        <div class="heading-group">
+          <Heading>Contact us</Heading>
+          <Paragraph>
+            Send us a detailed message and an Ionic Sales Representative will
+            get back to you soon.
+          </Paragraph>
+        </div>        
+        <hubspot-form formId="a6d856c5-39f4-4725-a78f-c356d8d64ac5"></hubspot-form>
       </site-modal>
       <div class="toggle">
         <span class={{ 'active': this.planType === 'monthly' }} onClick={() => this.planType = 'monthly'}>Monthly</span>

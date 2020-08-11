@@ -111,6 +111,13 @@ export const checkmarkCircle = ({ main = '#597EFF', second = '#EEFEFF' }: colors
   </svg>
 );
 
+export const checkmarkRounded = ({ main = '#5B708B' }: colors = {}, props?) => (
+  <svg viewBox="0 0 12 12" {...props}>
+    <path d="M1 7.11L4.89 11 11 1" stroke={main} fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+  </svg>
+);
+
+
 export const cloudCircleIcon = ({ main = '#BFE4FF', second = '#3C67FF', third = '#194BFD' }: colors = {}, props?) => (
   <svg viewBox="0 0 48 48" {...props}>
     <rect fill={main} width="48" height="48" rx="24"/>

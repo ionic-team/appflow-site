@@ -2,6 +2,7 @@ import { Config } from '@stencil/core';
 import { sass } from '@stencil/sass';
 
 import dotenvPlugin from 'rollup-plugin-dotenv';
+import nodePolyfills from 'rollup-plugin-node-polyfills';
 
 export const config: Config = {
   taskQueue: 'async',
@@ -25,4 +26,9 @@ export const config: Config = {
     sass(),
     dotenvPlugin(),
   ],
+  rollupPlugins: {
+    after: [
+      nodePolyfills(),
+    ]
+  }
 };

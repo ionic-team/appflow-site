@@ -1,5 +1,29 @@
 @use '../../../global/vars' as var;
 
+.button {
+  display:flex;
+  white-space: pre;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  border-radius: var(--radius-4);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 112%;
+  letter-spacing: -.02em;
+  height: 56px;
+  width: 216px;
+
+  &.light {
+    background: var(--c-blue-0);
+    color: var(--c-lavender-80);
+  }
+  &.dark {
+    background: var(--c-lavender-70);
+    color: #fff;
+  }
+}
+
 .plans {
   display: grid;
   margin-left: -58px;
@@ -106,58 +130,12 @@
   flex-direction: column;
   justify-content: flex-start;
   border: 1px solid #DEE3EA;
-  box-shadow: 0px 2px 4px rgba(0, 16, 46, 0.04);
-
-  &--dark {
-    background: #1A325C;
-    color: #E9EDF3;
-    border-color: #03112C;
-
-    &.plan__card h3,
-    .plan__price strong {
-      color: #fff;
-    }
-
-    .plan__description {
-      color: var(--c-indigo-100);
-    }
-
-    .plan {
-      &__price__term {
-        color: #A9B6CE;
-      }
-
-      &__feature {
-        &__divider {
-          border-color: #415B89;
-
-          + .plan__feature__header {
-            background: #1A325C;
-            color: #A9B6CE;
-          }
-        }
-
-        &__list li::before {
-          background-image: url('/img/pricing/ico-check-light.svg');
-        }
-
-        &__highlight {
-          background: #324E7E;
-        }
-      }
-    }
-  }
-
-  &--featured {
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-    border: 2px solid #3880FF;
-  }
+  box-shadow: 0px 4px 8px rgba(2, 8, 20, 0.08), 0px 8px 16px rgba(2, 8, 20, 0.08);
 }
 
 .plan {
   &__card h3 {
-    color: #020814;
+    color: var(--c-indigo-60);
     margin-top: 0;
     margin-bottom: 13px;
 
@@ -269,24 +247,33 @@
     }
     
     &__list {
+      display: flex;
+      align-items: flex-start;
+      flex-direction: column;
       padding-left: 0;
-      margin: 9px 0 26px;
+      margin: 33px 0 26px;
+      flex-grow: 1;
       
       li {
+        display: inline-flex;
+        align-items: flex-start;
+        color: var(--c-indigo-80);
+        font-size: 14px;
+        line-height: 140%;
+        letter-spacing: -.01em;
         position: relative;
-        margin: 14px 0 0 -8px;
         list-style: none;
-        padding: 4px 0 5px 30px;
-        letter-spacing: -0.02em;
-        
-        &::before {
-          position: absolute;
-          top: 9px;
-          left: 6px;
-          background: url('/img/pricing/ico-check-dark.svg');
-          height: 11px;
-          width: 11px;
-          content: '';
+
+        & + li {
+          margin-block-start: 24px;
+        }
+
+        svg {
+          min-width: 12px;
+          min-width: 12px;
+          position: relative;
+          top: 3px;
+          margin-inline-end: var(--space-2);
         }
         
         strong {
@@ -297,9 +284,26 @@
     }
     
     &__highlight {
-      background: #F6F8FB;
-      border-radius: 16px;
-      margin-right: -8px;
+      position: relative;
+
+      svg, span {
+        z-index: 2;
+      }
+
+      &::after {
+        z-index: 1;
+        content: '';
+        border-radius: var(--radius-3);
+        position: absolute;
+        background: #F6F8FB;
+        left: -10px;
+        right: -14px;
+        top: -6px;
+        bottom: -6px;
+      }
+      // background: #F6F8FB;
+      // border-radius: 16px;
+      // margin-right: -8px;
     }
     
     &__asterisk {
@@ -333,27 +337,22 @@
 
 
 .plans {
-  .plan__price__monthly,
-  .plan__price__annually {
+  .plan__price__monthly {
+    transform: translateX(20px);
+    opacity: 0;
     transition: .3s all ease-out;
+    position: absolute;
+  }
+  .plan__price__yearly {
+    transform: translateX(-20px);
+    opacity: 0;
+    transition: .3s all ease-out;
+  }
+
+  .active {
+    transform: translateX(0px);
+    opacity: 1;
     display: inline-block;
   }
 
-  .plan__price__monthly {
-    position: absolute;
-  }
-
-  &.monthly-active {
-    .plan__price__annually {
-      transform: translateX(-20px);
-      opacity: 0;
-    }
-  }
-
-  &.annually-active {
-    .plan__price__monthly {
-      transform: translateX(20px);
-      opacity: 0;
-    }
-  }
 }

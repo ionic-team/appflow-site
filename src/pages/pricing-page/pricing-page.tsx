@@ -1,9 +1,9 @@
-import { Component, Host, h, getAssetPath} from '@stencil/core';
+import { Component, Host, h } from '@stencil/core';
 
-import { ResponsiveContainer, PrismicRichText } from '@ionic-internal/ionic-ds';
-import {  } from '../../svgs';
+import { ResponsiveContainer, PrismicRichText, Heading} from '@ionic-internal/ionic-ds';
 import { getPage } from '../../prismic';
 import state from '../../store';
+import { aaaLogo, amtrakLogo, nasaLogo, ibmLogo, burgerKingLogo, catLogo, targetLogo } from '../../svgs';
 
 
 
@@ -28,6 +28,7 @@ export class PricingPage {
       <main>
         <Top />
         <Tiers />
+        <Companies />
       </main>
 
       <footer>
@@ -49,21 +50,31 @@ const Top = () => {
   );
 }
 
-
 const Tiers = () => {
   return (
     <ResponsiveContainer id="tiers" as="section">
-      <site-modal></site-modal>
-
       <plan-pricing></plan-pricing>
+    </ResponsiveContainer>
+  );
+}
 
-      <a class="anchor-cta anchor" href="#features">
-        See full feature comparison
-        <svg width="7" height="12" viewBox="0 0 7 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M1 1L6 6L1 11" stroke="#639CFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-
-      </a>
+const Companies = () => {
+  return (
+    <ResponsiveContainer id="companies" as="section">
+      <Heading level={6}>Trusted by the world’s best teams</Heading>
+      <div class="logos">
+        <div class="wrapper">
+          {aaaLogo({ main: 'var(--c-indigo-60)' }, { width: 50, height: 30 })}
+          {amtrakLogo({ main: 'var(--c-indigo-60)' }, { width: 63.78, height: 26.25 })}
+          {nasaLogo({ main: 'var(--c-indigo-60)' }, { width: 71.29, height: 18.75 })}
+          {ibmLogo({ main: 'var(--c-indigo-60)' }, { width: 52.53, height: 21.56 })}
+        </div>
+        <div class="wrapper">
+          {burgerKingLogo({ main: 'var(--c-indigo-60)', second: 'var(--c-indigo-60)', third: 'var(--c-indigo-60)' }, { width: 30.32, height: 32 })}
+          {catLogo({ main: 'var(--c-indigo-60)', second: 'var(--c-indigo-60)' }, { width: 41.27, height: 24.38 })}
+          {targetLogo({ main: 'var(--c-indigo-60)' }, { width: 32, height: 32 })}
+        </div>
+      </div>
     </ResponsiveContainer>
   );
 }

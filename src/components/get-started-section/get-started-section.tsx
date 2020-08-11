@@ -16,7 +16,7 @@ export class GetStartedSection{
             <Heading>Appflow is an integrated mobile DevOps platform for modern app teams and businesses.</Heading>
             <Paragraph level={1}>Ready to make life easier?</Paragraph>
           </div>
-          <div class="cta">Get started - it's free to try</div>
+          <a class="cta" href="https://ionicframework.com/signup?source=framework-products&product=appflow">Get started - it's free to try</a>
         </ResponsiveContainer>
       </section>
     );

@@ -124,7 +124,7 @@ const Top = () => {
             <PrismicRichText richText={top} paragraphLevel={2} />
           </Breakpoint>
           
-          <a href="" class="cta">{top__cta}</a>
+          <a href="https://ionicframework.com/signup?source=framework-products&product=appflow" class="cta">{top__cta}</a>
         </div>
       </ResponsiveContainer>
 
@@ -346,7 +346,7 @@ const Experience = () => {
         <Grid>
           <Col class="subtext" xs={12} md={5}>
             <PrismicRichText richText={experience__subtext} paragraphLevel={2} />
-            <a href="" class="cta">{experience__cta}</a>
+            <a href="/why-appflow" class="cta">{experience__cta}</a>
           </Col>
           <Col xs={12} md={6}>
             <ul class="list">

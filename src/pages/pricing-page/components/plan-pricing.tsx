@@ -1,5 +1,4 @@
-import { Component, State, Element, h, Host, getAssetPath } from '@stencil/core';
-import { Paragraph, IntersectionHelper } from '@ionic-internal/ionic-ds';
+import { Component, State, h, Host, getAssetPath } from '@stencil/core';
 import { checkmarkRounded } from '../../../svgs';
 
 
@@ -10,40 +9,10 @@ import { checkmarkRounded } from '../../../svgs';
   scoped: true,
 })
 export class PlanPricing {
-  private hubspotCdn = '//js.hsforms.net/forms/v2.js';
   private contactModal: HTMLSiteModalElement;
   @State() planType: 'monthly' | 'yearly' = 'yearly';
 
-  
-  componentWillLoad() {
-    // this.importHubspot();
-  }
 
-  // importHubspot() {
-  //   if (window.hbspt) {
-  //     this.createForm();
-  //     return;
-  //   };
-
-  //   const script = document.createElement('script');
-  //   script.src = this.hubspotCdn;
-
-  //   script.onload = () => {
-  //     if (!window) return window.onload = this.createForm;
-  //     this.createForm()
-  //   }
-  //   script.onerror = () => console.error('error loading gsap library from: ', this.hubspotCdn);      
-
-  //   document.body.appendChild(script);
-  // }
-
-  // createForm () {
-  //   hbspt.forms.create({
-  //     portalId: "3776657",
-  //     formId: "a6d856c5-39f4-4725-a78f-c356d8d64ac5",
-  //     css: ""
-  //   });
-  // }
 
   render() {
     return (
@@ -53,31 +22,7 @@ export class PlanPricing {
       }}
     >
       <site-modal ref={e => this.contactModal = e}>
-      <div class="modal collapse fade"
-        id="scalePlanForm"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="myModalLabel">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-body hubspot-override">
-            <button type="button"
-                    class="close"
-                    data-dismiss="modal"
-                    aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-            <hgroup class="hero text-center">
-              <h3>Contact us</h3>
-              <p class="lg">
-                Send us a detailed message and an Ionic Sales Representative will
-                get back to you soon.
-              </p>
-            </hgroup>
-          </div>
-        </div>
-      </div>
-    </div>
+
       </site-modal>
       <div class="toggle">
         <span class={{ 'active': this.planType === 'monthly' }} onClick={() => this.planType = 'monthly'}>Monthly</span>

@@ -1,6 +1,7 @@
 @use '../../../global/vars' as var;
 
 .button {
+  cursor: pointer;
   display:flex;
   white-space: pre;
   align-items: center;

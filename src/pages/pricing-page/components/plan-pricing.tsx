@@ -12,6 +12,11 @@ export class PlanPricing {
   private contactModal: HTMLSiteModalElement;
   @State() planType: 'monthly' | 'yearly' = 'yearly';
 
+  componentDidLoad = async () => {
+    const response = await fetch(`/api/hubspot`);
+    const data = await response.json();
+    console.log(data);
+  }
 
 
   render() {

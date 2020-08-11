@@ -11,7 +11,6 @@ $section-space: 160px;
   --p3-color: var(--c-indigo-80);
   --p4-color: var(--c-indigo-80);
 
-  --poster1-color: #fff;
   --h2-color: var(--c-carbon-100);
   --h4-color: var(--c-carbon-100);
   --h5-color: var(--c-carbon-100);
@@ -47,9 +46,6 @@ a {
 }
 .ui-paragraph-2 {
 @include util.box($mbs:var(--space-5));
-}
-.ui-container {
-@include util.media($type:min-width, $val:var.$screen-lg, $w:1120px, $pis:0, $pie:0)
 }
 //#endregion --------------------------------------------------------------------------------------------------
 

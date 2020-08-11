@@ -38,6 +38,10 @@ export namespace Components {
     }
     interface PipelineAnimator {
     }
+    interface PlanPricing {
+    }
+    interface PricingPage {
+    }
     interface SiteBackdrop {
         "visible": boolean;
     }
@@ -137,6 +141,18 @@ declare global {
         prototype: HTMLPipelineAnimatorElement;
         new (): HTMLPipelineAnimatorElement;
     };
+    interface HTMLPlanPricingElement extends Components.PlanPricing, HTMLStencilElement {
+    }
+    var HTMLPlanPricingElement: {
+        prototype: HTMLPlanPricingElement;
+        new (): HTMLPlanPricingElement;
+    };
+    interface HTMLPricingPageElement extends Components.PricingPage, HTMLStencilElement {
+    }
+    var HTMLPricingPageElement: {
+        prototype: HTMLPricingPageElement;
+        new (): HTMLPricingPageElement;
+    };
     interface HTMLSiteBackdropElement extends Components.SiteBackdrop, HTMLStencilElement {
     }
     var HTMLSiteBackdropElement: {
@@ -170,6 +186,8 @@ declare global {
         "newsletter-form": HTMLNewsletterFormElement;
         "phone-animator": HTMLPhoneAnimatorElement;
         "pipeline-animator": HTMLPipelineAnimatorElement;
+        "plan-pricing": HTMLPlanPricingElement;
+        "pricing-page": HTMLPricingPageElement;
         "site-backdrop": HTMLSiteBackdropElement;
         "site-img": HTMLSiteImgElement;
         "why-appflow": HTMLWhyAppflowElement;
@@ -209,6 +227,10 @@ declare namespace LocalJSX {
     }
     interface PipelineAnimator {
     }
+    interface PlanPricing {
+    }
+    interface PricingPage {
+    }
     interface SiteBackdrop {
         "visible"?: boolean;
     }
@@ -237,6 +259,8 @@ declare namespace LocalJSX {
         "newsletter-form": NewsletterForm;
         "phone-animator": PhoneAnimator;
         "pipeline-animator": PipelineAnimator;
+        "plan-pricing": PlanPricing;
+        "pricing-page": PricingPage;
         "site-backdrop": SiteBackdrop;
         "site-img": SiteImg;
         "why-appflow": WhyAppflow;
@@ -260,6 +284,8 @@ declare module "@stencil/core" {
             "newsletter-form": LocalJSX.NewsletterForm & JSXBase.HTMLAttributes<HTMLNewsletterFormElement>;
             "phone-animator": LocalJSX.PhoneAnimator & JSXBase.HTMLAttributes<HTMLPhoneAnimatorElement>;
             "pipeline-animator": LocalJSX.PipelineAnimator & JSXBase.HTMLAttributes<HTMLPipelineAnimatorElement>;
+            "plan-pricing": LocalJSX.PlanPricing & JSXBase.HTMLAttributes<HTMLPlanPricingElement>;
+            "pricing-page": LocalJSX.PricingPage & JSXBase.HTMLAttributes<HTMLPricingPageElement>;
             "site-backdrop": LocalJSX.SiteBackdrop & JSXBase.HTMLAttributes<HTMLSiteBackdropElement>;
             "site-img": LocalJSX.SiteImg & JSXBase.HTMLAttributes<HTMLSiteImgElement>;
             "why-appflow": LocalJSX.WhyAppflow & JSXBase.HTMLAttributes<HTMLWhyAppflowElement>;

@@ -33,6 +33,9 @@ export class AppflowSiteRoutes {
           <Route path="/why-appflow">
             <why-appflow />
           </Route>
+          <Route path="/pricing">
+            <pricing-page />
+          </Route>
         </Router.Switch>
       </Host>
     );

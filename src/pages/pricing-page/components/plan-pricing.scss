@@ -1,0 +1,359 @@
+@use '../../../global/vars' as var;
+
+.plans {
+  display: grid;
+  margin-left: -58px;
+  margin-top: 55px;
+  gap: 16px;
+  grid-template-columns: repeat(4, 25%);
+  grid-template-rows: auto;
+  grid-template-areas: 
+    "hobby launch growth scale";
+
+  @media (max-width: var.$screen-md-max) {
+    gap: 8px;
+    margin-left: -20px;
+    grid-template-columns: repeat(4, 25%);
+  }
+
+  @media (max-width: var.$screen-sm-max) {
+    margin-left: 0;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: 
+      "hobby launch"
+      "growth scale";
+    .plan__card--featured {
+      margin-top: 32px;
+    }
+  }
+
+  @media (max-width: 500px) {
+    grid-template-columns: 1fr;
+    grid-template-areas: 
+      "hobby"
+      "launch"
+      "growth"
+      "scale";
+  }
+}
+
+.toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #F4F6F9;
+  border-radius: 18px;
+  cursor: default;
+  margin: 0 auto 54px;
+  width: 204px;
+  font-weight: 500;
+  padding: 3px 2px;
+  
+  span {
+    transition: color 0.3s, background 0.3s;
+    border-radius: 30px;
+    padding: 5px 13px;
+    text-align: center;
+    font-size: 13px;
+    line-height: 16px;
+    letter-spacing: -0.01em;
+    color: #5B708B;
+    transition: .2s color, .2s background;
+  }
+
+  span:hover {
+    cursor: pointer;
+    color: #7398d8;
+  }
+
+  .active,
+  .active:hover {
+    font-weight: 600;
+    border-radius: 18px;
+    color: #1A232F;
+    background: #FFFFFF;
+    box-shadow: 0px 2px 3px rgba(0, 16, 46, 0.15);
+  }
+}
+
+#plan-hobby {
+  grid-area: hobby;
+}
+
+#plan-launch {
+  grid-area: launch;
+}
+
+#plan-launch {
+  grid-area: growth;
+}
+
+#plan-launch {
+  grid-area: scale;
+}
+
+#plan-launch {
+  grid-area: enterprise;
+}
+
+.plan__card {
+  border-radius: 12px;
+  background: white;
+  padding: 30px 26px 26px;
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  border: 1px solid #DEE3EA;
+  box-shadow: 0px 2px 4px rgba(0, 16, 46, 0.04);
+
+  &--dark {
+    background: #1A325C;
+    color: #E9EDF3;
+    border-color: #03112C;
+
+    &.plan__card h3,
+    .plan__price strong {
+      color: #fff;
+    }
+
+    .plan__description {
+      color: var(--c-indigo-100);
+    }
+
+    .plan {
+      &__price__term {
+        color: #A9B6CE;
+      }
+
+      &__feature {
+        &__divider {
+          border-color: #415B89;
+
+          + .plan__feature__header {
+            background: #1A325C;
+            color: #A9B6CE;
+          }
+        }
+
+        &__list li::before {
+          background-image: url('/img/pricing/ico-check-light.svg');
+        }
+
+        &__highlight {
+          background: #324E7E;
+        }
+      }
+    }
+  }
+
+  &--featured {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border: 2px solid #3880FF;
+  }
+}
+
+.plan {
+  &__card h3 {
+    color: #020814;
+    margin-top: 0;
+    margin-bottom: 13px;
+
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 120%;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  &__price {
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 24px;
+    letter-spacing: -0.04em;
+    color: #1A232F;
+    padding-bottom: 13px;
+
+    &__term {
+      font-size: 14px;
+      line-height: 17px;
+      letter-spacing: -0.02em;
+      color: #414D5C;
+      display: block;
+      margin-top: -2px;
+
+      &--short {
+        display: inline;
+      }
+    }
+
+    sup {
+      font-weight: 500;
+      font-size: 24px;
+      line-height: 29px;
+      margin-right: 2px;
+    }
+
+    strong {
+      font-weight: bold;
+      font-size: 44px;
+      line-height: 48px;
+      letter-spacing: -.03em;
+    }
+  }
+
+  &__description {
+    font-size: 15px;
+    line-height: 150%;
+    letter-spacing: -0.01em;
+    color: var(--c-indigo-80);
+  }
+
+  &__cta.btn {
+    align-self: flex-start;
+    font-size: 16px;
+    line-height: 19px;
+    padding: 16px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border: 1px solid #3880FF;
+    box-shadow: 0px 2px 4px rgba(0, 16, 46, 0.04);
+    margin-top: auto;
+    align-self: stretch;
+
+    &.light {
+      border-color: #EEF6FE;
+      color: #3880FF;
+
+      &:hover {
+        box-shadow: 0px 2px 4px rgba(0, 16, 46, 0.08);
+      }
+    }
+
+    &.navy {
+      border-color: #4A679B;
+      color: #D1EBFF;
+      background: #324E7E;
+
+      &:hover {
+        box-shadow: 0px 2px 4px rgba(0, 16, 46, 0.2);
+      }
+    }
+
+    &:hover {
+      box-shadow: 0px 2px 4px rgba(0, 16, 46, 0.12);
+    }
+  }
+
+  &__feature {
+    &__divider {
+      border-bottom: 1px solid #DEE3EA;
+      margin: 30px -26px 0;
+
+      + .plan__feature__header {
+        margin: -9px -5px 0;
+        background: white;
+        align-self: flex-start;
+        padding: 6px;
+      }
+    }
+    
+    &__header {
+      font-size: 10px;
+      line-height: 4px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #616E7E;
+    }
+    
+    &__list {
+      padding-left: 0;
+      margin: 9px 0 26px;
+      
+      li {
+        position: relative;
+        margin: 14px 0 0 -8px;
+        list-style: none;
+        padding: 4px 0 5px 30px;
+        letter-spacing: -0.02em;
+        
+        &::before {
+          position: absolute;
+          top: 9px;
+          left: 6px;
+          background: url('/img/pricing/ico-check-dark.svg');
+          height: 11px;
+          width: 11px;
+          content: '';
+        }
+        
+        strong {
+          letter-spacing: -.04em;
+          font-weight: 600;
+        }
+      }
+    }
+    
+    &__highlight {
+      background: #F6F8FB;
+      border-radius: 16px;
+      margin-right: -8px;
+    }
+    
+    &__asterisk {
+      font-size: 12px;
+      line-height: 14px;
+      letter-spacing: -0.01em;
+      color: #92A1B3;
+      margin: 20px auto 0;
+      text-align: center;
+      width: 100%;
+      display: block;
+    }
+  }
+  
+  &__note {
+    position: absolute;
+    top: -34px;
+    left: -2px;
+    right: -2px;
+    background: #3880FF;
+    border-radius: 12px 12px 0 0;
+    color: white;
+    text-align: center;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: -0.02em;
+    padding: 9px 1em;
+  }
+}
+
+
+.plans {
+  .plan__price__monthly,
+  .plan__price__annually {
+    transition: .3s all ease-out;
+    display: inline-block;
+  }
+
+  .plan__price__monthly {
+    position: absolute;
+  }
+
+  &.monthly-active {
+    .plan__price__annually {
+      transform: translateX(-20px);
+      opacity: 0;
+    }
+  }
+
+  &.annually-active {
+    .plan__price__monthly {
+      transform: translateX(20px);
+      opacity: 0;
+    }
+  }
+}

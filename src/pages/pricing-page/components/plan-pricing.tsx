@@ -50,7 +50,7 @@ export class PlanPricing {
               Community support
             </li>
           </ul>
-          <a href="#" class="button light">Start Free <span style={{'letter-spacing': '0px'}}>-&gt;</span></a>
+          <a href="https://ionicframework.com/start#basics" class="button light">Start Free <span style={{'letter-spacing': '0px'}}>-&gt;</span></a>
         </div>
 
         <div id="plan-starter" class="plan__card plan__card">
@@ -200,5 +200,5 @@ export class PlanPricing {
 }
 
 const GetStartedButton = () => (
-  <a href="#" class="button dark">Get started</a>
+  <a href="https://ionicframework.com/signup?source=framework-products&product=appflow" class="button dark">Get started</a>
 )

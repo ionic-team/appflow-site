@@ -1,5 +1,5 @@
 import { Component, Element, State, h, Host, VNode } from '@stencil/core';
-import { ResponsiveContainer, IntersectionHelper } from '@ionic-internal/ionic-ds';
+import { ResponsiveContainer } from '@ionic-internal/ionic-ds';
 import { href } from 'stencil-router-v2';
 
 import { appflowLogoWithText } from '../../svgs';

@@ -216,8 +216,8 @@ const Push = () => {
                 {googleStoreCheckedIcon({}, { width: 52, height: 52 })}
               </div>
               <img
-                src={getAssetPath('./assets/push@2x.png')}
-                srcset={`${getAssetPath('./assets/push.png')}, ${getAssetPath('./assets/push@2x.png')} 2x`}
+                src={getAssetPath('assets/push@2x.png')}
+                srcset={`${getAssetPath('assets/push.png')}, ${getAssetPath('assets/push@2x.png')} 2x`}
                 loading="lazy"
                 width="1568"
                 height="1234"

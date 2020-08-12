@@ -17,14 +17,12 @@ export const config: Config = {
       baseUrl: 'https://useappflow.com/',
       serviceWorker: null,
       copy: [
-        { src: '../node_modules/@ionic-internal/sites-shared/www/assets/fonts', dest: 'assets/fonts' }
+        { src: '../node_modules/@ionic-internal/ionic-ds/www/assets/fonts', dest: 'assets/fonts' }
       ]
     },
   ],
   plugins: [
-    sass({
-      includePaths: ['ds'],
-    }),
+    sass(),
     dotenvPlugin(),
-  ],
+  ]
 };

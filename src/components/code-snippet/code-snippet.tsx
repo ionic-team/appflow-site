@@ -26,7 +26,7 @@ export class CodeSnippet {
     this.el.appendChild(script);
   }
 
-  componentDidUnload() {
+  disconnectedCallback() {
     this.scriptEl?.parentNode?.removeChild(this.scriptEl);
   }
 

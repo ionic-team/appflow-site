@@ -10,6 +10,7 @@ export const getPage = async prismicId => {
     try {
       const api = await Prismic.getApi(apiURL);
       const response: PrismicDocument = await api.getSingle(prismicId)
+      console.log(response);
 
       state.pageData = response.data;
       

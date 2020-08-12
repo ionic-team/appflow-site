@@ -1,0 +1,25 @@
+
+:host {
+  position: fixed;
+  top: 0;
+  height: 100vh;
+  left: 0;
+  right: 0;
+  background: rgb(0, 26, 58, .08);
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.4s opacity, 0.4s visibility step-end;
+  visibility: hidden;
+
+  z-index: -1;
+}
+
+@media screen and (max-width: 768px) {
+  :host(.site-backdrop--visible) {
+    opacity: 1;
+    pointer-events: all;
+    visibility: visible;
+    transition: 0.4s opacity, 0.4s visibility step-start;
+  }
+}

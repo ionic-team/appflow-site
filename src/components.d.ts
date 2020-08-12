@@ -14,29 +14,46 @@ export namespace Components {
     interface AppIcon {
         "name": string;
     }
+    interface AppflowActivator {
+    }
+    interface AppflowSite {
+    }
+    interface AppflowSiteFooter {
+    }
+    interface AppflowSiteHeader {
+    }
+    interface AppflowSiteRoutes {
+    }
     interface CodeSnippet {
         "code": string;
         "language": string;
     }
-    interface IonicIoSite {
-    }
-    interface IonicIoSiteFooter {
-    }
-    interface IonicIoSiteHeader {
-    }
-    interface IonicIoSiteRoutes {
+    interface GetStartedSection {
     }
     interface LandingPage {
     }
     interface NewsletterForm {
     }
+    interface PhoneAnimator {
+    }
+    interface PipelineAnimator {
+    }
+    interface PlanPricing {
+    }
+    interface PricingPage {
+    }
+    interface SiteBackdrop {
+        "visible": boolean;
+    }
     interface SiteImg {
         "alt": string;
         "dimensions": string;
-        "loading"?: "lazy";
+        "loading"?: 'lazy' | 'eager';
         "name": string;
         "path": string;
         "type": string;
+    }
+    interface WhyAppflow {
     }
 }
 declare global {
@@ -58,35 +75,47 @@ declare global {
         prototype: HTMLAppIconElement;
         new (): HTMLAppIconElement;
     };
+    interface HTMLAppflowActivatorElement extends Components.AppflowActivator, HTMLStencilElement {
+    }
+    var HTMLAppflowActivatorElement: {
+        prototype: HTMLAppflowActivatorElement;
+        new (): HTMLAppflowActivatorElement;
+    };
+    interface HTMLAppflowSiteElement extends Components.AppflowSite, HTMLStencilElement {
+    }
+    var HTMLAppflowSiteElement: {
+        prototype: HTMLAppflowSiteElement;
+        new (): HTMLAppflowSiteElement;
+    };
+    interface HTMLAppflowSiteFooterElement extends Components.AppflowSiteFooter, HTMLStencilElement {
+    }
+    var HTMLAppflowSiteFooterElement: {
+        prototype: HTMLAppflowSiteFooterElement;
+        new (): HTMLAppflowSiteFooterElement;
+    };
+    interface HTMLAppflowSiteHeaderElement extends Components.AppflowSiteHeader, HTMLStencilElement {
+    }
+    var HTMLAppflowSiteHeaderElement: {
+        prototype: HTMLAppflowSiteHeaderElement;
+        new (): HTMLAppflowSiteHeaderElement;
+    };
+    interface HTMLAppflowSiteRoutesElement extends Components.AppflowSiteRoutes, HTMLStencilElement {
+    }
+    var HTMLAppflowSiteRoutesElement: {
+        prototype: HTMLAppflowSiteRoutesElement;
+        new (): HTMLAppflowSiteRoutesElement;
+    };
     interface HTMLCodeSnippetElement extends Components.CodeSnippet, HTMLStencilElement {
     }
     var HTMLCodeSnippetElement: {
         prototype: HTMLCodeSnippetElement;
         new (): HTMLCodeSnippetElement;
     };
-    interface HTMLIonicIoSiteElement extends Components.IonicIoSite, HTMLStencilElement {
+    interface HTMLGetStartedSectionElement extends Components.GetStartedSection, HTMLStencilElement {
     }
-    var HTMLIonicIoSiteElement: {
-        prototype: HTMLIonicIoSiteElement;
-        new (): HTMLIonicIoSiteElement;
-    };
-    interface HTMLIonicIoSiteFooterElement extends Components.IonicIoSiteFooter, HTMLStencilElement {
-    }
-    var HTMLIonicIoSiteFooterElement: {
-        prototype: HTMLIonicIoSiteFooterElement;
-        new (): HTMLIonicIoSiteFooterElement;
-    };
-    interface HTMLIonicIoSiteHeaderElement extends Components.IonicIoSiteHeader, HTMLStencilElement {
-    }
-    var HTMLIonicIoSiteHeaderElement: {
-        prototype: HTMLIonicIoSiteHeaderElement;
-        new (): HTMLIonicIoSiteHeaderElement;
-    };
-    interface HTMLIonicIoSiteRoutesElement extends Components.IonicIoSiteRoutes, HTMLStencilElement {
-    }
-    var HTMLIonicIoSiteRoutesElement: {
-        prototype: HTMLIonicIoSiteRoutesElement;
-        new (): HTMLIonicIoSiteRoutesElement;
+    var HTMLGetStartedSectionElement: {
+        prototype: HTMLGetStartedSectionElement;
+        new (): HTMLGetStartedSectionElement;
     };
     interface HTMLLandingPageElement extends Components.LandingPage, HTMLStencilElement {
     }
@@ -100,24 +129,68 @@ declare global {
         prototype: HTMLNewsletterFormElement;
         new (): HTMLNewsletterFormElement;
     };
+    interface HTMLPhoneAnimatorElement extends Components.PhoneAnimator, HTMLStencilElement {
+    }
+    var HTMLPhoneAnimatorElement: {
+        prototype: HTMLPhoneAnimatorElement;
+        new (): HTMLPhoneAnimatorElement;
+    };
+    interface HTMLPipelineAnimatorElement extends Components.PipelineAnimator, HTMLStencilElement {
+    }
+    var HTMLPipelineAnimatorElement: {
+        prototype: HTMLPipelineAnimatorElement;
+        new (): HTMLPipelineAnimatorElement;
+    };
+    interface HTMLPlanPricingElement extends Components.PlanPricing, HTMLStencilElement {
+    }
+    var HTMLPlanPricingElement: {
+        prototype: HTMLPlanPricingElement;
+        new (): HTMLPlanPricingElement;
+    };
+    interface HTMLPricingPageElement extends Components.PricingPage, HTMLStencilElement {
+    }
+    var HTMLPricingPageElement: {
+        prototype: HTMLPricingPageElement;
+        new (): HTMLPricingPageElement;
+    };
+    interface HTMLSiteBackdropElement extends Components.SiteBackdrop, HTMLStencilElement {
+    }
+    var HTMLSiteBackdropElement: {
+        prototype: HTMLSiteBackdropElement;
+        new (): HTMLSiteBackdropElement;
+    };
     interface HTMLSiteImgElement extends Components.SiteImg, HTMLStencilElement {
     }
     var HTMLSiteImgElement: {
         prototype: HTMLSiteImgElement;
         new (): HTMLSiteImgElement;
     };
+    interface HTMLWhyAppflowElement extends Components.WhyAppflow, HTMLStencilElement {
+    }
+    var HTMLWhyAppflowElement: {
+        prototype: HTMLWhyAppflowElement;
+        new (): HTMLWhyAppflowElement;
+    };
     interface HTMLElementTagNameMap {
         "anchor-link": HTMLAnchorLinkElement;
         "app-burger": HTMLAppBurgerElement;
         "app-icon": HTMLAppIconElement;
+        "appflow-activator": HTMLAppflowActivatorElement;
+        "appflow-site": HTMLAppflowSiteElement;
+        "appflow-site-footer": HTMLAppflowSiteFooterElement;
+        "appflow-site-header": HTMLAppflowSiteHeaderElement;
+        "appflow-site-routes": HTMLAppflowSiteRoutesElement;
         "code-snippet": HTMLCodeSnippetElement;
-        "ionic-io-site": HTMLIonicIoSiteElement;
-        "ionic-io-site-footer": HTMLIonicIoSiteFooterElement;
-        "ionic-io-site-header": HTMLIonicIoSiteHeaderElement;
-        "ionic-io-site-routes": HTMLIonicIoSiteRoutesElement;
+        "get-started-section": HTMLGetStartedSectionElement;
         "landing-page": HTMLLandingPageElement;
         "newsletter-form": HTMLNewsletterFormElement;
+        "phone-animator": HTMLPhoneAnimatorElement;
+        "pipeline-animator": HTMLPipelineAnimatorElement;
+        "plan-pricing": HTMLPlanPricingElement;
+        "pricing-page": HTMLPricingPageElement;
+        "site-backdrop": HTMLSiteBackdropElement;
         "site-img": HTMLSiteImgElement;
+        "why-appflow": HTMLWhyAppflowElement;
     }
 }
 declare namespace LocalJSX {
@@ -130,42 +203,67 @@ declare namespace LocalJSX {
     interface AppIcon {
         "name"?: string;
     }
+    interface AppflowActivator {
+    }
+    interface AppflowSite {
+    }
+    interface AppflowSiteFooter {
+    }
+    interface AppflowSiteHeader {
+    }
+    interface AppflowSiteRoutes {
+    }
     interface CodeSnippet {
         "code"?: string;
         "language"?: string;
     }
-    interface IonicIoSite {
-    }
-    interface IonicIoSiteFooter {
-    }
-    interface IonicIoSiteHeader {
-    }
-    interface IonicIoSiteRoutes {
+    interface GetStartedSection {
     }
     interface LandingPage {
     }
     interface NewsletterForm {
     }
+    interface PhoneAnimator {
+    }
+    interface PipelineAnimator {
+    }
+    interface PlanPricing {
+    }
+    interface PricingPage {
+    }
+    interface SiteBackdrop {
+        "visible"?: boolean;
+    }
     interface SiteImg {
         "alt"?: string;
         "dimensions"?: string;
-        "loading"?: "lazy";
+        "loading"?: 'lazy' | 'eager';
         "name"?: string;
         "path"?: string;
         "type"?: string;
+    }
+    interface WhyAppflow {
     }
     interface IntrinsicElements {
         "anchor-link": AnchorLink;
         "app-burger": AppBurger;
         "app-icon": AppIcon;
+        "appflow-activator": AppflowActivator;
+        "appflow-site": AppflowSite;
+        "appflow-site-footer": AppflowSiteFooter;
+        "appflow-site-header": AppflowSiteHeader;
+        "appflow-site-routes": AppflowSiteRoutes;
         "code-snippet": CodeSnippet;
-        "ionic-io-site": IonicIoSite;
-        "ionic-io-site-footer": IonicIoSiteFooter;
-        "ionic-io-site-header": IonicIoSiteHeader;
-        "ionic-io-site-routes": IonicIoSiteRoutes;
+        "get-started-section": GetStartedSection;
         "landing-page": LandingPage;
         "newsletter-form": NewsletterForm;
+        "phone-animator": PhoneAnimator;
+        "pipeline-animator": PipelineAnimator;
+        "plan-pricing": PlanPricing;
+        "pricing-page": PricingPage;
+        "site-backdrop": SiteBackdrop;
         "site-img": SiteImg;
+        "why-appflow": WhyAppflow;
     }
 }
 export { LocalJSX as JSX };
@@ -175,14 +273,22 @@ declare module "@stencil/core" {
             "anchor-link": LocalJSX.AnchorLink & JSXBase.HTMLAttributes<HTMLAnchorLinkElement>;
             "app-burger": LocalJSX.AppBurger & JSXBase.HTMLAttributes<HTMLAppBurgerElement>;
             "app-icon": LocalJSX.AppIcon & JSXBase.HTMLAttributes<HTMLAppIconElement>;
+            "appflow-activator": LocalJSX.AppflowActivator & JSXBase.HTMLAttributes<HTMLAppflowActivatorElement>;
+            "appflow-site": LocalJSX.AppflowSite & JSXBase.HTMLAttributes<HTMLAppflowSiteElement>;
+            "appflow-site-footer": LocalJSX.AppflowSiteFooter & JSXBase.HTMLAttributes<HTMLAppflowSiteFooterElement>;
+            "appflow-site-header": LocalJSX.AppflowSiteHeader & JSXBase.HTMLAttributes<HTMLAppflowSiteHeaderElement>;
+            "appflow-site-routes": LocalJSX.AppflowSiteRoutes & JSXBase.HTMLAttributes<HTMLAppflowSiteRoutesElement>;
             "code-snippet": LocalJSX.CodeSnippet & JSXBase.HTMLAttributes<HTMLCodeSnippetElement>;
-            "ionic-io-site": LocalJSX.IonicIoSite & JSXBase.HTMLAttributes<HTMLIonicIoSiteElement>;
-            "ionic-io-site-footer": LocalJSX.IonicIoSiteFooter & JSXBase.HTMLAttributes<HTMLIonicIoSiteFooterElement>;
-            "ionic-io-site-header": LocalJSX.IonicIoSiteHeader & JSXBase.HTMLAttributes<HTMLIonicIoSiteHeaderElement>;
-            "ionic-io-site-routes": LocalJSX.IonicIoSiteRoutes & JSXBase.HTMLAttributes<HTMLIonicIoSiteRoutesElement>;
+            "get-started-section": LocalJSX.GetStartedSection & JSXBase.HTMLAttributes<HTMLGetStartedSectionElement>;
             "landing-page": LocalJSX.LandingPage & JSXBase.HTMLAttributes<HTMLLandingPageElement>;
             "newsletter-form": LocalJSX.NewsletterForm & JSXBase.HTMLAttributes<HTMLNewsletterFormElement>;
+            "phone-animator": LocalJSX.PhoneAnimator & JSXBase.HTMLAttributes<HTMLPhoneAnimatorElement>;
+            "pipeline-animator": LocalJSX.PipelineAnimator & JSXBase.HTMLAttributes<HTMLPipelineAnimatorElement>;
+            "plan-pricing": LocalJSX.PlanPricing & JSXBase.HTMLAttributes<HTMLPlanPricingElement>;
+            "pricing-page": LocalJSX.PricingPage & JSXBase.HTMLAttributes<HTMLPricingPageElement>;
+            "site-backdrop": LocalJSX.SiteBackdrop & JSXBase.HTMLAttributes<HTMLSiteBackdropElement>;
             "site-img": LocalJSX.SiteImg & JSXBase.HTMLAttributes<HTMLSiteImgElement>;
+            "why-appflow": LocalJSX.WhyAppflow & JSXBase.HTMLAttributes<HTMLWhyAppflowElement>;
         }
     }
 }

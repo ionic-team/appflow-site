@@ -1,0 +1,42 @@
+@use '../../../../global/vars' as var;
+
+:host {
+  display: inline-block;
+  position: relative;
+}
+
+.foreground {
+  position: absolute;
+  width: 100%;
+  height: 2000px;
+  top: 50%;
+  z-index: 3;
+  transform: translateY(-50%);
+}
+.background {
+  position: absolute;
+  width: 100%;
+  height: 2000px;
+  top: 50%;
+  z-index: 1;
+  transform: translateY(-50%);
+}
+.screen {
+  width: 805px;
+  left: 95px;
+  position: absolute;
+}
+
+
+
+.iphone {
+  position: absolute;
+  z-index: 2;
+  width: 1000px;
+  top: -193px; 
+
+  .screen {    
+    z-index: 2; 
+    top: 218px;  
+  }
+}

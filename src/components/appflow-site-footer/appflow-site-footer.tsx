@@ -39,7 +39,6 @@ export class SiteFooter {
                 <div>
                   <Paragraph class="title" level={5}>Sign up for our newsletter and stay up-to-date</Paragraph>
                   <div>
-                    <hubspot-form formId="a6d856c5-39f4-4725-a78f-c356d8d64ac5"></hubspot-form>
                     <hubspot-form formId="76e5f69f-85fd-4579-afce-a1892d48bb32"></hubspot-form>
                     {/* <form action="">
                       <input type="text" placeholder="Email"/>

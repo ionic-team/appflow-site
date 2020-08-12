@@ -271,8 +271,8 @@ const Native = () => {
         <div class="image"> 
           <div class="image__wrapper">
             <img
-              src={getAssetPath('./assets/native@2x.png')}
-              srcset={`${getAssetPath('./assets/native.png')}, ${getAssetPath('./assets/native@2x.png')} 2x`}
+              src={getAssetPath('assets/native@2x.png')}
+              srcset={`${getAssetPath('assets/native.png')}, ${getAssetPath('assets/native@2x.png')} 2x`}
               loading="lazy"
               width="1805"
               height="1177"
@@ -321,9 +321,9 @@ const Managed = () => {
         <div class="image">
           <div class="image__wrapper">
             <img
-              src={getAssetPath('./assets/managed@2x.png')}
-              srcset={`${getAssetPath('./assets/managed.png')} 1x,
-                      ${getAssetPath('./assets/managed@2x.png')} 2x`}
+              src={getAssetPath('assets/managed@2x.png')}
+              srcset={`${getAssetPath('assets/managed.png')} 1x,
+                      ${getAssetPath('assets/managed@2x.png')} 2x`}
               loading="lazy"
               width="1704"
               height="1511"

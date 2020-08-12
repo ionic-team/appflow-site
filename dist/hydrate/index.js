@@ -4756,8 +4756,8 @@ const createTime = (e, t = "") => {
   10 & n && (o["s-sc"] = l, 
  o.classList.add(l + "-h"),  2 & n && o.classList.add(l + "-s")), 
  s();
-}, getScopeId = (e, t) => "sc-" + ( e.$tagName$), EMPTY_OBJ = {}, isComplexType = e => "object" == (e = typeof e) || "function" === e, IS_DENO_ENV = "undefined" != typeof Deno, IS_NODE_ENV = !(IS_DENO_ENV || "undefined" == typeof global || "function" != typeof require || !global.process || "string" != typeof __filename || global.origin && "string" == typeof global.origin), h = (IS_DENO_ENV && Deno.build.os, IS_NODE_ENV && require, IS_NODE_ENV ? process.cwd : IS_DENO_ENV && globalThis.Deno.cwd, 
-(e, t, ...o) => {
+}, getScopeId = (e, t) => "sc-" + ( e.$tagName$), EMPTY_OBJ = {}, isComplexType = e => "object" == (e = typeof e) || "function" === e, IS_DENO_ENV = "undefined" != typeof Deno, IS_NODE_ENV = !(IS_DENO_ENV || "undefined" == typeof global || "function" != typeof require || !global.process || "string" != typeof __filename || global.origin && "string" == typeof global.origin), h = (IS_NODE_ENV ? process.platform : IS_DENO_ENV && Deno.build.os, 
+IS_NODE_ENV && require, IS_NODE_ENV ? process.cwd : IS_DENO_ENV && Deno.cwd, (e, t, ...o) => {
  let n = null, s = null, l = null, a = !1, r = !1, i = [];
  const d = t => {
   for (let o = 0; o < t.length; o++) n = t[o], Array.isArray(n) ? d(n) : null != n && "boolean" != typeof n && ((a = "function" != typeof e && !isComplexType(n)) ? n = String(n) : BUILD.isDev  , 
@@ -6728,25 +6728,25 @@ class AppflowActivator {
         name: 'App Publishing',
         description: 'Publish directly to the Apple and Google App Stores.',
         icon: publishIcon,
-        image: getAssetPath('./assets/screen-app-publishing.png')
+        image: getAssetPath('assets/screen-app-publishing.png')
       },
       {
         name: 'Live Updates',
         description: 'Send live updates to users without waiting on app store approval.',
         icon: updatesIcon,
-        image: getAssetPath('./assets/screen-live-updates.png')
+        image: getAssetPath('assets/screen-live-updates.png')
       },
       {
         name: 'Native Builds',
         description: 'Compile native app binaries in the cloud.',
         icon: buildsIcon,
-        image: getAssetPath('./assets/screen-native-builds.png')
+        image: getAssetPath('assets/screen-native-builds.png')
       },
       {
         name: 'Automations',
         description: 'Fully automate your app delivery pipeline.',
         icon: automationsIcon,
-        image: getAssetPath('./assets/screen-automations.png')
+        image: getAssetPath('assets/screen-automations.png')
       },
     ];
     this.currentScreen = 0;
@@ -7163,7 +7163,19 @@ var disqusCommentsExamples = /*#__PURE__*/Object.freeze({
   frameworkBlogPost: frameworkBlogPost
 });
 
-var webExamples = { disqusCommentsExamples };
+var hubspotForm_example = {
+    title: 'hubspot-form',
+    cols: 1
+};
+const frameworkBlogPost$1 = () => h("hubspot-form", { formId: '9151dc0b-42d9-479f-b7b8-649e0e7bd1bc', ajax: true, onFormSubmitted: () => alert('message recieved!') });
+
+var hubspotFormExamples = /*#__PURE__*/Object.freeze({
+  __proto__: null,
+  'default': hubspotForm_example,
+  frameworkBlogPost: frameworkBlogPost$1
+});
+
+var webExamples = { disqusCommentsExamples, hubspotFormExamples };
 
 function transformMethodName(str) {
     str = str.charAt(0).toUpperCase() + str.slice(1);
@@ -7242,7 +7254,7 @@ class ComponentList {
 }
 const listSection = (title, components) => (h("div", { class: "demo-container" }, h(Heading, null, title), h("ul", { class: "component-list" }, Object.keys(components).map(name => (h("li", null, h("a", Object.assign({}, href(`/overview/${components[name].default.title}`)), components[name].default.title)))))));
 
-const timestamp = "2020-08-07T21:28:44";
+const timestamp = "2020-08-11T22:13:12";
 const compiler = {
 	name: "@stencil/core",
 	version: "1.17.2",
@@ -7312,12 +7324,14 @@ const components = [
 		],
 		dependencies: [
 			"site-modal",
-			"disqus-comments"
+			"disqus-comments",
+			"hubspot-form"
 		],
 		dependencyGraph: {
 			"component-detail": [
 				"site-modal",
-				"disqus-comments"
+				"disqus-comments",
+				"hubspot-form"
 			],
 			"docs-root": [
 				"component-detail"
@@ -7353,12 +7367,14 @@ const components = [
 		],
 		dependencies: [
 			"site-modal",
-			"disqus-comments"
+			"disqus-comments",
+			"hubspot-form"
 		],
 		dependencyGraph: {
 			"component-list": [
 				"site-modal",
-				"disqus-comments"
+				"disqus-comments",
+				"hubspot-form"
 			],
 			"docs-root": [
 				"component-list"
@@ -7411,12 +7427,14 @@ const components = [
 		],
 		dependencies: [
 			"site-modal",
-			"disqus-comments"
+			"disqus-comments",
+			"hubspot-form"
 		],
 		dependencyGraph: {
 			"component-overview": [
 				"site-modal",
-				"disqus-comments"
+				"disqus-comments",
+				"hubspot-form"
 			],
 			"docs-root": [
 				"component-overview"
@@ -7543,7 +7561,8 @@ const components = [
 			],
 			"component-list": [
 				"site-modal",
-				"disqus-comments"
+				"disqus-comments",
+				"hubspot-form"
 			],
 			"shared-demo": [
 				"site-platform-bar",
@@ -7551,11 +7570,142 @@ const components = [
 			],
 			"component-overview": [
 				"site-modal",
-				"disqus-comments"
+				"disqus-comments",
+				"hubspot-form"
 			],
 			"component-detail": [
 				"site-modal",
-				"disqus-comments"
+				"disqus-comments",
+				"hubspot-form"
+			]
+		}
+	},
+	{
+		filePath: "./src/web/components/hubspot-form/hubspot-form.tsx",
+		encapsulation: "none",
+		tag: "hubspot-form",
+		readme: "# hubspot-form\n\n\n",
+		docs: "",
+		docsTags: [
+		],
+		usage: {
+		},
+		props: [
+			{
+				name: "ajax",
+				type: "boolean",
+				mutable: false,
+				attr: "ajax",
+				reflectToAttr: false,
+				docs: "",
+				docsTags: [
+				],
+				"default": "false",
+				values: [
+					{
+						type: "boolean"
+					}
+				],
+				optional: false,
+				required: false
+			},
+			{
+				name: "formId",
+				type: "string",
+				mutable: false,
+				attr: "form-id",
+				reflectToAttr: false,
+				docs: "",
+				docsTags: [
+				],
+				values: [
+					{
+						type: "string"
+					}
+				],
+				optional: true,
+				required: false
+			},
+			{
+				name: "goToWebinarKey",
+				type: "string",
+				mutable: false,
+				attr: "go-to-webinar-key",
+				reflectToAttr: false,
+				docs: "",
+				docsTags: [
+				],
+				values: [
+					{
+						type: "string"
+					}
+				],
+				optional: true,
+				required: false
+			},
+			{
+				name: "portalId",
+				type: "string",
+				mutable: false,
+				attr: "portal-id",
+				reflectToAttr: false,
+				docs: "",
+				docsTags: [
+				],
+				"default": "'3776657'",
+				values: [
+					{
+						type: "string"
+					}
+				],
+				optional: false,
+				required: false
+			}
+		],
+		methods: [
+		],
+		events: [
+			{
+				event: "formSubmitted",
+				detail: "any",
+				bubbles: true,
+				cancelable: true,
+				composed: true,
+				docs: "",
+				docsTags: [
+				]
+			}
+		],
+		listeners: [
+			{
+				event: "message",
+				target: "window",
+				capture: false,
+				passive: false
+			}
+		],
+		styles: [
+		],
+		slots: [
+		],
+		parts: [
+		],
+		dependents: [
+			"component-detail",
+			"component-list",
+			"component-overview"
+		],
+		dependencies: [
+		],
+		dependencyGraph: {
+			"component-detail": [
+				"hubspot-form"
+			],
+			"component-list": [
+				"hubspot-form"
+			],
+			"component-overview": [
+				"hubspot-form"
 			]
 		}
 	},
@@ -12111,7 +12261,7 @@ class GetStartedSection {
     registerInstance(this, hostRef);
   }
   render() {
-    return (h("section", null, h(ResponsiveContainer, null, h("div", { class: "heading-group" }, h(Heading, null, "Appflow is an integrated mobile DevOps platform for modern app teams and businesses."), h(Paragraph, { level: 1 }, "Ready to make life easier?")), h("div", { class: "cta" }, "Get started - it's free to try"))));
+    return (h("section", null, h(ResponsiveContainer, null, h("div", { class: "heading-group" }, h(Heading, null, "Appflow is an integrated mobile DevOps platform for modern app teams and businesses."), h(Paragraph, { level: 1 }, "Ready to make life easier?")), h("a", { class: "cta", href: "https://ionicframework.com/signup?source=framework-products&product=appflow" }, "Get started - it's free to try"))));
   }
   static get style() { return getStartedSectionCss; }
   static get cmpMeta() { return {
@@ -12119,6 +12269,121 @@ class GetStartedSection {
     "$tagName$": "get-started-section",
     "$members$": undefined,
     "$listeners$": undefined,
+    "$lazyBundleId$": "-",
+    "$attrsToReflect$": []
+  }; }
+}
+
+const hubspotFormCss = "hubspot-form{display:block;max-width:420px;margin:0 auto;font-weight:400}.hs-form-required{display:none}form fieldset.form-columns-2 .input{margin-right:12px}form.stacked .field{margin-bottom:4px}.hs-input,input.hs-input,select.hs-input{border:1px solid #e1e5ed;font-weight:500;border-radius:4px;transition:border-color 0.2s;box-shadow:none;outline:none;height:30px;padding:6px 12px;font-size:14px;line-height:1.428571429}.hs-input:placeholder,input.hs-input:placeholder,select.hs-input:placeholder{color:var(--c-carbon-60)}.hs-input:hover,.hs-input:focus,.hs-input:active,input.hs-input:hover,input.hs-input:focus,input.hs-input:active,select.hs-input:hover,select.hs-input:focus,select.hs-input:active{outline:none;border-color:var(--c-ionic-brand);box-shadow:none}.hs-input.hs-input.error,input.hs-input.hs-input.error,select.hs-input.hs-input.error{border-color:var(--c-red-60)}select.hs-input{height:44px;width:calc(100% + 6px) !important}textarea.hs-input{padding:12px;width:calc(100% + 3px) !important;min-height:192px}.hs_submit input.hs-button{display:block;margin:auto;cursor:pointer;font-size:13px;padding:10px 18px 10px;margin-right:-14px;margin-top:-36px;margin-left:auto;margin-right:auto;line-height:23px;float:right;font-weight:600;letter-spacing:0;text-transform:none;text-shadow:none;background:var(--c-ionic-brand);border:0;outline:0;transition:all 0.2s linear;box-shadow:0 1px 3px rgba(0, 0, 0, 0.12)}.hs_submit input.hs-button:hover{border:0;box-shadow:0 4px 8px rgba(0, 0, 0, 0.12);background:#5995fc;color:#fff;outline:0}.hs_submit input.hs-button:active,.hs_submit input.hs-button:active:not(.inactive):not(.link),.hs_submit input.hs-button:focus:not(.inactive){border:0;color:#fff;box-shadow:inset 0 1px 4px rgba(0, 0, 0, 0.2);background:#5995fc;outline:0}.submitted-message{font-size:18px;padding:34px 0 78px;text-align:center;display:flex;flex-direction:column;align-items:center;font-weight:400;color:#35af55;max-width:410px;background-color:white;margin:0 auto}.submitted-message:before{content:\"\";display:block;background-image:url(\"/img/checkmark-light-green.svg\");background-repeat:no-repeat;background-size:100%;width:42px;height:42px;margin-bottom:12px}.hubspot-override .hs-form{font-family:var(--f-family-system)}.hubspot-override .hs-form,.hubspot-override .hs-form fieldset,.hubspot-override .hs-form iframe{max-width:100%}.hubspot-override .hs-form .hs-form-field{margin-top:16px}.hubspot-override .hs-form label{margin-bottom:3px;color:var(--c-indigo-100);font-weight:600;font-size:13px;line-height:112%;letter-spacing:-0.02em}.hubspot-override .hs-form .hs-form-required{display:inline;color:#F45454;margin-left:4px}.hubspot-override .hs-form .hs-richtext{margin-top:8px}.hubspot-override .hs-form .hs-input,.hubspot-override .hs-form input.hs-input{transition:border 0.3s;font-weight:500;background-color:#fff;background-image:none;border:1px solid #CED6E0;line-height:1.12;border-radius:8px;padding:17px 16px;font-size:16px;margin-bottom:0;color:var(--c-carbon-90);letter-spacing:-0.01em}.hubspot-override .hs-form input.hs-input[type=number]{float:none}.hubspot-override .hs-form input.hs-input[type=text],.hubspot-override .hs-form input.hs-input[type=email],.hubspot-override .hs-form input.hs-input[type=tel]{height:auto;width:100%;float:none}.hubspot-override .hs-form input.hs-input[type=text]:focus,.hubspot-override .hs-form input.hs-input[type=email]:focus,.hubspot-override .hs-form input.hs-input[type=tel]:focus{border-color:#629eff}.hubspot-override .hs-form input.hs-input[type=radio],.hubspot-override .hs-form input.hs-input[type=checkbox]{height:auto;margin-right:8px}.hubspot-override .hs-form .hs-form-booleancheckbox-display{display:flex}.hubspot-override .hs-form select.hs-input{height:54px;padding-left:16px;appearance:none;-webkit-appearance:none;-moz-appearance:none;background-image:url(\"data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%220%22%20height%3D%2212%22%20viewBox%3D%220%200%2012%2012%22%3E%3Ctitle%3Edown-arrow%3C%2Ftitle%3E%3Cg%20fill%3D%22%23d0000f%22%3E%3Cpath%20d%3D%22M10.293%2C3.293%2C6%2C7.586%2C1.707%2C3.293A1%2C1%2C0%2C0%2C0%2C.293%2C4.707l5%2C5a1%2C1%2C0%2C0%2C0%2C1.414%2C0l5-5a1%2C1%2C0%2C1%2C0-1.414-1.414Z%22%20fill%3D%22%23445b78%22%3E%3C%2Fpath%3E%3C%2Fg%3E%3C%2Fsvg%3E\");background-size:0.6em;background-position:calc(100% - 1.3em) center;background-repeat:no-repeat}.hubspot-override .hs-form form fieldset.form-columns-2 .input{margin:0}.hubspot-override .hs-form fieldset.form-columns-2 .hs-form-field{padding:0 10px}.hubspot-override .hs-form fieldset.form-columns-2 .hs-form-field:first-child{padding-left:0}.hubspot-override .hs-form fieldset.form-columns-2 .hs-form-field:last-child{padding-right:0}.hubspot-override .hs-form .inputs-list,.hubspot-override .hs-form .hs-error-msgs{margin:0;padding:0;list-style-type:none}.hubspot-override .hs-form .inputs-list.multi-container{overflow:hidden}.hubspot-override .hs-form .inputs-list.multi-container li:nth-last-child(n+6):first-child,.hubspot-override .hs-form .inputs-list.multi-container li:nth-last-child(n+6):first-child~li{width:50%;float:left;padding-right:11px}.hubspot-override .hs-form .inputs-list.multi-container li:nth-last-child(n+6):first-child~li:nth-child(even){padding-right:0;padding-left:11px}.hubspot-override .hs-form .hs-form-checkbox-display{margin-top:4px;display:flex}.hubspot-override .hs-form .hs-form-checkbox-display .hs-input[type=checkbox]{margin-right:10px}.hubspot-override .hs-form .hs-form-checkbox-display span{font-size:15px;color:#505863}.hubspot-override .hs-form .hs-error-msg{margin:10px 0;display:inline-block;padding:0;font-size:14px;font-weight:500;color:var(--c-red-100)}.hubspot-override .hs-form .hs_submit{margin-top:30px}.hubspot-override .hs-form .hs_submit input.hs-button{transition:all 0.3s ease;margin:0;float:none;margin:auto;font-size:16px;font-weight:600;padding:17px 20px;vertical-align:middle;color:white;background:var(--c-blue-80);border-radius:8px;line-height:18px;letter-spacing:-0.02em}.hubspot-override .hs-form .hs_submit input.hs-button:hover{background:var(--c-blue-70);color:#fff;outline:none}@media (max-width: 768px){.hubspot-override .hs-form fieldset.form-columns-2 .hs-form-field{width:100%;float:none;padding:0}.hubspot-override .hs-form fieldset.form-columns-2 .hs-form-field+.hs-form-field{margin-top:24px}.hubspot-override .hs-form .inputs-list.multi-container li:nth-last-child(n+6):first-child,.hubspot-override .hs-form .inputs-list.multi-container li:nth-last-child(n+6):first-child~li{width:100%;float:none;padding-right:0}.hubspot-override .hs-form .inputs-list.multi-container li:nth-last-child(n+6):first-child~li:nth-child(even){padding-left:0}.hubspot-override .hs-form .hs_submit input.hs-button{width:100%}}.hubspot-override--large .hs-form label:not(.hs-form-booleancheckbox-display){text-transform:uppercase;font-size:12px;letter-spacing:0.05em;margin-bottom:6px}.hubspot-override--large .hs-form .hs-form-booleancheckbox-display{font-size:15px}.hubspot-override--large .hs-form .hs-richtext p span,.hubspot-override--large .hs-form .hs-richtext p a{font-size:15px}.hubspot-override--large .hs-form .hs-input,.hubspot-override--large .hs-form input.hs-input{padding:16px 20px 18px;font-size:18px}.hubspot-override--large .hs-form select.hs-input{text-indent:10px;height:60px}@-moz-document url-prefix(){.hubspot-override--large .hs-form select.hs-input{text-indent:0}}.hubspot-override--large .hs-form .hs-error-msgs label{font-size:11px;letter-spacing:0;text-transform:none}.hubspot-override--large .hs-form fieldset.form-columns-2 .hs-form-field{padding:0 20px}.hubspot-override--large .hs-form .hs_submit{text-align:center;padding-top:18px}.hubspot-override--large .hs-form .hs_submit input.hs-button{padding:22px 27px 24px;border-radius:6px}@media (max-width: 768px){.hubspot-override--large .hs-form fieldset.form-columns-2 .hs-form-field{padding:0}}.hubspot-override--measure{max-width:748px;margin-left:auto;margin-right:auto}";
+
+class HubspotForm {
+  constructor(hostRef) {
+    registerInstance(this, hostRef);
+    this.formSubmitted = createEvent(this, "formSubmitted", 7);
+    this.portalId = '3776657';
+    this.ajax = false;
+    this.error = null;
+    this.handleScriptLoad = () => {
+      requestAnimationFrame(() => {
+        window.hbspt.forms.create({
+          portalId: '3776657',
+          formId: this.formId,
+          target: `#${this.getFormElementId()}`,
+          goToWebinarWebinarKey: this.goToWebinarKey || '',
+          css: '',
+          onFormReady: this.handleFormReady,
+        });
+      });
+    };
+    this.handleFormReady = (_e, _c) => {
+      var _a, _b;
+      // Don't override the form if not using the ajax method
+      if (!this.ajax) {
+        return;
+      }
+      const formEl = (_a = this.el) === null || _a === void 0 ? void 0 : _a.querySelector(`#${this.getFormElementId()} form`);
+      if (!formEl) {
+        return;
+      }
+      formEl.addEventListener('submit', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+      });
+      (_b = formEl.querySelector('input[type="submit"]')) === null || _b === void 0 ? void 0 : _b.addEventListener('click', (e) => {
+        this.submitForm(formEl);
+        e.preventDefault();
+      });
+    };
+    this.getFormElementId = () => `hbspt-form-${this.formId}`;
+    this.submitForm = async (form) => {
+      const data = new FormData(form);
+      try {
+        const ret = await fetch(form.getAttribute('action'), {
+          method: 'POST',
+          body: data,
+        });
+        if (ret.status !== 200) {
+          this.error = 'Error submitting form';
+        }
+        else {
+          // The response from hubspot is a script tag. I know, it's truly magnificent
+          const frame = document.createElement('iframe');
+          frame.srcdoc = await ret.text();
+          document.body.appendChild(frame);
+        }
+      }
+      catch (e) {
+        this.error = 'Unable to submit form';
+      }
+    };
+  }
+  componentDidUnload() {
+    var _a, _b;
+    (_b = (_a = this.scriptEl) === null || _a === void 0 ? void 0 : _a.parentNode) === null || _b === void 0 ? void 0 : _b.removeChild(this.scriptEl);
+  }
+  componentDidLoad() {
+    const script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.charset = 'utf-8';
+    script.src = '//js.hsforms.net/forms/v2.js';
+    script.addEventListener('load', this.handleScriptLoad);
+    this.scriptEl = script;
+    document.body.appendChild(script);
+  }
+  handleWindowMessage(e) {
+    var _a;
+    if (e.data && e.data.formGuid && this.ajax) {
+      // Don't let hubspot do anything
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      if (e.data.accepted === true) {
+        (_a = this.formSubmitted) === null || _a === void 0 ? void 0 : _a.emit();
+      }
+      else if (e.data.accepted === false) {
+        this.error = 'Unable to submit. Please check your information and try again.';
+      }
+      else {
+        this.error = '';
+      }
+    }
+  }
+  render() {
+    return (h(Host, null, h("div", { class: "hubspot-override" }, h("div", { id: this.getFormElementId() })), this.error ? h("div", { class: "hs-error-msgs" }, this.error) : null));
+  }
+  get el() { return getElement(this); }
+  static get style() { return hubspotFormCss; }
+  static get cmpMeta() { return {
+    "$flags$": 0,
+    "$tagName$": "hubspot-form",
+    "$members$": {
+      "formId": [1, "form-id"],
+      "portalId": [1, "portal-id"],
+      "goToWebinarKey": [1, "go-to-webinar-key"],
+      "ajax": [4],
+      "error": [32]
+    },
+    "$listeners$": [[8, "message", "handleWindowMessage"]],
     "$lazyBundleId$": "-",
     "$attrsToReflect$": []
   }; }
@@ -12345,7 +12610,7 @@ const hrefClimber = (el) => {
     }
 };
 
-const internalAdCss = "internal-ad{max-width:148px;display:block;margin:48px 0 0}internal-ad p{font-size:13px;line-height:19px;font-weight:400;letter-spacing:0.02em;color:var(--text-color--dark);transition:.2s color}internal-ad a:hover p{color:var(--text-color)}@media (max-width: 1233px){internal-ad{display:none}}";
+const internalAdCss = "internal-ad{max-width:148px;display:block;margin:48px 0 0}internal-ad p{font-size:13px;line-height:19px;font-weight:400;letter-spacing:0.02em;color:var(--c-indigo-100);transition:.2s color}internal-ad a:hover p{color:var(--c-indigo-90)}@media (max-width: 1233px){internal-ad{display:none}}";
 
 class InternalAd {
   constructor(hostRef) {
@@ -12550,7 +12815,7 @@ class LandingPage {
 }
 const Top = () => {
   const { top, top__cta } = state.pageData;
-  return (h("section", { id: "top" }, h("svg", { class: "background", viewBox: "0 0 1600 992", xmlns: "http://www.w3.org/2000/svg" }, h("rect", { width: "1600", height: "992", fill: "url(#landing_bg_paint1_linear)" }), h("path", { d: "M1298.04 97.309L1494.1 970.579L1066.48 878.169L859.254 53.3663L1298.04 97.309Z", fill: "url(#landing_bg_paint3_linear)", "fill-opacity": "0.12" }), h("path", { d: "M1665.55 102.568L1760.72 1044.29L1304.71 873.559L1209.54 -68.1665L1665.55 102.568Z", fill: "url(#landing_bg_paint4_linear)", "fill-opacity": "0.08" }), h("path", { d: "M996.453 199.416L1325.18 982.749L887.983 955.103L559.252 171.77L996.453 199.416Z", fill: "url(#landing_bg_paint5_linear)", "fill-opacity": "0.1" }), h("path", { d: "M753.376 310.796L1135.39 1073.31L690.115 1071.58L308.1 309.07L753.376 310.796Z", fill: "url(#landing_bg_paint6_linear)", "fill-opacity": "0.1" }), h("path", { d: "M555.833 445.941L991.857 1178.91L547.616 1209.31L111.592 476.339L555.833 445.941Z", fill: "url(#landing_bg_paint7_linear)", "fill-opacity": "0.1" }), h("path", { d: "M389.921 598.053L857.694 1311.18L415.215 1361.05L-52.5576 647.919L389.921 598.053Z", fill: "url(#landing_bg_paint8_linear)", "fill-opacity": "0.1" }), h("path", { d: "M244.912 756.619L712.685 1469.75L270.206 1519.61L-197.567 806.485L244.912 756.619Z", fill: "url(#landing_bg_paint9_linear)", "fill-opacity": "0.1" }), h("defs", null, h("linearGradient", { id: "landing_bg_paint1_linear", x1: "0", y1: "496", x2: "1600", y2: "496", gradientUnits: "userSpaceOnUse" }, h("stop", { "stop-color": "#634CF2" }), h("stop", { offset: "1", "stop-color": "#67A5F8" })), h("linearGradient", { id: "landing_bg_paint2_linear", x1: "0", y1: "496", x2: "1600", y2: "496", gradientUnits: "userSpaceOnUse" }, h("stop", { "stop-color": "#634CF2" }), h("stop", { offset: "1", "stop-color": "#6799F8" })), h("linearGradient", { id: "landing_bg_paint3_linear", x1: "941.605", y1: "385.074", x2: "1301.97", y2: "330.074", gradientUnits: "userSpaceOnUse" }, h("stop", { "stop-color": "white" }), h("stop", { offset: "1", "stop-color": "white", "stop-opacity": "0" })), h("linearGradient", { id: "landing_bg_paint4_linear", x1: "1246.73", y1: "310.405", x2: "1652.44", y2: "307.959", gradientUnits: "userSpaceOnUse" }, h("stop", { "stop-color": "white" }), h("stop", { offset: "1", "stop-color": "white", "stop-opacity": "0" })), h("linearGradient", { id: "landing_bg_paint5_linear", x1: "690.478", y1: "486.947", x2: "1050.11", y2: "343.353", gradientUnits: "userSpaceOnUse" }, h("stop", { "stop-color": "white" }), h("stop", { offset: "1", "stop-color": "white", "stop-opacity": "0" })), h("linearGradient", { id: "landing_bg_paint6_linear", x1: "460.75", y1: "615.931", x2: "820.393", y2: "452.104", gradientUnits: "userSpaceOnUse" }, h("stop", { "stop-color": "white" }), h("stop", { offset: "1", "stop-color": "white", "stop-opacity": "0" })), h("linearGradient", { id: "landing_bg_paint7_linear", x1: "285.98", y1: "771.39", x2: "632.869", y2: "582.046", gradientUnits: "userSpaceOnUse" }, h("stop", { "stop-color": "white" }), h("stop", { offset: "1", "stop-color": "white", "stop-opacity": "0" })), h("linearGradient", { id: "landing_bg_paint8_linear", x1: "134.612", y1: "935.032", x2: "472.856", y2: "730.646", gradientUnits: "userSpaceOnUse" }, h("stop", { "stop-color": "white" }), h("stop", { offset: "1", "stop-color": "white", "stop-opacity": "0" })), h("linearGradient", { id: "landing_bg_paint9_linear", x1: "-10.397", y1: "1093.6", x2: "327.847", y2: "889.212", gradientUnits: "userSpaceOnUse" }, h("stop", { "stop-color": "white" }), h("stop", { offset: "1", "stop-color": "white", "stop-opacity": "0" })))), h(ResponsiveContainer, null, h("div", { class: "heading-group" }, h(Breakpoint, { sm: true }, h(PrismicRichText, { richText: top, poster: true, paragraphLevel: 2 })), h(Breakpoint, { xs: true, sm: false }, h(PrismicRichText, { richText: top, paragraphLevel: 2 })), h("a", { href: "", class: "cta" }, top__cta))), h("appflow-activator", null)));
+  return (h("section", { id: "top" }, h("svg", { class: "background", viewBox: "0 0 1600 992", xmlns: "http://www.w3.org/2000/svg" }, h("rect", { width: "1600", height: "992", fill: "url(#landing_bg_paint1_linear)" }), h("path", { d: "M1298.04 97.309L1494.1 970.579L1066.48 878.169L859.254 53.3663L1298.04 97.309Z", fill: "url(#landing_bg_paint3_linear)", "fill-opacity": "0.12" }), h("path", { d: "M1665.55 102.568L1760.72 1044.29L1304.71 873.559L1209.54 -68.1665L1665.55 102.568Z", fill: "url(#landing_bg_paint4_linear)", "fill-opacity": "0.08" }), h("path", { d: "M996.453 199.416L1325.18 982.749L887.983 955.103L559.252 171.77L996.453 199.416Z", fill: "url(#landing_bg_paint5_linear)", "fill-opacity": "0.1" }), h("path", { d: "M753.376 310.796L1135.39 1073.31L690.115 1071.58L308.1 309.07L753.376 310.796Z", fill: "url(#landing_bg_paint6_linear)", "fill-opacity": "0.1" }), h("path", { d: "M555.833 445.941L991.857 1178.91L547.616 1209.31L111.592 476.339L555.833 445.941Z", fill: "url(#landing_bg_paint7_linear)", "fill-opacity": "0.1" }), h("path", { d: "M389.921 598.053L857.694 1311.18L415.215 1361.05L-52.5576 647.919L389.921 598.053Z", fill: "url(#landing_bg_paint8_linear)", "fill-opacity": "0.1" }), h("path", { d: "M244.912 756.619L712.685 1469.75L270.206 1519.61L-197.567 806.485L244.912 756.619Z", fill: "url(#landing_bg_paint9_linear)", "fill-opacity": "0.1" }), h("defs", null, h("linearGradient", { id: "landing_bg_paint1_linear", x1: "0", y1: "496", x2: "1600", y2: "496", gradientUnits: "userSpaceOnUse" }, h("stop", { "stop-color": "#634CF2" }), h("stop", { offset: "1", "stop-color": "#67A5F8" })), h("linearGradient", { id: "landing_bg_paint2_linear", x1: "0", y1: "496", x2: "1600", y2: "496", gradientUnits: "userSpaceOnUse" }, h("stop", { "stop-color": "#634CF2" }), h("stop", { offset: "1", "stop-color": "#6799F8" })), h("linearGradient", { id: "landing_bg_paint3_linear", x1: "941.605", y1: "385.074", x2: "1301.97", y2: "330.074", gradientUnits: "userSpaceOnUse" }, h("stop", { "stop-color": "white" }), h("stop", { offset: "1", "stop-color": "white", "stop-opacity": "0" })), h("linearGradient", { id: "landing_bg_paint4_linear", x1: "1246.73", y1: "310.405", x2: "1652.44", y2: "307.959", gradientUnits: "userSpaceOnUse" }, h("stop", { "stop-color": "white" }), h("stop", { offset: "1", "stop-color": "white", "stop-opacity": "0" })), h("linearGradient", { id: "landing_bg_paint5_linear", x1: "690.478", y1: "486.947", x2: "1050.11", y2: "343.353", gradientUnits: "userSpaceOnUse" }, h("stop", { "stop-color": "white" }), h("stop", { offset: "1", "stop-color": "white", "stop-opacity": "0" })), h("linearGradient", { id: "landing_bg_paint6_linear", x1: "460.75", y1: "615.931", x2: "820.393", y2: "452.104", gradientUnits: "userSpaceOnUse" }, h("stop", { "stop-color": "white" }), h("stop", { offset: "1", "stop-color": "white", "stop-opacity": "0" })), h("linearGradient", { id: "landing_bg_paint7_linear", x1: "285.98", y1: "771.39", x2: "632.869", y2: "582.046", gradientUnits: "userSpaceOnUse" }, h("stop", { "stop-color": "white" }), h("stop", { offset: "1", "stop-color": "white", "stop-opacity": "0" })), h("linearGradient", { id: "landing_bg_paint8_linear", x1: "134.612", y1: "935.032", x2: "472.856", y2: "730.646", gradientUnits: "userSpaceOnUse" }, h("stop", { "stop-color": "white" }), h("stop", { offset: "1", "stop-color": "white", "stop-opacity": "0" })), h("linearGradient", { id: "landing_bg_paint9_linear", x1: "-10.397", y1: "1093.6", x2: "327.847", y2: "889.212", gradientUnits: "userSpaceOnUse" }, h("stop", { "stop-color": "white" }), h("stop", { offset: "1", "stop-color": "white", "stop-opacity": "0" })))), h(ResponsiveContainer, null, h("div", { class: "heading-group" }, h(Breakpoint, { sm: true }, h(PrismicRichText, { richText: top, poster: true, paragraphLevel: 2 })), h(Breakpoint, { xs: true, sm: false }, h(PrismicRichText, { richText: top, paragraphLevel: 2 })), h("a", { href: "https://ionicframework.com/signup?source=framework-products&product=appflow", class: "cta" }, top__cta))), h("appflow-activator", null)));
 };
 const Companies = () => {
   const { companies } = state.pageData;
@@ -12571,7 +12836,7 @@ const Push = () => {
     publishingIcon({}, { width: 48, height: 48 }),
     appleCloudIcon({}, { width: 48, height: 48 })
   ];
-  return (h("section", { id: "push" }, h("div", { class: "push__wrapper" }, h(ResponsiveContainer, null, h(Grid, null, h(Col, { class: "text", cols: 12, lg: 6 }, h("div", { class: "heading-group" }, h(PrismicRichText, { richText: push, paragraphLevel: 2 })), h("ul", { class: "list" }, push__list.map(({ content }, i) => (h("li", { class: "list-item" }, icons[i], h(PrismicRichText, { richText: content, paragraphLevel: 4 })))))), h(Col, { class: "image", cols: 12, lg: 6 }, h("div", { class: "icons" }, appleStoreCheckedIcon({}, { width: 52, height: 52 }), testflightLogo({}, { width: 52, height: 52 }), googleStoreCheckedIcon({}, { width: 52, height: 52 })), h("img", { src: getAssetPath('./assets/push@2x.png'), srcset: `${getAssetPath('./assets/push.png')}, ${getAssetPath('./assets/push@2x.png')} 2x`, loading: "lazy", width: "1568", height: "1234" })))))));
+  return (h("section", { id: "push" }, h("div", { class: "push__wrapper" }, h(ResponsiveContainer, null, h(Grid, null, h(Col, { class: "text", cols: 12, lg: 6 }, h("div", { class: "heading-group" }, h(PrismicRichText, { richText: push, paragraphLevel: 2 })), h("ul", { class: "list" }, push__list.map(({ content }, i) => (h("li", { class: "list-item" }, icons[i], h(PrismicRichText, { richText: content, paragraphLevel: 4 })))))), h(Col, { class: "image", cols: 12, lg: 6 }, h("div", { class: "icons" }, appleStoreCheckedIcon({}, { width: 52, height: 52 }), testflightLogo({}, { width: 52, height: 52 }), googleStoreCheckedIcon({}, { width: 52, height: 52 })), h("img", { src: getAssetPath('assets/push@2x.png'), srcset: `${getAssetPath('assets/push.png')}, ${getAssetPath('assets/push@2x.png')} 2x`, loading: "lazy", width: "1568", height: "1234" })))))));
 };
 const Live = () => {
   const { live, live__list } = state.pageData;
@@ -12579,7 +12844,7 @@ const Live = () => {
 };
 const Native = () => {
   const { native, native__subtext } = state.pageData;
-  return (h("section", { id: "native" }, h(ResponsiveContainer, null, h("div", null, h("div", { class: "heading-group" }, h(PrismicRichText, { richText: native, paragraphLevel: 2 })), h("div", { class: "subtext" }, cloudCircleIcon({}, { width: 48, height: 48 }), h(PrismicRichText, { richText: native__subtext, paragraphLevel: 4 }))), h("div", { class: "image" }, h("div", { class: "image__wrapper" }, h("img", { src: getAssetPath('./assets/native@2x.png'), srcset: `${getAssetPath('./assets/native.png')}, ${getAssetPath('./assets/native@2x.png')} 2x`, loading: "lazy", width: "1805", height: "1177" }))))));
+  return (h("section", { id: "native" }, h(ResponsiveContainer, null, h("div", null, h("div", { class: "heading-group" }, h(PrismicRichText, { richText: native, paragraphLevel: 2 })), h("div", { class: "subtext" }, cloudCircleIcon({}, { width: 48, height: 48 }), h(PrismicRichText, { richText: native__subtext, paragraphLevel: 4 }))), h("div", { class: "image" }, h("div", { class: "image__wrapper" }, h("img", { src: getAssetPath('assets/native@2x.png'), srcset: `${getAssetPath('assets/native.png')}, ${getAssetPath('assets/native@2x.png')} 2x`, loading: "lazy", width: "1805", height: "1177" }))))));
 };
 const Automate = () => {
   const { automate, automate__subtext } = state.pageData;
@@ -12587,12 +12852,12 @@ const Automate = () => {
 };
 const Managed = () => {
   const { managed } = state.pageData;
-  return (h("section", { id: "managed" }, h(ResponsiveContainer, null, h("div", { class: "text" }, h(PrismicRichText, { richText: managed, paragraphLevel: 2 })), h("div", { class: "image" }, h("div", { class: "image__wrapper" }, h("img", { src: getAssetPath('./assets/managed@2x.png'), srcset: `${getAssetPath('./assets/managed.png')} 1x,
-                      ${getAssetPath('./assets/managed@2x.png')} 2x`, loading: "lazy", width: "1704", height: "1511" }))))));
+  return (h("section", { id: "managed" }, h(ResponsiveContainer, null, h("div", { class: "text" }, h(PrismicRichText, { richText: managed, paragraphLevel: 2 })), h("div", { class: "image" }, h("div", { class: "image__wrapper" }, h("img", { src: getAssetPath('assets/managed@2x.png'), srcset: `${getAssetPath('assets/managed.png')} 1x,
+                      ${getAssetPath('assets/managed@2x.png')} 2x`, loading: "lazy", width: "1704", height: "1511" }))))));
 };
 const Experience = () => {
   const { experience__title, experience__subtext, experience__cta, experience__list } = state.pageData;
-  return (h("section", { id: "experience" }, h(ResponsiveContainer, null, h(PrismicRichText, { class: "title", richText: experience__title }), h(Grid, null, h(Col, { class: "subtext", xs: 12, md: 5 }, h(PrismicRichText, { richText: experience__subtext, paragraphLevel: 2 }), h("a", { href: "", class: "cta" }, experience__cta)), h(Col, { xs: 12, md: 6 }, h("ul", { class: "list" }, experience__list.map(({ content }) => (h("li", { class: "list-item" }, checkmarkCircle({ main: '#8C93FF' }, { width: 16, height: 16 }), h(Paragraph, null, content))))))))));
+  return (h("section", { id: "experience" }, h(ResponsiveContainer, null, h(PrismicRichText, { class: "title", richText: experience__title }), h(Grid, null, h(Col, { class: "subtext", xs: 12, md: 5 }, h(PrismicRichText, { richText: experience__subtext, paragraphLevel: 2 }), h("a", { href: "/why-appflow", class: "cta" }, experience__cta)), h(Col, { xs: 12, md: 6 }, h("ul", { class: "list" }, experience__list.map(({ content }) => (h("li", { class: "list-item" }, checkmarkCircle({ main: '#8C93FF' }, { width: 16, height: 16 }), h(Paragraph, null, content))))))))));
 };
 
 const siteBackdropCss = ".sc-site-backdrop-h{position:fixed;top:0;height:100vh;left:0;right:0;background:rgba(0, 26, 58, 0.08);cursor:pointer;opacity:0;pointer-events:none;transition:0.4s opacity, 0.4s visibility step-end;visibility:hidden;z-index:-1}@media screen and (max-width: 768px){.site-backdrop--visible.sc-site-backdrop-h{opacity:1;pointer-events:all;visibility:visible;transition:0.4s opacity, 0.4s visibility step-start}}";
@@ -13379,7 +13644,7 @@ class PipelineAnimator {
     this.setIntersectionHelper();
   }
   render() {
-    return (h(Host, null, h("div", { class: "anim-automate" }, h("div", { class: "anim-automate_ui" }, h("div", { class: "master", ref: e => this.tiles.set('master', e) }, h("img", { src: getAssetPath('./assets/master.png'), width: "200", height: "60", loading: "lazy" }), h(Paragraph, { level: 5 }, "Push code")), h("div", { class: "staging", ref: e => this.tiles.set('staging', e) }, h("img", { src: getAssetPath('./assets/staging.png'), width: "220", height: "60", loading: "lazy" }), h(Paragraph, { level: 5 }, "Push code")), h("div", { class: "qa", ref: e => this.tiles.set('qa', e) }, h("img", { src: getAssetPath('./assets/qa.png'), width: "122", height: "60", loading: "lazy" }), h(Paragraph, { level: 5 }, "Push code")), h("div", { class: "android", ref: e => this.tiles.set('android', e) }, h("img", { src: getAssetPath('./assets/android.png'), width: "124", height: "124", loading: "lazy" }), h(Paragraph, { level: 5 }, "Trigger Android build")), h("div", { class: "ios", ref: e => this.tiles.set('ios', e) }, h("img", { src: getAssetPath('./assets/ios.png'), width: "124", height: "124", loading: "lazy" }), h(Paragraph, { level: 5 }, "Trigger iOS build")), h("div", { class: "web", ref: e => this.tiles.set('web', e) }, h("img", { src: getAssetPath('./assets/js.png'), width: "124", height: "124", loading: "lazy" }), h(Paragraph, { level: 5 }, "Trigger Web build")), h("div", { class: "testflight", ref: e => this.tiles.set('testflight', e) }, h("img", { src: getAssetPath('./assets/testflight.png'), width: "106", height: "106", loading: "lazy" }), h(Paragraph, { level: 5 }, "Deploy to TestFlight")), h("div", { class: "playstore", ref: e => this.tiles.set('playstore', e) }, h("img", { src: getAssetPath('./assets/playstore.png'), width: "100", height: "110", loading: "lazy" }), h(Paragraph, { level: 5 }, "Deploy to Google Play")), h("div", { class: "webhook", ref: e => this.tiles.set('webhook', e) }, h("img", { src: getAssetPath('./assets/webhook.png'), width: "116", height: "108", loading: "lazy" }), h(Paragraph, { level: 5 }, "Trigger webhook"))), h("svg", { width: "1346", height: "790", xmlns: "http://www.w3.org/2000/svg" }, h("g", { transform: "translate(-14 -14)" }, h("g", null, h("rect", { class: "threeC", ref: e => this.bottomLocations.set('threeC', e), fill: "#F5F7FD", transform: "rotate(135 1022.725 496.6375)", x: "919.725", y: "393.6375", width: "206", height: "206", rx: "34" }), h("rect", { class: "threeB", ref: e => this.bottomLocations.set('threeB', e), fill: "#F5F7FD", transform: "rotate(135 672 496.6375)", x: "569", y: "393.6375", width: "206", height: "206", rx: "34" }), h("rect", { class: "threeA", ref: e => this.bottomLocations.set('threeA', e), fill: "#F5F7FD", transform: "rotate(135 321.275 496.6375)", x: "218.275", y: "393.6375", width: "206", height: "206", rx: "34" }), h("rect", { class: "twoA", ref: e => this.bottomLocations.set('twoA', e), fill: "#F5F7FD", transform: "rotate(135 496.6375 321.275)", x: "393.6375", y: "218.275", width: "206", height: "206", rx: "34" }), h("rect", { class: "twoB", ref: e => this.bottomLocations.set('twoB', e), fill: "#F5F7FD", transform: "rotate(135 847.3625 321.275)", x: "744.3625", y: "218.275", width: "206", height: "206", rx: "34" }), h("rect", { class: "one", ref: e => this.bottomLocations.set('one', e), fill: "#DDE6F7", transform: "rotate(135 672 145.9126)", x: "569", y: "42.9126", width: "206", height: "206", rx: "34" })), h("path", { d: "M920.4007 393.1937l28.9914 28.9914", class: "connector", id: "twoB_R", ref: e => this.connectors.set('twoB_R', e), stroke: "#F2F6FF", "stroke-width": "5", "stroke-linecap": "square" }), h("path", { d: "M774.3242 394.6079l-28.9913 28.9914", class: "connector", id: "twoB_L", ref: e => this.connectors.set('twoB_L', e), stroke: "#F2F6FF", "stroke-width": "5", "stroke-linecap": "square" }), h("path", { d: "M568.9392 395.3445l28.9914 28.9914", class: "connector", id: "twoA_R", ref: e => this.connectors.set('twoA_R', e), stroke: "#F2F6FF", "stroke-width": "5", "stroke-linecap": "square" }), h("path", { d: "M422.9216 393.9303l-28.9913 28.9913", class: "connector", id: "twoA_L", ref: e => this.connectors.set('twoA_L', e), stroke: "#F2F6FF", "stroke-width": "5", "stroke-linecap": "square" }), h("path", { d: "M745.0088 219.2749l28.9914 28.9914", class: "connector", id: "one_R", ref: e => this.connectors.set('one_R', e), stroke: "#F2F6FF", "stroke-width": "5", "stroke-linecap": "square" }), h("path", { d: "M598.2841 218.5678l-28.9914 28.9914", class: "connector", id: "one_L", ref: e => this.connectors.set('one_L', e), stroke: "#F2F6FF", "stroke-width": "5", "stroke-linecap": "square" }), h("g", null, h("rect", { class: "four", fill: "#F5F7FD", transform: "rotate(135 1198.0874 672)", x: "1095.0874", y: "569", width: "206", height: "206", rx: "34" }), h("rect", { class: "four", fill: "#F5F7FD", transform: "rotate(135 145.9126 672)", x: "42.9126", y: "569", width: "206", height: "206", rx: "34" }), h("rect", { class: "four", fill: "#F5F7FD", transform: "rotate(135 496.6375 672)", x: "393.6375", y: "569", width: "206", height: "206", rx: "34" }), h("rect", { class: "four", fill: "#F5F7FD", transform: "rotate(135 847.3625 672)", x: "744.3625", y: "569", width: "206", height: "206", rx: "34" }), h("rect", { class: "threeC", ref: e => this.topLocations.set('threeC', e), fill: "#F5F7FD", transform: "rotate(135 1022.725 496.6375)", x: "919.725", y: "393.6375", width: "206", height: "206", rx: "34" }), h("rect", { class: "threeB", ref: e => this.topLocations.set('threeB', e), fill: "#F5F7FD", transform: "rotate(135 672 496.6375)", x: "569", y: "393.6375", width: "206", height: "206", rx: "34" }), h("rect", { class: "threeA", ref: e => this.topLocations.set('threeA', e), fill: "#F5F7FD", transform: "rotate(135 321.275 496.6375)", x: "218.275", y: "393.6375", width: "206", height: "206", rx: "34" }), h("rect", { class: "twoA", ref: e => this.topLocations.set('twoA', e), fill: "#F5F7FD", transform: "rotate(135 496.6375 321.275)", x: "393.6375", y: "218.275", width: "206", height: "206", rx: "34" }), h("rect", { class: "twoB", ref: e => this.topLocations.set('twoB', e), fill: "#F5F7FD", transform: "rotate(135 847.3625 321.275)", x: "744.3625", y: "218.275", width: "206", height: "206", rx: "34" }), h("rect", { class: "one", ref: e => this.topLocations.set('one', e), fill: "#DDE6F7", transform: "rotate(135 672 145.9126)", x: "569", y: "42.9126", width: "206", height: "206", rx: "34" })))))));
+    return (h(Host, null, h("div", { class: "anim-automate" }, h("div", { class: "anim-automate_ui" }, h("div", { class: "master", ref: e => this.tiles.set('master', e) }, h("img", { src: getAssetPath('assets/master.png'), width: "200", height: "60", loading: "lazy" }), h(Paragraph, { level: 5 }, "Push code")), h("div", { class: "staging", ref: e => this.tiles.set('staging', e) }, h("img", { src: getAssetPath('assets/staging.png'), width: "220", height: "60", loading: "lazy" }), h(Paragraph, { level: 5 }, "Push code")), h("div", { class: "qa", ref: e => this.tiles.set('qa', e) }, h("img", { src: getAssetPath('assets/qa.png'), width: "122", height: "60", loading: "lazy" }), h(Paragraph, { level: 5 }, "Push code")), h("div", { class: "android", ref: e => this.tiles.set('android', e) }, h("img", { src: getAssetPath('assets/android.png'), width: "124", height: "124", loading: "lazy" }), h(Paragraph, { level: 5 }, "Trigger Android build")), h("div", { class: "ios", ref: e => this.tiles.set('ios', e) }, h("img", { src: getAssetPath('assets/ios.png'), width: "124", height: "124", loading: "lazy" }), h(Paragraph, { level: 5 }, "Trigger iOS build")), h("div", { class: "web", ref: e => this.tiles.set('web', e) }, h("img", { src: getAssetPath('assets/js.png'), width: "124", height: "124", loading: "lazy" }), h(Paragraph, { level: 5 }, "Trigger Web build")), h("div", { class: "testflight", ref: e => this.tiles.set('testflight', e) }, h("img", { src: getAssetPath('assets/testflight.png'), width: "106", height: "106", loading: "lazy" }), h(Paragraph, { level: 5 }, "Deploy to TestFlight")), h("div", { class: "playstore", ref: e => this.tiles.set('playstore', e) }, h("img", { src: getAssetPath('assets/playstore.png'), width: "100", height: "110", loading: "lazy" }), h(Paragraph, { level: 5 }, "Deploy to Google Play")), h("div", { class: "webhook", ref: e => this.tiles.set('webhook', e) }, h("img", { src: getAssetPath('assets/webhook.png'), width: "116", height: "108", loading: "lazy" }), h(Paragraph, { level: 5 }, "Trigger webhook"))), h("svg", { width: "1346", height: "790", xmlns: "http://www.w3.org/2000/svg" }, h("g", { transform: "translate(-14 -14)" }, h("g", null, h("rect", { class: "threeC", ref: e => this.bottomLocations.set('threeC', e), fill: "#F5F7FD", transform: "rotate(135 1022.725 496.6375)", x: "919.725", y: "393.6375", width: "206", height: "206", rx: "34" }), h("rect", { class: "threeB", ref: e => this.bottomLocations.set('threeB', e), fill: "#F5F7FD", transform: "rotate(135 672 496.6375)", x: "569", y: "393.6375", width: "206", height: "206", rx: "34" }), h("rect", { class: "threeA", ref: e => this.bottomLocations.set('threeA', e), fill: "#F5F7FD", transform: "rotate(135 321.275 496.6375)", x: "218.275", y: "393.6375", width: "206", height: "206", rx: "34" }), h("rect", { class: "twoA", ref: e => this.bottomLocations.set('twoA', e), fill: "#F5F7FD", transform: "rotate(135 496.6375 321.275)", x: "393.6375", y: "218.275", width: "206", height: "206", rx: "34" }), h("rect", { class: "twoB", ref: e => this.bottomLocations.set('twoB', e), fill: "#F5F7FD", transform: "rotate(135 847.3625 321.275)", x: "744.3625", y: "218.275", width: "206", height: "206", rx: "34" }), h("rect", { class: "one", ref: e => this.bottomLocations.set('one', e), fill: "#DDE6F7", transform: "rotate(135 672 145.9126)", x: "569", y: "42.9126", width: "206", height: "206", rx: "34" })), h("path", { d: "M920.4007 393.1937l28.9914 28.9914", class: "connector", id: "twoB_R", ref: e => this.connectors.set('twoB_R', e), stroke: "#F2F6FF", "stroke-width": "5", "stroke-linecap": "square" }), h("path", { d: "M774.3242 394.6079l-28.9913 28.9914", class: "connector", id: "twoB_L", ref: e => this.connectors.set('twoB_L', e), stroke: "#F2F6FF", "stroke-width": "5", "stroke-linecap": "square" }), h("path", { d: "M568.9392 395.3445l28.9914 28.9914", class: "connector", id: "twoA_R", ref: e => this.connectors.set('twoA_R', e), stroke: "#F2F6FF", "stroke-width": "5", "stroke-linecap": "square" }), h("path", { d: "M422.9216 393.9303l-28.9913 28.9913", class: "connector", id: "twoA_L", ref: e => this.connectors.set('twoA_L', e), stroke: "#F2F6FF", "stroke-width": "5", "stroke-linecap": "square" }), h("path", { d: "M745.0088 219.2749l28.9914 28.9914", class: "connector", id: "one_R", ref: e => this.connectors.set('one_R', e), stroke: "#F2F6FF", "stroke-width": "5", "stroke-linecap": "square" }), h("path", { d: "M598.2841 218.5678l-28.9914 28.9914", class: "connector", id: "one_L", ref: e => this.connectors.set('one_L', e), stroke: "#F2F6FF", "stroke-width": "5", "stroke-linecap": "square" }), h("g", null, h("rect", { class: "four", fill: "#F5F7FD", transform: "rotate(135 1198.0874 672)", x: "1095.0874", y: "569", width: "206", height: "206", rx: "34" }), h("rect", { class: "four", fill: "#F5F7FD", transform: "rotate(135 145.9126 672)", x: "42.9126", y: "569", width: "206", height: "206", rx: "34" }), h("rect", { class: "four", fill: "#F5F7FD", transform: "rotate(135 496.6375 672)", x: "393.6375", y: "569", width: "206", height: "206", rx: "34" }), h("rect", { class: "four", fill: "#F5F7FD", transform: "rotate(135 847.3625 672)", x: "744.3625", y: "569", width: "206", height: "206", rx: "34" }), h("rect", { class: "threeC", ref: e => this.topLocations.set('threeC', e), fill: "#F5F7FD", transform: "rotate(135 1022.725 496.6375)", x: "919.725", y: "393.6375", width: "206", height: "206", rx: "34" }), h("rect", { class: "threeB", ref: e => this.topLocations.set('threeB', e), fill: "#F5F7FD", transform: "rotate(135 672 496.6375)", x: "569", y: "393.6375", width: "206", height: "206", rx: "34" }), h("rect", { class: "threeA", ref: e => this.topLocations.set('threeA', e), fill: "#F5F7FD", transform: "rotate(135 321.275 496.6375)", x: "218.275", y: "393.6375", width: "206", height: "206", rx: "34" }), h("rect", { class: "twoA", ref: e => this.topLocations.set('twoA', e), fill: "#F5F7FD", transform: "rotate(135 496.6375 321.275)", x: "393.6375", y: "218.275", width: "206", height: "206", rx: "34" }), h("rect", { class: "twoB", ref: e => this.topLocations.set('twoB', e), fill: "#F5F7FD", transform: "rotate(135 847.3625 321.275)", x: "744.3625", y: "218.275", width: "206", height: "206", rx: "34" }), h("rect", { class: "one", ref: e => this.topLocations.set('one', e), fill: "#DDE6F7", transform: "rotate(135 672 145.9126)", x: "569", y: "42.9126", width: "206", height: "206", rx: "34" })))))));
   }
   static get assetsDirs() { return ["assets"]; }
   get el() { return getElement(this); }
@@ -13396,21 +13661,17 @@ class PipelineAnimator {
   }; }
 }
 
-const planPricingCss = ".button.sc-plan-pricing{display:flex;white-space:pre;align-items:center;justify-content:center;align-self:center;border-radius:var(--radius-4);font-weight:600;font-size:16px;line-height:112%;letter-spacing:-0.02em;height:56px;width:216px}.button.light.sc-plan-pricing{background:var(--c-blue-0);color:var(--c-lavender-80)}.button.dark.sc-plan-pricing{background:var(--c-lavender-70);color:#fff}.plans.sc-plan-pricing{display:grid;margin-left:-58px;margin-top:55px;gap:16px;grid-template-columns:repeat(4, 25%);grid-template-rows:auto;grid-template-areas:\"hobby launch growth scale\"}@media (max-width: 1215px){.plans.sc-plan-pricing{gap:8px;margin-left:-20px;grid-template-columns:repeat(4, 25%)}}@media (max-width: 1023px){.plans.sc-plan-pricing{margin-left:0;grid-template-columns:1fr 1fr;grid-template-areas:\"hobby launch\" \"growth scale\"}.plans.sc-plan-pricing .plan__card--featured.sc-plan-pricing{margin-top:32px}}@media (max-width: 500px){.plans.sc-plan-pricing{grid-template-columns:1fr;grid-template-areas:\"hobby\" \"launch\" \"growth\" \"scale\"}}.toggle.sc-plan-pricing{display:flex;align-items:center;justify-content:center;background:#F4F6F9;border-radius:18px;cursor:default;margin:0 auto 54px;width:204px;font-weight:500;padding:3px 2px}.toggle.sc-plan-pricing span.sc-plan-pricing{transition:color 0.3s, background 0.3s;border-radius:30px;padding:5px 13px;text-align:center;font-size:13px;line-height:16px;letter-spacing:-0.01em;color:#5B708B;transition:0.2s color, 0.2s background}.toggle.sc-plan-pricing span.sc-plan-pricing:hover{cursor:pointer;color:#7398d8}.toggle.sc-plan-pricing .active.sc-plan-pricing,.toggle.sc-plan-pricing .active.sc-plan-pricing:hover{font-weight:600;border-radius:18px;color:#1A232F;background:#FFFFFF;box-shadow:0px 2px 3px rgba(0, 16, 46, 0.15)}#plan-hobby.sc-plan-pricing{grid-area:hobby}#plan-launch.sc-plan-pricing{grid-area:launch}#plan-launch.sc-plan-pricing{grid-area:growth}#plan-launch.sc-plan-pricing{grid-area:scale}#plan-launch.sc-plan-pricing{grid-area:enterprise}.plan__card.sc-plan-pricing{border-radius:12px;background:white;padding:30px 26px 26px;position:relative;flex:1;display:flex;flex-direction:column;justify-content:flex-start;border:1px solid #DEE3EA;box-shadow:0px 4px 8px rgba(2, 8, 20, 0.08), 0px 8px 16px rgba(2, 8, 20, 0.08)}.plan__card.sc-plan-pricing h3.sc-plan-pricing{color:var(--c-indigo-60);margin-top:0;margin-bottom:13px;font-weight:600;font-size:12px;line-height:120%;letter-spacing:0.14em;text-transform:uppercase}.plan__price.sc-plan-pricing{font-weight:500;font-size:20px;line-height:24px;letter-spacing:-0.04em;color:#1A232F;padding-bottom:13px}.plan__price__term.sc-plan-pricing{font-size:14px;line-height:17px;letter-spacing:-0.02em;color:#414D5C;display:block;margin-top:-2px}.plan__price__term--short.sc-plan-pricing{display:inline}.plan__price.sc-plan-pricing sup.sc-plan-pricing{font-weight:500;font-size:24px;line-height:29px;margin-right:2px}.plan__price.sc-plan-pricing strong.sc-plan-pricing{font-weight:bold;font-size:44px;line-height:48px;letter-spacing:-0.03em}.plan__description.sc-plan-pricing{font-size:15px;line-height:150%;letter-spacing:-0.01em;color:var(--c-indigo-80)}.plan__cta.btn.sc-plan-pricing{align-self:flex-start;font-size:16px;line-height:19px;padding:16px;letter-spacing:0.1em;text-transform:uppercase;border:1px solid #3880FF;box-shadow:0px 2px 4px rgba(0, 16, 46, 0.04);margin-top:auto;align-self:stretch}.plan__cta.btn.light.sc-plan-pricing{border-color:#EEF6FE;color:#3880FF}.plan__cta.btn.light.sc-plan-pricing:hover{box-shadow:0px 2px 4px rgba(0, 16, 46, 0.08)}.plan__cta.btn.navy.sc-plan-pricing{border-color:#4A679B;color:#D1EBFF;background:#324E7E}.plan__cta.btn.navy.sc-plan-pricing:hover{box-shadow:0px 2px 4px rgba(0, 16, 46, 0.2)}.plan__cta.btn.sc-plan-pricing:hover{box-shadow:0px 2px 4px rgba(0, 16, 46, 0.12)}.plan__feature__divider.sc-plan-pricing{border-bottom:1px solid #DEE3EA;margin:30px -26px 0}.plan__feature__divider.sc-plan-pricing+.plan__feature__header.sc-plan-pricing{margin:-9px -5px 0;background:white;align-self:flex-start;padding:6px}.plan__feature__header.sc-plan-pricing{font-size:10px;line-height:4px;letter-spacing:0.08em;text-transform:uppercase;color:#616E7E}.plan__feature__list.sc-plan-pricing{display:flex;align-items:flex-start;flex-direction:column;padding-left:0;margin:33px 0 26px;flex-grow:1}.plan__feature__list.sc-plan-pricing li.sc-plan-pricing{display:inline-flex;align-items:flex-start;color:var(--c-indigo-80);font-size:14px;line-height:140%;letter-spacing:-0.01em;position:relative;list-style:none}.plan__feature__list.sc-plan-pricing li.sc-plan-pricing+li.sc-plan-pricing{margin-block-start:24px}.plan__feature__list.sc-plan-pricing li.sc-plan-pricing svg.sc-plan-pricing{min-width:12px;min-width:12px;position:relative;top:3px;margin-inline-end:var(--space-2)}.plan__feature__list.sc-plan-pricing li.sc-plan-pricing strong.sc-plan-pricing{letter-spacing:-0.04em;font-weight:600}.plan__feature__highlight.sc-plan-pricing{position:relative}.plan__feature__highlight.sc-plan-pricing svg.sc-plan-pricing,.plan__feature__highlight.sc-plan-pricing span.sc-plan-pricing{z-index:2}.plan__feature__highlight.sc-plan-pricing::after{z-index:1;content:\"\";border-radius:var(--radius-3);position:absolute;background:#F6F8FB;left:-10px;right:-14px;top:-6px;bottom:-6px}.plan__feature__asterisk.sc-plan-pricing{font-size:12px;line-height:14px;letter-spacing:-0.01em;color:#92A1B3;margin:20px auto 0;text-align:center;width:100%;display:block}.plan__note.sc-plan-pricing{position:absolute;top:-34px;left:-2px;right:-2px;background:#3880FF;border-radius:12px 12px 0 0;color:white;text-align:center;font-weight:600;font-size:12px;line-height:16px;letter-spacing:-0.02em;padding:9px 1em}.plans.sc-plan-pricing .plan__price__monthly.sc-plan-pricing{transform:translateX(20px);opacity:0;transition:0.3s all ease-out;position:absolute}.plans.sc-plan-pricing .plan__price__yearly.sc-plan-pricing{transform:translateX(-20px);opacity:0;transition:0.3s all ease-out}.plans.sc-plan-pricing .active.sc-plan-pricing{transform:translateX(0px);opacity:1;display:inline-block}";
+const planPricingCss = ".button.sc-plan-pricing{cursor:pointer;display:flex;white-space:pre;align-items:center;justify-content:center;align-self:center;border-radius:var(--radius-4);font-weight:600;font-size:16px;line-height:112%;letter-spacing:-0.02em;height:56px;width:216px;transition:all 0.3s cubic-bezier(0, 0.8, 0.58, 0.78);box-shadow:0px 2px 5px rgba(0, 0, 0, 0)}.button.light.sc-plan-pricing{background:var(--c-blue-0);color:var(--c-lavender-80)}.button.light.sc-plan-pricing:hover,.button.light.sc-plan-pricing:focus,.button.light.sc-plan-pricing:active,.button.light.sc-plan-pricing:focus-within{background:#f3f8ff;box-shadow:0px 2px 5px rgba(0, 0, 0, 0.1)}.button.dark.sc-plan-pricing{background:var(--c-lavender-70);color:#fff}.button.dark.sc-plan-pricing:hover,.button.dark.sc-plan-pricing:focus,.button.dark.sc-plan-pricing:active,.button.dark.sc-plan-pricing:focus-within{background:#688aff;box-shadow:0px 2px 5px rgba(0, 0, 0, 0.1)}site-modal.sc-plan-pricing .heading-group.sc-plan-pricing{max-width:420px;margin-inline-start:auto;margin-inline-end:auto;text-align:center}site-modal.sc-plan-pricing .heading-group.sc-plan-pricing .ui-heading.sc-plan-pricing{margin-block-end:var(--space-3)}site-modal.sc-plan-pricing .heading-group.sc-plan-pricing .ui-paragraph.sc-plan-pricing{margin-block-end:var(--space-6)}.plans.sc-plan-pricing{display:grid;margin-left:-58px;margin-top:55px;gap:16px;grid-template-columns:repeat(4, 25%);grid-template-rows:auto;grid-template-areas:\"hobby launch growth scale\"}@media (max-width: 1215px){.plans.sc-plan-pricing{gap:8px;margin-left:-20px;grid-template-columns:repeat(4, 25%)}}@media (max-width: 1023px){.plans.sc-plan-pricing{margin-left:0;grid-template-columns:1fr 1fr;grid-template-areas:\"hobby launch\" \"growth scale\"}.plans.sc-plan-pricing .plan__card--featured.sc-plan-pricing{margin-top:32px}}@media (max-width: 500px){.plans.sc-plan-pricing{grid-template-columns:1fr;grid-template-areas:\"hobby\" \"launch\" \"growth\" \"scale\"}}.toggle.sc-plan-pricing{display:flex;align-items:center;justify-content:center;background:#F4F6F9;border-radius:18px;cursor:default;margin:0 auto 54px;width:204px;font-weight:500;padding:3px 2px}.toggle.sc-plan-pricing span.sc-plan-pricing{transition:color 0.3s, background 0.3s;border-radius:30px;padding:5px 13px;text-align:center;font-size:13px;line-height:16px;letter-spacing:-0.01em;color:#5B708B;transition:0.2s color, 0.2s background}.toggle.sc-plan-pricing span.sc-plan-pricing:hover{cursor:pointer;color:#7398d8}.toggle.sc-plan-pricing .active.sc-plan-pricing,.toggle.sc-plan-pricing .active.sc-plan-pricing:hover{font-weight:600;border-radius:18px;color:#1A232F;background:#FFFFFF;box-shadow:0px 2px 3px rgba(0, 16, 46, 0.15)}#plan-hobby.sc-plan-pricing{grid-area:hobby}#plan-launch.sc-plan-pricing{grid-area:launch}#plan-launch.sc-plan-pricing{grid-area:growth}#plan-launch.sc-plan-pricing{grid-area:scale}#plan-launch.sc-plan-pricing{grid-area:enterprise}.plan__card.sc-plan-pricing{border-radius:12px;background:white;padding:30px 26px 26px;position:relative;flex:1;display:flex;flex-direction:column;justify-content:flex-start;border:1px solid #DEE3EA;box-shadow:0px 4px 8px rgba(2, 8, 20, 0.08), 0px 8px 16px rgba(2, 8, 20, 0.08)}.plan__card.sc-plan-pricing h3.sc-plan-pricing{color:var(--c-indigo-60);margin-top:0;margin-bottom:13px;font-weight:600;font-size:12px;line-height:120%;letter-spacing:0.14em;text-transform:uppercase}.plan__price.sc-plan-pricing{font-weight:500;font-size:20px;line-height:24px;letter-spacing:-0.04em;color:#1A232F;padding-bottom:13px}.plan__price__term.sc-plan-pricing{font-size:14px;line-height:17px;letter-spacing:-0.02em;color:#414D5C;display:block;margin-top:-2px}.plan__price__term--short.sc-plan-pricing{display:inline}.plan__price.sc-plan-pricing sup.sc-plan-pricing{font-weight:500;font-size:24px;line-height:29px;margin-right:2px}.plan__price.sc-plan-pricing strong.sc-plan-pricing{font-weight:bold;font-size:44px;line-height:48px;letter-spacing:-0.03em}.plan__description.sc-plan-pricing{font-size:15px;line-height:150%;letter-spacing:-0.01em;color:var(--c-indigo-80)}.plan__cta.btn.sc-plan-pricing{align-self:flex-start;font-size:16px;line-height:19px;padding:16px;letter-spacing:0.1em;text-transform:uppercase;border:1px solid #3880FF;box-shadow:0px 2px 4px rgba(0, 16, 46, 0.04);margin-top:auto;align-self:stretch}.plan__cta.btn.light.sc-plan-pricing{border-color:#EEF6FE;color:#3880FF}.plan__cta.btn.light.sc-plan-pricing:hover{box-shadow:0px 2px 4px rgba(0, 16, 46, 0.08)}.plan__cta.btn.navy.sc-plan-pricing{border-color:#4A679B;color:#D1EBFF;background:#324E7E}.plan__cta.btn.navy.sc-plan-pricing:hover{box-shadow:0px 2px 4px rgba(0, 16, 46, 0.2)}.plan__cta.btn.sc-plan-pricing:hover{box-shadow:0px 2px 4px rgba(0, 16, 46, 0.12)}.plan__feature__divider.sc-plan-pricing{border-bottom:1px solid #DEE3EA;margin:30px -26px 0}.plan__feature__divider.sc-plan-pricing+.plan__feature__header.sc-plan-pricing{margin:-9px -5px 0;background:white;align-self:flex-start;padding:6px}.plan__feature__header.sc-plan-pricing{font-size:10px;line-height:4px;letter-spacing:0.08em;text-transform:uppercase;color:#616E7E}.plan__feature__list.sc-plan-pricing{display:flex;align-items:flex-start;flex-direction:column;padding-left:0;margin:33px 0 26px;flex-grow:1}.plan__feature__list.sc-plan-pricing li.sc-plan-pricing{display:inline-flex;align-items:flex-start;color:var(--c-indigo-80);font-size:14px;line-height:140%;letter-spacing:-0.01em;position:relative;list-style:none}.plan__feature__list.sc-plan-pricing li.sc-plan-pricing+li.sc-plan-pricing{margin-block-start:24px}.plan__feature__list.sc-plan-pricing li.sc-plan-pricing svg.sc-plan-pricing{min-width:12px;min-width:12px;position:relative;top:3px;margin-inline-end:var(--space-2)}.plan__feature__list.sc-plan-pricing li.sc-plan-pricing strong.sc-plan-pricing{letter-spacing:-0.04em;font-weight:600}.plan__feature__highlight.sc-plan-pricing{position:relative}.plan__feature__highlight.sc-plan-pricing svg.sc-plan-pricing,.plan__feature__highlight.sc-plan-pricing span.sc-plan-pricing{z-index:2}.plan__feature__highlight.sc-plan-pricing::after{z-index:1;content:\"\";border-radius:var(--radius-3);position:absolute;background:#F6F8FB;left:-10px;right:-14px;top:-6px;bottom:-6px}.plan__feature__asterisk.sc-plan-pricing{font-size:12px;line-height:14px;letter-spacing:-0.01em;color:#92A1B3;margin:20px auto 0;text-align:center;width:100%;display:block}.plan__note.sc-plan-pricing{position:absolute;top:-34px;left:-2px;right:-2px;background:#3880FF;border-radius:12px 12px 0 0;color:white;text-align:center;font-weight:600;font-size:12px;line-height:16px;letter-spacing:-0.02em;padding:9px 1em}.plans.sc-plan-pricing .plan__price__monthly.sc-plan-pricing{transform:translateX(20px);opacity:0;transition:0.3s all ease-out;position:absolute}.plans.sc-plan-pricing .plan__price__yearly.sc-plan-pricing{transform:translateX(-20px);opacity:0;transition:0.3s all ease-out}.plans.sc-plan-pricing .active.sc-plan-pricing{transform:translateX(0px);opacity:1;display:inline-block}";
 
 class PlanPricing {
   constructor(hostRef) {
     registerInstance(this, hostRef);
     this.planType = 'yearly';
   }
-  async componentDidLoad() {
-    const response = await fetch('/api/hubspot');
-    console.log(response);
-  }
   render() {
     return (h(Host, { style: {
         '--checkmark-path': `url(${getAssetPath('assets/checkmark-rounded.svg')})`
-      } }, h("site-modal", { ref: e => this.contactModal = e }), h("div", { class: "toggle" }, h("span", { class: { 'active': this.planType === 'monthly' }, onClick: () => this.planType = 'monthly' }, "Monthly"), h("span", { class: { 'active': this.planType === 'yearly' }, onClick: () => this.planType = 'yearly' }, "Yearly (15% off)")), h("div", { class: "plans annually-active" }, h("div", { id: "plan-hobby", class: "plan__card" }, h("h3", null, "Hobby"), h("span", { class: "plan__price" }, h("strong", null, "Free")), h("div", { class: "plan__description" }, "Perfect for proof of concepts, MVPs, and personal apps"), h("div", { class: "plan__feature__divider" }), h("ul", { class: "plan__feature__list" }, h("li", null, checkmarkRounded(), h("span", null, "Manage app projects in the Appflow ", h("strong", null, "cloud dashboard"))), h("li", null, checkmarkRounded(), h("span", null, "Deploy ", h("strong", null, "100 live updates"), " / mo")), h("li", null, checkmarkRounded(), "Community support")), h("a", { href: "#", class: "button light" }, "Start Free ", h("span", { style: { 'letter-spacing': '0px' } }, "->"))), h("div", { id: "plan-starter", class: "plan__card plan__card" }, h("h3", null, "Launch"), h("span", { class: "plan__price" }, h("span", { class: {
+      } }, h("site-modal", { ref: e => this.contactModal = e }, h("div", { class: "heading-group" }, h(Heading, null, "Contact us"), h(Paragraph, null, "Send us a detailed message and an Ionic Sales Representative will get back to you soon.")), h("hubspot-form", { formId: "a6d856c5-39f4-4725-a78f-c356d8d64ac5" })), h("div", { class: "toggle" }, h("span", { class: { 'active': this.planType === 'monthly' }, onClick: () => this.planType = 'monthly' }, "Monthly"), h("span", { class: { 'active': this.planType === 'yearly' }, onClick: () => this.planType = 'yearly' }, "Yearly (15% off)")), h("div", { class: "plans annually-active" }, h("div", { id: "plan-hobby", class: "plan__card" }, h("h3", null, "Hobby"), h("span", { class: "plan__price" }, h("strong", null, "Free")), h("div", { class: "plan__description" }, "Perfect for proof of concepts, MVPs, and personal apps"), h("div", { class: "plan__feature__divider" }), h("ul", { class: "plan__feature__list" }, h("li", null, checkmarkRounded(), h("span", null, "Manage app projects in the Appflow ", h("strong", null, "cloud dashboard"))), h("li", null, checkmarkRounded(), h("span", null, "Deploy ", h("strong", null, "100 live updates"), " / mo")), h("li", null, checkmarkRounded(), "Community support")), h("a", { href: "https://ionicframework.com/start#basics", class: "button light" }, "Start Free ", h("span", { class: "arrow", style: { 'letter-spacing': '0px' } }, "->"))), h("div", { id: "plan-starter", class: "plan__card plan__card" }, h("h3", null, "Launch"), h("span", { class: "plan__price" }, h("span", { class: {
         'plan__price__monthly': true,
         'active': this.planType === 'monthly'
       } }, h("sup", null, "$"), h("strong", null, "49"), h("small", null, "/mo")), h("span", { class: {
@@ -13437,7 +13698,7 @@ class PlanPricing {
     "$attrsToReflect$": []
   }; }
 }
-const GetStartedButton = () => (h("a", { href: "#", class: "button dark" }, "Get started"));
+const GetStartedButton = () => (h("a", { href: "https://ionicframework.com/signup?source=framework-products&product=appflow", class: "button dark" }, "Get started"));
 
 const platformBarCss = ".sc-site-platform-bar-h{display:block;background:var(--c-carbon-100);font-family:var(--f-family-text)}.nowrap.sc-site-platform-bar{display:inline-block;white-space:nowrap}.platform-bar__container.sc-site-platform-bar{display:flex;align-items:center;height:44px;justify-content:space-between}.platform-bar__logo.sc-site-platform-bar{margin-inline-end:var(--space-3)}.platform-bar__logo.sc-site-platform-bar svg.sc-site-platform-bar{height:24px;margin:10px 0;vertical-align:middle}.platform-bar__desc.sc-site-platform-bar{align-content:flex-end;color:#ccc;font-size:var(--f-size-2);line-height:160%;text-align:right;letter-spacing:var(--f-tracking-tight);margin:0 -3px 0 0}.platform-bar__desc.sc-site-platform-bar strong.sc-site-platform-bar{color:white;font-weight:400}.platform-bar__desc.sc-site-platform-bar a.sc-site-platform-bar{color:white;text-decoration:none;white-space:nowrap}.platform-bar__desc.sc-site-platform-bar ion-icon.sc-site-platform-bar{display:flex;align-items:center;margin-inline-start:var(--space-0)}";
 
@@ -13461,12 +13722,12 @@ class PlatformBar {
   }; }
 }
 
-const pricingPageCss = ".sc-pricing-page-h{--h1-color:var(--c-carbon-100);--p2-color:var(--c-indigo-80)}a.sc-pricing-page{color:var(--c-lavender-80)}.ui-heading-2.sc-pricing-page{margin-block-end:var(--space-5)}.ui-heading-4.sc-pricing-page{margin-block-end:var(--space-3)}.ui-heading-5.sc-pricing-page{margin-block-end:var(--space-3)}.ui-heading-6.sc-pricing-page{margin-block-end:var(--space-6)}.ui-paragraph-2.sc-pricing-page{margin-block-start:var(--space-5)}#top.sc-pricing-page{margin-block-start:80px;margin-block-end:58px}#top.sc-pricing-page .heading-group.sc-pricing-page{margin-inline-start:auto;margin-inline-end:auto;max-width:544px}#top.sc-pricing-page .heading-group.sc-pricing-page>*.sc-pricing-page{text-align:center}#companies.sc-pricing-page{padding-block-start:148px;--h6-color:var(--c-indigo-70)}#companies.sc-pricing-page .ui-heading-6.sc-pricing-page{text-align:center}#companies.sc-pricing-page .logos.sc-pricing-page{display:flex;margin-inline-start:auto;margin-inline-end:auto;margin-block-end:calc(-1 * var(--space-6));flex-grow:1;max-width:1200px;justify-content:space-between;align-items:center;flex-wrap:wrap}#companies.sc-pricing-page .logos.sc-pricing-page .wrapper.sc-pricing-page{display:inline-grid;margin-block-end:var(--space-6);flex-grow:1;min-width:400px;grid-template-columns:repeat(auto-fit, minmax(64px, 1fr));row-gap:var(--space-6);justify-items:center;align-items:center}@media screen and (max-width: 1023px){#companies.sc-pricing-page .logos.sc-pricing-page .wrapper.sc-pricing-page{flex-basis:400px;min-width:auto}}#companies.sc-pricing-page .logos.sc-pricing-page .wrapper.sc-pricing-page:first-of-type{flex-grow:1.3333333333}";
+const pricingPageCss = ".sc-pricing-page-h{--h1-color:var(--c-carbon-100);--h2-color:var(--c-carbon-100);--h3-color:var(--c-carbon-100);--p2-color:var(--c-indigo-80);--p3-color:var(--c-indigo-80)}a.sc-pricing-page{color:var(--c-lavender-80)}.ui-heading-2.sc-pricing-page{margin-block-end:var(--space-5)}.ui-heading-4.sc-pricing-page{margin-block-end:var(--space-3)}.ui-heading-5.sc-pricing-page{margin-block-end:var(--space-3)}.ui-heading-6.sc-pricing-page{margin-block-end:var(--space-6)}.ui-paragraph-2.sc-pricing-page{margin-block-start:var(--space-5)}#top.sc-pricing-page{margin-block-start:80px;margin-block-end:58px}#top.sc-pricing-page .heading-group.sc-pricing-page{margin-inline-start:auto;margin-inline-end:auto;max-width:544px}#top.sc-pricing-page .heading-group.sc-pricing-page>*.sc-pricing-page{text-align:center}#companies.sc-pricing-page{padding-block-start:148px;padding-block-end:160px;--h6-color:var(--c-indigo-70)}#companies.sc-pricing-page .ui-heading-6.sc-pricing-page{text-align:center}#companies.sc-pricing-page .logos.sc-pricing-page{display:flex;margin-inline-start:auto;margin-inline-end:auto;margin-block-end:calc(-1 * var(--space-6));flex-grow:1;max-width:1200px;justify-content:space-between;align-items:center;flex-wrap:wrap}#companies.sc-pricing-page .logos.sc-pricing-page .wrapper.sc-pricing-page{display:inline-grid;margin-block-end:var(--space-6);flex-grow:1;min-width:400px;grid-template-columns:repeat(auto-fit, minmax(64px, 1fr));row-gap:var(--space-6);justify-items:center;align-items:center}@media screen and (max-width: 1023px){#companies.sc-pricing-page .logos.sc-pricing-page .wrapper.sc-pricing-page{flex-basis:400px;min-width:auto}}#companies.sc-pricing-page .logos.sc-pricing-page .wrapper.sc-pricing-page:first-of-type{flex-grow:1.3333333333}#faq.sc-pricing-page{padding-block-start:160px;padding-block-end:160px}#faq.sc-pricing-page .ui-heading-2.sc-pricing-page{margin-block-end:var(--space-9);text-align:center}#faq.sc-pricing-page .ui-heading-3.sc-pricing-page{margin-block-end:var(--space-3)}#faq.sc-pricing-page .ui-paragraph.sc-pricing-page+.ui-paragraph.sc-pricing-page{margin-block-start:var(--space-3)}#faq.sc-pricing-page .list.sc-pricing-page li.sc-pricing-page+li.sc-pricing-page{margin-block-start:var(--space-9)}";
 
 class PricingPage {
   constructor(hostRef) {
     registerInstance(this, hostRef);
-    this.render = () => (h(Host, null, h("header", null, h("appflow-site-header", null)), h("main", null, h(Top$1, null), h(Tiers, null), h(Companies$1, null)), h("footer", null, h("appflow-site-footer", null))));
+    this.render = () => (h(Host, null, h("header", null, h("appflow-site-header", null)), h("main", null, h(Top$1, null), h(Tiers, null), h(Companies$1, null), h(Faq, null)), h("footer", null, h("appflow-site-footer", null))));
   }
   async componentWillLoad() {
     await getPage('appflow_pricing');
@@ -13491,6 +13752,9 @@ const Tiers = () => {
 };
 const Companies$1 = () => {
   return (h(ResponsiveContainer, { id: "companies", as: "section" }, h(Heading, { level: 6 }, "Trusted by the world\u2019s best teams"), h("div", { class: "logos" }, h("div", { class: "wrapper" }, aaaLogo({ main: 'var(--c-indigo-60)' }, { width: 50, height: 30 }), amtrakLogo({ main: 'var(--c-indigo-60)' }, { width: 63.78, height: 26.25 }), nasaLogo({ main: 'var(--c-indigo-60)' }, { width: 71.29, height: 18.75 }), ibmLogo({ main: 'var(--c-indigo-60)' }, { width: 52.53, height: 21.56 })), h("div", { class: "wrapper" }, burgerKingLogo({ main: 'var(--c-indigo-60)', second: 'var(--c-indigo-60)', third: 'var(--c-indigo-60)' }, { width: 30.32, height: 32 }), catLogo({ main: 'var(--c-indigo-60)', second: 'var(--c-indigo-60)' }, { width: 41.27, height: 24.38 }), targetLogo({ main: 'var(--c-indigo-60)' }, { width: 32, height: 32 })))));
+};
+const Faq = () => {
+  return (h(ResponsiveContainer, { id: "faq", as: "section" }, h(Heading, { level: 2 }, "Have a Question?"), h(Grid, null, h(Col, { cols: 12, sm: 6 }, h("ul", { class: "list" }, h("li", null, h(Heading, null, "How do Live Update limits work?"), h(Paragraph, null, "Using the Ionic ", h("a", { href: "/pro/deploy" }, "Deploy"), " service allows you to push hot code updates directly to your users\u2019 devices, all from the Ionic cloud dashboard, without having to go through the app stores."), h(Paragraph, null, "A single Live Update is one code update to one device. If you send one update to 200 devices, that counts as 200 Live Updates. If you send two updates to 200 devices, that counts as 400 Live Updates."), h(Paragraph, null, "The number of Live Updates varies with each plan. The Launch plan includes 10,000 Live Updates per month. The Growth plan allows up to 25,000 Live Updates per month. The plan limits are refreshed each month. If you exceed your quota for a given month, you will have to upgrade to a higher plan, or wait until the next calendar month to send more updates."), h(Paragraph, null, "If you need more than 25,000 Live Updates, the Scale and Enterprise plans offer custom limits, based on annual usage. Ionic\u2019s Live Update service scales to millions of units, with pricing varying based on the number of Updates in your custom plan. ", h("a", { href: "/sales" }, "Contact our Sales"), " team to learn more about setting up a custom Scale or Enterprise plan.")), h("li", null, h(Heading, null, "Which plans offer iOS Enterprise builds?"), h(Paragraph, null, "For development teams that would like to use ", h("a", { href: "/pro/package" }, "Ionic Package"), " to generate builds using their Apple Enterprise Program Account Certificate, a subscription to the Scale or Enterprise plan is required. The Apple Developer Enterprise Program allows large organizations to develop and deploy proprietary, internal-use apps to their employees. This program is for specific use cases that require private distribution directly to employees using secure internal systems or through a Mobile Device Management solution.")), h("li", null, h(Heading, null, "What is Account & Billing Support?"), h(Paragraph, null, "Account & Billing Support is available to all plan holders, and includes access to help for issues related to account billing, refunds, cancellations and account re-activations, and password or account access related concerns.")), h("li", null, h(Heading, null, "What is Premium Product Support?"), h(Paragraph, null, "Timely assistance with troubleshooting issues related to Appflow or the Cloud dashboard.")))), h(Col, { cols: 12, sm: 6 }, h("ul", { class: "list" }, h("li", null, h(Heading, null, "Do I have to create an Ionic account to use the Framework?"), h(Paragraph, null, "No. Ionic Framework is totally open source and free to download and install without an Ionic account. We invite all Ionic developers to create an account so they can take advantage of free developer tools to help you build better apps and go faster, with tools such as Ionic Deploy for sending Live Updates to your users, and a single cloud dashboard to manage all of your projects. If you just want to start building wit the Framework, freel free!")), h("li", null, h(Heading, null, "What do Concurrency Limits refer to?"), h(Paragraph, null, "Concurrency Limits refers to the number of app builds that can occur at the same time. Once you have hit your limit, additional builds will be queued until the existing builds in process are completed. When you upgrade to the Scale plan, you\u2019ll be able to set a customized concurrency limit that matches your team\u2019s needs and goals.")), h("li", null, h(Heading, null, "What are private git repos?"), h(Paragraph, null, "Private git repos are on-premises installations of a git service. All Ionic account plans offer a git-based workflow that works with cloud-based git services such as GitHub, BitBucket, and GitLab. For teams and businesses that wish to integrate with privately hosted git repos, we offer support for BitBucket servers as an add-on under the Scale and Enterprise plans. Contact our Sales team to learn more.")), h("li", null, h(Heading, null, "How many seats are with each plan?"), h(Paragraph, null, "The number of seats included varies by plan. Launch plans include one (1) seat. Growth plans include two (2) seats with the base subscription, with the ability to add up to five (5) team members at $99 per additional seat. Growth subscribers can add additional seats with the Developer Hub."), h(Paragraph, null, "Scale and Enterprise plans offer flexible packages that scale to any number of team members. Please contact our Sales team to discuss a custom plan that accommodates the number of seats you\u2019d like to include. If you are a current customer and would like to add more seats to your existing Scale or Enterprise plan, please contact Support.")), h("li", null, h(Heading, null, "What is the Enterprise Support SLA?"), h(Paragraph, null, "You can customize your SLA as part of an Enterprise plan based on your specific requirements.")))))));
 };
 
 const appflowSiteFooterCss = ".sc-appflow-site-footer-h{display:block;padding-block-start:var(--space-9);padding-block-end:var(--space-9)}.ui-grid.sc-appflow-site-footer{row-gap:var(--space-6)}.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer .title.sc-appflow-site-footer{font-weight:500;color:var(--c-indigo-100);margin-block-end:13px}.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer form.sc-appflow-site-footer input.sc-appflow-site-footer{background:#FFFFFF;border:1px solid var(--c-indigo-40);box-sizing:border-box;border-radius:var(--radius-4);padding:7px 14px;margin-inline-end:var(--space-1)}.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer form.sc-appflow-site-footer input.sc-appflow-site-footer::placeholder{color:var(--c-indigo-60)}.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer form.sc-appflow-site-footer button.sc-appflow-site-footer{font-weight:600;background:var(--c-lavender-70);border-radius:var(--radius-4);line-height:112%;color:#fff;padding:8.5px 12px}.main.sc-appflow-site-footer li.title.sc-appflow-site-footer{font-weight:500;color:var(--c-indigo-100)}.bottom.sc-appflow-site-footer{display:flex;flex-wrap:wrap;margin-block-start:40px}.bottom.sc-appflow-site-footer>*.sc-appflow-site-footer{color:var(--c-indigo-50)}.bottom.sc-appflow-site-footer div.sc-appflow-site-footer+div.sc-appflow-site-footer{margin-inline-start:var(--space-3)}.bottom.sc-appflow-site-footer .end.sc-appflow-site-footer{flex-grow:1;text-align:end}.bottom.sc-appflow-site-footer a.sc-appflow-site-footer{color:var(--c-indigo-70)}";
@@ -14083,8 +14347,8 @@ class WhyAppflow {
 }
 const Top$2 = () => {
   const { top, top__cta } = state.pageData;
-  return (h("section", { id: "top" }, h(ResponsiveContainer, null, h(Grid, null, h(Col, { class: "heading-group", cols: 12, sm: 6 }, h(PrismicRichText, { richText: top, paragraphLevel: 2 }), h("a", { class: "cta", href: "#" }, top__cta)), h(Col, { class: "image", cols: 12, sm: 6 }, h("img", { src: getAssetPath('./assets/top@2x.png'), srcset: `${getAssetPath('./assets/top@2x.png')} 2x,
-                      ${getAssetPath('./assets/top.png')} 1x`, loading: "eager", width: "1024", height: "1328" }))))));
+  return (h("section", { id: "top" }, h(ResponsiveContainer, null, h(Grid, null, h(Col, { class: "heading-group", cols: 12, sm: 6 }, h(PrismicRichText, { richText: top, paragraphLevel: 2 }), h("a", { class: "cta", href: "#" }, top__cta)), h(Col, { class: "image", cols: 12, sm: 6 }, h("img", { src: getAssetPath('assets/top@2x.png'), srcset: `${getAssetPath('assets/top@2x.png')} 2x,
+                      ${getAssetPath('assets/top.png')} 1x`, loading: "eager", width: "1024", height: "1328" }))))));
 };
 const Companies$2 = () => {
   const icons = [
@@ -14158,6 +14422,7 @@ registerComponents([
   DisqusComments,
   DocsRoot,
   GetStartedSection,
+  HubspotForm,
   Icon,
   InternalAd,
   LandingPage,
@@ -14560,9 +14825,8 @@ function isValidDocument(e) {
  return null != e && 9 === e.nodeType && null != e.documentElement && 1 === e.documentElement.nodeType && null != e.body && 1 === e.body.nodeType;
 }
 
-const templateWindows = new Map, isPromise = e => !!e && ("object" == typeof e || "function" == typeof e) && "function" == typeof e.then, IS_DENO_ENV = "undefined" != typeof Deno, IS_NODE_ENV = !(IS_DENO_ENV || "undefined" == typeof global || "function" != typeof require || !global.process || "string" != typeof __filename || global.origin && "string" == typeof global.origin), hasError = (IS_NODE_ENV ? global.process.platform : IS_DENO_ENV && globalThis.Deno.build.os, 
-IS_DENO_ENV && Deno.build.os, IS_NODE_ENV && require, IS_NODE_ENV ? process.cwd : IS_DENO_ENV && globalThis.Deno.cwd, 
-IS_NODE_ENV ? global.process.exit : IS_DENO_ENV && globalThis.Deno.exit, e => null != e && 0 !== e.length && e.some(e => "error" === e.level && "runtime" !== e.type)), shouldIgnoreError = e => e === TASK_CANCELED_MSG, TASK_CANCELED_MSG = "task canceled", SKIP_ATTRS = new Set([ "s-id", "c-id" ]), collectUsedSelectors = (e, t) => {
+const templateWindows = new Map, isPromise = e => !!e && ("object" == typeof e || "function" == typeof e) && "function" == typeof e.then, IS_DENO_ENV = "undefined" != typeof Deno, IS_NODE_ENV = !(IS_DENO_ENV || "undefined" == typeof global || "function" != typeof require || !global.process || "string" != typeof __filename || global.origin && "string" == typeof global.origin), hasError = (IS_NODE_ENV ? process.platform : IS_DENO_ENV && Deno.build.os, 
+IS_NODE_ENV && require, IS_NODE_ENV ? process.cwd : IS_DENO_ENV && Deno.cwd, e => null != e && 0 !== e.length && e.some(e => "error" === e.level && "runtime" !== e.type)), shouldIgnoreError = e => e === TASK_CANCELED_MSG, TASK_CANCELED_MSG = "task canceled", SKIP_ATTRS = new Set([ "s-id", "c-id" ]), collectUsedSelectors = (e, t) => {
  if (null != t && 1 === t.nodeType) {
   const r = t.children, s = t.nodeName.toLowerCase();
   e.tags.add(s);
@@ -14588,7 +14852,7 @@ IS_NODE_ENV ? global.process.exit : IS_DENO_ENV && globalThis.Deno.exit, e => nu
    line: r,
    column: s
   };
-  return t => (t.position = new z(e), m(), t);
+  return t => (t.position = new A(e), m(), t);
  }, a = o => {
   const i = e.split("\n"), a = {
    level: "error",
@@ -14633,7 +14897,7 @@ IS_NODE_ENV ? global.process.exit : IS_DENO_ENV && globalThis.Deno.exit, e => nu
  }, d = () => {
   let t;
   const r = [];
-  for (m(), h(r); e.length && "}" !== e.charAt(0) && (t = w() || N()); ) !1 !== t && (r.push(t), 
+  for (m(), h(r); e.length && "}" !== e.charAt(0) && (t = w() || z()); ) !1 !== t && (r.push(t), 
   h(r));
   return r;
  }, m = () => u(/^\s*/), h = e => {
@@ -14675,7 +14939,7 @@ IS_NODE_ENV ? global.process.exit : IS_DENO_ENV && globalThis.Deno.exit, e => nu
   let t;
   for (h(e); t = g(); ) !1 !== t && (e.push(t), h(e));
   return c() ? e : a("missing '}'");
- }, E = () => {
+ }, C = () => {
   let e;
   const t = [], r = i();
   for (;e = u(/^((\d+\.\d+|\.\d+|\d+)%?|[a-z]+)\s*/); ) t.push(e[1]), u(/^,\s*/);
@@ -14694,7 +14958,7 @@ IS_NODE_ENV ? global.process.exit : IS_DENO_ENV && globalThis.Deno.exit, e => nu
    };
    return n[e] = s[1].trim(), r(n);
   };
- }, C = S("import"), b = S("charset"), T = S("namespace"), w = () => "@" !== e[0] ? null : (() => {
+ }, E = S("import"), b = S("charset"), T = S("namespace"), w = () => "@" !== e[0] ? null : (() => {
   const e = i();
   let t = u(/^@([-\w]+)?keyframes\s*/);
   if (!t) return null;
@@ -14703,7 +14967,7 @@ IS_NODE_ENV ? global.process.exit : IS_DENO_ENV && globalThis.Deno.exit, e => nu
   const s = t[1];
   if (!l()) return a("@keyframes missing '{'");
   let n, o = h();
-  for (;n = E(); ) o.push(n), o = o.concat(h());
+  for (;n = C(); ) o.push(n), o = o.concat(h());
   return c() ? e({
    type: "keyframes",
    name: s,
@@ -14739,7 +15003,7 @@ IS_NODE_ENV ? global.process.exit : IS_DENO_ENV && globalThis.Deno.exit, e => nu
    supports: r,
    rules: s
   }) : a("@supports missing '}'");
- })() || C() || b() || T() || (() => {
+ })() || E() || b() || T() || (() => {
   const e = i(), t = u(/^@([-\w]+)?document *([^{]+)/);
   if (!t) return null;
   const r = trim(t[1]), s = trim(t[2]);
@@ -14782,7 +15046,7 @@ IS_NODE_ENV ? global.process.exit : IS_DENO_ENV && globalThis.Deno.exit, e => nu
    type: "font-face",
    declarations: r
   }) : a("@font-face missing '}'");
- })(), N = () => {
+ })(), z = () => {
   const e = i(), t = p();
   return t ? (h(), e({
    type: "rule",
@@ -14790,7 +15054,7 @@ IS_NODE_ENV ? global.process.exit : IS_DENO_ENV && globalThis.Deno.exit, e => nu
    declarations: y()
   })) : a("selector missing");
  };
- class z {
+ class A {
   constructor(e) {
    this.start = e, this.end = {
     line: r,
@@ -14798,7 +15062,7 @@ IS_NODE_ENV ? global.process.exit : IS_DENO_ENV && globalThis.Deno.exit, e => nu
    }, this.source = t;
   }
  }
- return z.prototype.content = e, {
+ return A.prototype.content = e, {
   diagnostics: n,
   ...addParent((() => {
    const e = d();

@@ -55,9 +55,9 @@ const Top = () => {
           </Col>
           <Col class="image" cols={12} sm={6}>
             <img
-              src={getAssetPath('./assets/top@2x.png')}
-              srcset={`${getAssetPath('./assets/top@2x.png')} 2x,
-                      ${getAssetPath('./assets/top.png')} 1x`}
+              src={getAssetPath('assets/top@2x.png')}
+              srcset={`${getAssetPath('assets/top@2x.png')} 2x,
+                      ${getAssetPath('assets/top.png')} 1x`}
               loading="eager"
               width="1024" height="1328"
             />          

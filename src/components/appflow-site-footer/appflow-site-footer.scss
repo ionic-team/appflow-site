@@ -33,46 +33,48 @@
     }
 
     hubspot-form {
-    display: flex;
+      display: flex;
 
-      [id|=label-email] {
-        display: none;
-      }
-
-      .hs-form {
-        display: flex;
-        position: relative;
-      }
-
-      .hs_error_rollup {
-        position: absolute;
-        left: 0;
-        top: 100%;
-      }
-
-      .hs-input {
-        flex-grow: 1;
-        flex-basis: 256px;
-        background: #FFFFFF;
-        border: 1px solid var(--c-indigo-40);
-        box-sizing: border-box;
-        border-radius: var(--radius-4);
-        padding: 7px 14px;
-        margin-inline-end: var(--space-1);
-        
-
-        &::placeholder {
-          color: var(--c-indigo-60);
+      .hubspot-override {
+        [id|=label-email] {
+          display: none;
         }
-      }
-      .hs-button {
-        font-weight: 600;
-        background: var(--c-lavender-70);
-        border-radius: var(--radius-4);
-        line-height: 112%;
-        color: #fff;
-        padding: 8.5px 12px;
-      }
+  
+        .hs-form {
+          display: flex;
+          position: relative;
+        }
+  
+        .hs_error_rollup {
+          position: absolute;
+          left: 0;
+          top: 100%;
+        }
+  
+        .hs-input {
+          flex-grow: 1;
+          flex-basis: 256px;
+          background: #FFFFFF;
+          border: 1px solid var(--c-indigo-40);
+          box-sizing: border-box;
+          border-radius: var(--radius-4);
+          padding: 7px 14px;
+          margin-inline-end: var(--space-1);
+          
+  
+          &::placeholder {
+            color: var(--c-indigo-60);
+          }
+        }
+        .hs-button {
+          font-weight: 600;
+          background: var(--c-lavender-70);
+          border-radius: var(--radius-4);
+          line-height: 112%;
+          color: #fff;
+          padding: 8.5px 12px;
+        }
+      }      
     }
   }
 

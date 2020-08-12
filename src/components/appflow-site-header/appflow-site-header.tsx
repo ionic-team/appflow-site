@@ -1,4 +1,4 @@
-import { Component, Element, State, h, VNode } from '@stencil/core';
+import { Component, Element, State, h, Host, VNode } from '@stencil/core';
 import { ResponsiveContainer, IntersectionHelper } from '@ionic-internal/ionic-ds';
 import { href } from 'stencil-router-v2';
 
@@ -34,20 +34,6 @@ export class SiteHeader {
         this.forceHovered = v.replace('/', '').replace('#', '');
       }
     });
-
-    IntersectionHelper.addListener(({ entries }) => {
-      const e = entries.find((e) => (e.target as HTMLElement) === this.el);
-      if (!e) {
-        return;
-      }
-
-      if (e.intersectionRatio < 1) {
-        this.sticky = true; 
-      } else {
-        this.sticky = false;
-      }
-    });
-    IntersectionHelper.observe(this.el!);
   }
 
   setHovered = (h: string) => () => this.hovered = h;
@@ -60,81 +46,83 @@ export class SiteHeader {
     const { clearHover, expanded, forceHovered, hovered, sticky } = this;
 
     return (
-      <header class={{
-        'site-header--sticky': sticky,
-        'site-header--expanded': expanded
+      <Host class={{
+        'sticky': sticky,
+        'expanded': expanded
       }}>
-        <site-backdrop visible={expanded} onClick={() => this.toggleExpanded()} />
+        <header>
+          <site-backdrop visible={expanded} onClick={() => this.toggleExpanded()} />
 
-        <ResponsiveContainer class="site-header">
-          <a {...href('/')} class="site-header__logo-link">
-            {appflowLogoWithText({}, {width: 114, height: 24 })}
-          </a>
+          <ResponsiveContainer class="site-header">
+            <a {...href('/')} class="site-header__logo-link">
+              {appflowLogoWithText({}, {width: 114, height: 24 })}
+            </a>
 
-          <button onClick={() => this.toggleExpanded()} class="more-button">
-            <ion-icon icon="ellipsis-vertical" />
-          </button>
+            <button onClick={() => this.toggleExpanded()} class="more-button">
+              <ion-icon icon="ellipsis-vertical" />
+            </button>
 
-          <div class="site-header-links">
-            <div class={{
-              'site-header-links__menu': true,
-              'site-header-links__menu--hovered': !!hovered
-            }}>
-              <nav>
-                <NavLink
-                  path="/"
-                  hovered={(hovered || forceHovered) === 'index'}
-                  onHover={this.setHovered('index')}
-                  onExit={clearHover}>
-                  Product
-                </NavLink>
-                <NavLink
-                  path="/why-appflow"
-                  hovered={(hovered || forceHovered) === 'why-appflow'}
-                  onHover={this.setHovered('why-appflow')}
-                  onExit={clearHover}>
-                  Why Appflow
-                </NavLink>
-                <NavLink
-                  path="/resources"
-                  hovered={(hovered || forceHovered) === 'resources'}
-                  onHover={this.setHovered('resources')}
-                  onExit={clearHover}>
-                  Resources
-                </NavLink>
-                <NavLink
-                  path="/pricing"
-                  hovered={(hovered || forceHovered) === 'pricing'}
-                  onHover={this.setHovered('pricing')}
-                  onExit={clearHover}>
-                  Pricing
-                </NavLink>
-                <a
-                  href="/docs"
-                  target="_blank"
-                  onMouseOver={this.setHovered('docs')}
-                  onMouseOut={clearHover}
-                  class={{
-                    'link--hovered': hovered === 'enterprise'
-                  }}>
-                  Docs
-                </a>
-              </nav>
+            <div class="site-header-links">
+              <div class={{
+                'site-header-links__menu': true,
+                'site-header-links__menu--hovered': !!hovered
+              }}>
+                <nav>
+                  <NavLink
+                    path="/"
+                    hovered={(hovered || forceHovered) === 'index'}
+                    onHover={this.setHovered('index')}
+                    onExit={clearHover}>
+                    Product
+                  </NavLink>
+                  <NavLink
+                    path="/why-appflow"
+                    hovered={(hovered || forceHovered) === 'why-appflow'}
+                    onHover={this.setHovered('why-appflow')}
+                    onExit={clearHover}>
+                    Why Appflow
+                  </NavLink>
+                  <NavLink
+                    path="/resources"
+                    hovered={(hovered || forceHovered) === 'resources'}
+                    onHover={this.setHovered('resources')}
+                    onExit={clearHover}>
+                    Resources
+                  </NavLink>
+                  <NavLink
+                    path="/pricing"
+                    hovered={(hovered || forceHovered) === 'pricing'}
+                    onHover={this.setHovered('pricing')}
+                    onExit={clearHover}>
+                    Pricing
+                  </NavLink>
+                  <a
+                    href="/docs"
+                    target="_blank"
+                    onMouseOver={this.setHovered('docs')}
+                    onMouseOut={clearHover}
+                    class={{
+                      'link--hovered': hovered === 'enterprise'
+                    }}>
+                    Docs
+                  </a>
+                </nav>
+              </div>
+
+              <div class="site-header-links__buttons">
+                <ul>
+                  <li>
+                    <a class="" href="https://ionicframework.com/login?source=framework-products&product=appflow">Log in</a>
+                  </li>
+                  <li>
+                    <a class="button" href="https://ionicframework.com/signup?source=framework-products&product=appflow">Get started <span style={{'letter-spacing': '0px'}}>-&gt;</span></a>
+                  </li>
+                </ul>
+              </div>
             </div>
-
-            <div class="site-header-links__buttons">
-              <ul>
-                <li>
-                  <a class="" href="https://ionicframework.com/login?source=framework-products&product=appflow">Log in</a>
-                </li>
-                <li>
-                  <a class="button" href="https://ionicframework.com/signup?source=framework-products&product=appflow">Get started <span style={{'letter-spacing': '0px'}}>-&gt;</span></a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </ResponsiveContainer>
-      </header>
+          </ResponsiveContainer>
+        </header>
+      </Host>
     );
   }
 }

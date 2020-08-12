@@ -32,10 +32,25 @@
       margin-block-end: 13px;
     }
 
-    form {
+    hubspot-form {
     display: flex;
 
-      input {
+      [id|=label-email] {
+        display: none;
+      }
+
+      .hs-form {
+        display: flex;
+        position: relative;
+      }
+
+      .hs_error_rollup {
+        position: absolute;
+        left: 0;
+        top: 100%;
+      }
+
+      .hs-input {
         flex-grow: 1;
         flex-basis: 256px;
         background: #FFFFFF;
@@ -50,7 +65,7 @@
           color: var(--c-indigo-60);
         }
       }
-      button {
+      .hs-button {
         font-weight: 600;
         background: var(--c-lavender-70);
         border-radius: var(--radius-4);

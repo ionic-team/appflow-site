@@ -338,15 +338,17 @@ const Experience = () => {
             <PrismicRichText richText={experience__subtext} paragraphLevel={2} />
             <a href="/why-appflow" class="cta">{experience__cta}</a>
           </Col>
-          <Col xs={12} md={6}>
-            <ul class="list">
-              {experience__list.map(({ content }) => (
-                <li class="list-item">
-                  {checkmarkCircle({ main: '#8C93FF' }, { width: 16, height: 16 })}
-                  <Paragraph>{content}</Paragraph>
-                </li>
-              ))}
-            </ul> 
+          <Col xs={12} md={7}>
+            <div class="list__wrapper">
+              <ul class="list">
+                {experience__list.map(({ content }) => (
+                  <li class="list-item">
+                    {checkmarkCircle({ main: '#8C93FF' }, { width: 16, height: 16 })}
+                    <Paragraph>{content}</Paragraph>
+                  </li>
+                ))}
+              </ul> 
+            </div>
           </Col>
         </Grid>        
       </ResponsiveContainer>

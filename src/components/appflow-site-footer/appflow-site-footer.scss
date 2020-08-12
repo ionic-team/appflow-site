@@ -10,6 +10,12 @@
   row-gap: var(--space-6);
 }
 
+.footer__content {
+  a {
+    color: var(--c-indigo-80);
+  }
+}
+
 .main {
   .newsletter {
     .wrapper {
@@ -64,15 +70,15 @@
   margin-block-start: 40px;
   row-gap: var(--space-1);
 
-  & > * {
-    color: var(--c-indigo-50);
+  & * {
+    color: var(--c-indigo-60);
   }
 
   .start {
     display: flex;
     align-items: center;
     a {
-      margin-inline-start: 17px;
+      margin-inline-start: var(--space-3);
     }
   } 
 
@@ -83,13 +89,13 @@
     flex-grow: 1;
     text-align: end;
 
+    svg {
+      margin-inline-end: var(--space-4);
+    }
+
     @media screen and (max-width: var.$screen-xs) {
       justify-content: flex-start;
     }
-  }
-
-  a {
-    color: var(--c-indigo-70);
   }
 }
 

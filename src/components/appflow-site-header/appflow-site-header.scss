@@ -82,10 +82,9 @@
       a {
         border-bottom: 0;
         transition: color, opacity .4s;
-        font-size: 15px;
-        line-height: 18px;
-        font-family: var(--f-family-text);
-        color: #222d3a;
+        font-size: 14px;
+        line-height: 17px;
+        color: var(--c-indigo-90);
         text-decoration: none;
         font-weight: normal;
         letter-spacing: 0;
@@ -131,9 +130,14 @@
           display: flex;
           align-items: center;
 
-            &:first-of-type {
-              margin-inline-end: var(--space-3);
-            }
+          &:first-of-type {
+            margin-inline-end: var(--space-3);
+          }
+
+          a {
+            font-weight: 600;
+            font-size: 14px;
+          }
         }
       }
    
@@ -213,6 +217,12 @@ site-backdrop {
 
       box-shadow: rgba(2, 8, 20, 0.06) 0px 1px 3px, rgba(2, 8, 20, 0.04) 0px 1px 2px;
 
+      &__menu {
+        a {
+          color: #000;
+        }
+      }
+
       &__buttons {
         ul {
           display: flex;
@@ -238,7 +248,7 @@ site-backdrop {
         border: none;
         outline: none;
 
-        color: #000;
+        
 
         &:hover {
           background: rgba(0,0,0, 0.03);

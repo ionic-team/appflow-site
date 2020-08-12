@@ -4,8 +4,8 @@
   "start_url": "/",
   "display": "standalone",
   "icons": [{
-    "src": "/assets/img/favicon.png",
-    "sizes": "96x96",
+    "src": "/assets/img/appflow-favicon.png",
+    "sizes": "64x64",
     "type": "image/png"
   }],
   "background_color": "#4164FF",

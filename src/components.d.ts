@@ -32,6 +32,9 @@ export namespace Components {
     }
     interface LandingPage {
     }
+    interface MarkdownPage {
+        "file": string;
+    }
     interface NewsletterForm {
     }
     interface PhoneAnimator {
@@ -123,6 +126,12 @@ declare global {
         prototype: HTMLLandingPageElement;
         new (): HTMLLandingPageElement;
     };
+    interface HTMLMarkdownPageElement extends Components.MarkdownPage, HTMLStencilElement {
+    }
+    var HTMLMarkdownPageElement: {
+        prototype: HTMLMarkdownPageElement;
+        new (): HTMLMarkdownPageElement;
+    };
     interface HTMLNewsletterFormElement extends Components.NewsletterForm, HTMLStencilElement {
     }
     var HTMLNewsletterFormElement: {
@@ -183,6 +192,7 @@ declare global {
         "code-snippet": HTMLCodeSnippetElement;
         "get-started-section": HTMLGetStartedSectionElement;
         "landing-page": HTMLLandingPageElement;
+        "markdown-page": HTMLMarkdownPageElement;
         "newsletter-form": HTMLNewsletterFormElement;
         "phone-animator": HTMLPhoneAnimatorElement;
         "pipeline-animator": HTMLPipelineAnimatorElement;
@@ -221,6 +231,9 @@ declare namespace LocalJSX {
     }
     interface LandingPage {
     }
+    interface MarkdownPage {
+        "file"?: string;
+    }
     interface NewsletterForm {
     }
     interface PhoneAnimator {
@@ -256,6 +269,7 @@ declare namespace LocalJSX {
         "code-snippet": CodeSnippet;
         "get-started-section": GetStartedSection;
         "landing-page": LandingPage;
+        "markdown-page": MarkdownPage;
         "newsletter-form": NewsletterForm;
         "phone-animator": PhoneAnimator;
         "pipeline-animator": PipelineAnimator;
@@ -281,6 +295,7 @@ declare module "@stencil/core" {
             "code-snippet": LocalJSX.CodeSnippet & JSXBase.HTMLAttributes<HTMLCodeSnippetElement>;
             "get-started-section": LocalJSX.GetStartedSection & JSXBase.HTMLAttributes<HTMLGetStartedSectionElement>;
             "landing-page": LocalJSX.LandingPage & JSXBase.HTMLAttributes<HTMLLandingPageElement>;
+            "markdown-page": LocalJSX.MarkdownPage & JSXBase.HTMLAttributes<HTMLMarkdownPageElement>;
             "newsletter-form": LocalJSX.NewsletterForm & JSXBase.HTMLAttributes<HTMLNewsletterFormElement>;
             "phone-animator": LocalJSX.PhoneAnimator & JSXBase.HTMLAttributes<HTMLPhoneAnimatorElement>;
             "pipeline-animator": LocalJSX.PipelineAnimator & JSXBase.HTMLAttributes<HTMLPipelineAnimatorElement>;

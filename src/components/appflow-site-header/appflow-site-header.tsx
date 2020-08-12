@@ -42,7 +42,7 @@ export class SiteHeader {
       }
 
       if (e.intersectionRatio < 1) {
-        this.sticky = true;
+        this.sticky = true; 
       } else {
         this.sticky = false;
       }
@@ -78,33 +78,33 @@ export class SiteHeader {
           <div class="site-header-links">
             <div class={{
               'site-header-links__menu': true,
-              'site-header-links__menu--hovered': !!hovered || !!forceHovered
+              'site-header-links__menu--hovered': !!hovered
             }}>
               <nav>
                 <NavLink
                   path="/"
-                  hovered={(hovered || forceHovered) === 'features'}
-                  onHover={this.setHovered('product')}
+                  hovered={(hovered || forceHovered) === 'index'}
+                  onHover={this.setHovered('index')}
                   onExit={clearHover}>
                   Product
                 </NavLink>
                 <NavLink
                   path="/why-appflow"
-                  hovered={hovered === 'docs'}
+                  hovered={(hovered || forceHovered) === 'why-appflow'}
                   onHover={this.setHovered('why-appflow')}
                   onExit={clearHover}>
                   Why Appflow
                 </NavLink>
                 <NavLink
                   path="/resources"
-                  hovered={hovered === 'community' || forceHovered === 'community'}
+                  hovered={(hovered || forceHovered) === 'resources'}
                   onHover={this.setHovered('resources')}
                   onExit={clearHover}>
                   Resources
                 </NavLink>
                 <NavLink
                   path="/pricing"
-                  hovered={hovered === 'blog'}
+                  hovered={(hovered || forceHovered) === 'pricing'}
                   onHover={this.setHovered('pricing')}
                   onExit={clearHover}>
                   Pricing
@@ -124,8 +124,12 @@ export class SiteHeader {
 
             <div class="site-header-links__buttons">
               <ul>
-                <li><button class="button--plain">Log in</button></li>
-                <li><button class="button--shaded">Get started <span style={{'letter-spacing': '0px'}}>-&gt;</span></button></li>
+                <li>
+                  <a class="" href="https://ionicframework.com/login?source=framework-products&product=appflow">Log in</a>
+                </li>
+                <li>
+                  <a class="button" href="https://ionicframework.com/signup?source=framework-products&product=appflow">Get started <span style={{'letter-spacing': '0px'}}>-&gt;</span></a>
+                </li>
               </ul>
             </div>
           </div>

@@ -1,3 +1,5 @@
+@use '../../global/vars' as var;
+
 :host {
   display:block;
   padding-block-start: var(--space-9);
@@ -10,6 +12,14 @@
 
 .main {
   .newsletter {
+    .wrapper {
+      display: flex;
+      flex-direction:column;
+      align-items: flex-end;
+      @media screen and (max-width: var.$screen-xs) {
+        align-items: flex-start;
+      }
+    }
     .title {
       font-weight: 500;
       color: var(--c-indigo-100);
@@ -17,7 +27,11 @@
     }
 
     form {
+    display: flex;
+
       input {
+        flex-grow: 1;
+        flex-basis: 256px;
         background: #FFFFFF;
         border: 1px solid var(--c-indigo-40);
         box-sizing: border-box;
@@ -47,21 +61,31 @@
   }
 }
 .bottom {
-  display: flex;
-  flex-wrap: wrap;
   margin-block-start: 40px;
+  row-gap: var(--space-1);
 
   & > * {
     color: var(--c-indigo-50);
   }
 
-  div + div {
-    margin-inline-start: var(--space-3);
-  }
+  .start {
+    display: flex;
+    align-items: center;
+    a {
+      margin-inline-start: 17px;
+    }
+  } 
 
   .end {
+    display:flex;
+    align-items: center;
+    justify-content: flex-end;
     flex-grow: 1;
     text-align: end;
+
+    @media screen and (max-width: var.$screen-xs) {
+      justify-content: flex-start;
+    }
   }
 
   a {

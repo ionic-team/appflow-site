@@ -2,9 +2,7 @@
 
 
 :host {
-  position: sticky;
   z-index: 1000;
-  top: -1px;
   background: #fff;
   display: block;
   box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.06);
@@ -14,6 +12,8 @@
 
   &.site-header--sticky {
     background: #fff;
+    position: sticky;
+    top: 0px;
   }
 }
 
@@ -98,7 +98,7 @@
       }
 
       a.link--active {
-        opacity: 1
+        opacity: .4
       }
 
       .link,
@@ -130,25 +130,27 @@
         li {
           display: flex;
           align-items: center;
+
+            &:first-of-type {
+              margin-inline-end: var(--space-3);
+            }
         }
       }
-
-      %btn {
+   
+      .button {
         color: var(--c-lavender-80);
         line-height: 100%;
         display: flex;
         align-items: center;
         justify-content: center;
-      }      
-      .button--plain {
-        @extend %btn;
-      } 
-      .button--shaded {
-        @extend %btn;
         background: var(--c-blue-10);
         border-radius: 1000px;
         padding: 10px var(--space-2);
         white-space: pre;
+
+        @media screen and (max-width: var.$screen-xs-max) {
+          margin: 12px 20px;
+        }
       }   
       
     }
@@ -212,7 +214,10 @@ site-backdrop {
       box-shadow: rgba(2, 8, 20, 0.06) 0px 1px 3px, rgba(2, 8, 20, 0.04) 0px 1px 2px;
 
       &__buttons {
-        display: none;
+        ul {
+          display: flex;
+          flex-direction: column;
+        }
       }
 
       nav {

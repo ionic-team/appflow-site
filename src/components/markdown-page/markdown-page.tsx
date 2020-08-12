@@ -1,5 +1,8 @@
-import { Component, Prop, h } from '@stencil/core';
+import { Component, Prop, h, State } from '@stencil/core';
 import marked from 'marked';
+import { ResponsiveContainer, Heading } from '@ionic-internal/ionic-ds';
+import fm from 'front-matter';
+import state from '../../store';
 
 @Component({
   tag: 'markdown-page',
@@ -8,14 +11,28 @@ import marked from 'marked';
 export class MarkdownPage {
 
   @Prop() file: string;
+  @State() markup: string;
 
   async componentWillLoad() {
-    console.log(this.file, marked('# hello'));
+    try {
+      const fileText = await fetch(`/assets/markdown/${this.file}.md`)
+        .then(response => response.text());
+      const {body, attributes} = fm(fileText);
+      this.markup = marked(body);
+
+      if (attributes['description']) {
+        state.description = attributes['description'];
+      }
+    } catch(e) {
+      console.warn(e);
+      this.markup = <Heading>Page Not Found</Heading>;
+    }
+    
   }
 
   render() {
     return (
-      <h1> Gets here</h1>
+      <ResponsiveContainer innerHTML={this.markup}/>
     );
   }
 }

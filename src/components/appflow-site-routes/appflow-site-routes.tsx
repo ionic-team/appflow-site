@@ -36,8 +36,11 @@ export class AppflowSiteRoutes {
           <Route path="/pricing">
             <pricing-page />
           </Route>
+          <Route path="/privacy-policy">
+            <markdown-page file="privacy-policy"/>
+          </Route>
           <Route path="/tos">
-            <markdown-page file="privacy-policy"></markdown-page>
+            <markdown-page file="tos"/>
           </Route>
         </Router.Switch>
       </Host>

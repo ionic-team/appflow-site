@@ -1,5 +1,5 @@
 ---
-meta_description: We take the security of your information seriously, and work hard to maintain secure websites and services for your use.
+description: We take the security of your information seriously, and work hard to maintain secure websites and services for your use.
 ---
 
 <p><br></p>

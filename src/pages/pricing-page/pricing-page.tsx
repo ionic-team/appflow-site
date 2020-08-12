@@ -35,7 +35,7 @@ const Top = () => {
   return (
     <ResponsiveContainer id="top" as="section">
       <div class="heading-group">
-        <PrismicRichText richText={top} paragraphLevel={2}/>       
+        <PrismicRichText richText={top} paragraphLevel={2}/>
       </div> 
     </ResponsiveContainer>
   );

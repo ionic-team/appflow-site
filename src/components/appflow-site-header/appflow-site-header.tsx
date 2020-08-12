@@ -60,7 +60,7 @@ export class SiteHeader {
     const { clearHover, expanded, forceHovered, hovered, sticky } = this;
 
     return (
-      <Host class={{
+      <header class={{
         'site-header--sticky': sticky,
         'site-header--expanded': expanded
       }}>
@@ -134,7 +134,7 @@ export class SiteHeader {
             </div>
           </div>
         </ResponsiveContainer>
-      </Host>
+      </header>
     );
   }
 }

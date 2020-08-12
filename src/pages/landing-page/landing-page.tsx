@@ -23,26 +23,16 @@ export class LandingPage {
 
   render = () => (
     <Host>
-      <header>
-        <appflow-site-header></appflow-site-header>
-      </header>
-
-      <main>
-        <Top />
-        <Companies />
-        <Ship />
-        <Push />
-        <Live />
-        <Native />
-        <Automate />
-        <Managed />
-        <Experience />
-        <get-started-section />
-      </main>
-
-      <footer>
-        <appflow-site-footer></appflow-site-footer>
-      </footer>
+      <Top />
+      <Companies />
+      <Ship />
+      <Push />
+      <Live />
+      <Native />
+      <Automate />
+      <Managed />
+      <Experience />
+      <get-started-section />
     </Host>
   )
 }

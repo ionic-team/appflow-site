@@ -21,20 +21,10 @@ export class PricingPage {
 
   render = () => (
     <Host>
-      <header>
-        <appflow-site-header></appflow-site-header>
-      </header>
-
-      <main>
-        <Top />
-        <Tiers />
-        <Companies />
-        <Faq />
-      </main>
-
-      <footer>
-        <appflow-site-footer></appflow-site-footer>
-      </footer>
+      <Top />
+      <Tiers />
+      <Companies />
+      <Faq />
     </Host>
   )
 }

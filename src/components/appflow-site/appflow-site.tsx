@@ -13,8 +13,14 @@ export class App {
     return (
       <site-root class={`page-theme--${state.pageTheme}`}>
         <MetaHead/>
-        <appflow-site-routes />
-      </site-root>      
+        <appflow-site-header></appflow-site-header>
+
+        <main>
+          <appflow-site-routes />
+        </main>
+
+        <appflow-site-footer></appflow-site-footer>
+      </site-root>
     );
   }
 }

@@ -21,23 +21,13 @@ export class WhyAppflow {
 
   render = () => (
     <Host>
-      <header>
-        <appflow-site-header></appflow-site-header>
-      </header>
-
-      <main>
-        <Top />
-        <Companies />
-        <Benefits />
-        <Integrated />
-        <Problems />
-        <Different />
-        <get-started-section />
-      </main>
-
-      <footer>
-        <appflow-site-footer></appflow-site-footer>
-      </footer>
+      <Top />
+      <Companies />
+      <Benefits />
+      <Integrated />
+      <Problems />
+      <Different />
+      <get-started-section />
     </Host>
   )
 }

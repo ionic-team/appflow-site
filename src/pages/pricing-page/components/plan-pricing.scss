@@ -1,5 +1,7 @@
 @use '../../../global/vars' as var;
 
+$timing: cubic-bezier(0,.8,.58,.78);
+
 .button {
   cursor: pointer;
   display:flex;
@@ -15,13 +17,26 @@
   height: 56px;
   width: 216px;
 
+  transition: all .3s $timing;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0);
+
   &.light {
     background: var(--c-blue-0);
     color: var(--c-lavender-80);
+
+    &:hover, &:focus, &:active, &:focus-within {
+      background: lighten(#f0f6ff, .5%);
+      box-shadow: 0px 2px 5px rgba(0, 0, 0, .1);
+    }
   }
   &.dark {
     background: var(--c-lavender-70);
     color: #fff;
+
+    &:hover, &:focus, &:active, &:focus-within {
+      background: lighten(#597eff, 3%);
+      box-shadow: 0px 2px 5px rgba(0, 0, 0, .1);
+    }
   }
 }
 

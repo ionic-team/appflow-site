@@ -146,13 +146,16 @@
         background: var(--c-blue-10);
         border-radius: 1000px;
         padding: 10px var(--space-2);
-        white-space: pre;
+        white-space: pre;        
+
+        &:hover, &:active, &:focus, &:focus-within {
+          background: lighten(#e3edff, 1.5%);
+        }
 
         @media screen and (max-width: var.$screen-xs-max) {
           margin: 12px 20px;
         }
       }   
-      
     }
   }
 }

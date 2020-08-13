@@ -114,7 +114,7 @@ const Top = () => {
             <PrismicRichText richText={top} paragraphLevel={2} />
           </Breakpoint>
           
-          <a href="https://ionicframework.com/signup?source=framework-products&product=appflow" class="cta">{top__cta}</a>
+          <a class="cta button" href="https://ionicframework.com/signup?source=framework-products&product=appflow">{top__cta}</a>
         </div>
       </ResponsiveContainer>
 
@@ -186,7 +186,7 @@ const Push = () => {
       <div class="push__wrapper">
         <ResponsiveContainer>
           <Grid>
-            <Col class="text" cols={12} lg={6}>
+            <Col class="text" cols={12} sm={6}>
               <div class="heading-group">
                 <PrismicRichText richText={push} paragraphLevel={2} />
               </div>
@@ -199,7 +199,7 @@ const Push = () => {
                 ))}
               </ul>
             </Col>
-            <Col class="image" cols={12} lg={6}> 
+            <Col class="image" cols={12} sm={6}> 
               <div class="icons">
                 {appleStoreCheckedIcon({}, { width: 52, height: 52 })}
                 {testflightLogo({}, { width: 52, height: 52 })}
@@ -336,7 +336,7 @@ const Experience = () => {
         <Grid>
           <Col class="subtext" xs={12} md={5}>
             <PrismicRichText richText={experience__subtext} paragraphLevel={2} />
-            <a href="/why-appflow" class="cta">{experience__cta}</a>
+            <a href="/why-appflow" class="cta button">{experience__cta}</a>
           </Col>
           <Col xs={12} md={7}>
             <div class="list__wrapper">

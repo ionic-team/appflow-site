@@ -41,7 +41,7 @@ const Top = () => {
         <Grid>
           <Col class="heading-group" cols={12} sm={6}>
             <PrismicRichText richText={top} paragraphLevel={2}/>
-            <a class="cta" href="#">{top__cta}</a>
+            <a class="cta button" href="https://ionicframework.com/signup?source=framework-products&product=appflow">{top__cta}</a>
           </Col>
           <Col class="image" cols={12} sm={6}>
             <img

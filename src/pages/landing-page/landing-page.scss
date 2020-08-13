@@ -124,6 +124,8 @@ a {
 
 #push {
 @include util.box($pbs:$section-space, $back:var(--c-indigo-10), $contain:content);
+@include util.media($val:var.$screen-sm-max, $pbe:$section-space);
+@include util.media($val:var.$screen-xs-max, $pbe:0);
 
   .ui-container {
   @include util.box($d:flex);
@@ -142,7 +144,7 @@ a {
   }
 
   .list {  
-  @include util.box($d:grid, $gtc:repeat(auto-fit, minmax(0px, 192px)), $cg:var(--space-9));
+  @include util.box($d:grid, $gtc:repeat(auto-fit, minmax(0px, 192px)), $cg:var(--space-9), $rg:var(--space-6));
 
     .list-item {
       svg {
@@ -171,7 +173,7 @@ a {
 }
 
 #live {
-@include util.box($pbs:$section-space, $pbe:$section-space, $contain:content);
+@include util.box($pbs:$section-space, $pbe:$section-space, $contain:content, $of:hidden);
 
   .ui-container {
   @include util.box($d:flex, $pos:relative);
@@ -349,6 +351,12 @@ a {
     &::after {
     @include util.box($c:' ->');
     @include util.font($ws:pre, $ls:0);
+    }
+  }
+
+  .button {
+    &:hover, &:active, &:focus, &:focus-within {
+      background: lighten(#8C93FF, 2%);
     }
   }
 

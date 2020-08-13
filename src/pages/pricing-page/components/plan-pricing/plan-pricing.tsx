@@ -1,5 +1,5 @@
 import { Component, State, h, Host, getAssetPath } from '@stencil/core';
-import { checkmarkRounded } from '../../../svgs';
+import { checkmarkRounded } from '../../../../svgs';
 import { Heading, Paragraph } from '@ionic-internal/ionic-ds';
 
 

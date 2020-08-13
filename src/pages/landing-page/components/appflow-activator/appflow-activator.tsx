@@ -47,7 +47,7 @@ export class AppflowActivator {
   duration = 6;//seconds
   indicators = [];
 
-  componentWillLoad() {
+  componentDidLoad() {
     this.importGsap();
   }
 
@@ -138,8 +138,8 @@ export class AppflowActivator {
               <img
                 class={`screen ${i === this.currentScreen ? 'animate-in' : 'animate-out'}`}
                 src={screen.image}
-                width="1153"
-                height="611"
+                width="2400"
+                height="1280"
                 loading={i === 0 ? 'eager' : 'lazy'}
                 style={{'position': i !== 0 ? 'absolute' : undefined}}
               />

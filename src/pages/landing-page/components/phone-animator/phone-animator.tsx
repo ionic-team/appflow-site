@@ -25,7 +25,7 @@ export class PhoneAnimator {
   @State() isPaused: boolean = false;
 
 
-  componentWillLoad() {
+  componentDidLoad() {
     this.importGsap();
   } 
 

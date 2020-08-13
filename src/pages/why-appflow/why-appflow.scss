@@ -77,14 +77,19 @@ a {
       @include util.font($ws:pre, $ls:0);
       }
     }
+    .button {
+      &:hover, &:active, &:focus, &:focus-within {
+      @include util.box($back:lighten(#7493FF, 2%));
+      }
+    }
   }
 
   .image {
-  @include util.box($pos:relative, $fg:1, $d:flex, $jc:center, $ai:center, $l:50px, $t:30px);
+  @include util.box($pos:relative, $fg:1, $d:flex, $jc:center, $ai:center, $l:50px, $t:50px);
     img {
-    @include util.box($w:457px, $pos:absolute, $l:0);
+    @include util.box($w:520px, $pos:absolute, $l:0);
     @include util.media($val:var.$screen-md-max, $l:-56px);
-    @include util.media($val:var.$screen-xs-max, $d:none);
+    @include util.media($val:var.$screen-xs-max, $pos:relative);
     }
   }
 }

@@ -58,8 +58,14 @@
         border-radius: var(--radius-4);
         line-height: 112%;
         color: #fff;
-        padding: 8.5px 12px;
+        padding: 7.5px 12px 8.5px 12px;
       }  
+
+      .button {
+        &:hover, &:active, &:focus, &:focus-within {
+          background: lighten(#597EEF, 3%);
+        }
+      }
 
       .error-message {
         position: absolute;

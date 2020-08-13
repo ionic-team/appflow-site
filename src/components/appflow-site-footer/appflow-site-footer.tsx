@@ -125,6 +125,7 @@ export class SiteFooter {
                                 aria-label="Email"
                                 required />
                               <button
+                                class="button"
                                 type="submit"
                                 disabled={this.isLoading || this.hasSubmitted}>
                                 Send

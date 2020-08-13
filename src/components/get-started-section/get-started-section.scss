@@ -48,3 +48,9 @@
   }
 }
 
+.button {
+  &:hover, &:active, &:focus, &:focus-within {
+    background: lighten(#7493ff, 3%);
+  }
+}
+

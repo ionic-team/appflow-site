@@ -52,7 +52,6 @@
     margin-right: 15px;
 
     &__menu {
-      visibility: hidden;
       flex: 1;
       display: flex;
       align-items: center;
@@ -65,10 +64,6 @@
         a.link--active {
           opacity: 0.4;
         }
-      }
-
-      &--expanded {
-        visibility: visible;
       }
 
       nav {
@@ -219,6 +214,12 @@ site-backdrop {
       box-shadow: rgba(2, 8, 20, 0.06) 0px 1px 3px, rgba(2, 8, 20, 0.04) 0px 1px 2px;
 
       &__menu {
+        visibility: hidden;
+
+        &--expanded {
+          visibility: visible;
+        }
+
         a {
           color: #000;
         }

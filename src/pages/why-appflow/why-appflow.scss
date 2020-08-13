@@ -124,7 +124,7 @@ a {
 }
 
 #benefits {
-@include util.box($pbs:$section-space, $pbe:$section-space, $back:var(--c-indigo-0));
+@include util.box($pbs:$section-space, $pbe:$section-space, $back:#F6F8FC);
 
   .heading-group {
   @include util.box($mxw:640px, $mbe:var(--space-5));
@@ -168,7 +168,7 @@ a {
 }
 
 #problems {
-@include util.box($pbs:$section-space, $pbe:$section-space, $back:var(--c-indigo-0));
+@include util.box($pbs:$section-space, $pbe:$section-space, $back:#F6F8FC);
 
   img {
   @include util.box($w:auto);

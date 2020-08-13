@@ -32,49 +32,54 @@
       margin-block-end: 13px;
     }
 
-    #newsletter-form{
+    .form {
       display: flex;
+      position: relative;
 
-      .hubspot-override {
-        [id|=label-email] {
-          display: none;
+      input {
+        flex-grow: 1;
+        flex-basis: 256px;
+        background: #FFFFFF;
+        border: 1px solid var(--c-indigo-40);
+        box-sizing: border-box;
+        border-radius: var(--radius-4);
+        padding: 7px 14px;
+        margin-inline-end: var(--space-1);
+        
+
+        &::placeholder {
+          color: var(--c-indigo-60);
         }
-  
-        .hs-form {
-          display: flex;
-          position: relative;
+      }
+      button {
+        font-weight: 600;
+        background: var(--c-lavender-70);
+        border-radius: var(--radius-4);
+        line-height: 112%;
+        color: #fff;
+        padding: 8.5px 12px;
+      }  
+
+      .error-message {
+        position: absolute;
+        top: 100%;
+        color: var(--c-red-80)
+      }
+
+      ion-icon {
+        width: 32px;
+        height: 32px;
+        margin-inline-end: var(--space-1);
+        color: var(--c-purple-60);
+      }
+
+      .form-message {
+        display: flex;
+
+        p {
+          margin: 0;
         }
-  
-        .hs_error_rollup {
-          position: absolute;
-          left: 0;
-          top: 100%;
-        }
-  
-        .hs-input {
-          flex-grow: 1;
-          flex-basis: 256px;
-          background: #FFFFFF;
-          border: 1px solid var(--c-indigo-40);
-          box-sizing: border-box;
-          border-radius: var(--radius-4);
-          padding: 7px 14px;
-          margin-inline-end: var(--space-1);
-          
-  
-          &::placeholder {
-            color: var(--c-indigo-60);
-          }
-        }
-        .hs-button {
-          font-weight: 600;
-          background: var(--c-lavender-70);
-          border-radius: var(--radius-4);
-          line-height: 112%;
-          color: #fff;
-          padding: 8.5px 12px;
-        }
-      }      
+      }
     }
   }
 

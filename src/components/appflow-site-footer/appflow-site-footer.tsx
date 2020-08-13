@@ -1,4 +1,4 @@
-import { Component, h } from '@stencil/core';
+import { Component, h, State } from '@stencil/core';
 import { ResponsiveContainer, Paragraph, Grid, Col } from '@ionic-internal/ionic-ds';
 import { appflowLogoWithText, linkedInLogo, twitterLogo } from '../../svgs';
 
@@ -8,6 +8,72 @@ import { appflowLogoWithText, linkedInLogo, twitterLogo } from '../../svgs';
   scoped: true,
 })
 export class SiteFooter {
+  @State() email: string = '';
+  @State() isLoading: boolean = false;
+  @State() hasSubmitted: boolean = false;
+  @State() isValid: boolean = true;
+  @State() inlineMessage: string = '';
+
+  handleNewsletterSubmit(e: Event) {
+    e.preventDefault();
+
+    this.isLoading = true;
+    
+    const xhr = new XMLHttpRequest();
+    const url = [
+      'https://api.hsforms.com/submissions/v3/integration/submit',
+      '3776657',
+      '76e5f69f-85fd-4579-afce-a1892d48bb32'].join('/');
+    xhr.open('POST', url);
+    xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        const json = JSON.parse(xhr.responseText);
+        this.inlineMessage = json.inlineMessage;
+        this.isLoading = false;
+        this.hasSubmitted = true;
+        this.isValid = true;
+      } else if (xhr.readyState == 4 && xhr.status == 400){
+        this.inlineMessage = 'Please enter a valid email address.';
+        this.isLoading = false;
+        this.isValid = false;
+      }
+    };
+
+    const hutkMatch = document.cookie.match && document.cookie.match(/hubspotutk=(.*?);/);
+    const hutk = hutkMatch ? hutkMatch[1] : undefined;
+
+    xhr.send(JSON.stringify({
+      submittedAt: (new Date()).getTime(),
+      fields: [
+        {
+          'name': 'email',
+          'value': this.email
+        },
+        {
+          'name': 'first_campaign_conversion',
+          'value': 'Ionic Newsletter'
+        }
+      ],
+      context: {
+        hutk,
+        'pageUri': window.location.href,
+        'pageName': document.title
+      }
+    }))
+  }
+
+  handleEmailChange(ev: any) {
+    this.email = ev.target.value;
+    this.isValid = true;
+  }
+
+  handleInlineMessage(returnMessage) {
+    console.log(returnMessage);
+    const messageMatch = returnMessage.match && returnMessage.match(/<p>(.*?)<\/p>/);
+    return messageMatch ? messageMatch[1] : undefined;
+  }
+
   render() {
     return (
       <footer>
@@ -39,11 +105,37 @@ export class SiteFooter {
                 <div>
                   <Paragraph class="title" level={5}>Sign up for our newsletter and stay up-to-date</Paragraph>
                   <div>
-                    <hubspot-form id="newsletter-form" formId="76e5f69f-85fd-4579-afce-a1892d48bb32"></hubspot-form>
-                    {/* <form action="">
-                      <input type="text" placeholder="Email"/>
-                      <button class="ui-paragraph-5">Send</button>
-                    </form> */}
+                    <div class="form">
+                      {this.hasSubmitted
+                        ? <div class="form-message">
+                            <ion-icon name="checkmark-circle"></ion-icon>
+                            <Paragraph>{this.handleInlineMessage(this.inlineMessage)}</Paragraph>
+                          </div>
+                        : <form
+                            onSubmit={(e) => this.handleNewsletterSubmit(e)}>
+                            <div class="form-group">
+                              <input
+                                name="email"
+                                type="email"
+                                value={this.email}
+                                onInput={() => this.handleEmailChange(event)}
+                                disabled={this.isLoading}
+                                placeholder="Email address"
+                                class={this.isValid ? '' : 'error'}
+                                aria-label="Email"
+                                required />
+                              <button
+                                type="submit"
+                                disabled={this.isLoading || this.hasSubmitted}>
+                                Send
+                              </button>
+                            </div>
+                            {!this.isValid &&
+                            <Paragraph level={5} class="error-message">{this.inlineMessage}</Paragraph>
+                            }
+                          </form>
+                      }
+                    </div>
                   </div>
                 </div>
               </div>

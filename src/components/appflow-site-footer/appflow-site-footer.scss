@@ -12,7 +12,15 @@
 
 .footer__content {
   a {
+    text-decoration: underline;
+    text-decoration-color: rgba(0, 0, 0, 0);
+    transition: text-decoration-color .2s ease-out;
+
     color: var(--c-indigo-80);
+
+    &:hover, &:active, &:focus, &:focus-within {
+      text-decoration-color: rgba(0, 0, 0, .3);
+    }
   }
 }
 
@@ -120,6 +128,20 @@
 
     svg {
       margin-inline-end: var(--space-4);
+    }
+
+    .social-links {
+      svg {
+        path {
+          transition: fill .2s ease-out;
+        }
+
+        &:hover, &:active, &:focus, &:focus-within {
+          path {
+            fill: var(--c-indigo-80);
+          }
+        }
+      }
     }
 
     @media screen and (max-width: var.$screen-xs) {

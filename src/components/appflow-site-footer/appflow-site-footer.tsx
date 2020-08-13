@@ -149,8 +149,10 @@ export class SiteFooter {
               <a class="ui-paragraph-6" href="/privacy-policy">Privacy</a>
             </Col>    
             <Col class="end" cols={12} xs={6}>
-              <a href="https://www.linkedin.com/showcase/ionic-appflow/">{linkedInLogo({ main: 'var(--c-indigo-50)' }, { height: 12 })}</a>
-              <a href="https://twitter.com/useappflow">{twitterLogo({ main: 'var(--c-indigo-50)' }, { height: 12 })}</a>
+              <div class="social-links">
+                <a href="https://www.linkedin.com/showcase/ionic-appflow/" rel="noopener nofollow" target="_blank">{linkedInLogo({ main: 'var(--c-indigo-50)' }, { height: 12 })}</a>
+                <a href="https://twitter.com/useappflow" rel="noopener nofollow" target="_blank">{twitterLogo({ main: 'var(--c-indigo-50)' }, { height: 12 })}</a>
+              </div>
               <span class="ui-paragraph-6">Part of the <a href="https://ionic.io/">Ionic</a> ecosystem</span>
             </Col>                    
           </Grid>          

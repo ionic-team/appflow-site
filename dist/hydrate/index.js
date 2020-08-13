@@ -4756,8 +4756,8 @@ const createTime = (e, t = "") => {
   10 & n && (o["s-sc"] = l, 
  o.classList.add(l + "-h"),  2 & n && o.classList.add(l + "-s")), 
  s();
-}, getScopeId = (e, t) => "sc-" + ( e.$tagName$), EMPTY_OBJ = {}, isComplexType = e => "object" == (e = typeof e) || "function" === e, IS_DENO_ENV = "undefined" != typeof Deno, IS_NODE_ENV = !(IS_DENO_ENV || "undefined" == typeof global || "function" != typeof require || !global.process || "string" != typeof __filename || global.origin && "string" == typeof global.origin), h = (IS_NODE_ENV ? process.platform : IS_DENO_ENV && Deno.build.os, 
-IS_NODE_ENV && require, IS_NODE_ENV ? process.cwd : IS_DENO_ENV && Deno.cwd, (e, t, ...o) => {
+}, getScopeId = (e, t) => "sc-" + ( e.$tagName$), EMPTY_OBJ = {}, isComplexType = e => "object" == (e = typeof e) || "function" === e, IS_DENO_ENV = "undefined" != typeof Deno, IS_NODE_ENV = !(IS_DENO_ENV || "undefined" == typeof global || "function" != typeof require || !global.process || "string" != typeof __filename || global.origin && "string" == typeof global.origin), h = (IS_DENO_ENV && Deno.build.os, IS_NODE_ENV && require, IS_NODE_ENV ? process.cwd : IS_DENO_ENV && globalThis.Deno.cwd, 
+(e, t, ...o) => {
  let n = null, s = null, l = null, a = !1, r = !1, i = [];
  const d = t => {
   for (let o = 0; o < t.length; o++) n = t[o], Array.isArray(n) ? d(n) : null != n && "boolean" != typeof n && ((a = "function" != typeof e && !isComplexType(n)) ? n = String(n) : BUILD.isDev  , 
@@ -5678,7 +5678,7 @@ class App {
     registerInstance(this, hostRef);
   }
   render() {
-    return (h("site-root", { class: `page-theme--${state.pageTheme}` }, h(MetaHead, null), h("appflow-site-routes", null)));
+    return (h("site-root", { class: `page-theme--${state.pageTheme}` }, h(MetaHead, null), h("appflow-site-header", null), h("main", null, h("appflow-site-routes", null)), h("appflow-site-footer", null)));
   }
   static get style() { return appflowSiteCss; }
   static get cmpMeta() { return {
@@ -6717,7 +6717,7 @@ const PrismicRichText = (_a, _, utils) => {
     });
 };
 
-const appflowActivatorCss = ".sc-appflow-activator-h{overflow:hidden;position:relative}img.sc-appflow-activator{display:inline-block;width:100%;height:auto}.nav.sc-appflow-activator{width:100%;background:#fff;box-shadow:0px -12px 24px rgba(2, 8, 20, 0.06), 0px -4px 8px rgba(2, 8, 20, 0.02);z-index:20;position:relative;top:-20px;margin-block-end:-20px;border-bottom:1px solid #F0F0F0}ul.sc-appflow-activator{z-index:10;display:flex;width:100%;margin:0;padding:0;overflow:hidden}li.sc-appflow-activator{position:relative;padding-top:24px;display:inline-block;list-style:none;flex:1;cursor:default}li.sc-appflow-activator+li.sc-appflow-activator{margin-inline-start:var(--space-6)}@media screen and (max-width: 1023px){li.sc-appflow-activator{display:flex;flex-direction:column;align-items:center}li.sc-appflow-activator+li.sc-appflow-activator{margin-inline-start:var(--space-2)}li.sc-appflow-activator svg.sc-appflow-activator{margin-block-end:var(--space-1)}li.sc-appflow-activator .ui-heading.sc-appflow-activator{text-align:center;font-size:10px;margin-block-end:var(--space-5)}li.sc-appflow-activator .ui-paragraph.sc-appflow-activator{display:none}}li.sc-appflow-activator h5.sc-appflow-activator,li.sc-appflow-activator p.sc-appflow-activator{font-family:var(--f-family-text);transition:color 0.2s}li.sc-appflow-activator h5.sc-appflow-activator{display:block;font-size:14px;line-height:22px;letter-spacing:0.08em;text-transform:uppercase;font-weight:600;color:#616E7E}li.sc-appflow-activator p.sc-appflow-activator{color:#92A1B3;margin-bottom:24px}li.sc-appflow-activator svg.sc-appflow-activator{transition:transform 0.2s}li.active.sc-appflow-activator h5.sc-appflow-activator{color:#010610}li.active.sc-appflow-activator p.sc-appflow-activator{color:#5B708B}li.active.sc-appflow-activator svg.sc-appflow-activator{transform:translateY(-2px)}.indicator.sc-appflow-activator{position:absolute;bottom:0;left:0;height:2px;width:0%;background-color:#6C89F7}.app-screenshot.sc-appflow-activator{margin-left:auto;margin-right:auto;display:flex;flex-direction:column;position:relative;z-index:5}.app-screenshot.sc-appflow-activator .images.sc-appflow-activator{position:relative;margin-inline-start:auto;margin-inline-end:auto}.app-screenshot.sc-appflow-activator .images__wrapper.sc-appflow-activator{position:relative;margin-inline-start:var(--space-3);margin-inline-end:var(--space-3)}.app-screenshot.sc-appflow-activator .screen.sc-appflow-activator{max-width:1152px;object-fit:contain;border-radius:16px;left:0;top:0;overflow:hidden;width:100%;opacity:0;transform:translateY(6px);animation-fill-mode:forwards}.app-screenshot.sc-appflow-activator .screen.animate-in.sc-appflow-activator{animation-timing-function:cubic-bezier(0.19, 1, 0.22, 1);animation-duration:1s;animation-name:animateIn;animation-delay:0.1s;z-index:15}.app-screenshot.sc-appflow-activator .screen.animate-out.sc-appflow-activator{animation-timing-function:ease;animation-duration:0.6s;animation-name:animateOut;z-index:10}@keyframes animateIn{from{opacity:0}to{opacity:1}}@keyframes animateOut{from{opacity:1}to{opacity:0}}";
+const appflowActivatorCss = ".sc-appflow-activator-h{overflow:hidden;position:relative}img.sc-appflow-activator{display:inline-block;width:1153px;height:611px;width:100%;height:auto}.nav.sc-appflow-activator{width:100%;background:#fff;box-shadow:0px -12px 24px rgba(2, 8, 20, 0.06), 0px -4px 8px rgba(2, 8, 20, 0.02);z-index:20;position:relative;top:-20px;margin-block-end:-20px;border-bottom:1px solid #F0F0F0}ul.sc-appflow-activator{z-index:10;display:flex;width:100%;margin:0;padding:0;overflow:hidden}li.sc-appflow-activator{position:relative;padding-top:24px;display:inline-block;list-style:none;flex:1;cursor:default}li.sc-appflow-activator+li.sc-appflow-activator{margin-inline-start:var(--space-6)}@media screen and (max-width: 1023px){li.sc-appflow-activator{display:flex;flex-direction:column;align-items:center}li.sc-appflow-activator+li.sc-appflow-activator{margin-inline-start:var(--space-2)}li.sc-appflow-activator svg.sc-appflow-activator{margin-block-end:var(--space-1)}li.sc-appflow-activator .ui-heading.sc-appflow-activator{text-align:center;font-size:10px;margin-block-end:var(--space-5)}li.sc-appflow-activator .ui-paragraph.sc-appflow-activator{display:none}}li.sc-appflow-activator h5.sc-appflow-activator,li.sc-appflow-activator p.sc-appflow-activator{font-family:var(--f-family-text);transition:color 0.2s}li.sc-appflow-activator h5.sc-appflow-activator{display:block;font-size:14px;line-height:22px;letter-spacing:0.08em;text-transform:uppercase;font-weight:600;color:#616E7E}li.sc-appflow-activator p.sc-appflow-activator{color:#92A1B3;margin-bottom:24px}li.sc-appflow-activator svg.sc-appflow-activator{transition:transform 0.2s}li.active.sc-appflow-activator h5.sc-appflow-activator{color:#010610}li.active.sc-appflow-activator p.sc-appflow-activator{color:#5B708B}li.active.sc-appflow-activator svg.sc-appflow-activator{transform:translateY(-2px)}.indicator.sc-appflow-activator{position:absolute;bottom:0;left:0;height:2px;width:0%;background-color:#6C89F7}.app-screenshot.sc-appflow-activator{margin-left:auto;margin-right:auto;display:flex;flex-direction:column;position:relative;z-index:5}.app-screenshot.sc-appflow-activator .images.sc-appflow-activator{position:relative;margin-inline-start:auto;margin-inline-end:auto}.app-screenshot.sc-appflow-activator .images__wrapper.sc-appflow-activator{position:relative;margin-inline-start:var(--space-3);margin-inline-end:var(--space-3)}.app-screenshot.sc-appflow-activator .screen.sc-appflow-activator{max-width:1152px;object-fit:contain;border-radius:16px;left:0;top:0;overflow:hidden;width:100%;opacity:0;transform:translateY(6px);animation-fill-mode:forwards}.app-screenshot.sc-appflow-activator .screen.animate-in.sc-appflow-activator{animation-timing-function:cubic-bezier(0.19, 1, 0.22, 1);animation-duration:1s;animation-name:animateIn;animation-delay:0.1s;z-index:15}.app-screenshot.sc-appflow-activator .screen.animate-out.sc-appflow-activator{animation-timing-function:ease;animation-duration:0.6s;animation-name:animateOut;z-index:10}@keyframes animateIn{from{opacity:0}to{opacity:1}}@keyframes animateOut{from{opacity:1}to{opacity:0}}";
 
 class AppflowActivator {
   constructor(hostRef) {
@@ -6754,7 +6754,7 @@ class AppflowActivator {
     this.duration = 6; //seconds
     this.indicators = [];
   }
-  componentWillLoad() {
+  componentDidLoad() {
     this.importGsap();
   }
   setIntersectionHelper() {
@@ -6823,7 +6823,7 @@ class AppflowActivator {
     this.start();
   }
   render() {
-    return (h(Host, null, h("div", { class: "app-screenshot" }, h("div", { class: "images" }, h("div", { class: "images__wrapper" }, this.screens.map((screen, i) => (h("img", { class: `screen ${i === this.currentScreen ? 'animate-in' : 'animate-out'}`, src: screen.image, width: "1153", height: "611", loading: i === 0 ? 'eager' : 'lazy', style: { 'position': i !== 0 ? 'absolute' : undefined } }))))), h("div", { class: "nav" }, h(ResponsiveContainer, null, h("ul", null, this.screens.map((screen, i) => h("li", { class: (i === this.currentScreen) ? 'active' : 'default', onMouseEnter: () => { this.override(i); this.tween.pause(); }, onMouseLeave: () => this.tween.play() }, screen.icon(i === this.currentScreen ? 'active' : 'default'), h(Heading, { level: 5 }, screen.name), h(Paragraph, { level: 4 }, screen.description), h("div", { class: "indicator", ref: (el) => this.indicators[i] = el })))))))));
+    return (h(Host, null, h("div", { class: "app-screenshot" }, h("div", { class: "images" }, h("div", { class: "images__wrapper" }, this.screens.map((screen, i) => (h("img", { class: `screen ${i === this.currentScreen ? 'animate-in' : 'animate-out'}`, src: screen.image, width: "2400", height: "1280", loading: i === 0 ? 'eager' : 'lazy', style: { 'position': i !== 0 ? 'absolute' : undefined } }))))), h("div", { class: "nav" }, h(ResponsiveContainer, null, h("ul", null, this.screens.map((screen, i) => h("li", { class: (i === this.currentScreen) ? 'active' : 'default', onMouseEnter: () => { this.override(i); this.tween.pause(); }, onMouseLeave: () => this.tween.play() }, screen.icon(i === this.currentScreen ? 'active' : 'default'), h(Heading, { level: 5 }, screen.name), h(Paragraph, { level: 4 }, screen.description), h("div", { class: "indicator", ref: (el) => this.indicators[i] = el })))))))));
   }
   static get assetsDirs() { return ["assets"]; }
   get el() { return getElement(this); }
@@ -6856,7 +6856,7 @@ class AppflowSiteRoutes {
     });
   }
   render() {
-    return (h(Host, null, h(Router.Switch, null, h(Route, { path: "/" }, h("landing-page", null)), h(Route, { path: "/why-appflow" }, h("why-appflow", null)), h(Route, { path: "/pricing" }, h("pricing-page", null)))));
+    return (h(Host, null, h(Router.Switch, null, h(Route, { path: "/" }, h("landing-page", null)), h(Route, { path: "/why-appflow" }, h("why-appflow", null)), h(Route, { path: "/pricing" }, h("pricing-page", null)), h(Route, { path: "/privacy-policy" }, h("markdown-page", { file: "privacy-policy" })), h(Route, { path: "/tos" }, h("markdown-page", { file: "tos" })))));
   }
   static get style() { return appflowSiteRoutesCss; }
   static get cmpMeta() { return {
@@ -7163,19 +7163,7 @@ var disqusCommentsExamples = /*#__PURE__*/Object.freeze({
   frameworkBlogPost: frameworkBlogPost
 });
 
-var hubspotForm_example = {
-    title: 'hubspot-form',
-    cols: 1
-};
-const frameworkBlogPost$1 = () => h("hubspot-form", { formId: '9151dc0b-42d9-479f-b7b8-649e0e7bd1bc', ajax: true, onFormSubmitted: () => alert('message recieved!') });
-
-var hubspotFormExamples = /*#__PURE__*/Object.freeze({
-  __proto__: null,
-  'default': hubspotForm_example,
-  frameworkBlogPost: frameworkBlogPost$1
-});
-
-var webExamples = { disqusCommentsExamples, hubspotFormExamples };
+var webExamples = { disqusCommentsExamples };
 
 function transformMethodName(str) {
     str = str.charAt(0).toUpperCase() + str.slice(1);
@@ -7254,7 +7242,7 @@ class ComponentList {
 }
 const listSection = (title, components) => (h("div", { class: "demo-container" }, h(Heading, null, title), h("ul", { class: "component-list" }, Object.keys(components).map(name => (h("li", null, h("a", Object.assign({}, href(`/overview/${components[name].default.title}`)), components[name].default.title)))))));
 
-const timestamp = "2020-08-11T22:13:12";
+const timestamp = "2020-08-07T21:28:44";
 const compiler = {
 	name: "@stencil/core",
 	version: "1.17.2",
@@ -7324,14 +7312,12 @@ const components = [
 		],
 		dependencies: [
 			"site-modal",
-			"disqus-comments",
-			"hubspot-form"
+			"disqus-comments"
 		],
 		dependencyGraph: {
 			"component-detail": [
 				"site-modal",
-				"disqus-comments",
-				"hubspot-form"
+				"disqus-comments"
 			],
 			"docs-root": [
 				"component-detail"
@@ -7367,14 +7353,12 @@ const components = [
 		],
 		dependencies: [
 			"site-modal",
-			"disqus-comments",
-			"hubspot-form"
+			"disqus-comments"
 		],
 		dependencyGraph: {
 			"component-list": [
 				"site-modal",
-				"disqus-comments",
-				"hubspot-form"
+				"disqus-comments"
 			],
 			"docs-root": [
 				"component-list"
@@ -7427,14 +7411,12 @@ const components = [
 		],
 		dependencies: [
 			"site-modal",
-			"disqus-comments",
-			"hubspot-form"
+			"disqus-comments"
 		],
 		dependencyGraph: {
 			"component-overview": [
 				"site-modal",
-				"disqus-comments",
-				"hubspot-form"
+				"disqus-comments"
 			],
 			"docs-root": [
 				"component-overview"
@@ -7561,8 +7543,7 @@ const components = [
 			],
 			"component-list": [
 				"site-modal",
-				"disqus-comments",
-				"hubspot-form"
+				"disqus-comments"
 			],
 			"shared-demo": [
 				"site-platform-bar",
@@ -7570,142 +7551,11 @@ const components = [
 			],
 			"component-overview": [
 				"site-modal",
-				"disqus-comments",
-				"hubspot-form"
+				"disqus-comments"
 			],
 			"component-detail": [
 				"site-modal",
-				"disqus-comments",
-				"hubspot-form"
-			]
-		}
-	},
-	{
-		filePath: "./src/web/components/hubspot-form/hubspot-form.tsx",
-		encapsulation: "none",
-		tag: "hubspot-form",
-		readme: "# hubspot-form\n\n\n",
-		docs: "",
-		docsTags: [
-		],
-		usage: {
-		},
-		props: [
-			{
-				name: "ajax",
-				type: "boolean",
-				mutable: false,
-				attr: "ajax",
-				reflectToAttr: false,
-				docs: "",
-				docsTags: [
-				],
-				"default": "false",
-				values: [
-					{
-						type: "boolean"
-					}
-				],
-				optional: false,
-				required: false
-			},
-			{
-				name: "formId",
-				type: "string",
-				mutable: false,
-				attr: "form-id",
-				reflectToAttr: false,
-				docs: "",
-				docsTags: [
-				],
-				values: [
-					{
-						type: "string"
-					}
-				],
-				optional: true,
-				required: false
-			},
-			{
-				name: "goToWebinarKey",
-				type: "string",
-				mutable: false,
-				attr: "go-to-webinar-key",
-				reflectToAttr: false,
-				docs: "",
-				docsTags: [
-				],
-				values: [
-					{
-						type: "string"
-					}
-				],
-				optional: true,
-				required: false
-			},
-			{
-				name: "portalId",
-				type: "string",
-				mutable: false,
-				attr: "portal-id",
-				reflectToAttr: false,
-				docs: "",
-				docsTags: [
-				],
-				"default": "'3776657'",
-				values: [
-					{
-						type: "string"
-					}
-				],
-				optional: false,
-				required: false
-			}
-		],
-		methods: [
-		],
-		events: [
-			{
-				event: "formSubmitted",
-				detail: "any",
-				bubbles: true,
-				cancelable: true,
-				composed: true,
-				docs: "",
-				docsTags: [
-				]
-			}
-		],
-		listeners: [
-			{
-				event: "message",
-				target: "window",
-				capture: false,
-				passive: false
-			}
-		],
-		styles: [
-		],
-		slots: [
-		],
-		parts: [
-		],
-		dependents: [
-			"component-detail",
-			"component-list",
-			"component-overview"
-		],
-		dependencies: [
-		],
-		dependencyGraph: {
-			"component-detail": [
-				"hubspot-form"
-			],
-			"component-list": [
-				"hubspot-form"
-			],
-			"component-overview": [
-				"hubspot-form"
+				"disqus-comments"
 			]
 		}
 	},
@@ -12254,14 +12104,14 @@ class DocsRoot {
   }; }
 }
 
-const getStartedSectionCss = ".sc-get-started-section-h{display:block;background:#212752;padding-block-start:120px;padding-block-end:119px}.ui-container.sc-get-started-section{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between}.heading-group.sc-get-started-section{flex-basis:640px}.ui-heading.sc-get-started-section{color:#fff;margin-block-end:7px}.ui-paragraph.sc-get-started-section{color:var(--c-lavender-50)}.cta.sc-get-started-section{display:inline-flex;align-items:center;justify-content:center;background:var(--c-lavender-60);color:#fff;padding:14px 16px;border-radius:var(--radius-4);font-size:16px;line-height:112%;font-weight:600;letter-spacing:-0.02em;margin-block-start:var(--space-6);margin-block-end:var(--space-2)}.cta.sc-get-started-section::after{content:\" ->\";white-space:pre;letter-spacing:0}";
+const getStartedSectionCss = ".sc-get-started-section-h{display:block;background:#212752;padding-block-start:120px;padding-block-end:119px}.ui-container.sc-get-started-section{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between}.heading-group.sc-get-started-section{flex-basis:640px}.ui-heading.sc-get-started-section{color:#fff;margin-block-end:7px}.ui-paragraph.sc-get-started-section{color:var(--c-lavender-50)}.cta.sc-get-started-section{display:inline-flex;align-items:center;justify-content:center;background:var(--c-lavender-60);color:#fff;padding:14px 16px;border-radius:var(--radius-4);font-size:16px;line-height:112%;font-weight:600;letter-spacing:-0.02em;margin-block-start:var(--space-6);margin-block-end:var(--space-2)}.cta.sc-get-started-section::after{content:\" ->\";white-space:pre;letter-spacing:0}.button.sc-get-started-section:hover,.button.sc-get-started-section:active,.button.sc-get-started-section:focus,.button.sc-get-started-section:focus-within{background:#839fff}";
 
 class GetStartedSection {
   constructor(hostRef) {
     registerInstance(this, hostRef);
   }
   render() {
-    return (h("section", null, h(ResponsiveContainer, null, h("div", { class: "heading-group" }, h(Heading, null, "Appflow is an integrated mobile DevOps platform for modern app teams and businesses."), h(Paragraph, { level: 1 }, "Ready to make life easier?")), h("a", { class: "cta", href: "https://ionicframework.com/signup?source=framework-products&product=appflow" }, "Get started - it's free to try"))));
+    return (h("section", null, h(ResponsiveContainer, null, h("div", { class: "heading-group" }, h(Heading, null, "Appflow is an integrated mobile DevOps platform for modern app teams and businesses."), h(Paragraph, { level: 1 }, "Ready to make life easier?")), h("a", { class: "cta button", href: "https://ionicframework.com/signup?source=framework-products&product=appflow" }, "Get started - it's free to try"))));
   }
   static get style() { return getStartedSectionCss; }
   static get cmpMeta() { return {
@@ -12269,121 +12119,6 @@ class GetStartedSection {
     "$tagName$": "get-started-section",
     "$members$": undefined,
     "$listeners$": undefined,
-    "$lazyBundleId$": "-",
-    "$attrsToReflect$": []
-  }; }
-}
-
-const hubspotFormCss = "hubspot-form{display:block;max-width:420px;margin:0 auto;font-weight:400}.hs-form-required{display:none}form fieldset.form-columns-2 .input{margin-right:12px}form.stacked .field{margin-bottom:4px}.hs-input,input.hs-input,select.hs-input{border:1px solid #e1e5ed;font-weight:500;border-radius:4px;transition:border-color 0.2s;box-shadow:none;outline:none;height:30px;padding:6px 12px;font-size:14px;line-height:1.428571429}.hs-input:placeholder,input.hs-input:placeholder,select.hs-input:placeholder{color:var(--c-carbon-60)}.hs-input:hover,.hs-input:focus,.hs-input:active,input.hs-input:hover,input.hs-input:focus,input.hs-input:active,select.hs-input:hover,select.hs-input:focus,select.hs-input:active{outline:none;border-color:var(--c-ionic-brand);box-shadow:none}.hs-input.hs-input.error,input.hs-input.hs-input.error,select.hs-input.hs-input.error{border-color:var(--c-red-60)}select.hs-input{height:44px;width:calc(100% + 6px) !important}textarea.hs-input{padding:12px;width:calc(100% + 3px) !important;min-height:192px}.hs_submit input.hs-button{display:block;margin:auto;cursor:pointer;font-size:13px;padding:10px 18px 10px;margin-right:-14px;margin-top:-36px;margin-left:auto;margin-right:auto;line-height:23px;float:right;font-weight:600;letter-spacing:0;text-transform:none;text-shadow:none;background:var(--c-ionic-brand);border:0;outline:0;transition:all 0.2s linear;box-shadow:0 1px 3px rgba(0, 0, 0, 0.12)}.hs_submit input.hs-button:hover{border:0;box-shadow:0 4px 8px rgba(0, 0, 0, 0.12);background:#5995fc;color:#fff;outline:0}.hs_submit input.hs-button:active,.hs_submit input.hs-button:active:not(.inactive):not(.link),.hs_submit input.hs-button:focus:not(.inactive){border:0;color:#fff;box-shadow:inset 0 1px 4px rgba(0, 0, 0, 0.2);background:#5995fc;outline:0}.submitted-message{font-size:18px;padding:34px 0 78px;text-align:center;display:flex;flex-direction:column;align-items:center;font-weight:400;color:#35af55;max-width:410px;background-color:white;margin:0 auto}.submitted-message:before{content:\"\";display:block;background-image:url(\"/img/checkmark-light-green.svg\");background-repeat:no-repeat;background-size:100%;width:42px;height:42px;margin-bottom:12px}.hubspot-override .hs-form{font-family:var(--f-family-system)}.hubspot-override .hs-form,.hubspot-override .hs-form fieldset,.hubspot-override .hs-form iframe{max-width:100%}.hubspot-override .hs-form .hs-form-field{margin-top:16px}.hubspot-override .hs-form label{margin-bottom:3px;color:var(--c-indigo-100);font-weight:600;font-size:13px;line-height:112%;letter-spacing:-0.02em}.hubspot-override .hs-form .hs-form-required{display:inline;color:#F45454;margin-left:4px}.hubspot-override .hs-form .hs-richtext{margin-top:8px}.hubspot-override .hs-form .hs-input,.hubspot-override .hs-form input.hs-input{transition:border 0.3s;font-weight:500;background-color:#fff;background-image:none;border:1px solid #CED6E0;line-height:1.12;border-radius:8px;padding:17px 16px;font-size:16px;margin-bottom:0;color:var(--c-carbon-90);letter-spacing:-0.01em}.hubspot-override .hs-form input.hs-input[type=number]{float:none}.hubspot-override .hs-form input.hs-input[type=text],.hubspot-override .hs-form input.hs-input[type=email],.hubspot-override .hs-form input.hs-input[type=tel]{height:auto;width:100%;float:none}.hubspot-override .hs-form input.hs-input[type=text]:focus,.hubspot-override .hs-form input.hs-input[type=email]:focus,.hubspot-override .hs-form input.hs-input[type=tel]:focus{border-color:#629eff}.hubspot-override .hs-form input.hs-input[type=radio],.hubspot-override .hs-form input.hs-input[type=checkbox]{height:auto;margin-right:8px}.hubspot-override .hs-form .hs-form-booleancheckbox-display{display:flex}.hubspot-override .hs-form select.hs-input{height:54px;padding-left:16px;appearance:none;-webkit-appearance:none;-moz-appearance:none;background-image:url(\"data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%220%22%20height%3D%2212%22%20viewBox%3D%220%200%2012%2012%22%3E%3Ctitle%3Edown-arrow%3C%2Ftitle%3E%3Cg%20fill%3D%22%23d0000f%22%3E%3Cpath%20d%3D%22M10.293%2C3.293%2C6%2C7.586%2C1.707%2C3.293A1%2C1%2C0%2C0%2C0%2C.293%2C4.707l5%2C5a1%2C1%2C0%2C0%2C0%2C1.414%2C0l5-5a1%2C1%2C0%2C1%2C0-1.414-1.414Z%22%20fill%3D%22%23445b78%22%3E%3C%2Fpath%3E%3C%2Fg%3E%3C%2Fsvg%3E\");background-size:0.6em;background-position:calc(100% - 1.3em) center;background-repeat:no-repeat}.hubspot-override .hs-form form fieldset.form-columns-2 .input{margin:0}.hubspot-override .hs-form fieldset.form-columns-2 .hs-form-field{padding:0 10px}.hubspot-override .hs-form fieldset.form-columns-2 .hs-form-field:first-child{padding-left:0}.hubspot-override .hs-form fieldset.form-columns-2 .hs-form-field:last-child{padding-right:0}.hubspot-override .hs-form .inputs-list,.hubspot-override .hs-form .hs-error-msgs{margin:0;padding:0;list-style-type:none}.hubspot-override .hs-form .inputs-list.multi-container{overflow:hidden}.hubspot-override .hs-form .inputs-list.multi-container li:nth-last-child(n+6):first-child,.hubspot-override .hs-form .inputs-list.multi-container li:nth-last-child(n+6):first-child~li{width:50%;float:left;padding-right:11px}.hubspot-override .hs-form .inputs-list.multi-container li:nth-last-child(n+6):first-child~li:nth-child(even){padding-right:0;padding-left:11px}.hubspot-override .hs-form .hs-form-checkbox-display{margin-top:4px;display:flex}.hubspot-override .hs-form .hs-form-checkbox-display .hs-input[type=checkbox]{margin-right:10px}.hubspot-override .hs-form .hs-form-checkbox-display span{font-size:15px;color:#505863}.hubspot-override .hs-form .hs-error-msg{margin:10px 0;display:inline-block;padding:0;font-size:14px;font-weight:500;color:var(--c-red-100)}.hubspot-override .hs-form .hs_submit{margin-top:30px}.hubspot-override .hs-form .hs_submit input.hs-button{transition:all 0.3s ease;margin:0;float:none;margin:auto;font-size:16px;font-weight:600;padding:17px 20px;vertical-align:middle;color:white;background:var(--c-blue-80);border-radius:8px;line-height:18px;letter-spacing:-0.02em}.hubspot-override .hs-form .hs_submit input.hs-button:hover{background:var(--c-blue-70);color:#fff;outline:none}@media (max-width: 768px){.hubspot-override .hs-form fieldset.form-columns-2 .hs-form-field{width:100%;float:none;padding:0}.hubspot-override .hs-form fieldset.form-columns-2 .hs-form-field+.hs-form-field{margin-top:24px}.hubspot-override .hs-form .inputs-list.multi-container li:nth-last-child(n+6):first-child,.hubspot-override .hs-form .inputs-list.multi-container li:nth-last-child(n+6):first-child~li{width:100%;float:none;padding-right:0}.hubspot-override .hs-form .inputs-list.multi-container li:nth-last-child(n+6):first-child~li:nth-child(even){padding-left:0}.hubspot-override .hs-form .hs_submit input.hs-button{width:100%}}.hubspot-override--large .hs-form label:not(.hs-form-booleancheckbox-display){text-transform:uppercase;font-size:12px;letter-spacing:0.05em;margin-bottom:6px}.hubspot-override--large .hs-form .hs-form-booleancheckbox-display{font-size:15px}.hubspot-override--large .hs-form .hs-richtext p span,.hubspot-override--large .hs-form .hs-richtext p a{font-size:15px}.hubspot-override--large .hs-form .hs-input,.hubspot-override--large .hs-form input.hs-input{padding:16px 20px 18px;font-size:18px}.hubspot-override--large .hs-form select.hs-input{text-indent:10px;height:60px}@-moz-document url-prefix(){.hubspot-override--large .hs-form select.hs-input{text-indent:0}}.hubspot-override--large .hs-form .hs-error-msgs label{font-size:11px;letter-spacing:0;text-transform:none}.hubspot-override--large .hs-form fieldset.form-columns-2 .hs-form-field{padding:0 20px}.hubspot-override--large .hs-form .hs_submit{text-align:center;padding-top:18px}.hubspot-override--large .hs-form .hs_submit input.hs-button{padding:22px 27px 24px;border-radius:6px}@media (max-width: 768px){.hubspot-override--large .hs-form fieldset.form-columns-2 .hs-form-field{padding:0}}.hubspot-override--measure{max-width:748px;margin-left:auto;margin-right:auto}";
-
-class HubspotForm {
-  constructor(hostRef) {
-    registerInstance(this, hostRef);
-    this.formSubmitted = createEvent(this, "formSubmitted", 7);
-    this.portalId = '3776657';
-    this.ajax = false;
-    this.error = null;
-    this.handleScriptLoad = () => {
-      requestAnimationFrame(() => {
-        window.hbspt.forms.create({
-          portalId: '3776657',
-          formId: this.formId,
-          target: `#${this.getFormElementId()}`,
-          goToWebinarWebinarKey: this.goToWebinarKey || '',
-          css: '',
-          onFormReady: this.handleFormReady,
-        });
-      });
-    };
-    this.handleFormReady = (_e, _c) => {
-      var _a, _b;
-      // Don't override the form if not using the ajax method
-      if (!this.ajax) {
-        return;
-      }
-      const formEl = (_a = this.el) === null || _a === void 0 ? void 0 : _a.querySelector(`#${this.getFormElementId()} form`);
-      if (!formEl) {
-        return;
-      }
-      formEl.addEventListener('submit', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        return false;
-      });
-      (_b = formEl.querySelector('input[type="submit"]')) === null || _b === void 0 ? void 0 : _b.addEventListener('click', (e) => {
-        this.submitForm(formEl);
-        e.preventDefault();
-      });
-    };
-    this.getFormElementId = () => `hbspt-form-${this.formId}`;
-    this.submitForm = async (form) => {
-      const data = new FormData(form);
-      try {
-        const ret = await fetch(form.getAttribute('action'), {
-          method: 'POST',
-          body: data,
-        });
-        if (ret.status !== 200) {
-          this.error = 'Error submitting form';
-        }
-        else {
-          // The response from hubspot is a script tag. I know, it's truly magnificent
-          const frame = document.createElement('iframe');
-          frame.srcdoc = await ret.text();
-          document.body.appendChild(frame);
-        }
-      }
-      catch (e) {
-        this.error = 'Unable to submit form';
-      }
-    };
-  }
-  componentDidUnload() {
-    var _a, _b;
-    (_b = (_a = this.scriptEl) === null || _a === void 0 ? void 0 : _a.parentNode) === null || _b === void 0 ? void 0 : _b.removeChild(this.scriptEl);
-  }
-  componentDidLoad() {
-    const script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.charset = 'utf-8';
-    script.src = '//js.hsforms.net/forms/v2.js';
-    script.addEventListener('load', this.handleScriptLoad);
-    this.scriptEl = script;
-    document.body.appendChild(script);
-  }
-  handleWindowMessage(e) {
-    var _a;
-    if (e.data && e.data.formGuid && this.ajax) {
-      // Don't let hubspot do anything
-      e.preventDefault();
-      e.stopImmediatePropagation();
-      if (e.data.accepted === true) {
-        (_a = this.formSubmitted) === null || _a === void 0 ? void 0 : _a.emit();
-      }
-      else if (e.data.accepted === false) {
-        this.error = 'Unable to submit. Please check your information and try again.';
-      }
-      else {
-        this.error = '';
-      }
-    }
-  }
-  render() {
-    return (h(Host, null, h("div", { class: "hubspot-override" }, h("div", { id: this.getFormElementId() })), this.error ? h("div", { class: "hs-error-msgs" }, this.error) : null));
-  }
-  get el() { return getElement(this); }
-  static get style() { return hubspotFormCss; }
-  static get cmpMeta() { return {
-    "$flags$": 0,
-    "$tagName$": "hubspot-form",
-    "$members$": {
-      "formId": [1, "form-id"],
-      "portalId": [1, "portal-id"],
-      "goToWebinarKey": [1, "go-to-webinar-key"],
-      "ajax": [4],
-      "error": [32]
-    },
-    "$listeners$": [[8, "message", "handleWindowMessage"]],
     "$lazyBundleId$": "-",
     "$attrsToReflect$": []
   }; }
@@ -12610,7 +12345,7 @@ const hrefClimber = (el) => {
     }
 };
 
-const internalAdCss = "internal-ad{max-width:148px;display:block;margin:48px 0 0}internal-ad p{font-size:13px;line-height:19px;font-weight:400;letter-spacing:0.02em;color:var(--c-indigo-100);transition:.2s color}internal-ad a:hover p{color:var(--c-indigo-90)}@media (max-width: 1233px){internal-ad{display:none}}";
+const internalAdCss = "internal-ad{max-width:148px;display:block;margin:48px 0 0}internal-ad p{font-size:13px;line-height:19px;font-weight:400;letter-spacing:0.02em;color:var(--text-color--dark);transition:.2s color}internal-ad a:hover p{color:var(--text-color)}@media (max-width: 1233px){internal-ad{display:none}}";
 
 class InternalAd {
   constructor(hostRef) {
@@ -12719,6 +12454,8 @@ const googleStoreCheckedIcon = ({ main = '#00C1F3', second = '#00DA68', third = 
   h("path", { fill: fifth, d: "M37 0c-4.41 0-8 3.75-8 8.35s3.59 8.35 8 8.35 8-3.75 8-8.35S41.41 0 37 0zm4.16 5.55L36 11.97a.62.62 0 01-.46.23.6.6 0 01-.47-.21l-2.21-2.57a.65.65 0 01-.17-.47.67.67 0 01.2-.45.6.6 0 01.46-.16.6.6 0 01.42.22l1.75 2.02 4.71-5.86a.6.6 0 01.86-.07.66.66 0 01.08.9z" })));
 const ibmLogo = ({ main = '#1F70C1' } = {}, props) => (h("svg", Object.assign({ viewBox: "0 0 52.53 21.56" }, props),
   h("path", { fill: main, d: "M53.32 1.75h-8.75l.56-1.53h8.19v1.53zM30 .22h8.12l.5 1.53H30V.22zM23.55.22a5.6 5.6 0 013.47 1.53H12.28V.22h11.27zM10.99.22H.79v1.53h10.2V.22zM53.32 4.6h-9.76l.5-1.54h9.2V4.6h.06zM39.7 4.6H30V3.12h9.13l.56 1.48zM28.2 3.12c.17.51.45.91.45 1.54H12.34V3.12H28.2zM10.99 3.12H.79v1.54h10.2V3.12zM42.6 7.5l.51-1.54h7.35V7.5H42.6zM40.14 5.96l.56 1.54h-7.79V5.96h7.23zM28.76 5.96c0 .52-.06 1.09-.22 1.54h-4.49V5.96h4.71zM8.02 5.96H3.65V7.5h4.37V5.96zM19.68 5.96H15.3V7.5h4.37V5.96zM37.23 9.15v1.14H32.9V8.75h8.24l.5 1.43.51-1.43h8.3v1.54h-4.32V9.15l-.4 1.14h-8.12l-.4-1.14zM15.3 8.81h12.62a6.43 6.43 0 01-1.23 1.54H15.36c-.05-.06-.05-1.54-.05-1.54zM8.02 8.81H3.65v1.54h4.37V8.8zM50.46 11.65h-4.32v1.54h4.32v-1.54zM37.23 11.65H32.9v1.54h4.32v-1.54zM45.3 11.65l-.5 1.54h-6.12l-.56-1.54h7.18zM15.3 11.65h11.33c.5.46 1.01.97 1.35 1.54H15.3v-1.54zM8.02 13.19v-1.54H3.65v1.54h4.37zM50.46 14.56h-4.32v1.53h4.32v-1.53zM37.23 14.56H32.9v1.53h4.32v-1.53zM43.73 16.1s.5-1.54.56-1.54h-5.21l.56 1.53h4.09zM15.3 16.04V14.5h4.44v1.54H15.3zM28.6 14.56c.22.45.22 1.02.27 1.53h-4.7v-1.53h4.42zM8.02 14.56H3.65v1.53h4.37v-1.53zM53.32 17.34h-7.18v1.54h7.18v-1.54zM37.17 17.34h-7.18v1.54h7.18v-1.54zM42.78 18.88h-2.19l-.56-1.54h3.25l-.5 1.54zM.79 17.34v1.54h10.2v-1.54H.79zM28.7 17.34c-.1.52-.22 1.14-.56 1.54h-15.8v-1.54H28.7zM41.77 21.72h-.17l-.56-1.47h1.29l-.56 1.47zM53.32 20.25h-7.18v1.53h7.18v-1.53zM12.34 21.72V20.2h14.8a5.75 5.75 0 01-3.82 1.53H12.34zM37.17 20.25h-7.18v1.53h7.18v-1.53zM10.99 20.25v1.53H.79v-1.53h10.2z" })));
+const linkedInLogo = ({ main = '#0072b1' } = {}, props) => (h("svg", Object.assign({ viewBox: "0 0 12 12" }, props),
+  h("path", { fill: main, d: "M11.04 0H1.03C.48 0 0 .4 0 .93v10.04C0 11.52.48 12 1.03 12h10c.56 0 .97-.49.97-1.03V.93c0-.54-.41-.93-.96-.93zM3.72 10H2V4.66h1.72V10zm-.8-6.16h-.01c-.55 0-.9-.4-.9-.92S2.36 2 2.92 2s.9.4.92.92c0 .52-.36.92-.93.92zM10 10H8.28V7.08c0-.7-.25-1.18-.87-1.18-.47 0-.76.32-.88.64-.05.1-.06.26-.06.42V10H4.75V4.66h1.72v.74c.25-.35.64-.87 1.55-.87 1.13 0 1.98.75 1.98 2.35V10z" })));
 const nasaLogo = ({ main = '#E72031' } = {}, props) => (h("svg", Object.assign({ viewBox: "0 0 71.29 18.75" }, props),
   h("path", { fill: main, d: "M14.55 19.38a4.99 4.99 0 01-4.83-3.43L6.45 5.06a.97.97 0 00-.93-.66c-.54 0-.98.4-.98.91v13.6H.5V5.31C.5 2.71 2.74.62 5.5.62c2.25 0 4.23 1.4 4.83 3.42l3.27 10.89c.12.39.5.66.94.66.54 0 .98-.4.98-.91V1.09h4.04v13.6c0 2.58-2.25 4.69-5.01 4.69zM47.41 18.91H36.53v-3.77H47.4c.96 0 1.74-.73 1.74-1.63 0-.9-.78-1.63-1.74-1.63h-5.04c-3.18 0-5.78-2.42-5.78-5.4 0-2.97 2.6-5.4 5.78-5.4h9.84v3.78h-9.84c-.96 0-1.74.73-1.74 1.62 0 .9.78 1.63 1.74 1.63h5.04c3.19 0 5.78 2.42 5.78 5.4 0 2.98-2.59 5.4-5.78 5.4z" }),
   h("path", { fill: main, d: "M66.57 3.86A4.99 4.99 0 0061.79.63c-2.19 0-4.1 1.3-4.78 3.23L51.77 18.9h4.25l4.83-13.87c.1-.32.44-.64.93-.64.5 0 .83.32.94.64l4.82 13.87h4.25L66.57 3.86zM33.36 3.86A4.99 4.99 0 0028.6.63c-2.19 0-4.1 1.3-4.78 3.23L18.57 18.9h4.25l4.82-13.87c.11-.32.45-.64.94-.64.5 0 .83.32.94.64l4.83 13.88h4.25L33.36 3.86z" })));
@@ -12771,6 +12508,8 @@ const triplePhoneIcon = ({ main = '#BFE4FF', second = '#97BDFF', third = '#597EF
   h("circle", { opacity: ".8", cx: "13", cy: "58", r: "2", fill: "#fff" }),
   h("circle", { opacity: ".7", cx: "32", cy: "50", r: "2", fill: "#fff" }),
   h("circle", { opacity: ".7", cx: "51", cy: "42", r: "2", fill: "#fff" })));
+const twitterLogo = ({ main = '#1DA1F2' } = {}, props) => (h("svg", Object.assign({ viewBox: "0.630000114440918 -0.003784056520089507 14.744999885559082 12.00379753112793" }, props),
+  h("path", { fill: main, d: "M15.375 1.422a6.116 6.116 0 01-1.738.478A3.036 3.036 0 0014.97.225c-.585.347-1.232.6-1.922.734A3.026 3.026 0 007.89 3.72 8.574 8.574 0 011.653.553a3.029 3.029 0 00.94 4.044c-.5-.013-.968-.15-1.374-.378v.037a3.028 3.028 0 002.428 2.969 3.045 3.045 0 01-.797.106c-.194 0-.384-.019-.569-.056A3.03 3.03 0 005.11 9.378a6.066 6.066 0 01-4.48 1.253A8.457 8.457 0 005.258 12c5.572 0 8.616-4.616 8.616-8.619 0-.131-.003-.262-.01-.39a6.158 6.158 0 001.51-1.57z" })));
 
 const apiURL$1 = 'https://ionicframeworkcom.prismic.io/api/v2';
 const getPage = async (prismicId) => {
@@ -12792,12 +12531,12 @@ const getPage = async (prismicId) => {
   }
 };
 
-const landingPageCss = ".sc-landing-page-h{--p2-color:var(--c-indigo-80);--p3-color:var(--c-indigo-80);--p4-color:var(--c-indigo-80);--poster1-color:#fff;--h1-color:#fff;--h2-color:var(--c-carbon-100);--h4-color:var(--c-carbon-100);--h5-color:var(--c-carbon-100);--h6-color:var(--c-lavender-70);--p2-color:var(--c-indigo-80);--p3-color:var(--c-indigo-80);--p4-color:var(--c-indigo-80)}a.sc-landing-page{color:var(--c-lavender-80)}.ui-heading-2.sc-landing-page{margin-block-end:var(--space-5)}.ui-heading-4.sc-landing-page{margin-block-end:var(--space-3)}.ui-heading-5.sc-landing-page{margin-block-end:var(--space-3)}.ui-heading-6.sc-landing-page{margin-block-end:var(--space-6)}#top.sc-landing-page{contain:content}#top.sc-landing-page .background.sc-landing-page{width:max(1800px, 100%);position:absolute;left:min(calc((100% - 1800px) / 2), 0px);z-index:-1}#top.sc-landing-page .heading-group.sc-landing-page{margin-inline-start:auto;margin-inline-end:auto;max-width:800px;min-height:326px;padding-block-start:var(--space-11);padding-block-end:74px;text-align:center}#top.sc-landing-page .heading-group.sc-landing-page .ui-paragraph.sc-landing-page{margin-block-start:var(--space-5);margin-block-end:var(--space-6);color:#fff}#top.sc-landing-page .heading-group.sc-landing-page .cta.sc-landing-page{display:inline-flex;padding:15px 16px;background:#fff;border-radius:var(--radius-4);justify-content:center;align-items:center;font-weight:600;font-size:14px;line-height:112%;letter-spacing:-0.02em}#top.sc-landing-page .heading-group.sc-landing-page .cta.sc-landing-page::after{content:\" ->\";font-size:18px;letter-spacing:0;white-space:pre}#companies.sc-landing-page{margin-block-start:160px}#companies.sc-landing-page .ui-heading.sc-landing-page{margin-block-end:var(--space-8);color:var(--c-indigo-70);text-align:center}#companies.sc-landing-page .logos.sc-landing-page{display:flex;margin-inline-start:auto;margin-inline-end:auto;margin-block-end:calc(-1 * var(--space-6));flex-grow:1;max-width:1019px;justify-content:space-between;align-items:center;flex-wrap:wrap}#companies.sc-landing-page .logos.sc-landing-page .wrapper.sc-landing-page{display:inline-grid;margin-block-end:var(--space-6);flex-grow:1;min-width:400px;grid-template-columns:repeat(auto-fit, minmax(64px, 1fr));row-gap:var(--space-6);justify-items:center;align-items:center}@media screen and (max-width: 1023px){#companies.sc-landing-page .logos.sc-landing-page .wrapper.sc-landing-page{flex-basis:400px;min-width:auto}}#companies.sc-landing-page .logos.sc-landing-page .wrapper.sc-landing-page:first-of-type{flex-grow:1.3333333333}#ship.sc-landing-page{margin-block-start:160px;margin-block-end:160px}#ship.sc-landing-page .ui-grid.sc-landing-page{row-gap:var(--space-9)}#ship.sc-landing-page .heading-group.sc-landing-page{margin-inline-start:auto;margin-inline-end:auto;margin-block-end:var(--space-11);max-width:736px;text-align:center}#ship.sc-landing-page .list.sc-landing-page .list-item.sc-landing-page svg.sc-landing-page{margin-block-end:var(--space-6)}#push.sc-landing-page{background:var(--c-indigo-0);padding-block-start:160px;contain:content}#push.sc-landing-page .ui-container.sc-landing-page{display:flex}#push.sc-landing-page .ui-grid.sc-landing-page{row-gap:var(--space-11)}#push.sc-landing-page .text.sc-landing-page{max-width:448px}#push.sc-landing-page .text.sc-landing-page .heading-group.sc-landing-page{margin-block-end:72px}#push.sc-landing-page .list.sc-landing-page{display:grid;grid-template-columns:repeat(auto-fit, minmax(0px, 192px));column-gap:var(--space-9)}#push.sc-landing-page .list.sc-landing-page .list-item.sc-landing-page svg.sc-landing-page{margin-block-end:var(--space-5)}#push.sc-landing-page .image.sc-landing-page{display:flex;flex-grow:1;position:relative;left:var(--space-5);flex-direction:column}@media screen and (max-width: 1215px){#push.sc-landing-page .image.sc-landing-page{left:0}}#push.sc-landing-page .image.sc-landing-page .icons.sc-landing-page{margin-block-end:var(--space-6)}#push.sc-landing-page .image.sc-landing-page .icons.sc-landing-page svg.sc-landing-page+svg.sc-landing-page{margin-inline-start:var(--space-5)}#push.sc-landing-page .image.sc-landing-page img.sc-landing-page{width:1092px;height:585px}#live.sc-landing-page{padding-block-start:160px;padding-block-end:160px;contain:content}#live.sc-landing-page .ui-container.sc-landing-page{display:flex;position:relative}#live.sc-landing-page .text.sc-landing-page{max-width:448px}#live.sc-landing-page .list.sc-landing-page{margin-block-start:var(--space-8)}#live.sc-landing-page .list.sc-landing-page .list-item.sc-landing-page{display:flex;align-items:center}#live.sc-landing-page .list.sc-landing-page .list-item.sc-landing-page svg.sc-landing-page{margin-inline-end:var(--space-3)}#live.sc-landing-page .list.sc-landing-page .list-item.sc-landing-page+.list-item.sc-landing-page{margin-block-start:var(--space-2)}#live.sc-landing-page phone-animator.sc-landing-page{flex-grow:1}@media screen and (max-width: 1023px){#live.sc-landing-page phone-animator.sc-landing-page{width:100%;height:100%;position:absolute;z-index:-1;opacity:0.07}}#native.sc-landing-page{background:var(--c-indigo-0);padding-block-start:160px;padding-block-end:160px}#native.sc-landing-page .ui-container.sc-landing-page{display:flex}#native.sc-landing-page .heading-group.sc-landing-page{margin-block-end:72px}#native.sc-landing-page .heading-group.sc-landing-page .ui-heading.sc-landing-page{max-width:576px}#native.sc-landing-page .heading-group.sc-landing-page .ui-paragraph.sc-landing-page{max-width:448px}#native.sc-landing-page .subtext.sc-landing-page{max-width:256px}#native.sc-landing-page .subtext.sc-landing-page svg.sc-landing-page{margin-block-end:var(--space-5)}#native.sc-landing-page .image.sc-landing-page{display:flex;flex-grow:1;position:relative;justify-content:center}@media screen and (max-width: 767px){#native.sc-landing-page .image.sc-landing-page{display:none}}#native.sc-landing-page .image__wrapper.sc-landing-page{width:auto;position:absolute;top:calc(50% + 150px);right:-150px;left:-250px;transform:translateY(-50%)}#native.sc-landing-page .image__wrapper.sc-landing-page img.sc-landing-page{max-width:857px}#automate.sc-landing-page{padding-block-start:160px;padding-block-end:302px;contain:content}@media screen and (max-width: 1023px){#automate.sc-landing-page{padding-block-end:0}}#automate.sc-landing-page .ui-container.sc-landing-page{display:flex}#automate.sc-landing-page .ui-grid.sc-landing-page{row-gap:var(--space-5)}#automate.sc-landing-page .ui-grid.sc-landing-page .ui-col.sc-landing-page:last-of-type{margin-block-end:-245px}#automate.sc-landing-page .heading-group.sc-landing-page .ui-heading.sc-landing-page{max-width:480px}#automate.sc-landing-page .heading-group.sc-landing-page .ui-paragraph.sc-landing-page{max-width:448px}#automate.sc-landing-page .subtext.sc-landing-page{margin-inline-start:var(--space-3);margin-block-start:var(--space-8);max-width:430px;position:relative}#automate.sc-landing-page .subtext.sc-landing-page::before{content:\" \";background:var(--c-lavender-70);width:2px;height:64px;position:absolute;top:50%;left:-16px;transform:translateY(-50%)}#automate.sc-landing-page .subtext.sc-landing-page strong.sc-landing-page{font-weight:500;color:var(--c-indigo-100)}#automate.sc-landing-page pipeline-animator.sc-landing-page{flex-grow:1}#managed.sc-landing-page{position:relative;padding-block-start:256px;padding-block-end:260px}#managed.sc-landing-page .ui-container.sc-landing-page{display:flex}#managed.sc-landing-page .text.sc-landing-page{max-width:448px}#managed.sc-landing-page .image.sc-landing-page{display:flex;flex-grow:1;position:relative;justify-content:center}@media screen and (max-width: 767px){#managed.sc-landing-page .image.sc-landing-page{display:none}}#managed.sc-landing-page .image__wrapper.sc-landing-page{width:auto;position:absolute;top:50%;right:-150px;left:-25px;transform:translateY(-50%)}#managed.sc-landing-page .image__wrapper.sc-landing-page img.sc-landing-page{max-width:827px}#experience.sc-landing-page{background:var(--c-purple-60);padding-block-start:160px;padding-block-end:160px}#experience.sc-landing-page .ui-grid.sc-landing-page{row-gap:var(--space-9)}#experience.sc-landing-page .title.sc-landing-page{margin-block-end:var(--space-9);max-width:740px}#experience.sc-landing-page .subtext.sc-landing-page .ui-heading.sc-landing-page{margin-block-end:var(--space-2)}#experience.sc-landing-page .subtext.sc-landing-page .ui-paragraph.sc-landing-page{margin-block-end:var(--space-6);color:var(--c-lavender-10)}#experience.sc-landing-page .ui-heading.sc-landing-page{color:#fff}#experience.sc-landing-page .cta.sc-landing-page{display:inline-flex;padding:14px 16px;background:#8C93FF;color:#fff;border-radius:var(--radius-4);justify-content:center;align-items:center;font-weight:600;font-size:14px;line-height:112%;letter-spacing:-0.02em}#experience.sc-landing-page .cta.sc-landing-page::after{content:\" ->\";letter-spacing:0;white-space:pre}#experience.sc-landing-page .list-item.sc-landing-page{display:flex;align-items:center}#experience.sc-landing-page .list-item.sc-landing-page+.list-item.sc-landing-page{margin-block-start:14px}#experience.sc-landing-page .list-item.sc-landing-page svg.sc-landing-page{margin-inline-end:var(--space-3);min-width:16px;min-height:16px}#experience.sc-landing-page .list-item.sc-landing-page .ui-paragraph.sc-landing-page{color:var(--c-lavender-0)}#get-started.sc-landing-page{background:#212752;padding-block-start:120px;padding-block-end:119px}#get-started.sc-landing-page .ui-heading.sc-landing-page{margin-block-end:7px;color:#fff}#get-started.sc-landing-page .ui-paragraph.sc-landing-page{color:var(--c-lavender-50)}#get-started.sc-landing-page .cta.sc-landing-page{display:inline-flex;padding:14px 16px;background:var(--c-lavender-60);color:#fff;border-radius:var(--radius-4);justify-content:center;align-items:center;font-weight:600;font-size:16px;line-height:112%;letter-spacing:-0.02em}#get-started.sc-landing-page .cta.sc-landing-page::after{content:\" ->\";letter-spacing:0;white-space:pre}";
+const landingPageCss = ".sc-landing-page-h{--p2-color:var(--c-indigo-80);--p3-color:var(--c-indigo-80);--p4-color:var(--c-indigo-80);--poster1-color:#fff;--h1-color:#fff;--h2-color:var(--c-carbon-100);--h4-color:var(--c-carbon-100);--h5-color:var(--c-carbon-100);--h6-color:var(--c-lavender-70);--p2-color:var(--c-indigo-80);--p3-color:var(--c-indigo-80);--p4-color:var(--c-indigo-80)}a.sc-landing-page{color:var(--c-lavender-80)}.ui-heading-2.sc-landing-page{margin-block-end:var(--space-5)}.ui-heading-4.sc-landing-page{margin-block-end:var(--space-3)}.ui-heading-5.sc-landing-page{margin-block-end:var(--space-3)}.ui-heading-6.sc-landing-page{margin-block-end:var(--space-6)}#top.sc-landing-page{contain:content}#top.sc-landing-page .background.sc-landing-page{width:max(1800px, 100%);position:absolute;left:min(calc((100% - 1800px) / 2), 0px);z-index:-1}#top.sc-landing-page .heading-group.sc-landing-page{margin-inline-start:auto;margin-inline-end:auto;max-width:800px;min-height:326px;padding-block-start:var(--space-11);padding-block-end:74px;text-align:center}#top.sc-landing-page .heading-group.sc-landing-page .ui-paragraph.sc-landing-page{margin-block-start:var(--space-5);margin-block-end:var(--space-6);color:#fff}#top.sc-landing-page .heading-group.sc-landing-page .cta.sc-landing-page{display:inline-flex;padding:15px 16px;background:#fff;border-radius:var(--radius-4);justify-content:center;align-items:center;font-weight:600;font-size:14px;line-height:112%;letter-spacing:-0.02em}#top.sc-landing-page .heading-group.sc-landing-page .cta.sc-landing-page::after{content:\" ->\";font-size:18px;letter-spacing:0;white-space:pre}#companies.sc-landing-page{margin-block-start:160px}#companies.sc-landing-page .ui-heading.sc-landing-page{margin-block-end:var(--space-8);color:var(--c-indigo-70);text-align:center}#companies.sc-landing-page .logos.sc-landing-page{display:flex;margin-inline-start:auto;margin-inline-end:auto;margin-block-end:calc(-1 * var(--space-6));flex-grow:1;max-width:1019px;justify-content:space-between;align-items:center;flex-wrap:wrap}#companies.sc-landing-page .logos.sc-landing-page .wrapper.sc-landing-page{display:inline-grid;margin-block-end:var(--space-6);flex-grow:1;min-width:400px;grid-template-columns:repeat(auto-fit, minmax(64px, 1fr));row-gap:var(--space-6);justify-items:center;align-items:center}@media screen and (max-width: 1023px){#companies.sc-landing-page .logos.sc-landing-page .wrapper.sc-landing-page{flex-basis:400px;min-width:auto}}#companies.sc-landing-page .logos.sc-landing-page .wrapper.sc-landing-page:first-of-type{flex-grow:1.3333333333}#ship.sc-landing-page{margin-block-start:160px;margin-block-end:160px}#ship.sc-landing-page .ui-grid.sc-landing-page{row-gap:var(--space-9)}#ship.sc-landing-page .heading-group.sc-landing-page{margin-inline-start:auto;margin-inline-end:auto;margin-block-end:var(--space-11);max-width:736px;text-align:center}#ship.sc-landing-page .list.sc-landing-page .list-item.sc-landing-page svg.sc-landing-page{margin-block-end:var(--space-6)}#push.sc-landing-page{background:var(--c-indigo-10);padding-block-start:160px;contain:content}@media screen and (max-width: 1023px){#push.sc-landing-page{padding-block-end:160px}}@media screen and (max-width: 767px){#push.sc-landing-page{padding-block-end:0}}#push.sc-landing-page .ui-container.sc-landing-page{display:flex}#push.sc-landing-page .ui-grid.sc-landing-page{row-gap:var(--space-11)}#push.sc-landing-page .text.sc-landing-page{max-width:448px}#push.sc-landing-page .text.sc-landing-page .heading-group.sc-landing-page{margin-block-end:72px}#push.sc-landing-page .list.sc-landing-page{display:grid;grid-template-columns:repeat(auto-fit, minmax(0px, 192px));column-gap:var(--space-9);row-gap:var(--space-6)}#push.sc-landing-page .list.sc-landing-page .list-item.sc-landing-page svg.sc-landing-page{margin-block-end:var(--space-5)}#push.sc-landing-page .image.sc-landing-page{display:flex;flex-grow:1;position:relative;left:var(--space-5);flex-direction:column}@media screen and (max-width: 1215px){#push.sc-landing-page .image.sc-landing-page{left:0}}#push.sc-landing-page .image.sc-landing-page .icons.sc-landing-page{margin-block-end:var(--space-6)}#push.sc-landing-page .image.sc-landing-page .icons.sc-landing-page svg.sc-landing-page+svg.sc-landing-page{margin-inline-start:var(--space-5)}#push.sc-landing-page .image.sc-landing-page img.sc-landing-page{width:1092px;height:585px}#live.sc-landing-page{padding-block-start:160px;padding-block-end:160px;overflow:hidden;contain:content}#live.sc-landing-page .ui-container.sc-landing-page{display:flex;position:relative}#live.sc-landing-page .text.sc-landing-page{max-width:448px}#live.sc-landing-page .list.sc-landing-page{margin-block-start:var(--space-8)}#live.sc-landing-page .list.sc-landing-page .list-item.sc-landing-page{display:flex;align-items:center}#live.sc-landing-page .list.sc-landing-page .list-item.sc-landing-page svg.sc-landing-page{margin-inline-end:var(--space-3)}#live.sc-landing-page .list.sc-landing-page .list-item.sc-landing-page+.list-item.sc-landing-page{margin-block-start:var(--space-2)}#live.sc-landing-page phone-animator.sc-landing-page{flex-grow:1}@media screen and (max-width: 1023px){#live.sc-landing-page phone-animator.sc-landing-page{width:100%;height:100%;position:absolute;z-index:-1;opacity:0.07}}#native.sc-landing-page{background:var(--c-indigo-10);padding-block-start:160px;padding-block-end:160px}#native.sc-landing-page .ui-container.sc-landing-page{display:flex}#native.sc-landing-page .heading-group.sc-landing-page{margin-block-end:72px}#native.sc-landing-page .heading-group.sc-landing-page .ui-heading.sc-landing-page{max-width:576px}#native.sc-landing-page .heading-group.sc-landing-page .ui-paragraph.sc-landing-page{max-width:448px}#native.sc-landing-page .subtext.sc-landing-page{max-width:256px}#native.sc-landing-page .subtext.sc-landing-page svg.sc-landing-page{margin-block-end:var(--space-5)}#native.sc-landing-page .image.sc-landing-page{display:flex;flex-grow:1;position:relative;justify-content:center}@media screen and (max-width: 767px){#native.sc-landing-page .image.sc-landing-page{display:none}}#native.sc-landing-page .image__wrapper.sc-landing-page{width:auto;position:absolute;top:calc(50% + 150px);right:-150px;left:-250px;transform:translateY(-50%)}#native.sc-landing-page .image__wrapper.sc-landing-page img.sc-landing-page{max-width:857px}#automate.sc-landing-page{padding-block-start:160px;padding-block-end:302px;contain:content}@media screen and (max-width: 1023px){#automate.sc-landing-page{padding-block-end:0}}#automate.sc-landing-page .ui-container.sc-landing-page{display:flex}#automate.sc-landing-page .ui-grid.sc-landing-page{row-gap:var(--space-5)}#automate.sc-landing-page .ui-grid.sc-landing-page .ui-col.sc-landing-page:last-of-type{margin-block-end:-245px}#automate.sc-landing-page .heading-group.sc-landing-page .ui-heading.sc-landing-page{max-width:480px}#automate.sc-landing-page .heading-group.sc-landing-page .ui-paragraph.sc-landing-page{max-width:448px}#automate.sc-landing-page .subtext.sc-landing-page{margin-inline-start:var(--space-3);margin-block-start:var(--space-8);max-width:430px;position:relative}#automate.sc-landing-page .subtext.sc-landing-page::before{content:\" \";background:var(--c-lavender-70);width:2px;height:64px;position:absolute;top:50%;left:-16px;transform:translateY(-50%)}#automate.sc-landing-page .subtext.sc-landing-page strong.sc-landing-page{font-weight:500;color:var(--c-indigo-100)}#automate.sc-landing-page pipeline-animator.sc-landing-page{flex-grow:1}#managed.sc-landing-page{background:var(--c-indigo-10);position:relative;padding-block-start:256px;padding-block-end:260px}#managed.sc-landing-page .ui-container.sc-landing-page{display:flex}#managed.sc-landing-page .text.sc-landing-page{max-width:448px}#managed.sc-landing-page .image.sc-landing-page{display:flex;flex-grow:1;position:relative;justify-content:center}@media screen and (max-width: 767px){#managed.sc-landing-page .image.sc-landing-page{display:none}}#managed.sc-landing-page .image__wrapper.sc-landing-page{width:auto;position:absolute;top:50%;right:-300px;left:-25px;transform:translateY(-50%)}#experience.sc-landing-page{background:var(--c-purple-60);padding-block-start:160px;padding-block-end:160px}#experience.sc-landing-page .ui-grid.sc-landing-page{row-gap:var(--space-9)}#experience.sc-landing-page .title.sc-landing-page{margin-block-end:var(--space-9);max-width:740px}#experience.sc-landing-page .subtext.sc-landing-page .ui-heading.sc-landing-page{margin-block-end:var(--space-2)}#experience.sc-landing-page .subtext.sc-landing-page .ui-paragraph.sc-landing-page{margin-block-end:var(--space-6);color:var(--c-lavender-10)}#experience.sc-landing-page .ui-heading.sc-landing-page{color:#fff}#experience.sc-landing-page .cta.sc-landing-page{display:inline-flex;padding:14px 16px;background:#8C93FF;color:#fff;border-radius:var(--radius-4);justify-content:center;align-items:center;font-weight:600;font-size:14px;line-height:112%;letter-spacing:-0.02em}#experience.sc-landing-page .cta.sc-landing-page::after{content:\" ->\";letter-spacing:0;white-space:pre}#experience.sc-landing-page .button.sc-landing-page:hover,#experience.sc-landing-page .button.sc-landing-page:active,#experience.sc-landing-page .button.sc-landing-page:focus,#experience.sc-landing-page .button.sc-landing-page:focus-within{background:#969dff}#experience.sc-landing-page .list__wrapper.sc-landing-page{display:flex;align-items:flex-end;flex-direction:column}@media screen and (max-width: 1023px){#experience.sc-landing-page .list__wrapper.sc-landing-page{align-items:flex-start}}#experience.sc-landing-page .list-item.sc-landing-page{display:flex;align-items:center}#experience.sc-landing-page .list-item.sc-landing-page+.list-item.sc-landing-page{margin-block-start:14px}#experience.sc-landing-page .list-item.sc-landing-page svg.sc-landing-page{margin-inline-end:var(--space-3);min-width:16px;min-height:16px}#experience.sc-landing-page .list-item.sc-landing-page .ui-paragraph.sc-landing-page{color:var(--c-lavender-0)}#get-started.sc-landing-page{background:#212752;padding-block-start:120px;padding-block-end:119px}#get-started.sc-landing-page .ui-heading.sc-landing-page{margin-block-end:7px;color:#fff}#get-started.sc-landing-page .ui-paragraph.sc-landing-page{color:var(--c-lavender-50)}#get-started.sc-landing-page .cta.sc-landing-page{display:inline-flex;padding:14px 16px;background:var(--c-lavender-60);color:#fff;border-radius:var(--radius-4);justify-content:center;align-items:center;font-weight:600;font-size:16px;line-height:112%;letter-spacing:-0.02em}#get-started.sc-landing-page .cta.sc-landing-page::after{content:\" ->\";letter-spacing:0;white-space:pre}";
 
 class LandingPage {
   constructor(hostRef) {
     registerInstance(this, hostRef);
-    this.render = () => (h(Host, null, h("header", null, h("appflow-site-header", null)), h("main", null, h(Top, null), h(Companies, null), h(Ship, null), h(Push, null), h(Live, null), h(Native, null), h(Automate, null), h(Managed, null), h(Experience, null), h("get-started-section", null)), h("footer", null, h("appflow-site-footer", null))));
+    this.render = () => (h(Host, null, h(Top, null), h(Companies, null), h(Ship, null), h(Push, null), h(Live, null), h(Native, null), h(Automate, null), h(Managed, null), h(Experience, null), h("get-started-section", null)));
   }
   async componentWillLoad() {
     await getPage('appflow_homepage');
@@ -12815,7 +12554,7 @@ class LandingPage {
 }
 const Top = () => {
   const { top, top__cta } = state.pageData;
-  return (h("section", { id: "top" }, h("svg", { class: "background", viewBox: "0 0 1600 992", xmlns: "http://www.w3.org/2000/svg" }, h("rect", { width: "1600", height: "992", fill: "url(#landing_bg_paint1_linear)" }), h("path", { d: "M1298.04 97.309L1494.1 970.579L1066.48 878.169L859.254 53.3663L1298.04 97.309Z", fill: "url(#landing_bg_paint3_linear)", "fill-opacity": "0.12" }), h("path", { d: "M1665.55 102.568L1760.72 1044.29L1304.71 873.559L1209.54 -68.1665L1665.55 102.568Z", fill: "url(#landing_bg_paint4_linear)", "fill-opacity": "0.08" }), h("path", { d: "M996.453 199.416L1325.18 982.749L887.983 955.103L559.252 171.77L996.453 199.416Z", fill: "url(#landing_bg_paint5_linear)", "fill-opacity": "0.1" }), h("path", { d: "M753.376 310.796L1135.39 1073.31L690.115 1071.58L308.1 309.07L753.376 310.796Z", fill: "url(#landing_bg_paint6_linear)", "fill-opacity": "0.1" }), h("path", { d: "M555.833 445.941L991.857 1178.91L547.616 1209.31L111.592 476.339L555.833 445.941Z", fill: "url(#landing_bg_paint7_linear)", "fill-opacity": "0.1" }), h("path", { d: "M389.921 598.053L857.694 1311.18L415.215 1361.05L-52.5576 647.919L389.921 598.053Z", fill: "url(#landing_bg_paint8_linear)", "fill-opacity": "0.1" }), h("path", { d: "M244.912 756.619L712.685 1469.75L270.206 1519.61L-197.567 806.485L244.912 756.619Z", fill: "url(#landing_bg_paint9_linear)", "fill-opacity": "0.1" }), h("defs", null, h("linearGradient", { id: "landing_bg_paint1_linear", x1: "0", y1: "496", x2: "1600", y2: "496", gradientUnits: "userSpaceOnUse" }, h("stop", { "stop-color": "#634CF2" }), h("stop", { offset: "1", "stop-color": "#67A5F8" })), h("linearGradient", { id: "landing_bg_paint2_linear", x1: "0", y1: "496", x2: "1600", y2: "496", gradientUnits: "userSpaceOnUse" }, h("stop", { "stop-color": "#634CF2" }), h("stop", { offset: "1", "stop-color": "#6799F8" })), h("linearGradient", { id: "landing_bg_paint3_linear", x1: "941.605", y1: "385.074", x2: "1301.97", y2: "330.074", gradientUnits: "userSpaceOnUse" }, h("stop", { "stop-color": "white" }), h("stop", { offset: "1", "stop-color": "white", "stop-opacity": "0" })), h("linearGradient", { id: "landing_bg_paint4_linear", x1: "1246.73", y1: "310.405", x2: "1652.44", y2: "307.959", gradientUnits: "userSpaceOnUse" }, h("stop", { "stop-color": "white" }), h("stop", { offset: "1", "stop-color": "white", "stop-opacity": "0" })), h("linearGradient", { id: "landing_bg_paint5_linear", x1: "690.478", y1: "486.947", x2: "1050.11", y2: "343.353", gradientUnits: "userSpaceOnUse" }, h("stop", { "stop-color": "white" }), h("stop", { offset: "1", "stop-color": "white", "stop-opacity": "0" })), h("linearGradient", { id: "landing_bg_paint6_linear", x1: "460.75", y1: "615.931", x2: "820.393", y2: "452.104", gradientUnits: "userSpaceOnUse" }, h("stop", { "stop-color": "white" }), h("stop", { offset: "1", "stop-color": "white", "stop-opacity": "0" })), h("linearGradient", { id: "landing_bg_paint7_linear", x1: "285.98", y1: "771.39", x2: "632.869", y2: "582.046", gradientUnits: "userSpaceOnUse" }, h("stop", { "stop-color": "white" }), h("stop", { offset: "1", "stop-color": "white", "stop-opacity": "0" })), h("linearGradient", { id: "landing_bg_paint8_linear", x1: "134.612", y1: "935.032", x2: "472.856", y2: "730.646", gradientUnits: "userSpaceOnUse" }, h("stop", { "stop-color": "white" }), h("stop", { offset: "1", "stop-color": "white", "stop-opacity": "0" })), h("linearGradient", { id: "landing_bg_paint9_linear", x1: "-10.397", y1: "1093.6", x2: "327.847", y2: "889.212", gradientUnits: "userSpaceOnUse" }, h("stop", { "stop-color": "white" }), h("stop", { offset: "1", "stop-color": "white", "stop-opacity": "0" })))), h(ResponsiveContainer, null, h("div", { class: "heading-group" }, h(Breakpoint, { sm: true }, h(PrismicRichText, { richText: top, poster: true, paragraphLevel: 2 })), h(Breakpoint, { xs: true, sm: false }, h(PrismicRichText, { richText: top, paragraphLevel: 2 })), h("a", { href: "https://ionicframework.com/signup?source=framework-products&product=appflow", class: "cta" }, top__cta))), h("appflow-activator", null)));
+  return (h("section", { id: "top" }, h("svg", { class: "background", viewBox: "0 0 1600 992", xmlns: "http://www.w3.org/2000/svg" }, h("rect", { width: "1600", height: "992", fill: "url(#landing_bg_paint1_linear)" }), h("path", { d: "M1298.04 97.309L1494.1 970.579L1066.48 878.169L859.254 53.3663L1298.04 97.309Z", fill: "url(#landing_bg_paint3_linear)", "fill-opacity": "0.12" }), h("path", { d: "M1665.55 102.568L1760.72 1044.29L1304.71 873.559L1209.54 -68.1665L1665.55 102.568Z", fill: "url(#landing_bg_paint4_linear)", "fill-opacity": "0.08" }), h("path", { d: "M996.453 199.416L1325.18 982.749L887.983 955.103L559.252 171.77L996.453 199.416Z", fill: "url(#landing_bg_paint5_linear)", "fill-opacity": "0.1" }), h("path", { d: "M753.376 310.796L1135.39 1073.31L690.115 1071.58L308.1 309.07L753.376 310.796Z", fill: "url(#landing_bg_paint6_linear)", "fill-opacity": "0.1" }), h("path", { d: "M555.833 445.941L991.857 1178.91L547.616 1209.31L111.592 476.339L555.833 445.941Z", fill: "url(#landing_bg_paint7_linear)", "fill-opacity": "0.1" }), h("path", { d: "M389.921 598.053L857.694 1311.18L415.215 1361.05L-52.5576 647.919L389.921 598.053Z", fill: "url(#landing_bg_paint8_linear)", "fill-opacity": "0.1" }), h("path", { d: "M244.912 756.619L712.685 1469.75L270.206 1519.61L-197.567 806.485L244.912 756.619Z", fill: "url(#landing_bg_paint9_linear)", "fill-opacity": "0.1" }), h("defs", null, h("linearGradient", { id: "landing_bg_paint1_linear", x1: "0", y1: "496", x2: "1600", y2: "496", gradientUnits: "userSpaceOnUse" }, h("stop", { "stop-color": "#634CF2" }), h("stop", { offset: "1", "stop-color": "#67A5F8" })), h("linearGradient", { id: "landing_bg_paint2_linear", x1: "0", y1: "496", x2: "1600", y2: "496", gradientUnits: "userSpaceOnUse" }, h("stop", { "stop-color": "#634CF2" }), h("stop", { offset: "1", "stop-color": "#6799F8" })), h("linearGradient", { id: "landing_bg_paint3_linear", x1: "941.605", y1: "385.074", x2: "1301.97", y2: "330.074", gradientUnits: "userSpaceOnUse" }, h("stop", { "stop-color": "white" }), h("stop", { offset: "1", "stop-color": "white", "stop-opacity": "0" })), h("linearGradient", { id: "landing_bg_paint4_linear", x1: "1246.73", y1: "310.405", x2: "1652.44", y2: "307.959", gradientUnits: "userSpaceOnUse" }, h("stop", { "stop-color": "white" }), h("stop", { offset: "1", "stop-color": "white", "stop-opacity": "0" })), h("linearGradient", { id: "landing_bg_paint5_linear", x1: "690.478", y1: "486.947", x2: "1050.11", y2: "343.353", gradientUnits: "userSpaceOnUse" }, h("stop", { "stop-color": "white" }), h("stop", { offset: "1", "stop-color": "white", "stop-opacity": "0" })), h("linearGradient", { id: "landing_bg_paint6_linear", x1: "460.75", y1: "615.931", x2: "820.393", y2: "452.104", gradientUnits: "userSpaceOnUse" }, h("stop", { "stop-color": "white" }), h("stop", { offset: "1", "stop-color": "white", "stop-opacity": "0" })), h("linearGradient", { id: "landing_bg_paint7_linear", x1: "285.98", y1: "771.39", x2: "632.869", y2: "582.046", gradientUnits: "userSpaceOnUse" }, h("stop", { "stop-color": "white" }), h("stop", { offset: "1", "stop-color": "white", "stop-opacity": "0" })), h("linearGradient", { id: "landing_bg_paint8_linear", x1: "134.612", y1: "935.032", x2: "472.856", y2: "730.646", gradientUnits: "userSpaceOnUse" }, h("stop", { "stop-color": "white" }), h("stop", { offset: "1", "stop-color": "white", "stop-opacity": "0" })), h("linearGradient", { id: "landing_bg_paint9_linear", x1: "-10.397", y1: "1093.6", x2: "327.847", y2: "889.212", gradientUnits: "userSpaceOnUse" }, h("stop", { "stop-color": "white" }), h("stop", { offset: "1", "stop-color": "white", "stop-opacity": "0" })))), h(ResponsiveContainer, null, h("div", { class: "heading-group" }, h(Breakpoint, { sm: true }, h(PrismicRichText, { richText: top, poster: true, paragraphLevel: 2 })), h(Breakpoint, { xs: true, sm: false }, h(PrismicRichText, { richText: top, paragraphLevel: 2 })), h("a", { class: "cta button", href: "https://ionicframework.com/signup?source=framework-products&product=appflow" }, top__cta))), h("appflow-activator", null)));
 };
 const Companies = () => {
   const { companies } = state.pageData;
@@ -12836,7 +12575,7 @@ const Push = () => {
     publishingIcon({}, { width: 48, height: 48 }),
     appleCloudIcon({}, { width: 48, height: 48 })
   ];
-  return (h("section", { id: "push" }, h("div", { class: "push__wrapper" }, h(ResponsiveContainer, null, h(Grid, null, h(Col, { class: "text", cols: 12, lg: 6 }, h("div", { class: "heading-group" }, h(PrismicRichText, { richText: push, paragraphLevel: 2 })), h("ul", { class: "list" }, push__list.map(({ content }, i) => (h("li", { class: "list-item" }, icons[i], h(PrismicRichText, { richText: content, paragraphLevel: 4 })))))), h(Col, { class: "image", cols: 12, lg: 6 }, h("div", { class: "icons" }, appleStoreCheckedIcon({}, { width: 52, height: 52 }), testflightLogo({}, { width: 52, height: 52 }), googleStoreCheckedIcon({}, { width: 52, height: 52 })), h("img", { src: getAssetPath('assets/push@2x.png'), srcset: `${getAssetPath('assets/push.png')}, ${getAssetPath('assets/push@2x.png')} 2x`, loading: "lazy", width: "1568", height: "1234" })))))));
+  return (h("section", { id: "push" }, h("div", { class: "push__wrapper" }, h(ResponsiveContainer, null, h(Grid, null, h(Col, { class: "text", cols: 12, sm: 6 }, h("div", { class: "heading-group" }, h(PrismicRichText, { richText: push, paragraphLevel: 2 })), h("ul", { class: "list" }, push__list.map(({ content }, i) => (h("li", { class: "list-item" }, icons[i], h(PrismicRichText, { richText: content, paragraphLevel: 4 })))))), h(Col, { class: "image", cols: 12, sm: 6 }, h("div", { class: "icons" }, appleStoreCheckedIcon({}, { width: 52, height: 52 }), testflightLogo({}, { width: 52, height: 52 }), googleStoreCheckedIcon({}, { width: 52, height: 52 })), h("img", { src: getAssetPath('assets/push@2x.png'), srcset: `${getAssetPath('assets/push.png')}, ${getAssetPath('assets/push@2x.png')} 2x`, loading: "lazy", width: "1568", height: "1234" })))))));
 };
 const Live = () => {
   const { live, live__list } = state.pageData;
@@ -12857,8 +12596,3962 @@ const Managed = () => {
 };
 const Experience = () => {
   const { experience__title, experience__subtext, experience__cta, experience__list } = state.pageData;
-  return (h("section", { id: "experience" }, h(ResponsiveContainer, null, h(PrismicRichText, { class: "title", richText: experience__title }), h(Grid, null, h(Col, { class: "subtext", xs: 12, md: 5 }, h(PrismicRichText, { richText: experience__subtext, paragraphLevel: 2 }), h("a", { href: "/why-appflow", class: "cta" }, experience__cta)), h(Col, { xs: 12, md: 6 }, h("ul", { class: "list" }, experience__list.map(({ content }) => (h("li", { class: "list-item" }, checkmarkCircle({ main: '#8C93FF' }, { width: 16, height: 16 }), h(Paragraph, null, content))))))))));
+  return (h("section", { id: "experience" }, h(ResponsiveContainer, null, h(PrismicRichText, { class: "title", richText: experience__title }), h(Grid, null, h(Col, { class: "subtext", xs: 12, md: 5 }, h(PrismicRichText, { richText: experience__subtext, paragraphLevel: 2 }), h("a", { href: "/why-appflow", class: "cta button" }, experience__cta)), h(Col, { xs: 12, md: 7 }, h("div", { class: "list__wrapper" }, h("ul", { class: "list" }, experience__list.map(({ content }) => (h("li", { class: "list-item" }, checkmarkCircle({ main: '#8C93FF' }, { width: 16, height: 16 }), h(Paragraph, null, content)))))))))));
 };
+
+function isNothing(subject) {
+  return (typeof subject === 'undefined') || (subject === null);
+}
+
+
+function isObject$1(subject) {
+  return (typeof subject === 'object') && (subject !== null);
+}
+
+
+function toArray(sequence) {
+  if (Array.isArray(sequence)) return sequence;
+  else if (isNothing(sequence)) return [];
+
+  return [ sequence ];
+}
+
+
+function extend(target, source) {
+  var index, length, key, sourceKeys;
+
+  if (source) {
+    sourceKeys = Object.keys(source);
+
+    for (index = 0, length = sourceKeys.length; index < length; index += 1) {
+      key = sourceKeys[index];
+      target[key] = source[key];
+    }
+  }
+
+  return target;
+}
+
+
+function repeat(string, count) {
+  var result = '', cycle;
+
+  for (cycle = 0; cycle < count; cycle += 1) {
+    result += string;
+  }
+
+  return result;
+}
+
+
+function isNegativeZero(number) {
+  return (number === 0) && (Number.NEGATIVE_INFINITY === 1 / number);
+}
+
+
+var isNothing_1      = isNothing;
+var isObject_1       = isObject$1;
+var toArray_1        = toArray;
+var repeat_1         = repeat;
+var isNegativeZero_1 = isNegativeZero;
+var extend_1         = extend;
+
+var common = {
+	isNothing: isNothing_1,
+	isObject: isObject_1,
+	toArray: toArray_1,
+	repeat: repeat_1,
+	isNegativeZero: isNegativeZero_1,
+	extend: extend_1
+};
+
+// YAML error class. http://stackoverflow.com/questions/8458984
+
+function YAMLException(reason, mark) {
+  // Super constructor
+  Error.call(this);
+
+  this.name = 'YAMLException';
+  this.reason = reason;
+  this.mark = mark;
+  this.message = (this.reason || '(unknown reason)') + (this.mark ? ' ' + this.mark.toString() : '');
+
+  // Include stack trace in error object
+  if (Error.captureStackTrace) {
+    // Chrome and NodeJS
+    Error.captureStackTrace(this, this.constructor);
+  } else {
+    // FF, IE 10+ and Safari 6+. Fallback for others
+    this.stack = (new Error()).stack || '';
+  }
+}
+
+
+// Inherit from Error
+YAMLException.prototype = Object.create(Error.prototype);
+YAMLException.prototype.constructor = YAMLException;
+
+
+YAMLException.prototype.toString = function toString(compact) {
+  var result = this.name + ': ';
+
+  result += this.reason || '(unknown reason)';
+
+  if (!compact && this.mark) {
+    result += ' ' + this.mark.toString();
+  }
+
+  return result;
+};
+
+
+var exception = YAMLException;
+
+function Mark(name, buffer, position, line, column) {
+  this.name     = name;
+  this.buffer   = buffer;
+  this.position = position;
+  this.line     = line;
+  this.column   = column;
+}
+
+
+Mark.prototype.getSnippet = function getSnippet(indent, maxLength) {
+  var head, start, tail, end, snippet;
+
+  if (!this.buffer) return null;
+
+  indent = indent || 4;
+  maxLength = maxLength || 75;
+
+  head = '';
+  start = this.position;
+
+  while (start > 0 && '\x00\r\n\x85\u2028\u2029'.indexOf(this.buffer.charAt(start - 1)) === -1) {
+    start -= 1;
+    if (this.position - start > (maxLength / 2 - 1)) {
+      head = ' ... ';
+      start += 5;
+      break;
+    }
+  }
+
+  tail = '';
+  end = this.position;
+
+  while (end < this.buffer.length && '\x00\r\n\x85\u2028\u2029'.indexOf(this.buffer.charAt(end)) === -1) {
+    end += 1;
+    if (end - this.position > (maxLength / 2 - 1)) {
+      tail = ' ... ';
+      end -= 5;
+      break;
+    }
+  }
+
+  snippet = this.buffer.slice(start, end);
+
+  return common.repeat(' ', indent) + head + snippet + tail + '\n' +
+         common.repeat(' ', indent + this.position - start + head.length) + '^';
+};
+
+
+Mark.prototype.toString = function toString(compact) {
+  var snippet, where = '';
+
+  if (this.name) {
+    where += 'in "' + this.name + '" ';
+  }
+
+  where += 'at line ' + (this.line + 1) + ', column ' + (this.column + 1);
+
+  if (!compact) {
+    snippet = this.getSnippet();
+
+    if (snippet) {
+      where += ':\n' + snippet;
+    }
+  }
+
+  return where;
+};
+
+
+var mark = Mark;
+
+var TYPE_CONSTRUCTOR_OPTIONS = [
+  'kind',
+  'resolve',
+  'construct',
+  'instanceOf',
+  'predicate',
+  'represent',
+  'defaultStyle',
+  'styleAliases'
+];
+
+var YAML_NODE_KINDS = [
+  'scalar',
+  'sequence',
+  'mapping'
+];
+
+function compileStyleAliases(map) {
+  var result = {};
+
+  if (map !== null) {
+    Object.keys(map).forEach(function (style) {
+      map[style].forEach(function (alias) {
+        result[String(alias)] = style;
+      });
+    });
+  }
+
+  return result;
+}
+
+function Type(tag, options) {
+  options = options || {};
+
+  Object.keys(options).forEach(function (name) {
+    if (TYPE_CONSTRUCTOR_OPTIONS.indexOf(name) === -1) {
+      throw new exception('Unknown option "' + name + '" is met in definition of "' + tag + '" YAML type.');
+    }
+  });
+
+  // TODO: Add tag format check.
+  this.tag          = tag;
+  this.kind         = options['kind']         || null;
+  this.resolve      = options['resolve']      || function () { return true; };
+  this.construct    = options['construct']    || function (data) { return data; };
+  this.instanceOf   = options['instanceOf']   || null;
+  this.predicate    = options['predicate']    || null;
+  this.represent    = options['represent']    || null;
+  this.defaultStyle = options['defaultStyle'] || null;
+  this.styleAliases = compileStyleAliases(options['styleAliases'] || null);
+
+  if (YAML_NODE_KINDS.indexOf(this.kind) === -1) {
+    throw new exception('Unknown kind "' + this.kind + '" is specified for "' + tag + '" YAML type.');
+  }
+}
+
+var type = Type;
+
+/*eslint-disable max-len*/
+
+
+
+
+
+
+function compileList(schema, name, result) {
+  var exclude = [];
+
+  schema.include.forEach(function (includedSchema) {
+    result = compileList(includedSchema, name, result);
+  });
+
+  schema[name].forEach(function (currentType) {
+    result.forEach(function (previousType, previousIndex) {
+      if (previousType.tag === currentType.tag && previousType.kind === currentType.kind) {
+        exclude.push(previousIndex);
+      }
+    });
+
+    result.push(currentType);
+  });
+
+  return result.filter(function (type, index) {
+    return exclude.indexOf(index) === -1;
+  });
+}
+
+
+function compileMap(/* lists... */) {
+  var result = {
+        scalar: {},
+        sequence: {},
+        mapping: {},
+        fallback: {}
+      }, index, length;
+
+  function collectType(type) {
+    result[type.kind][type.tag] = result['fallback'][type.tag] = type;
+  }
+
+  for (index = 0, length = arguments.length; index < length; index += 1) {
+    arguments[index].forEach(collectType);
+  }
+  return result;
+}
+
+
+function Schema(definition) {
+  this.include  = definition.include  || [];
+  this.implicit = definition.implicit || [];
+  this.explicit = definition.explicit || [];
+
+  this.implicit.forEach(function (type) {
+    if (type.loadKind && type.loadKind !== 'scalar') {
+      throw new exception('There is a non-scalar type in the implicit list of a schema. Implicit resolving of such types is not supported.');
+    }
+  });
+
+  this.compiledImplicit = compileList(this, 'implicit', []);
+  this.compiledExplicit = compileList(this, 'explicit', []);
+  this.compiledTypeMap  = compileMap(this.compiledImplicit, this.compiledExplicit);
+}
+
+
+Schema.DEFAULT = null;
+
+
+Schema.create = function createSchema() {
+  var schemas, types;
+
+  switch (arguments.length) {
+    case 1:
+      schemas = Schema.DEFAULT;
+      types = arguments[0];
+      break;
+
+    case 2:
+      schemas = arguments[0];
+      types = arguments[1];
+      break;
+
+    default:
+      throw new exception('Wrong number of arguments for Schema.create function');
+  }
+
+  schemas = common.toArray(schemas);
+  types = common.toArray(types);
+
+  if (!schemas.every(function (schema) { return schema instanceof Schema; })) {
+    throw new exception('Specified list of super schemas (or a single Schema object) contains a non-Schema object.');
+  }
+
+  if (!types.every(function (type$1) { return type$1 instanceof type; })) {
+    throw new exception('Specified list of YAML types (or a single Type object) contains a non-Type object.');
+  }
+
+  return new Schema({
+    include: schemas,
+    explicit: types
+  });
+};
+
+
+var schema = Schema;
+
+var str = new type('tag:yaml.org,2002:str', {
+  kind: 'scalar',
+  construct: function (data) { return data !== null ? data : ''; }
+});
+
+var seq = new type('tag:yaml.org,2002:seq', {
+  kind: 'sequence',
+  construct: function (data) { return data !== null ? data : []; }
+});
+
+var map = new type('tag:yaml.org,2002:map', {
+  kind: 'mapping',
+  construct: function (data) { return data !== null ? data : {}; }
+});
+
+var failsafe = new schema({
+  explicit: [
+    str,
+    seq,
+    map
+  ]
+});
+
+function resolveYamlNull(data) {
+  if (data === null) return true;
+
+  var max = data.length;
+
+  return (max === 1 && data === '~') ||
+         (max === 4 && (data === 'null' || data === 'Null' || data === 'NULL'));
+}
+
+function constructYamlNull() {
+  return null;
+}
+
+function isNull(object) {
+  return object === null;
+}
+
+var _null = new type('tag:yaml.org,2002:null', {
+  kind: 'scalar',
+  resolve: resolveYamlNull,
+  construct: constructYamlNull,
+  predicate: isNull,
+  represent: {
+    canonical: function () { return '~';    },
+    lowercase: function () { return 'null'; },
+    uppercase: function () { return 'NULL'; },
+    camelcase: function () { return 'Null'; }
+  },
+  defaultStyle: 'lowercase'
+});
+
+function resolveYamlBoolean(data) {
+  if (data === null) return false;
+
+  var max = data.length;
+
+  return (max === 4 && (data === 'true' || data === 'True' || data === 'TRUE')) ||
+         (max === 5 && (data === 'false' || data === 'False' || data === 'FALSE'));
+}
+
+function constructYamlBoolean(data) {
+  return data === 'true' ||
+         data === 'True' ||
+         data === 'TRUE';
+}
+
+function isBoolean(object) {
+  return Object.prototype.toString.call(object) === '[object Boolean]';
+}
+
+var bool = new type('tag:yaml.org,2002:bool', {
+  kind: 'scalar',
+  resolve: resolveYamlBoolean,
+  construct: constructYamlBoolean,
+  predicate: isBoolean,
+  represent: {
+    lowercase: function (object) { return object ? 'true' : 'false'; },
+    uppercase: function (object) { return object ? 'TRUE' : 'FALSE'; },
+    camelcase: function (object) { return object ? 'True' : 'False'; }
+  },
+  defaultStyle: 'lowercase'
+});
+
+function isHexCode(c) {
+  return ((0x30/* 0 */ <= c) && (c <= 0x39/* 9 */)) ||
+         ((0x41/* A */ <= c) && (c <= 0x46/* F */)) ||
+         ((0x61/* a */ <= c) && (c <= 0x66/* f */));
+}
+
+function isOctCode(c) {
+  return ((0x30/* 0 */ <= c) && (c <= 0x37/* 7 */));
+}
+
+function isDecCode(c) {
+  return ((0x30/* 0 */ <= c) && (c <= 0x39/* 9 */));
+}
+
+function resolveYamlInteger(data) {
+  if (data === null) return false;
+
+  var max = data.length,
+      index = 0,
+      hasDigits = false,
+      ch;
+
+  if (!max) return false;
+
+  ch = data[index];
+
+  // sign
+  if (ch === '-' || ch === '+') {
+    ch = data[++index];
+  }
+
+  if (ch === '0') {
+    // 0
+    if (index + 1 === max) return true;
+    ch = data[++index];
+
+    // base 2, base 8, base 16
+
+    if (ch === 'b') {
+      // base 2
+      index++;
+
+      for (; index < max; index++) {
+        ch = data[index];
+        if (ch === '_') continue;
+        if (ch !== '0' && ch !== '1') return false;
+        hasDigits = true;
+      }
+      return hasDigits && ch !== '_';
+    }
+
+
+    if (ch === 'x') {
+      // base 16
+      index++;
+
+      for (; index < max; index++) {
+        ch = data[index];
+        if (ch === '_') continue;
+        if (!isHexCode(data.charCodeAt(index))) return false;
+        hasDigits = true;
+      }
+      return hasDigits && ch !== '_';
+    }
+
+    // base 8
+    for (; index < max; index++) {
+      ch = data[index];
+      if (ch === '_') continue;
+      if (!isOctCode(data.charCodeAt(index))) return false;
+      hasDigits = true;
+    }
+    return hasDigits && ch !== '_';
+  }
+
+  // base 10 (except 0) or base 60
+
+  // value should not start with `_`;
+  if (ch === '_') return false;
+
+  for (; index < max; index++) {
+    ch = data[index];
+    if (ch === '_') continue;
+    if (ch === ':') break;
+    if (!isDecCode(data.charCodeAt(index))) {
+      return false;
+    }
+    hasDigits = true;
+  }
+
+  // Should have digits and should not end with `_`
+  if (!hasDigits || ch === '_') return false;
+
+  // if !base60 - done;
+  if (ch !== ':') return true;
+
+  // base60 almost not used, no needs to optimize
+  return /^(:[0-5]?[0-9])+$/.test(data.slice(index));
+}
+
+function constructYamlInteger(data) {
+  var value = data, sign = 1, ch, base, digits = [];
+
+  if (value.indexOf('_') !== -1) {
+    value = value.replace(/_/g, '');
+  }
+
+  ch = value[0];
+
+  if (ch === '-' || ch === '+') {
+    if (ch === '-') sign = -1;
+    value = value.slice(1);
+    ch = value[0];
+  }
+
+  if (value === '0') return 0;
+
+  if (ch === '0') {
+    if (value[1] === 'b') return sign * parseInt(value.slice(2), 2);
+    if (value[1] === 'x') return sign * parseInt(value, 16);
+    return sign * parseInt(value, 8);
+  }
+
+  if (value.indexOf(':') !== -1) {
+    value.split(':').forEach(function (v) {
+      digits.unshift(parseInt(v, 10));
+    });
+
+    value = 0;
+    base = 1;
+
+    digits.forEach(function (d) {
+      value += (d * base);
+      base *= 60;
+    });
+
+    return sign * value;
+
+  }
+
+  return sign * parseInt(value, 10);
+}
+
+function isInteger(object) {
+  return (Object.prototype.toString.call(object)) === '[object Number]' &&
+         (object % 1 === 0 && !common.isNegativeZero(object));
+}
+
+var int_1 = new type('tag:yaml.org,2002:int', {
+  kind: 'scalar',
+  resolve: resolveYamlInteger,
+  construct: constructYamlInteger,
+  predicate: isInteger,
+  represent: {
+    binary:      function (obj) { return obj >= 0 ? '0b' + obj.toString(2) : '-0b' + obj.toString(2).slice(1); },
+    octal:       function (obj) { return obj >= 0 ? '0'  + obj.toString(8) : '-0'  + obj.toString(8).slice(1); },
+    decimal:     function (obj) { return obj.toString(10); },
+    /* eslint-disable max-len */
+    hexadecimal: function (obj) { return obj >= 0 ? '0x' + obj.toString(16).toUpperCase() :  '-0x' + obj.toString(16).toUpperCase().slice(1); }
+  },
+  defaultStyle: 'decimal',
+  styleAliases: {
+    binary:      [ 2,  'bin' ],
+    octal:       [ 8,  'oct' ],
+    decimal:     [ 10, 'dec' ],
+    hexadecimal: [ 16, 'hex' ]
+  }
+});
+
+var YAML_FLOAT_PATTERN = new RegExp(
+  // 2.5e4, 2.5 and integers
+  '^(?:[-+]?(?:0|[1-9][0-9_]*)(?:\\.[0-9_]*)?(?:[eE][-+]?[0-9]+)?' +
+  // .2e4, .2
+  // special case, seems not from spec
+  '|\\.[0-9_]+(?:[eE][-+]?[0-9]+)?' +
+  // 20:59
+  '|[-+]?[0-9][0-9_]*(?::[0-5]?[0-9])+\\.[0-9_]*' +
+  // .inf
+  '|[-+]?\\.(?:inf|Inf|INF)' +
+  // .nan
+  '|\\.(?:nan|NaN|NAN))$');
+
+function resolveYamlFloat(data) {
+  if (data === null) return false;
+
+  if (!YAML_FLOAT_PATTERN.test(data) ||
+      // Quick hack to not allow integers end with `_`
+      // Probably should update regexp & check speed
+      data[data.length - 1] === '_') {
+    return false;
+  }
+
+  return true;
+}
+
+function constructYamlFloat(data) {
+  var value, sign, base, digits;
+
+  value  = data.replace(/_/g, '').toLowerCase();
+  sign   = value[0] === '-' ? -1 : 1;
+  digits = [];
+
+  if ('+-'.indexOf(value[0]) >= 0) {
+    value = value.slice(1);
+  }
+
+  if (value === '.inf') {
+    return (sign === 1) ? Number.POSITIVE_INFINITY : Number.NEGATIVE_INFINITY;
+
+  } else if (value === '.nan') {
+    return NaN;
+
+  } else if (value.indexOf(':') >= 0) {
+    value.split(':').forEach(function (v) {
+      digits.unshift(parseFloat(v, 10));
+    });
+
+    value = 0.0;
+    base = 1;
+
+    digits.forEach(function (d) {
+      value += d * base;
+      base *= 60;
+    });
+
+    return sign * value;
+
+  }
+  return sign * parseFloat(value, 10);
+}
+
+
+var SCIENTIFIC_WITHOUT_DOT = /^[-+]?[0-9]+e/;
+
+function representYamlFloat(object, style) {
+  var res;
+
+  if (isNaN(object)) {
+    switch (style) {
+      case 'lowercase': return '.nan';
+      case 'uppercase': return '.NAN';
+      case 'camelcase': return '.NaN';
+    }
+  } else if (Number.POSITIVE_INFINITY === object) {
+    switch (style) {
+      case 'lowercase': return '.inf';
+      case 'uppercase': return '.INF';
+      case 'camelcase': return '.Inf';
+    }
+  } else if (Number.NEGATIVE_INFINITY === object) {
+    switch (style) {
+      case 'lowercase': return '-.inf';
+      case 'uppercase': return '-.INF';
+      case 'camelcase': return '-.Inf';
+    }
+  } else if (common.isNegativeZero(object)) {
+    return '-0.0';
+  }
+
+  res = object.toString(10);
+
+  // JS stringifier can build scientific format without dots: 5e-100,
+  // while YAML requres dot: 5.e-100. Fix it with simple hack
+
+  return SCIENTIFIC_WITHOUT_DOT.test(res) ? res.replace('e', '.e') : res;
+}
+
+function isFloat(object) {
+  return (Object.prototype.toString.call(object) === '[object Number]') &&
+         (object % 1 !== 0 || common.isNegativeZero(object));
+}
+
+var float_1 = new type('tag:yaml.org,2002:float', {
+  kind: 'scalar',
+  resolve: resolveYamlFloat,
+  construct: constructYamlFloat,
+  predicate: isFloat,
+  represent: representYamlFloat,
+  defaultStyle: 'lowercase'
+});
+
+var json = new schema({
+  include: [
+    failsafe
+  ],
+  implicit: [
+    _null,
+    bool,
+    int_1,
+    float_1
+  ]
+});
+
+var core = new schema({
+  include: [
+    json
+  ]
+});
+
+var YAML_DATE_REGEXP = new RegExp(
+  '^([0-9][0-9][0-9][0-9])'          + // [1] year
+  '-([0-9][0-9])'                    + // [2] month
+  '-([0-9][0-9])$');                   // [3] day
+
+var YAML_TIMESTAMP_REGEXP = new RegExp(
+  '^([0-9][0-9][0-9][0-9])'          + // [1] year
+  '-([0-9][0-9]?)'                   + // [2] month
+  '-([0-9][0-9]?)'                   + // [3] day
+  '(?:[Tt]|[ \\t]+)'                 + // ...
+  '([0-9][0-9]?)'                    + // [4] hour
+  ':([0-9][0-9])'                    + // [5] minute
+  ':([0-9][0-9])'                    + // [6] second
+  '(?:\\.([0-9]*))?'                 + // [7] fraction
+  '(?:[ \\t]*(Z|([-+])([0-9][0-9]?)' + // [8] tz [9] tz_sign [10] tz_hour
+  '(?::([0-9][0-9]))?))?$');           // [11] tz_minute
+
+function resolveYamlTimestamp(data) {
+  if (data === null) return false;
+  if (YAML_DATE_REGEXP.exec(data) !== null) return true;
+  if (YAML_TIMESTAMP_REGEXP.exec(data) !== null) return true;
+  return false;
+}
+
+function constructYamlTimestamp(data) {
+  var match, year, month, day, hour, minute, second, fraction = 0,
+      delta = null, tz_hour, tz_minute, date;
+
+  match = YAML_DATE_REGEXP.exec(data);
+  if (match === null) match = YAML_TIMESTAMP_REGEXP.exec(data);
+
+  if (match === null) throw new Error('Date resolve error');
+
+  // match: [1] year [2] month [3] day
+
+  year = +(match[1]);
+  month = +(match[2]) - 1; // JS month starts with 0
+  day = +(match[3]);
+
+  if (!match[4]) { // no hour
+    return new Date(Date.UTC(year, month, day));
+  }
+
+  // match: [4] hour [5] minute [6] second [7] fraction
+
+  hour = +(match[4]);
+  minute = +(match[5]);
+  second = +(match[6]);
+
+  if (match[7]) {
+    fraction = match[7].slice(0, 3);
+    while (fraction.length < 3) { // milli-seconds
+      fraction += '0';
+    }
+    fraction = +fraction;
+  }
+
+  // match: [8] tz [9] tz_sign [10] tz_hour [11] tz_minute
+
+  if (match[9]) {
+    tz_hour = +(match[10]);
+    tz_minute = +(match[11] || 0);
+    delta = (tz_hour * 60 + tz_minute) * 60000; // delta in mili-seconds
+    if (match[9] === '-') delta = -delta;
+  }
+
+  date = new Date(Date.UTC(year, month, day, hour, minute, second, fraction));
+
+  if (delta) date.setTime(date.getTime() - delta);
+
+  return date;
+}
+
+function representYamlTimestamp(object /*, style*/) {
+  return object.toISOString();
+}
+
+var timestamp$1 = new type('tag:yaml.org,2002:timestamp', {
+  kind: 'scalar',
+  resolve: resolveYamlTimestamp,
+  construct: constructYamlTimestamp,
+  instanceOf: Date,
+  represent: representYamlTimestamp
+});
+
+function resolveYamlMerge(data) {
+  return data === '<<' || data === null;
+}
+
+var merge = new type('tag:yaml.org,2002:merge', {
+  kind: 'scalar',
+  resolve: resolveYamlMerge
+});
+
+/*eslint-disable no-bitwise*/
+
+var NodeBuffer;
+
+try {
+  // A trick for browserified version, to not include `Buffer` shim
+  var _require = commonjsRequire;
+  NodeBuffer = _require('buffer').Buffer;
+} catch (__) {}
+
+
+
+
+// [ 64, 65, 66 ] -> [ padding, CR, LF ]
+var BASE64_MAP = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=\n\r';
+
+
+function resolveYamlBinary(data) {
+  if (data === null) return false;
+
+  var code, idx, bitlen = 0, max = data.length, map = BASE64_MAP;
+
+  // Convert one by one.
+  for (idx = 0; idx < max; idx++) {
+    code = map.indexOf(data.charAt(idx));
+
+    // Skip CR/LF
+    if (code > 64) continue;
+
+    // Fail on illegal characters
+    if (code < 0) return false;
+
+    bitlen += 6;
+  }
+
+  // If there are any bits left, source was corrupted
+  return (bitlen % 8) === 0;
+}
+
+function constructYamlBinary(data) {
+  var idx, tailbits,
+      input = data.replace(/[\r\n=]/g, ''), // remove CR/LF & padding to simplify scan
+      max = input.length,
+      map = BASE64_MAP,
+      bits = 0,
+      result = [];
+
+  // Collect by 6*4 bits (3 bytes)
+
+  for (idx = 0; idx < max; idx++) {
+    if ((idx % 4 === 0) && idx) {
+      result.push((bits >> 16) & 0xFF);
+      result.push((bits >> 8) & 0xFF);
+      result.push(bits & 0xFF);
+    }
+
+    bits = (bits << 6) | map.indexOf(input.charAt(idx));
+  }
+
+  // Dump tail
+
+  tailbits = (max % 4) * 6;
+
+  if (tailbits === 0) {
+    result.push((bits >> 16) & 0xFF);
+    result.push((bits >> 8) & 0xFF);
+    result.push(bits & 0xFF);
+  } else if (tailbits === 18) {
+    result.push((bits >> 10) & 0xFF);
+    result.push((bits >> 2) & 0xFF);
+  } else if (tailbits === 12) {
+    result.push((bits >> 4) & 0xFF);
+  }
+
+  // Wrap into Buffer for NodeJS and leave Array for browser
+  if (NodeBuffer) {
+    // Support node 6.+ Buffer API when available
+    return NodeBuffer.from ? NodeBuffer.from(result) : new NodeBuffer(result);
+  }
+
+  return result;
+}
+
+function representYamlBinary(object /*, style*/) {
+  var result = '', bits = 0, idx, tail,
+      max = object.length,
+      map = BASE64_MAP;
+
+  // Convert every three bytes to 4 ASCII characters.
+
+  for (idx = 0; idx < max; idx++) {
+    if ((idx % 3 === 0) && idx) {
+      result += map[(bits >> 18) & 0x3F];
+      result += map[(bits >> 12) & 0x3F];
+      result += map[(bits >> 6) & 0x3F];
+      result += map[bits & 0x3F];
+    }
+
+    bits = (bits << 8) + object[idx];
+  }
+
+  // Dump tail
+
+  tail = max % 3;
+
+  if (tail === 0) {
+    result += map[(bits >> 18) & 0x3F];
+    result += map[(bits >> 12) & 0x3F];
+    result += map[(bits >> 6) & 0x3F];
+    result += map[bits & 0x3F];
+  } else if (tail === 2) {
+    result += map[(bits >> 10) & 0x3F];
+    result += map[(bits >> 4) & 0x3F];
+    result += map[(bits << 2) & 0x3F];
+    result += map[64];
+  } else if (tail === 1) {
+    result += map[(bits >> 2) & 0x3F];
+    result += map[(bits << 4) & 0x3F];
+    result += map[64];
+    result += map[64];
+  }
+
+  return result;
+}
+
+function isBinary(object) {
+  return NodeBuffer && NodeBuffer.isBuffer(object);
+}
+
+var binary = new type('tag:yaml.org,2002:binary', {
+  kind: 'scalar',
+  resolve: resolveYamlBinary,
+  construct: constructYamlBinary,
+  predicate: isBinary,
+  represent: representYamlBinary
+});
+
+var _hasOwnProperty = Object.prototype.hasOwnProperty;
+var _toString       = Object.prototype.toString;
+
+function resolveYamlOmap(data) {
+  if (data === null) return true;
+
+  var objectKeys = [], index, length, pair, pairKey, pairHasKey,
+      object = data;
+
+  for (index = 0, length = object.length; index < length; index += 1) {
+    pair = object[index];
+    pairHasKey = false;
+
+    if (_toString.call(pair) !== '[object Object]') return false;
+
+    for (pairKey in pair) {
+      if (_hasOwnProperty.call(pair, pairKey)) {
+        if (!pairHasKey) pairHasKey = true;
+        else return false;
+      }
+    }
+
+    if (!pairHasKey) return false;
+
+    if (objectKeys.indexOf(pairKey) === -1) objectKeys.push(pairKey);
+    else return false;
+  }
+
+  return true;
+}
+
+function constructYamlOmap(data) {
+  return data !== null ? data : [];
+}
+
+var omap = new type('tag:yaml.org,2002:omap', {
+  kind: 'sequence',
+  resolve: resolveYamlOmap,
+  construct: constructYamlOmap
+});
+
+var _toString$1 = Object.prototype.toString;
+
+function resolveYamlPairs(data) {
+  if (data === null) return true;
+
+  var index, length, pair, keys, result,
+      object = data;
+
+  result = new Array(object.length);
+
+  for (index = 0, length = object.length; index < length; index += 1) {
+    pair = object[index];
+
+    if (_toString$1.call(pair) !== '[object Object]') return false;
+
+    keys = Object.keys(pair);
+
+    if (keys.length !== 1) return false;
+
+    result[index] = [ keys[0], pair[keys[0]] ];
+  }
+
+  return true;
+}
+
+function constructYamlPairs(data) {
+  if (data === null) return [];
+
+  var index, length, pair, keys, result,
+      object = data;
+
+  result = new Array(object.length);
+
+  for (index = 0, length = object.length; index < length; index += 1) {
+    pair = object[index];
+
+    keys = Object.keys(pair);
+
+    result[index] = [ keys[0], pair[keys[0]] ];
+  }
+
+  return result;
+}
+
+var pairs = new type('tag:yaml.org,2002:pairs', {
+  kind: 'sequence',
+  resolve: resolveYamlPairs,
+  construct: constructYamlPairs
+});
+
+var _hasOwnProperty$1 = Object.prototype.hasOwnProperty;
+
+function resolveYamlSet(data) {
+  if (data === null) return true;
+
+  var key, object = data;
+
+  for (key in object) {
+    if (_hasOwnProperty$1.call(object, key)) {
+      if (object[key] !== null) return false;
+    }
+  }
+
+  return true;
+}
+
+function constructYamlSet(data) {
+  return data !== null ? data : {};
+}
+
+var set = new type('tag:yaml.org,2002:set', {
+  kind: 'mapping',
+  resolve: resolveYamlSet,
+  construct: constructYamlSet
+});
+
+var default_safe = new schema({
+  include: [
+    core
+  ],
+  implicit: [
+    timestamp$1,
+    merge
+  ],
+  explicit: [
+    binary,
+    omap,
+    pairs,
+    set
+  ]
+});
+
+function resolveJavascriptUndefined() {
+  return true;
+}
+
+function constructJavascriptUndefined() {
+  /*eslint-disable no-undefined*/
+  return undefined;
+}
+
+function representJavascriptUndefined() {
+  return '';
+}
+
+function isUndefined(object) {
+  return typeof object === 'undefined';
+}
+
+var _undefined = new type('tag:yaml.org,2002:js/undefined', {
+  kind: 'scalar',
+  resolve: resolveJavascriptUndefined,
+  construct: constructJavascriptUndefined,
+  predicate: isUndefined,
+  represent: representJavascriptUndefined
+});
+
+function resolveJavascriptRegExp(data) {
+  if (data === null) return false;
+  if (data.length === 0) return false;
+
+  var regexp = data,
+      tail   = /\/([gim]*)$/.exec(data),
+      modifiers = '';
+
+  // if regexp starts with '/' it can have modifiers and must be properly closed
+  // `/foo/gim` - modifiers tail can be maximum 3 chars
+  if (regexp[0] === '/') {
+    if (tail) modifiers = tail[1];
+
+    if (modifiers.length > 3) return false;
+    // if expression starts with /, is should be properly terminated
+    if (regexp[regexp.length - modifiers.length - 1] !== '/') return false;
+  }
+
+  return true;
+}
+
+function constructJavascriptRegExp(data) {
+  var regexp = data,
+      tail   = /\/([gim]*)$/.exec(data),
+      modifiers = '';
+
+  // `/foo/gim` - tail can be maximum 4 chars
+  if (regexp[0] === '/') {
+    if (tail) modifiers = tail[1];
+    regexp = regexp.slice(1, regexp.length - modifiers.length - 1);
+  }
+
+  return new RegExp(regexp, modifiers);
+}
+
+function representJavascriptRegExp(object /*, style*/) {
+  var result = '/' + object.source + '/';
+
+  if (object.global) result += 'g';
+  if (object.multiline) result += 'm';
+  if (object.ignoreCase) result += 'i';
+
+  return result;
+}
+
+function isRegExp(object) {
+  return Object.prototype.toString.call(object) === '[object RegExp]';
+}
+
+var regexp = new type('tag:yaml.org,2002:js/regexp', {
+  kind: 'scalar',
+  resolve: resolveJavascriptRegExp,
+  construct: constructJavascriptRegExp,
+  predicate: isRegExp,
+  represent: representJavascriptRegExp
+});
+
+var esprima;
+
+// Browserified version does not have esprima
+//
+// 1. For node.js just require module as deps
+// 2. For browser try to require mudule via external AMD system.
+//    If not found - try to fallback to window.esprima. If not
+//    found too - then fail to parse.
+//
+try {
+  // workaround to exclude package from browserify list.
+  var _require$1 = commonjsRequire;
+  esprima = _require$1('esprima');
+} catch (_) {
+  /* eslint-disable no-redeclare */
+  /* global window */
+  if (typeof window !== 'undefined') esprima = window.esprima;
+}
+
+
+
+function resolveJavascriptFunction(data) {
+  if (data === null) return false;
+
+  try {
+    var source = '(' + data + ')',
+        ast    = esprima.parse(source, { range: true });
+
+    if (ast.type                    !== 'Program'             ||
+        ast.body.length             !== 1                     ||
+        ast.body[0].type            !== 'ExpressionStatement' ||
+        (ast.body[0].expression.type !== 'ArrowFunctionExpression' &&
+          ast.body[0].expression.type !== 'FunctionExpression')) {
+      return false;
+    }
+
+    return true;
+  } catch (err) {
+    return false;
+  }
+}
+
+function constructJavascriptFunction(data) {
+  /*jslint evil:true*/
+
+  var source = '(' + data + ')',
+      ast    = esprima.parse(source, { range: true }),
+      params = [],
+      body;
+
+  if (ast.type                    !== 'Program'             ||
+      ast.body.length             !== 1                     ||
+      ast.body[0].type            !== 'ExpressionStatement' ||
+      (ast.body[0].expression.type !== 'ArrowFunctionExpression' &&
+        ast.body[0].expression.type !== 'FunctionExpression')) {
+    throw new Error('Failed to resolve function');
+  }
+
+  ast.body[0].expression.params.forEach(function (param) {
+    params.push(param.name);
+  });
+
+  body = ast.body[0].expression.body.range;
+
+  // Esprima's ranges include the first '{' and the last '}' characters on
+  // function expressions. So cut them out.
+  if (ast.body[0].expression.body.type === 'BlockStatement') {
+    /*eslint-disable no-new-func*/
+    return new Function(params, source.slice(body[0] + 1, body[1] - 1));
+  }
+  // ES6 arrow functions can omit the BlockStatement. In that case, just return
+  // the body.
+  /*eslint-disable no-new-func*/
+  return new Function(params, 'return ' + source.slice(body[0], body[1]));
+}
+
+function representJavascriptFunction(object /*, style*/) {
+  return object.toString();
+}
+
+function isFunction(object) {
+  return Object.prototype.toString.call(object) === '[object Function]';
+}
+
+var _function = new type('tag:yaml.org,2002:js/function', {
+  kind: 'scalar',
+  resolve: resolveJavascriptFunction,
+  construct: constructJavascriptFunction,
+  predicate: isFunction,
+  represent: representJavascriptFunction
+});
+
+var default_full = schema.DEFAULT = new schema({
+  include: [
+    default_safe
+  ],
+  explicit: [
+    _undefined,
+    regexp,
+    _function
+  ]
+});
+
+/*eslint-disable max-len,no-use-before-define*/
+
+
+
+
+
+
+
+
+var _hasOwnProperty$2 = Object.prototype.hasOwnProperty;
+
+
+var CONTEXT_FLOW_IN   = 1;
+var CONTEXT_FLOW_OUT  = 2;
+var CONTEXT_BLOCK_IN  = 3;
+var CONTEXT_BLOCK_OUT = 4;
+
+
+var CHOMPING_CLIP  = 1;
+var CHOMPING_STRIP = 2;
+var CHOMPING_KEEP  = 3;
+
+
+var PATTERN_NON_PRINTABLE         = /[\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x84\x86-\x9F\uFFFE\uFFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF]/;
+var PATTERN_NON_ASCII_LINE_BREAKS = /[\x85\u2028\u2029]/;
+var PATTERN_FLOW_INDICATORS       = /[,\[\]\{\}]/;
+var PATTERN_TAG_HANDLE            = /^(?:!|!!|![a-z\-]+!)$/i;
+var PATTERN_TAG_URI               = /^(?:!|[^,\[\]\{\}])(?:%[0-9a-f]{2}|[0-9a-z\-#;\/\?:@&=\+\$,_\.!~\*'\(\)\[\]])*$/i;
+
+
+function _class(obj) { return Object.prototype.toString.call(obj); }
+
+function is_EOL(c) {
+  return (c === 0x0A/* LF */) || (c === 0x0D/* CR */);
+}
+
+function is_WHITE_SPACE(c) {
+  return (c === 0x09/* Tab */) || (c === 0x20/* Space */);
+}
+
+function is_WS_OR_EOL(c) {
+  return (c === 0x09/* Tab */) ||
+         (c === 0x20/* Space */) ||
+         (c === 0x0A/* LF */) ||
+         (c === 0x0D/* CR */);
+}
+
+function is_FLOW_INDICATOR(c) {
+  return c === 0x2C/* , */ ||
+         c === 0x5B/* [ */ ||
+         c === 0x5D/* ] */ ||
+         c === 0x7B/* { */ ||
+         c === 0x7D/* } */;
+}
+
+function fromHexCode(c) {
+  var lc;
+
+  if ((0x30/* 0 */ <= c) && (c <= 0x39/* 9 */)) {
+    return c - 0x30;
+  }
+
+  /*eslint-disable no-bitwise*/
+  lc = c | 0x20;
+
+  if ((0x61/* a */ <= lc) && (lc <= 0x66/* f */)) {
+    return lc - 0x61 + 10;
+  }
+
+  return -1;
+}
+
+function escapedHexLen(c) {
+  if (c === 0x78/* x */) { return 2; }
+  if (c === 0x75/* u */) { return 4; }
+  if (c === 0x55/* U */) { return 8; }
+  return 0;
+}
+
+function fromDecimalCode(c) {
+  if ((0x30/* 0 */ <= c) && (c <= 0x39/* 9 */)) {
+    return c - 0x30;
+  }
+
+  return -1;
+}
+
+function simpleEscapeSequence(c) {
+  /* eslint-disable indent */
+  return (c === 0x30/* 0 */) ? '\x00' :
+        (c === 0x61/* a */) ? '\x07' :
+        (c === 0x62/* b */) ? '\x08' :
+        (c === 0x74/* t */) ? '\x09' :
+        (c === 0x09/* Tab */) ? '\x09' :
+        (c === 0x6E/* n */) ? '\x0A' :
+        (c === 0x76/* v */) ? '\x0B' :
+        (c === 0x66/* f */) ? '\x0C' :
+        (c === 0x72/* r */) ? '\x0D' :
+        (c === 0x65/* e */) ? '\x1B' :
+        (c === 0x20/* Space */) ? ' ' :
+        (c === 0x22/* " */) ? '\x22' :
+        (c === 0x2F/* / */) ? '/' :
+        (c === 0x5C/* \ */) ? '\x5C' :
+        (c === 0x4E/* N */) ? '\x85' :
+        (c === 0x5F/* _ */) ? '\xA0' :
+        (c === 0x4C/* L */) ? '\u2028' :
+        (c === 0x50/* P */) ? '\u2029' : '';
+}
+
+function charFromCodepoint(c) {
+  if (c <= 0xFFFF) {
+    return String.fromCharCode(c);
+  }
+  // Encode UTF-16 surrogate pair
+  // https://en.wikipedia.org/wiki/UTF-16#Code_points_U.2B010000_to_U.2B10FFFF
+  return String.fromCharCode(
+    ((c - 0x010000) >> 10) + 0xD800,
+    ((c - 0x010000) & 0x03FF) + 0xDC00
+  );
+}
+
+var simpleEscapeCheck = new Array(256); // integer, for fast access
+var simpleEscapeMap = new Array(256);
+for (var i = 0; i < 256; i++) {
+  simpleEscapeCheck[i] = simpleEscapeSequence(i) ? 1 : 0;
+  simpleEscapeMap[i] = simpleEscapeSequence(i);
+}
+
+
+function State(input, options) {
+  this.input = input;
+
+  this.filename  = options['filename']  || null;
+  this.schema    = options['schema']    || default_full;
+  this.onWarning = options['onWarning'] || null;
+  this.legacy    = options['legacy']    || false;
+  this.json      = options['json']      || false;
+  this.listener  = options['listener']  || null;
+
+  this.implicitTypes = this.schema.compiledImplicit;
+  this.typeMap       = this.schema.compiledTypeMap;
+
+  this.length     = input.length;
+  this.position   = 0;
+  this.line       = 0;
+  this.lineStart  = 0;
+  this.lineIndent = 0;
+
+  this.documents = [];
+
+  /*
+  this.version;
+  this.checkLineBreaks;
+  this.tagMap;
+  this.anchorMap;
+  this.tag;
+  this.anchor;
+  this.kind;
+  this.result;*/
+
+}
+
+
+function generateError(state, message) {
+  return new exception(
+    message,
+    new mark(state.filename, state.input, state.position, state.line, (state.position - state.lineStart)));
+}
+
+function throwError(state, message) {
+  throw generateError(state, message);
+}
+
+function throwWarning(state, message) {
+  if (state.onWarning) {
+    state.onWarning.call(null, generateError(state, message));
+  }
+}
+
+
+var directiveHandlers = {
+
+  YAML: function handleYamlDirective(state, name, args) {
+
+    var match, major, minor;
+
+    if (state.version !== null) {
+      throwError(state, 'duplication of %YAML directive');
+    }
+
+    if (args.length !== 1) {
+      throwError(state, 'YAML directive accepts exactly one argument');
+    }
+
+    match = /^([0-9]+)\.([0-9]+)$/.exec(args[0]);
+
+    if (match === null) {
+      throwError(state, 'ill-formed argument of the YAML directive');
+    }
+
+    major = parseInt(match[1], 10);
+    minor = parseInt(match[2], 10);
+
+    if (major !== 1) {
+      throwError(state, 'unacceptable YAML version of the document');
+    }
+
+    state.version = args[0];
+    state.checkLineBreaks = (minor < 2);
+
+    if (minor !== 1 && minor !== 2) {
+      throwWarning(state, 'unsupported YAML version of the document');
+    }
+  },
+
+  TAG: function handleTagDirective(state, name, args) {
+
+    var handle, prefix;
+
+    if (args.length !== 2) {
+      throwError(state, 'TAG directive accepts exactly two arguments');
+    }
+
+    handle = args[0];
+    prefix = args[1];
+
+    if (!PATTERN_TAG_HANDLE.test(handle)) {
+      throwError(state, 'ill-formed tag handle (first argument) of the TAG directive');
+    }
+
+    if (_hasOwnProperty$2.call(state.tagMap, handle)) {
+      throwError(state, 'there is a previously declared suffix for "' + handle + '" tag handle');
+    }
+
+    if (!PATTERN_TAG_URI.test(prefix)) {
+      throwError(state, 'ill-formed tag prefix (second argument) of the TAG directive');
+    }
+
+    state.tagMap[handle] = prefix;
+  }
+};
+
+
+function captureSegment(state, start, end, checkJson) {
+  var _position, _length, _character, _result;
+
+  if (start < end) {
+    _result = state.input.slice(start, end);
+
+    if (checkJson) {
+      for (_position = 0, _length = _result.length; _position < _length; _position += 1) {
+        _character = _result.charCodeAt(_position);
+        if (!(_character === 0x09 ||
+              (0x20 <= _character && _character <= 0x10FFFF))) {
+          throwError(state, 'expected valid JSON character');
+        }
+      }
+    } else if (PATTERN_NON_PRINTABLE.test(_result)) {
+      throwError(state, 'the stream contains non-printable characters');
+    }
+
+    state.result += _result;
+  }
+}
+
+function mergeMappings(state, destination, source, overridableKeys) {
+  var sourceKeys, key, index, quantity;
+
+  if (!common.isObject(source)) {
+    throwError(state, 'cannot merge mappings; the provided source object is unacceptable');
+  }
+
+  sourceKeys = Object.keys(source);
+
+  for (index = 0, quantity = sourceKeys.length; index < quantity; index += 1) {
+    key = sourceKeys[index];
+
+    if (!_hasOwnProperty$2.call(destination, key)) {
+      destination[key] = source[key];
+      overridableKeys[key] = true;
+    }
+  }
+}
+
+function storeMappingPair(state, _result, overridableKeys, keyTag, keyNode, valueNode, startLine, startPos) {
+  var index, quantity;
+
+  // The output is a plain object here, so keys can only be strings.
+  // We need to convert keyNode to a string, but doing so can hang the process
+  // (deeply nested arrays that explode exponentially using aliases).
+  if (Array.isArray(keyNode)) {
+    keyNode = Array.prototype.slice.call(keyNode);
+
+    for (index = 0, quantity = keyNode.length; index < quantity; index += 1) {
+      if (Array.isArray(keyNode[index])) {
+        throwError(state, 'nested arrays are not supported inside keys');
+      }
+
+      if (typeof keyNode === 'object' && _class(keyNode[index]) === '[object Object]') {
+        keyNode[index] = '[object Object]';
+      }
+    }
+  }
+
+  // Avoid code execution in load() via toString property
+  // (still use its own toString for arrays, timestamps,
+  // and whatever user schema extensions happen to have @@toStringTag)
+  if (typeof keyNode === 'object' && _class(keyNode) === '[object Object]') {
+    keyNode = '[object Object]';
+  }
+
+
+  keyNode = String(keyNode);
+
+  if (_result === null) {
+    _result = {};
+  }
+
+  if (keyTag === 'tag:yaml.org,2002:merge') {
+    if (Array.isArray(valueNode)) {
+      for (index = 0, quantity = valueNode.length; index < quantity; index += 1) {
+        mergeMappings(state, _result, valueNode[index], overridableKeys);
+      }
+    } else {
+      mergeMappings(state, _result, valueNode, overridableKeys);
+    }
+  } else {
+    if (!state.json &&
+        !_hasOwnProperty$2.call(overridableKeys, keyNode) &&
+        _hasOwnProperty$2.call(_result, keyNode)) {
+      state.line = startLine || state.line;
+      state.position = startPos || state.position;
+      throwError(state, 'duplicated mapping key');
+    }
+    _result[keyNode] = valueNode;
+    delete overridableKeys[keyNode];
+  }
+
+  return _result;
+}
+
+function readLineBreak(state) {
+  var ch;
+
+  ch = state.input.charCodeAt(state.position);
+
+  if (ch === 0x0A/* LF */) {
+    state.position++;
+  } else if (ch === 0x0D/* CR */) {
+    state.position++;
+    if (state.input.charCodeAt(state.position) === 0x0A/* LF */) {
+      state.position++;
+    }
+  } else {
+    throwError(state, 'a line break is expected');
+  }
+
+  state.line += 1;
+  state.lineStart = state.position;
+}
+
+function skipSeparationSpace(state, allowComments, checkIndent) {
+  var lineBreaks = 0,
+      ch = state.input.charCodeAt(state.position);
+
+  while (ch !== 0) {
+    while (is_WHITE_SPACE(ch)) {
+      ch = state.input.charCodeAt(++state.position);
+    }
+
+    if (allowComments && ch === 0x23/* # */) {
+      do {
+        ch = state.input.charCodeAt(++state.position);
+      } while (ch !== 0x0A/* LF */ && ch !== 0x0D/* CR */ && ch !== 0);
+    }
+
+    if (is_EOL(ch)) {
+      readLineBreak(state);
+
+      ch = state.input.charCodeAt(state.position);
+      lineBreaks++;
+      state.lineIndent = 0;
+
+      while (ch === 0x20/* Space */) {
+        state.lineIndent++;
+        ch = state.input.charCodeAt(++state.position);
+      }
+    } else {
+      break;
+    }
+  }
+
+  if (checkIndent !== -1 && lineBreaks !== 0 && state.lineIndent < checkIndent) {
+    throwWarning(state, 'deficient indentation');
+  }
+
+  return lineBreaks;
+}
+
+function testDocumentSeparator(state) {
+  var _position = state.position,
+      ch;
+
+  ch = state.input.charCodeAt(_position);
+
+  // Condition state.position === state.lineStart is tested
+  // in parent on each call, for efficiency. No needs to test here again.
+  if ((ch === 0x2D/* - */ || ch === 0x2E/* . */) &&
+      ch === state.input.charCodeAt(_position + 1) &&
+      ch === state.input.charCodeAt(_position + 2)) {
+
+    _position += 3;
+
+    ch = state.input.charCodeAt(_position);
+
+    if (ch === 0 || is_WS_OR_EOL(ch)) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function writeFoldedLines(state, count) {
+  if (count === 1) {
+    state.result += ' ';
+  } else if (count > 1) {
+    state.result += common.repeat('\n', count - 1);
+  }
+}
+
+
+function readPlainScalar(state, nodeIndent, withinFlowCollection) {
+  var preceding,
+      following,
+      captureStart,
+      captureEnd,
+      hasPendingContent,
+      _line,
+      _lineStart,
+      _lineIndent,
+      _kind = state.kind,
+      _result = state.result,
+      ch;
+
+  ch = state.input.charCodeAt(state.position);
+
+  if (is_WS_OR_EOL(ch)      ||
+      is_FLOW_INDICATOR(ch) ||
+      ch === 0x23/* # */    ||
+      ch === 0x26/* & */    ||
+      ch === 0x2A/* * */    ||
+      ch === 0x21/* ! */    ||
+      ch === 0x7C/* | */    ||
+      ch === 0x3E/* > */    ||
+      ch === 0x27/* ' */    ||
+      ch === 0x22/* " */    ||
+      ch === 0x25/* % */    ||
+      ch === 0x40/* @ */    ||
+      ch === 0x60/* ` */) {
+    return false;
+  }
+
+  if (ch === 0x3F/* ? */ || ch === 0x2D/* - */) {
+    following = state.input.charCodeAt(state.position + 1);
+
+    if (is_WS_OR_EOL(following) ||
+        withinFlowCollection && is_FLOW_INDICATOR(following)) {
+      return false;
+    }
+  }
+
+  state.kind = 'scalar';
+  state.result = '';
+  captureStart = captureEnd = state.position;
+  hasPendingContent = false;
+
+  while (ch !== 0) {
+    if (ch === 0x3A/* : */) {
+      following = state.input.charCodeAt(state.position + 1);
+
+      if (is_WS_OR_EOL(following) ||
+          withinFlowCollection && is_FLOW_INDICATOR(following)) {
+        break;
+      }
+
+    } else if (ch === 0x23/* # */) {
+      preceding = state.input.charCodeAt(state.position - 1);
+
+      if (is_WS_OR_EOL(preceding)) {
+        break;
+      }
+
+    } else if ((state.position === state.lineStart && testDocumentSeparator(state)) ||
+               withinFlowCollection && is_FLOW_INDICATOR(ch)) {
+      break;
+
+    } else if (is_EOL(ch)) {
+      _line = state.line;
+      _lineStart = state.lineStart;
+      _lineIndent = state.lineIndent;
+      skipSeparationSpace(state, false, -1);
+
+      if (state.lineIndent >= nodeIndent) {
+        hasPendingContent = true;
+        ch = state.input.charCodeAt(state.position);
+        continue;
+      } else {
+        state.position = captureEnd;
+        state.line = _line;
+        state.lineStart = _lineStart;
+        state.lineIndent = _lineIndent;
+        break;
+      }
+    }
+
+    if (hasPendingContent) {
+      captureSegment(state, captureStart, captureEnd, false);
+      writeFoldedLines(state, state.line - _line);
+      captureStart = captureEnd = state.position;
+      hasPendingContent = false;
+    }
+
+    if (!is_WHITE_SPACE(ch)) {
+      captureEnd = state.position + 1;
+    }
+
+    ch = state.input.charCodeAt(++state.position);
+  }
+
+  captureSegment(state, captureStart, captureEnd, false);
+
+  if (state.result) {
+    return true;
+  }
+
+  state.kind = _kind;
+  state.result = _result;
+  return false;
+}
+
+function readSingleQuotedScalar(state, nodeIndent) {
+  var ch,
+      captureStart, captureEnd;
+
+  ch = state.input.charCodeAt(state.position);
+
+  if (ch !== 0x27/* ' */) {
+    return false;
+  }
+
+  state.kind = 'scalar';
+  state.result = '';
+  state.position++;
+  captureStart = captureEnd = state.position;
+
+  while ((ch = state.input.charCodeAt(state.position)) !== 0) {
+    if (ch === 0x27/* ' */) {
+      captureSegment(state, captureStart, state.position, true);
+      ch = state.input.charCodeAt(++state.position);
+
+      if (ch === 0x27/* ' */) {
+        captureStart = state.position;
+        state.position++;
+        captureEnd = state.position;
+      } else {
+        return true;
+      }
+
+    } else if (is_EOL(ch)) {
+      captureSegment(state, captureStart, captureEnd, true);
+      writeFoldedLines(state, skipSeparationSpace(state, false, nodeIndent));
+      captureStart = captureEnd = state.position;
+
+    } else if (state.position === state.lineStart && testDocumentSeparator(state)) {
+      throwError(state, 'unexpected end of the document within a single quoted scalar');
+
+    } else {
+      state.position++;
+      captureEnd = state.position;
+    }
+  }
+
+  throwError(state, 'unexpected end of the stream within a single quoted scalar');
+}
+
+function readDoubleQuotedScalar(state, nodeIndent) {
+  var captureStart,
+      captureEnd,
+      hexLength,
+      hexResult,
+      tmp,
+      ch;
+
+  ch = state.input.charCodeAt(state.position);
+
+  if (ch !== 0x22/* " */) {
+    return false;
+  }
+
+  state.kind = 'scalar';
+  state.result = '';
+  state.position++;
+  captureStart = captureEnd = state.position;
+
+  while ((ch = state.input.charCodeAt(state.position)) !== 0) {
+    if (ch === 0x22/* " */) {
+      captureSegment(state, captureStart, state.position, true);
+      state.position++;
+      return true;
+
+    } else if (ch === 0x5C/* \ */) {
+      captureSegment(state, captureStart, state.position, true);
+      ch = state.input.charCodeAt(++state.position);
+
+      if (is_EOL(ch)) {
+        skipSeparationSpace(state, false, nodeIndent);
+
+        // TODO: rework to inline fn with no type cast?
+      } else if (ch < 256 && simpleEscapeCheck[ch]) {
+        state.result += simpleEscapeMap[ch];
+        state.position++;
+
+      } else if ((tmp = escapedHexLen(ch)) > 0) {
+        hexLength = tmp;
+        hexResult = 0;
+
+        for (; hexLength > 0; hexLength--) {
+          ch = state.input.charCodeAt(++state.position);
+
+          if ((tmp = fromHexCode(ch)) >= 0) {
+            hexResult = (hexResult << 4) + tmp;
+
+          } else {
+            throwError(state, 'expected hexadecimal character');
+          }
+        }
+
+        state.result += charFromCodepoint(hexResult);
+
+        state.position++;
+
+      } else {
+        throwError(state, 'unknown escape sequence');
+      }
+
+      captureStart = captureEnd = state.position;
+
+    } else if (is_EOL(ch)) {
+      captureSegment(state, captureStart, captureEnd, true);
+      writeFoldedLines(state, skipSeparationSpace(state, false, nodeIndent));
+      captureStart = captureEnd = state.position;
+
+    } else if (state.position === state.lineStart && testDocumentSeparator(state)) {
+      throwError(state, 'unexpected end of the document within a double quoted scalar');
+
+    } else {
+      state.position++;
+      captureEnd = state.position;
+    }
+  }
+
+  throwError(state, 'unexpected end of the stream within a double quoted scalar');
+}
+
+function readFlowCollection(state, nodeIndent) {
+  var readNext = true,
+      _line,
+      _tag     = state.tag,
+      _result,
+      _anchor  = state.anchor,
+      following,
+      terminator,
+      isPair,
+      isExplicitPair,
+      isMapping,
+      overridableKeys = {},
+      keyNode,
+      keyTag,
+      valueNode,
+      ch;
+
+  ch = state.input.charCodeAt(state.position);
+
+  if (ch === 0x5B/* [ */) {
+    terminator = 0x5D;/* ] */
+    isMapping = false;
+    _result = [];
+  } else if (ch === 0x7B/* { */) {
+    terminator = 0x7D;/* } */
+    isMapping = true;
+    _result = {};
+  } else {
+    return false;
+  }
+
+  if (state.anchor !== null) {
+    state.anchorMap[state.anchor] = _result;
+  }
+
+  ch = state.input.charCodeAt(++state.position);
+
+  while (ch !== 0) {
+    skipSeparationSpace(state, true, nodeIndent);
+
+    ch = state.input.charCodeAt(state.position);
+
+    if (ch === terminator) {
+      state.position++;
+      state.tag = _tag;
+      state.anchor = _anchor;
+      state.kind = isMapping ? 'mapping' : 'sequence';
+      state.result = _result;
+      return true;
+    } else if (!readNext) {
+      throwError(state, 'missed comma between flow collection entries');
+    }
+
+    keyTag = keyNode = valueNode = null;
+    isPair = isExplicitPair = false;
+
+    if (ch === 0x3F/* ? */) {
+      following = state.input.charCodeAt(state.position + 1);
+
+      if (is_WS_OR_EOL(following)) {
+        isPair = isExplicitPair = true;
+        state.position++;
+        skipSeparationSpace(state, true, nodeIndent);
+      }
+    }
+
+    _line = state.line;
+    composeNode(state, nodeIndent, CONTEXT_FLOW_IN, false, true);
+    keyTag = state.tag;
+    keyNode = state.result;
+    skipSeparationSpace(state, true, nodeIndent);
+
+    ch = state.input.charCodeAt(state.position);
+
+    if ((isExplicitPair || state.line === _line) && ch === 0x3A/* : */) {
+      isPair = true;
+      ch = state.input.charCodeAt(++state.position);
+      skipSeparationSpace(state, true, nodeIndent);
+      composeNode(state, nodeIndent, CONTEXT_FLOW_IN, false, true);
+      valueNode = state.result;
+    }
+
+    if (isMapping) {
+      storeMappingPair(state, _result, overridableKeys, keyTag, keyNode, valueNode);
+    } else if (isPair) {
+      _result.push(storeMappingPair(state, null, overridableKeys, keyTag, keyNode, valueNode));
+    } else {
+      _result.push(keyNode);
+    }
+
+    skipSeparationSpace(state, true, nodeIndent);
+
+    ch = state.input.charCodeAt(state.position);
+
+    if (ch === 0x2C/* , */) {
+      readNext = true;
+      ch = state.input.charCodeAt(++state.position);
+    } else {
+      readNext = false;
+    }
+  }
+
+  throwError(state, 'unexpected end of the stream within a flow collection');
+}
+
+function readBlockScalar(state, nodeIndent) {
+  var captureStart,
+      folding,
+      chomping       = CHOMPING_CLIP,
+      didReadContent = false,
+      detectedIndent = false,
+      textIndent     = nodeIndent,
+      emptyLines     = 0,
+      atMoreIndented = false,
+      tmp,
+      ch;
+
+  ch = state.input.charCodeAt(state.position);
+
+  if (ch === 0x7C/* | */) {
+    folding = false;
+  } else if (ch === 0x3E/* > */) {
+    folding = true;
+  } else {
+    return false;
+  }
+
+  state.kind = 'scalar';
+  state.result = '';
+
+  while (ch !== 0) {
+    ch = state.input.charCodeAt(++state.position);
+
+    if (ch === 0x2B/* + */ || ch === 0x2D/* - */) {
+      if (CHOMPING_CLIP === chomping) {
+        chomping = (ch === 0x2B/* + */) ? CHOMPING_KEEP : CHOMPING_STRIP;
+      } else {
+        throwError(state, 'repeat of a chomping mode identifier');
+      }
+
+    } else if ((tmp = fromDecimalCode(ch)) >= 0) {
+      if (tmp === 0) {
+        throwError(state, 'bad explicit indentation width of a block scalar; it cannot be less than one');
+      } else if (!detectedIndent) {
+        textIndent = nodeIndent + tmp - 1;
+        detectedIndent = true;
+      } else {
+        throwError(state, 'repeat of an indentation width identifier');
+      }
+
+    } else {
+      break;
+    }
+  }
+
+  if (is_WHITE_SPACE(ch)) {
+    do { ch = state.input.charCodeAt(++state.position); }
+    while (is_WHITE_SPACE(ch));
+
+    if (ch === 0x23/* # */) {
+      do { ch = state.input.charCodeAt(++state.position); }
+      while (!is_EOL(ch) && (ch !== 0));
+    }
+  }
+
+  while (ch !== 0) {
+    readLineBreak(state);
+    state.lineIndent = 0;
+
+    ch = state.input.charCodeAt(state.position);
+
+    while ((!detectedIndent || state.lineIndent < textIndent) &&
+           (ch === 0x20/* Space */)) {
+      state.lineIndent++;
+      ch = state.input.charCodeAt(++state.position);
+    }
+
+    if (!detectedIndent && state.lineIndent > textIndent) {
+      textIndent = state.lineIndent;
+    }
+
+    if (is_EOL(ch)) {
+      emptyLines++;
+      continue;
+    }
+
+    // End of the scalar.
+    if (state.lineIndent < textIndent) {
+
+      // Perform the chomping.
+      if (chomping === CHOMPING_KEEP) {
+        state.result += common.repeat('\n', didReadContent ? 1 + emptyLines : emptyLines);
+      } else if (chomping === CHOMPING_CLIP) {
+        if (didReadContent) { // i.e. only if the scalar is not empty.
+          state.result += '\n';
+        }
+      }
+
+      // Break this `while` cycle and go to the funciton's epilogue.
+      break;
+    }
+
+    // Folded style: use fancy rules to handle line breaks.
+    if (folding) {
+
+      // Lines starting with white space characters (more-indented lines) are not folded.
+      if (is_WHITE_SPACE(ch)) {
+        atMoreIndented = true;
+        // except for the first content line (cf. Example 8.1)
+        state.result += common.repeat('\n', didReadContent ? 1 + emptyLines : emptyLines);
+
+      // End of more-indented block.
+      } else if (atMoreIndented) {
+        atMoreIndented = false;
+        state.result += common.repeat('\n', emptyLines + 1);
+
+      // Just one line break - perceive as the same line.
+      } else if (emptyLines === 0) {
+        if (didReadContent) { // i.e. only if we have already read some scalar content.
+          state.result += ' ';
+        }
+
+      // Several line breaks - perceive as different lines.
+      } else {
+        state.result += common.repeat('\n', emptyLines);
+      }
+
+    // Literal style: just add exact number of line breaks between content lines.
+    } else {
+      // Keep all line breaks except the header line break.
+      state.result += common.repeat('\n', didReadContent ? 1 + emptyLines : emptyLines);
+    }
+
+    didReadContent = true;
+    detectedIndent = true;
+    emptyLines = 0;
+    captureStart = state.position;
+
+    while (!is_EOL(ch) && (ch !== 0)) {
+      ch = state.input.charCodeAt(++state.position);
+    }
+
+    captureSegment(state, captureStart, state.position, false);
+  }
+
+  return true;
+}
+
+function readBlockSequence(state, nodeIndent) {
+  var _line,
+      _tag      = state.tag,
+      _anchor   = state.anchor,
+      _result   = [],
+      following,
+      detected  = false,
+      ch;
+
+  if (state.anchor !== null) {
+    state.anchorMap[state.anchor] = _result;
+  }
+
+  ch = state.input.charCodeAt(state.position);
+
+  while (ch !== 0) {
+
+    if (ch !== 0x2D/* - */) {
+      break;
+    }
+
+    following = state.input.charCodeAt(state.position + 1);
+
+    if (!is_WS_OR_EOL(following)) {
+      break;
+    }
+
+    detected = true;
+    state.position++;
+
+    if (skipSeparationSpace(state, true, -1)) {
+      if (state.lineIndent <= nodeIndent) {
+        _result.push(null);
+        ch = state.input.charCodeAt(state.position);
+        continue;
+      }
+    }
+
+    _line = state.line;
+    composeNode(state, nodeIndent, CONTEXT_BLOCK_IN, false, true);
+    _result.push(state.result);
+    skipSeparationSpace(state, true, -1);
+
+    ch = state.input.charCodeAt(state.position);
+
+    if ((state.line === _line || state.lineIndent > nodeIndent) && (ch !== 0)) {
+      throwError(state, 'bad indentation of a sequence entry');
+    } else if (state.lineIndent < nodeIndent) {
+      break;
+    }
+  }
+
+  if (detected) {
+    state.tag = _tag;
+    state.anchor = _anchor;
+    state.kind = 'sequence';
+    state.result = _result;
+    return true;
+  }
+  return false;
+}
+
+function readBlockMapping(state, nodeIndent, flowIndent) {
+  var following,
+      allowCompact,
+      _line,
+      _pos,
+      _tag          = state.tag,
+      _anchor       = state.anchor,
+      _result       = {},
+      overridableKeys = {},
+      keyTag        = null,
+      keyNode       = null,
+      valueNode     = null,
+      atExplicitKey = false,
+      detected      = false,
+      ch;
+
+  if (state.anchor !== null) {
+    state.anchorMap[state.anchor] = _result;
+  }
+
+  ch = state.input.charCodeAt(state.position);
+
+  while (ch !== 0) {
+    following = state.input.charCodeAt(state.position + 1);
+    _line = state.line; // Save the current line.
+    _pos = state.position;
+
+    //
+    // Explicit notation case. There are two separate blocks:
+    // first for the key (denoted by "?") and second for the value (denoted by ":")
+    //
+    if ((ch === 0x3F/* ? */ || ch === 0x3A/* : */) && is_WS_OR_EOL(following)) {
+
+      if (ch === 0x3F/* ? */) {
+        if (atExplicitKey) {
+          storeMappingPair(state, _result, overridableKeys, keyTag, keyNode, null);
+          keyTag = keyNode = valueNode = null;
+        }
+
+        detected = true;
+        atExplicitKey = true;
+        allowCompact = true;
+
+      } else if (atExplicitKey) {
+        // i.e. 0x3A/* : */ === character after the explicit key.
+        atExplicitKey = false;
+        allowCompact = true;
+
+      } else {
+        throwError(state, 'incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line');
+      }
+
+      state.position += 1;
+      ch = following;
+
+    //
+    // Implicit notation case. Flow-style node as the key first, then ":", and the value.
+    //
+    } else if (composeNode(state, flowIndent, CONTEXT_FLOW_OUT, false, true)) {
+
+      if (state.line === _line) {
+        ch = state.input.charCodeAt(state.position);
+
+        while (is_WHITE_SPACE(ch)) {
+          ch = state.input.charCodeAt(++state.position);
+        }
+
+        if (ch === 0x3A/* : */) {
+          ch = state.input.charCodeAt(++state.position);
+
+          if (!is_WS_OR_EOL(ch)) {
+            throwError(state, 'a whitespace character is expected after the key-value separator within a block mapping');
+          }
+
+          if (atExplicitKey) {
+            storeMappingPair(state, _result, overridableKeys, keyTag, keyNode, null);
+            keyTag = keyNode = valueNode = null;
+          }
+
+          detected = true;
+          atExplicitKey = false;
+          allowCompact = false;
+          keyTag = state.tag;
+          keyNode = state.result;
+
+        } else if (detected) {
+          throwError(state, 'can not read an implicit mapping pair; a colon is missed');
+
+        } else {
+          state.tag = _tag;
+          state.anchor = _anchor;
+          return true; // Keep the result of `composeNode`.
+        }
+
+      } else if (detected) {
+        throwError(state, 'can not read a block mapping entry; a multiline key may not be an implicit key');
+
+      } else {
+        state.tag = _tag;
+        state.anchor = _anchor;
+        return true; // Keep the result of `composeNode`.
+      }
+
+    } else {
+      break; // Reading is done. Go to the epilogue.
+    }
+
+    //
+    // Common reading code for both explicit and implicit notations.
+    //
+    if (state.line === _line || state.lineIndent > nodeIndent) {
+      if (composeNode(state, nodeIndent, CONTEXT_BLOCK_OUT, true, allowCompact)) {
+        if (atExplicitKey) {
+          keyNode = state.result;
+        } else {
+          valueNode = state.result;
+        }
+      }
+
+      if (!atExplicitKey) {
+        storeMappingPair(state, _result, overridableKeys, keyTag, keyNode, valueNode, _line, _pos);
+        keyTag = keyNode = valueNode = null;
+      }
+
+      skipSeparationSpace(state, true, -1);
+      ch = state.input.charCodeAt(state.position);
+    }
+
+    if (state.lineIndent > nodeIndent && (ch !== 0)) {
+      throwError(state, 'bad indentation of a mapping entry');
+    } else if (state.lineIndent < nodeIndent) {
+      break;
+    }
+  }
+
+  //
+  // Epilogue.
+  //
+
+  // Special case: last mapping's node contains only the key in explicit notation.
+  if (atExplicitKey) {
+    storeMappingPair(state, _result, overridableKeys, keyTag, keyNode, null);
+  }
+
+  // Expose the resulting mapping.
+  if (detected) {
+    state.tag = _tag;
+    state.anchor = _anchor;
+    state.kind = 'mapping';
+    state.result = _result;
+  }
+
+  return detected;
+}
+
+function readTagProperty(state) {
+  var _position,
+      isVerbatim = false,
+      isNamed    = false,
+      tagHandle,
+      tagName,
+      ch;
+
+  ch = state.input.charCodeAt(state.position);
+
+  if (ch !== 0x21/* ! */) return false;
+
+  if (state.tag !== null) {
+    throwError(state, 'duplication of a tag property');
+  }
+
+  ch = state.input.charCodeAt(++state.position);
+
+  if (ch === 0x3C/* < */) {
+    isVerbatim = true;
+    ch = state.input.charCodeAt(++state.position);
+
+  } else if (ch === 0x21/* ! */) {
+    isNamed = true;
+    tagHandle = '!!';
+    ch = state.input.charCodeAt(++state.position);
+
+  } else {
+    tagHandle = '!';
+  }
+
+  _position = state.position;
+
+  if (isVerbatim) {
+    do { ch = state.input.charCodeAt(++state.position); }
+    while (ch !== 0 && ch !== 0x3E/* > */);
+
+    if (state.position < state.length) {
+      tagName = state.input.slice(_position, state.position);
+      ch = state.input.charCodeAt(++state.position);
+    } else {
+      throwError(state, 'unexpected end of the stream within a verbatim tag');
+    }
+  } else {
+    while (ch !== 0 && !is_WS_OR_EOL(ch)) {
+
+      if (ch === 0x21/* ! */) {
+        if (!isNamed) {
+          tagHandle = state.input.slice(_position - 1, state.position + 1);
+
+          if (!PATTERN_TAG_HANDLE.test(tagHandle)) {
+            throwError(state, 'named tag handle cannot contain such characters');
+          }
+
+          isNamed = true;
+          _position = state.position + 1;
+        } else {
+          throwError(state, 'tag suffix cannot contain exclamation marks');
+        }
+      }
+
+      ch = state.input.charCodeAt(++state.position);
+    }
+
+    tagName = state.input.slice(_position, state.position);
+
+    if (PATTERN_FLOW_INDICATORS.test(tagName)) {
+      throwError(state, 'tag suffix cannot contain flow indicator characters');
+    }
+  }
+
+  if (tagName && !PATTERN_TAG_URI.test(tagName)) {
+    throwError(state, 'tag name cannot contain such characters: ' + tagName);
+  }
+
+  if (isVerbatim) {
+    state.tag = tagName;
+
+  } else if (_hasOwnProperty$2.call(state.tagMap, tagHandle)) {
+    state.tag = state.tagMap[tagHandle] + tagName;
+
+  } else if (tagHandle === '!') {
+    state.tag = '!' + tagName;
+
+  } else if (tagHandle === '!!') {
+    state.tag = 'tag:yaml.org,2002:' + tagName;
+
+  } else {
+    throwError(state, 'undeclared tag handle "' + tagHandle + '"');
+  }
+
+  return true;
+}
+
+function readAnchorProperty(state) {
+  var _position,
+      ch;
+
+  ch = state.input.charCodeAt(state.position);
+
+  if (ch !== 0x26/* & */) return false;
+
+  if (state.anchor !== null) {
+    throwError(state, 'duplication of an anchor property');
+  }
+
+  ch = state.input.charCodeAt(++state.position);
+  _position = state.position;
+
+  while (ch !== 0 && !is_WS_OR_EOL(ch) && !is_FLOW_INDICATOR(ch)) {
+    ch = state.input.charCodeAt(++state.position);
+  }
+
+  if (state.position === _position) {
+    throwError(state, 'name of an anchor node must contain at least one character');
+  }
+
+  state.anchor = state.input.slice(_position, state.position);
+  return true;
+}
+
+function readAlias(state) {
+  var _position, alias,
+      ch;
+
+  ch = state.input.charCodeAt(state.position);
+
+  if (ch !== 0x2A/* * */) return false;
+
+  ch = state.input.charCodeAt(++state.position);
+  _position = state.position;
+
+  while (ch !== 0 && !is_WS_OR_EOL(ch) && !is_FLOW_INDICATOR(ch)) {
+    ch = state.input.charCodeAt(++state.position);
+  }
+
+  if (state.position === _position) {
+    throwError(state, 'name of an alias node must contain at least one character');
+  }
+
+  alias = state.input.slice(_position, state.position);
+
+  if (!state.anchorMap.hasOwnProperty(alias)) {
+    throwError(state, 'unidentified alias "' + alias + '"');
+  }
+
+  state.result = state.anchorMap[alias];
+  skipSeparationSpace(state, true, -1);
+  return true;
+}
+
+function composeNode(state, parentIndent, nodeContext, allowToSeek, allowCompact) {
+  var allowBlockStyles,
+      allowBlockScalars,
+      allowBlockCollections,
+      indentStatus = 1, // 1: this>parent, 0: this=parent, -1: this<parent
+      atNewLine  = false,
+      hasContent = false,
+      typeIndex,
+      typeQuantity,
+      type,
+      flowIndent,
+      blockIndent;
+
+  if (state.listener !== null) {
+    state.listener('open', state);
+  }
+
+  state.tag    = null;
+  state.anchor = null;
+  state.kind   = null;
+  state.result = null;
+
+  allowBlockStyles = allowBlockScalars = allowBlockCollections =
+    CONTEXT_BLOCK_OUT === nodeContext ||
+    CONTEXT_BLOCK_IN  === nodeContext;
+
+  if (allowToSeek) {
+    if (skipSeparationSpace(state, true, -1)) {
+      atNewLine = true;
+
+      if (state.lineIndent > parentIndent) {
+        indentStatus = 1;
+      } else if (state.lineIndent === parentIndent) {
+        indentStatus = 0;
+      } else if (state.lineIndent < parentIndent) {
+        indentStatus = -1;
+      }
+    }
+  }
+
+  if (indentStatus === 1) {
+    while (readTagProperty(state) || readAnchorProperty(state)) {
+      if (skipSeparationSpace(state, true, -1)) {
+        atNewLine = true;
+        allowBlockCollections = allowBlockStyles;
+
+        if (state.lineIndent > parentIndent) {
+          indentStatus = 1;
+        } else if (state.lineIndent === parentIndent) {
+          indentStatus = 0;
+        } else if (state.lineIndent < parentIndent) {
+          indentStatus = -1;
+        }
+      } else {
+        allowBlockCollections = false;
+      }
+    }
+  }
+
+  if (allowBlockCollections) {
+    allowBlockCollections = atNewLine || allowCompact;
+  }
+
+  if (indentStatus === 1 || CONTEXT_BLOCK_OUT === nodeContext) {
+    if (CONTEXT_FLOW_IN === nodeContext || CONTEXT_FLOW_OUT === nodeContext) {
+      flowIndent = parentIndent;
+    } else {
+      flowIndent = parentIndent + 1;
+    }
+
+    blockIndent = state.position - state.lineStart;
+
+    if (indentStatus === 1) {
+      if (allowBlockCollections &&
+          (readBlockSequence(state, blockIndent) ||
+           readBlockMapping(state, blockIndent, flowIndent)) ||
+          readFlowCollection(state, flowIndent)) {
+        hasContent = true;
+      } else {
+        if ((allowBlockScalars && readBlockScalar(state, flowIndent)) ||
+            readSingleQuotedScalar(state, flowIndent) ||
+            readDoubleQuotedScalar(state, flowIndent)) {
+          hasContent = true;
+
+        } else if (readAlias(state)) {
+          hasContent = true;
+
+          if (state.tag !== null || state.anchor !== null) {
+            throwError(state, 'alias node should not have any properties');
+          }
+
+        } else if (readPlainScalar(state, flowIndent, CONTEXT_FLOW_IN === nodeContext)) {
+          hasContent = true;
+
+          if (state.tag === null) {
+            state.tag = '?';
+          }
+        }
+
+        if (state.anchor !== null) {
+          state.anchorMap[state.anchor] = state.result;
+        }
+      }
+    } else if (indentStatus === 0) {
+      // Special case: block sequences are allowed to have same indentation level as the parent.
+      // http://www.yaml.org/spec/1.2/spec.html#id2799784
+      hasContent = allowBlockCollections && readBlockSequence(state, blockIndent);
+    }
+  }
+
+  if (state.tag !== null && state.tag !== '!') {
+    if (state.tag === '?') {
+      // Implicit resolving is not allowed for non-scalar types, and '?'
+      // non-specific tag is only automatically assigned to plain scalars.
+      //
+      // We only need to check kind conformity in case user explicitly assigns '?'
+      // tag, for example like this: "!<?> [0]"
+      //
+      if (state.result !== null && state.kind !== 'scalar') {
+        throwError(state, 'unacceptable node kind for !<?> tag; it should be "scalar", not "' + state.kind + '"');
+      }
+
+      for (typeIndex = 0, typeQuantity = state.implicitTypes.length; typeIndex < typeQuantity; typeIndex += 1) {
+        type = state.implicitTypes[typeIndex];
+
+        if (type.resolve(state.result)) { // `state.result` updated in resolver if matched
+          state.result = type.construct(state.result);
+          state.tag = type.tag;
+          if (state.anchor !== null) {
+            state.anchorMap[state.anchor] = state.result;
+          }
+          break;
+        }
+      }
+    } else if (_hasOwnProperty$2.call(state.typeMap[state.kind || 'fallback'], state.tag)) {
+      type = state.typeMap[state.kind || 'fallback'][state.tag];
+
+      if (state.result !== null && type.kind !== state.kind) {
+        throwError(state, 'unacceptable node kind for !<' + state.tag + '> tag; it should be "' + type.kind + '", not "' + state.kind + '"');
+      }
+
+      if (!type.resolve(state.result)) { // `state.result` updated in resolver if matched
+        throwError(state, 'cannot resolve a node with !<' + state.tag + '> explicit tag');
+      } else {
+        state.result = type.construct(state.result);
+        if (state.anchor !== null) {
+          state.anchorMap[state.anchor] = state.result;
+        }
+      }
+    } else {
+      throwError(state, 'unknown tag !<' + state.tag + '>');
+    }
+  }
+
+  if (state.listener !== null) {
+    state.listener('close', state);
+  }
+  return state.tag !== null ||  state.anchor !== null || hasContent;
+}
+
+function readDocument(state) {
+  var documentStart = state.position,
+      _position,
+      directiveName,
+      directiveArgs,
+      hasDirectives = false,
+      ch;
+
+  state.version = null;
+  state.checkLineBreaks = state.legacy;
+  state.tagMap = {};
+  state.anchorMap = {};
+
+  while ((ch = state.input.charCodeAt(state.position)) !== 0) {
+    skipSeparationSpace(state, true, -1);
+
+    ch = state.input.charCodeAt(state.position);
+
+    if (state.lineIndent > 0 || ch !== 0x25/* % */) {
+      break;
+    }
+
+    hasDirectives = true;
+    ch = state.input.charCodeAt(++state.position);
+    _position = state.position;
+
+    while (ch !== 0 && !is_WS_OR_EOL(ch)) {
+      ch = state.input.charCodeAt(++state.position);
+    }
+
+    directiveName = state.input.slice(_position, state.position);
+    directiveArgs = [];
+
+    if (directiveName.length < 1) {
+      throwError(state, 'directive name must not be less than one character in length');
+    }
+
+    while (ch !== 0) {
+      while (is_WHITE_SPACE(ch)) {
+        ch = state.input.charCodeAt(++state.position);
+      }
+
+      if (ch === 0x23/* # */) {
+        do { ch = state.input.charCodeAt(++state.position); }
+        while (ch !== 0 && !is_EOL(ch));
+        break;
+      }
+
+      if (is_EOL(ch)) break;
+
+      _position = state.position;
+
+      while (ch !== 0 && !is_WS_OR_EOL(ch)) {
+        ch = state.input.charCodeAt(++state.position);
+      }
+
+      directiveArgs.push(state.input.slice(_position, state.position));
+    }
+
+    if (ch !== 0) readLineBreak(state);
+
+    if (_hasOwnProperty$2.call(directiveHandlers, directiveName)) {
+      directiveHandlers[directiveName](state, directiveName, directiveArgs);
+    } else {
+      throwWarning(state, 'unknown document directive "' + directiveName + '"');
+    }
+  }
+
+  skipSeparationSpace(state, true, -1);
+
+  if (state.lineIndent === 0 &&
+      state.input.charCodeAt(state.position)     === 0x2D/* - */ &&
+      state.input.charCodeAt(state.position + 1) === 0x2D/* - */ &&
+      state.input.charCodeAt(state.position + 2) === 0x2D/* - */) {
+    state.position += 3;
+    skipSeparationSpace(state, true, -1);
+
+  } else if (hasDirectives) {
+    throwError(state, 'directives end mark is expected');
+  }
+
+  composeNode(state, state.lineIndent - 1, CONTEXT_BLOCK_OUT, false, true);
+  skipSeparationSpace(state, true, -1);
+
+  if (state.checkLineBreaks &&
+      PATTERN_NON_ASCII_LINE_BREAKS.test(state.input.slice(documentStart, state.position))) {
+    throwWarning(state, 'non-ASCII line breaks are interpreted as content');
+  }
+
+  state.documents.push(state.result);
+
+  if (state.position === state.lineStart && testDocumentSeparator(state)) {
+
+    if (state.input.charCodeAt(state.position) === 0x2E/* . */) {
+      state.position += 3;
+      skipSeparationSpace(state, true, -1);
+    }
+    return;
+  }
+
+  if (state.position < (state.length - 1)) {
+    throwError(state, 'end of the stream or a document separator is expected');
+  } else {
+    return;
+  }
+}
+
+
+function loadDocuments(input, options) {
+  input = String(input);
+  options = options || {};
+
+  if (input.length !== 0) {
+
+    // Add tailing `\n` if not exists
+    if (input.charCodeAt(input.length - 1) !== 0x0A/* LF */ &&
+        input.charCodeAt(input.length - 1) !== 0x0D/* CR */) {
+      input += '\n';
+    }
+
+    // Strip BOM
+    if (input.charCodeAt(0) === 0xFEFF) {
+      input = input.slice(1);
+    }
+  }
+
+  var state = new State(input, options);
+
+  var nullpos = input.indexOf('\0');
+
+  if (nullpos !== -1) {
+    state.position = nullpos;
+    throwError(state, 'null byte is not allowed in input');
+  }
+
+  // Use 0 as string terminator. That significantly simplifies bounds check.
+  state.input += '\0';
+
+  while (state.input.charCodeAt(state.position) === 0x20/* Space */) {
+    state.lineIndent += 1;
+    state.position += 1;
+  }
+
+  while (state.position < (state.length - 1)) {
+    readDocument(state);
+  }
+
+  return state.documents;
+}
+
+
+function loadAll(input, iterator, options) {
+  if (iterator !== null && typeof iterator === 'object' && typeof options === 'undefined') {
+    options = iterator;
+    iterator = null;
+  }
+
+  var documents = loadDocuments(input, options);
+
+  if (typeof iterator !== 'function') {
+    return documents;
+  }
+
+  for (var index = 0, length = documents.length; index < length; index += 1) {
+    iterator(documents[index]);
+  }
+}
+
+
+function load(input, options) {
+  var documents = loadDocuments(input, options);
+
+  if (documents.length === 0) {
+    /*eslint-disable no-undefined*/
+    return undefined;
+  } else if (documents.length === 1) {
+    return documents[0];
+  }
+  throw new exception('expected a single document in the stream, but found more');
+}
+
+
+function safeLoadAll(input, iterator, options) {
+  if (typeof iterator === 'object' && iterator !== null && typeof options === 'undefined') {
+    options = iterator;
+    iterator = null;
+  }
+
+  return loadAll(input, iterator, common.extend({ schema: default_safe }, options));
+}
+
+
+function safeLoad(input, options) {
+  return load(input, common.extend({ schema: default_safe }, options));
+}
+
+
+var loadAll_1     = loadAll;
+var load_1        = load;
+var safeLoadAll_1 = safeLoadAll;
+var safeLoad_1    = safeLoad;
+
+var loader = {
+	loadAll: loadAll_1,
+	load: load_1,
+	safeLoadAll: safeLoadAll_1,
+	safeLoad: safeLoad_1
+};
+
+/*eslint-disable no-use-before-define*/
+
+
+
+
+
+
+var _toString$2       = Object.prototype.toString;
+var _hasOwnProperty$3 = Object.prototype.hasOwnProperty;
+
+var CHAR_TAB                  = 0x09; /* Tab */
+var CHAR_LINE_FEED            = 0x0A; /* LF */
+var CHAR_CARRIAGE_RETURN      = 0x0D; /* CR */
+var CHAR_SPACE                = 0x20; /* Space */
+var CHAR_EXCLAMATION          = 0x21; /* ! */
+var CHAR_DOUBLE_QUOTE         = 0x22; /* " */
+var CHAR_SHARP                = 0x23; /* # */
+var CHAR_PERCENT              = 0x25; /* % */
+var CHAR_AMPERSAND            = 0x26; /* & */
+var CHAR_SINGLE_QUOTE         = 0x27; /* ' */
+var CHAR_ASTERISK             = 0x2A; /* * */
+var CHAR_COMMA                = 0x2C; /* , */
+var CHAR_MINUS                = 0x2D; /* - */
+var CHAR_COLON                = 0x3A; /* : */
+var CHAR_EQUALS               = 0x3D; /* = */
+var CHAR_GREATER_THAN         = 0x3E; /* > */
+var CHAR_QUESTION             = 0x3F; /* ? */
+var CHAR_COMMERCIAL_AT        = 0x40; /* @ */
+var CHAR_LEFT_SQUARE_BRACKET  = 0x5B; /* [ */
+var CHAR_RIGHT_SQUARE_BRACKET = 0x5D; /* ] */
+var CHAR_GRAVE_ACCENT         = 0x60; /* ` */
+var CHAR_LEFT_CURLY_BRACKET   = 0x7B; /* { */
+var CHAR_VERTICAL_LINE        = 0x7C; /* | */
+var CHAR_RIGHT_CURLY_BRACKET  = 0x7D; /* } */
+
+var ESCAPE_SEQUENCES = {};
+
+ESCAPE_SEQUENCES[0x00]   = '\\0';
+ESCAPE_SEQUENCES[0x07]   = '\\a';
+ESCAPE_SEQUENCES[0x08]   = '\\b';
+ESCAPE_SEQUENCES[0x09]   = '\\t';
+ESCAPE_SEQUENCES[0x0A]   = '\\n';
+ESCAPE_SEQUENCES[0x0B]   = '\\v';
+ESCAPE_SEQUENCES[0x0C]   = '\\f';
+ESCAPE_SEQUENCES[0x0D]   = '\\r';
+ESCAPE_SEQUENCES[0x1B]   = '\\e';
+ESCAPE_SEQUENCES[0x22]   = '\\"';
+ESCAPE_SEQUENCES[0x5C]   = '\\\\';
+ESCAPE_SEQUENCES[0x85]   = '\\N';
+ESCAPE_SEQUENCES[0xA0]   = '\\_';
+ESCAPE_SEQUENCES[0x2028] = '\\L';
+ESCAPE_SEQUENCES[0x2029] = '\\P';
+
+var DEPRECATED_BOOLEANS_SYNTAX = [
+  'y', 'Y', 'yes', 'Yes', 'YES', 'on', 'On', 'ON',
+  'n', 'N', 'no', 'No', 'NO', 'off', 'Off', 'OFF'
+];
+
+function compileStyleMap(schema, map) {
+  var result, keys, index, length, tag, style, type;
+
+  if (map === null) return {};
+
+  result = {};
+  keys = Object.keys(map);
+
+  for (index = 0, length = keys.length; index < length; index += 1) {
+    tag = keys[index];
+    style = String(map[tag]);
+
+    if (tag.slice(0, 2) === '!!') {
+      tag = 'tag:yaml.org,2002:' + tag.slice(2);
+    }
+    type = schema.compiledTypeMap['fallback'][tag];
+
+    if (type && _hasOwnProperty$3.call(type.styleAliases, style)) {
+      style = type.styleAliases[style];
+    }
+
+    result[tag] = style;
+  }
+
+  return result;
+}
+
+function encodeHex(character) {
+  var string, handle, length;
+
+  string = character.toString(16).toUpperCase();
+
+  if (character <= 0xFF) {
+    handle = 'x';
+    length = 2;
+  } else if (character <= 0xFFFF) {
+    handle = 'u';
+    length = 4;
+  } else if (character <= 0xFFFFFFFF) {
+    handle = 'U';
+    length = 8;
+  } else {
+    throw new exception('code point within a string may not be greater than 0xFFFFFFFF');
+  }
+
+  return '\\' + handle + common.repeat('0', length - string.length) + string;
+}
+
+function State$1(options) {
+  this.schema        = options['schema'] || default_full;
+  this.indent        = Math.max(1, (options['indent'] || 2));
+  this.noArrayIndent = options['noArrayIndent'] || false;
+  this.skipInvalid   = options['skipInvalid'] || false;
+  this.flowLevel     = (common.isNothing(options['flowLevel']) ? -1 : options['flowLevel']);
+  this.styleMap      = compileStyleMap(this.schema, options['styles'] || null);
+  this.sortKeys      = options['sortKeys'] || false;
+  this.lineWidth     = options['lineWidth'] || 80;
+  this.noRefs        = options['noRefs'] || false;
+  this.noCompatMode  = options['noCompatMode'] || false;
+  this.condenseFlow  = options['condenseFlow'] || false;
+
+  this.implicitTypes = this.schema.compiledImplicit;
+  this.explicitTypes = this.schema.compiledExplicit;
+
+  this.tag = null;
+  this.result = '';
+
+  this.duplicates = [];
+  this.usedDuplicates = null;
+}
+
+// Indents every line in a string. Empty lines (\n only) are not indented.
+function indentString(string, spaces) {
+  var ind = common.repeat(' ', spaces),
+      position = 0,
+      next = -1,
+      result = '',
+      line,
+      length = string.length;
+
+  while (position < length) {
+    next = string.indexOf('\n', position);
+    if (next === -1) {
+      line = string.slice(position);
+      position = length;
+    } else {
+      line = string.slice(position, next + 1);
+      position = next + 1;
+    }
+
+    if (line.length && line !== '\n') result += ind;
+
+    result += line;
+  }
+
+  return result;
+}
+
+function generateNextLine(state, level) {
+  return '\n' + common.repeat(' ', state.indent * level);
+}
+
+function testImplicitResolving(state, str) {
+  var index, length, type;
+
+  for (index = 0, length = state.implicitTypes.length; index < length; index += 1) {
+    type = state.implicitTypes[index];
+
+    if (type.resolve(str)) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+// [33] s-white ::= s-space | s-tab
+function isWhitespace(c) {
+  return c === CHAR_SPACE || c === CHAR_TAB;
+}
+
+// Returns true if the character can be printed without escaping.
+// From YAML 1.2: "any allowed characters known to be non-printable
+// should also be escaped. [However,] This isn’t mandatory"
+// Derived from nb-char - \t - #x85 - #xA0 - #x2028 - #x2029.
+function isPrintable(c) {
+  return  (0x00020 <= c && c <= 0x00007E)
+      || ((0x000A1 <= c && c <= 0x00D7FF) && c !== 0x2028 && c !== 0x2029)
+      || ((0x0E000 <= c && c <= 0x00FFFD) && c !== 0xFEFF /* BOM */)
+      ||  (0x10000 <= c && c <= 0x10FFFF);
+}
+
+// [34] ns-char ::= nb-char - s-white
+// [27] nb-char ::= c-printable - b-char - c-byte-order-mark
+// [26] b-char  ::= b-line-feed | b-carriage-return
+// [24] b-line-feed       ::=     #xA    /* LF */
+// [25] b-carriage-return ::=     #xD    /* CR */
+// [3]  c-byte-order-mark ::=     #xFEFF
+function isNsChar(c) {
+  return isPrintable(c) && !isWhitespace(c)
+    // byte-order-mark
+    && c !== 0xFEFF
+    // b-char
+    && c !== CHAR_CARRIAGE_RETURN
+    && c !== CHAR_LINE_FEED;
+}
+
+// Simplified test for values allowed after the first character in plain style.
+function isPlainSafe(c, prev) {
+  // Uses a subset of nb-char - c-flow-indicator - ":" - "#"
+  // where nb-char ::= c-printable - b-char - c-byte-order-mark.
+  return isPrintable(c) && c !== 0xFEFF
+    // - c-flow-indicator
+    && c !== CHAR_COMMA
+    && c !== CHAR_LEFT_SQUARE_BRACKET
+    && c !== CHAR_RIGHT_SQUARE_BRACKET
+    && c !== CHAR_LEFT_CURLY_BRACKET
+    && c !== CHAR_RIGHT_CURLY_BRACKET
+    // - ":" - "#"
+    // /* An ns-char preceding */ "#"
+    && c !== CHAR_COLON
+    && ((c !== CHAR_SHARP) || (prev && isNsChar(prev)));
+}
+
+// Simplified test for values allowed as the first character in plain style.
+function isPlainSafeFirst(c) {
+  // Uses a subset of ns-char - c-indicator
+  // where ns-char = nb-char - s-white.
+  return isPrintable(c) && c !== 0xFEFF
+    && !isWhitespace(c) // - s-white
+    // - (c-indicator ::=
+    // “-” | “?” | “:” | “,” | “[” | “]” | “{” | “}”
+    && c !== CHAR_MINUS
+    && c !== CHAR_QUESTION
+    && c !== CHAR_COLON
+    && c !== CHAR_COMMA
+    && c !== CHAR_LEFT_SQUARE_BRACKET
+    && c !== CHAR_RIGHT_SQUARE_BRACKET
+    && c !== CHAR_LEFT_CURLY_BRACKET
+    && c !== CHAR_RIGHT_CURLY_BRACKET
+    // | “#” | “&” | “*” | “!” | “|” | “=” | “>” | “'” | “"”
+    && c !== CHAR_SHARP
+    && c !== CHAR_AMPERSAND
+    && c !== CHAR_ASTERISK
+    && c !== CHAR_EXCLAMATION
+    && c !== CHAR_VERTICAL_LINE
+    && c !== CHAR_EQUALS
+    && c !== CHAR_GREATER_THAN
+    && c !== CHAR_SINGLE_QUOTE
+    && c !== CHAR_DOUBLE_QUOTE
+    // | “%” | “@” | “`”)
+    && c !== CHAR_PERCENT
+    && c !== CHAR_COMMERCIAL_AT
+    && c !== CHAR_GRAVE_ACCENT;
+}
+
+// Determines whether block indentation indicator is required.
+function needIndentIndicator(string) {
+  var leadingSpaceRe = /^\n* /;
+  return leadingSpaceRe.test(string);
+}
+
+var STYLE_PLAIN   = 1,
+    STYLE_SINGLE  = 2,
+    STYLE_LITERAL = 3,
+    STYLE_FOLDED  = 4,
+    STYLE_DOUBLE  = 5;
+
+// Determines which scalar styles are possible and returns the preferred style.
+// lineWidth = -1 => no limit.
+// Pre-conditions: str.length > 0.
+// Post-conditions:
+//    STYLE_PLAIN or STYLE_SINGLE => no \n are in the string.
+//    STYLE_LITERAL => no lines are suitable for folding (or lineWidth is -1).
+//    STYLE_FOLDED => a line > lineWidth and can be folded (and lineWidth != -1).
+function chooseScalarStyle(string, singleLineOnly, indentPerLevel, lineWidth, testAmbiguousType) {
+  var i;
+  var char, prev_char;
+  var hasLineBreak = false;
+  var hasFoldableLine = false; // only checked if shouldTrackWidth
+  var shouldTrackWidth = lineWidth !== -1;
+  var previousLineBreak = -1; // count the first line correctly
+  var plain = isPlainSafeFirst(string.charCodeAt(0))
+          && !isWhitespace(string.charCodeAt(string.length - 1));
+
+  if (singleLineOnly) {
+    // Case: no block styles.
+    // Check for disallowed characters to rule out plain and single.
+    for (i = 0; i < string.length; i++) {
+      char = string.charCodeAt(i);
+      if (!isPrintable(char)) {
+        return STYLE_DOUBLE;
+      }
+      prev_char = i > 0 ? string.charCodeAt(i - 1) : null;
+      plain = plain && isPlainSafe(char, prev_char);
+    }
+  } else {
+    // Case: block styles permitted.
+    for (i = 0; i < string.length; i++) {
+      char = string.charCodeAt(i);
+      if (char === CHAR_LINE_FEED) {
+        hasLineBreak = true;
+        // Check if any line can be folded.
+        if (shouldTrackWidth) {
+          hasFoldableLine = hasFoldableLine ||
+            // Foldable line = too long, and not more-indented.
+            (i - previousLineBreak - 1 > lineWidth &&
+             string[previousLineBreak + 1] !== ' ');
+          previousLineBreak = i;
+        }
+      } else if (!isPrintable(char)) {
+        return STYLE_DOUBLE;
+      }
+      prev_char = i > 0 ? string.charCodeAt(i - 1) : null;
+      plain = plain && isPlainSafe(char, prev_char);
+    }
+    // in case the end is missing a \n
+    hasFoldableLine = hasFoldableLine || (shouldTrackWidth &&
+      (i - previousLineBreak - 1 > lineWidth &&
+       string[previousLineBreak + 1] !== ' '));
+  }
+  // Although every style can represent \n without escaping, prefer block styles
+  // for multiline, since they're more readable and they don't add empty lines.
+  // Also prefer folding a super-long line.
+  if (!hasLineBreak && !hasFoldableLine) {
+    // Strings interpretable as another type have to be quoted;
+    // e.g. the string 'true' vs. the boolean true.
+    return plain && !testAmbiguousType(string)
+      ? STYLE_PLAIN : STYLE_SINGLE;
+  }
+  // Edge case: block indentation indicator can only have one digit.
+  if (indentPerLevel > 9 && needIndentIndicator(string)) {
+    return STYLE_DOUBLE;
+  }
+  // At this point we know block styles are valid.
+  // Prefer literal style unless we want to fold.
+  return hasFoldableLine ? STYLE_FOLDED : STYLE_LITERAL;
+}
+
+// Note: line breaking/folding is implemented for only the folded style.
+// NB. We drop the last trailing newline (if any) of a returned block scalar
+//  since the dumper adds its own newline. This always works:
+//    • No ending newline => unaffected; already using strip "-" chomping.
+//    • Ending newline    => removed then restored.
+//  Importantly, this keeps the "+" chomp indicator from gaining an extra line.
+function writeScalar(state, string, level, iskey) {
+  state.dump = (function () {
+    if (string.length === 0) {
+      return "''";
+    }
+    if (!state.noCompatMode &&
+        DEPRECATED_BOOLEANS_SYNTAX.indexOf(string) !== -1) {
+      return "'" + string + "'";
+    }
+
+    var indent = state.indent * Math.max(1, level); // no 0-indent scalars
+    // As indentation gets deeper, let the width decrease monotonically
+    // to the lower bound min(state.lineWidth, 40).
+    // Note that this implies
+    //  state.lineWidth ≤ 40 + state.indent: width is fixed at the lower bound.
+    //  state.lineWidth > 40 + state.indent: width decreases until the lower bound.
+    // This behaves better than a constant minimum width which disallows narrower options,
+    // or an indent threshold which causes the width to suddenly increase.
+    var lineWidth = state.lineWidth === -1
+      ? -1 : Math.max(Math.min(state.lineWidth, 40), state.lineWidth - indent);
+
+    // Without knowing if keys are implicit/explicit, assume implicit for safety.
+    var singleLineOnly = iskey
+      // No block styles in flow mode.
+      || (state.flowLevel > -1 && level >= state.flowLevel);
+    function testAmbiguity(string) {
+      return testImplicitResolving(state, string);
+    }
+
+    switch (chooseScalarStyle(string, singleLineOnly, state.indent, lineWidth, testAmbiguity)) {
+      case STYLE_PLAIN:
+        return string;
+      case STYLE_SINGLE:
+        return "'" + string.replace(/'/g, "''") + "'";
+      case STYLE_LITERAL:
+        return '|' + blockHeader(string, state.indent)
+          + dropEndingNewline(indentString(string, indent));
+      case STYLE_FOLDED:
+        return '>' + blockHeader(string, state.indent)
+          + dropEndingNewline(indentString(foldString(string, lineWidth), indent));
+      case STYLE_DOUBLE:
+        return '"' + escapeString$1(string) + '"';
+      default:
+        throw new exception('impossible error: invalid scalar style');
+    }
+  }());
+}
+
+// Pre-conditions: string is valid for a block scalar, 1 <= indentPerLevel <= 9.
+function blockHeader(string, indentPerLevel) {
+  var indentIndicator = needIndentIndicator(string) ? String(indentPerLevel) : '';
+
+  // note the special case: the string '\n' counts as a "trailing" empty line.
+  var clip =          string[string.length - 1] === '\n';
+  var keep = clip && (string[string.length - 2] === '\n' || string === '\n');
+  var chomp = keep ? '+' : (clip ? '' : '-');
+
+  return indentIndicator + chomp + '\n';
+}
+
+// (See the note for writeScalar.)
+function dropEndingNewline(string) {
+  return string[string.length - 1] === '\n' ? string.slice(0, -1) : string;
+}
+
+// Note: a long line without a suitable break point will exceed the width limit.
+// Pre-conditions: every char in str isPrintable, str.length > 0, width > 0.
+function foldString(string, width) {
+  // In folded style, $k$ consecutive newlines output as $k+1$ newlines—
+  // unless they're before or after a more-indented line, or at the very
+  // beginning or end, in which case $k$ maps to $k$.
+  // Therefore, parse each chunk as newline(s) followed by a content line.
+  var lineRe = /(\n+)([^\n]*)/g;
+
+  // first line (possibly an empty line)
+  var result = (function () {
+    var nextLF = string.indexOf('\n');
+    nextLF = nextLF !== -1 ? nextLF : string.length;
+    lineRe.lastIndex = nextLF;
+    return foldLine(string.slice(0, nextLF), width);
+  }());
+  // If we haven't reached the first content line yet, don't add an extra \n.
+  var prevMoreIndented = string[0] === '\n' || string[0] === ' ';
+  var moreIndented;
+
+  // rest of the lines
+  var match;
+  while ((match = lineRe.exec(string))) {
+    var prefix = match[1], line = match[2];
+    moreIndented = (line[0] === ' ');
+    result += prefix
+      + (!prevMoreIndented && !moreIndented && line !== ''
+        ? '\n' : '')
+      + foldLine(line, width);
+    prevMoreIndented = moreIndented;
+  }
+
+  return result;
+}
+
+// Greedy line breaking.
+// Picks the longest line under the limit each time,
+// otherwise settles for the shortest line over the limit.
+// NB. More-indented lines *cannot* be folded, as that would add an extra \n.
+function foldLine(line, width) {
+  if (line === '' || line[0] === ' ') return line;
+
+  // Since a more-indented line adds a \n, breaks can't be followed by a space.
+  var breakRe = / [^ ]/g; // note: the match index will always be <= length-2.
+  var match;
+  // start is an inclusive index. end, curr, and next are exclusive.
+  var start = 0, end, curr = 0, next = 0;
+  var result = '';
+
+  // Invariants: 0 <= start <= length-1.
+  //   0 <= curr <= next <= max(0, length-2). curr - start <= width.
+  // Inside the loop:
+  //   A match implies length >= 2, so curr and next are <= length-2.
+  while ((match = breakRe.exec(line))) {
+    next = match.index;
+    // maintain invariant: curr - start <= width
+    if (next - start > width) {
+      end = (curr > start) ? curr : next; // derive end <= length-2
+      result += '\n' + line.slice(start, end);
+      // skip the space that was output as \n
+      start = end + 1;                    // derive start <= length-1
+    }
+    curr = next;
+  }
+
+  // By the invariants, start <= length-1, so there is something left over.
+  // It is either the whole string or a part starting from non-whitespace.
+  result += '\n';
+  // Insert a break if the remainder is too long and there is a break available.
+  if (line.length - start > width && curr > start) {
+    result += line.slice(start, curr) + '\n' + line.slice(curr + 1);
+  } else {
+    result += line.slice(start);
+  }
+
+  return result.slice(1); // drop extra \n joiner
+}
+
+// Escapes a double-quoted string.
+function escapeString$1(string) {
+  var result = '';
+  var char, nextChar;
+  var escapeSeq;
+
+  for (var i = 0; i < string.length; i++) {
+    char = string.charCodeAt(i);
+    // Check for surrogate pairs (reference Unicode 3.0 section "3.7 Surrogates").
+    if (char >= 0xD800 && char <= 0xDBFF/* high surrogate */) {
+      nextChar = string.charCodeAt(i + 1);
+      if (nextChar >= 0xDC00 && nextChar <= 0xDFFF/* low surrogate */) {
+        // Combine the surrogate pair and store it escaped.
+        result += encodeHex((char - 0xD800) * 0x400 + nextChar - 0xDC00 + 0x10000);
+        // Advance index one extra since we already used that char here.
+        i++; continue;
+      }
+    }
+    escapeSeq = ESCAPE_SEQUENCES[char];
+    result += !escapeSeq && isPrintable(char)
+      ? string[i]
+      : escapeSeq || encodeHex(char);
+  }
+
+  return result;
+}
+
+function writeFlowSequence(state, level, object) {
+  var _result = '',
+      _tag    = state.tag,
+      index,
+      length;
+
+  for (index = 0, length = object.length; index < length; index += 1) {
+    // Write only valid elements.
+    if (writeNode(state, level, object[index], false, false)) {
+      if (index !== 0) _result += ',' + (!state.condenseFlow ? ' ' : '');
+      _result += state.dump;
+    }
+  }
+
+  state.tag = _tag;
+  state.dump = '[' + _result + ']';
+}
+
+function writeBlockSequence(state, level, object, compact) {
+  var _result = '',
+      _tag    = state.tag,
+      index,
+      length;
+
+  for (index = 0, length = object.length; index < length; index += 1) {
+    // Write only valid elements.
+    if (writeNode(state, level + 1, object[index], true, true)) {
+      if (!compact || index !== 0) {
+        _result += generateNextLine(state, level);
+      }
+
+      if (state.dump && CHAR_LINE_FEED === state.dump.charCodeAt(0)) {
+        _result += '-';
+      } else {
+        _result += '- ';
+      }
+
+      _result += state.dump;
+    }
+  }
+
+  state.tag = _tag;
+  state.dump = _result || '[]'; // Empty sequence if no valid values.
+}
+
+function writeFlowMapping(state, level, object) {
+  var _result       = '',
+      _tag          = state.tag,
+      objectKeyList = Object.keys(object),
+      index,
+      length,
+      objectKey,
+      objectValue,
+      pairBuffer;
+
+  for (index = 0, length = objectKeyList.length; index < length; index += 1) {
+
+    pairBuffer = '';
+    if (index !== 0) pairBuffer += ', ';
+
+    if (state.condenseFlow) pairBuffer += '"';
+
+    objectKey = objectKeyList[index];
+    objectValue = object[objectKey];
+
+    if (!writeNode(state, level, objectKey, false, false)) {
+      continue; // Skip this pair because of invalid key;
+    }
+
+    if (state.dump.length > 1024) pairBuffer += '? ';
+
+    pairBuffer += state.dump + (state.condenseFlow ? '"' : '') + ':' + (state.condenseFlow ? '' : ' ');
+
+    if (!writeNode(state, level, objectValue, false, false)) {
+      continue; // Skip this pair because of invalid value.
+    }
+
+    pairBuffer += state.dump;
+
+    // Both key and value are valid.
+    _result += pairBuffer;
+  }
+
+  state.tag = _tag;
+  state.dump = '{' + _result + '}';
+}
+
+function writeBlockMapping(state, level, object, compact) {
+  var _result       = '',
+      _tag          = state.tag,
+      objectKeyList = Object.keys(object),
+      index,
+      length,
+      objectKey,
+      objectValue,
+      explicitPair,
+      pairBuffer;
+
+  // Allow sorting keys so that the output file is deterministic
+  if (state.sortKeys === true) {
+    // Default sorting
+    objectKeyList.sort();
+  } else if (typeof state.sortKeys === 'function') {
+    // Custom sort function
+    objectKeyList.sort(state.sortKeys);
+  } else if (state.sortKeys) {
+    // Something is wrong
+    throw new exception('sortKeys must be a boolean or a function');
+  }
+
+  for (index = 0, length = objectKeyList.length; index < length; index += 1) {
+    pairBuffer = '';
+
+    if (!compact || index !== 0) {
+      pairBuffer += generateNextLine(state, level);
+    }
+
+    objectKey = objectKeyList[index];
+    objectValue = object[objectKey];
+
+    if (!writeNode(state, level + 1, objectKey, true, true, true)) {
+      continue; // Skip this pair because of invalid key.
+    }
+
+    explicitPair = (state.tag !== null && state.tag !== '?') ||
+                   (state.dump && state.dump.length > 1024);
+
+    if (explicitPair) {
+      if (state.dump && CHAR_LINE_FEED === state.dump.charCodeAt(0)) {
+        pairBuffer += '?';
+      } else {
+        pairBuffer += '? ';
+      }
+    }
+
+    pairBuffer += state.dump;
+
+    if (explicitPair) {
+      pairBuffer += generateNextLine(state, level);
+    }
+
+    if (!writeNode(state, level + 1, objectValue, true, explicitPair)) {
+      continue; // Skip this pair because of invalid value.
+    }
+
+    if (state.dump && CHAR_LINE_FEED === state.dump.charCodeAt(0)) {
+      pairBuffer += ':';
+    } else {
+      pairBuffer += ': ';
+    }
+
+    pairBuffer += state.dump;
+
+    // Both key and value are valid.
+    _result += pairBuffer;
+  }
+
+  state.tag = _tag;
+  state.dump = _result || '{}'; // Empty mapping if no valid pairs.
+}
+
+function detectType(state, object, explicit) {
+  var _result, typeList, index, length, type, style;
+
+  typeList = explicit ? state.explicitTypes : state.implicitTypes;
+
+  for (index = 0, length = typeList.length; index < length; index += 1) {
+    type = typeList[index];
+
+    if ((type.instanceOf  || type.predicate) &&
+        (!type.instanceOf || ((typeof object === 'object') && (object instanceof type.instanceOf))) &&
+        (!type.predicate  || type.predicate(object))) {
+
+      state.tag = explicit ? type.tag : '?';
+
+      if (type.represent) {
+        style = state.styleMap[type.tag] || type.defaultStyle;
+
+        if (_toString$2.call(type.represent) === '[object Function]') {
+          _result = type.represent(object, style);
+        } else if (_hasOwnProperty$3.call(type.represent, style)) {
+          _result = type.represent[style](object, style);
+        } else {
+          throw new exception('!<' + type.tag + '> tag resolver accepts not "' + style + '" style');
+        }
+
+        state.dump = _result;
+      }
+
+      return true;
+    }
+  }
+
+  return false;
+}
+
+// Serializes `object` and writes it to global `result`.
+// Returns true on success, or false on invalid object.
+//
+function writeNode(state, level, object, block, compact, iskey) {
+  state.tag = null;
+  state.dump = object;
+
+  if (!detectType(state, object, false)) {
+    detectType(state, object, true);
+  }
+
+  var type = _toString$2.call(state.dump);
+
+  if (block) {
+    block = (state.flowLevel < 0 || state.flowLevel > level);
+  }
+
+  var objectOrArray = type === '[object Object]' || type === '[object Array]',
+      duplicateIndex,
+      duplicate;
+
+  if (objectOrArray) {
+    duplicateIndex = state.duplicates.indexOf(object);
+    duplicate = duplicateIndex !== -1;
+  }
+
+  if ((state.tag !== null && state.tag !== '?') || duplicate || (state.indent !== 2 && level > 0)) {
+    compact = false;
+  }
+
+  if (duplicate && state.usedDuplicates[duplicateIndex]) {
+    state.dump = '*ref_' + duplicateIndex;
+  } else {
+    if (objectOrArray && duplicate && !state.usedDuplicates[duplicateIndex]) {
+      state.usedDuplicates[duplicateIndex] = true;
+    }
+    if (type === '[object Object]') {
+      if (block && (Object.keys(state.dump).length !== 0)) {
+        writeBlockMapping(state, level, state.dump, compact);
+        if (duplicate) {
+          state.dump = '&ref_' + duplicateIndex + state.dump;
+        }
+      } else {
+        writeFlowMapping(state, level, state.dump);
+        if (duplicate) {
+          state.dump = '&ref_' + duplicateIndex + ' ' + state.dump;
+        }
+      }
+    } else if (type === '[object Array]') {
+      var arrayLevel = (state.noArrayIndent && (level > 0)) ? level - 1 : level;
+      if (block && (state.dump.length !== 0)) {
+        writeBlockSequence(state, arrayLevel, state.dump, compact);
+        if (duplicate) {
+          state.dump = '&ref_' + duplicateIndex + state.dump;
+        }
+      } else {
+        writeFlowSequence(state, arrayLevel, state.dump);
+        if (duplicate) {
+          state.dump = '&ref_' + duplicateIndex + ' ' + state.dump;
+        }
+      }
+    } else if (type === '[object String]') {
+      if (state.tag !== '?') {
+        writeScalar(state, state.dump, level, iskey);
+      }
+    } else {
+      if (state.skipInvalid) return false;
+      throw new exception('unacceptable kind of an object to dump ' + type);
+    }
+
+    if (state.tag !== null && state.tag !== '?') {
+      state.dump = '!<' + state.tag + '> ' + state.dump;
+    }
+  }
+
+  return true;
+}
+
+function getDuplicateReferences(object, state) {
+  var objects = [],
+      duplicatesIndexes = [],
+      index,
+      length;
+
+  inspectNode(object, objects, duplicatesIndexes);
+
+  for (index = 0, length = duplicatesIndexes.length; index < length; index += 1) {
+    state.duplicates.push(objects[duplicatesIndexes[index]]);
+  }
+  state.usedDuplicates = new Array(length);
+}
+
+function inspectNode(object, objects, duplicatesIndexes) {
+  var objectKeyList,
+      index,
+      length;
+
+  if (object !== null && typeof object === 'object') {
+    index = objects.indexOf(object);
+    if (index !== -1) {
+      if (duplicatesIndexes.indexOf(index) === -1) {
+        duplicatesIndexes.push(index);
+      }
+    } else {
+      objects.push(object);
+
+      if (Array.isArray(object)) {
+        for (index = 0, length = object.length; index < length; index += 1) {
+          inspectNode(object[index], objects, duplicatesIndexes);
+        }
+      } else {
+        objectKeyList = Object.keys(object);
+
+        for (index = 0, length = objectKeyList.length; index < length; index += 1) {
+          inspectNode(object[objectKeyList[index]], objects, duplicatesIndexes);
+        }
+      }
+    }
+  }
+}
+
+function dump(input, options) {
+  options = options || {};
+
+  var state = new State$1(options);
+
+  if (!state.noRefs) getDuplicateReferences(input, state);
+
+  if (writeNode(state, 0, input, true, true)) return state.dump + '\n';
+
+  return '';
+}
+
+function safeDump(input, options) {
+  return dump(input, common.extend({ schema: default_safe }, options));
+}
+
+var dump_1     = dump;
+var safeDump_1 = safeDump;
+
+var dumper = {
+	dump: dump_1,
+	safeDump: safeDump_1
+};
+
+function deprecated(name) {
+  return function () {
+    throw new Error('Function ' + name + ' is deprecated and cannot be used.');
+  };
+}
+
+
+var Type$1                = type;
+var Schema$1              = schema;
+var FAILSAFE_SCHEMA     = failsafe;
+var JSON_SCHEMA         = json;
+var CORE_SCHEMA         = core;
+var DEFAULT_SAFE_SCHEMA = default_safe;
+var DEFAULT_FULL_SCHEMA = default_full;
+var load$1                = loader.load;
+var loadAll$1             = loader.loadAll;
+var safeLoad$1            = loader.safeLoad;
+var safeLoadAll$1         = loader.safeLoadAll;
+var dump$1                = dumper.dump;
+var safeDump$1            = dumper.safeDump;
+var YAMLException$1       = exception;
+
+// Deprecated schema names from JS-YAML 2.0.x
+var MINIMAL_SCHEMA = failsafe;
+var SAFE_SCHEMA    = default_safe;
+var DEFAULT_SCHEMA = default_full;
+
+// Deprecated functions from JS-YAML 1.x.x
+var scan           = deprecated('scan');
+var parse$1          = deprecated('parse');
+var compose        = deprecated('compose');
+var addConstructor = deprecated('addConstructor');
+
+var jsYaml = {
+	Type: Type$1,
+	Schema: Schema$1,
+	FAILSAFE_SCHEMA: FAILSAFE_SCHEMA,
+	JSON_SCHEMA: JSON_SCHEMA,
+	CORE_SCHEMA: CORE_SCHEMA,
+	DEFAULT_SAFE_SCHEMA: DEFAULT_SAFE_SCHEMA,
+	DEFAULT_FULL_SCHEMA: DEFAULT_FULL_SCHEMA,
+	load: load$1,
+	loadAll: loadAll$1,
+	safeLoad: safeLoad$1,
+	safeLoadAll: safeLoadAll$1,
+	dump: dump$1,
+	safeDump: safeDump$1,
+	YAMLException: YAMLException$1,
+	MINIMAL_SCHEMA: MINIMAL_SCHEMA,
+	SAFE_SCHEMA: SAFE_SCHEMA,
+	DEFAULT_SCHEMA: DEFAULT_SCHEMA,
+	scan: scan,
+	parse: parse$1,
+	compose: compose,
+	addConstructor: addConstructor
+};
+
+var jsYaml$1 = jsYaml;
+
+var optionalByteOrderMark = '\\ufeff?';
+var platform = typeof process !== 'undefined' ? process.platform : '';
+var pattern = '^(' +
+  optionalByteOrderMark +
+  '(= yaml =|---)' +
+  '$([\\s\\S]*?)' +
+  '^(?:\\2|\\.\\.\\.)\\s*' +
+  '$' +
+  (platform === 'win32' ? '\\r?' : '') +
+  '(?:\\n)?)';
+// NOTE: If this pattern uses the 'g' flag the `regex` variable definition will
+// need to be moved down into the functions that use it.
+var regex = new RegExp(pattern, 'm');
+
+var frontMatter = extractor;
+var test_1 = test;
+
+function extractor (string) {
+  string = string || '';
+
+  var lines = string.split(/(\r?\n)/);
+  if (lines[0] && /= yaml =|---/.test(lines[0])) {
+    return parse$2(string)
+  } else {
+    return {
+      attributes: {},
+      body: string,
+      bodyBegin: 1
+    }
+  }
+}
+
+function computeLocation (match, body) {
+  var line = 1;
+  var pos = body.indexOf('\n');
+  var offset = match.index + match[0].length;
+
+  while (pos !== -1) {
+    if (pos >= offset) {
+      return line
+    }
+    line++;
+    pos = body.indexOf('\n', pos + 1);
+  }
+
+  return line
+}
+
+function parse$2 (string) {
+  var match = regex.exec(string);
+  if (!match) {
+    return {
+      attributes: {},
+      body: string,
+      bodyBegin: 1
+    }
+  }
+
+  var yaml = match[match.length - 1].replace(/^\s+|\s+$/g, '');
+  var attributes = jsYaml$1.load(yaml) || {};
+  var body = string.replace(match[0], '');
+  var line = computeLocation(match, string);
+
+  return {
+    attributes: attributes,
+    body: body,
+    bodyBegin: line,
+    frontmatter: yaml
+  }
+}
+
+function test (string) {
+  string = string || '';
+
+  return regex.test(string)
+}
+frontMatter.test = test_1;
+
+class MarkdownPage {
+  constructor(hostRef) {
+    registerInstance(this, hostRef);
+  }
+  async componentWillLoad() {
+    try {
+      const fileText = await fetch(`/assets/markdown/${this.file}.md`)
+        .then(response => response.text());
+      const { body, attributes } = frontMatter(fileText);
+      this.markup = marked(body);
+      if (attributes['description']) {
+        state.description = attributes['description'];
+      }
+    }
+    catch (e) {
+      console.warn(e);
+      this.markup = h(Heading, null, "Page Not Found");
+    }
+  }
+  render() {
+    return (h(ResponsiveContainer, { innerHTML: this.markup }));
+  }
+  static get cmpMeta() { return {
+    "$flags$": 0,
+    "$tagName$": "markdown-page",
+    "$members$": {
+      "file": [1],
+      "markup": [32]
+    },
+    "$listeners$": undefined,
+    "$lazyBundleId$": "-",
+    "$attrsToReflect$": []
+  }; }
+}
 
 const siteBackdropCss = ".sc-site-backdrop-h{position:fixed;top:0;height:100vh;left:0;right:0;background:rgba(0, 26, 58, 0.08);cursor:pointer;opacity:0;pointer-events:none;transition:0.4s opacity, 0.4s visibility step-end;visibility:hidden;z-index:-1}@media screen and (max-width: 768px){.site-backdrop--visible.sc-site-backdrop-h{opacity:1;pointer-events:all;visibility:visible;transition:0.4s opacity, 0.4s visibility step-start}}";
 
@@ -13243,7 +16936,7 @@ class NewsletterForm {
   }; }
 }
 
-const phoneAnimatorCss = ".sc-phone-animator-h{display:inline-block;position:relative}.foreground.sc-phone-animator{position:absolute;width:100%;height:2000px;top:50%;z-index:3;transform:translateY(-50%)}.background.sc-phone-animator{position:absolute;width:100%;height:2000px;top:50%;z-index:1;transform:translateY(-50%)}.screen.sc-phone-animator{width:805px;left:95px;position:absolute}.iphone.sc-phone-animator{position:absolute;z-index:2;width:1000px;top:-193px}.iphone.sc-phone-animator .screen.sc-phone-animator{z-index:2;top:218px}";
+const phoneAnimatorCss = ".sc-phone-animator-h{display:inline-block;position:relative}.foreground.sc-phone-animator{position:absolute;width:100%;height:2000px;top:244px;z-index:3;transform:translateY(-50%)}.background.sc-phone-animator{position:absolute;width:100%;height:2000px;top:50%;z-index:1;transform:translateY(-50%)}.screen.sc-phone-animator{width:805px;left:95px;position:absolute}.iphone.sc-phone-animator{position:absolute;z-index:2;width:1000px;top:-193px}.iphone.sc-phone-animator .screen.sc-phone-animator{z-index:2;top:218px}";
 
 class PhoneAnimator {
   constructor(hostRef) {
@@ -13256,7 +16949,7 @@ class PhoneAnimator {
     this.spacing = 160;
     this.isPaused = false;
   }
-  componentWillLoad() {
+  componentDidLoad() {
     this.importGsap();
   }
   setIntersectionHelper() {
@@ -13463,7 +17156,7 @@ class PipelineAnimator {
     };
     this.isPaused = false;
   }
-  componentWillLoad() {
+  componentDidLoad() {
     this.importGsap();
   }
   setIntersectionHelper() {
@@ -13661,7 +17354,7 @@ class PipelineAnimator {
   }; }
 }
 
-const planPricingCss = ".button.sc-plan-pricing{cursor:pointer;display:flex;white-space:pre;align-items:center;justify-content:center;align-self:center;border-radius:var(--radius-4);font-weight:600;font-size:16px;line-height:112%;letter-spacing:-0.02em;height:56px;width:216px;transition:all 0.3s cubic-bezier(0, 0.8, 0.58, 0.78);box-shadow:0px 2px 5px rgba(0, 0, 0, 0)}.button.light.sc-plan-pricing{background:var(--c-blue-0);color:var(--c-lavender-80)}.button.light.sc-plan-pricing:hover,.button.light.sc-plan-pricing:focus,.button.light.sc-plan-pricing:active,.button.light.sc-plan-pricing:focus-within{background:#f3f8ff;box-shadow:0px 2px 5px rgba(0, 0, 0, 0.1)}.button.dark.sc-plan-pricing{background:var(--c-lavender-70);color:#fff}.button.dark.sc-plan-pricing:hover,.button.dark.sc-plan-pricing:focus,.button.dark.sc-plan-pricing:active,.button.dark.sc-plan-pricing:focus-within{background:#688aff;box-shadow:0px 2px 5px rgba(0, 0, 0, 0.1)}site-modal.sc-plan-pricing .heading-group.sc-plan-pricing{max-width:420px;margin-inline-start:auto;margin-inline-end:auto;text-align:center}site-modal.sc-plan-pricing .heading-group.sc-plan-pricing .ui-heading.sc-plan-pricing{margin-block-end:var(--space-3)}site-modal.sc-plan-pricing .heading-group.sc-plan-pricing .ui-paragraph.sc-plan-pricing{margin-block-end:var(--space-6)}.plans.sc-plan-pricing{display:grid;margin-left:-58px;margin-top:55px;gap:16px;grid-template-columns:repeat(4, 25%);grid-template-rows:auto;grid-template-areas:\"hobby launch growth scale\"}@media (max-width: 1215px){.plans.sc-plan-pricing{gap:8px;margin-left:-20px;grid-template-columns:repeat(4, 25%)}}@media (max-width: 1023px){.plans.sc-plan-pricing{margin-left:0;grid-template-columns:1fr 1fr;grid-template-areas:\"hobby launch\" \"growth scale\"}.plans.sc-plan-pricing .plan__card--featured.sc-plan-pricing{margin-top:32px}}@media (max-width: 500px){.plans.sc-plan-pricing{grid-template-columns:1fr;grid-template-areas:\"hobby\" \"launch\" \"growth\" \"scale\"}}.toggle.sc-plan-pricing{display:flex;align-items:center;justify-content:center;background:#F4F6F9;border-radius:18px;cursor:default;margin:0 auto 54px;width:204px;font-weight:500;padding:3px 2px}.toggle.sc-plan-pricing span.sc-plan-pricing{transition:color 0.3s, background 0.3s;border-radius:30px;padding:5px 13px;text-align:center;font-size:13px;line-height:16px;letter-spacing:-0.01em;color:#5B708B;transition:0.2s color, 0.2s background}.toggle.sc-plan-pricing span.sc-plan-pricing:hover{cursor:pointer;color:#7398d8}.toggle.sc-plan-pricing .active.sc-plan-pricing,.toggle.sc-plan-pricing .active.sc-plan-pricing:hover{font-weight:600;border-radius:18px;color:#1A232F;background:#FFFFFF;box-shadow:0px 2px 3px rgba(0, 16, 46, 0.15)}#plan-hobby.sc-plan-pricing{grid-area:hobby}#plan-launch.sc-plan-pricing{grid-area:launch}#plan-launch.sc-plan-pricing{grid-area:growth}#plan-launch.sc-plan-pricing{grid-area:scale}#plan-launch.sc-plan-pricing{grid-area:enterprise}.plan__card.sc-plan-pricing{border-radius:12px;background:white;padding:30px 26px 26px;position:relative;flex:1;display:flex;flex-direction:column;justify-content:flex-start;border:1px solid #DEE3EA;box-shadow:0px 4px 8px rgba(2, 8, 20, 0.08), 0px 8px 16px rgba(2, 8, 20, 0.08)}.plan__card.sc-plan-pricing h3.sc-plan-pricing{color:var(--c-indigo-60);margin-top:0;margin-bottom:13px;font-weight:600;font-size:12px;line-height:120%;letter-spacing:0.14em;text-transform:uppercase}.plan__price.sc-plan-pricing{font-weight:500;font-size:20px;line-height:24px;letter-spacing:-0.04em;color:#1A232F;padding-bottom:13px}.plan__price__term.sc-plan-pricing{font-size:14px;line-height:17px;letter-spacing:-0.02em;color:#414D5C;display:block;margin-top:-2px}.plan__price__term--short.sc-plan-pricing{display:inline}.plan__price.sc-plan-pricing sup.sc-plan-pricing{font-weight:500;font-size:24px;line-height:29px;margin-right:2px}.plan__price.sc-plan-pricing strong.sc-plan-pricing{font-weight:bold;font-size:44px;line-height:48px;letter-spacing:-0.03em}.plan__description.sc-plan-pricing{font-size:15px;line-height:150%;letter-spacing:-0.01em;color:var(--c-indigo-80)}.plan__cta.btn.sc-plan-pricing{align-self:flex-start;font-size:16px;line-height:19px;padding:16px;letter-spacing:0.1em;text-transform:uppercase;border:1px solid #3880FF;box-shadow:0px 2px 4px rgba(0, 16, 46, 0.04);margin-top:auto;align-self:stretch}.plan__cta.btn.light.sc-plan-pricing{border-color:#EEF6FE;color:#3880FF}.plan__cta.btn.light.sc-plan-pricing:hover{box-shadow:0px 2px 4px rgba(0, 16, 46, 0.08)}.plan__cta.btn.navy.sc-plan-pricing{border-color:#4A679B;color:#D1EBFF;background:#324E7E}.plan__cta.btn.navy.sc-plan-pricing:hover{box-shadow:0px 2px 4px rgba(0, 16, 46, 0.2)}.plan__cta.btn.sc-plan-pricing:hover{box-shadow:0px 2px 4px rgba(0, 16, 46, 0.12)}.plan__feature__divider.sc-plan-pricing{border-bottom:1px solid #DEE3EA;margin:30px -26px 0}.plan__feature__divider.sc-plan-pricing+.plan__feature__header.sc-plan-pricing{margin:-9px -5px 0;background:white;align-self:flex-start;padding:6px}.plan__feature__header.sc-plan-pricing{font-size:10px;line-height:4px;letter-spacing:0.08em;text-transform:uppercase;color:#616E7E}.plan__feature__list.sc-plan-pricing{display:flex;align-items:flex-start;flex-direction:column;padding-left:0;margin:33px 0 26px;flex-grow:1}.plan__feature__list.sc-plan-pricing li.sc-plan-pricing{display:inline-flex;align-items:flex-start;color:var(--c-indigo-80);font-size:14px;line-height:140%;letter-spacing:-0.01em;position:relative;list-style:none}.plan__feature__list.sc-plan-pricing li.sc-plan-pricing+li.sc-plan-pricing{margin-block-start:24px}.plan__feature__list.sc-plan-pricing li.sc-plan-pricing svg.sc-plan-pricing{min-width:12px;min-width:12px;position:relative;top:3px;margin-inline-end:var(--space-2)}.plan__feature__list.sc-plan-pricing li.sc-plan-pricing strong.sc-plan-pricing{letter-spacing:-0.04em;font-weight:600}.plan__feature__highlight.sc-plan-pricing{position:relative}.plan__feature__highlight.sc-plan-pricing svg.sc-plan-pricing,.plan__feature__highlight.sc-plan-pricing span.sc-plan-pricing{z-index:2}.plan__feature__highlight.sc-plan-pricing::after{z-index:1;content:\"\";border-radius:var(--radius-3);position:absolute;background:#F6F8FB;left:-10px;right:-14px;top:-6px;bottom:-6px}.plan__feature__asterisk.sc-plan-pricing{font-size:12px;line-height:14px;letter-spacing:-0.01em;color:#92A1B3;margin:20px auto 0;text-align:center;width:100%;display:block}.plan__note.sc-plan-pricing{position:absolute;top:-34px;left:-2px;right:-2px;background:#3880FF;border-radius:12px 12px 0 0;color:white;text-align:center;font-weight:600;font-size:12px;line-height:16px;letter-spacing:-0.02em;padding:9px 1em}.plans.sc-plan-pricing .plan__price__monthly.sc-plan-pricing{transform:translateX(20px);opacity:0;transition:0.3s all ease-out;position:absolute}.plans.sc-plan-pricing .plan__price__yearly.sc-plan-pricing{transform:translateX(-20px);opacity:0;transition:0.3s all ease-out}.plans.sc-plan-pricing .active.sc-plan-pricing{transform:translateX(0px);opacity:1;display:inline-block}";
+const planPricingCss = ".button.sc-plan-pricing{cursor:pointer;display:flex;white-space:pre;align-items:center;justify-content:center;align-self:center;border-radius:var(--radius-4);font-weight:600;font-size:16px;line-height:112%;letter-spacing:-0.02em;height:56px;width:216px}.button.light.sc-plan-pricing{background:var(--c-blue-0);color:var(--c-lavender-80)}.button.light.sc-plan-pricing:hover,.button.light.sc-plan-pricing:focus,.button.light.sc-plan-pricing:active,.button.light.sc-plan-pricing:focus-within{background:#f3f8ff}.button.dark.sc-plan-pricing{background:var(--c-lavender-70);color:#fff}.button.dark.sc-plan-pricing:hover,.button.dark.sc-plan-pricing:focus,.button.dark.sc-plan-pricing:active,.button.dark.sc-plan-pricing:focus-within{background:#688aff}site-modal.sc-plan-pricing .heading-group.sc-plan-pricing{max-width:420px;margin-inline-start:auto;margin-inline-end:auto;text-align:center}site-modal.sc-plan-pricing .heading-group.sc-plan-pricing .ui-heading.sc-plan-pricing{margin-block-end:var(--space-3)}site-modal.sc-plan-pricing .heading-group.sc-plan-pricing .ui-paragraph.sc-plan-pricing{margin-block-end:var(--space-6)}.plans.sc-plan-pricing{display:grid;margin-left:-58px;margin-top:55px;gap:16px;grid-template-columns:repeat(4, 25%);grid-template-rows:auto;grid-template-areas:\"hobby launch growth scale\"}@media (max-width: 1215px){.plans.sc-plan-pricing{gap:8px;margin-left:-20px;grid-template-columns:repeat(4, 25%)}}@media (max-width: 1023px){.plans.sc-plan-pricing{margin-left:0;grid-template-columns:1fr 1fr;grid-template-areas:\"hobby launch\" \"growth scale\"}.plans.sc-plan-pricing .plan__card--featured.sc-plan-pricing{margin-top:32px}}@media (max-width: 500px){.plans.sc-plan-pricing{grid-template-columns:1fr;grid-template-areas:\"hobby\" \"launch\" \"growth\" \"scale\"}}.toggle.sc-plan-pricing{display:flex;align-items:center;justify-content:center;background:#F4F6F9;border-radius:18px;cursor:default;margin:0 auto 54px;width:204px;font-weight:500;padding:3px 2px}.toggle.sc-plan-pricing span.sc-plan-pricing{transition:color 0.3s, background 0.3s;border-radius:30px;padding:5px 13px;text-align:center;font-size:13px;line-height:16px;letter-spacing:-0.01em;color:#5B708B;transition:0.2s color, 0.2s background}.toggle.sc-plan-pricing span.sc-plan-pricing:hover{cursor:pointer;color:#7398d8}.toggle.sc-plan-pricing .active.sc-plan-pricing,.toggle.sc-plan-pricing .active.sc-plan-pricing:hover{font-weight:600;border-radius:18px;color:#1A232F;background:#FFFFFF;box-shadow:0px 2px 3px rgba(0, 16, 46, 0.15)}#plan-hobby.sc-plan-pricing{grid-area:hobby}#plan-launch.sc-plan-pricing{grid-area:launch}#plan-launch.sc-plan-pricing{grid-area:growth}#plan-launch.sc-plan-pricing{grid-area:scale}#plan-launch.sc-plan-pricing{grid-area:enterprise}.plan__card.sc-plan-pricing{border-radius:12px;background:white;padding:30px 26px 26px;position:relative;flex:1;display:flex;flex-direction:column;justify-content:flex-start;border:1px solid #DEE3EA;box-shadow:0px 4px 8px rgba(2, 8, 20, 0.08), 0px 8px 16px rgba(2, 8, 20, 0.08)}.plan__card.sc-plan-pricing h3.sc-plan-pricing{color:var(--c-indigo-60);margin-top:0;margin-bottom:13px;font-weight:600;font-size:12px;line-height:120%;letter-spacing:0.14em;text-transform:uppercase}.plan__price.sc-plan-pricing{font-weight:500;font-size:20px;line-height:24px;letter-spacing:-0.04em;color:#1A232F;padding-bottom:13px}.plan__price__term.sc-plan-pricing{font-size:14px;line-height:17px;letter-spacing:-0.02em;color:#414D5C;display:block;margin-top:-2px}.plan__price__term--short.sc-plan-pricing{display:inline}.plan__price.sc-plan-pricing sup.sc-plan-pricing{font-weight:500;font-size:24px;line-height:29px;margin-right:2px}.plan__price.sc-plan-pricing strong.sc-plan-pricing{font-weight:bold;font-size:44px;line-height:48px;letter-spacing:-0.03em}.plan__description.sc-plan-pricing{font-size:15px;line-height:150%;letter-spacing:-0.01em;color:var(--c-indigo-80)}.plan__cta.btn.sc-plan-pricing{align-self:flex-start;font-size:16px;line-height:19px;padding:16px;letter-spacing:0.1em;text-transform:uppercase;border:1px solid #3880FF;box-shadow:0px 2px 4px rgba(0, 16, 46, 0.04);margin-top:auto;align-self:stretch}.plan__cta.btn.light.sc-plan-pricing{border-color:#EEF6FE;color:#3880FF}.plan__cta.btn.light.sc-plan-pricing:hover{box-shadow:0px 2px 4px rgba(0, 16, 46, 0.08)}.plan__cta.btn.navy.sc-plan-pricing{border-color:#4A679B;color:#D1EBFF;background:#324E7E}.plan__cta.btn.navy.sc-plan-pricing:hover{box-shadow:0px 2px 4px rgba(0, 16, 46, 0.2)}.plan__cta.btn.sc-plan-pricing:hover{box-shadow:0px 2px 4px rgba(0, 16, 46, 0.12)}.plan__feature__divider.sc-plan-pricing{border-bottom:1px solid #DEE3EA;margin:30px -26px 0}.plan__feature__divider.sc-plan-pricing+.plan__feature__header.sc-plan-pricing{margin:-9px -5px 0;background:white;align-self:flex-start;padding:6px}.plan__feature__header.sc-plan-pricing{font-size:10px;line-height:4px;letter-spacing:0.08em;text-transform:uppercase;color:#616E7E}.plan__feature__list.sc-plan-pricing{display:flex;align-items:flex-start;flex-direction:column;padding-left:0;margin:33px 0 26px;flex-grow:1}.plan__feature__list.sc-plan-pricing li.sc-plan-pricing{display:inline-flex;align-items:flex-start;color:var(--c-indigo-80);font-size:14px;line-height:140%;letter-spacing:-0.01em;position:relative;list-style:none}.plan__feature__list.sc-plan-pricing li.sc-plan-pricing+li.sc-plan-pricing{margin-block-start:24px}.plan__feature__list.sc-plan-pricing li.sc-plan-pricing svg.sc-plan-pricing{min-width:12px;min-width:12px;position:relative;top:3px;margin-inline-end:var(--space-2)}.plan__feature__list.sc-plan-pricing li.sc-plan-pricing strong.sc-plan-pricing{letter-spacing:-0.04em;font-weight:600}.plan__feature__highlight.sc-plan-pricing{position:relative}.plan__feature__highlight.sc-plan-pricing svg.sc-plan-pricing,.plan__feature__highlight.sc-plan-pricing span.sc-plan-pricing{z-index:2}.plan__feature__highlight.sc-plan-pricing::after{z-index:1;content:\"\";border-radius:var(--radius-3);position:absolute;background:#F6F8FB;left:-10px;right:-14px;top:-6px;bottom:-6px}.plan__feature__asterisk.sc-plan-pricing{font-size:12px;line-height:14px;letter-spacing:-0.01em;color:#92A1B3;margin:20px auto 0;text-align:center;width:100%;display:block}.plan__note.sc-plan-pricing{position:absolute;top:-34px;left:-2px;right:-2px;background:#3880FF;border-radius:12px 12px 0 0;color:white;text-align:center;font-weight:600;font-size:12px;line-height:16px;letter-spacing:-0.02em;padding:9px 1em}.plans.sc-plan-pricing .plan__price__monthly.sc-plan-pricing{transform:translateX(20px);opacity:0;transition:0.3s all ease-out;position:absolute}.plans.sc-plan-pricing .plan__price__yearly.sc-plan-pricing{transform:translateX(-20px);opacity:0;transition:0.3s all ease-out}.plans.sc-plan-pricing .active.sc-plan-pricing{transform:translateX(0px);opacity:1;display:inline-block}";
 
 class PlanPricing {
   constructor(hostRef) {
@@ -13727,7 +17420,7 @@ const pricingPageCss = ".sc-pricing-page-h{--h1-color:var(--c-carbon-100);--h2-c
 class PricingPage {
   constructor(hostRef) {
     registerInstance(this, hostRef);
-    this.render = () => (h(Host, null, h("header", null, h("appflow-site-header", null)), h("main", null, h(Top$1, null), h(Tiers, null), h(Companies$1, null), h(Faq, null)), h("footer", null, h("appflow-site-footer", null))));
+    this.render = () => (h(Host, null, h(Top$1, null), h(Tiers, null), h(Companies$1, null), h("pricing-table", null), h(Faq, null)));
   }
   async componentWillLoad() {
     await getPage('appflow_pricing');
@@ -13754,22 +17447,22 @@ const Companies$1 = () => {
   return (h(ResponsiveContainer, { id: "companies", as: "section" }, h(Heading, { level: 6 }, "Trusted by the world\u2019s best teams"), h("div", { class: "logos" }, h("div", { class: "wrapper" }, aaaLogo({ main: 'var(--c-indigo-60)' }, { width: 50, height: 30 }), amtrakLogo({ main: 'var(--c-indigo-60)' }, { width: 63.78, height: 26.25 }), nasaLogo({ main: 'var(--c-indigo-60)' }, { width: 71.29, height: 18.75 }), ibmLogo({ main: 'var(--c-indigo-60)' }, { width: 52.53, height: 21.56 })), h("div", { class: "wrapper" }, burgerKingLogo({ main: 'var(--c-indigo-60)', second: 'var(--c-indigo-60)', third: 'var(--c-indigo-60)' }, { width: 30.32, height: 32 }), catLogo({ main: 'var(--c-indigo-60)', second: 'var(--c-indigo-60)' }, { width: 41.27, height: 24.38 }), targetLogo({ main: 'var(--c-indigo-60)' }, { width: 32, height: 32 })))));
 };
 const Faq = () => {
-  return (h(ResponsiveContainer, { id: "faq", as: "section" }, h(Heading, { level: 2 }, "Have a Question?"), h(Grid, null, h(Col, { cols: 12, sm: 6 }, h("ul", { class: "list" }, h("li", null, h(Heading, null, "How do Live Update limits work?"), h(Paragraph, null, "Using the Ionic ", h("a", { href: "/pro/deploy" }, "Deploy"), " service allows you to push hot code updates directly to your users\u2019 devices, all from the Ionic cloud dashboard, without having to go through the app stores."), h(Paragraph, null, "A single Live Update is one code update to one device. If you send one update to 200 devices, that counts as 200 Live Updates. If you send two updates to 200 devices, that counts as 400 Live Updates."), h(Paragraph, null, "The number of Live Updates varies with each plan. The Launch plan includes 10,000 Live Updates per month. The Growth plan allows up to 25,000 Live Updates per month. The plan limits are refreshed each month. If you exceed your quota for a given month, you will have to upgrade to a higher plan, or wait until the next calendar month to send more updates."), h(Paragraph, null, "If you need more than 25,000 Live Updates, the Scale and Enterprise plans offer custom limits, based on annual usage. Ionic\u2019s Live Update service scales to millions of units, with pricing varying based on the number of Updates in your custom plan. ", h("a", { href: "/sales" }, "Contact our Sales"), " team to learn more about setting up a custom Scale or Enterprise plan.")), h("li", null, h(Heading, null, "Which plans offer iOS Enterprise builds?"), h(Paragraph, null, "For development teams that would like to use ", h("a", { href: "/pro/package" }, "Ionic Package"), " to generate builds using their Apple Enterprise Program Account Certificate, a subscription to the Scale or Enterprise plan is required. The Apple Developer Enterprise Program allows large organizations to develop and deploy proprietary, internal-use apps to their employees. This program is for specific use cases that require private distribution directly to employees using secure internal systems or through a Mobile Device Management solution.")), h("li", null, h(Heading, null, "What is Account & Billing Support?"), h(Paragraph, null, "Account & Billing Support is available to all plan holders, and includes access to help for issues related to account billing, refunds, cancellations and account re-activations, and password or account access related concerns.")), h("li", null, h(Heading, null, "What is Premium Product Support?"), h(Paragraph, null, "Timely assistance with troubleshooting issues related to Appflow or the Cloud dashboard.")))), h(Col, { cols: 12, sm: 6 }, h("ul", { class: "list" }, h("li", null, h(Heading, null, "Do I have to create an Ionic account to use the Framework?"), h(Paragraph, null, "No. Ionic Framework is totally open source and free to download and install without an Ionic account. We invite all Ionic developers to create an account so they can take advantage of free developer tools to help you build better apps and go faster, with tools such as Ionic Deploy for sending Live Updates to your users, and a single cloud dashboard to manage all of your projects. If you just want to start building wit the Framework, freel free!")), h("li", null, h(Heading, null, "What do Concurrency Limits refer to?"), h(Paragraph, null, "Concurrency Limits refers to the number of app builds that can occur at the same time. Once you have hit your limit, additional builds will be queued until the existing builds in process are completed. When you upgrade to the Scale plan, you\u2019ll be able to set a customized concurrency limit that matches your team\u2019s needs and goals.")), h("li", null, h(Heading, null, "What are private git repos?"), h(Paragraph, null, "Private git repos are on-premises installations of a git service. All Ionic account plans offer a git-based workflow that works with cloud-based git services such as GitHub, BitBucket, and GitLab. For teams and businesses that wish to integrate with privately hosted git repos, we offer support for BitBucket servers as an add-on under the Scale and Enterprise plans. Contact our Sales team to learn more.")), h("li", null, h(Heading, null, "How many seats are with each plan?"), h(Paragraph, null, "The number of seats included varies by plan. Launch plans include one (1) seat. Growth plans include two (2) seats with the base subscription, with the ability to add up to five (5) team members at $99 per additional seat. Growth subscribers can add additional seats with the Developer Hub."), h(Paragraph, null, "Scale and Enterprise plans offer flexible packages that scale to any number of team members. Please contact our Sales team to discuss a custom plan that accommodates the number of seats you\u2019d like to include. If you are a current customer and would like to add more seats to your existing Scale or Enterprise plan, please contact Support.")), h("li", null, h(Heading, null, "What is the Enterprise Support SLA?"), h(Paragraph, null, "You can customize your SLA as part of an Enterprise plan based on your specific requirements.")))))));
+  return (h(ResponsiveContainer, { id: "faq", as: "section" }, h(Heading, { level: 2 }, "Have a Question?"), h(Grid, null, h(Col, { cols: 12, sm: 6 }, h("ul", { class: "list" }, h("li", { id: "faq-live-updates" }, h(Heading, null, "How do Live Update limits work?"), h(Paragraph, null, "Using the Ionic ", h("a", { href: "/pro/deploy" }, "Deploy"), " service allows you to push hot code updates directly to your users\u2019 devices, all from the Ionic cloud dashboard, without having to go through the app stores."), h(Paragraph, null, "A single Live Update is one code update to one device. If you send one update to 200 devices, that counts as 200 Live Updates. If you send two updates to 200 devices, that counts as 400 Live Updates."), h(Paragraph, null, "The number of Live Updates varies with each plan. The Launch plan includes 10,000 Live Updates per month. The Growth plan allows up to 25,000 Live Updates per month. The plan limits are refreshed each month. If you exceed your quota for a given month, you will have to upgrade to a higher plan, or wait until the next calendar month to send more updates."), h(Paragraph, null, "If you need more than 25,000 Live Updates, the Scale and Enterprise plans offer custom limits, based on annual usage. Ionic\u2019s Live Update service scales to millions of units, with pricing varying based on the number of Updates in your custom plan. ", h("a", { href: "/sales" }, "Contact our Sales"), " team to learn more about setting up a custom Scale or Enterprise plan.")), h("li", { id: "faq-ios" }, h(Heading, null, "Which plans offer iOS Enterprise builds?"), h(Paragraph, null, "For development teams that would like to use ", h("a", { href: "/pro/package" }, "Ionic Package"), " to generate builds using their Apple Enterprise Program Account Certificate, a subscription to the Scale or Enterprise plan is required. The Apple Developer Enterprise Program allows large organizations to develop and deploy proprietary, internal-use apps to their employees. This program is for specific use cases that require private distribution directly to employees using secure internal systems or through a Mobile Device Management solution.")), h("li", { id: "faq-account" }, h(Heading, null, "What is Account & Billing Support?"), h(Paragraph, null, "Account & Billing Support is available to all plan holders, and includes access to help for issues related to account billing, refunds, cancellations and account re-activations, and password or account access related concerns.")), h("li", { id: "faq-premium" }, h(Heading, null, "What is Premium Product Support?"), h(Paragraph, null, "Timely assistance with troubleshooting issues related to Appflow or the Cloud dashboard.")))), h(Col, { cols: 12, sm: 6 }, h("ul", { class: "list" }, h("li", null, h(Heading, null, "Do I have to create an Ionic account to use the Framework?"), h(Paragraph, null, "No. Ionic Framework is totally open source and free to download and install without an Ionic account. We invite all Ionic developers to create an account so they can take advantage of free developer tools to help you build better apps and go faster, with tools such as Ionic Deploy for sending Live Updates to your users, and a single cloud dashboard to manage all of your projects. If you just want to start building wit the Framework, freel free!")), h("li", { id: "faq-concurrency" }, h(Heading, null, "What do Concurrency Limits refer to?"), h(Paragraph, null, "Concurrency Limits refers to the number of app builds that can occur at the same time. Once you have hit your limit, additional builds will be queued until the existing builds in process are completed. When you upgrade to the Scale plan, you\u2019ll be able to set a customized concurrency limit that matches your team\u2019s needs and goals.")), h("li", { id: "faq-git" }, h(Heading, null, "What are private git repos?"), h(Paragraph, null, "Private git repos are on-premises installations of a git service. All Ionic account plans offer a git-based workflow that works with cloud-based git services such as GitHub, BitBucket, and GitLab. For teams and businesses that wish to integrate with privately hosted git repos, we offer support for BitBucket servers as an add-on under the Scale and Enterprise plans. Contact our Sales team to learn more.")), h("li", { id: "faq-seats" }, h(Heading, null, "How many seats are with each plan?"), h(Paragraph, null, "The number of seats included varies by plan. Launch plans include one (1) seat. Growth plans include two (2) seats with the base subscription, with the ability to add up to five (5) team members at $99 per additional seat. Growth subscribers can add additional seats with the Developer Hub."), h(Paragraph, null, "Scale and Enterprise plans offer flexible packages that scale to any number of team members. Please contact our Sales team to discuss a custom plan that accommodates the number of seats you\u2019d like to include. If you are a current customer and would like to add more seats to your existing Scale or Enterprise plan, please contact Support.")), h("li", null, h(Heading, null, "What is the Enterprise Support SLA?"), h(Paragraph, null, "You can customize your SLA as part of an Enterprise plan based on your specific requirements.")))))));
 };
 
-const appflowSiteFooterCss = ".sc-appflow-site-footer-h{display:block;padding-block-start:var(--space-9);padding-block-end:var(--space-9)}.ui-grid.sc-appflow-site-footer{row-gap:var(--space-6)}.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer .title.sc-appflow-site-footer{font-weight:500;color:var(--c-indigo-100);margin-block-end:13px}.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer form.sc-appflow-site-footer input.sc-appflow-site-footer{background:#FFFFFF;border:1px solid var(--c-indigo-40);box-sizing:border-box;border-radius:var(--radius-4);padding:7px 14px;margin-inline-end:var(--space-1)}.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer form.sc-appflow-site-footer input.sc-appflow-site-footer::placeholder{color:var(--c-indigo-60)}.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer form.sc-appflow-site-footer button.sc-appflow-site-footer{font-weight:600;background:var(--c-lavender-70);border-radius:var(--radius-4);line-height:112%;color:#fff;padding:8.5px 12px}.main.sc-appflow-site-footer li.title.sc-appflow-site-footer{font-weight:500;color:var(--c-indigo-100)}.bottom.sc-appflow-site-footer{display:flex;flex-wrap:wrap;margin-block-start:40px}.bottom.sc-appflow-site-footer>*.sc-appflow-site-footer{color:var(--c-indigo-50)}.bottom.sc-appflow-site-footer div.sc-appflow-site-footer+div.sc-appflow-site-footer{margin-inline-start:var(--space-3)}.bottom.sc-appflow-site-footer .end.sc-appflow-site-footer{flex-grow:1;text-align:end}.bottom.sc-appflow-site-footer a.sc-appflow-site-footer{color:var(--c-indigo-70)}";
+const pricingTableCss = "@charset \"UTF-8\";.help-circle.sc-pricing-table{color:#cccccc;width:20px;height:20px}table.sc-pricing-table,.table.sc-pricing-table{margin-bottom:0;min-width:800px}thead.sc-pricing-table th.sc-pricing-table,tbody.sc-pricing-table td.sc-pricing-table{width:20%}thead.sc-pricing-table th.sc-pricing-table,thead.sc-pricing-table td.sc-pricing-table{background:#fff;border-bottom:1px solid rgba(232, 235, 241, 0.6);vertical-align:bottom;padding:32px 44px 30px}thead.sc-pricing-table td.sc-pricing-table{padding-bottom:6px;padding-left:0}thead.sc-pricing-table h3.sc-pricing-table,thead.sc-pricing-table h4.sc-pricing-table{color:#020814}thead.sc-pricing-table h3.sc-pricing-table{font-size:32px;line-height:44px;letter-spacing:-0.01em}thead.sc-pricing-table h4.sc-pricing-table{font-size:24px;line-height:33px;letter-spacing:-0.03em;margin-bottom:0}thead.sc-pricing-table .price.sc-pricing-table{font-weight:600;font-size:12px;line-height:20px;color:#1A232F}thead.sc-pricing-table .price.sc-pricing-table strong.sc-pricing-table{font-size:16px;font-weight:600}thead.sc-pricing-table .btn.sc-pricing-table,thead.sc-pricing-table .btn.micro.sc-pricing-table{padding:4px 10px 3px;text-transform:none;letter-spacing:-0.01em;font-size:12px;font-weight:600;margin-top:7px;background:#EEF6FE;border-color:#EEF6FE;border-radius:4px;cursor:pointer;transition:all 0.3s ease-out}thead.sc-pricing-table .btn.sc-pricing-table:hover,thead.sc-pricing-table .btn.micro.sc-pricing-table:hover{background:#e0eefd;border-color:#e0eefd}thead.sc-pricing-table .btn--primary.sc-pricing-table,thead.sc-pricing-table .btn--primary.micro.sc-pricing-table{background:#3880FF;color:#fff}thead.sc-pricing-table .btn--primary.sc-pricing-table:hover,thead.sc-pricing-table .btn--primary.micro.sc-pricing-table:hover{background:#478aff}thead.sc-pricing-table .btn--dark.sc-pricing-table,thead.sc-pricing-table .btn--dark.micro.sc-pricing-table{background:#213049;color:#CDDFFF;border:0}thead.sc-pricing-table .btn--dark.sc-pricing-table:hover,thead.sc-pricing-table .btn--dark.micro.sc-pricing-table:hover{background:#31476c}thead.sc-pricing-table .plan-wrap.sc-pricing-table{display:inline-block;text-align:left;border:0}tbody.sc-pricing-table th.sc-pricing-table{text-align:start}tbody.sc-pricing-table th.sc-pricing-table,tbody.sc-pricing-table td.sc-pricing-table{padding:12px 15px}tbody.sc-pricing-table th.sc-pricing-table:first-child,tbody.sc-pricing-table td.sc-pricing-table:first-child{padding-left:0}tbody.sc-pricing-table tr.sc-pricing-table:first-child td.sc-pricing-table{padding-top:55px}tbody.sc-pricing-table .pill.sc-pricing-table{margin-top:-2px;margin-left:2px;background:none}tbody.sc-pricing-table .pill--blue.sc-pricing-table{margin-left:8px}tbody.sc-pricing-table th.sc-pricing-table{font-weight:400;vertical-align:middle;border:0;color:#5B708B;font-size:16px;line-height:22px;letter-spacing:-0.02em;white-space:nowrap}tbody.sc-pricing-table th.sc-pricing-table small.sc-pricing-table{font-size:14px;line-height:20px;margin-left:16px}tbody.sc-pricing-table th.sc-pricing-table strong.sc-pricing-table{font-size:18px;line-height:25px;letter-spacing:-0.02em;font-weight:600;display:block;color:#1A232F;margin-top:40px}tbody.sc-pricing-table th.sc-pricing-table strong.sc-pricing-table a.sc-pricing-table{transition:border 0.3s;display:inline-block;color:#171a20;border-bottom:1px solid rgba(23, 26, 32, 0.2);line-height:1}tbody.sc-pricing-table th.sc-pricing-table strong.sc-pricing-table a.sc-pricing-table:hover{border-bottom:1px solid rgba(23, 26, 32, 0.7)}tbody.sc-pricing-table th.sc-pricing-table span.sc-pricing-table{font-size:12px;font-weight:500;color:#999}tbody.sc-pricing-table td.sc-pricing-table,tbody.sc-pricing-table th.sc-pricing-table{background:#fff}tbody.sc-pricing-table td.sc-pricing-table{vertical-align:middle;text-align:center;font-weight:500;border:0;font-size:16px;line-height:22px;color:#1A232F;letter-spacing:-0.02em}tbody.sc-pricing-table td.sc-pricing-table small.sc-pricing-table{font-weight:400}tbody.sc-pricing-table .check.sc-pricing-table:before{font-family:\"Ionicons\";content:\"\";color:#1A232F;font-size:16px;line-height:1em}tfoot.sc-pricing-table .btn.sm.sc-pricing-table{padding:11px 13px 10px;font-weight:600;font-size:14px;line-height:15px;border-radius:8px;letter-spacing:-0.02em;border:1px solid #3880FF;box-shadow:0px 2px 4px rgba(0, 16, 46, 0.04);cursor:pointer;transition:all 0.3s ease-out}tfoot.sc-pricing-table .btn.sm.light.sc-pricing-table{border-color:#EEF6FE;background:#EEF6FE}tfoot.sc-pricing-table .btn.sm.light.sc-pricing-table:hover{border-color:#e0eefd;background:#e0eefd}tfoot.sc-pricing-table .btn.sm.dark.sc-pricing-table{background:#3880FF;color:#fff}tfoot.sc-pricing-table .btn.sm.dark.sc-pricing-table:hover{background:#4c8dff}tfoot.sc-pricing-table td.sc-pricing-table{text-align:center;padding-top:36px;padding-bottom:36px}.pinned.sc-pricing-table table.sc-pricing-table{padding-top:140px;display:block}.pinned.sc-pricing-table thead.sc-pricing-table{position:fixed;top:0;left:0;width:100%;z-index:1000}.pinned.sc-pricing-table thead.sc-pricing-table tr.sc-pricing-table{display:flex;width:100%;max-width:1110px;margin:0 auto;padding:0 15px;position:relative}.pinned.sc-pricing-table thead.sc-pricing-table td.sc-pricing-table{flex:1 0 auto;display:flex;flex-direction:column;justify-content:flex-end}.pinned.sc-pricing-table tbody.sc-pricing-table{display:block}.pinned.sc-pricing-table tbody.sc-pricing-table tr.sc-pricing-table{display:flex;width:100%}.pinned.sc-pricing-table tbody.sc-pricing-table th.sc-pricing-table{flex:1 0 auto}.pinned-at-point.sc-pricing-table thead.sc-pricing-table{position:absolute}.pinned-at-point.sc-pricing-table thead.sc-pricing-table tr.sc-pricing-table{padding:0}@media (max-width: 1023px){table.sc-pricing-table,.table.sc-pricing-table{min-width:100%}thead.sc-pricing-table th.sc-pricing-table,tbody.sc-pricing-table td.sc-pricing-table{width:auto;padding-right:0;padding-left:0}thead.sc-pricing-table td.sc-pricing-table{padding-right:48px}tbody.sc-pricing-table th.sc-pricing-table{width:128px;white-space:normal}}@media (max-width: 767px){tbody.sc-pricing-table th.sc-pricing-table:first-child{width:166px;word-wrap:break-word;padding-left:4px}}@media (max-width: 690px){.btn.sc-pricing-table{margin-right:2px;margin-left:2px}.table-wrap.sc-pricing-table{position:relative;width:100%;z-index:1;margin:auto;overflow:auto;height:90vh}thead.sc-pricing-table th.sc-pricing-table,thead.sc-pricing-table td.sc-pricing-table{padding-top:24px;padding-bottom:18px;position:-webkit-sticky;position:sticky;top:0}thead.sc-pricing-table th.sc-pricing-table{background:#fbfbfb}table.sc-pricing-table{width:100%;min-width:690px;margin:auto;border-collapse:separate;border-spacing:0}thead.sc-pricing-table td.sc-pricing-table,thead.sc-pricing-table th.sc-pricing-table{height:118px;padding-left:16px;padding-right:16px}thead.sc-pricing-table th.sc-pricing-table,tbody.sc-pricing-table td.sc-pricing-table{width:128px}tbody.sc-pricing-table td.sc-pricing-table{border:1px solid #f7f7f7;border-left:none;border-top:none}thead.sc-pricing-table td.sc-pricing-table,tbody.sc-pricing-table th.sc-pricing-table,tfoot.sc-pricing-table th.sc-pricing-table{width:166px;padding-right:16px;word-wrap:break-word;border-right:1px solid rgba(232, 235, 241, 0.6);position:-webkit-sticky;position:sticky;left:0;z-index:2}thead.sc-pricing-table td.sc-pricing-table:first-child,tfoot.sc-pricing-table th.sc-pricing-table:first-child{z-index:5;width:166px;background:white}tbody.sc-pricing-table tr.combined.sc-pricing-table th.sc-pricing-table,tbody.sc-pricing-table tr.combined.sc-pricing-table td.sc-pricing-table{padding-top:22px;padding-bottom:14px}tbody.sc-pricing-table tr.sc-pricing-table:last-child th.sc-pricing-table{height:110px}tfoot.sc-pricing-table,tfoot.sc-pricing-table th.sc-pricing-table,tfoot.sc-pricing-table td.sc-pricing-table{position:-webkit-sticky;position:sticky;bottom:0;z-index:4;padding-top:4px;padding-bottom:4px;background:#fbfbfb}}";
 
-class SiteFooter {
+class PricingTable {
   constructor(hostRef) {
     registerInstance(this, hostRef);
   }
   render() {
-    return (h("footer", null, h(ResponsiveContainer, { class: "footer__content" }, h(Grid, { class: "main" }, h(Col, { cols: 12, md: 3 }, appflowLogoWithText({}, { width: 114, height: 24 })), h(Col, { cols: 6, sm: 3, md: 3 }, h("ul", null, h("li", { class: "title | ui-paragraph-5" }, "Product"), h("li", null, h("a", { href: "#", class: "ui-paragraph-5" }, "Why Appflow")), h("li", null, h("a", { href: "#", class: "ui-paragraph-5" }, "Resources")), h("li", null, h("a", { href: "#", class: "ui-paragraph-5" }, "Pricing")), h("li", null, h("a", { href: "#", class: "ui-paragraph-5" }, "Docs")))), h(Col, { cols: 6, sm: 3, md: 2 }, h("ul", null, h("li", { class: "title | ui-paragraph-5" }, "Contact"), h("li", null, h("a", { href: "#", class: "ui-paragraph-5" }, "Contact Us")), h("li", null, h("a", { href: "#", class: "ui-paragraph-5" }, "Support")), h("li", null, h("a", { href: "#", class: "ui-paragraph-5" }, "Twitter")), h("li", null, h("a", { href: "#", class: "ui-paragraph-5" }, "FAQ")))), h(Col, { cols: 12, sm: 6, md: 4, class: "newsletter" }, h(Paragraph, { class: "title", level: 5 }, "Sign up for our newsletter and stay up-to-date"), h("div", null, h("form", { action: "" }, h("input", { type: "text", placeholder: "Email" }), h("button", { class: "ui-paragraph-5" }, "Send"))))), h("div", { class: "bottom" }, h("div", { class: "ui-paragraph-6" }, "\u00A9 ", (new Date).getFullYear(), " Appflow"), h("div", { class: "ui-paragraph-6" }, h("a", { href: "#" }, "Terms")), h("div", { class: "ui-paragraph-6" }, h("a", { href: "#" }, "Privacy")), h("div", { class: "end | ui-paragraph-6" }, "Part of the ", h("a", { href: "https://ionic.io/" }, "Ionic"), " ecosystem")))));
+    return (h(ResponsiveContainer, { id: "pricing-table", class: "comparison" }, h(Heading, { level: 2 }, "Pick the plan that works best for you."), h("div", { id: "features", class: "box" }, h("div", { class: "table-wrap" }, h("table", null, h("thead", null, h("tr", null, h("td", null, h("h3", null, "Features")), h("th", null, h("div", { class: "plan-wrap" }, h("h4", null, "Hobby"), h("div", { class: "price" }, h("strong", null, "Free")), h("a", { href: "https://ionicframework.com/start#basics", class: "btn button micro", id: "btn-pricing-hobby" }, "Start free"))), h("th", null, h("div", { class: "plan-wrap" }, h("h4", null, "Launch"), h("div", { class: "price" }, h("strong", null, "$49"), "/mo"), h("a", { href: "https://ionicframework.com/signup?source=framework-products&product=appflow", class: "btn button micro btn--primary", id: "btn-pricing-starter" }, "Get started"))), h("th", null, h("div", { class: "plan-wrap" }, h("h4", null, "Growth"), h("div", { class: "price", "data-toggle": "billing-team" }, h("strong", null, "$120"), "/mo"), h("a", { href: "https://ionicframework.com/signup?source=framework-products&product=appflow", class: "button btn micro btn--primary", id: "btn-pricing-team" }, "Get started"))), h("th", null, h("div", { class: "plan-wrap" }, h("h4", null, "Scale"), h("div", { class: "price" }, h("strong", null, "Custom")), h("a", { class: "button btn micro btn--primary", onClick: () => document.querySelector('site-modal').open = true }, "Contact us"))))), h("tbody", null, h("tr", null, h("th", null, h("strong", null, "Appflow")), h("td", null, h("ion-icon", { name: "checkmark-sharp" })), h("td", null, h("ion-icon", { name: "checkmark-sharp" })), h("td", null, h("ion-icon", { name: "checkmark-sharp" })), h("td", null, h("ion-icon", { name: "checkmark-sharp" }))), h("tr", null, h("th", null, "Push to app store"), h("td", null), h("td", null, h("ion-icon", { name: "checkmark-sharp" })), h("td", null, h("ion-icon", { name: "checkmark-sharp" })), h("td", null, h("ion-icon", { name: "checkmark-sharp" }))), h("tr", null, h("th", null, "Live app updates", h("a", { class: "anchor", href: "#faq-live-updates" }, h("ion-icon", { class: "help-circle", name: "help-circle-outline" }))), h("td", null, "100 ", h("small", null, "/ mo")), h("td", null, "10,000 ", h("small", null, "/ mo")), h("td", null, "25,000 ", h("small", null, "/ mo")), h("td", null, "Custom limit")), h("tr", null, h("th", null, "Native app builds"), h("td", null), h("td", null, h("ion-icon", { name: "checkmark-sharp" })), h("td", null, h("ion-icon", { name: "checkmark-sharp" })), h("td", null, h("ion-icon", { name: "checkmark-sharp" }))), h("tr", null, h("th", null, "Concurrency limits", h("a", { class: "anchor", href: "#faq-concurrency" }, h("ion-icon", { class: "help-circle", name: "help-circle-outline" }))), h("td", null), h("td", null, "1"), h("td", null, "2"), h("td", null, "Custom limit")), h("tr", null, h("th", null, "CI/CD automation"), h("td", null), h("td", null), h("td", null, h("ion-icon", { name: "checkmark-sharp" })), h("td", null, h("ion-icon", { name: "checkmark-sharp" }))), h("tr", null, h("th", null, h("small", null, "Automations")), h("td", null), h("td", null), h("td", null, "4"), h("td", null, "Custom limit")), h("tr", null, h("th", null, h("small", null, "Environments")), h("td", null), h("td", null), h("td", null, "2"), h("td", null, "Custom limit")), h("tr", null, h("th", null, h("small", null, "Configurations")), h("td", null), h("td", null), h("td", null, "2"), h("td", null, "Custom limit")), h("tr", null, h("th", null, "iOS Enterprise builds", h("a", { class: "anchor", href: "#faq-ios" }, h("ion-icon", { class: "help-circle", name: "help-circle-outline" }))), h("td", null), h("td", null), h("td", null), h("td", null, h("ion-icon", { name: "checkmark-sharp" }))), h("tr", null, h("th", null, "Private git repos", h("a", { class: "anchor", href: "#faq-git" }, h("ion-icon", { class: "help-circle", name: "help-circle-outline" }))), h("td", null), h("td", null), h("td", null), h("td", null, h("ion-icon", { name: "checkmark-sharp" }))), h("tr", null, h("th", null, h("strong", null, "Premium Cloud Support")), h("td", { colSpan: 4 })), h("tr", null, h("th", null, "Account & Billing Support", h("a", { class: "anchor", href: "#faq-account" }, h("ion-icon", { class: "help-circle", name: "help-circle-outline" }))), h("td", null), h("td", null, h("ion-icon", { name: "checkmark-sharp" })), h("td", null, h("ion-icon", { name: "checkmark-sharp" })), h("td", null, h("ion-icon", { name: "checkmark-sharp" }))), h("tr", null, h("th", null, "Premium Product Support", h("a", { class: "anchor", href: "#faq-premium" }, h("ion-icon", { class: "help-circle", name: "help-circle-outline" }))), h("td", null), h("td", null), h("td", null), h("td", null, h("ion-icon", { name: "checkmark-sharp" }))), h("tr", null, h("th", null, "Live Onboarding"), h("td", null), h("td", null), h("td", null), h("td", null, h("ion-icon", { name: "checkmark-sharp" }))), h("tr", null, h("th", null, h("strong", null, "Admin & Security")), h("td", { colSpan: 4 })), h("tr", null, h("th", null, "Seats included", h("a", { class: "anchor", href: "#faq-seats" }, h("ion-icon", { class: "help-circle", name: "help-circle-outline" }))), h("td", null, "1"), h("td", null, "1"), h("td", null, "2"), h("td", null, "Custom limit")), h("tr", null, h("th", null, "Additional Seat Cost"), h("td", null), h("td", null), h("td", null, "$99/Seat"), h("td", null, "Contact Sales")), h("tr", null, h("th", null, "Seat Limit"), h("td", null), h("td", null), h("td", null, "5"), h("td", null, "Custom limit")), h("tr", null, h("th", null, "Single sign-on"), h("td", null), h("td", null), h("td", null), h("td", null, h("ion-icon", { name: "checkmark-sharp" }))), h("tr", null, h("th", null, "Role-based access"), h("td", null), h("td", null), h("td", null), h("td", null, h("ion-icon", { name: "checkmark-sharp" })))), h("tfoot", null, h("tr", null, h("th", null), h("td", null, h("a", { href: "https://ionicframework.com/start#basics", class: "button btn sm light", id: "btn-pricing-starter" }, "Start free")), h("td", null, h("a", { href: "https://ionicframework.com/signup?source=framework-products&product=appflow", class: "button btn sm dark", id: "btn-pricing-starter" }, "Get started")), h("td", null, h("a", { href: "https://ionicframework.com/signup?source=framework-products&product=appflow", class: "button btn sm dark", id: "btn-pricing-team" }, "Get started")), h("td", null, h("a", { onClick: () => document.querySelector('site-modal').open = true, class: "button btn sm dark" }, "Contact us")))))))));
   }
-  static get style() { return appflowSiteFooterCss; }
+  static get style() { return pricingTableCss; }
   static get cmpMeta() { return {
     "$flags$": 2,
-    "$tagName$": "appflow-site-footer",
+    "$tagName$": "pricing-table",
     "$members$": undefined,
     "$listeners$": undefined,
     "$lazyBundleId$": "-",
@@ -13777,9 +17470,97 @@ class SiteFooter {
   }; }
 }
 
-const appflowSiteHeaderCss = ".sc-appflow-site-header-h{position:sticky;z-index:1000;top:-1px;background:#fff;display:block;box-shadow:0px 1px 0px rgba(0, 0, 0, 0.06);transition:background-color 0.4s ease, box-shadow 0.4s ease;--link-color:var(--c-carbon-90)}.site-header--sticky.sc-appflow-site-header-h{background:#fff}.ui-container.sc-appflow-site-header{background:#fff;padding:14px 0 13px}.page-theme--dark .sc-appflow-site-header-h{background-color:transparent;--link-color:white}.site-header.sc-appflow-site-header{display:flex}.site-header__container.sc-appflow-site-header{height:64px;display:flex;justify-content:space-between}.site-header__logo-link.sc-appflow-site-header{margin:0 0 2px 15px;display:flex;align-items:center;text-decoration:none;border:0}.site-header__logo-link.sc-appflow-site-header img.sc-appflow-site-header{height:24px}.site-header.sc-appflow-site-header .site-header-links.sc-appflow-site-header{display:flex;flex:1;margin-right:15px}.site-header.sc-appflow-site-header .site-header-links__menu.sc-appflow-site-header{flex:1;display:flex;align-items:center;justify-content:center}.site-header.sc-appflow-site-header .site-header-links__menu--hovered.sc-appflow-site-header a.sc-appflow-site-header{opacity:0.4}.site-header.sc-appflow-site-header .site-header-links__menu--hovered.sc-appflow-site-header a.link--active.sc-appflow-site-header{opacity:0.4}.site-header.sc-appflow-site-header .site-header-links__menu.sc-appflow-site-header nav.sc-appflow-site-header{flex:1;display:flex;align-items:center;justify-content:space-evenly;max-width:550px;margin-left:15px}.site-header.sc-appflow-site-header .site-header-links__menu.sc-appflow-site-header a.sc-appflow-site-header{border-bottom:0;transition:color, opacity 0.4s;font-size:15px;line-height:18px;font-family:var(--f-family-text);color:#222d3a;text-decoration:none;font-weight:normal;letter-spacing:0;margin:0 2px 0 0}.site-header.sc-appflow-site-header .site-header-links__menu.sc-appflow-site-header a.sc-appflow-site-header:hover{opacity:1;border:0}.site-header.sc-appflow-site-header .site-header-links__menu.sc-appflow-site-header a.link--active.sc-appflow-site-header{opacity:1}.site-header.sc-appflow-site-header .site-header-links__menu.sc-appflow-site-header .link.sc-appflow-site-header,.site-header.sc-appflow-site-header .site-header-links__menu.sc-appflow-site-header .link--external.sc-appflow-site-header{position:relative;border:0;transition:color 0.3s}.site-header.sc-appflow-site-header .site-header-links__menu.sc-appflow-site-header .link--external.sc-appflow-site-header .icon.sc-appflow-site-header{margin-left:6px;transition:top 0.2s, left 0.2s;position:relative}.site-header.sc-appflow-site-header .site-header-links__menu.sc-appflow-site-header .link--external.sc-appflow-site-header:hover{color:#000}.site-header.sc-appflow-site-header .site-header-links__menu.sc-appflow-site-header .link--external.sc-appflow-site-header:hover .icon.sc-appflow-site-header{left:1px;top:-1px}.site-header.sc-appflow-site-header .site-header-links__buttons.sc-appflow-site-header ul.sc-appflow-site-header{display:flex}.site-header.sc-appflow-site-header .site-header-links__buttons.sc-appflow-site-header ul.sc-appflow-site-header li.sc-appflow-site-header{display:flex;align-items:center}.site-header.sc-appflow-site-header .site-header-links__buttons.sc-appflow-site-header .button--shaded.sc-appflow-site-header,.site-header.sc-appflow-site-header .site-header-links__buttons.sc-appflow-site-header .button--plain.sc-appflow-site-header{color:var(--c-lavender-80);line-height:100%;display:flex;align-items:center;justify-content:center}.site-header.sc-appflow-site-header .site-header-links__buttons.sc-appflow-site-header .button--shaded.sc-appflow-site-header{background:var(--c-blue-10);border-radius:1000px;padding:10px var(--space-2);white-space:pre}.more-button.sc-appflow-site-header{height:32px;width:32px;display:none;margin-right:10px;font-size:20px;background:transparent;border:none;outline:none;cursor:pointer}.more-button.sc-appflow-site-header:hover{opacity:0.4}site-backdrop.sc-appflow-site-header{top:108px}@media screen and (max-width: 767px){.site-header.sc-appflow-site-header{display:flex;flex-wrap:wrap;justify-content:space-between}.site-header.sc-appflow-site-header .more-button.sc-appflow-site-header{display:block}.site-header.sc-appflow-site-header .site-header-links.sc-appflow-site-header{position:absolute;top:100%;display:block;background:#fff;width:100%;height:auto;padding:10px 0;opacity:0;transform:translateY(-10px);transition:transform 0.2s cubic-bezier(0.36, 0.66, 0.04, 1), opacity 0.2s linear;box-shadow:rgba(2, 8, 20, 0.06) 0px 1px 3px, rgba(2, 8, 20, 0.04) 0px 1px 2px}.site-header.sc-appflow-site-header .site-header-links__buttons.sc-appflow-site-header{display:none}.site-header.sc-appflow-site-header .site-header-links.sc-appflow-site-header nav.sc-appflow-site-header{max-width:100%;flex-direction:column;margin-left:0}.site-header.sc-appflow-site-header .site-header-links.sc-appflow-site-header a.sc-appflow-site-header{display:flex;align-items:center;width:100%;height:44px;margin:0;padding:0 20px;border:none;outline:none;color:#000}.site-header.sc-appflow-site-header .site-header-links.sc-appflow-site-header a.sc-appflow-site-header:hover{background:rgba(0, 0, 0, 0.03);color:initial}.site-header--expanded.sc-appflow-site-header-h .site-header-links.sc-appflow-site-header{opacity:1;pointer-events:all;transform:translateY(-1px);transition:transform 0.25s cubic-bezier(0.17, 0.67, 0.52, 1), opacity 0.1s linear}}";
+const appflowSiteFooterCss = ".sc-appflow-site-footer-h{display:block;padding-block-start:var(--space-9);padding-block-end:var(--space-9)}.ui-grid.sc-appflow-site-footer{row-gap:var(--space-6)}.footer__content.sc-appflow-site-footer a.sc-appflow-site-footer{color:var(--c-indigo-80)}.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer .wrapper.sc-appflow-site-footer{display:flex;flex-direction:column;align-items:flex-end}@media screen and (max-width: 640px){.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer .wrapper.sc-appflow-site-footer{align-items:flex-start}}.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer .title.sc-appflow-site-footer{font-weight:500;color:var(--c-indigo-100);margin-block-end:13px}.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer .form.sc-appflow-site-footer{display:flex;position:relative}.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer .form.sc-appflow-site-footer input.sc-appflow-site-footer{flex-grow:1;flex-basis:256px;background:#FFFFFF;border:1px solid var(--c-indigo-40);box-sizing:border-box;border-radius:var(--radius-4);padding:7px 14px;margin-inline-end:var(--space-1)}.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer .form.sc-appflow-site-footer input.sc-appflow-site-footer::placeholder{color:var(--c-indigo-60)}.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer .form.sc-appflow-site-footer button.sc-appflow-site-footer{font-size:13px;font-weight:600;background:var(--c-lavender-70);border-radius:var(--radius-4);line-height:112%;color:#fff;padding:7.5px 12px 8.5px 12px}.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer .form.sc-appflow-site-footer .button.sc-appflow-site-footer:hover,.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer .form.sc-appflow-site-footer .button.sc-appflow-site-footer:active,.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer .form.sc-appflow-site-footer .button.sc-appflow-site-footer:focus,.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer .form.sc-appflow-site-footer .button.sc-appflow-site-footer:focus-within{background:#6789f0}.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer .form.sc-appflow-site-footer .error-message.sc-appflow-site-footer{position:absolute;top:100%;color:var(--c-red-80)}.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer .form.sc-appflow-site-footer ion-icon.sc-appflow-site-footer{width:32px;height:32px;margin-inline-end:var(--space-1);color:var(--c-purple-60)}.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer .form.sc-appflow-site-footer .form-message.sc-appflow-site-footer{display:flex;align-items:center}.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer .form.sc-appflow-site-footer .form-message.sc-appflow-site-footer p.sc-appflow-site-footer{margin:0}.main.sc-appflow-site-footer li.title.sc-appflow-site-footer{font-weight:500;color:var(--c-indigo-100)}.bottom.sc-appflow-site-footer{margin-block-start:40px;row-gap:var(--space-1)}.bottom.sc-appflow-site-footer *.sc-appflow-site-footer{color:var(--c-indigo-60)}.bottom.sc-appflow-site-footer .start.sc-appflow-site-footer{display:flex;align-items:center}.bottom.sc-appflow-site-footer .start.sc-appflow-site-footer a.sc-appflow-site-footer{margin-inline-start:var(--space-3)}.bottom.sc-appflow-site-footer .end.sc-appflow-site-footer{display:flex;align-items:center;justify-content:flex-end;flex-grow:1;text-align:end}.bottom.sc-appflow-site-footer .end.sc-appflow-site-footer svg.sc-appflow-site-footer{margin-inline-end:var(--space-4)}@media screen and (max-width: 640px){.bottom.sc-appflow-site-footer .end.sc-appflow-site-footer{justify-content:flex-start}}";
 
-// import state from '../../store';
+class SiteFooter {
+  constructor(hostRef) {
+    registerInstance(this, hostRef);
+    this.email = '';
+    this.isLoading = false;
+    this.hasSubmitted = false;
+    this.isValid = true;
+    this.inlineMessage = '';
+  }
+  handleNewsletterSubmit(e) {
+    e.preventDefault();
+    this.isLoading = true;
+    const xhr = new XMLHttpRequest();
+    const url = [
+      'https://api.hsforms.com/submissions/v3/integration/submit',
+      '3776657',
+      '76e5f69f-85fd-4579-afce-a1892d48bb32'
+    ].join('/');
+    xhr.open('POST', url);
+    xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+        const json = JSON.parse(xhr.responseText);
+        this.inlineMessage = json.inlineMessage;
+        this.isLoading = false;
+        this.hasSubmitted = true;
+        this.isValid = true;
+      }
+      else if (xhr.readyState == 4 && xhr.status == 400) {
+        this.inlineMessage = 'Please enter a valid email address.';
+        this.isLoading = false;
+        this.isValid = false;
+      }
+    };
+    const hutkMatch = document.cookie.match && document.cookie.match(/hubspotutk=(.*?);/);
+    const hutk = hutkMatch ? hutkMatch[1] : undefined;
+    xhr.send(JSON.stringify({
+      submittedAt: (new Date()).getTime(),
+      fields: [
+        {
+          'name': 'email',
+          'value': this.email
+        },
+        {
+          'name': 'first_campaign_conversion',
+          'value': 'Ionic Newsletter'
+        }
+      ],
+      context: {
+        hutk,
+        'pageUri': window.location.href,
+        'pageName': document.title
+      }
+    }));
+  }
+  handleEmailChange(ev) {
+    this.email = ev.target.value;
+    this.isValid = true;
+  }
+  handleInlineMessage(returnMessage) {
+    console.log(returnMessage);
+    const messageMatch = returnMessage.match && returnMessage.match(/<p>(.*?)<\/p>/);
+    return messageMatch ? messageMatch[1] : undefined;
+  }
+  render() {
+    return (h("footer", null, h(ResponsiveContainer, { class: "footer__content" }, h(Grid, { class: "main" }, h(Col, { cols: 12, md: 3 }, appflowLogoWithText({}, { width: 114, height: 24 })), h(Col, { cols: 6, xs: 3, md: 3 }, h("ul", null, h("li", { class: "title | ui-paragraph-5" }, "Product"), h("li", null, h("a", { href: "/why-appflow", class: "ui-paragraph-5" }, "Why Appflow")), h("li", null, h("a", { href: "#", class: "ui-paragraph-5" }, "Resources")), h("li", null, h("a", { href: "/pricing", class: "ui-paragraph-5" }, "Pricing")), h("li", null, h("a", { href: "https://ionicframework.com/docs/appflow", class: "ui-paragraph-5" }, "Docs")))), h(Col, { cols: 6, xs: 3, md: 2 }, h("ul", null, h("li", { class: "title | ui-paragraph-5" }, "Contact"), h("li", null, h("a", { href: "#", class: "ui-paragraph-5" }, "Contact Us")), h("li", null, h("a", { href: "#", class: "ui-paragraph-5" }, "Support")), h("li", null, h("a", { href: "https://twitter.com/useappflow", class: "ui-paragraph-5" }, "Twitter")), h("li", null, h("a", { href: "#", class: "ui-paragraph-5" }, "FAQ")))), h(Col, { cols: 12, xs: 6, md: 4, class: "newsletter" }, h("div", { class: "wrapper" }, h("div", null, h(Paragraph, { class: "title", level: 5 }, "Sign up for our newsletter and stay up-to-date"), h("div", null, h("div", { class: "form" }, this.hasSubmitted
+      ? h("div", { class: "form-message" }, h("ion-icon", { name: "checkmark-circle" }), h(Paragraph, null, this.handleInlineMessage(this.inlineMessage)))
+      : h("form", { onSubmit: (e) => this.handleNewsletterSubmit(e) }, h("div", { class: "form-group" }, h("input", { name: "email", type: "email", value: this.email, onInput: () => this.handleEmailChange(event), disabled: this.isLoading, placeholder: "Email address", class: this.isValid ? '' : 'error', "aria-label": "Email", required: true }), h("button", { class: "button", type: "submit", disabled: this.isLoading || this.hasSubmitted }, "Send")), !this.isValid &&
+        h(Paragraph, { level: 5, class: "error-message" }, this.inlineMessage)))))))), h(Grid, { class: "bottom" }, h(Col, { class: "start", cols: 12, xs: 6 }, h("span", { class: "ui-paragraph-6" }, "\u00A9 ", (new Date).getFullYear(), " Appflow"), h("a", { class: "ui-paragraph-6", href: "/tos" }, "Terms"), h("a", { class: "ui-paragraph-6", href: "/privacy-policy" }, "Privacy")), h(Col, { class: "end", cols: 12, xs: 6 }, h("a", { href: "https://www.linkedin.com/showcase/ionic-appflow/" }, linkedInLogo({ main: 'var(--c-indigo-50)' }, { height: 12 })), h("a", { href: "https://twitter.com/useappflow" }, twitterLogo({ main: 'var(--c-indigo-50)' }, { height: 12 })), h("span", { class: "ui-paragraph-6" }, "Part of the ", h("a", { href: "https://ionic.io/" }, "Ionic"), " ecosystem"))))));
+  }
+  static get style() { return appflowSiteFooterCss; }
+  static get cmpMeta() { return {
+    "$flags$": 2,
+    "$tagName$": "appflow-site-footer",
+    "$members$": {
+      "email": [32],
+      "isLoading": [32],
+      "hasSubmitted": [32],
+      "isValid": [32],
+      "inlineMessage": [32]
+    },
+    "$listeners$": undefined,
+    "$lazyBundleId$": "-",
+    "$attrsToReflect$": []
+  }; }
+}
+
+const appflowSiteHeaderCss = ".sc-appflow-site-header-h{z-index:1000;background:#fff;position:sticky;top:0px;display:block;box-shadow:0px 1px 0px rgba(0, 0, 0, 0.06);transition:background-color 0.4s ease, box-shadow 0.4s ease;--link-color:var(--c-carbon-90)}.ui-container.sc-appflow-site-header{background:#fff;padding:14px 0 13px}.page-theme--dark .sc-appflow-site-header-h{background-color:transparent;--link-color:white}.site-header.sc-appflow-site-header{display:flex}.site-header__container.sc-appflow-site-header{height:64px;display:flex;justify-content:space-between}.site-header__logo-link.sc-appflow-site-header{margin:0 0 2px 15px;display:flex;align-items:center;text-decoration:none;border:0}.site-header__logo-link.sc-appflow-site-header img.sc-appflow-site-header{height:24px}.site-header.sc-appflow-site-header .site-header-links.sc-appflow-site-header{display:flex;flex:1;margin-right:15px}.site-header.sc-appflow-site-header .site-header-links__menu.sc-appflow-site-header{flex:1;display:flex;align-items:center;justify-content:center}.site-header.sc-appflow-site-header .site-header-links__menu--hovered.sc-appflow-site-header a.sc-appflow-site-header{opacity:0.4}.site-header.sc-appflow-site-header .site-header-links__menu--hovered.sc-appflow-site-header a.link--active.sc-appflow-site-header{opacity:0.4}.site-header.sc-appflow-site-header .site-header-links__menu.sc-appflow-site-header nav.sc-appflow-site-header{flex:1;display:flex;align-items:center;justify-content:space-evenly;max-width:550px;margin-left:15px}.site-header.sc-appflow-site-header .site-header-links__menu.sc-appflow-site-header a.sc-appflow-site-header{border-bottom:0;transition:color, opacity 0.4s;font-size:14px;line-height:17px;color:var(--c-indigo-90);text-decoration:none;font-weight:normal;letter-spacing:0;margin:0 2px 0 0}.site-header.sc-appflow-site-header .site-header-links__menu.sc-appflow-site-header a.sc-appflow-site-header:hover{opacity:1;border:0}.site-header.sc-appflow-site-header .site-header-links__menu.sc-appflow-site-header a.link--active.sc-appflow-site-header{opacity:0.4}.site-header.sc-appflow-site-header .site-header-links__menu.sc-appflow-site-header .link.sc-appflow-site-header,.site-header.sc-appflow-site-header .site-header-links__menu.sc-appflow-site-header .link--external.sc-appflow-site-header{position:relative;border:0;transition:color 0.3s}.site-header.sc-appflow-site-header .site-header-links__menu.sc-appflow-site-header .link--external.sc-appflow-site-header .icon.sc-appflow-site-header{margin-left:6px;transition:top 0.2s, left 0.2s;position:relative}.site-header.sc-appflow-site-header .site-header-links__menu.sc-appflow-site-header .link--external.sc-appflow-site-header:hover{color:#000}.site-header.sc-appflow-site-header .site-header-links__menu.sc-appflow-site-header .link--external.sc-appflow-site-header:hover .icon.sc-appflow-site-header{left:1px;top:-1px}.site-header.sc-appflow-site-header .site-header-links__buttons.sc-appflow-site-header ul.sc-appflow-site-header{display:flex}.site-header.sc-appflow-site-header .site-header-links__buttons.sc-appflow-site-header ul.sc-appflow-site-header li.sc-appflow-site-header{display:flex;align-items:center}.site-header.sc-appflow-site-header .site-header-links__buttons.sc-appflow-site-header ul.sc-appflow-site-header li.sc-appflow-site-header:first-of-type{margin-inline-end:var(--space-3)}.site-header.sc-appflow-site-header .site-header-links__buttons.sc-appflow-site-header ul.sc-appflow-site-header li.sc-appflow-site-header a.sc-appflow-site-header{font-weight:600;font-size:14px}.site-header.sc-appflow-site-header .site-header-links__buttons.sc-appflow-site-header .button.sc-appflow-site-header{color:var(--c-lavender-80);line-height:100%;display:flex;align-items:center;justify-content:center;background:var(--c-blue-10);border-radius:1000px;padding:10px var(--space-2);white-space:pre}.site-header.sc-appflow-site-header .site-header-links__buttons.sc-appflow-site-header .button.sc-appflow-site-header:hover,.site-header.sc-appflow-site-header .site-header-links__buttons.sc-appflow-site-header .button.sc-appflow-site-header:active,.site-header.sc-appflow-site-header .site-header-links__buttons.sc-appflow-site-header .button.sc-appflow-site-header:focus,.site-header.sc-appflow-site-header .site-header-links__buttons.sc-appflow-site-header .button.sc-appflow-site-header:focus-within{background:#ebf2ff}@media screen and (max-width: 767px){.site-header.sc-appflow-site-header .site-header-links__buttons.sc-appflow-site-header .button.sc-appflow-site-header{margin:12px 20px}}.more-button.sc-appflow-site-header{height:32px;width:32px;display:none;margin-right:10px;font-size:20px;background:transparent;border:none;outline:none;cursor:pointer}.more-button.sc-appflow-site-header:hover{opacity:0.4}site-backdrop.sc-appflow-site-header{top:108px}@media screen and (max-width: 767px){.site-header.sc-appflow-site-header{display:flex;flex-wrap:wrap;justify-content:space-between}.site-header.sc-appflow-site-header .more-button.sc-appflow-site-header{display:block}.site-header.sc-appflow-site-header .site-header-links.sc-appflow-site-header{position:absolute;top:100%;display:block;background:#fff;width:100%;height:auto;padding:10px 0;opacity:0;transform:translateY(-10px);transition:transform 0.2s cubic-bezier(0.36, 0.66, 0.04, 1), opacity 0.2s linear;box-shadow:rgba(2, 8, 20, 0.06) 0px 1px 3px, rgba(2, 8, 20, 0.04) 0px 1px 2px}.site-header.sc-appflow-site-header .site-header-links__menu.sc-appflow-site-header{visibility:hidden}.site-header.sc-appflow-site-header .site-header-links__menu--expanded.sc-appflow-site-header{visibility:visible}.site-header.sc-appflow-site-header .site-header-links__menu.sc-appflow-site-header a.sc-appflow-site-header{color:#000}.site-header.sc-appflow-site-header .site-header-links__buttons.sc-appflow-site-header ul.sc-appflow-site-header{display:flex;flex-direction:column}.site-header.sc-appflow-site-header .site-header-links.sc-appflow-site-header nav.sc-appflow-site-header{max-width:100%;flex-direction:column;margin-left:0}.site-header.sc-appflow-site-header .site-header-links.sc-appflow-site-header a.sc-appflow-site-header{display:flex;align-items:center;width:100%;height:44px;margin:0;padding:0 20px;border:none;outline:none}.site-header.sc-appflow-site-header .site-header-links.sc-appflow-site-header a.sc-appflow-site-header:hover{background:rgba(0, 0, 0, 0.03);color:initial}.expanded.sc-appflow-site-header-h .site-header-links.sc-appflow-site-header{opacity:1;pointer-events:all;transform:translateY(-1px);transition:transform 0.25s cubic-bezier(0.17, 0.67, 0.52, 1), opacity 0.1s linear}}";
+
 class SiteHeader {
   constructor(hostRef) {
     registerInstance(this, hostRef);
@@ -13801,31 +17582,19 @@ class SiteHeader {
         this.forceHovered = v.replace('/', '').replace('#', '');
       }
     });
-    addListener(({ entries }) => {
-      const e = entries.find((e) => e.target === this.el);
-      if (!e) {
-        return;
-      }
-      if (e.intersectionRatio < 1) {
-        this.sticky = true;
-      }
-      else {
-        this.sticky = false;
-      }
-    });
-    observe(this.el);
   }
   render() {
     const { clearHover, expanded, forceHovered, hovered, sticky } = this;
     return (h(Host, { class: {
-        'site-header--sticky': sticky,
-        'site-header--expanded': expanded
-      } }, h("site-backdrop", { visible: expanded, onClick: () => this.toggleExpanded() }), h(ResponsiveContainer, { class: "site-header" }, h("a", Object.assign({}, href('/'), { class: "site-header__logo-link" }), appflowLogoWithText({}, { width: 114, height: 24 })), h("button", { onClick: () => this.toggleExpanded(), class: "more-button" }, h("ion-icon", { icon: "ellipsis-vertical" })), h("div", { class: "site-header-links" }, h("div", { class: {
+        'sticky': sticky,
+        'expanded': expanded
+      } }, h("header", null, h("site-backdrop", { visible: expanded, onClick: () => this.toggleExpanded() }), h(ResponsiveContainer, { class: "site-header" }, h("a", Object.assign({}, href('/'), { class: "site-header__logo-link" }), appflowLogoWithText({}, { width: 114, height: 24 })), h("button", { onClick: () => this.toggleExpanded(), class: "more-button" }, h("ion-icon", { icon: "ellipsis-vertical" })), h("div", { class: "site-header-links" }, h("div", { class: {
         'site-header-links__menu': true,
-        'site-header-links__menu--hovered': !!hovered || !!forceHovered
-      } }, h("nav", null, h(NavLink, { path: "/", hovered: (hovered || forceHovered) === 'features', onHover: this.setHovered('product'), onExit: clearHover }, "Product"), h(NavLink, { path: "/why-appflow", hovered: hovered === 'docs', onHover: this.setHovered('why-appflow'), onExit: clearHover }, "Why Appflow"), h(NavLink, { path: "/resources", hovered: hovered === 'community' || forceHovered === 'community', onHover: this.setHovered('resources'), onExit: clearHover }, "Resources"), h(NavLink, { path: "/pricing", hovered: hovered === 'blog', onHover: this.setHovered('pricing'), onExit: clearHover }, "Pricing"), h("a", { href: "/docs", target: "_blank", onMouseOver: this.setHovered('docs'), onMouseOut: clearHover, class: {
+        'site-header-links__menu--hovered': !!hovered,
+        'site-header-links__menu--expanded': expanded
+      } }, h("nav", { onClick: () => this.toggleExpanded() }, h(NavLink, { path: "/", hovered: (hovered || forceHovered) === 'index', onHover: this.setHovered('index'), onExit: clearHover }, "Product"), h(NavLink, { path: "/why-appflow", hovered: (hovered || forceHovered) === 'why-appflow', onHover: this.setHovered('why-appflow'), onExit: clearHover }, "Why Appflow"), h(NavLink, { path: "/resources", hovered: (hovered || forceHovered) === 'resources', onHover: this.setHovered('resources'), onExit: clearHover }, "Resources"), h(NavLink, { path: "/pricing", hovered: (hovered || forceHovered) === 'pricing', onHover: this.setHovered('pricing'), onExit: clearHover }, "Pricing"), h("a", { href: "/docs", target: "_blank", onMouseOver: this.setHovered('docs'), onMouseOut: clearHover, class: {
         'link--hovered': hovered === 'enterprise'
-      } }, "Docs"))), h("div", { class: "site-header-links__buttons" }, h("ul", null, h("li", null, h("button", { class: "button--plain" }, "Log in")), h("li", null, h("button", { class: "button--shaded" }, "Get started ", h("span", { style: { 'letter-spacing': '0px' } }, "->")))))))));
+      } }, "Docs"))), h("div", { class: "site-header-links__buttons" }, h("ul", null, h("li", null, h("a", { class: "", href: "https://ionicframework.com/login?source=framework-products&product=appflow" }, "Log in")), h("li", null, h("a", { class: "button", href: "https://ionicframework.com/signup?source=framework-products&product=appflow" }, "Get started ", h("span", { style: { 'letter-spacing': '0px' } }, "->"))))))))));
   }
   get el() { return getElement(this); }
   static get style() { return appflowSiteHeaderCss; }
@@ -14324,12 +18093,12 @@ class UIThemeProvider {
   }; }
 }
 
-const whyAppflowCss = ".sc-why-appflow-h{--p2-color:var(--c-indigo-80);--p3-color:var(--c-indigo-80);--p4-color:var(--c-indigo-80);--h2-color:var(--c-carbon-100);--h4-color:var(--c-carbon-100);--h5-color:var(--c-carbon-100);--h6-color:var(--c-lavender-70);--p2-color:var(--c-indigo-80);--p3-color:var(--c-indigo-80);--p4-color:var(--c-indigo-80)}a.sc-why-appflow{color:var(--c-lavender-80)}.ui-heading-2.sc-why-appflow{margin-block-end:var(--space-5)}.ui-heading-4.sc-why-appflow{margin-block-end:var(--space-3)}.ui-heading-5.sc-why-appflow{margin-block-end:var(--space-3)}.ui-heading-6.sc-why-appflow{margin-block-end:var(--space-6)}.ui-paragraph-2.sc-why-appflow{margin-block-start:var(--space-5)}#top.sc-why-appflow{background:#212752;padding-block-start:162px;padding-block-end:162px;--h6-color:var(--c-lavender-50);--h1-color:#fff;--p2-color:var(--c-lavender-10)}#top.sc-why-appflow .ui-grid.sc-why-appflow{row-gap:var(--space-11)}#top.sc-why-appflow .heading-group.sc-why-appflow{max-width:544px}#top.sc-why-appflow .heading-group.sc-why-appflow .ui-heading-6.sc-why-appflow{margin-block-end:26px}#top.sc-why-appflow .heading-group.sc-why-appflow .cta.sc-why-appflow{padding:14px 16px;margin-block-start:var(--space-6);background:var(--c-lavender-60);color:#fff;border-radius:var(--radius-4);font-weight:600;font-size:14px;line-height:112%;letter-spacing:-0.02em}#top.sc-why-appflow .heading-group.sc-why-appflow .cta.sc-why-appflow::after{content:\" ->\";letter-spacing:0;white-space:pre}#top.sc-why-appflow .image.sc-why-appflow{display:flex;flex-grow:1;position:relative;top:30px;left:50px;justify-content:center;align-items:center}#top.sc-why-appflow .image.sc-why-appflow img.sc-why-appflow{width:457px;position:absolute;left:0}@media screen and (max-width: 1215px){#top.sc-why-appflow .image.sc-why-appflow img.sc-why-appflow{left:-56px}}@media screen and (max-width: 767px){#top.sc-why-appflow .image.sc-why-appflow img.sc-why-appflow{display:none}}#companies.sc-why-appflow{padding-block-start:160px;padding-block-end:160px}#companies.content.sc-why-appflow{margin-block-start:-77px}#companies.sc-why-appflow .row.sc-why-appflow{display:flex;margin-inline-start:auto;margin-inline-end:auto;flex-grow:1;justify-content:space-around;align-items:center;flex-wrap:wrap}#companies.sc-why-appflow .subrow.sc-why-appflow{display:flex;flex-grow:1;justify-content:space-around;flex-wrap:wrap}#companies.sc-why-appflow .subrow.sc-why-appflow .image.sc-why-appflow{padding-inline-start:var(--space-4);padding-inline-end:var(--space-4)}#companies.sc-why-appflow .subrow.sc-why-appflow img.sc-why-appflow{margin-block-start:77px}#companies.sc-why-appflow .row1.sc-why-appflow{max-width:1018px}#companies.sc-why-appflow .row2.sc-why-appflow{max-width:946px}#companies.sc-why-appflow img.sc-why-appflow{width:auto}#benefits.sc-why-appflow{background:var(--c-indigo-0);padding-block-start:160px;padding-block-end:160px}#benefits.sc-why-appflow .heading-group.sc-why-appflow{margin-block-end:var(--space-5);max-width:640px}#benefits.sc-why-appflow .subtext.sc-why-appflow{margin-inline-start:var(--space-3);margin-block-end:var(--space-11);max-width:624px;position:relative}#benefits.sc-why-appflow .subtext.sc-why-appflow::before{content:\"\";background:var(--c-lavender-70);width:2px;height:calc(100% - 11px);position:absolute;top:50%;left:calc(-1 * var(--space-3));transform:translateY(-50%)}#benefits.sc-why-appflow .list.ui-grid.sc-why-appflow{row-gap:var(--space-9)}#integrated.sc-why-appflow{padding-block-start:160px;padding-block-end:160px}#integrated.sc-why-appflow .heading-group.sc-why-appflow{margin-block-end:var(--space-11);max-width:640px}#integrated.sc-why-appflow .list.ui-grid.sc-why-appflow{column-gap:var(--space-6)}@media screen and (max-width: 1023px){#integrated.sc-why-appflow .list.ui-grid.sc-why-appflow{row-gap:var(--space-9)}}#integrated.sc-why-appflow .list.ui-grid.sc-why-appflow .list-item.sc-why-appflow img.sc-why-appflow{margin-block-end:var(--space-4);width:auto}#problems.sc-why-appflow{background:var(--c-indigo-0);padding-block-start:160px;padding-block-end:160px}#problems.sc-why-appflow img.sc-why-appflow{width:auto}#problems.sc-why-appflow .heading-group.sc-why-appflow{margin-block-end:var(--space-11);max-width:768px}#problems.sc-why-appflow .ui-grid.sc-why-appflow{row-gap:var(--space-3)}#problems.sc-why-appflow .list-item.sc-why-appflow{display:flex;align-items:flex-start}#problems.sc-why-appflow .list-item.sc-why-appflow+.list-item.sc-why-appflow{margin-block-start:80px}#problems.sc-why-appflow .list-item.sc-why-appflow .paragraphs.sc-why-appflow{display:flex;flex-direction:column}#problems.sc-why-appflow .list-item.sc-why-appflow .paragraphs.sc-why-appflow .ui-paragraph.sc-why-appflow+.ui-paragraph.sc-why-appflow{margin-block-start:var(--space-5)}#different.sc-why-appflow{background:#090C22;padding-block-start:160px;padding-block-end:160px;--h6-color:var(--lavender-60);--h2-color:#fff;--h4-color:#fff;--p3-color:var(--c-indigo-30)}#different.sc-why-appflow .heading-group.sc-why-appflow{margin-block-end:var(--space-11)}@media screen and (max-width: 1023px){#different.sc-why-appflow .list.ui-grid.sc-why-appflow{row-gap:var(--space-11)}}#different.sc-why-appflow .list.ui-grid.sc-why-appflow .list-item.sc-why-appflow img.sc-why-appflow{margin-block-end:56px;width:auto;max-height:160px}";
+const whyAppflowCss = ".sc-why-appflow-h{--p2-color:var(--c-indigo-80);--p3-color:var(--c-indigo-80);--p4-color:var(--c-indigo-80);--h2-color:var(--c-carbon-100);--h4-color:var(--c-carbon-100);--h5-color:var(--c-carbon-100);--h6-color:var(--c-lavender-70);--p2-color:var(--c-indigo-80);--p3-color:var(--c-indigo-80);--p4-color:var(--c-indigo-80)}a.sc-why-appflow{color:var(--c-lavender-80)}.ui-heading-2.sc-why-appflow{margin-block-end:var(--space-5)}.ui-heading-4.sc-why-appflow{margin-block-end:var(--space-3)}.ui-heading-5.sc-why-appflow{margin-block-end:var(--space-3)}.ui-heading-6.sc-why-appflow{margin-block-end:var(--space-6)}.ui-paragraph-2.sc-why-appflow{margin-block-start:var(--space-5)}#top.sc-why-appflow{background:#212752;padding-block-start:162px;padding-block-end:162px;--h6-color:var(--c-lavender-50);--h1-color:#fff;--p2-color:var(--c-lavender-10)}#top.sc-why-appflow .ui-grid.sc-why-appflow{row-gap:var(--space-11)}#top.sc-why-appflow .heading-group.sc-why-appflow{max-width:544px}#top.sc-why-appflow .heading-group.sc-why-appflow .ui-heading-6.sc-why-appflow{margin-block-end:26px}#top.sc-why-appflow .heading-group.sc-why-appflow .cta.sc-why-appflow{padding:14px 16px;margin-block-start:var(--space-6);background:var(--c-lavender-60);color:#fff;border-radius:var(--radius-4);font-weight:600;font-size:14px;line-height:112%;letter-spacing:-0.02em}#top.sc-why-appflow .heading-group.sc-why-appflow .cta.sc-why-appflow::after{content:\" ->\";letter-spacing:0;white-space:pre}#top.sc-why-appflow .heading-group.sc-why-appflow .button.sc-why-appflow:hover,#top.sc-why-appflow .heading-group.sc-why-appflow .button.sc-why-appflow:active,#top.sc-why-appflow .heading-group.sc-why-appflow .button.sc-why-appflow:focus,#top.sc-why-appflow .heading-group.sc-why-appflow .button.sc-why-appflow:focus-within{background:#7e9bff}#top.sc-why-appflow .image.sc-why-appflow{display:flex;flex-grow:1;position:relative;top:50px;left:50px;justify-content:center;align-items:center}#top.sc-why-appflow .image.sc-why-appflow img.sc-why-appflow{width:520px;position:absolute;left:0}@media screen and (max-width: 1215px){#top.sc-why-appflow .image.sc-why-appflow img.sc-why-appflow{left:-56px}}@media screen and (max-width: 767px){#top.sc-why-appflow .image.sc-why-appflow img.sc-why-appflow{position:relative}}#companies.sc-why-appflow{padding-block-start:160px;padding-block-end:160px}#companies.content.sc-why-appflow{margin-block-start:-77px}#companies.sc-why-appflow .row.sc-why-appflow{display:flex;margin-inline-start:auto;margin-inline-end:auto;flex-grow:1;justify-content:space-around;align-items:center;flex-wrap:wrap}#companies.sc-why-appflow .subrow.sc-why-appflow{display:flex;flex-grow:1;justify-content:space-around;flex-wrap:wrap}#companies.sc-why-appflow .subrow.sc-why-appflow .image.sc-why-appflow{padding-inline-start:var(--space-4);padding-inline-end:var(--space-4)}#companies.sc-why-appflow .subrow.sc-why-appflow img.sc-why-appflow{margin-block-start:77px}#companies.sc-why-appflow .row1.sc-why-appflow{max-width:1018px}#companies.sc-why-appflow .row2.sc-why-appflow{max-width:946px}#companies.sc-why-appflow img.sc-why-appflow{width:auto}#benefits.sc-why-appflow{background:#F6F8FC;padding-block-start:160px;padding-block-end:160px}#benefits.sc-why-appflow .heading-group.sc-why-appflow{margin-block-end:var(--space-5);max-width:640px}#benefits.sc-why-appflow .subtext.sc-why-appflow{margin-inline-start:var(--space-3);margin-block-end:var(--space-11);max-width:624px;position:relative}#benefits.sc-why-appflow .subtext.sc-why-appflow::before{content:\"\";background:var(--c-lavender-70);width:2px;height:calc(100% - 11px);position:absolute;top:50%;left:calc(-1 * var(--space-3));transform:translateY(-50%)}#benefits.sc-why-appflow .list.ui-grid.sc-why-appflow{row-gap:var(--space-9)}#integrated.sc-why-appflow{padding-block-start:160px;padding-block-end:160px}#integrated.sc-why-appflow .heading-group.sc-why-appflow{margin-block-end:var(--space-11);max-width:640px}#integrated.sc-why-appflow .list.ui-grid.sc-why-appflow{column-gap:var(--space-6)}@media screen and (max-width: 1023px){#integrated.sc-why-appflow .list.ui-grid.sc-why-appflow{row-gap:var(--space-9)}}#integrated.sc-why-appflow .list.ui-grid.sc-why-appflow .list-item.sc-why-appflow img.sc-why-appflow{margin-block-end:var(--space-4);width:auto}#problems.sc-why-appflow{background:#F6F8FC;padding-block-start:160px;padding-block-end:160px}#problems.sc-why-appflow img.sc-why-appflow{width:auto}#problems.sc-why-appflow .heading-group.sc-why-appflow{margin-block-end:var(--space-11);max-width:768px}#problems.sc-why-appflow .ui-grid.sc-why-appflow{row-gap:var(--space-3)}#problems.sc-why-appflow .list-item.sc-why-appflow{display:flex;align-items:flex-start}#problems.sc-why-appflow .list-item.sc-why-appflow+.list-item.sc-why-appflow{margin-block-start:80px}#problems.sc-why-appflow .list-item.sc-why-appflow .paragraphs.sc-why-appflow{display:flex;flex-direction:column}#problems.sc-why-appflow .list-item.sc-why-appflow .paragraphs.sc-why-appflow .ui-paragraph.sc-why-appflow+.ui-paragraph.sc-why-appflow{margin-block-start:var(--space-5)}#different.sc-why-appflow{background:#090C22;padding-block-start:160px;padding-block-end:160px;--h6-color:var(--lavender-60);--h2-color:#fff;--h4-color:#fff;--p3-color:var(--c-indigo-30)}#different.sc-why-appflow .heading-group.sc-why-appflow{margin-block-end:var(--space-11)}@media screen and (max-width: 1023px){#different.sc-why-appflow .list.ui-grid.sc-why-appflow{row-gap:var(--space-11)}}#different.sc-why-appflow .list.ui-grid.sc-why-appflow .list-item.sc-why-appflow img.sc-why-appflow{margin-block-end:56px;width:auto;max-height:160px}";
 
 class WhyAppflow {
   constructor(hostRef) {
     registerInstance(this, hostRef);
-    this.render = () => (h(Host, null, h("header", null, h("appflow-site-header", null)), h("main", null, h(Top$2, null), h(Companies$2, null), h(Benefits, null), h(Integrated, null), h(Problems, null), h(Different, null), h("get-started-section", null)), h("footer", null, h("appflow-site-footer", null))));
+    this.render = () => (h(Host, null, h(Top$2, null), h(Companies$2, null), h(Benefits, null), h(Integrated, null), h(Problems, null), h(Different, null), h("get-started-section", null)));
   }
   async componentWillLoad() {
     await getPage('appflow_why_appflow');
@@ -14347,7 +18116,7 @@ class WhyAppflow {
 }
 const Top$2 = () => {
   const { top, top__cta } = state.pageData;
-  return (h("section", { id: "top" }, h(ResponsiveContainer, null, h(Grid, null, h(Col, { class: "heading-group", cols: 12, sm: 6 }, h(PrismicRichText, { richText: top, paragraphLevel: 2 }), h("a", { class: "cta", href: "#" }, top__cta)), h(Col, { class: "image", cols: 12, sm: 6 }, h("img", { src: getAssetPath('assets/top@2x.png'), srcset: `${getAssetPath('assets/top@2x.png')} 2x,
+  return (h("section", { id: "top" }, h(ResponsiveContainer, null, h(Grid, null, h(Col, { class: "heading-group", cols: 12, sm: 6 }, h(PrismicRichText, { richText: top, paragraphLevel: 2 }), h("a", { class: "cta button", href: "https://ionicframework.com/signup?source=framework-products&product=appflow" }, top__cta)), h(Col, { class: "image", cols: 12, sm: 6 }, h("img", { src: getAssetPath('assets/top@2x.png'), srcset: `${getAssetPath('assets/top@2x.png')} 2x,
                       ${getAssetPath('assets/top.png')} 1x`, loading: "eager", width: "1024", height: "1328" }))))));
 };
 const Companies$2 = () => {
@@ -14422,10 +18191,10 @@ registerComponents([
   DisqusComments,
   DocsRoot,
   GetStartedSection,
-  HubspotForm,
   Icon,
   InternalAd,
   LandingPage,
+  MarkdownPage,
   MoreButton,
   MoreResources,
   NewsletterForm,
@@ -14434,6 +18203,7 @@ registerComponents([
   PlanPricing,
   PlatformBar,
   PricingPage,
+  PricingTable,
   SiteFooter,
   SiteHeader,
   SiteImg,
@@ -14825,8 +18595,9 @@ function isValidDocument(e) {
  return null != e && 9 === e.nodeType && null != e.documentElement && 1 === e.documentElement.nodeType && null != e.body && 1 === e.body.nodeType;
 }
 
-const templateWindows = new Map, isPromise = e => !!e && ("object" == typeof e || "function" == typeof e) && "function" == typeof e.then, IS_DENO_ENV = "undefined" != typeof Deno, IS_NODE_ENV = !(IS_DENO_ENV || "undefined" == typeof global || "function" != typeof require || !global.process || "string" != typeof __filename || global.origin && "string" == typeof global.origin), hasError = (IS_NODE_ENV ? process.platform : IS_DENO_ENV && Deno.build.os, 
-IS_NODE_ENV && require, IS_NODE_ENV ? process.cwd : IS_DENO_ENV && Deno.cwd, e => null != e && 0 !== e.length && e.some(e => "error" === e.level && "runtime" !== e.type)), shouldIgnoreError = e => e === TASK_CANCELED_MSG, TASK_CANCELED_MSG = "task canceled", SKIP_ATTRS = new Set([ "s-id", "c-id" ]), collectUsedSelectors = (e, t) => {
+const templateWindows = new Map, isPromise = e => !!e && ("object" == typeof e || "function" == typeof e) && "function" == typeof e.then, IS_DENO_ENV = "undefined" != typeof Deno, IS_NODE_ENV = !(IS_DENO_ENV || "undefined" == typeof global || "function" != typeof require || !global.process || "string" != typeof __filename || global.origin && "string" == typeof global.origin), hasError = (IS_NODE_ENV ? global.process.platform : IS_DENO_ENV && globalThis.Deno.build.os, 
+IS_DENO_ENV && Deno.build.os, IS_NODE_ENV && require, IS_NODE_ENV ? process.cwd : IS_DENO_ENV && globalThis.Deno.cwd, 
+IS_NODE_ENV ? global.process.exit : IS_DENO_ENV && globalThis.Deno.exit, e => null != e && 0 !== e.length && e.some(e => "error" === e.level && "runtime" !== e.type)), shouldIgnoreError = e => e === TASK_CANCELED_MSG, TASK_CANCELED_MSG = "task canceled", SKIP_ATTRS = new Set([ "s-id", "c-id" ]), collectUsedSelectors = (e, t) => {
  if (null != t && 1 === t.nodeType) {
   const r = t.children, s = t.nodeName.toLowerCase();
   e.tags.add(s);
@@ -14852,7 +18623,7 @@ IS_NODE_ENV && require, IS_NODE_ENV ? process.cwd : IS_DENO_ENV && Deno.cwd, e =
    line: r,
    column: s
   };
-  return t => (t.position = new A(e), m(), t);
+  return t => (t.position = new z(e), m(), t);
  }, a = o => {
   const i = e.split("\n"), a = {
    level: "error",
@@ -14897,7 +18668,7 @@ IS_NODE_ENV && require, IS_NODE_ENV ? process.cwd : IS_DENO_ENV && Deno.cwd, e =
  }, d = () => {
   let t;
   const r = [];
-  for (m(), h(r); e.length && "}" !== e.charAt(0) && (t = w() || z()); ) !1 !== t && (r.push(t), 
+  for (m(), h(r); e.length && "}" !== e.charAt(0) && (t = w() || N()); ) !1 !== t && (r.push(t), 
   h(r));
   return r;
  }, m = () => u(/^\s*/), h = e => {
@@ -14939,7 +18710,7 @@ IS_NODE_ENV && require, IS_NODE_ENV ? process.cwd : IS_DENO_ENV && Deno.cwd, e =
   let t;
   for (h(e); t = g(); ) !1 !== t && (e.push(t), h(e));
   return c() ? e : a("missing '}'");
- }, C = () => {
+ }, E = () => {
   let e;
   const t = [], r = i();
   for (;e = u(/^((\d+\.\d+|\.\d+|\d+)%?|[a-z]+)\s*/); ) t.push(e[1]), u(/^,\s*/);
@@ -14958,7 +18729,7 @@ IS_NODE_ENV && require, IS_NODE_ENV ? process.cwd : IS_DENO_ENV && Deno.cwd, e =
    };
    return n[e] = s[1].trim(), r(n);
   };
- }, E = S("import"), b = S("charset"), T = S("namespace"), w = () => "@" !== e[0] ? null : (() => {
+ }, C = S("import"), b = S("charset"), T = S("namespace"), w = () => "@" !== e[0] ? null : (() => {
   const e = i();
   let t = u(/^@([-\w]+)?keyframes\s*/);
   if (!t) return null;
@@ -14967,7 +18738,7 @@ IS_NODE_ENV && require, IS_NODE_ENV ? process.cwd : IS_DENO_ENV && Deno.cwd, e =
   const s = t[1];
   if (!l()) return a("@keyframes missing '{'");
   let n, o = h();
-  for (;n = C(); ) o.push(n), o = o.concat(h());
+  for (;n = E(); ) o.push(n), o = o.concat(h());
   return c() ? e({
    type: "keyframes",
    name: s,
@@ -15003,7 +18774,7 @@ IS_NODE_ENV && require, IS_NODE_ENV ? process.cwd : IS_DENO_ENV && Deno.cwd, e =
    supports: r,
    rules: s
   }) : a("@supports missing '}'");
- })() || E() || b() || T() || (() => {
+ })() || C() || b() || T() || (() => {
   const e = i(), t = u(/^@([-\w]+)?document *([^{]+)/);
   if (!t) return null;
   const r = trim(t[1]), s = trim(t[2]);
@@ -15046,7 +18817,7 @@ IS_NODE_ENV && require, IS_NODE_ENV ? process.cwd : IS_DENO_ENV && Deno.cwd, e =
    type: "font-face",
    declarations: r
   }) : a("@font-face missing '}'");
- })(), z = () => {
+ })(), N = () => {
   const e = i(), t = p();
   return t ? (h(), e({
    type: "rule",
@@ -15054,7 +18825,7 @@ IS_NODE_ENV && require, IS_NODE_ENV ? process.cwd : IS_DENO_ENV && Deno.cwd, e =
    declarations: y()
   })) : a("selector missing");
  };
- class A {
+ class z {
   constructor(e) {
    this.start = e, this.end = {
     line: r,
@@ -15062,7 +18833,7 @@ IS_NODE_ENV && require, IS_NODE_ENV ? process.cwd : IS_DENO_ENV && Deno.cwd, e =
    }, this.source = t;
   }
  }
- return A.prototype.content = e, {
+ return z.prototype.content = e, {
   diagnostics: n,
   ...addParent((() => {
    const e = d();

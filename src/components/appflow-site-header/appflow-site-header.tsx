@@ -98,7 +98,7 @@ export class SiteHeader {
                     Pricing
                   </NavLink>
                   <a
-                    href="/docs"
+                    href="https://ionicframework.com/docs/appflow"
                     target="_blank"
                     onMouseOver={this.setHovered('docs')}
                     onMouseOut={clearHover}

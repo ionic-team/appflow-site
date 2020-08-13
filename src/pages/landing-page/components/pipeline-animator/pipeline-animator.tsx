@@ -108,19 +108,28 @@ export class PipelineAnimator {
   }
 
   importGsap() {    
-    if (window.gsap) {
-      this.setupAutomateAnimation();
-      return;
-    }
+    if (window.gsap) return this.setUpAutomateAnimation();
+
+    const gsapCdn = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.4.2/gsap.min.js';
+    const scriptAlreadyLoading = Array.from(document.scripts).some(script => {
+      if (script.src === gsapCdn) {
+        script.addEventListener('load', () => {
+          this.setUpAutomateAnimation();
+        })
+        return true;
+      }
+    });
+
+    if (scriptAlreadyLoading) return;
 
     const script = document.createElement('script');
     script.src = this.gsapCdn;
 
     script.onload = () => {
       if (window) {
-        this.setupAutomateAnimation();
+        this.setUpAutomateAnimation();
       } else {
-        window.onload = this.setupAutomateAnimation;
+        window.onload = this.setUpAutomateAnimation;
       }
     }
     script.onerror = () => console.error('error loading gsap library from: ', this.gsapCdn);      
@@ -207,7 +216,7 @@ export class PipelineAnimator {
       });
     }
 
-  setupAutomateAnimation() {
+  setUpAutomateAnimation() {
     this.timeline = gsap.timeline({
       defaultEase: Linear.easeNone,
       repeat: -1

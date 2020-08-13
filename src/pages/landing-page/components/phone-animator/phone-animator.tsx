@@ -46,10 +46,19 @@ export class PhoneAnimator {
   }
 
   importGsap() {    
-    if (window.gsap) {
-      this.setUpAnimation();
-      return;
-    };
+    if (window.gsap) return this.setUpAnimation();
+
+    const gsapCdn = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.4.2/gsap.min.js';
+    const scriptAlreadyLoading = Array.from(document.scripts).some(script => {
+      if (script.src === gsapCdn) {
+        script.addEventListener('load', () => {
+          this.setUpAnimation();
+        })
+        return true;
+      }
+    });
+
+    if (scriptAlreadyLoading) return;
     
     const script = document.createElement('script');
     script.src = this.gsapCdn;

@@ -144,12 +144,12 @@ export class SiteFooter {
           <Grid class="bottom">
             <Col class="start" cols={12} xs={6}>
               <span class="ui-paragraph-6">© {(new Date).getFullYear()} Appflow</span>
-              <a class="ui-paragraph-6" href="#">Terms</a>
-              <a class="ui-paragraph-6" href="#">Privacy</a>
+              <a class="ui-paragraph-6" href="/tos">Terms</a>
+              <a class="ui-paragraph-6" href="/privacy-policy">Privacy</a>
             </Col>    
             <Col class="end" cols={12} xs={6}>
-              <a href="">{linkedInLogo({ main: 'var(--c-indigo-50)' }, { height: 12 })}</a>
-              <a href="">{twitterLogo({ main: 'var(--c-indigo-50)' }, { height: 12 })}</a>
+              <a href="https://www.linkedin.com/showcase/ionic-appflow/">{linkedInLogo({ main: 'var(--c-indigo-50)' }, { height: 12 })}</a>
+              <a href="https://twitter.com/useappflow">{twitterLogo({ main: 'var(--c-indigo-50)' }, { height: 12 })}</a>
               <span class="ui-paragraph-6">Part of the <a href="https://ionic.io/">Ionic</a> ecosystem</span>
             </Col>                    
           </Grid>          

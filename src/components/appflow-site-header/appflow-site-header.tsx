@@ -5,7 +5,6 @@ import { href } from 'stencil-router-v2';
 import { appflowLogoWithText } from '../../svgs';
 
 import Router from '../../router';
-// import state from '../../store';
 
 
 @Component({
@@ -63,11 +62,13 @@ export class SiteHeader {
             </button>
 
             <div class="site-header-links">
-              <div class={{
-                'site-header-links__menu': true,
-                'site-header-links__menu--hovered': !!hovered
-              }}>
-                <nav>
+              <div
+                class={{
+                  'site-header-links__menu': true,
+                  'site-header-links__menu--hovered': !!hovered,
+                  'site-header-links__menu--expanded': expanded
+                }} >
+                <nav onClick={() => this.toggleExpanded()}>
                   <NavLink
                     path="/"
                     hovered={(hovered || forceHovered) === 'index'}

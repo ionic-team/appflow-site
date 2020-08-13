@@ -52,6 +52,7 @@
         }
       }
       button {
+        font-size: 13px;
         font-weight: 600;
         background: var(--c-lavender-70);
         border-radius: var(--radius-4);
@@ -75,7 +76,7 @@
 
       .form-message {
         display: flex;
-
+        align-items: center;
         p {
           margin: 0;
         }

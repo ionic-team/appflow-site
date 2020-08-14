@@ -114,7 +114,7 @@ const Top = () => {
             <PrismicRichText richText={top} paragraphLevel={2} />
           </Breakpoint>
           
-          <a class="cta button" href="https://ionicframework.com/signup?source=framework-products&product=appflow">{top__cta}</a>
+          <a class="cta button" href="https://ionicframework.com/signup?source=appflow-site&product=appflow">{top__cta}</a>
         </div>
       </ResponsiveContainer>
 

@@ -54,6 +54,9 @@
         padding: 7px 14px;
         margin-inline-end: var(--space-1);
         
+        &:required {
+          border: 1px solid var(--c-indigo-40);
+        }
 
         &::placeholder {
           color: var(--c-indigo-60);

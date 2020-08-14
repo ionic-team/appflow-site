@@ -129,26 +129,18 @@ site-modal .heading-group {
 
 #plan-hobby {
   grid-area: hobby;
-  animation: 1s fadeInUp forwards;
-  opacity: 0;
 }
 
 #plan-launch {
   grid-area: launch;
-  animation: 1s fadeInUp .3s forwards;
-  opacity: 0;
 }
 
 #plan-growth {
   grid-area: growth;
-  animation: 1s fadeInUp .6s forwards;
-  opacity: 0;
 }
 
 #plan-scale {
   grid-area: scale;
-  animation: 1s fadeInUp .9s forwards;
-  opacity: 0;
 }
 
 .plan__card {

@@ -113,24 +113,22 @@ export class SiteFooter {
                           </div>
                         : <form
                             onSubmit={(e) => this.handleNewsletterSubmit(e)}>
-                            <div class="form-group">
-                              <input
-                                name="email"
-                                type="email"
-                                value={this.email}
-                                onInput={() => this.handleEmailChange(event)}
-                                disabled={this.isLoading}
-                                placeholder="Email address"
-                                class={this.isValid ? '' : 'error'}
-                                aria-label="Email"
-                                required />
-                              <button
-                                class="button"
-                                type="submit"
-                                disabled={this.isLoading || this.hasSubmitted}>
-                                Send
-                              </button>
-                            </div>
+                            <input
+                              name="email"
+                              type="email"
+                              value={this.email}
+                              onInput={() => this.handleEmailChange(event)}
+                              disabled={this.isLoading}
+                              placeholder="Email address"
+                              class={this.isValid ? '' : 'error'}
+                              aria-label="Email"
+                              required />
+                            <button
+                              class="button"
+                              type="submit"
+                              disabled={this.isLoading || this.hasSubmitted}>
+                              Send
+                            </button>
                             {!this.isValid &&
                             <Paragraph level={5} class="error-message">{this.inlineMessage}</Paragraph>
                             }

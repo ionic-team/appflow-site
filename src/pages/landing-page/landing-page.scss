@@ -60,12 +60,17 @@ a {
   .heading-group {
   @include util.box($pbs:var(--space-11), $pbe:74px, $mnh:326px, $mxw:800px, $ta:center, $mis:auto, $mie:auto);
 
+    .ui-heading {
+    @include util.box($a: 1s fadeInUp forwards, $o:0);
+    }
+
     .ui-paragraph {
-    @include util.box($color:#fff, $mbs:var(--space-5), $mbe:var(--space-6));
+    @include util.box($color:#fff, $mbs:var(--space-5), $mbe:var(--space-6), $o:0, $a: 1s fadeInUp .3s forwards);
     }
 
     .cta {
-    @include util.box($d:inline-flex, $ai:center, $jc:center, $back:#fff, $p: 15px 16px, $br:var(--radius-4));
+    @include util.box($d:inline-flex, $ai:center, $jc:center, $back:#fff, $p: 15px 16px, $br:var(--radius-4),
+                      $a: 1s fadeInUp .6s forwards, $o:0);
     @include util.font($fs:14px, $lh:112%, $fw:600, $ls:-0.02em);
 
       &::after {
@@ -73,6 +78,10 @@ a {
       @include util.font($ws:pre, $ls:0, $fs: 18px);
       }
     }
+  }
+
+  .activator {
+  @include util.box($o:0, $a: 1s fadeInUp .9s forwards);
   }
 }
 

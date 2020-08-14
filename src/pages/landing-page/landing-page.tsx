@@ -118,7 +118,9 @@ const Top = () => {
         </div>
       </ResponsiveContainer>
 
-      <appflow-activator></appflow-activator>
+      <div class="activator">
+        <appflow-activator></appflow-activator>
+      </div>
     </section>
   );
 }

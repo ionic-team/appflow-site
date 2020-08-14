@@ -114,7 +114,7 @@ export class SiteHeader {
               <div class="site-header-links__buttons">
                 <ul>
                   <li>
-                    <a class="" href="https://ionicframework.com/login?source=appflow-site&product=appflow">Log in</a>
+                    <a href="https://ionicframework.com/login?source=appflow-site&product=appflow">Log in</a>
                   </li>
                   <li>
                     <a class="button" href="https://ionicframework.com/signup?source=appflow-site&product=appflow">Get started <span style={{'letter-spacing': '0px'}}>-&gt;</span></a>

@@ -61,13 +61,14 @@ export class SiteHeader {
               <ion-icon icon="ellipsis-vertical" />
             </button>
 
-            <div class="site-header-links">
-              <div
-                class={{
-                  'site-header-links__menu': true,
-                  'site-header-links__menu--hovered': !!hovered,
-                  'site-header-links__menu--expanded': expanded
-                }} >
+            <div
+              class= {{
+                'site-header-links': true,
+                'site-header-links--hovered': !!hovered,
+                'site-header-links--expanded': expanded
+              }}
+            >
+              <div class="nav__wrapper">
                 <nav onClick={() => this.toggleExpanded()}>
                   <NavLink
                     path="/"

@@ -85,7 +85,7 @@ export class SiteHeader {
                     Why Appflow
                   </NavLink>
                   <NavLink
-                    path="/resources"
+                    path="https://ionicframework.com/resources"
                     hovered={(hovered || forceHovered) === 'resources'}
                     onHover={this.setHovered('resources')}
                     onExit={clearHover}>

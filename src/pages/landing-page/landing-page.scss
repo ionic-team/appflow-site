@@ -62,16 +62,16 @@ a {
   @include util.box($pbs:var(--space-11), $pbe:74px, $mnh:326px, $mxw:800px, $ta:center, $mis:auto, $mie:auto);
 
     .ui-heading {
-    @include util.box($a: 1s fadeInUp .5s forwards, $o:0);
+    @include util.box($a: 1s fadeInUp .2s forwards, $o:0);
     }
 
     .ui-paragraph {
-    @include util.box($color:#fff, $mbs:var(--space-5), $mbe:var(--space-6), $o:0, $a: 1s fadeInUp .8s forwards);
+    @include util.box($color:#fff, $mbs:var(--space-5), $mbe:var(--space-6), $o:0, $a: 1s fadeInUp .4s forwards);
     }
 
     .cta {
     @include util.box($d:inline-flex, $ai:center, $jc:center, $back:#fff, $p: 15px 16px, $br:var(--radius-4),
-                      $a: 1s fadeInUp 1.1s forwards, $o:0);
+                      $a: 1s fadeInUp .6s forwards, $o:0);
     @include util.font($fs:14px, $lh:112%, $fw:600, $ls:-0.02em);
 
       &::after {
@@ -82,7 +82,7 @@ a {
   }
 
   .activator {
-  @include util.box($o:0, $a: 1s fadeInUp 1.4s forwards);
+  @include util.box($o:0, $a: 1s fadeInUp .8s forwards);
   }
 }
 

@@ -60,7 +60,7 @@ export class PlanPricing {
           <a href="https://ionicframework.com/start#basics" class="button light">Start Free <span class="arrow" style={{'letter-spacing': '0px'}}>-&gt;</span></a>
         </div>
 
-        <div id="plan-starter" class="plan__card plan__card">
+        <div id="plan-launch" class="plan__card plan__card">
           <h3>Launch</h3>
           <span class="plan__price">
           <span

@@ -1,6 +1,7 @@
 // #region ------------------------------ IMPORTS -------------------------------------------------------
 @use '../../global/vars' as var;
 @use '../../global/utils' as util;
+@use '../../global/animations' as ani;
 //#endregion --------------------------------------------------------------------------------------------------
 
 // #region ------------------------------ VARIABLES/THEME ------------------------------------------------
@@ -51,7 +52,7 @@ a {
 
 // #region ------------------------------ PAGE STYLES ----------------------------------------------------
 #top {
-@include util.box($contain:content);
+@include util.box($contain:content, $mnh:min(100vh, 1200px));
 
   .background {
   @include util.box($pos:absolute, $z:-1, $w:max(1800px, 100%), $l:min(calc((100% - 1800px) / 2), 0px));

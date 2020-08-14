@@ -1,4 +1,5 @@
 @use '../../../../global/vars' as var;
+@use '../../../../global/animations' as ani;
 
 $timing: cubic-bezier(0,.8,.58,.78);
 
@@ -128,22 +129,26 @@ site-modal .heading-group {
 
 #plan-hobby {
   grid-area: hobby;
+  animation: 1s fadeInUp forwards;
+  opacity: 0;
 }
 
 #plan-launch {
   grid-area: launch;
+  animation: 1s fadeInUp .3s forwards;
+  opacity: 0;
 }
 
-#plan-launch {
+#plan-growth {
   grid-area: growth;
+  animation: 1s fadeInUp .6s forwards;
+  opacity: 0;
 }
 
-#plan-launch {
+#plan-scale {
   grid-area: scale;
-}
-
-#plan-launch {
-  grid-area: enterprise;
+  animation: 1s fadeInUp .9s forwards;
+  opacity: 0;
 }
 
 .plan__card {

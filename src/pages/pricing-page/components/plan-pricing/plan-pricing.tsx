@@ -207,5 +207,5 @@ export class PlanPricing {
 }
 
 const GetStartedButton = () => (
-  <a href="https://ionicframework.com/signup?source=framework-products&product=appflow" class="button dark">Get started</a>
+  <a href="https://ionicframework.com/signup?source=appflow-site&product=appflow" class="button dark">Get started</a>
 )

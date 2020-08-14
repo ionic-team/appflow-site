@@ -16968,10 +16968,19 @@ class PhoneAnimator {
     observe(this.el);
   }
   importGsap() {
-    if (window.gsap) {
-      this.setUpAnimation();
+    if (window.gsap)
+      return this.setUpAnimation();
+    const gsapCdn = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.4.2/gsap.min.js';
+    const scriptAlreadyLoading = Array.from(document.scripts).some(script => {
+      if (script.src === gsapCdn) {
+        script.addEventListener('load', () => {
+          this.setUpAnimation();
+        });
+        return true;
+      }
+    });
+    if (scriptAlreadyLoading)
       return;
-    }
     const script = document.createElement('script');
     script.src = this.gsapCdn;
     script.onload = () => {
@@ -17175,18 +17184,27 @@ class PipelineAnimator {
     observe(this.el);
   }
   importGsap() {
-    if (window.gsap) {
-      this.setupAutomateAnimation();
+    if (window.gsap)
+      return this.setUpAutomateAnimation();
+    const gsapCdn = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.4.2/gsap.min.js';
+    const scriptAlreadyLoading = Array.from(document.scripts).some(script => {
+      if (script.src === gsapCdn) {
+        script.addEventListener('load', () => {
+          this.setUpAutomateAnimation();
+        });
+        return true;
+      }
+    });
+    if (scriptAlreadyLoading)
       return;
-    }
     const script = document.createElement('script');
     script.src = this.gsapCdn;
     script.onload = () => {
       if (window) {
-        this.setupAutomateAnimation();
+        this.setUpAutomateAnimation();
       }
       else {
-        window.onload = this.setupAutomateAnimation;
+        window.onload = this.setUpAutomateAnimation;
       }
     };
     script.onerror = () => console.error('error loading gsap library from: ', this.gsapCdn);
@@ -17261,7 +17279,7 @@ class PipelineAnimator {
       delay: 0.3
     });
   }
-  setupAutomateAnimation() {
+  setUpAutomateAnimation() {
     this.timeline = gsap.timeline({
       defaultEase: Linear.easeNone,
       repeat: -1
@@ -17470,7 +17488,7 @@ class PricingTable {
   }; }
 }
 
-const appflowSiteFooterCss = ".sc-appflow-site-footer-h{display:block;padding-block-start:var(--space-9);padding-block-end:var(--space-9)}.ui-grid.sc-appflow-site-footer{row-gap:var(--space-6)}.footer__content.sc-appflow-site-footer a.sc-appflow-site-footer{color:var(--c-indigo-80)}.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer .wrapper.sc-appflow-site-footer{display:flex;flex-direction:column;align-items:flex-end}@media screen and (max-width: 640px){.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer .wrapper.sc-appflow-site-footer{align-items:flex-start}}.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer .title.sc-appflow-site-footer{font-weight:500;color:var(--c-indigo-100);margin-block-end:13px}.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer .form.sc-appflow-site-footer{display:flex;position:relative}.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer .form.sc-appflow-site-footer input.sc-appflow-site-footer{flex-grow:1;flex-basis:256px;background:#FFFFFF;border:1px solid var(--c-indigo-40);box-sizing:border-box;border-radius:var(--radius-4);padding:7px 14px;margin-inline-end:var(--space-1)}.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer .form.sc-appflow-site-footer input.sc-appflow-site-footer::placeholder{color:var(--c-indigo-60)}.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer .form.sc-appflow-site-footer button.sc-appflow-site-footer{font-size:13px;font-weight:600;background:var(--c-lavender-70);border-radius:var(--radius-4);line-height:112%;color:#fff;padding:7.5px 12px 8.5px 12px}.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer .form.sc-appflow-site-footer .button.sc-appflow-site-footer:hover,.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer .form.sc-appflow-site-footer .button.sc-appflow-site-footer:active,.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer .form.sc-appflow-site-footer .button.sc-appflow-site-footer:focus,.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer .form.sc-appflow-site-footer .button.sc-appflow-site-footer:focus-within{background:#6789f0}.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer .form.sc-appflow-site-footer .error-message.sc-appflow-site-footer{position:absolute;top:100%;color:var(--c-red-80)}.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer .form.sc-appflow-site-footer ion-icon.sc-appflow-site-footer{width:32px;height:32px;margin-inline-end:var(--space-1);color:var(--c-purple-60)}.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer .form.sc-appflow-site-footer .form-message.sc-appflow-site-footer{display:flex;align-items:center}.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer .form.sc-appflow-site-footer .form-message.sc-appflow-site-footer p.sc-appflow-site-footer{margin:0}.main.sc-appflow-site-footer li.title.sc-appflow-site-footer{font-weight:500;color:var(--c-indigo-100)}.bottom.sc-appflow-site-footer{margin-block-start:40px;row-gap:var(--space-1)}.bottom.sc-appflow-site-footer *.sc-appflow-site-footer{color:var(--c-indigo-60)}.bottom.sc-appflow-site-footer .start.sc-appflow-site-footer{display:flex;align-items:center}.bottom.sc-appflow-site-footer .start.sc-appflow-site-footer a.sc-appflow-site-footer{margin-inline-start:var(--space-3)}.bottom.sc-appflow-site-footer .end.sc-appflow-site-footer{display:flex;align-items:center;justify-content:flex-end;flex-grow:1;text-align:end}.bottom.sc-appflow-site-footer .end.sc-appflow-site-footer svg.sc-appflow-site-footer{margin-inline-end:var(--space-4)}@media screen and (max-width: 640px){.bottom.sc-appflow-site-footer .end.sc-appflow-site-footer{justify-content:flex-start}}";
+const appflowSiteFooterCss = ".sc-appflow-site-footer-h{display:block;padding-block-start:var(--space-9);padding-block-end:var(--space-9)}.ui-grid.sc-appflow-site-footer{row-gap:var(--space-6)}.footer__content.sc-appflow-site-footer a.sc-appflow-site-footer{text-decoration:underline;text-decoration-color:rgba(0, 0, 0, 0);transition:text-decoration-color 0.2s ease-out;color:var(--c-indigo-80)}.footer__content.sc-appflow-site-footer a.sc-appflow-site-footer:hover,.footer__content.sc-appflow-site-footer a.sc-appflow-site-footer:active,.footer__content.sc-appflow-site-footer a.sc-appflow-site-footer:focus,.footer__content.sc-appflow-site-footer a.sc-appflow-site-footer:focus-within{text-decoration-color:rgba(0, 0, 0, 0.3)}.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer .wrapper.sc-appflow-site-footer{display:flex;flex-direction:column;align-items:flex-end}@media screen and (max-width: 640px){.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer .wrapper.sc-appflow-site-footer{align-items:flex-start}}.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer .title.sc-appflow-site-footer{font-weight:500;color:var(--c-indigo-100);margin-block-end:13px}.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer .form.sc-appflow-site-footer{display:flex;position:relative}.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer .form.sc-appflow-site-footer input.sc-appflow-site-footer{flex-grow:1;flex-basis:256px;background:#FFFFFF;border:1px solid var(--c-indigo-40);box-sizing:border-box;border-radius:var(--radius-4);padding:7px 14px;margin-inline-end:var(--space-1)}.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer .form.sc-appflow-site-footer input.sc-appflow-site-footer::placeholder{color:var(--c-indigo-60)}.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer .form.sc-appflow-site-footer button.sc-appflow-site-footer{font-size:13px;font-weight:600;background:var(--c-lavender-70);border-radius:var(--radius-4);line-height:112%;color:#fff;padding:7.5px 12px 8.5px 12px}.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer .form.sc-appflow-site-footer .button.sc-appflow-site-footer:hover,.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer .form.sc-appflow-site-footer .button.sc-appflow-site-footer:active,.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer .form.sc-appflow-site-footer .button.sc-appflow-site-footer:focus,.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer .form.sc-appflow-site-footer .button.sc-appflow-site-footer:focus-within{background:#6789f0}.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer .form.sc-appflow-site-footer .error-message.sc-appflow-site-footer{position:absolute;top:100%;color:var(--c-red-80)}.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer .form.sc-appflow-site-footer ion-icon.sc-appflow-site-footer{width:32px;height:32px;margin-inline-end:var(--space-1);color:var(--c-purple-60)}.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer .form.sc-appflow-site-footer .form-message.sc-appflow-site-footer{display:flex;align-items:center}.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer .form.sc-appflow-site-footer .form-message.sc-appflow-site-footer p.sc-appflow-site-footer{margin:0}.main.sc-appflow-site-footer li.title.sc-appflow-site-footer{font-weight:500;color:var(--c-indigo-100)}.bottom.sc-appflow-site-footer{margin-block-start:40px;row-gap:var(--space-1)}.bottom.sc-appflow-site-footer *.sc-appflow-site-footer{color:var(--c-indigo-60)}.bottom.sc-appflow-site-footer .start.sc-appflow-site-footer{display:flex;align-items:center}.bottom.sc-appflow-site-footer .start.sc-appflow-site-footer a.sc-appflow-site-footer{margin-inline-start:var(--space-3)}.bottom.sc-appflow-site-footer .end.sc-appflow-site-footer{display:flex;align-items:center;justify-content:flex-end;flex-grow:1;text-align:end}.bottom.sc-appflow-site-footer .end.sc-appflow-site-footer svg.sc-appflow-site-footer{margin-inline-end:var(--space-4)}.bottom.sc-appflow-site-footer .end.sc-appflow-site-footer .social-links.sc-appflow-site-footer svg.sc-appflow-site-footer path.sc-appflow-site-footer{transition:fill 0.2s ease-out}.bottom.sc-appflow-site-footer .end.sc-appflow-site-footer .social-links.sc-appflow-site-footer svg.sc-appflow-site-footer:hover path.sc-appflow-site-footer,.bottom.sc-appflow-site-footer .end.sc-appflow-site-footer .social-links.sc-appflow-site-footer svg.sc-appflow-site-footer:active path.sc-appflow-site-footer,.bottom.sc-appflow-site-footer .end.sc-appflow-site-footer .social-links.sc-appflow-site-footer svg.sc-appflow-site-footer:focus path.sc-appflow-site-footer,.bottom.sc-appflow-site-footer .end.sc-appflow-site-footer .social-links.sc-appflow-site-footer svg.sc-appflow-site-footer:focus-within path.sc-appflow-site-footer{fill:var(--c-indigo-80)}@media screen and (max-width: 640px){.bottom.sc-appflow-site-footer .end.sc-appflow-site-footer{justify-content:flex-start}}";
 
 class SiteFooter {
   constructor(hostRef) {
@@ -17540,7 +17558,7 @@ class SiteFooter {
     return (h("footer", null, h(ResponsiveContainer, { class: "footer__content" }, h(Grid, { class: "main" }, h(Col, { cols: 12, md: 3 }, appflowLogoWithText({}, { width: 114, height: 24 })), h(Col, { cols: 6, xs: 3, md: 3 }, h("ul", null, h("li", { class: "title | ui-paragraph-5" }, "Product"), h("li", null, h("a", { href: "/why-appflow", class: "ui-paragraph-5" }, "Why Appflow")), h("li", null, h("a", { href: "#", class: "ui-paragraph-5" }, "Resources")), h("li", null, h("a", { href: "/pricing", class: "ui-paragraph-5" }, "Pricing")), h("li", null, h("a", { href: "https://ionicframework.com/docs/appflow", class: "ui-paragraph-5" }, "Docs")))), h(Col, { cols: 6, xs: 3, md: 2 }, h("ul", null, h("li", { class: "title | ui-paragraph-5" }, "Contact"), h("li", null, h("a", { href: "#", class: "ui-paragraph-5" }, "Contact Us")), h("li", null, h("a", { href: "#", class: "ui-paragraph-5" }, "Support")), h("li", null, h("a", { href: "https://twitter.com/useappflow", class: "ui-paragraph-5" }, "Twitter")), h("li", null, h("a", { href: "#", class: "ui-paragraph-5" }, "FAQ")))), h(Col, { cols: 12, xs: 6, md: 4, class: "newsletter" }, h("div", { class: "wrapper" }, h("div", null, h(Paragraph, { class: "title", level: 5 }, "Sign up for our newsletter and stay up-to-date"), h("div", null, h("div", { class: "form" }, this.hasSubmitted
       ? h("div", { class: "form-message" }, h("ion-icon", { name: "checkmark-circle" }), h(Paragraph, null, this.handleInlineMessage(this.inlineMessage)))
       : h("form", { onSubmit: (e) => this.handleNewsletterSubmit(e) }, h("div", { class: "form-group" }, h("input", { name: "email", type: "email", value: this.email, onInput: () => this.handleEmailChange(event), disabled: this.isLoading, placeholder: "Email address", class: this.isValid ? '' : 'error', "aria-label": "Email", required: true }), h("button", { class: "button", type: "submit", disabled: this.isLoading || this.hasSubmitted }, "Send")), !this.isValid &&
-        h(Paragraph, { level: 5, class: "error-message" }, this.inlineMessage)))))))), h(Grid, { class: "bottom" }, h(Col, { class: "start", cols: 12, xs: 6 }, h("span", { class: "ui-paragraph-6" }, "\u00A9 ", (new Date).getFullYear(), " Appflow"), h("a", { class: "ui-paragraph-6", href: "/tos" }, "Terms"), h("a", { class: "ui-paragraph-6", href: "/privacy-policy" }, "Privacy")), h(Col, { class: "end", cols: 12, xs: 6 }, h("a", { href: "https://www.linkedin.com/showcase/ionic-appflow/" }, linkedInLogo({ main: 'var(--c-indigo-50)' }, { height: 12 })), h("a", { href: "https://twitter.com/useappflow" }, twitterLogo({ main: 'var(--c-indigo-50)' }, { height: 12 })), h("span", { class: "ui-paragraph-6" }, "Part of the ", h("a", { href: "https://ionic.io/" }, "Ionic"), " ecosystem"))))));
+        h(Paragraph, { level: 5, class: "error-message" }, this.inlineMessage)))))))), h(Grid, { class: "bottom" }, h(Col, { class: "start", cols: 12, xs: 6 }, h("span", { class: "ui-paragraph-6" }, "\u00A9 ", (new Date).getFullYear(), " Appflow"), h("a", { class: "ui-paragraph-6", href: "/tos" }, "Terms"), h("a", { class: "ui-paragraph-6", href: "/privacy-policy" }, "Privacy")), h(Col, { class: "end", cols: 12, xs: 6 }, h("div", { class: "social-links" }, h("a", { href: "https://www.linkedin.com/showcase/ionic-appflow/", rel: "noopener nofollow", target: "_blank" }, linkedInLogo({ main: 'var(--c-indigo-50)' }, { height: 12 })), h("a", { href: "https://twitter.com/useappflow", rel: "noopener nofollow", target: "_blank" }, twitterLogo({ main: 'var(--c-indigo-50)' }, { height: 12 }))), h("span", { class: "ui-paragraph-6" }, "Part of the ", h("a", { href: "https://ionic.io/" }, "Ionic"), " ecosystem"))))));
   }
   static get style() { return appflowSiteFooterCss; }
   static get cmpMeta() { return {
@@ -17592,7 +17610,7 @@ class SiteHeader {
         'site-header-links__menu': true,
         'site-header-links__menu--hovered': !!hovered,
         'site-header-links__menu--expanded': expanded
-      } }, h("nav", { onClick: () => this.toggleExpanded() }, h(NavLink, { path: "/", hovered: (hovered || forceHovered) === 'index', onHover: this.setHovered('index'), onExit: clearHover }, "Product"), h(NavLink, { path: "/why-appflow", hovered: (hovered || forceHovered) === 'why-appflow', onHover: this.setHovered('why-appflow'), onExit: clearHover }, "Why Appflow"), h(NavLink, { path: "/resources", hovered: (hovered || forceHovered) === 'resources', onHover: this.setHovered('resources'), onExit: clearHover }, "Resources"), h(NavLink, { path: "/pricing", hovered: (hovered || forceHovered) === 'pricing', onHover: this.setHovered('pricing'), onExit: clearHover }, "Pricing"), h("a", { href: "/docs", target: "_blank", onMouseOver: this.setHovered('docs'), onMouseOut: clearHover, class: {
+      } }, h("nav", { onClick: () => this.toggleExpanded() }, h(NavLink, { path: "/", hovered: (hovered || forceHovered) === 'index', onHover: this.setHovered('index'), onExit: clearHover }, "Product"), h(NavLink, { path: "/why-appflow", hovered: (hovered || forceHovered) === 'why-appflow', onHover: this.setHovered('why-appflow'), onExit: clearHover }, "Why Appflow"), h(NavLink, { path: "/resources", hovered: (hovered || forceHovered) === 'resources', onHover: this.setHovered('resources'), onExit: clearHover }, "Resources"), h(NavLink, { path: "/pricing", hovered: (hovered || forceHovered) === 'pricing', onHover: this.setHovered('pricing'), onExit: clearHover }, "Pricing"), h("a", { href: "https://ionicframework.com/docs/appflow", target: "_blank", onMouseOver: this.setHovered('docs'), onMouseOut: clearHover, class: {
         'link--hovered': hovered === 'enterprise'
       } }, "Docs"))), h("div", { class: "site-header-links__buttons" }, h("ul", null, h("li", null, h("a", { class: "", href: "https://ionicframework.com/login?source=framework-products&product=appflow" }, "Log in")), h("li", null, h("a", { class: "button", href: "https://ionicframework.com/signup?source=framework-products&product=appflow" }, "Get started ", h("span", { style: { 'letter-spacing': '0px' } }, "->"))))))))));
   }

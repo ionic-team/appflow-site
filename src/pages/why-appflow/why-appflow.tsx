@@ -50,6 +50,7 @@ const Top = () => {
                       ${getAssetPath('assets/top.png')} 1x`}
               loading="eager"
               width="1024" height="1328"
+              alt="tiple stack of icons with appflow in the middle"
             />          
           </Col>
         </Grid>            
@@ -79,6 +80,7 @@ const Companies = () => {
                   ${getAssetPath(`./assets/logo-${item[0]}@2x.png`)} 2x`}
           loading="lazy"
           width={item[1]} height={item[2]}
+          alt={`${item[0]} logo`}
         />
       </div> )
     )
@@ -159,6 +161,7 @@ const Integrated = () => {
                       ${getAssetPath(`./assets/icon-${icons[i][0]}@2x.png`)} 2x`}
               loading="lazy"
               width={icons[i][1]} height={icons[i][2]}
+              alt={`${icons[0]} icon`}
             />
             <PrismicRichText richText={content} paragraphLevel={4}/>
           </Col>
@@ -197,6 +200,7 @@ const Problems = () => {
                             ${getAssetPath(`./assets/icon-${icons[i][0]}@2x.png`)} 2x`}
                     loading="lazy"
                     width={icons[i][1]} height={icons[i][2]}
+                    alt={`${icons[0]} icon`}
                   />
                 </Col>
                 <Col xs={6} md={4}>
@@ -238,6 +242,7 @@ const Different = () => {
                       ${getAssetPath(`./assets/icon-${icons[i][0]}@2x.png`)} 2x`}
               loading="lazy"
               width={icons[i][1]} height={icons[i][2]}
+              alt={`${icons[0]} icon`}
             />
             <PrismicRichText richText={content}/>
           </Col>

@@ -1,6 +1,7 @@
 @use '../../../../global/vars' as var;
 
 :host {
+  display: block;
   overflow: hidden;
   position:relative;
 }
@@ -148,7 +149,6 @@ li.active {
     left: 0;
     top: 0;
     overflow: hidden;
-    width: 100%;
     opacity: 0;
     transform: translateY(6px);
     animation-fill-mode: forwards;

@@ -308,39 +308,39 @@ export class PipelineAnimator {
       <div class="anim-automate">
         <div class="anim-automate_ui">
           <div class="master" ref={e => this.tiles.set('master', e)}>
-            <img src={getAssetPath('assets/master.png')} width="200" height="60" loading="lazy"/>
+            <img src={getAssetPath('assets/master.png')} width="200" height="60" loading="lazy" alt="master branch icon"/>
             <Paragraph level={5}>Push code</Paragraph>
           </div>
           <div class="staging" ref={e => this.tiles.set('staging', e)}>
-            <img src={getAssetPath('assets/staging.png')} width="220" height="60" loading="lazy"/>
+            <img src={getAssetPath('assets/staging.png')} width="220" height="60" loading="lazy" alt="staging branch icon"/>
             <Paragraph level={5}>Push code</Paragraph>
           </div>
           <div class="qa" ref={e => this.tiles.set('qa', e)}>
-            <img src={getAssetPath('assets/qa.png')} width="122" height="60" loading="lazy"/>
+            <img src={getAssetPath('assets/qa.png')} width="122" height="60" loading="lazy" alt="qa branch icon"/>
             <Paragraph level={5}>Push code</Paragraph>
           </div>
           <div class="android" ref={e => this.tiles.set('android', e)}>
-            <img src={getAssetPath('assets/android.png')} width="124" height="124" loading="lazy"/>
+            <img src={getAssetPath('assets/android.png')} width="124" height="124" loading="lazy" alt="green android circle icon"/>
             <Paragraph level={5}>Trigger Android build</Paragraph>
           </div>
           <div class="ios" ref={e => this.tiles.set('ios', e)}>
-            <img src={getAssetPath('assets/ios.png')} width="124" height="124" loading="lazy"/>
+            <img src={getAssetPath('assets/ios.png')} width="124" height="124" loading="lazy" alt="dark gray ios circle icon"/>
             <Paragraph level={5}>Trigger iOS build</Paragraph>
           </div>
           <div class="web" ref={e => this.tiles.set('web', e)}>
-            <img src={getAssetPath('assets/js.png')} width="124" height="124" loading="lazy"/>
+            <img src={getAssetPath('assets/js.png')} width="124" height="124" loading="lazy" alt="yellow javascript circle icon"/>
             <Paragraph level={5}>Trigger Web build</Paragraph>
           </div>
           <div class="testflight" ref={e => this.tiles.set('testflight', e)}>
-            <img src={getAssetPath('assets/testflight.png')} width="106" height="106" loading="lazy"/>
+            <img src={getAssetPath('assets/testflight.png')} width="106" height="106" loading="lazy" alt="blue testflight icon"/>
             <Paragraph level={5}>Deploy to TestFlight</Paragraph>
           </div>
           <div class="playstore" ref={e => this.tiles.set('playstore', e)}>
-            <img src={getAssetPath('assets/playstore.png')} width="100" height="110" loading="lazy"/>
+            <img src={getAssetPath('assets/playstore.png')} width="100" height="110" loading="lazy" alt="Google play store icon"/>
             <Paragraph level={5}>Deploy to Google Play</Paragraph>
           </div>
           <div class="webhook" ref={e => this.tiles.set('webhook', e)}>
-            <img src={getAssetPath('assets/webhook.png')} width="116" height="108" loading="lazy"/>
+            <img src={getAssetPath('assets/webhook.png')} width="116" height="108" loading="lazy" alt="Webhook icon"/>
             <Paragraph level={5}>Trigger webhook</Paragraph></div>
         </div>
         <svg width="1346" height="790" xmlns="http://www.w3.org/2000/svg">

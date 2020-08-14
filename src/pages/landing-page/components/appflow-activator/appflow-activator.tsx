@@ -142,6 +142,7 @@ export class AppflowActivator {
                 height="1280"
                 loading={i === 0 ? 'eager' : 'lazy'}
                 style={{'position': i !== 0 ? 'absolute' : undefined}}
+                alt={screen.description}
               />
             ))}
           </div>

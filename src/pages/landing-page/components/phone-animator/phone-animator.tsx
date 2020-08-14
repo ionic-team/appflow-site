@@ -189,6 +189,7 @@ export class PhoneAnimator {
                   ${getAssetPath('assets/iphone-x@2x.png')} 2x`}
           loading="lazy"
           width="1780" height="1541"
+          alt="floating iphone with blank screen"
         />
       </div>
       <svg class="background screen" viewBox="3.79372501373291 133.2659912109375 565.734130859375 307.3507995605469" fill="none" xmlns="http://www.w3.org/2000/svg">

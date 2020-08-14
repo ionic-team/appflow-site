@@ -213,6 +213,7 @@ const Push = () => {
                 loading="lazy"
                 width="1568"
                 height="1234"
+                alt="appflow deploys screen"
               />
             </Col>
           </Grid>
@@ -268,6 +269,7 @@ const Native = () => {
               loading="lazy"
               width="1805"
               height="1177"
+              alt="cube with floating squares entering and exiting containing programming language names"
             />
           </div>
         </div>
@@ -319,6 +321,7 @@ const Managed = () => {
               loading="lazy"
               width="1704"
               height="1511"
+              alt="floating phone with app icons surround central Appflow icon"
             />
           </div>
         </div>

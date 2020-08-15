@@ -86,7 +86,7 @@ export class SiteFooter {
               <ul>
                 <li class="title | ui-paragraph-5">Product</li>
                 <li><a href="/why-appflow" class="ui-paragraph-5">Why Appflow</a></li>
-                <li><a href="https://ionicframework.com/resources" class="ui-paragraph-5">Resources</a></li>
+                {/* <li><a href="https://ionicframework.com/resources" class="ui-paragraph-5">Resources</a></li> */}
                 <li><a href="/pricing" class="ui-paragraph-5">Pricing</a></li>
                 <li><a href="https://ionicframework.com/docs/appflow" class="ui-paragraph-5">Docs</a></li>
               </ul>

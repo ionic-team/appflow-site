@@ -45,19 +45,19 @@ export class PlanPricing {
           <div class="plan__feature__divider"></div>
           <ul class="plan__feature__list">
             <li>
-              {checkmarkRounded()}
+              {checkmarkRounded({}, { height: 12 })}
               <span>Manage app projects in the Appflow <strong>cloud dashboard</strong></span>              
             </li>
             <li>
-              {checkmarkRounded()}
+              {checkmarkRounded({}, { height: 12 })}
               <span>Deploy <strong>100 live updates</strong> / mo</span>
             </li>
             <li>
-              {checkmarkRounded()}
+              {checkmarkRounded({}, { height: 12 })}
               Community support
             </li>
           </ul>
-          <a href="https://ionicframework.com/start#basics" class="button light">Start Free <span class="arrow" style={{'letter-spacing': '0px'}}>-&gt;</span></a>
+          <a href="https://ionicframework.com/signup?source=appflow-site&product=appflow" class="button light">Start Free <span class="arrow" style={{'letter-spacing': '0px'}}>-&gt;</span></a>
         </div>
 
         <div id="plan-launch" class="plan__card plan__card">
@@ -84,23 +84,23 @@ export class PlanPricing {
           <div class="plan__feature__divider"></div>
           <ul class="plan__feature__list">
             <li class="plan__feature__highlight">
-              {checkmarkRounded()}
+              {checkmarkRounded({}, { height: 12 })}
               <span>All <strong>Hobby</strong> plan features, plus:</span>
             </li>
             <li>
-              {checkmarkRounded()}
+              {checkmarkRounded({}, { height: 12 })}
               <span>Deploy <strong>10K live updates</strong> / mo</span>
             </li>
             <li>
-              {checkmarkRounded()}
+              {checkmarkRounded({}, { height: 12 })}
               <span>Compile <strong>native app binaries</strong></span>
             </li>
             <li>
-              {checkmarkRounded()}
+              {checkmarkRounded({}, { height: 12 })}
               1 concurrency
             </li>
             <li>
-              {checkmarkRounded()}
+              {checkmarkRounded({}, { height: 12 })}
               Email support
             </li>
           </ul>
@@ -131,27 +131,27 @@ export class PlanPricing {
           <div class="plan__feature__divider"></div>
           <ul class="plan__feature__list">
             <li class="plan__feature__highlight">
-              {checkmarkRounded()}
+              {checkmarkRounded({}, { height: 12 })}
               <span>All <strong>Launch</strong> plan features, plus:</span>
             </li>
             <li>
-              {checkmarkRounded()}
+              {checkmarkRounded({}, { height: 12 })}
               <span><strong>Collaborate</strong> with team members and clients</span>
             </li>
             <li>
-              {checkmarkRounded()}
+              {checkmarkRounded({}, { height: 12 })}
               <span><strong>CI/CD automation</strong> to ship continuously with mobile</span>
             </li>
             <li>
-              {checkmarkRounded()}
+              {checkmarkRounded({}, { height: 12 })}
               <span>Deploy <strong>25K live updates</strong> / mo</span>
             </li>
             <li>
-              {checkmarkRounded()}
+              {checkmarkRounded({}, { height: 12 })}
               <span>2+ <strong>concurrent builds</strong></span>
             </li>
             <li>
-              {checkmarkRounded()}
+              {checkmarkRounded({}, { height: 12 })}
               Email support
             </li>
           </ul>
@@ -167,35 +167,35 @@ export class PlanPricing {
           <div class="plan__feature__divider"></div>
           <ul class="plan__feature__list">
             <li class="plan__feature__highlight">
-              {checkmarkRounded()}
+              {checkmarkRounded({}, { height: 12 })}
               <span>All <strong>Growth</strong> plan features, plus:</span>
             </li>
             <li>
-              {checkmarkRounded()}
+              {checkmarkRounded({}, { height: 12 })}
               <span><strong>Publish directly to app stores</strong> from your cloud dashboard</span>
             </li>
             <li>
-              {checkmarkRounded()}
+              {checkmarkRounded({}, { height: 12 })}
               <span>Scale to millions of users with <strong>custom Deploy limits</strong></span>
             </li>
             <li>
-              {checkmarkRounded()}
+              {checkmarkRounded({}, { height: 12 })}
               <span>iOS <strong>Enterprise builds</strong></span>
             </li>
             <li>
-              {checkmarkRounded()}
+              {checkmarkRounded({}, { height: 12 })}
               <span>Custom <strong>concurrent builds</strong></span>
             </li>
             <li>
-              {checkmarkRounded()}
+              {checkmarkRounded({}, { height: 12 })}
               <span><strong>Role-Based</strong> access control</span>
             </li>
             <li>
-              {checkmarkRounded()}
+              {checkmarkRounded({}, { height: 12 })}
               <span><strong>SAML Single sign-on</strong></span>
             </li>
             <li>
-              {checkmarkRounded()}
+              {checkmarkRounded({}, { height: 12 })}
               <span><strong>Live onboarding</strong> &amp; premium Appflow product support</span>
             </li>
           </ul>

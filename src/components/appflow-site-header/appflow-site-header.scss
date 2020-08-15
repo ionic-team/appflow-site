@@ -65,34 +65,36 @@
       justify-content: space-evenly;
       max-width: 550px;
       margin-left: 15px;
-    }
 
-    a {
-      border-bottom: 0;
-      transition: color, opacity .4s;
-      font-size: 14px;
-      line-height: 17px;
-      color: var(--c-indigo-90);
-      text-decoration: none;
-      font-weight: 500;
-      letter-spacing: 0;
-      cursor: default;
-
-      transition: opacity .2s ease-out;
-
-      &:hover, &:focus, &:active, &:focus-within {
-        opacity: .4;
-        cursor: pointer;
-      }
-    }
-
-    a.active {
-      opacity: .4;
-
-      &:hover, &:focus, &:active, &:focus-within {
+      a {
+        border-bottom: 0;
+        transition: color, opacity .4s;
+        font-size: 14px;
+        line-height: 17px;
+        color: var(--c-indigo-90);
+        text-decoration: none;
+        font-weight: 500;
+        letter-spacing: 0;
         cursor: default;
+  
+        transition: opacity .2s ease-out;
+  
+        &:hover, &:focus, &:active, &:focus-within {
+          opacity: .4;
+          cursor: pointer;
+        }
+      }
+  
+      a.active {
+        opacity: .4;
+  
+        &:hover, &:focus, &:active, &:focus-within {
+          cursor: default;
+        }
       }
     }
+
+    
 
     .link,
     .link--external  {
@@ -149,7 +151,7 @@
         transition: all .3s ease-out;
 
         &:hover, &:active, &:focus, &:focus-within {
-          background: lighten(#e3edff, 1.5%);
+          background: lighten(#e3edff, 2%);
         }
 
         @media screen and (max-width: var.$screen-xs-max) {

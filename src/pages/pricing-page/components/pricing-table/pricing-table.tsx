@@ -26,7 +26,7 @@ export class PricingTable {
                   <div class="plan-wrap">
                     <h4>Hobby</h4>
                     <div class="price"><strong>Free</strong></div>
-                    <a href="https://ionicframework.com/start#basics"
+                    <a href="https://ionicframework.com/signup?source=appflow-site&product=appflow"
                       class="btn button micro"
                       id="btn-pricing-hobby">Start free</a>
                   </div>
@@ -246,7 +246,7 @@ export class PricingTable {
               <tr>
                 <th></th>
                 <td>
-                  <a href="https://ionicframework.com/start#basics"
+                  <a href="https://ionicframework.com/signup?source=appflow-site&product=appflow"
                     class="button btn sm light"
                     id="btn-pricing-starter">Start free</a>
                 </td>

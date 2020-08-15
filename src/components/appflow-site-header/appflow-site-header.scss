@@ -51,15 +51,6 @@
     flex: 1;
     margin-right: 15px;
 
-    &--hovered {
-      a {
-        opacity: 0.4;
-      }
-      a.link--active {
-        opacity: 0.4;
-      }
-    }
-
     .nav__wrapper {
       display: flex;
       flex-grow: 1;
@@ -83,18 +74,24 @@
       line-height: 17px;
       color: var(--c-indigo-90);
       text-decoration: none;
-      font-weight: normal;
+      font-weight: 500;
       letter-spacing: 0;
-      margin: 0 2px 0 0;
+      cursor: default;
 
-      &:hover {
-        opacity: 1;
-        border: 0;
+      transition: opacity .2s ease-out;
+
+      &:hover, &:focus, &:active, &:focus-within {
+        opacity: .4;
+        cursor: pointer;
       }
     }
 
-    a.link--active {
-      opacity: .4
+    a.active {
+      opacity: .4;
+
+      &:hover, &:focus, &:active, &:focus-within {
+        cursor: default;
+      }
     }
 
     .link,

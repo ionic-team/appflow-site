@@ -41,8 +41,20 @@ export class SiteHeader {
 
   toggleExpanded = () => this.expanded = !this.expanded;
 
+  handleActive = (e: HTMLAnchorElement) => {
+    if (!e.href) return;
+
+    const { hash, href } = Router.url;
+
+    if (href === e.href || href.replace(hash, '') === e.href) {
+      return e.classList.add('active');
+    }
+
+    e.classList.remove('active');
+  }
+
   render() {
-    const { clearHover, expanded, forceHovered, hovered, sticky } = this;
+    const { expanded, sticky, toggleExpanded, handleActive } = this;
 
     return (
       <Host class={{
@@ -50,62 +62,51 @@ export class SiteHeader {
         'expanded': expanded
       }}>
         <header>
-          <site-backdrop visible={expanded} onClick={() => this.toggleExpanded()} />
+          <site-backdrop visible={expanded} onClick={() => toggleExpanded()} />
 
           <ResponsiveContainer class="site-header">
             <a {...href('/')} class="site-header__logo-link">
               {appflowLogoWithText({}, {width: 114, height: 24 })}
             </a>
 
-            <button onClick={() => this.toggleExpanded()} class="more-button">
+            <button onClick={() => toggleExpanded()} class="more-button">
               <ion-icon icon="ellipsis-vertical" />
             </button>
 
             <div
               class= {{
                 'site-header-links': true,
-                'site-header-links--hovered': !!hovered,
                 'site-header-links--expanded': expanded
               }}
             >
               <div class="nav__wrapper">
-                <nav onClick={() => this.toggleExpanded()}>
-                  <NavLink
-                    path="/"
-                    hovered={(hovered || forceHovered) === 'index'}
-                    onHover={this.setHovered('index')}
-                    onExit={clearHover}>
+                <nav onClick={() => toggleExpanded()}>
+                  <a
+                    href="/"
+                    ref={e => handleActive(e)}
+                  >
                     Product
-                  </NavLink>
-                  <NavLink
-                    path="/why-appflow"
-                    hovered={(hovered || forceHovered) === 'why-appflow'}
-                    onHover={this.setHovered('why-appflow')}
-                    onExit={clearHover}>
+                  </a>
+                  <a
+                    href="/why-appflow"
+                    ref={e => handleActive(e)}
+                  >                    
                     Why Appflow
-                  </NavLink>
-                  <NavLink
-                    path="https://ionicframework.com/resources"
-                    hovered={(hovered || forceHovered) === 'resources'}
-                    onHover={this.setHovered('resources')}
-                    onExit={clearHover}>
+                  </a>
+                  {/* <NavLink
+                    path="/resources">
                     Resources
-                  </NavLink>
-                  <NavLink
-                    path="/pricing"
-                    hovered={(hovered || forceHovered) === 'pricing'}
-                    onHover={this.setHovered('pricing')}
-                    onExit={clearHover}>
+                  </NavLink> */}
+                  <a
+                    href="/pricing"
+                    ref={e => handleActive(e)}
+                  >
                     Pricing
-                  </NavLink>
+                  </a>
                   <a
                     href="https://ionicframework.com/docs/appflow"
-                    target="_blank"
-                    onMouseOver={this.setHovered('docs')}
-                    onMouseOut={clearHover}
-                    class={{
-                      'link--hovered': hovered === 'enterprise'
-                    }}>
+                    ref={e => handleActive(e)}
+                  >
                     Docs
                   </a>
                 </nav>
@@ -127,31 +128,4 @@ export class SiteHeader {
       </Host>
     );
   }
-}
-
-interface NavLinkProps {
-  hovered: boolean;
-  path: string;
-  onHover: () => void;
-  onExit: () => void;
-}
-
-const NavLink = ({ path, hovered, onHover, onExit }: NavLinkProps, children: VNode) => {
-  // Detect active if path equals the route path or the current active path plus
-  // the route hash equals the path, to support links like /#features
-  const active = Router.activePath === path ||
-                 Router.activePath + Router.url.hash === path;
-
-  return (
-    <a
-      {...href(path)}
-      onMouseOver={onHover}
-      onMouseOut={onExit}
-      class={{
-      'link--active': active,
-      'link--hovered': hovered
-    }}>
-      {children}
-    </a>
-  )
 }

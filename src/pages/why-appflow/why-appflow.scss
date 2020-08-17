@@ -89,7 +89,7 @@ a {
     img {
     @include util.box($w:520px, $pos:absolute, $l:0);
     @include util.media($val:var.$screen-md-max, $l:-56px);
-    @include util.media($val:var.$screen-xs-max, $pos:relative);
+    @include util.media($val:var.$screen-xs-max, $d:none);
     }
   }
 }

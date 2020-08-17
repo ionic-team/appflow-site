@@ -21,3 +21,15 @@
     color: var(--c-indigo-10);
   }
 }
+
+appflow-site {
+  site-root {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  main {
+    flex: 1;
+  }
+}

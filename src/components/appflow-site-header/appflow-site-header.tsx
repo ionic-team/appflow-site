@@ -82,13 +82,13 @@ export class SiteHeader {
               <div class="nav__wrapper">
                 <nav onClick={() => toggleExpanded()}>
                   <a
-                    href="/"
+                    {...href('/')}
                     ref={e => handleActive(e)}
                   >
                     Product
                   </a>
                   <a
-                    href="/why-appflow"
+                    {...href('/why-appflow')}
                     ref={e => handleActive(e)}
                   >                    
                     Why Appflow
@@ -98,7 +98,7 @@ export class SiteHeader {
                     Resources
                   </NavLink> */}
                   <a
-                    href="/pricing"
+                    {...href('/pricing')}
                     ref={e => handleActive(e)}
                   >
                     Pricing

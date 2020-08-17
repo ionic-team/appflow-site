@@ -82,22 +82,19 @@
         position: absolute;
         top: 100%;
         color: var(--c-red-80)
-      }
+      }     
+    }
+
+    .form-message {
+      display: flex;
+      align-items: center;
 
       ion-icon {
         width: 32px;
         height: 32px;
         margin-inline-end: var(--space-1);
         color: var(--c-purple-60);
-      }
-
-      .form-message {
-        display: flex;
-        align-items: center;
-        p {
-          margin: 0;
-        }
-      }
+      } 
     }
   }
 

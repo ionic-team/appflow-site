@@ -1,4 +1,4 @@
-import { Component, State, Element, Host, h, getAssetPath } from '@stencil/core';
+import { Component, State, Element, Host, Listen, h, getAssetPath } from '@stencil/core';
 import { publishIcon, updatesIcon, buildsIcon, automationsIcon } from './assets/icons'
 import { ResponsiveContainer, Heading, Paragraph, IntersectionHelper } from '@ionic-internal/ionic-ds';
 
@@ -12,6 +12,7 @@ import { ResponsiveContainer, Heading, Paragraph, IntersectionHelper } from '@io
 export class AppflowActivator {
   private gsapCdn = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.4.2/gsap.min.js';
   private tween: GSAPTween;
+  private gutter = 16;
   private screens: any = [
     {
       name: 'App Publishing',
@@ -38,14 +39,32 @@ export class AppflowActivator {
       image: getAssetPath('assets/screen-automations.png')
     },
   ];
-
+  private maxImageWidth = 1152;
+  private aspectRatio = 2400 / 1280;
   @Element() el: HTMLElement;
 
   @State() currentScreen = 0;
   @State() isPaused: boolean = false;
+  @State() imageHeight = 0;
 
   duration = 6;//seconds
   indicators = [];
+
+  componentWillLoad() {
+    this.updateItemOffsets();
+  }
+
+  @Listen('resize', { target: 'window'})
+  updateItemOffsets() {
+    requestAnimationFrame(() => {
+      const width = (document.body.offsetWidth - this.gutter * 2);
+      if (width > this.maxImageWidth) {
+        this.imageHeight = this.maxImageWidth / this.aspectRatio;
+      } else {
+        this.imageHeight = width / this.aspectRatio;
+      }
+    })
+  }
 
   componentDidLoad() {
     this.importGsap();
@@ -130,10 +149,14 @@ export class AppflowActivator {
 
   render() {
     return (
-    <Host>
+    <Host
+      style={{
+        '--max-image-width': this.maxImageWidth + 'px'
+      }}
+    >
       <div class="app-screenshot">
         <div class="images">
-          <div class="images__wrapper">
+          <div class="images__wrapper" style={{ 'height': this.imageHeight + 'px' }}>
             {this.screens.map((screen, i) => (
               <img
                 class={`screen ${i === this.currentScreen ? 'animate-in' : 'animate-out'}`}

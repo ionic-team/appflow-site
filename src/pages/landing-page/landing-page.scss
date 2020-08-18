@@ -190,7 +190,12 @@ a {
   }
 
   .text {
-  @include util.box($mxw:448px);
+    .ui-heading {
+    @include util.box($mxw:400px);
+    }
+    .ui-paragraph {
+    @include util.box($mxw:448px);
+    }
   }
 
   .list {    

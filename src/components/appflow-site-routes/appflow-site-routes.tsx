@@ -27,7 +27,7 @@ export class AppflowSiteRoutes {
     return (
       <Host>
         <Router.Switch>
-          <Route path="/">
+          <Route path={match('/', { exact: true })}>
             <landing-page />
           </Route>
           

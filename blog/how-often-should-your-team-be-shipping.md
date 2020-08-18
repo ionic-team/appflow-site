@@ -1,6 +1,7 @@
 ---
 title: How Often Should your Mobile Team Ship?
 description: How the best mobile engineering teams work to ship frequently and drive growth
+slug: how-often-should-your-team-be-shipping
 date: 2020-08-18 12:00:00
 author: Max Lynch <max@ionic.io>
 authorUrl: https://twitter.com/maxlynch

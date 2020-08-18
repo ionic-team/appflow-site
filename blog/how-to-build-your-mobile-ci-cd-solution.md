@@ -1,6 +1,7 @@
 ---
 title: Building a robust Mobile CI/CD pipeline on Jenkins/Circle CI/Azure/etc.
 description: What does it take to build a scalable, robust Mobile CI/CD pipeline on popular services such as Jenkins, Circle CI, or Azure DevOps?
+slug: how-to-build-your-mobile-ci-cd-solution
 date: 2020-08-18 15:00:00
 author: Max Lynch <max@ionic.io>
 authorUrl: https://twitter.com/maxlynch

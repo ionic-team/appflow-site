@@ -39,7 +39,10 @@ export class SiteHeader {
 
   clearHover = () => this.hovered = null;
 
-  toggleExpanded = () => this.expanded = !this.expanded;
+  toggleExpanded = (top: boolean) => {
+    this.expanded = !this.expanded;
+    if (top) window.scrollTo(0, 0);
+  }
 
   handleActive = (e: HTMLAnchorElement) => {
     if (!e.href) return;
@@ -62,14 +65,14 @@ export class SiteHeader {
         'expanded': expanded
       }}>
         <header>
-          <site-backdrop visible={expanded} onClick={() => toggleExpanded()} />
+          <site-backdrop visible={expanded} onClick={() => toggleExpanded(false)} />
 
           <ResponsiveContainer class="site-header">
             <a {...href('/')} class="site-header__logo-link">
               {appflowLogoWithText({}, {width: 114, height: 24 })}
             </a>
 
-            <button onClick={() => toggleExpanded()} class="more-button">
+            <button onClick={() => toggleExpanded(false)} class="more-button">
               <ion-icon icon="ellipsis-vertical" />
             </button>
 
@@ -80,7 +83,7 @@ export class SiteHeader {
               }}
             >
               <div class="nav__wrapper">
-                <nav onClick={() => toggleExpanded()}>
+                <nav onClick={() => toggleExpanded(true)}>
                   <a
                     {...href('/')}
                     ref={e => handleActive(e)}

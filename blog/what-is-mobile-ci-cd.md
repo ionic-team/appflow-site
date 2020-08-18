@@ -18,6 +18,8 @@ A staple in the backend and, more recently, frontend ecosystems, CI/CD services 
 
 This list applies to nearly every type of software application, whether it’s a backend, frontend web, or mobile app. This has led to a proliferation of general purpose CI/CD services that integrate with popular code repository hosting services, provide on-demand clean build infrastructure, and a system to trigger actions before and after builds.
 
+<!--more-->
+
 ## What about Mobile CI/CD?
 
 Mobile app development is one of the most complicated areas of software development when it comes to CI/CD solutions. Given that mobile apps utilize extensive native compilation, rigid operating system requirements, rigorous code signing, frequently-updated SDKs and tooling, complex operating system licensing, device testing, and app store submission, a CI/CD platform for mobile apps will need to have extra features to cover these unique demands.

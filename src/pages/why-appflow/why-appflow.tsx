@@ -1,7 +1,6 @@
 import { Component, Host, h, getAssetPath} from '@stencil/core';
 
 import { ResponsiveContainer, PrismicRichText, Grid, Col, Heading } from '@ionic-internal/ionic-ds';
-import {  } from '../../svgs';
 import { getPage } from '../../prismic';
 import state from '../../store';
 
@@ -60,50 +59,37 @@ const Top = () => {
 }
 
 const Companies = () => {
-  const icons = [
-    ['nhs', 56, 24],
+  const icons = [    
     ['bcbs', 128, 24],
-    ['amtrak', 180, 22],
+    ['nhs', 56, 24],
     ['target', 116, 26],
+    ['amtrak', 180, 22],    
     ['supr-daily', 68, 32],
     ['study-com', 153, 24],
     ['caterpillar', 138, 22],
     ['norfolk-southern', 96, 24]
   ]
 
-  const iconFactory = (icons, { start, count }) => (
-    icons.slice(start, start + count).map(item => (
-      <div class="image">
-        <img
-          src={getAssetPath(`./assets/logo-${item[0]}@2x.png`)} 
-          srcset={`${getAssetPath(`./assets/logo-${item[0]}.png`)} 1x,
-                  ${getAssetPath(`./assets/logo-${item[0]}@2x.png`)} 2x`}
-          loading="lazy"
-          width={item[1]} height={item[2]}
-          alt={`${item[0]} logo`}
-        />
-      </div> )
-    )
+  const iconFactory = (item) => (
+      <img
+        src={getAssetPath(`./assets/logo-${item[0]}@2x.png`)} 
+        srcset={`${getAssetPath(`./assets/logo-${item[0]}.png`)} 1x,
+                ${getAssetPath(`./assets/logo-${item[0]}@2x.png`)} 2x`}
+        loading="lazy"
+        width={item[1]} height={item[2]}
+        alt={`${item[0]} logo`}
+      />
   )
 
   return (
-    <ResponsiveContainer id="companies" class="content" as="section">
-      <div class="row row1">
-        <div class="subrow">
-          {iconFactory(icons, { start: 0, count: 2 })}
-        </div>
-        <div class="subrow">
-          {iconFactory(icons, { start: 2, count: 2 })}
-        </div>
-      </div>
-      <div class="row row2">
-        <div class="subrow">
-          {iconFactory(icons, { start: 4, count: 2 })}
-        </div>
-        <div class="subrow">
-          {iconFactory(icons, { start: 6, count: 2 })}
-        </div>
-      </div>    
+    <ResponsiveContainer id="companies" as="section">
+      <Grid>
+        {icons.map(icon => (
+          <Col class="wrapper" cols={6} xs={3}>
+            {iconFactory(icon)}
+          </Col>
+        ))}
+      </Grid>
     </ResponsiveContainer>
   );
 }

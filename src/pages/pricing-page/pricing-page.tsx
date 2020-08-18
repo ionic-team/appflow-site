@@ -93,10 +93,6 @@ const Faq = () => {
               <Heading>What is Account &amp; Billing Support?</Heading>
               <Paragraph>Account & Billing Support is available to all plan holders, and includes access to help for issues related to account billing, refunds, cancellations and account re-activations, and password or account access related concerns.</Paragraph>
             </li>
-            <li id="faq-premium">
-              <Heading>What is Premium Product Support?</Heading>
-              <Paragraph>Timely assistance with troubleshooting issues related to Appflow or the Cloud dashboard.</Paragraph>
-            </li>
           </ul>
         </Col>
 
@@ -114,6 +110,10 @@ const Faq = () => {
               <Heading>How many seats are with each plan?</Heading>
               <Paragraph>The number of seats included varies by plan. Launch plans include one (1) seat. Growth plans include two (2) seats with the base subscription, with the ability to add up to five (5) team members at $99 per additional seat. Growth subscribers can add additional seats with the Developer Hub.</Paragraph>
               <Paragraph>The Scale plan offers flexible packages that scale to any number of team members. Please contact our Sales team to discuss a custom plan that accommodates the number of seats you’d like to include. If you are a current customer and would like to add more seats to your existing Scale plan, please contact Support.</Paragraph>
+            </li>
+            <li id="faq-premium">
+              <Heading>What is Premium Product Support?</Heading>
+              <Paragraph>Timely assistance with troubleshooting issues related to Appflow or the Cloud dashboard.</Paragraph>
             </li>
           </ul>
         </Col>

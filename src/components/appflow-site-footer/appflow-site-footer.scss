@@ -11,15 +11,13 @@
 }
 
 .footer__content {
-  a {
-    text-decoration: underline;
-    text-decoration-color: rgba(0, 0, 0, 0);
-    transition: text-decoration-color .2s ease-out;
+  a:not(.social) {
+    transition: opacity .2s ease-out;
 
     color: var(--c-indigo-80);
 
     &:hover, &:active, &:focus, &:focus-within {
-      text-decoration-color: rgba(0, 0, 0, .3);
+      opacity: .6;
     }
   }
 }

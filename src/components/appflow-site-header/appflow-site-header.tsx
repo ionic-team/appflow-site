@@ -109,6 +109,7 @@ export class SiteHeader {
                   <a
                     href="https://ionicframework.com/docs/appflow"
                     ref={e => handleActive(e)}
+                    target="_blank"
                   >
                     Docs
                   </a>

@@ -97,30 +97,10 @@ a {
 #companies {
 @include util.box($pbs:$section-space, $pbe:$section-space);
 
-  &.content {
-  @include util.box($mbs:-77px);
-  }
-
-  .row{
-  @include util.box($d:flex, $ai:center, $jc:space-around, $fw:wrap, $fg:1, $mis:auto, $mie:auto);
-  }
-  .subrow {
-  @include util.box($d:flex, $jc:space-around, $fg:1, $fw:wrap);
-
-    .image {
-    @include util.box($pis:var(--space-4), $pie:var(--space-4));
+  .ui-grid {
+    .wrapper {
+    @include util.box($d:flex, $jc:center, $ai:center);
     }
-
-    img {
-    @include util.box($mbs:77px)
-    }
-  }
-  
-  .row1 {
-  @include util.box($mxw:1018px);
-  }
-  .row2{
-  @include util.box($mxw:946px);
   }
 
   img {

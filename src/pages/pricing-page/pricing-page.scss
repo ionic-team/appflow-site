@@ -59,7 +59,7 @@ a {
 }
 
 #companies {
-@include util.box($pbs:148px, $pbe:160px);
+@include util.box($pbs:160px, $pbe:160px);
 
   --h6-color: var(--c-indigo-70);
 

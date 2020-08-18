@@ -89,7 +89,7 @@ export class SiteFooter {
                 <li><a {...href('/why-appflow')} class="ui-paragraph-5">Why Appflow</a></li>
                 {/* <li><a href="https://ionicframework.com/resources" class="ui-paragraph-5">Resources</a></li> */}
                 <li><a {...href('/pricing')} class="ui-paragraph-5">Pricing</a></li>
-                <li><a href="https://ionicframework.com/docs/appflow" class="ui-paragraph-5">Docs</a></li>
+                <li><a href="https://ionicframework.com/docs/appflow" class="ui-paragraph-5" target="_blank">Docs</a></li>
               </ul>
             </Col>
             <Col cols={6} xs={3} md={2}>
@@ -149,8 +149,8 @@ export class SiteFooter {
             </Col>    
             <Col class="end" cols={12} xs={6}>
               <div class="social-links">
-                <a href="https://www.linkedin.com/showcase/ionic-appflow/" rel="noopener nofollow" target="_blank">{linkedInLogo({ main: 'var(--c-indigo-50)' }, { height: 12 })}</a>
-                <a href="https://twitter.com/useappflow" rel="noopener nofollow" target="_blank">{twitterLogo({ main: 'var(--c-indigo-50)' }, { height: 12 })}</a>
+                <a class="social" href="https://www.linkedin.com/showcase/ionic-appflow/" rel="noopener nofollow" target="_blank">{linkedInLogo({ main: 'var(--c-indigo-50)' }, { height: 12 })}</a>
+                <a class="social" href="https://twitter.com/useappflow" rel="noopener nofollow" target="_blank">{twitterLogo({ main: 'var(--c-indigo-50)' }, { height: 12 })}</a>
               </div>
               <span class="ui-paragraph-6">Part of the <a href="https://ionic.io/">Ionic</a> ecosystem</span>
             </Col>                    

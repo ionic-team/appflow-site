@@ -79,7 +79,7 @@
   
         transition: opacity .2s ease-out;
   
-        &:hover, &:focus, &:active, &:focus-within {
+        &:hover {
           opacity: .4;
           cursor: pointer;
         }

@@ -52,7 +52,8 @@ a {
 
 // #region ------------------------------ PAGE STYLES ----------------------------------------------------
 #top {
-@include util.box($contain:content, $mnh:100%);
+@include util.box($contain:content, $mnh:100vh);
+@include util.media($val:var.$screen-sm-max, $mnh:830px);
 
   .background {
   @include util.box($pos:absolute, $z:-1, $w:max(1800px, 100%), $l:min(calc((100% - 1800px) / 2), 0px));

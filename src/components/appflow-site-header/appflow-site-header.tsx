@@ -29,7 +29,7 @@ export class SiteHeader {
 
     Router.onChange('activePath', (v: any) => {
       // TODO: Make this an object and share it w/ render
-      if (['/', '/docs', '/why-appflow', '/resources', '/pricing', '/docs'].findIndex(x => x === v) >= 0) {
+      if (['/', '/docs', '/why-appflow', '/resources', '/pricing', '/docs', '/blog'].findIndex(x => x === v) >= 0) {
         this.forceHovered = v.replace('/', '').replace('#', '');
       }
     });
@@ -111,6 +111,12 @@ export class SiteHeader {
                     ref={e => handleActive(e)}
                   >
                     Docs
+                  </a>
+                  <a
+                    href="/blog"
+                    ref={e => handleActive(e)}
+                  >
+                    Blog
                   </a>
                 </nav>
               </div>

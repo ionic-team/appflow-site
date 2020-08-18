@@ -10,10 +10,12 @@
     "start": "stencil build --dev --watch --serve",
     "generate": "stencil generate",
     "serve": "stencil build --dev --watch",
-    "dev": "stencil build --dev --watch --serve"
+    "dev": "stencil build --dev --watch --serve",
+    "blog": "blog"
   },
   "devDependencies": {
     "@ionic-internal/ionic-ds": "2.1.0",
+    "@ionic-internal/markdown-blog": "^1.0.2",
     "@ionic/prettier-config": "^1.0.0",
     "@stencil/core": "2.0.0-1",
     "@stencil/helmet": "^0.3.2",

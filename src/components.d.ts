@@ -24,6 +24,11 @@ export namespace Components {
     }
     interface AppflowSiteRoutes {
     }
+    interface BlogPage {
+    }
+    interface BlogPost {
+        "slug": string;
+    }
     interface CodeSnippet {
         "code": string;
         "language": string;
@@ -109,6 +114,18 @@ declare global {
     var HTMLAppflowSiteRoutesElement: {
         prototype: HTMLAppflowSiteRoutesElement;
         new (): HTMLAppflowSiteRoutesElement;
+    };
+    interface HTMLBlogPageElement extends Components.BlogPage, HTMLStencilElement {
+    }
+    var HTMLBlogPageElement: {
+        prototype: HTMLBlogPageElement;
+        new (): HTMLBlogPageElement;
+    };
+    interface HTMLBlogPostElement extends Components.BlogPost, HTMLStencilElement {
+    }
+    var HTMLBlogPostElement: {
+        prototype: HTMLBlogPostElement;
+        new (): HTMLBlogPostElement;
     };
     interface HTMLCodeSnippetElement extends Components.CodeSnippet, HTMLStencilElement {
     }
@@ -197,6 +214,8 @@ declare global {
         "appflow-site-footer": HTMLAppflowSiteFooterElement;
         "appflow-site-header": HTMLAppflowSiteHeaderElement;
         "appflow-site-routes": HTMLAppflowSiteRoutesElement;
+        "blog-page": HTMLBlogPageElement;
+        "blog-post": HTMLBlogPostElement;
         "code-snippet": HTMLCodeSnippetElement;
         "get-started-section": HTMLGetStartedSectionElement;
         "landing-page": HTMLLandingPageElement;
@@ -231,6 +250,11 @@ declare namespace LocalJSX {
     interface AppflowSiteHeader {
     }
     interface AppflowSiteRoutes {
+    }
+    interface BlogPage {
+    }
+    interface BlogPost {
+        "slug"?: string;
     }
     interface CodeSnippet {
         "code"?: string;
@@ -277,6 +301,8 @@ declare namespace LocalJSX {
         "appflow-site-footer": AppflowSiteFooter;
         "appflow-site-header": AppflowSiteHeader;
         "appflow-site-routes": AppflowSiteRoutes;
+        "blog-page": BlogPage;
+        "blog-post": BlogPost;
         "code-snippet": CodeSnippet;
         "get-started-section": GetStartedSection;
         "landing-page": LandingPage;
@@ -304,6 +330,8 @@ declare module "@stencil/core" {
             "appflow-site-footer": LocalJSX.AppflowSiteFooter & JSXBase.HTMLAttributes<HTMLAppflowSiteFooterElement>;
             "appflow-site-header": LocalJSX.AppflowSiteHeader & JSXBase.HTMLAttributes<HTMLAppflowSiteHeaderElement>;
             "appflow-site-routes": LocalJSX.AppflowSiteRoutes & JSXBase.HTMLAttributes<HTMLAppflowSiteRoutesElement>;
+            "blog-page": LocalJSX.BlogPage & JSXBase.HTMLAttributes<HTMLBlogPageElement>;
+            "blog-post": LocalJSX.BlogPost & JSXBase.HTMLAttributes<HTMLBlogPostElement>;
             "code-snippet": LocalJSX.CodeSnippet & JSXBase.HTMLAttributes<HTMLCodeSnippetElement>;
             "get-started-section": LocalJSX.GetStartedSection & JSXBase.HTMLAttributes<HTMLGetStartedSectionElement>;
             "landing-page": LocalJSX.LandingPage & JSXBase.HTMLAttributes<HTMLLandingPageElement>;

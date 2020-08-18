@@ -1,7 +1,7 @@
 import { Component, Host, h } from '@stencil/core';
 
 import {
-  Route, 
+  Route, match, 
   // match 
 } from 'stencil-router-v2';
 
@@ -30,6 +30,21 @@ export class AppflowSiteRoutes {
           <Route path="/">
             <landing-page />
           </Route>
+          
+          <Route
+            path={match('/blog', { exact: true })}
+            render={() => {
+              return <blog-page />;
+            }}
+          />
+
+          <Route
+            path={match('/blog/:slug')}
+            render={({ slug }) => {
+              return <blog-post slug={slug} />;
+            }}
+          />
+
           <Route path="/why-appflow">
             <why-appflow />
           </Route>
@@ -37,10 +52,10 @@ export class AppflowSiteRoutes {
             <pricing-page />
           </Route>
           <Route path="/privacy-policy">
-            <markdown-page file="privacy-policy"/>
+            <markdown-page file="privacy-policy" />
           </Route>
           <Route path="/tos">
-            <markdown-page file="tos"/>
+            <markdown-page file="tos" />
           </Route>
         </Router.Switch>
       </Host>

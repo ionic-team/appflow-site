@@ -114,7 +114,7 @@ export class SiteHeader {
                     Docs
                   </a>
                   <a
-                    href="/blog"
+                    {...href('/blog')}
                     ref={e => handleActive(e)}
                   >
                     Blog

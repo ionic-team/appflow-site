@@ -218,7 +218,8 @@ a {
 }
 
 #native {
-@include util.box($pbs:$section-space, $pbe:$section-space, $back:var(--c-indigo-10));
+@include util.box($pbs:$section-space, $pbe:237px, $back:var(--c-indigo-10));
+@include util.media($val:var.$screen-sm-max, $pbe:$section-space);
 
   .ui-container {
   @include util.box($d:flex);
@@ -317,11 +318,8 @@ a {
   @include util.media($val:var.$screen-xs-max, $d:none);
 
     &__wrapper {
-    @include util.box($pos:absolute, $w:auto, $l:-25px, $t:50%, $tf:translateY(-50%), $r: -300px);
-      
-      img {
-      // @include util.box($mxw:909px)
-      }
+    @include util.box($pos:absolute, $w:auto, $l:-150px, $t:50%, $tf:translateY(-50%), $r: -200px);
+    @include util.media($val:var.$screen-md-max, $l:-90px);
     }  
   }
 }

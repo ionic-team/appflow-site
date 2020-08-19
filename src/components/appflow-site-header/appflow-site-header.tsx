@@ -1,6 +1,7 @@
 import { Component, Element, State, h, Host } from '@stencil/core';
 import { ResponsiveContainer } from '@ionic-internal/ionic-ds';
 import { href } from 'stencil-router-v2';
+import state from '../../store';
 
 import { appflowLogoWithText } from '../../svgs';
 
@@ -17,7 +18,7 @@ export class SiteHeader {
 
   @State() expanded = false;
 
-  @State() sticky = false;
+  @State() sticky = state.stickyHeader;
 
   // Hovered nav items
   @State() forceHovered: string | null = null;

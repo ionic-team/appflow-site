@@ -1,8 +1,3 @@
-// #region ------------------------------ IMPORTS -------------------------------------------------------
-@use '../../global/vars' as var;
-@use '../../global/utils' as util;
-//#endregion --------------------------------------------------------------------------------------------------
-
 // #region ------------------------------ VARIABLES/THEME ------------------------------------------------
 $section-space: 160px;
 
@@ -33,119 +28,119 @@ a {
 }
 
 .ui-heading-2 {
-@include util.box($mbe:var(--space-5))
+@include box($mbe:var(--space-5))
 }
 .ui-heading-4 {
-@include util.box($mbe:var(--space-3))
+@include box($mbe:var(--space-3))
 }
 .ui-heading-5 {
-@include util.box($mbe:var(--space-3))
+@include box($mbe:var(--space-3))
 }
 .ui-heading-6 {
-@include util.box($mbe:var(--space-6))
+@include box($mbe:var(--space-6))
 }
 .ui-paragraph-2 {
-@include util.box($mbs:var(--space-5));
+@include box($mbs:var(--space-5));
 }
 //#endregion --------------------------------------------------------------------------------------------------
 
 // #region ------------------------------ PAGE STYLES ----------------------------------------------------
 #top {
-@include util.box($back:#212752, $pbs:162px, $pbe:162px);
+@include box($back:#212752, $pbs:162px, $pbe:162px);
 
   --h6-color: var(--c-lavender-50);
   --h1-color: #fff;
   --p2-color: var(--c-lavender-10);
 
   .ui-grid {
-  @include util.box($rg:var(--space-11));
+  @include box($rg:var(--space-11));
   }
 
   .heading-group {
-  @include util.box($mxw:544px);
+  @include box($mxw:544px);
 
     .ui-heading-6 {
-    @include util.box($mbe:26px);
+    @include box($mbe:26px);
     }
 
     .cta {
-    @include util.box($back:var(--c-lavender-60), $br:var(--radius-4), $color:#fff, $p:14px 16px, $mbs:var(--space-6));
-    @include util.font($fw:600, $fs:14px, $ls:-0.02em, $lh:112%);
+    @include box($back:var(--c-lavender-60), $br:var(--radius-4), $color:#fff, $p:14px 16px, $mbs:var(--space-6));
+    @include font($fw:600, $fs:14px, $ls:-0.02em, $lh:112%);
 
       &::after {
-      @include util.box($c:' ->');
-      @include util.font($ws:pre, $ls:0);
+      @include box($c:' ->');
+      @include font($ws:pre, $ls:0);
       }
     }
     .button {
       &:hover, &:active, &:focus, &:focus-within {
-      @include util.box($back:lighten(#7493FF, 2%));
+      @include box($back:lighten(#7493FF, 2%));
       }
     }
   }
 
   .image {
-  @include util.box($pos:relative, $fg:1, $d:flex, $jc:center, $ai:center, $l:50px, $t:50px);
+  @include box($pos:relative, $fg:1, $d:flex, $jc:center, $ai:center, $l:50px, $t:50px);
     img {
-    @include util.box($w:520px, $pos:absolute, $l:0);
-    @include util.media($val:var.$screen-md-max, $l:-56px);
-    @include util.media($val:var.$screen-xs-max, $d:none);
+    @include box($w:520px, $pos:absolute, $l:0);
+    @include media($val:$screen-md-max, $l:-56px);
+    @include media($val:$screen-xs-max, $d:none);
     }
   }
 }
 
 #companies {
-@include util.box($pbs:$section-space, $pbe:$section-space);
+@include box($pbs:$section-space, $pbe:$section-space);
 
   .ui-grid {
     .wrapper {
-    @include util.box($d:flex, $jc:center, $ai:center);
+    @include box($d:flex, $jc:center, $ai:center);
     }
   }
 
   img {
-  @include util.box($w:auto);
+  @include box($w:auto);
   }
 }
 
 #benefits {
-@include util.box($pbs:$section-space, $pbe:$section-space, $back:#F6F8FC);
+@include box($pbs:$section-space, $pbe:$section-space, $back:#F6F8FC);
 
   .heading-group {
-  @include util.box($mxw:640px, $mbe:var(--space-5));
+  @include box($mxw:640px, $mbe:var(--space-5));
   }
 
   .subtext {
-  @include util.box($pos:relative, $mis:var(--space-3), $mxw:624px, $mbe:var(--space-11));
+  @include box($pos:relative, $mis:var(--space-3), $mxw:624px, $mbe:var(--space-11));
 
     &::before {
-    @include util.box($c:'', $pos:absolute, $w:2px, $h:calc(100% - 11px), $back:var(--c-lavender-70),
+    @include box($c:'', $pos:absolute, $w:2px, $h:calc(100% - 11px), $back:var(--c-lavender-70),
                       $t:50%, $tf:translateY(-50%), $l:calc(-1 * var(--space-3)));
     }
   }
 
   .list {
     &.ui-grid {
-    @include util.box($rg:var(--space-9));
+    @include box($rg:var(--space-9));
     }
   }
 }
 
 #integrated {
-@include util.box($pbs:$section-space, $pbe:$section-space);
+@include box($pbs:$section-space, $pbe:$section-space);
 
 
   .heading-group {
-  @include util.box($mbe:var(--space-11), $mxw:640px);
+  @include box($mbe:var(--space-11), $mxw:640px);
   }
 
   .list.ui-grid {
-  @include util.box($cg:var(--space-6));
-  @include util.media($val:var.$screen-sm-max, $rg:var(--space-9));
+  @include box($cg:var(--space-6));
+  @include media($val:$screen-sm-max, $rg:var(--space-9));
   
     .list-item {
       img {
-      @include util.box($w:auto, $mbe:var(--space-4));
+      @include box($w:auto, $mbe:var(--space-4));
       }
       
     }
@@ -153,39 +148,39 @@ a {
 }
 
 #problems {
-@include util.box($pbs:$section-space, $pbe:$section-space, $back:#F6F8FC);
+@include box($pbs:$section-space, $pbe:$section-space, $back:#F6F8FC);
 
   img {
-  @include util.box($w:auto);
+  @include box($w:auto);
   }
 
   .heading-group {
-  @include util.box($mbe:var(--space-11), $mxw:768px);
+  @include box($mbe:var(--space-11), $mxw:768px);
   }
 
   .ui-grid {
-  @include util.box($rg:var(--space-3));
+  @include box($rg:var(--space-3));
   }
 
   .list-item {
-  @include util.box($d:flex, $ai:flex-start);
+  @include box($d:flex, $ai:flex-start);
 
     & + .list-item {
-    @include util.box($mbs:80px);
+    @include box($mbs:80px);
     }
 
     .paragraphs {
-    @include util.box($d:flex, $fd:column);
+    @include box($d:flex, $fd:column);
 
       .ui-paragraph + .ui-paragraph {
-      @include util.box($mbs:var(--space-5));
+      @include box($mbs:var(--space-5));
       }
     }
   }
 }
 
 #different {
-@include util.box($pbs:$section-space, $pbe:$section-space, $back:#090C22);
+@include box($pbs:$section-space, $pbe:$section-space, $back:#090C22);
 
   --h6-color: var(--lavender-60);
   --h2-color: #fff;
@@ -194,15 +189,15 @@ a {
   --p3-color: var(--c-indigo-30);
 
   .heading-group {
-  @include util.box($mbe:var(--space-11));
+  @include box($mbe:var(--space-11));
   }
 
   .list.ui-grid {
-  @include util.media($val:var.$screen-sm-max, $rg:var(--space-11));
+  @include media($val:$screen-sm-max, $rg:var(--space-11));
 
     .list-item{
       img {
-        @include util.box($w:auto, $mbe:56px, $mxh:160px);
+        @include box($w:auto, $mbe:56px, $mxh:160px);
       }
     }
   }

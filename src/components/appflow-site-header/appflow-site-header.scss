@@ -1,16 +1,16 @@
-@use '../../global/vars' as var;
-
-
 :host {
   z-index: 1000;
   background: #fff;
-  position: sticky;
   top: 0px;
   display: block;
   box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.06);
   transition: background-color 0.4s ease, box-shadow 0.4s ease;
 
   --link-color: var(--c-carbon-90);
+}
+
+.sticky {
+  position: sticky;
 }
 
 .ui-container {
@@ -154,7 +154,7 @@
           background: lighten(#e3edff, 2%);
         }
 
-        @media screen and (max-width: var.$screen-xs-max) {
+        @media screen and (max-width: $screen-xs-max) {
           margin: 12px 20px;
         }
       }  
@@ -187,7 +187,7 @@ site-backdrop {
 }
 
 /* Small width / mobile screens */
-@media screen and (max-width: var.$screen-xs-max) {
+@media screen and (max-width: $screen-xs-max) {
   .site-header {
     display: flex;
     flex-wrap: wrap;

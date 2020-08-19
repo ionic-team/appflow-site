@@ -1,5 +1,3 @@
-@use '../../global/vars' as var;
-
 app-burger {
   display: none;
   position: fixed;
@@ -49,7 +47,7 @@ app-burger {
 
 }
 
-@media screen and (max-width: var.$screen-sm-max) {
+@media screen and (max-width: $screen-sm-max) {
   app-burger {
     display: block;
   }

@@ -22,7 +22,13 @@ export const config: Config = {
     },
   ],
   plugins: [
-    sass(),
+    sass({
+      injectGlobalPaths: [
+        ['src/global/vars', '*'],
+        ['src/global/utils', '*'],
+        ['src/global/animations', '*'],
+      ]
+    }),
     dotenvPlugin(),
   ]
 };

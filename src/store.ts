@@ -3,6 +3,7 @@ import { createStore } from '@stencil/store';
 export interface State {
   pageTheme: 'light' | 'dark'
   pageData: any,
+  stickyHeader: boolean;
   title: string,
   description: string,
   meta_image: string
@@ -17,6 +18,7 @@ export const defaults = {
 const { state } = createStore({
   pageTheme: 'light',
   pageData: {},
+  stickyHeader: true,
   title: defaults.title,
   description: defaults.description,
   meta_image: defaults.meta_image

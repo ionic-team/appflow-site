@@ -22,6 +22,7 @@ export class BlogPage {
   render() {
     if (this.posts) {
       return [
+        <blog-subnav renderContent={() => [<li>Blog</li>,<div class="nav-sep">/</div>,<li>article</li>]}/>,
         <AllPosts posts={this.posts} />,
         <pre-footer />,
         <newsletter-signup />,

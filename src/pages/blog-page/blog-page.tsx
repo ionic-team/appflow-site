@@ -5,6 +5,7 @@ import { RenderedBlog } from '@ionic-internal/markdown-blog/src/models';
 import { BlogPost } from './blog-common';
 
 import posts from '../../assets/blog.json';
+import state from '../../store';
 
 
 @Component({
@@ -16,6 +17,7 @@ export class BlogPage {
   @State() posts?: RenderedBlog[];
 
   async componentWillLoad() {
+    state.stickyHeader = false;
     this.posts = (posts as RenderedBlog[]).slice(0, 10);
   }
 
@@ -24,9 +26,6 @@ export class BlogPage {
       return [
         <blog-subnav renderContent={() => [<li>Blog</li>,<div class="nav-sep">/</div>,<li>article</li>]}/>,
         <AllPosts posts={this.posts} />,
-        <pre-footer />,
-        <newsletter-signup />,
-        <capacitor-site-footer />
       ]
     }
 

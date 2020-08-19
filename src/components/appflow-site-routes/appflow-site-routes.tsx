@@ -20,6 +20,7 @@ export class AppflowSiteRoutes {
     Router.onChange('url', (newValue: InternalRouterState['url'], _oldValue: InternalRouterState['url']) => {
       (window as any).gtag('config', 'UA-44023830-42', { 'page_path': newValue.pathname + newValue.search });
       state.pageTheme = 'light';
+      state.stickyHeader = true;
     });
   }
 

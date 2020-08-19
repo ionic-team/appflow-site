@@ -18,8 +18,6 @@ export class SiteHeader {
 
   @State() expanded = false;
 
-  @State() sticky = state.stickyHeader;
-
   // Hovered nav items
   @State() forceHovered: string | null = null;
   @State() hovered: string | null = null;
@@ -58,11 +56,11 @@ export class SiteHeader {
   }
 
   render() {
-    const { expanded, sticky, toggleExpanded, handleActive } = this;
+    const { expanded, toggleExpanded, handleActive } = this;
 
     return (
       <Host class={{
-        'sticky': sticky,
+        'sticky': state.stickyHeader,
         'expanded': expanded
       }}>
         <header>

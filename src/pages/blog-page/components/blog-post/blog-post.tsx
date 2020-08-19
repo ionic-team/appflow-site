@@ -4,9 +4,8 @@ import { RenderedBlog } from '@ionic-internal/markdown-blog/src/models';
 import { BlogPost } from '../../blog-common';
 
 import posts from '../../../../assets/blog.json';
-import { Heading } from '@ionic-internal/ionic-ds';
-import { href } from 'stencil-router-v2';
 import Helmet from '@stencil/helmet';
+import state from '../../../../store';
 
 @Component({
   tag: 'blog-post',
@@ -17,6 +16,8 @@ export class BlogPage {
   @State() post?: RenderedBlog;
 
   async componentWillLoad() {
+    state.stickyHeader = false;
+
     const { slug } = this;
 
     if (slug) {
@@ -38,15 +39,10 @@ export class BlogPage {
             <meta name="twitter:description" content={`${this.post.description} - Capacitor Blog`} />
             <meta property="og:image" content={this.post.featuredImage || 'https://capacitorjs.com/assets/img/og.png'} />
           </Helmet>
+          <blog-subnav renderContent={() => [<li>Blog</li>,<div class="nav-sep">/</div>,<li>article</li>]}/>,
           <div class="blog-posts">
-            <hgroup class="blog-posts__heading">
-              <Heading level={3}><a {...href('/blog')}>Blog</a></Heading>
-            </hgroup>
             <BlogPost post={this.post} />
           </div>
-          <pre-footer />
-          <newsletter-signup />
-          <capacitor-site-footer />
         </Host>
       )
     }

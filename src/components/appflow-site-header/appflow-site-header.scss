@@ -9,7 +9,7 @@
   --link-color: var(--c-carbon-90);
 }
 
-.sticky {
+:host(.sticky) {
   position: sticky;
 }
 

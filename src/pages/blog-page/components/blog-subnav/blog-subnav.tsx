@@ -1,4 +1,4 @@
-import { Component, h, Element, Prop, State, Host } from '@stencil/core';
+import { Component, h, Element, State, Host } from '@stencil/core';
 import { ResponsiveContainer, IntersectionHelper, Breadcrumbs } from '@ionic-internal/ionic-ds';
 
 

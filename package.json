@@ -14,10 +14,10 @@
     "blog": "blog"
   },
   "devDependencies": {
-    "@ionic-internal/ionic-ds": "2.1.0",
+    "@ionic-internal/ionic-ds": "2.1.4-2",
     "@ionic-internal/markdown-blog": "^1.0.5",
     "@ionic/prettier-config": "^1.0.0",
-    "@stencil/core": "2.0.0-3",
+    "@stencil/core": "2.0.0-4",
     "@stencil/helmet": "^0.3.2",
     "@stencil/sass": "^1.4.0-0",
     "@stencil/store": "^1.3.0",

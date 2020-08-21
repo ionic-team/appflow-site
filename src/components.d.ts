@@ -5,6 +5,7 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
+import { RenderedBlog } from "@ionic-internal/markdown-blog/src/models";
 export namespace Components {
     interface AnchorLink {
         "to": string;
@@ -24,10 +25,17 @@ export namespace Components {
     }
     interface AppflowSiteRoutes {
     }
+    interface BlogNewsletter {
+    }
     interface BlogPage {
+        "slug"?: string;
     }
     interface BlogPost {
+        "post": RenderedBlog;
+        "preview": boolean;
         "slug": string;
+    }
+    interface BlogSearch {
     }
     interface BlogSubnav {
         "renderContent"?: () => any;
@@ -118,6 +126,12 @@ declare global {
         prototype: HTMLAppflowSiteRoutesElement;
         new (): HTMLAppflowSiteRoutesElement;
     };
+    interface HTMLBlogNewsletterElement extends Components.BlogNewsletter, HTMLStencilElement {
+    }
+    var HTMLBlogNewsletterElement: {
+        prototype: HTMLBlogNewsletterElement;
+        new (): HTMLBlogNewsletterElement;
+    };
     interface HTMLBlogPageElement extends Components.BlogPage, HTMLStencilElement {
     }
     var HTMLBlogPageElement: {
@@ -129,6 +143,12 @@ declare global {
     var HTMLBlogPostElement: {
         prototype: HTMLBlogPostElement;
         new (): HTMLBlogPostElement;
+    };
+    interface HTMLBlogSearchElement extends Components.BlogSearch, HTMLStencilElement {
+    }
+    var HTMLBlogSearchElement: {
+        prototype: HTMLBlogSearchElement;
+        new (): HTMLBlogSearchElement;
     };
     interface HTMLBlogSubnavElement extends Components.BlogSubnav, HTMLStencilElement {
     }
@@ -223,8 +243,10 @@ declare global {
         "appflow-site-footer": HTMLAppflowSiteFooterElement;
         "appflow-site-header": HTMLAppflowSiteHeaderElement;
         "appflow-site-routes": HTMLAppflowSiteRoutesElement;
+        "blog-newsletter": HTMLBlogNewsletterElement;
         "blog-page": HTMLBlogPageElement;
         "blog-post": HTMLBlogPostElement;
+        "blog-search": HTMLBlogSearchElement;
         "blog-subnav": HTMLBlogSubnavElement;
         "code-snippet": HTMLCodeSnippetElement;
         "get-started-section": HTMLGetStartedSectionElement;
@@ -261,10 +283,17 @@ declare namespace LocalJSX {
     }
     interface AppflowSiteRoutes {
     }
+    interface BlogNewsletter {
+    }
     interface BlogPage {
+        "slug"?: string;
     }
     interface BlogPost {
+        "post"?: RenderedBlog;
+        "preview"?: boolean;
         "slug"?: string;
+    }
+    interface BlogSearch {
     }
     interface BlogSubnav {
         "renderContent"?: () => any;
@@ -314,8 +343,10 @@ declare namespace LocalJSX {
         "appflow-site-footer": AppflowSiteFooter;
         "appflow-site-header": AppflowSiteHeader;
         "appflow-site-routes": AppflowSiteRoutes;
+        "blog-newsletter": BlogNewsletter;
         "blog-page": BlogPage;
         "blog-post": BlogPost;
+        "blog-search": BlogSearch;
         "blog-subnav": BlogSubnav;
         "code-snippet": CodeSnippet;
         "get-started-section": GetStartedSection;
@@ -344,8 +375,10 @@ declare module "@stencil/core" {
             "appflow-site-footer": LocalJSX.AppflowSiteFooter & JSXBase.HTMLAttributes<HTMLAppflowSiteFooterElement>;
             "appflow-site-header": LocalJSX.AppflowSiteHeader & JSXBase.HTMLAttributes<HTMLAppflowSiteHeaderElement>;
             "appflow-site-routes": LocalJSX.AppflowSiteRoutes & JSXBase.HTMLAttributes<HTMLAppflowSiteRoutesElement>;
+            "blog-newsletter": LocalJSX.BlogNewsletter & JSXBase.HTMLAttributes<HTMLBlogNewsletterElement>;
             "blog-page": LocalJSX.BlogPage & JSXBase.HTMLAttributes<HTMLBlogPageElement>;
             "blog-post": LocalJSX.BlogPost & JSXBase.HTMLAttributes<HTMLBlogPostElement>;
+            "blog-search": LocalJSX.BlogSearch & JSXBase.HTMLAttributes<HTMLBlogSearchElement>;
             "blog-subnav": LocalJSX.BlogSubnav & JSXBase.HTMLAttributes<HTMLBlogSubnavElement>;
             "code-snippet": LocalJSX.CodeSnippet & JSXBase.HTMLAttributes<HTMLCodeSnippetElement>;
             "get-started-section": LocalJSX.GetStartedSection & JSXBase.HTMLAttributes<HTMLGetStartedSectionElement>;

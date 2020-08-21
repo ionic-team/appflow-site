@@ -12,7 +12,7 @@ export interface State {
 export const defaults = {
   title: 'Appflow - Continuous Mobile DevOps',
   description: 'Move even faster with cloud native builds, live app deploys, and CI/CD automation for Ionic, Capacitor, and Cordova app delivery.',
-  meta_image: 'https://useappflow.com/img/meta/ionic-framework-og.png'
+  meta_image: 'https://useappflow.com/assets/img/appflow-og-img.jpg'
 }
 
 const { state } = createStore({

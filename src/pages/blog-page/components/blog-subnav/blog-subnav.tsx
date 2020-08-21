@@ -35,10 +35,10 @@ export class BlogPage {
       }}
     >
       <ResponsiveContainer class="content">
-        <Breadcrumbs>
-          {this.renderContent && this.renderContent()}
+        <Breadcrumbs onClick={() => window.scrollTo(0, 0)}>
+          <slot></slot>
         </Breadcrumbs>
-        <input type="text" placeholder="Search the blog..."/>
+        <blog-search />
       </ResponsiveContainer>
     </Host>
   )

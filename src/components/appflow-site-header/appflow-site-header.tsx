@@ -44,11 +44,14 @@ export class SiteHeader {
   }
 
   handleActive = (e: HTMLAnchorElement) => {
-    if (!e.href) return;
+    const hrefParts = e.href.split('/');
+    if (hrefParts.length < 4) return;    
 
     const { hash, href } = Router.url;
+    const urlParts = href.replace(hash, '').split('/');
+    if (urlParts.length < 4) return;  
 
-    if (href === e.href || href.replace(hash, '') === e.href) {
+    if (hrefParts[3] === urlParts[3]) {
       return e.classList.add('active');
     }
 

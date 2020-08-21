@@ -1,0 +1,39 @@
+:host {
+  display: block;
+  --h1-color: var(--c-carbon-100);
+}
+
+.post {
+  padding-block-end: var(--space-11);
+  border-bottom: 2px solid var(--c-indigo-20);
+
+  .ui-heading-1 {
+    margin-block-end: var(--space-5);
+
+    a {
+      color: inherit;
+    }
+  }
+
+  .author {
+    margin-block-end: var(--space-6);
+    
+    .ui-paragraph {
+      color: #92A1B3;
+    }
+  }
+
+  .featured-image {
+    max-height: 368px;
+    object-fit: cover;
+    margin-block-end: var(--space-8);
+  }
+
+  .post-content p {
+    color: var(--c-indigo-100);
+    letter-spacing: var(--p2-leading);
+    line-height: var(--p2-tracking);
+    font-size: var(--p2-size);
+    font-weight: var(--p2-weight);
+  }
+}

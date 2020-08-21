@@ -28,7 +28,7 @@ export namespace Components {
     interface BlogNewsletter {
     }
     interface BlogPage {
-        "slug"?: string;
+        "slug": string;
     }
     interface BlogPost {
         "post": RenderedBlog;
@@ -38,7 +38,6 @@ export namespace Components {
     interface BlogSearch {
     }
     interface BlogSubnav {
-        "renderContent"?: () => any;
     }
     interface CodeSnippet {
         "code": string;
@@ -296,7 +295,6 @@ declare namespace LocalJSX {
     interface BlogSearch {
     }
     interface BlogSubnav {
-        "renderContent"?: () => any;
     }
     interface CodeSnippet {
         "code"?: string;

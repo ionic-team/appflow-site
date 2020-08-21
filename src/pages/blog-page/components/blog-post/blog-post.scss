@@ -1,39 +1,94 @@
-:host {
+.sc-blog-post {
   display: block;
   --h1-color: var(--c-carbon-100);
+
+
+  .post {
+    padding-block-end: var(--space-11);
+    border-bottom: 2px solid var(--c-indigo-20);
+
+    .ui-heading-1 {
+      margin-block-end: var(--space-5);
+
+      a {
+        color: inherit;
+      }
+    }
+
+    .author {
+      margin-block-end: var(--space-6);
+      
+      .ui-paragraph {
+        color: #92A1B3;
+      }
+    }
+
+    .featured-image-wrapper {  
+      max-height: 368px;         
+      margin-block-end: var(--space-8);
+
+      img {
+        max-height: 368px; 
+        object-fit: cover;
+      }
+    }
+
+    .post-content {
+      p {
+        margin: 0;
+      }
+      p, li {
+        color: var(--c-indigo-100);
+        letter-spacing: var(--p2-tracking);
+        line-height: var(--f-leading-prose);
+        font-size: var(--p2-size);
+        font-weight: var(--p2-weight);
+      }
+
+      ul {
+        margin-block-start: var(--space-6);
+        margin-block-end: var(--space-6);
+      }
+
+      li {
+        list-style: disc;
+        margin-inline-start: var(--space-9);
+
+        & + li {
+          padding-block-start: var(--space-3);
+        }
+      }
+
+      p + p {
+        margin-block-start: var(--space-6);
+      }
+
+      p + h2 {
+        margin-block-start: var(--space-9);
+      }
+    }
+    
+
+    .continue-reading {
+      margin-block-start: 30px;
+      color: var(--c-lavender-70);
+    }
+  }
 }
 
-.post {
-  padding-block-end: var(--space-11);
-  border-bottom: 2px solid var(--c-indigo-20);
+.sc-blog-post.preview {
+  .post-content {
+    & > * {
+      display: none;
+    }
 
-  .ui-heading-1 {
-    margin-block-end: var(--space-5);
+    :first-child {
+      display: block;
 
-    a {
-      color: inherit;
+      &::after {
+        content: '..';
+      }
     }
   }
 
-  .author {
-    margin-block-end: var(--space-6);
-    
-    .ui-paragraph {
-      color: #92A1B3;
-    }
-  }
-
-  .featured-image {
-    max-height: 368px;
-    object-fit: cover;
-    margin-block-end: var(--space-8);
-  }
-
-  .post-content p {
-    color: var(--c-indigo-100);
-    letter-spacing: var(--p2-leading);
-    line-height: var(--p2-tracking);
-    font-size: var(--p2-size);
-    font-weight: var(--p2-weight);
-  }
 }

@@ -4,11 +4,12 @@ import posts from '../../../../assets/blog.json';
 import Helmet from '@stencil/helmet';
 import { ThemeProvider, Heading, Paragraph, DateTime } from '@ionic-internal/ionic-ds';
 import parseISO from 'date-fns/parseISO';
+import { href } from 'stencil-router-v2';
+import Router from '../../../../router';
 
 @Component({
   tag: 'blog-post',
   styleUrl: 'blog-post.scss',
-  scoped: true
 })
 export class BlogPost {
   @Prop() slug: string;
@@ -17,25 +18,26 @@ export class BlogPost {
   @Prop() preview: boolean;
 
   async componentWillLoad() {
-    const { slug } = this;
-
-    if (slug) {
-      this.slug = slug;
+    if (this.slug) {
       this.post = (posts as RenderedBlog[]).find(p => p.slug === this.slug);
-      console.log(this.post);
     }
   }
 
   getBlogPostPath = (doc: RenderedBlog) => `/blog/${doc.slug}`;
 
   render() {
-    const { post, preview, getBlogPostPath } = this;
+    const { slug, post, preview, getBlogPostPath } = this;
 
     const content = preview ? post.preview : post.html;
 
     if (this.post) {
       return (
-        <Host>
+        <Host
+          class={{
+            'sc-blog-post': true,
+            'preview': preview
+          }}
+        >
           <Helmet>
             <title>{this.post.title} - Capacitor Blog - Cross-platform native runtime for web apps</title>
             <meta
@@ -53,12 +55,17 @@ export class BlogPost {
 
             <PostAuthor authorName={post.authorName} authorUrl={post.authorUrl} dateString={post.date} />
 
-            <PostFeaturedImage post={post} />
-
-            <div class="post-content" innerHTML={content} />
+            {post.featuredImage 
+            ? <PostFeaturedImage preview={preview} post={post} />
+            : <PostDefaultImage preview={preview} post={post}/>}
+            
+            <div
+              class="post-content"
+              innerHTML={content}>
+            </div>
 
             {this.preview
-            ? <a class="continue-reading" href={getBlogPostPath(post)}>
+            ? <a class="continue-reading ui-paragraph-2" {...href(`/blog/${slug}`, Router)}>
                 Continue reading <span class="arrow">-&gt;</span>
               </a> : ''}
           </article>
@@ -69,11 +76,21 @@ export class BlogPost {
   }
 }
 
-const PostFeaturedImage = ({ post }: { post: RenderedBlog}) => {
-  return post.featuredImage ? 
-    <img class="featured-image" src={post.featuredImage} alt={post.featuredImageAlt} /> :
-    <img class="featured-image" width="2400" height="1280" src="/assets/img/appflow-og-img.jpg" alt="Appflow logo and text on gradient background" />
-};
+const PostFeaturedImage = ({ post, preview }: { post: RenderedBlog, preview: boolean}) => (
+  <div class="featured-image-wrapper">
+    {preview 
+    ? <a {...href(`/blog/${post.slug}`, Router)}><img class="featured-image" src={post.featuredImage} alt={post.featuredImageAlt} /></a>
+    : <img class="featured-image" src={post.featuredImage} alt={post.featuredImageAlt} /> }
+  </div>
+);
+
+const PostDefaultImage = ({ post, preview }: { post: RenderedBlog, preview: boolean}) => (
+  <div class="featured-image-wrapper">
+    {preview 
+    ? <a {...href(`/blog/${post.slug}`, Router)}><img class="featured-image" width="2400" height="1280" src="/assets/img/appflow-og-img.jpg" alt="Appflow logo and text on gradient background" /></a>
+    : <img class="featured-image" width="2400" height="1280" src="/assets/img/appflow-og-img.jpg" alt="Appflow logo and text on gradient background" /> }
+  </div>
+);
 
 
 const PostAuthor = ({ authorName, authorUrl, dateString }: { authorName: string, authorUrl: string, dateString: string }) => {

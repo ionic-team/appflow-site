@@ -5,8 +5,32 @@
   top: 0;
   z-index: 100;
 }
+.ui-breadcrumbs {
+  min-width:0;
+  margin-inline-end: var(--space-3);
+}
+::slotted(li) {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  
 
+  &:last-of-type {    
+    overflow: hidden;
+    a {
+      display: inline;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+}
 
+.blog-search-wrapper {
+  flex-grow: 1;
+  display: flex;
+  justify-content: flex-end;
+}
 
 .content {
   display: flex;  

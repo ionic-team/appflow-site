@@ -1,4 +1,4 @@
-import { Component, State, Host, Prop, h, FunctionalComponent } from '@stencil/core';
+import { Component, State, Host, Prop, h, Watch, FunctionalComponent } from '@stencil/core';
 
 import { RenderedBlog } from '@ionic-internal/markdown-blog/src/models';
 
@@ -7,7 +7,7 @@ import state from '../../store';
 import { ResponsiveContainer, Heading, Paragraph } from '@ionic-internal/ionic-ds';
 import { href } from 'stencil-router-v2';
 import Router from '../../router';
-import { rssIcon, twitterLogo, facebookLogo, bufferLogo } from '../../svgs';
+import { rssIcon, twitterLogo, facebookLogo, linkedInLogo } from '../../svgs';
 import { JSXBase } from '@stencil/core/internal';
 
 
@@ -17,27 +17,32 @@ import { JSXBase } from '@stencil/core/internal';
   scoped: true
 })
 export class BlogPage {
-  @Prop() slug?: string;
+  @Prop() slug: string;
   @State() posts?: RenderedBlog[];
   private post: RenderedBlog;
   private title: string;
 
   async componentWillLoad() {
     state.stickyHeader = false;
-    this.posts = (posts as RenderedBlog[]).slice(0, 10);
+    this.posts = (posts as RenderedBlog[]).slice(0, 10); 
 
+    this.checkSlug();
+  }
+
+  componentWillUpdate() {
+    state.stickyHeader = false;   
+  }
+
+  @Watch('slug')
+  checkSlug() {
     if (this.slug) {
       this.post = (posts as RenderedBlog[]).find(p => p.slug === this.slug);
       this.title = this.post.title;
-    }
-  }
-
-  componentDidUpdate() {
-    state.stickyHeader = false;
+    }  
   }
 
   render = () => (
-    <Host>
+    <Host class="sc-blog-page">
       <blog-subnav>
         <li>
           <a class="ui-heading-5" {...href('/blog', Router)}>Blog</a>
@@ -59,15 +64,18 @@ export class BlogPage {
 }
 
 const DetailView =  ({ post }:{ post: BlogPage['post'] }) => [
-  <SocialLinks column class="top"/>,
+  <SocialLinks post={post} column class="top"/>,
   <blog-post post={post}/>,
-  <SocialLinks class="bottom" />,
+  <SocialLinks post={post} class="bottom" />,
   <PostAuthor post={post}/>,
   <disqus-comments url="https://useappflow.com/blog" siteId="ionic"/>
 ]
 
 const ListView = ({ posts }: { posts: BlogPage['posts'] }) => [ 
-  ...posts.map(p => <blog-post slug={p.slug} post={p} preview />),
+  ...posts.map((p, i) => {
+    console.log(p.slug)
+  return <blog-post slug={p.slug} post={p} preview key={i}/>
+  }),
   <Pagination />,
   <blog-newsletter />
 ]
@@ -87,23 +95,53 @@ const Pagination = () => (
 )
 
 interface SocialLinkProps extends Partial<JSXBase.HTMLAttributes> {
+  post: BlogPage['post'],
   column?: boolean,
   rest?: JSXBase.HTMLAttributes[]
 }
-const SocialLinks: FunctionalComponent<SocialLinkProps> = ({ column = false, ...rest }) => (
-  <aside        
-    {...{...rest,
-    class: {
-      [`${rest.class ? rest.class : ''}`]: true,
-      'social-links': true,
-      'column': column
-    }}}
-  >
-    <a href="#">{twitterLogo({ main: '#CED6E0' }, { width: 20, height: 16 })}</a>
-    <a href="#">{facebookLogo({ main: '#CED6E0' }, { width: 16, height: 16 })}</a>
-    <a href="#">{bufferLogo({ main: '#CED6E0' }, { width: 18, height: 18 })}</a>
-  </aside>
-)
+const SocialLinks: FunctionalComponent<SocialLinkProps> = ({ post, column = false, ...rest }) => {
+  const twitterUrl = [
+    'http://twitter.com/intent/tweet?',
+    `text=${encodeURIComponent('\n\n')}&`,
+    `url=${encodeURIComponent(Router.url.toString())}`
+  ]
+  const facebookUrl = [
+    'https://www.facebook.com/sharer/sharer.php?',
+    `u=${encodeURIComponent(Router.url.toString())}`
+  ]
+  const linkedInUrl = [
+    'https://www.linkedin.com/sharing/share-offsite',
+    `?url=${encodeURIComponent(Router.url.toString())}`
+  ]
+  return (
+    <aside
+      class={{
+        [typeof rest.class === 'string' ? rest.class : '']: true,
+        'social-links': true,
+        'column': column
+      }}
+    >
+      <a
+        href={twitterUrl.join('')}
+        target="_blank" rel="noopener nofollow"
+      >
+        {twitterLogo({ main: '#CED6E0' }, { width: 20, height: 16 })}
+      </a>
+      <a
+        href={facebookUrl.join('')}
+        target="_blank" rel="noopener nofollow"
+      >
+        {facebookLogo({ main: '#CED6E0' }, { width: 16, height: 16 })}
+      </a>
+      <a
+        href={linkedInUrl.join('')}
+        target="_blank" rel="noopener nofollow"
+      >
+        {linkedInLogo({ main: '#CED6E0' }, { width: 16, height: 16 })}
+      </a>
+    </aside>
+  );
+}
 
 const PostAuthor = ({ post }: { post: RenderedBlog }) => (
   <section class="post-author">

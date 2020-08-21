@@ -9,7 +9,6 @@ import { ResponsiveContainer, IntersectionHelper, Breadcrumbs } from '@ionic-int
 })
 export class BlogPage {
   @Element() el?: HTMLElement;
-  @Prop() renderContent?: () => any;
   @State() sticky = false;
 
   componentDidLoad() {
@@ -38,7 +37,10 @@ export class BlogPage {
         <Breadcrumbs onClick={() => window.scrollTo(0, 0)}>
           <slot></slot>
         </Breadcrumbs>
-        <blog-search />
+        <div class="blog-search-wrapper">
+          <blog-search />
+        </div>
+        
       </ResponsiveContainer>
     </Host>
   )

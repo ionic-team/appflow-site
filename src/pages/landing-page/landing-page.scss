@@ -48,6 +48,7 @@ a {
 #top {
 @include box($contain:content, $mnh:100vh);
 @include media($val:$screen-sm-max, $mnh:830px);
+@include fadeInUp();
 
   .background {
   @include box($pos:absolute, $z:-1, $w:max(1800px, 100%), $l:min(calc((100% - 1800px) / 2), 0px));

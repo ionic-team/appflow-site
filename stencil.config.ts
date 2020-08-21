@@ -26,7 +26,7 @@ export const config: Config = {
       injectGlobalPaths: [
         ['src/global/vars', '*'],
         ['src/global/utils', '*'],
-        ['src/global/animations', '*'],
+        ['src/global/animations', '*']
       ]
     }),
     dotenvPlugin(),

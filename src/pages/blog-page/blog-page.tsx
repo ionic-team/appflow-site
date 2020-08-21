@@ -72,10 +72,7 @@ const DetailView =  ({ post }:{ post: BlogPage['post'] }) => [
 ]
 
 const ListView = ({ posts }: { posts: BlogPage['posts'] }) => [ 
-  ...posts.map((p, i) => {
-    console.log(p.slug)
-  return <blog-post slug={p.slug} post={p} preview key={i}/>
-  }),
+  ...posts.map((p, i) => <blog-post slug={p.slug} post={p} preview key={i}/>),
   <Pagination />,
   <blog-newsletter />
 ]

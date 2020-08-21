@@ -23,10 +23,12 @@ export class BlogPost {
     }
   }
 
-  getBlogPostPath = (doc: RenderedBlog) => `/blog/${doc.slug}`;
+  handleDetailView() {
+
+  }
 
   render() {
-    const { slug, post, preview, getBlogPostPath } = this;
+    const { slug, post, preview } = this;
 
     const content = preview ? post.preview : post.html;
 
@@ -50,7 +52,11 @@ export class BlogPost {
 
           <article class="post">
             <ThemeProvider type="editorial">
-              <Heading level={1}><a href={getBlogPostPath(post)}>{post.title}</a></Heading>
+              <Heading level={1}>
+                {preview 
+                ? <a onClick={this.handleDetailView} {...href(`/blog/${slug}`, Router)}>{post.title}</a>
+                : post.title}                
+              </Heading>
             </ThemeProvider>
 
             <PostAuthor authorName={post.authorName} authorUrl={post.authorUrl} dateString={post.date} />
@@ -65,7 +71,7 @@ export class BlogPost {
             </div>
 
             {this.preview
-            ? <a class="continue-reading ui-paragraph-2" {...href(`/blog/${slug}`, Router)}>
+            ? <a class="continue-reading ui-paragraph-2" onClick={this.handleDetailView} {...href(`/blog/${slug}`, Router)}>
                 Continue reading <span class="arrow">-&gt;</span>
               </a> : ''}
           </article>
@@ -85,7 +91,7 @@ const PostFeaturedImage = ({ post, preview }: { post: RenderedBlog, preview: boo
 );
 
 const PostDefaultImage = ({ post, preview }: { post: RenderedBlog, preview: boolean}) => (
-  <div class="featured-image-wrapper">
+  <div class="default-image-wrapper">
     {preview 
     ? <a {...href(`/blog/${post.slug}`, Router)}><img class="featured-image" width="2400" height="1280" src="/assets/img/appflow-og-img.jpg" alt="Appflow logo and text on gradient background" /></a>
     : <img class="featured-image" width="2400" height="1280" src="/assets/img/appflow-og-img.jpg" alt="Appflow logo and text on gradient background" /> }

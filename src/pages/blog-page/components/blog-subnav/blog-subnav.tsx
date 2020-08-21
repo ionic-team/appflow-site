@@ -36,6 +36,7 @@ export class BlogPage {
       <ResponsiveContainer class="content">
         <Breadcrumbs onClick={() => window.scrollTo(0, 0)}>
           <slot></slot>
+          <slot></slot>
         </Breadcrumbs>
         <div class="blog-search-wrapper">
           <blog-search />

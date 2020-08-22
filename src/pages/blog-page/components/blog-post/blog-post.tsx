@@ -1,4 +1,4 @@
-import { Component, Prop, h, Host } from '@stencil/core';
+import { Component, Prop, h, Host, Element } from '@stencil/core';
 import { RenderedBlog } from '@ionic-internal/markdown-blog/src/models';
 import posts from '../../../../assets/blog.json';
 import Helmet from '@stencil/helmet';
@@ -12,10 +12,12 @@ import Router from '../../../../router';
   styleUrl: 'blog-post.scss',
 })
 export class BlogPost {
+  private articleLinks: HTMLAnchorElement[] = [];
   @Prop() slug: string;
 
   @Prop() post: RenderedBlog;
   @Prop() preview: boolean;
+  @Element() el: HTMLElement;
 
   async componentWillLoad() {
     if (this.slug) {
@@ -23,12 +25,16 @@ export class BlogPost {
     }
   }
 
-  handleDetailView() {
-
+  componentDidLoad() {
+    this.articleLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        window.scrollTo(0, window.scrollY - this.el.offsetTop);
+      })
+    })
   }
 
   render() {
-    const { slug, post, preview } = this;
+    const { slug, post, preview, articleLinks } = this;
 
     const content = preview ? post.preview : post.html;
 
@@ -54,7 +60,7 @@ export class BlogPost {
             <ThemeProvider type="editorial">
               <Heading level={1}>
                 {preview 
-                ? <a onClick={this.handleDetailView} {...href(`/blog/${slug}`, Router)}>{post.title}</a>
+                ? <a ref={e => articleLinks.push(e)} {...href(`/blog/${slug}`, Router)}>{post.title}</a>
                 : post.title}                
               </Heading>
             </ThemeProvider>
@@ -71,7 +77,7 @@ export class BlogPost {
             </div>
 
             {this.preview
-            ? <a class="continue-reading ui-paragraph-2" onClick={this.handleDetailView} {...href(`/blog/${slug}`, Router)}>
+            ? <a class="continue-reading ui-paragraph-2" ref={e => articleLinks.push(e)} {...href(`/blog/${slug}`, Router)}>
                 Continue reading <span class="arrow">-&gt;</span>
               </a> : ''}
           </article>

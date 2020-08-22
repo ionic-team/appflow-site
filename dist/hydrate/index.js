@@ -7267,7 +7267,7 @@ class BlogPage$1 {
     this.sticky = false;
     this.render = () => (h(Host, { class: {
         'sticky': this.sticky,
-      } }, h(ResponsiveContainer, { class: "content" }, h(Breadcrumbs, { onClick: () => window.scrollTo(0, 0) }, h("slot", null)), h("div", { class: "blog-search-wrapper" }, h("blog-search", null)))));
+      } }, h(ResponsiveContainer, { class: "content" }, h(Breadcrumbs, { onClick: () => window.scrollTo(0, 0) }, h("slot", null), h("slot", null)), h("div", { class: "blog-search-wrapper" }, h("blog-search", null)))));
   }
   componentDidLoad() {
     addListener(({ entries }) => {
@@ -7607,30 +7607,37 @@ const blogPostCss = ".sc-blog-post{display:block;--h1-color:var(--c-carbon-100)}
 class BlogPost {
   constructor(hostRef) {
     registerInstance(this, hostRef);
+    this.articleLinks = [];
   }
   async componentWillLoad() {
     if (this.slug) {
       this.post = posts.find(p => p.slug === this.slug);
     }
   }
-  handleDetailView() {
+  componentDidLoad() {
+    this.articleLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        window.scrollTo(0, window.scrollY - this.el.offsetTop);
+      });
+    });
   }
   render() {
-    const { slug, post, preview } = this;
+    const { slug, post, preview, articleLinks } = this;
     const content = preview ? post.preview : post.html;
     if (this.post) {
       return (h(Host, { class: {
           'sc-blog-post': true,
           'preview': preview
         } }, h(Helmet, null, h("title", null, this.post.title, " - Capacitor Blog - Cross-platform native runtime for web apps"), h("meta", { name: "description", content: this.post.description }), h("meta", { name: "twitter:description", content: `${this.post.description} - Capacitor Blog` }), h("meta", { property: "og:image", content: this.post.featuredImage || 'https://capacitorjs.com/assets/img/og.png' })), h("article", { class: "post" }, h(ThemeProvider, { type: "editorial" }, h(Heading, { level: 1 }, preview
-        ? h("a", Object.assign({ onClick: this.handleDetailView }, href(`/blog/${slug}`, Router)), post.title)
+        ? h("a", Object.assign({ ref: e => articleLinks.push(e) }, href(`/blog/${slug}`, Router)), post.title)
         : post.title)), h(PostAuthor$1, { authorName: post.authorName, authorUrl: post.authorUrl, dateString: post.date }), post.featuredImage
         ? h(PostFeaturedImage, { preview: preview, post: post })
         : h(PostDefaultImage, { preview: preview, post: post }), h("div", { class: "post-content", innerHTML: content }), this.preview
-        ? h("a", Object.assign({ class: "continue-reading ui-paragraph-2", onClick: this.handleDetailView }, href(`/blog/${slug}`, Router)), "Continue reading ", h("span", { class: "arrow" }, "->")) : '')));
+        ? h("a", Object.assign({ class: "continue-reading ui-paragraph-2", ref: e => articleLinks.push(e) }, href(`/blog/${slug}`, Router)), "Continue reading ", h("span", { class: "arrow" }, "->")) : '')));
     }
     return null;
   }
+  get el() { return getElement(this); }
   static get style() { return blogPostCss; }
   static get cmpMeta() { return {
     "$flags$": 0,

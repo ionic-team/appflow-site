@@ -1,6 +1,8 @@
 @use '~prismjs/themes/prism';
 
-
+:root {
+  --site-header-height: 64px;
+}
 * {
   box-sizing: border-box;
   

@@ -28,7 +28,7 @@
     "date-fns": "^2.14.0",
     "dotenv": "^8.0.0",
     "front-matter": "^3.2.1",
-    "gsap": "^3.4.2",
+    "gsap": "^3.5.0",
     "hubspot": "^2.3.13",
     "ionicons": "^5.0.1",
     "prismic-dom": "^2.1.1",

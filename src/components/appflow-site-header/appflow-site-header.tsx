@@ -41,6 +41,8 @@ export class SiteHeader {
   toggleExpanded = (top: boolean) => {
     this.expanded = !this.expanded;
     if (top) window.scrollTo(0, 0);
+    //TODO P3 lock in scroll when mobile menu is expanded
+    // this.expanded ? document.body.style.overflowY = 'hidden' : document.body.style.overflowY = 'visible'
   }
 
   handleActive = (e: HTMLAnchorElement) => {

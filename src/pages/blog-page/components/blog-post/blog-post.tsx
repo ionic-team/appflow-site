@@ -28,7 +28,7 @@ export class BlogPost {
   componentDidLoad() {
     this.articleLinks.forEach(link => {
       link.addEventListener('click', () => {
-        window.scrollTo(0, window.scrollY - this.el.offsetTop);
+        window.scrollTo(0, window.scrollY - this.el.offsetTop + 32);
       })
     })
   }

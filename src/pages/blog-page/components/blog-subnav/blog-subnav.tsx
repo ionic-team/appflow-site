@@ -1,5 +1,5 @@
 import { Component, h, Element, State, Host } from '@stencil/core';
-import { ResponsiveContainer, IntersectionHelper, Breadcrumbs } from '@ionic-internal/ionic-ds';
+import { ResponsiveContainer, IntersectionHelper, Breadcrumbs, Breakpoint } from '@ionic-internal/ionic-ds';
 
 
 @Component({
@@ -10,6 +10,7 @@ import { ResponsiveContainer, IntersectionHelper, Breadcrumbs } from '@ionic-int
 export class BlogPage {
   @Element() el?: HTMLElement;
   @State() sticky = false;
+  @State() open = false;
 
   componentDidLoad() {
     IntersectionHelper.addListener(({ entries }) => {
@@ -33,16 +34,35 @@ export class BlogPage {
         'sticky': this.sticky,
       }}
     >
-      <ResponsiveContainer class="content">
-        <Breadcrumbs onClick={() => window.scrollTo(0, 0)}>
-          <slot></slot>
-          <slot></slot>
-        </Breadcrumbs>
-        <div class="blog-search-wrapper">
-          <blog-search />
-        </div>
-        
-      </ResponsiveContainer>
+      <div class="subnav-wrapper">
+        <ResponsiveContainer class="content">
+          <Breadcrumbs onClick={() => window.scrollTo(0, 0)}>
+            <slot></slot>
+            <slot></slot>
+          </Breadcrumbs>       
+          <div class="blog-search-wrapper">
+            <Breakpoint md={true}>
+              <blog-search />
+            </Breakpoint>
+            <Breakpoint class="mobile" xs={true} md={false} display="flex">
+              {this.open
+              ? <ion-icon onClick={() => this.open = false} role="button" name="chevron-up-outline"></ion-icon>
+              : <ion-icon onClick={() => this.open = true} role="button" name="chevron-down-outline"></ion-icon> }
+            </Breakpoint>
+          </div>
+          <div
+            class={{
+              'subnav-dropdown': true,
+              'open': this.open
+            }}
+          >
+            <ResponsiveContainer>
+              <blog-social-actions />
+              <blog-search />
+            </ResponsiveContainer>
+          </div>
+        </ResponsiveContainer>
+      </div>
     </Host>
   )
 }

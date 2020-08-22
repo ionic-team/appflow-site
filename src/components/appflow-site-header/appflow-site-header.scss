@@ -26,6 +26,7 @@
 }
 
 .site-header {
+  position: relative;
   display: flex;
 
   &__container {
@@ -35,7 +36,10 @@
   }
 
   &__logo-link {
-    margin: 0 0 2px 15px;
+    margin: 0 0 0 15px;
+    @media screen and (max-width: $screen-xs-max) {
+      margin: 0 0 0 8px;
+    }
     display: flex;
     align-items: center;
     text-decoration: none;

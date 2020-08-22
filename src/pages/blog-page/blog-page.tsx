@@ -1,4 +1,4 @@
-import { Component, State, Host, Prop, h, Watch, FunctionalComponent } from '@stencil/core';
+import { Component, State, Host, Prop, h, Watch, Element } from '@stencil/core';
 
 import { RenderedBlog } from '@ionic-internal/markdown-blog/src/models';
 
@@ -7,9 +7,7 @@ import state from '../../store';
 import { ResponsiveContainer, Heading, Paragraph } from '@ionic-internal/ionic-ds';
 import { href } from 'stencil-router-v2';
 import Router from '../../router';
-import { rssIcon, twitterLogo, facebookLogo, linkedInLogo } from '../../svgs';
-import { JSXBase } from '@stencil/core/internal';
-
+import { rssIcon } from '../../svgs';
 
 @Component({
   tag: 'blog-page',
@@ -17,6 +15,7 @@ import { JSXBase } from '@stencil/core/internal';
   scoped: true
 })
 export class BlogPage {
+  @Element() el: HTMLElement;
   @Prop() slug: string;
   @State() posts?: RenderedBlog[];
   private post: RenderedBlog;
@@ -27,6 +26,10 @@ export class BlogPage {
     this.posts = (posts as RenderedBlog[]).slice(0, 10); 
 
     this.checkSlug();
+  }
+
+  componentDidLoad() {
+    this.el.classList.add()
   }
 
   componentWillUpdate() {
@@ -64,15 +67,17 @@ export class BlogPage {
 }
 
 const DetailView =  ({ post }:{ post: BlogPage['post'] }) => [
-  <SocialLinks post={post} column class="top"/>,
+  <div class="sticky-wrapper">
+    <blog-social-actions post={post} column class="top"/>
+  </div>,
   <blog-post post={post}/>,
-  <SocialLinks post={post} class="bottom" />,
+  <blog-social-actions post={post} class="bottom" />,
   <PostAuthor post={post}/>,
-  <disqus-comments url="https://useappflow.com/blog" siteId="ionic"/>
+  <disqus-comments url={`https://useappflow.com/blog/${post.slug}`} siteId="ionic"/>
 ]
 
 const ListView = ({ posts }: { posts: BlogPage['posts'] }) => [ 
-  ...posts.map((p, i) => <blog-post slug={p.slug} post={p} preview key={i}/>),
+  ...posts.map(p => <blog-post slug={p.slug} post={p} preview/>),
   <Pagination />,
   <blog-newsletter />
 ]
@@ -90,55 +95,6 @@ const Pagination = () => (
     </a>
   </div>
 )
-
-interface SocialLinkProps extends Partial<JSXBase.HTMLAttributes> {
-  post: BlogPage['post'],
-  column?: boolean,
-  rest?: JSXBase.HTMLAttributes[]
-}
-const SocialLinks: FunctionalComponent<SocialLinkProps> = ({ post, column = false, ...rest }) => {
-  const twitterUrl = [
-    'http://twitter.com/intent/tweet?',
-    `text=${encodeURIComponent('\n\n')}&`,
-    `url=${encodeURIComponent(Router.url.toString())}`
-  ]
-  const facebookUrl = [
-    'https://www.facebook.com/sharer/sharer.php?',
-    `u=${encodeURIComponent(Router.url.toString())}`
-  ]
-  const linkedInUrl = [
-    'https://www.linkedin.com/sharing/share-offsite',
-    `?url=${encodeURIComponent(Router.url.toString())}`
-  ]
-  return (
-    <aside
-      class={{
-        [typeof rest.class === 'string' ? rest.class : '']: true,
-        'social-links': true,
-        'column': column
-      }}
-    >
-      <a
-        href={twitterUrl.join('')}
-        target="_blank" rel="noopener nofollow"
-      >
-        {twitterLogo({ main: '#CED6E0' }, { width: 20, height: 16 })}
-      </a>
-      <a
-        href={facebookUrl.join('')}
-        target="_blank" rel="noopener nofollow"
-      >
-        {facebookLogo({ main: '#CED6E0' }, { width: 16, height: 16 })}
-      </a>
-      <a
-        href={linkedInUrl.join('')}
-        target="_blank" rel="noopener nofollow"
-      >
-        {linkedInLogo({ main: '#CED6E0' }, { width: 16, height: 16 })}
-      </a>
-    </aside>
-  );
-}
 
 const PostAuthor = ({ post }: { post: RenderedBlog }) => (
   <section class="post-author">

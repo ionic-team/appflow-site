@@ -1,0 +1,63 @@
+:host {
+  display: inline-flex;
+  .twitter, .facebook, .linked-in {
+    opacity: 0;
+    transition: opacity .3s ease-out;
+
+    path {
+      transition: fill .18s ease-out;
+    }
+  }
+}
+:host.column {
+  align-items: center;
+  flex-direction: column;
+  a + a {
+    margin-inline-start: 0;
+    margin-block-start: var(--space-5);
+  }
+}
+:host.loaded {
+  .twitter {
+    opacity: 1;
+    transition-delay: .3s;
+    &:hover, &:active, &:focus {
+      path {
+        fill: #1DA1F2;
+      }      
+    }
+  }
+
+  .facebook {
+    opacity: 1;
+    transition-delay: .4s;
+
+    &:hover, &:active, &:focus {
+      path {
+        fill: #4267B2;
+      }      
+    }
+  }
+
+  .linked-in {
+    opacity: 1;
+    transition-delay: .5s;
+
+    &:hover, &:active, &:focus {
+      path {
+        fill: #2867B2;
+      }      
+    }
+  }
+}
+
+a {
+  display: flex;
+  align-items: center;
+}
+a + a {
+  margin-inline-start: var(--space-5);
+}
+
+
+

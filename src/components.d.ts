@@ -37,6 +37,10 @@ export namespace Components {
     }
     interface BlogSearch {
     }
+    interface BlogSocialActions {
+        "column"?: boolean;
+        "post": RenderedBlog;
+    }
     interface BlogSubnav {
     }
     interface CodeSnippet {
@@ -149,6 +153,12 @@ declare global {
         prototype: HTMLBlogSearchElement;
         new (): HTMLBlogSearchElement;
     };
+    interface HTMLBlogSocialActionsElement extends Components.BlogSocialActions, HTMLStencilElement {
+    }
+    var HTMLBlogSocialActionsElement: {
+        prototype: HTMLBlogSocialActionsElement;
+        new (): HTMLBlogSocialActionsElement;
+    };
     interface HTMLBlogSubnavElement extends Components.BlogSubnav, HTMLStencilElement {
     }
     var HTMLBlogSubnavElement: {
@@ -246,6 +256,7 @@ declare global {
         "blog-page": HTMLBlogPageElement;
         "blog-post": HTMLBlogPostElement;
         "blog-search": HTMLBlogSearchElement;
+        "blog-social-actions": HTMLBlogSocialActionsElement;
         "blog-subnav": HTMLBlogSubnavElement;
         "code-snippet": HTMLCodeSnippetElement;
         "get-started-section": HTMLGetStartedSectionElement;
@@ -293,6 +304,10 @@ declare namespace LocalJSX {
         "slug"?: string;
     }
     interface BlogSearch {
+    }
+    interface BlogSocialActions {
+        "column"?: boolean;
+        "post"?: RenderedBlog;
     }
     interface BlogSubnav {
     }
@@ -345,6 +360,7 @@ declare namespace LocalJSX {
         "blog-page": BlogPage;
         "blog-post": BlogPost;
         "blog-search": BlogSearch;
+        "blog-social-actions": BlogSocialActions;
         "blog-subnav": BlogSubnav;
         "code-snippet": CodeSnippet;
         "get-started-section": GetStartedSection;
@@ -377,6 +393,7 @@ declare module "@stencil/core" {
             "blog-page": LocalJSX.BlogPage & JSXBase.HTMLAttributes<HTMLBlogPageElement>;
             "blog-post": LocalJSX.BlogPost & JSXBase.HTMLAttributes<HTMLBlogPostElement>;
             "blog-search": LocalJSX.BlogSearch & JSXBase.HTMLAttributes<HTMLBlogSearchElement>;
+            "blog-social-actions": LocalJSX.BlogSocialActions & JSXBase.HTMLAttributes<HTMLBlogSocialActionsElement>;
             "blog-subnav": LocalJSX.BlogSubnav & JSXBase.HTMLAttributes<HTMLBlogSubnavElement>;
             "code-snippet": LocalJSX.CodeSnippet & JSXBase.HTMLAttributes<HTMLCodeSnippetElement>;
             "get-started-section": LocalJSX.GetStartedSection & JSXBase.HTMLAttributes<HTMLGetStartedSectionElement>;

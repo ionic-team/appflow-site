@@ -87,22 +87,34 @@ export class AppflowActivator {
   }
 
 
-  importGsap() {
-    if (window.gsap) {
-      this.start();
-      return;
-    };
+  importGsap() {    
+    if (window.gsap) return this.start();
 
+    const gsapCdn = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.4.2/gsap.min.js';
+    const scriptAlreadyLoading = Array.from(document.scripts).some(script => {
+      if (script.src === gsapCdn) {
+        script.addEventListener('load', () => {
+          this.start();
+        })
+        return true;
+      }
+    });
+
+    if (scriptAlreadyLoading) return;
+    
     const script = document.createElement('script');
     script.src = this.gsapCdn;
 
     script.onload = () => {
-      if (!window) return window.onload = this.start;
-      this.start()
+      if (window) {
+        this.start();
+      } else {
+        window.onload = this.start;
+      }
     }
     script.onerror = () => console.error('error loading gsap library from: ', this.gsapCdn);      
 
-    document.body.appendChild(script);
+    document.body.appendChild(script);  
   }
 
   start() {    

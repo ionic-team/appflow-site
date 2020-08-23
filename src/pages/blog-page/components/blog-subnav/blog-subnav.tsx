@@ -37,8 +37,8 @@ export class BlogPage {
       <div class="subnav-wrapper">
         <ResponsiveContainer class="content">
           <Breadcrumbs onClick={() => window.scrollTo(0, 0)}>
-            <slot></slot>
-            <slot></slot>
+            <slot name="base"></slot>
+            <slot name="detail"></slot>
           </Breadcrumbs>       
           <div class="blog-search-wrapper">
             <Breakpoint md={true}>

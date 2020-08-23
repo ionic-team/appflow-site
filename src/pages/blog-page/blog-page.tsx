@@ -47,11 +47,11 @@ export class BlogPage {
   render = () => (
     <Host class="sc-blog-page">
       <blog-subnav>
-        <li>
+        <li slot="base">
           <a class="ui-heading-5" {...href('/blog', Router)}>Blog</a>
         </li> 
         {this.slug ? 
-        <li>
+        <li slot="detail">
           <a class="ui-heading-5" {...href(`/blog/${this.slug}`, Router)}>{this.title}</a>
         </li> : ''}     
       </blog-subnav>

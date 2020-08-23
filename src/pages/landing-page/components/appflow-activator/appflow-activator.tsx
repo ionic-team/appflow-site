@@ -2,6 +2,8 @@ import { Component, State, Element, Host, Listen, h, getAssetPath } from '@stenc
 import { publishIcon, updatesIcon, buildsIcon, automationsIcon } from './assets/icons'
 import { ResponsiveContainer, Heading, Paragraph, IntersectionHelper } from '@ionic-internal/ionic-ds';
 
+import { importGsap } from '../../../../utils/gsap';
+
 interface ScreenProps {
   name: string,
   description: string,
@@ -17,7 +19,6 @@ interface ScreenProps {
   assetsDirs: ['assets']
 })
 export class AppflowActivator {
-  private gsapCdn = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.4.2/gsap.min.js';
   private tween!: GSAPTween;
   private gutter = 16;
   private screens: ScreenProps[] = [
@@ -48,14 +49,15 @@ export class AppflowActivator {
   ];
   private maxImageWidth = 1152;
   private aspectRatio = 2400 / 1280;
-  @Element() el!: HTMLElement;
+  private duration = 6;//seconds
+  private indicators: HTMLDivElement[] = [];
 
+  @Element() el!: HTMLElement;
   @State() currentScreen = 0;
   @State() isPaused: boolean = false;
   @State() imageHeight = 0;
 
-  duration = 6;//seconds
-  indicators: HTMLDivElement[] = [];
+  
 
   componentWillLoad() {
     this.updateItemOffsets();
@@ -74,7 +76,7 @@ export class AppflowActivator {
   }
 
   componentDidLoad() {
-    this.importGsap();
+    importGsap(this.start);
   }
 
   setIntersectionHelper() {
@@ -94,33 +96,7 @@ export class AppflowActivator {
   }
 
 
-  importGsap() {    
-    if (window.gsap) return this.start();
-
-    const gsapCdn = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.4.2/gsap.min.js';
-    const scriptAlreadyLoading = Array.from(document.scripts).some(script => {
-      if (script.src === gsapCdn) {
-        script.addEventListener('load', () => {
-          this.start();
-        })
-        return true;
-      }
-    });
-
-    if (scriptAlreadyLoading) return;
-    
-    const script = document.createElement('script');
-    script.src = this.gsapCdn;
-
-    script.onload = () => {
-        this.start();
-    }
-    script.onerror = () => console.error('error loading gsap library from: ', this.gsapCdn);      
-
-    document.body.appendChild(script);  
-  }
-
-  start() {    
+  start = () => {    
     const indicator = this.indicators[this.currentScreen];    
 
     gsap.set(indicator, {
@@ -162,8 +138,7 @@ export class AppflowActivator {
     this.start();
   }
 
-  render() {
-    return (
+  render = () => (
     <Host
       style={{
         '--max-image-width': this.maxImageWidth + 'px'
@@ -196,7 +171,7 @@ export class AppflowActivator {
                   {screen.icon(i === this.currentScreen ? 'active' : 'default')}                  
                   <Heading level={5}>{screen.name}</Heading>
                   <Paragraph level={4}>{screen.description}</Paragraph>
-                  <div class="indicator" ref={el => el ? this.indicators[i] = el: ''}></div>
+                  <div class="indicator" ref={el => this.indicators[i] = el!}></div>
                 </li>
               )}
             </ul>
@@ -204,7 +179,6 @@ export class AppflowActivator {
         </div>
       </div>
     </Host>
-    );
-  }
+  )
 }
 

@@ -15,12 +15,8 @@ export const importGsap = (callback: () => void) => {
   
   const script = document.createElement('script');
   script.src = gsapCdn;
-
-  script.onload = () => {
-    callback();
-  }
-  
-  script.onerror = () => console.error('error loading gsap library from: ', gsapCdn);      
+  script.onload = callback;  
+  script.onerror = () => { throw new Error('error loading gsap library') };      
 
   document.body.appendChild(script);  
 }

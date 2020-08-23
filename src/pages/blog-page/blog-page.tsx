@@ -4,7 +4,7 @@ import { RenderedBlog } from '@ionic-internal/markdown-blog/src/models';
 
 import posts from '../../assets/blog.json';
 import state from '../../store';
-import { ResponsiveContainer, Heading, Paragraph } from '@ionic-internal/ionic-ds';
+import { ResponsiveContainer, Heading, Paragraph, Breakpoint } from '@ionic-internal/ionic-ds';
 import { href } from 'stencil-router-v2';
 import Router from '../../router';
 import { rssIcon } from '../../svgs';
@@ -70,9 +70,9 @@ const DetailView =  ({ post }:{ post: BlogPage['post'] }) => {
   if (!post) return null;
 
   return [
-    <div class="sticky-wrapper">
+    <Breakpoint md={true} class="sticky-wrapper">
       <blog-social-actions post={post} column class="top"/>
-    </div>,
+    </Breakpoint>,
     <blog-post post={post}/>,
     <blog-social-actions post={post} class="bottom" />,
     <PostAuthor post={post}/>,

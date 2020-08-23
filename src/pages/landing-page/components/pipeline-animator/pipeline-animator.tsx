@@ -1,6 +1,8 @@
 import { Component, State, Element, h, Host, getAssetPath } from '@stencil/core';
 import { Paragraph, IntersectionHelper } from '@ionic-internal/ionic-ds';
 
+import { importGsap } from '../../../../utils/gsap';
+
 interface TileConfigProps {
   [key: string]: {
     location: string,
@@ -98,7 +100,7 @@ export class PipelineAnimator {
 
 
   componentDidLoad() {
-    this.importGsap();
+    importGsap(this.setUpAutomateAnimation);
   } 
 
   setIntersectionHelper() {
@@ -114,30 +116,6 @@ export class PipelineAnimator {
       }
     });
     IntersectionHelper.observe(this.el!);
-  }
-
-  importGsap() {    
-    if (window.gsap) return this.setUpAutomateAnimation();
-
-    const gsapCdn = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.4.2/gsap.min.js';
-    const scriptAlreadyLoading = Array.from(document.scripts).some(script => {
-      if (script.src === gsapCdn) {
-        script.addEventListener('load', () => {
-          this.setUpAutomateAnimation();
-        })
-        return true;
-      }
-    });
-
-    if (scriptAlreadyLoading) return;
-
-    const script = document.createElement('script');
-    script.src = this.gsapCdn;
-
-    script.onload = this.setUpAutomateAnimation;
-    script.onerror = () => console.error('error loading gsap library from: ', this.gsapCdn);      
-
-    document.body.appendChild(script);  
   }
 
   animateTileIn(name: string) {
@@ -224,7 +202,7 @@ export class PipelineAnimator {
     });
   }
 
-  setUpAutomateAnimation() {
+  setUpAutomateAnimation = () => {
     this.timeline = gsap.timeline({
       defaultEase: Linear.easeNone,
       repeat: -1

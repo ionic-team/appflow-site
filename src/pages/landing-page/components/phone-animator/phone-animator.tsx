@@ -1,6 +1,8 @@
 import { Component, State, Element, Host, h, getAssetPath} from '@stencil/core';
 import { IntersectionHelper } from '@ionic-internal/ionic-ds'
 
+import { importGsap } from '../../../../utils/gsap';
+
 
 @Component({
   tag: 'phone-animator',
@@ -26,7 +28,7 @@ export class PhoneAnimator {
 
 
   componentDidLoad() {
-    this.importGsap();
+    importGsap(this.setUpAnimation);
   } 
 
   setIntersectionHelper() {
@@ -45,30 +47,7 @@ export class PhoneAnimator {
     IntersectionHelper.observe(this.el!);
   }
 
-  importGsap() {    
-    if (window.gsap) return this.setUpAnimation();
-
-    const gsapCdn = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.4.2/gsap.min.js';
-    const scriptAlreadyLoading = Array.from(document.scripts).some(script => {
-      if (script.src === gsapCdn) {
-        script.addEventListener('load', () => {
-          this.setUpAnimation();
-        })
-        return true;
-      }
-    });
-
-    if (scriptAlreadyLoading) return;
-    
-    const script = document.createElement('script');
-    script.src = this.gsapCdn;
-    script.onload = this.setUpAnimation;
-    script.onerror = () => console.error('error loading gsap library from: ', this.gsapCdn);      
-
-    document.body.appendChild(script);  
-  }
-
-  setUpAnimation() {
+  setUpAnimation = () => {
     this.timeline = gsap.timeline({
       repeat: -1,
       repeatDelay: 1.4,

@@ -49,11 +49,10 @@ export class BlogPage {
       <blog-subnav>
         <li slot="base">
           <a class="ui-heading-5" {...href('/blog', Router)}>Blog</a>
-        </li> 
-        {this.slug ? 
+        </li>         
         <li slot="detail">
-          <a class="ui-heading-5" {...href(`/blog/${this.slug}`, Router)}>{this.title}</a>
-        </li> : ''}     
+          {this.slug ? <a class="ui-heading-5" {...href(`/blog/${this.slug}`, Router)}>{this.title}</a> : ''}   
+        </li>   
       </blog-subnav>
       <ResponsiveContainer id="posts" as="section">
         <div class="container-sm">

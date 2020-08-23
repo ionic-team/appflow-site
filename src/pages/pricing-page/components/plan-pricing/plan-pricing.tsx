@@ -10,7 +10,7 @@ import { Heading, Paragraph } from '@ionic-internal/ionic-ds';
   scoped: true,
 })
 export class PlanPricing {
-  private contactModal: HTMLSiteModalElement;
+  private contactModal!: HTMLSiteModalElement;
   @State() planType: 'monthly' | 'yearly' = 'yearly';
 
 
@@ -21,7 +21,7 @@ export class PlanPricing {
         '--checkmark-path': `url(${getAssetPath('assets/checkmark-rounded.svg')})`
       }}
     >
-      <site-modal ref={e => this.contactModal = e}>
+      <site-modal ref={e => this.contactModal = e!}>
         <div class="heading-group">
           <Heading>Contact us</Heading>
           <Paragraph>

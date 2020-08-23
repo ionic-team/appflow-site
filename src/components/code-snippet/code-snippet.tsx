@@ -6,18 +6,19 @@ import { Component, Host, h, Prop, Element } from '@stencil/core';
   shadow: true
 })
 export class CodeSnippet {
-  @Element() el;
-  @Prop() language: string;
-  @Prop() code: string;
+  @Element() el!: HTMLCodeSnippetElement;
+  @Prop() language!: string;
+  @Prop() code!: string;
 
-  codeRef: HTMLElement;
-  scriptEl: HTMLScriptElement;
+  codeRef: HTMLElement | undefined;
+  scriptEl: HTMLScriptElement | undefined;
 
   componentDidLoad() {
     const script = document.createElement('script');
     script.src = 'https://unpkg.com/prismjs@latest/components/prism-' + this.language + '.js';
     script.async = true;
     script.addEventListener('load', () => {
+      if (!this.codeRef) return;
       window.Prism.highlightElement(this.codeRef, false);
     });
 

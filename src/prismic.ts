@@ -4,7 +4,7 @@ import state, { defaults } from './store';
 
 const apiURL = 'https://ionicframeworkcom.prismic.io/api/v2';
 
-export const getPage = async prismicId => {
+export const getPage = async (prismicId: string) => {
   if(!prismicId) return;
 
   try {
@@ -16,8 +16,8 @@ export const getPage = async prismicId => {
     
     // if the page has meta data, set it, otherwise use the default
     // note, if you're hard coding meta data, do it after calling getPage()
-    ['title', 'description', 'meta_image'].forEach(prop => {
-      state[prop] = response.data[prop] ? response.data[prop] : defaults[prop];
+    (['title', 'description', 'meta_image'] as (keyof typeof defaults)[]).forEach(prop => {
+      state[prop] = response.data[prop] ? response.data[prop]: defaults[prop];
     })
   } catch (e) {
     console.warn(e)

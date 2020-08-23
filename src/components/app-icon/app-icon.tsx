@@ -5,8 +5,7 @@ import { Component, Prop, h } from '@stencil/core';
   styleUrl: 'app-icon.scss'
 })
 export class AppIcon {
-
-  @Prop() name: string;
+  @Prop() name!: string;
 
   render() {
     return (

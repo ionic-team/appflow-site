@@ -7,9 +7,6 @@
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { RenderedBlog } from "@ionic-internal/markdown-blog/src/models";
 export namespace Components {
-    interface AnchorLink {
-        "to": string;
-    }
     interface AppBurger {
     }
     interface AppIcon {
@@ -28,18 +25,18 @@ export namespace Components {
     interface BlogNewsletter {
     }
     interface BlogPage {
-        "slug": string;
+        "slug"?: string;
     }
     interface BlogPost {
-        "post": RenderedBlog;
+        "post"?: RenderedBlog;
         "preview": boolean;
-        "slug": string;
+        "slug"?: string;
     }
     interface BlogSearch {
     }
     interface BlogSocialActions {
-        "column"?: boolean;
-        "post": RenderedBlog;
+        "column": boolean;
+        "post"?: RenderedBlog;
     }
     interface BlogSubnav {
     }
@@ -81,12 +78,6 @@ export namespace Components {
     }
 }
 declare global {
-    interface HTMLAnchorLinkElement extends Components.AnchorLink, HTMLStencilElement {
-    }
-    var HTMLAnchorLinkElement: {
-        prototype: HTMLAnchorLinkElement;
-        new (): HTMLAnchorLinkElement;
-    };
     interface HTMLAppBurgerElement extends Components.AppBurger, HTMLStencilElement {
     }
     var HTMLAppBurgerElement: {
@@ -244,7 +235,6 @@ declare global {
         new (): HTMLWhyAppflowElement;
     };
     interface HTMLElementTagNameMap {
-        "anchor-link": HTMLAnchorLinkElement;
         "app-burger": HTMLAppBurgerElement;
         "app-icon": HTMLAppIconElement;
         "appflow-activator": HTMLAppflowActivatorElement;
@@ -274,14 +264,11 @@ declare global {
     }
 }
 declare namespace LocalJSX {
-    interface AnchorLink {
-        "to"?: string;
-    }
     interface AppBurger {
         "onBurgerClick"?: (event: CustomEvent<any>) => void;
     }
     interface AppIcon {
-        "name"?: string;
+        "name": string;
     }
     interface AppflowActivator {
     }
@@ -312,15 +299,15 @@ declare namespace LocalJSX {
     interface BlogSubnav {
     }
     interface CodeSnippet {
-        "code"?: string;
-        "language"?: string;
+        "code": string;
+        "language": string;
     }
     interface GetStartedSection {
     }
     interface LandingPage {
     }
     interface MarkdownPage {
-        "file"?: string;
+        "file": string;
     }
     interface NewsletterForm {
     }
@@ -338,17 +325,16 @@ declare namespace LocalJSX {
         "visible"?: boolean;
     }
     interface SiteImg {
-        "alt"?: string;
-        "dimensions"?: string;
+        "alt": string;
+        "dimensions": string;
         "loading"?: 'lazy' | 'eager';
-        "name"?: string;
-        "path"?: string;
-        "type"?: string;
+        "name": string;
+        "path": string;
+        "type": string;
     }
     interface WhyAppflow {
     }
     interface IntrinsicElements {
-        "anchor-link": AnchorLink;
         "app-burger": AppBurger;
         "app-icon": AppIcon;
         "appflow-activator": AppflowActivator;
@@ -381,7 +367,6 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
-            "anchor-link": LocalJSX.AnchorLink & JSXBase.HTMLAttributes<HTMLAnchorLinkElement>;
             "app-burger": LocalJSX.AppBurger & JSXBase.HTMLAttributes<HTMLAppBurgerElement>;
             "app-icon": LocalJSX.AppIcon & JSXBase.HTMLAttributes<HTMLAppIconElement>;
             "appflow-activator": LocalJSX.AppflowActivator & JSXBase.HTMLAttributes<HTMLAppflowActivatorElement>;

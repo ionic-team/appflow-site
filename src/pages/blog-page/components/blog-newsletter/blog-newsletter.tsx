@@ -68,7 +68,7 @@ export class BlogNewsletter {
     this.isValid = true;
   }
 
-  handleInlineMessage(returnMessage) {
+  handleInlineMessage(returnMessage: string) {
     const messageMatch = returnMessage.match && returnMessage.match(/<p>(.*?)<\/p>/);
     return messageMatch ? messageMatch[1] : undefined;
   }

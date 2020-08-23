@@ -55,7 +55,7 @@ export class PricingTable {
                     <div class="price"><strong>Custom</strong></div>
                     <a
                       class="button btn micro btn--primary"
-                      onClick={() => document.querySelector('site-modal').open = true}>Contact us</a>
+                      onClick={() => document.querySelector('site-modal')!.open = true}>Contact us</a>
                   </div>
                 </th>
               </tr>
@@ -262,7 +262,7 @@ export class PricingTable {
                 </td>
                 <td>
                   <a
-                    onClick={() => document.querySelector('site-modal').open = true}
+                    onClick={() => document.querySelector('site-modal')!.open = true}
                     class="button btn sm dark"
                   >Contact us</a>
                 </td>

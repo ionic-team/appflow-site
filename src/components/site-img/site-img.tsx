@@ -20,13 +20,13 @@ import { Component, h, Prop, Element } from '@stencil/core';
   styleUrl: 'site-img.scss',
 })
 export class SiteImg {
-  @Element() el: HTMLElement;
+  @Element() el!: HTMLElement;
   @Prop() loading?: 'lazy' | 'eager' = 'lazy';
-  @Prop() path: string;
-  @Prop() name: string;
-  @Prop() type: string;
-  @Prop() alt: string;
-  @Prop() dimensions: string;
+  @Prop() path!: string;
+  @Prop() name!: string;
+  @Prop() type!: string;
+  @Prop() alt!: string;
+  @Prop() dimensions!: string;
 
   render() {
     return (

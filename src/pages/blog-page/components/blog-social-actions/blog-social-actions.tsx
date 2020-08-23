@@ -23,8 +23,8 @@ export class BlogSocialActions {
     `?url=${encodeURIComponent(Router.url.toString())}`
   ];
 
-  @Prop() post: RenderedBlog;
-  @Prop() column?: boolean;
+  @Prop() post?: RenderedBlog;
+  @Prop() column: boolean = false;
   @State() loaded: boolean = false;
 
   componentDidLoad() {

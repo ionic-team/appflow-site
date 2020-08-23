@@ -14,7 +14,7 @@ import Router from '../../router';
   scoped: true
 })
 export class SiteHeader {
-  @Element() el: HTMLElement;
+  @Element() el!: HTMLElement;
 
   @State() expanded = false;
 
@@ -45,7 +45,9 @@ export class SiteHeader {
     // this.expanded ? document.body.style.overflowY = 'hidden' : document.body.style.overflowY = 'visible'
   }
 
-  handleActive = (e: HTMLAnchorElement) => {
+  handleActive = (e: HTMLAnchorElement | undefined) => {
+    if (!e) return;
+    
     const hrefParts = e.href.split('/');
     if (hrefParts.length < 4) return;    
 
@@ -90,7 +92,7 @@ export class SiteHeader {
                 <nav onClick={() => toggleExpanded(true)}>
                   <a
                     {...href('/')}
-                    ref={e => handleActive(e)}
+                    ref={(e) => handleActive(e)}
                   >
                     Product
                   </a>

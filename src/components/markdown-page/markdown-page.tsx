@@ -10,14 +10,14 @@ import state from '../../store';
 })
 export class MarkdownPage {
 
-  @Prop() file: string;
-  @State() markup: string;
+  @Prop() file!: string;
+  @State() markup: string | undefined;
 
   async componentWillLoad() {
     try {
       const fileText = await fetch(`/assets/markdown/${this.file}.md`)
         .then(response => response.text());
-      const {body, attributes} = fm(fileText);
+      const { body, attributes }: { body: any, attributes: any} = fm(fileText);
       this.markup = marked(body);
 
       if (attributes['description']) {

@@ -59,7 +59,7 @@ const Top = () => {
 }
 
 const Companies = () => {
-  const icons = [    
+  const icons: [string, number, number][] = [    
     ['bcbs', 128, 24],
     ['nhs', 56, 24],
     ['target', 116, 26],
@@ -70,15 +70,15 @@ const Companies = () => {
     ['norfolk-southern', 96, 24]
   ]
 
-  const iconFactory = (item) => (
-      <img
-        src={getAssetPath(`./assets/logo-${item[0]}@2x.png`)} 
-        srcset={`${getAssetPath(`./assets/logo-${item[0]}.png`)} 1x,
-                ${getAssetPath(`./assets/logo-${item[0]}@2x.png`)} 2x`}
-        loading="lazy"
-        width={item[1]} height={item[2]}
-        alt={`${item[0]} logo`}
-      />
+  const iconFactory = (item: typeof icons[0]) => (
+    <img
+      src={getAssetPath(`./assets/logo-${item[0]}@2x.png`)} 
+      srcset={`${getAssetPath(`./assets/logo-${item[0]}.png`)} 1x,
+              ${getAssetPath(`./assets/logo-${item[0]}@2x.png`)} 2x`}
+      loading="lazy"
+      width={item[1]} height={item[2]}
+      alt={`${item[0]} logo`}
+    />
   )
 
   return (
@@ -107,7 +107,7 @@ const Benefits = () => {
           <PrismicRichText richText={benefits__subtext} />
         </div> 
         <Grid class="list">
-          {benefits__list.map(({ content }) => (
+          {benefits__list.map(({ content }: { content: any}) => (
             <Col class="list-item" cols={12} sm={4}>
               <PrismicRichText richText={content}/>
             </Col>
@@ -139,7 +139,7 @@ const Integrated = () => {
       </div>        
 
       <Grid class="list">
-        {integrated__list.map(({ content }, i) => (
+        {integrated__list.map(({ content }: { content: any }, i: number) => (
           <Col class="list-item" xs={6} sm={6} md={4} lg={3}>
             <img
               src={getAssetPath(`./assets/icon-${icons[i][0]}@2x.png`)} 
@@ -176,7 +176,7 @@ const Problems = () => {
         </div>        
 
         <ul class="list">
-          {problems__list.map(({ content }, i) => (
+          {problems__list.map(({ content }: { content: any }, i: number) => (
             <li class="list-item">
               <Grid>
                 <Col xs={12} md={1}>
@@ -220,7 +220,7 @@ const Different = () => {
           <PrismicRichText richText={different}/>  
         </div>
         <Grid class="list">
-        {different__list.map(({ content }, i) => (
+        {different__list.map(({ content }: { content: any }, i: number) => (
           <Col class="list-item" cols={12} sm={6} md={4}>
             <img
               src={getAssetPath(`./assets/icon-${icons[i][0]}@2x.png`)} 

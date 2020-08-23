@@ -15,11 +15,11 @@ import { rssIcon } from '../../svgs';
   scoped: true
 })
 export class BlogPage {
-  @Element() el: HTMLElement;
-  @Prop() slug: string;
+  @Element() el!: HTMLElement;
+  @Prop() slug?: string;
   @State() posts?: RenderedBlog[];
-  private post: RenderedBlog;
-  private title: string;
+  @State() post?: RenderedBlog;
+  private title?: string;
 
   async componentWillLoad() {
     state.stickyHeader = false;
@@ -40,7 +40,7 @@ export class BlogPage {
   checkSlug() {
     if (this.slug) {
       this.post = (posts as RenderedBlog[]).find(p => p.slug === this.slug);
-      this.title = this.post.title;
+      this.title = this.post?.title;
     }  
   }
 
@@ -57,30 +57,38 @@ export class BlogPage {
       </blog-subnav>
       <ResponsiveContainer id="posts" as="section">
         <div class="container-sm">
-          {this.slug ?
-          <DetailView post={this.post}/> :
-          <ListView posts={this.posts} />}          
+          {this.slug
+          ? <DetailView post={this.post}/>
+          : <ListView posts={this.posts} />}          
         </div>
       </ResponsiveContainer>        
     </Host>
   )
 }
 
-const DetailView =  ({ post }:{ post: BlogPage['post'] }) => [
-  <div class="sticky-wrapper">
-    <blog-social-actions post={post} column class="top"/>
-  </div>,
-  <blog-post post={post}/>,
-  <blog-social-actions post={post} class="bottom" />,
-  <PostAuthor post={post}/>,
-  <disqus-comments url={`https://useappflow.com/blog/${post.slug}`} siteId="ionic"/>
-]
+const DetailView =  ({ post }:{ post: BlogPage['post'] }) => {
+  if (!post) return null;
 
-const ListView = ({ posts }: { posts: BlogPage['posts'] }) => [ 
-  ...posts.map(p => <blog-post slug={p.slug} post={p} preview/>),
-  <Pagination />,
-  <blog-newsletter />
-]
+  return [
+    <div class="sticky-wrapper">
+      <blog-social-actions post={post} column class="top"/>
+    </div>,
+    <blog-post post={post}/>,
+    <blog-social-actions post={post} class="bottom" />,
+    <PostAuthor post={post}/>,
+    <disqus-comments url={`https://useappflow.com/blog/${post.slug}`} siteId="ionic"/>
+  ]
+}
+
+const ListView = ({ posts }: { posts: BlogPage['posts'] }) => {
+  if (!posts) return null;
+
+  return [ 
+    ...posts.map(p => <blog-post slug={p.slug} post={p} preview/>),
+    <Pagination />,
+    <blog-newsletter />
+  ]
+}
 
 const Pagination = () => (
   <div class="pagination">

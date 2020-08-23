@@ -69,8 +69,7 @@ export class SiteFooter {
     this.isValid = true;
   }
 
-  handleInlineMessage(returnMessage) {
-    console.log(returnMessage);
+  handleInlineMessage(returnMessage: string) {
     const messageMatch = returnMessage.match && returnMessage.match(/<p>(.*?)<\/p>/);
     return messageMatch ? messageMatch[1] : undefined;
   }

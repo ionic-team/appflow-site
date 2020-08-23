@@ -2,6 +2,13 @@ import { Component, State, Element, Host, Listen, h, getAssetPath } from '@stenc
 import { publishIcon, updatesIcon, buildsIcon, automationsIcon } from './assets/icons'
 import { ResponsiveContainer, Heading, Paragraph, IntersectionHelper } from '@ionic-internal/ionic-ds';
 
+interface ScreenProps {
+  name: string,
+  description: string,
+  icon: (_: 'active' | 'default') => void,
+  image: string
+}
+
 
 @Component({
   tag: 'appflow-activator',
@@ -11,9 +18,9 @@ import { ResponsiveContainer, Heading, Paragraph, IntersectionHelper } from '@io
 })
 export class AppflowActivator {
   private gsapCdn = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.4.2/gsap.min.js';
-  private tween: GSAPTween;
+  private tween!: GSAPTween;
   private gutter = 16;
-  private screens: any = [
+  private screens: ScreenProps[] = [
     {
       name: 'App Publishing',
       description: 'Publish directly to the Apple and Google App Stores.',
@@ -41,14 +48,14 @@ export class AppflowActivator {
   ];
   private maxImageWidth = 1152;
   private aspectRatio = 2400 / 1280;
-  @Element() el: HTMLElement;
+  @Element() el!: HTMLElement;
 
   @State() currentScreen = 0;
   @State() isPaused: boolean = false;
   @State() imageHeight = 0;
 
   duration = 6;//seconds
-  indicators = [];
+  indicators: HTMLDivElement[] = [];
 
   componentWillLoad() {
     this.updateItemOffsets();
@@ -106,11 +113,7 @@ export class AppflowActivator {
     script.src = this.gsapCdn;
 
     script.onload = () => {
-      if (window) {
         this.start();
-      } else {
-        window.onload = this.start;
-      }
     }
     script.onerror = () => console.error('error loading gsap library from: ', this.gsapCdn);      
 
@@ -137,13 +140,13 @@ export class AppflowActivator {
     this.setIntersectionHelper();
   }  
 
-  override(index) {
+  override(index: number) {
     if (this.currentScreen === index) return;
     this.tween.pause();
     this.increment(index);
   }
 
-  increment(index?) {
+  increment(index?: number) {
     gsap.to(this.indicators[this.currentScreen], {
       duration: 0.4,
       alpha: 0
@@ -169,7 +172,7 @@ export class AppflowActivator {
       <div class="app-screenshot">
         <div class="images">
           <div class="images__wrapper" style={{ 'height': this.imageHeight + 'px' }}>
-            {this.screens.map((screen, i) => (
+            {this.screens.map((screen: ScreenProps, i: number) => (
               <img
                 class={`screen ${i === this.currentScreen ? 'animate-in' : 'animate-out'}`}
                 src={screen.image}
@@ -193,7 +196,7 @@ export class AppflowActivator {
                   {screen.icon(i === this.currentScreen ? 'active' : 'default')}                  
                   <Heading level={5}>{screen.name}</Heading>
                   <Paragraph level={4}>{screen.description}</Paragraph>
-                  <div class="indicator" ref={(el) => this.indicators[i] = el}></div>
+                  <div class="indicator" ref={el => el ? this.indicators[i] = el: ''}></div>
                 </li>
               )}
             </ul>

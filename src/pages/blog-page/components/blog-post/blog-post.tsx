@@ -13,16 +13,15 @@ import Router from '../../../../router';
 })
 export class BlogPost {
   private articleLinks: HTMLAnchorElement[] = [];
-  @Prop() slug: string;
+  @Prop() slug?: string;
 
-  @Prop() post: RenderedBlog;
-  @Prop() preview: boolean;
-  @Element() el: HTMLElement;
+  @Prop() post?: RenderedBlog;
+  @Prop() preview: boolean = false;
+  @Element() el!: HTMLElement;
 
   async componentWillLoad() {
-    if (this.slug) {
-      this.post = (posts as RenderedBlog[]).find(p => p.slug === this.slug);
-    }
+    if (this.post) return this.slug = this.post.slug;
+    if (this.slug) this.post = (posts as RenderedBlog[]).find(p => p.slug === this.slug)
   }
 
   componentDidLoad() {
@@ -34,57 +33,56 @@ export class BlogPost {
   }
 
   render() {
-    const { slug, post, preview, articleLinks } = this;
+    if (!this.post) return null;
 
+    const { slug, post, preview, articleLinks } = this;
     const content = preview ? post.preview : post.html;
 
-    if (this.post) {
-      return (
-        <Host
-          class={{
-            'sc-blog-post': true,
-            'preview': preview
-          }}
-        >
-          <Helmet>
-            <title>{this.post.title} - Capacitor Blog - Cross-platform native runtime for web apps</title>
-            <meta
-              name="description"
-              content={this.post.description}
-            />
-            <meta name="twitter:description" content={`${this.post.description} - Capacitor Blog`} />
-            <meta property="og:image" content={this.post.featuredImage || 'https://capacitorjs.com/assets/img/og.png'} />
-          </Helmet>
 
-          <article class="post">
-            <ThemeProvider type="editorial">
-              <Heading level={1}>
-                {preview 
-                ? <a ref={e => articleLinks.push(e)} {...href(`/blog/${slug}`, Router)}>{post.title}</a>
-                : post.title}                
-              </Heading>
-            </ThemeProvider>
+    return (
+      <Host
+        class={{
+          'sc-blog-post': true,
+          'preview': preview
+        }}
+      >
+        <Helmet>
+          <title>{this.post.title} - Capacitor Blog - Cross-platform native runtime for web apps</title>
+          <meta
+            name="description"
+            content={this.post.description}
+          />
+          <meta name="twitter:description" content={`${this.post.description} - Capacitor Blog`} />
+          <meta property="og:image" content={this.post.featuredImage || 'https://capacitorjs.com/assets/img/og.png'} />
+        </Helmet>
 
-            <PostAuthor authorName={post.authorName} authorUrl={post.authorUrl} dateString={post.date} />
+        <article class="post">
+          <ThemeProvider type="editorial">
+            <Heading level={1}>
+              {preview 
+              ? <a ref={e => e ? articleLinks.push(e) : ''} {...href(`/blog/${slug}`, Router)}>{post.title}</a>
+              : post.title}                
+            </Heading>
+          </ThemeProvider>
 
-            {post.featuredImage 
-            ? <PostFeaturedImage preview={preview} post={post} />
-            : <PostDefaultImage preview={preview} post={post}/>}
-            
-            <div
-              class="post-content"
-              innerHTML={content}>
-            </div>
+          <PostAuthor authorName={post.authorName} authorUrl={post.authorUrl} dateString={post.date} />
 
-            {this.preview
-            ? <a class="continue-reading ui-paragraph-2" ref={e => articleLinks.push(e)} {...href(`/blog/${slug}`, Router)}>
-                Continue reading <span class="arrow">-&gt;</span>
-              </a> : ''}
-          </article>
-        </Host>
-      )
-    }
-    return null;
+          {post.featuredImage 
+          ? <PostFeaturedImage preview={preview} post={post} />
+          : <PostDefaultImage preview={preview} post={post}/>}
+          
+          <div
+            class="post-content"
+            innerHTML={content}>
+          </div>
+
+          {this.preview
+          ? <a class="continue-reading ui-paragraph-2" ref={e => e ? articleLinks.push(e) : ''} {...href(`/blog/${slug}`, Router)}>
+              Continue reading <span class="arrow">-&gt;</span>
+            </a> : ''}
+        </article>
+      </Host>
+    )
   }
 }
 

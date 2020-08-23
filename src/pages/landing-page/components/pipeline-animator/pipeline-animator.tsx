@@ -20,7 +20,6 @@ interface TileConfigProps {
   assetsDirs: ['assets']
 })
 export class PipelineAnimator {
-  private gsapCdn = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.4.2/gsap.min.js';
   private timeline!: GSAPTimeline;
   private tiles: Map<string, HTMLElement> = new Map();
   private bottomLocations: Map<string, SVGElement> = new Map();
@@ -109,6 +108,7 @@ export class PipelineAnimator {
       if (!e) {
         return;
       }
+      console.log(e.intersectionRatio);
       if (e.intersectionRatio === 0) {
         this.timeline.pause();
       } else {

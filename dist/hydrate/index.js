@@ -5338,44 +5338,6 @@ const callRender = (e, t) => {
  e["s-p"] = [], e["s-rc"] = [], addHostEventListeners(e, o, t.$listeners$), hostRefs.set(e, o);
 }, styles = new Map;
 
-const anchorLinkCss = "anchor-link{cursor:pointer;user-select:none}anchor-link.hover-anchor{position:absolute;margin-left:-25px;color:#d6d1d1}.anchor-link-relative{position:relative}.anchor-link-relative{position:relative}@media screen and (max-width: 1023px){anchor-link.hover-anchor{margin-left:-18px}}";
-
-/**
- * Used in the generated doc markup as well as the site, so don't remve this
- * even if it looks like no one is using it
- */
-class AnchorLink {
-  constructor(hostRef) {
-    registerInstance(this, hostRef);
-  }
-  handleClick(_e) {
-    if (document.location.hash !== '#' + this.to) {
-      document.location.hash = this.to;
-      let scrollTop = document.querySelector('html').scrollTop;
-      // Update scroll top to clear the header bar
-      window.scrollTo(0, scrollTop - 80);
-    }
-    else {
-      document.location.hash = '';
-      document.location.hash = this.to;
-    }
-  }
-  render() {
-    return (h("div", { onClick: this.handleClick.bind(this) }, h("slot", null)));
-  }
-  static get style() { return anchorLinkCss; }
-  static get cmpMeta() { return {
-    "$flags$": 4,
-    "$tagName$": "anchor-link",
-    "$members$": {
-      "to": [1]
-    },
-    "$listeners$": undefined,
-    "$lazyBundleId$": "-",
-    "$attrsToReflect$": []
-  }; }
-}
-
 const appendToMap = (map, propName, value) => {
     const items = map.get(propName);
     if (!items) {
@@ -6716,12 +6678,32 @@ const PrismicRichText = (_a, _, utils) => {
     });
 };
 
+const importGsap = (callback) => {
+  if (window.gsap)
+    return callback();
+  const gsapCdn = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.4.2/gsap.min.js';
+  const scriptAlreadyLoading = Array.from(document.scripts).some(script => {
+    if (script.src === gsapCdn) {
+      script.addEventListener('load', () => {
+        callback();
+      });
+      return true;
+    }
+  });
+  if (scriptAlreadyLoading)
+    return;
+  const script = document.createElement('script');
+  script.src = gsapCdn;
+  script.onload = callback;
+  script.onerror = () => { throw new Error('error loading gsap library'); };
+  document.body.appendChild(script);
+};
+
 const appflowActivatorCss = ".sc-appflow-activator-h{display:block;overflow:hidden;position:relative}.nav.sc-appflow-activator{width:100%;background:#fff;box-shadow:0px -12px 24px rgba(2, 8, 20, 0.06), 0px -4px 8px rgba(2, 8, 20, 0.02);z-index:20;position:relative;top:-20px;margin-block-end:-20px;border-bottom:1px solid #F0F0F0}ul.sc-appflow-activator{z-index:10;display:flex;width:100%;margin:0;padding:0;overflow:hidden}li.sc-appflow-activator{position:relative;padding-top:24px;display:inline-block;list-style:none;flex:1;cursor:default}li.sc-appflow-activator+li.sc-appflow-activator{margin-inline-start:var(--space-6)}@media screen and (max-width: 1023px){li.sc-appflow-activator{display:flex;flex-direction:column;align-items:center}li.sc-appflow-activator+li.sc-appflow-activator{margin-inline-start:var(--space-2)}li.sc-appflow-activator svg.sc-appflow-activator{margin-block-end:var(--space-1)}li.sc-appflow-activator .ui-heading.sc-appflow-activator{text-align:center;font-size:10px;margin-block-end:var(--space-5)}li.sc-appflow-activator .ui-paragraph.sc-appflow-activator{display:none}}li.sc-appflow-activator h5.sc-appflow-activator,li.sc-appflow-activator p.sc-appflow-activator{font-family:var(--f-family-text);transition:color 0.2s}li.sc-appflow-activator h5.sc-appflow-activator{display:block;font-size:14px;line-height:22px;letter-spacing:0.08em;text-transform:uppercase;font-weight:600;color:#616E7E}li.sc-appflow-activator p.sc-appflow-activator{color:#92A1B3;margin-bottom:24px}li.sc-appflow-activator svg.sc-appflow-activator{transition:transform 0.2s}li.active.sc-appflow-activator h5.sc-appflow-activator{color:#010610}li.active.sc-appflow-activator p.sc-appflow-activator{color:#5B708B}li.active.sc-appflow-activator svg.sc-appflow-activator{transform:translateY(-2px)}.indicator.sc-appflow-activator{position:absolute;bottom:0;left:0;height:2px;width:0%;background-color:#6C89F7}.app-screenshot.sc-appflow-activator{margin-left:auto;margin-right:auto;display:flex;flex-direction:column;position:relative;z-index:5}.app-screenshot.sc-appflow-activator .images.sc-appflow-activator{position:relative;margin-inline-start:auto;margin-inline-end:auto}.app-screenshot.sc-appflow-activator .images__wrapper.sc-appflow-activator{position:relative;margin-inline-start:var(--space-3);margin-inline-end:var(--space-3)}.app-screenshot.sc-appflow-activator .screen.sc-appflow-activator{max-width:var(--max-image-width);object-fit:contain;border-radius:16px;left:0;top:0;overflow:hidden;opacity:0;transform:translateY(6px);animation-fill-mode:forwards}.app-screenshot.sc-appflow-activator .screen.animate-in.sc-appflow-activator{animation-timing-function:cubic-bezier(0.19, 1, 0.22, 1);animation-duration:1s;animation-name:animateIn;animation-delay:0.1s;z-index:15}.app-screenshot.sc-appflow-activator .screen.animate-out.sc-appflow-activator{animation-timing-function:ease;animation-duration:0.6s;animation-name:animateOut;z-index:10}@keyframes animateIn{from{opacity:0}to{opacity:1}}@keyframes animateOut{from{opacity:1}to{opacity:0}}";
 
 class AppflowActivator {
   constructor(hostRef) {
     registerInstance(this, hostRef);
-    this.gsapCdn = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.4.2/gsap.min.js';
     this.gutter = 16;
     this.screens = [
       {
@@ -6751,11 +6733,30 @@ class AppflowActivator {
     ];
     this.maxImageWidth = 1152;
     this.aspectRatio = 2400 / 1280;
+    this.duration = 6; //seconds
+    this.indicators = [];
     this.currentScreen = 0;
     this.isPaused = false;
     this.imageHeight = 0;
-    this.duration = 6; //seconds
-    this.indicators = [];
+    this.start = () => {
+      const indicator = this.indicators[this.currentScreen];
+      gsap.set(indicator, {
+        width: 0,
+        alpha: 1
+      });
+      this.tween = gsap.to(indicator, {
+        duration: this.duration,
+        ease: 'none',
+        width: '100%',
+        onComplete: () => {
+          this.increment();
+        }
+      });
+      this.setIntersectionHelper();
+    };
+    this.render = () => (h(Host, { style: {
+        '--max-image-width': this.maxImageWidth + 'px'
+      } }, h("div", { class: "app-screenshot" }, h("div", { class: "images" }, h("div", { class: "images__wrapper", style: { 'height': this.imageHeight + 'px' } }, this.screens.map((screen, i) => (h("img", { class: `screen ${i === this.currentScreen ? 'animate-in' : 'animate-out'}`, src: screen.image, width: "2400", height: "1280", loading: i === 0 ? 'eager' : 'lazy', style: { 'position': i !== 0 ? 'absolute' : undefined }, alt: screen.description }))))), h("div", { class: "nav" }, h(ResponsiveContainer, null, h("ul", null, this.screens.map((screen, i) => h("li", { class: (i === this.currentScreen) ? 'active' : 'default', onMouseEnter: () => { this.override(i); this.tween.pause(); }, onMouseLeave: () => this.tween.play() }, screen.icon(i === this.currentScreen ? 'active' : 'default'), h(Heading, { level: 5 }, screen.name), h(Paragraph, { level: 4 }, screen.description), h("div", { class: "indicator", ref: el => this.indicators[i] = el })))))))));
   }
   componentWillLoad() {
     this.updateItemOffsets();
@@ -6772,7 +6773,7 @@ class AppflowActivator {
     });
   }
   componentDidLoad() {
-    this.importGsap();
+    importGsap(this.start);
   }
   setIntersectionHelper() {
     addListener(({ entries }) => {
@@ -6788,49 +6789,6 @@ class AppflowActivator {
       }
     });
     observe(this.el);
-  }
-  importGsap() {
-    if (window.gsap)
-      return this.start();
-    const gsapCdn = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.4.2/gsap.min.js';
-    const scriptAlreadyLoading = Array.from(document.scripts).some(script => {
-      if (script.src === gsapCdn) {
-        script.addEventListener('load', () => {
-          this.start();
-        });
-        return true;
-      }
-    });
-    if (scriptAlreadyLoading)
-      return;
-    const script = document.createElement('script');
-    script.src = this.gsapCdn;
-    script.onload = () => {
-      if (window) {
-        this.start();
-      }
-      else {
-        window.onload = this.start;
-      }
-    };
-    script.onerror = () => console.error('error loading gsap library from: ', this.gsapCdn);
-    document.body.appendChild(script);
-  }
-  start() {
-    const indicator = this.indicators[this.currentScreen];
-    gsap.set(indicator, {
-      width: 0,
-      alpha: 1
-    });
-    this.tween = gsap.to(indicator, {
-      duration: this.duration,
-      ease: 'none',
-      width: '100%',
-      onComplete: () => {
-        this.increment();
-      }
-    });
-    this.setIntersectionHelper();
   }
   override(index) {
     if (this.currentScreen === index)
@@ -6850,11 +6808,6 @@ class AppflowActivator {
     }
     this.currentScreen = ++this.currentScreen % this.screens.length;
     this.start();
-  }
-  render() {
-    return (h(Host, { style: {
-        '--max-image-width': this.maxImageWidth + 'px'
-      } }, h("div", { class: "app-screenshot" }, h("div", { class: "images" }, h("div", { class: "images__wrapper", style: { 'height': this.imageHeight + 'px' } }, this.screens.map((screen, i) => (h("img", { class: `screen ${i === this.currentScreen ? 'animate-in' : 'animate-out'}`, src: screen.image, width: "2400", height: "1280", loading: i === 0 ? 'eager' : 'lazy', style: { 'position': i !== 0 ? 'absolute' : undefined }, alt: screen.description }))))), h("div", { class: "nav" }, h(ResponsiveContainer, null, h("ul", null, this.screens.map((screen, i) => h("li", { class: (i === this.currentScreen) ? 'active' : 'default', onMouseEnter: () => { this.override(i); this.tween.pause(); }, onMouseLeave: () => this.tween.play() }, screen.icon(i === this.currentScreen ? 'active' : 'default'), h(Heading, { level: 5 }, screen.name), h(Paragraph, { level: 4 }, screen.description), h("div", { class: "indicator", ref: (el) => this.indicators[i] = el })))))))));
   }
   static get assetsDirs() { return ["assets"]; }
   get el() { return getElement(this); }
@@ -7189,9 +7142,9 @@ class BlogPage {
   constructor(hostRef) {
     registerInstance(this, hostRef);
     this.render = () => (h(Host, { class: "sc-blog-page" }, h("blog-subnav", null, h("li", null, h("a", Object.assign({ class: "ui-heading-5" }, href('/blog', Router)), "Blog")), this.slug ?
-      h("li", null, h("a", Object.assign({ class: "ui-heading-5" }, href(`/blog/${this.slug}`, Router)), this.title)) : ''), h(ResponsiveContainer, { id: "posts", as: "section" }, h("div", { class: "container-sm" }, this.slug ?
-      h(DetailView, { post: this.post }) :
-      h(ListView, { posts: this.posts })))));
+      h("li", null, h("a", Object.assign({ class: "ui-heading-5" }, href(`/blog/${this.slug}`, Router)), this.title)) : ''), h(ResponsiveContainer, { id: "posts", as: "section" }, h("div", { class: "container-sm" }, this.slug
+      ? h(DetailView, { post: this.post })
+      : h(ListView, { posts: this.posts })))));
   }
   async componentWillLoad() {
     state.stickyHeader = false;
@@ -7205,9 +7158,10 @@ class BlogPage {
     state.stickyHeader = false;
   }
   checkSlug() {
+    var _a;
     if (this.slug) {
       this.post = posts.find(p => p.slug === this.slug);
-      this.title = this.post.title;
+      this.title = (_a = this.post) === null || _a === void 0 ? void 0 : _a.title;
     }
   }
   get el() { return getElement(this); }
@@ -7220,25 +7174,34 @@ class BlogPage {
     "$tagName$": "blog-page",
     "$members$": {
       "slug": [1],
-      "posts": [32]
+      "posts": [32],
+      "post": [32]
     },
     "$listeners$": undefined,
     "$lazyBundleId$": "-",
     "$attrsToReflect$": []
   }; }
 }
-const DetailView = ({ post }) => [
-  h("div", { class: "sticky-wrapper" }, h("blog-social-actions", { post: post, column: true, class: "top" })),
-  h("blog-post", { post: post }),
-  h("blog-social-actions", { post: post, class: "bottom" }),
-  h(PostAuthor, { post: post }),
-  h("disqus-comments", { url: `https://useappflow.com/blog/${post.slug}`, siteId: "ionic" })
-];
-const ListView = ({ posts }) => [
-  ...posts.map(p => h("blog-post", { slug: p.slug, post: p, preview: true })),
-  h(Pagination, null),
-  h("blog-newsletter", null)
-];
+const DetailView = ({ post }) => {
+  if (!post)
+    return null;
+  return [
+    h(Breakpoint, { md: true, class: "sticky-wrapper" }, h("blog-social-actions", { post: post, column: true, class: "top" })),
+    h("blog-post", { post: post }),
+    h("blog-social-actions", { post: post, class: "bottom" }),
+    h(PostAuthor, { post: post }),
+    h("disqus-comments", { url: `https://useappflow.com/blog/${post.slug}`, siteId: "ionic" })
+  ];
+};
+const ListView = ({ posts }) => {
+  if (!posts)
+    return null;
+  return [
+    ...posts.map(p => h("blog-post", { slug: p.slug, post: p, preview: true })),
+    h(Pagination, null),
+    h("blog-newsletter", null)
+  ];
+};
 const Pagination = () => (h("div", { class: "pagination" }, h("a", { href: "#", class: "link ui-paragraph-3" }, h("ion-icon", { name: "chevron-back-outline" }), "Older posts"), rssIcon({}, { height: 32, width: 32 }), h("a", { href: "#", class: "link ui-paragraph-3" }, "Newer posts", h("ion-icon", { name: "chevron-forward-outline" }))));
 const PostAuthor = ({ post }) => (h("section", { class: "post-author" }, h(Heading, { level: 5 }, post.authorName), h(Paragraph, { level: 4 }, post.authorEmail)));
 
@@ -7598,11 +7561,13 @@ class BlogPost {
   constructor(hostRef) {
     registerInstance(this, hostRef);
     this.articleLinks = [];
+    this.preview = false;
   }
   async componentWillLoad() {
-    if (this.slug) {
+    if (this.post)
+      return this.slug = this.post.slug;
+    if (this.slug)
       this.post = posts.find(p => p.slug === this.slug);
-    }
   }
   componentDidLoad() {
     this.articleLinks.forEach(link => {
@@ -7612,20 +7577,19 @@ class BlogPost {
     });
   }
   render() {
+    if (!this.post)
+      return null;
     const { slug, post, preview, articleLinks } = this;
     const content = preview ? post.preview : post.html;
-    if (this.post) {
-      return (h(Host, { class: {
-          'sc-blog-post': true,
-          'preview': preview
-        } }, h(Helmet, null, h("title", null, this.post.title, " - Capacitor Blog - Cross-platform native runtime for web apps"), h("meta", { name: "description", content: this.post.description }), h("meta", { name: "twitter:description", content: `${this.post.description} - Capacitor Blog` }), h("meta", { property: "og:image", content: this.post.featuredImage || 'https://capacitorjs.com/assets/img/og.png' })), h("article", { class: "post" }, h(ThemeProvider, { type: "editorial" }, h(Heading, { level: 1 }, preview
-        ? h("a", Object.assign({ ref: e => articleLinks.push(e) }, href(`/blog/${slug}`, Router)), post.title)
-        : post.title)), h(PostAuthor$1, { authorName: post.authorName, authorUrl: post.authorUrl, dateString: post.date }), post.featuredImage
-        ? h(PostFeaturedImage, { preview: preview, post: post })
-        : h(PostDefaultImage, { preview: preview, post: post }), h("div", { class: "post-content", innerHTML: content }), this.preview
-        ? h("a", Object.assign({ class: "continue-reading ui-paragraph-2", ref: e => articleLinks.push(e) }, href(`/blog/${slug}`, Router)), "Continue reading ", h("span", { class: "arrow" }, "->")) : '')));
-    }
-    return null;
+    return (h(Host, { class: {
+        'sc-blog-post': true,
+        'preview': preview
+      } }, h(Helmet, null, h("title", null, this.post.title, " - Capacitor Blog - Cross-platform native runtime for web apps"), h("meta", { name: "description", content: this.post.description }), h("meta", { name: "twitter:description", content: `${this.post.description} - Capacitor Blog` }), h("meta", { property: "og:image", content: this.post.featuredImage || 'https://capacitorjs.com/assets/img/og.png' })), h("article", { class: "post" }, h(ThemeProvider, { type: "editorial" }, h(Heading, { level: 1 }, preview
+      ? h("a", Object.assign({ ref: e => e ? articleLinks.push(e) : '' }, href(`/blog/${slug}`, Router)), post.title)
+      : post.title)), h(PostAuthor$1, { authorName: post.authorName, authorUrl: post.authorUrl, dateString: post.date }), post.featuredImage
+      ? h(PostFeaturedImage, { preview: preview, post: post })
+      : h(PostDefaultImage, { preview: preview, post: post }), h("div", { class: "post-content", innerHTML: content }), this.preview
+      ? h("a", Object.assign({ class: "continue-reading ui-paragraph-2", ref: e => e ? articleLinks.push(e) : '' }, href(`/blog/${slug}`, Router)), "Continue reading ", h("span", { class: "arrow" }, "->")) : '')));
   }
   get el() { return getElement(this); }
   static get style() { return blogPostCss; }
@@ -7690,6 +7654,7 @@ class BlogSocialActions {
       'https://www.linkedin.com/sharing/share-offsite',
       `?url=${encodeURIComponent(Router.url.toString())}`
     ];
+    this.column = false;
     this.loaded = false;
     this.render = () => (h(Host, { class: {
         'social-links': true,
@@ -7728,6 +7693,8 @@ class CodeSnippet {
     script.src = 'https://unpkg.com/prismjs@latest/components/prism-' + this.language + '.js';
     script.async = true;
     script.addEventListener('load', () => {
+      if (!this.codeRef)
+        return;
       window.Prism.highlightElement(this.codeRef, false);
     });
     this.scriptEl = script;
@@ -17870,29 +17837,31 @@ class NewsletterForm {
     registerInstance(this, hostRef);
     this.emailInvalid = false;
     this.emailSuccess = false;
+    this.successMsg = 'Success. You will now receive the Ionic Newsletter!';
     this.handleSubmit = async (e) => {
+      var _a;
       e.preventDefault();
-      const url = "https://api.hsforms.com/submissions/v3/integration/submit/3776657/76e5f69f-85fd-4579-afce-a1892d48bb32";
+      const url = 'https://api.hsforms.com/submissions/v3/integration/submit/3776657/76e5f69f-85fd-4579-afce-a1892d48bb32';
       const cookie = document.cookie.match(/(hubspotutk=).*?(?=;)/g);
       const fields = [
         {
-          "name": "email",
-          "value": this.emailInput.value
+          'name': 'email',
+          'value': (_a = this.emailInput) === null || _a === void 0 ? void 0 : _a.value
         },
         {
-          "name": "first_campaign_conversion",
-          "value": "Ionic Newsletter"
+          'name': 'first_campaign_conversion',
+          'value': 'Ionic Newsletter'
         }
       ];
       const context = {
-        "pageUri": "https://ionic.io",
-        "pageName": "Ionic.io Home"
+        'pageUri': 'https://ionic.io',
+        'pageName': 'Ionic.io Home'
       };
-      cookie ? context.hutk = cookie[0].split("hubspotutk=")[1] : '';
+      cookie ? context.hutk = cookie[0].split('hubspotutk=')[1] : '';
       const data = {
-        "submittedAt": Date.now(),
-        "fields": fields,
-        "context": context
+        'submittedAt': Date.now(),
+        'fields': fields,
+        'context': context
       };
       const response = await fetch(url, {
         method: 'POST',
@@ -17904,7 +17873,6 @@ class NewsletterForm {
         body: JSON.stringify(data)
       });
       if (response.status == 200) {
-        this.successMsg = "Success. You will now receive the Ionic Newsletter!";
         this.emailSuccess = true;
       }
       else {
@@ -17936,16 +17904,31 @@ const phoneAnimatorCss = ".sc-phone-animator-h{display:inline-block;position:rel
 class PhoneAnimator {
   constructor(hostRef) {
     registerInstance(this, hostRef);
-    this.gsapCdn = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.4.2/gsap.min.js';
     this.foreground = [];
     this.background = [];
     this.foregroundColor = ['#5947FB', '#7870FB', '#B8BDFD', '#e2e4fe'];
     this.backgroundColor = ['#5947FB', '#7870FB', '#B8BDFD', 'rgba(255, 255, 255, 0)'];
     this.spacing = 172;
     this.isPaused = false;
+    this.setUpAnimation = () => {
+      this.timeline = gsap.timeline({
+        repeat: -1,
+        repeatDelay: 1.4,
+        onRepeat: () => {
+          this.timeline.clear();
+          this.setUpTimeline();
+        },
+        defaults: {
+          duration: 1,
+          ease: Power3.easeInOut
+        }
+      });
+      this.setUpTimeline();
+      this.timeline.play();
+    };
   }
   componentDidLoad() {
-    this.importGsap();
+    importGsap(this.setUpAnimation);
   }
   setIntersectionHelper() {
     addListener(({ entries }) => {
@@ -17961,49 +17944,6 @@ class PhoneAnimator {
       }
     });
     observe(this.el);
-  }
-  importGsap() {
-    if (window.gsap)
-      return this.setUpAnimation();
-    const gsapCdn = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.4.2/gsap.min.js';
-    const scriptAlreadyLoading = Array.from(document.scripts).some(script => {
-      if (script.src === gsapCdn) {
-        script.addEventListener('load', () => {
-          this.setUpAnimation();
-        });
-        return true;
-      }
-    });
-    if (scriptAlreadyLoading)
-      return;
-    const script = document.createElement('script');
-    script.src = this.gsapCdn;
-    script.onload = () => {
-      if (window) {
-        this.setUpAnimation();
-      }
-      else {
-        window.onload = this.setUpAnimation;
-      }
-    };
-    script.onerror = () => console.error('error loading gsap library from: ', this.gsapCdn);
-    document.body.appendChild(script);
-  }
-  setUpAnimation() {
-    this.timeline = gsap.timeline({
-      repeat: -1,
-      repeatDelay: 1.4,
-      onRepeat: () => {
-        this.timeline.clear();
-        this.setUpTimeline();
-      },
-      defaults: {
-        duration: 1,
-        ease: Power3.easeInOut
-      }
-    });
-    this.setUpTimeline();
-    this.timeline.play();
   }
   setUpTimeline() {
     this.timeline.add(() => {
@@ -18065,8 +18005,8 @@ class PhoneAnimator {
     this.setIntersectionHelper();
   }
   render() {
-    return (h(Host, null, h("svg", { class: "foreground screen", viewBox: "3.79372501373291 133.2659912109375 565.734130859375 307.3507995605469", xmlns: "http://www.w3.org/2000/svg" }, h("path", { ref: e => this.foreground.push(e), opacity: "0", d: "M552.914 174.599L399.797 134.422C385.537 131.271 366.436 134.941 357.561 140.85L7.68016 376.88C0.286579 384.11 3.75508 392.452 15.4273 395.512L185.396 439.568C197.068 442.628 209.539 438.655 219.917 432.017L560.777 194.124C575.541 183.414 570.759 179.455 552.914 174.599Z" }), h("path", { ref: e => this.foreground.push(e), d: "M552.914 174.599L399.797 134.422C385.537 131.271 366.436 134.941 357.561 140.85L7.68016 376.88C0.286579 384.11 3.75508 392.452 15.4273 395.512L185.396 439.568C197.068 442.628 209.539 438.655 219.917 432.017L560.777 194.124C575.541 183.414 570.759 179.455 552.914 174.599Z" }), h("path", { ref: e => this.foreground.push(e), d: "M552.914 174.599L399.797 134.422C385.537 131.271 366.436 134.941 357.561 140.85L7.68016 376.88C0.286579 384.11 3.75508 392.452 15.4273 395.512L185.396 439.568C197.068 442.628 209.539 438.655 219.917 432.017L560.777 194.124C575.541 183.414 570.759 179.455 552.914 174.599Z" }), h("path", { ref: e => this.foreground.push(e), d: "M552.914 174.599L399.797 134.422C385.537 131.271 366.436 134.941 357.561 140.85L7.68016 376.88C0.286579 384.11 3.75508 392.452 15.4273 395.512L185.396 439.568C197.068 442.628 209.539 438.655 219.917 432.017L560.777 194.124C575.541 183.414 570.759 179.455 552.914 174.599Z" })), h("div", { class: "iphone" }, h("svg", { class: "screen", viewBox: "3.79372501373291 133.2659912109375 565.734130859375 307.3507995605469", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, h("path", { ref: e => this.screenEl = e, fill: "#5947FB", d: "M552.914 174.599L399.797 134.422C385.537 131.271 366.436 134.941 357.561 140.85L7.68016 376.88C0.286579 384.11 3.75508 392.452 15.4273 395.512L185.396 439.568C197.068 442.628 209.539 438.655 219.917 432.017L560.777 194.124C575.541 183.414 570.759 179.455 552.914 174.599Z" })), h("img", { src: getAssetPath('assets/phone.png'), srcset: `${getAssetPath('assets/phone.png')} 1x,
-                  ${getAssetPath('assets/phone@2x.png')} 2x`, loading: "lazy", width: "1780", height: "1541", alt: "floating iphone with blank screen" })), h("svg", { class: "background screen", viewBox: "3.79372501373291 133.2659912109375 565.734130859375 307.3507995605469", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, h("path", { ref: e => this.background.push(e), d: "M552.914 174.599L399.797 134.422C385.537 131.271 366.436 134.941 357.561 140.85L7.68016 376.88C0.286579 384.11 3.75508 392.452 15.4273 395.512L185.396 439.568C197.068 442.628 209.539 438.655 219.917 432.017L560.777 194.124C575.541 183.414 570.759 179.455 552.914 174.599Z" }), h("path", { ref: e => this.background.push(e), d: "M552.914 174.599L399.797 134.422C385.537 131.271 366.436 134.941 357.561 140.85L7.68016 376.88C0.286579 384.11 3.75508 392.452 15.4273 395.512L185.396 439.568C197.068 442.628 209.539 438.655 219.917 432.017L560.777 194.124C575.541 183.414 570.759 179.455 552.914 174.599Z" }), h("path", { ref: e => this.background.push(e), d: "M552.914 174.599L399.797 134.422C385.537 131.271 366.436 134.941 357.561 140.85L7.68016 376.88C0.286579 384.11 3.75508 392.452 15.4273 395.512L185.396 439.568C197.068 442.628 209.539 438.655 219.917 432.017L560.777 194.124C575.541 183.414 570.759 179.455 552.914 174.599Z" }))));
+    return (h(Host, null, h("svg", { class: "foreground screen", viewBox: "3.79372501373291 133.2659912109375 565.734130859375 307.3507995605469", xmlns: "http://www.w3.org/2000/svg" }, h("path", { ref: e => e ? this.foreground.push(e) : '', opacity: "0", d: "M552.914 174.599L399.797 134.422C385.537 131.271 366.436 134.941 357.561 140.85L7.68016 376.88C0.286579 384.11 3.75508 392.452 15.4273 395.512L185.396 439.568C197.068 442.628 209.539 438.655 219.917 432.017L560.777 194.124C575.541 183.414 570.759 179.455 552.914 174.599Z" }), h("path", { ref: e => e ? this.foreground.push(e) : '', d: "M552.914 174.599L399.797 134.422C385.537 131.271 366.436 134.941 357.561 140.85L7.68016 376.88C0.286579 384.11 3.75508 392.452 15.4273 395.512L185.396 439.568C197.068 442.628 209.539 438.655 219.917 432.017L560.777 194.124C575.541 183.414 570.759 179.455 552.914 174.599Z" }), h("path", { ref: e => e ? this.foreground.push(e) : '', d: "M552.914 174.599L399.797 134.422C385.537 131.271 366.436 134.941 357.561 140.85L7.68016 376.88C0.286579 384.11 3.75508 392.452 15.4273 395.512L185.396 439.568C197.068 442.628 209.539 438.655 219.917 432.017L560.777 194.124C575.541 183.414 570.759 179.455 552.914 174.599Z" }), h("path", { ref: e => e ? this.foreground.push(e) : '', d: "M552.914 174.599L399.797 134.422C385.537 131.271 366.436 134.941 357.561 140.85L7.68016 376.88C0.286579 384.11 3.75508 392.452 15.4273 395.512L185.396 439.568C197.068 442.628 209.539 438.655 219.917 432.017L560.777 194.124C575.541 183.414 570.759 179.455 552.914 174.599Z" })), h("div", { class: "iphone" }, h("svg", { class: "screen", viewBox: "3.79372501373291 133.2659912109375 565.734130859375 307.3507995605469", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, h("path", { ref: e => e ? this.screenEl = e : '', fill: "#5947FB", d: "M552.914 174.599L399.797 134.422C385.537 131.271 366.436 134.941 357.561 140.85L7.68016 376.88C0.286579 384.11 3.75508 392.452 15.4273 395.512L185.396 439.568C197.068 442.628 209.539 438.655 219.917 432.017L560.777 194.124C575.541 183.414 570.759 179.455 552.914 174.599Z" })), h("img", { src: getAssetPath('assets/phone.png'), srcset: `${getAssetPath('assets/phone.png')} 1x,
+                  ${getAssetPath('assets/phone@2x.png')} 2x`, loading: "lazy", width: "1780", height: "1541", alt: "floating iphone with blank screen" })), h("svg", { class: "background screen", viewBox: "3.79372501373291 133.2659912109375 565.734130859375 307.3507995605469", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, h("path", { ref: e => e ? this.background.push(e) : '', d: "M552.914 174.599L399.797 134.422C385.537 131.271 366.436 134.941 357.561 140.85L7.68016 376.88C0.286579 384.11 3.75508 392.452 15.4273 395.512L185.396 439.568C197.068 442.628 209.539 438.655 219.917 432.017L560.777 194.124C575.541 183.414 570.759 179.455 552.914 174.599Z" }), h("path", { ref: e => e ? this.background.push(e) : '', d: "M552.914 174.599L399.797 134.422C385.537 131.271 366.436 134.941 357.561 140.85L7.68016 376.88C0.286579 384.11 3.75508 392.452 15.4273 395.512L185.396 439.568C197.068 442.628 209.539 438.655 219.917 432.017L560.777 194.124C575.541 183.414 570.759 179.455 552.914 174.599Z" }), h("path", { ref: e => e ? this.background.push(e) : '', d: "M552.914 174.599L399.797 134.422C385.537 131.271 366.436 134.941 357.561 140.85L7.68016 376.88C0.286579 384.11 3.75508 392.452 15.4273 395.512L185.396 439.568C197.068 442.628 209.539 438.655 219.917 432.017L560.777 194.124C575.541 183.414 570.759 179.455 552.914 174.599Z" }))));
   }
   static get assetsDirs() { return ["assets"]; }
   get el() { return getElement(this); }
@@ -18083,12 +18023,11 @@ class PhoneAnimator {
   }; }
 }
 
-const pipelineAnimatorCss = ".sc-pipeline-animator-h{display:inline-block;position:relative}@media (max-width: 1215px){.sc-pipeline-animator-h{position:relative;height:500px;left:calc((100% - 590px) / 2)}}.anim-automate.sc-pipeline-animator{position:absolute;top:25px;left:25px;margin-left:-400px;transform:scale(1.1)}.anim-automate.sc-pipeline-animator svg.sc-pipeline-animator .connector.sc-pipeline-animator{opacity:0;stroke-dasharray:80px}.anim-automate.sc-pipeline-animator svg.sc-pipeline-animator rect.four.sc-pipeline-animator{opacity:0.6}.anim-automate.sc-pipeline-animator svg.sc-pipeline-animator #top.sc-pipeline-animator,.anim-automate.sc-pipeline-animator svg.sc-pipeline-animator #bottom.sc-pipeline-animator{position:relative}.anim-automate.sc-pipeline-animator svg.sc-pipeline-animator #bottom.sc-pipeline-animator{z-index:1}.anim-automate.sc-pipeline-animator svg.sc-pipeline-animator #top.sc-pipeline-animator{z-index:2}.anim-automate.sc-pipeline-animator svg.sc-pipeline-animator>g.sc-pipeline-animator{transform:translateY(50px)}@media (max-width: 1215px){.anim-automate.sc-pipeline-animator{position:relative;transform:scale(0.8);top:-120px}}@media (max-width: 1023px){.anim-automate.sc-pipeline-animator{transform:scale(0.7)}}.anim-automate_ui.sc-pipeline-animator{position:absolute;width:100%;height:100%}.anim-automate_ui.sc-pipeline-animator>div.sc-pipeline-animator{position:absolute;transform:translate(-50%, -50%);max-width:114px;text-align:center;display:flex;flex-direction:column;align-items:center;opacity:0}.anim-automate_ui.sc-pipeline-animator>div.sc-pipeline-animator img.sc-pipeline-animator{margin-bottom:var(--space-2)}.anim-automate_ui.sc-pipeline-animator>div.sc-pipeline-animator p.sc-pipeline-animator{color:#fff;font-weight:500;line-height:17px}.anim-automate_ui.sc-pipeline-animator>div.sc-pipeline-animator span.sc-pipeline-animator{display:block;opacity:0.6;font-family:12px}.anim-automate_ui.sc-pipeline-animator .master.sc-pipeline-animator img.sc-pipeline-animator{width:100px;height:30px}.anim-automate_ui.sc-pipeline-animator .staging.sc-pipeline-animator img.sc-pipeline-animator{width:110px;height:30px}.anim-automate_ui.sc-pipeline-animator .qa.sc-pipeline-animator img.sc-pipeline-animator{width:61px;height:30px}.anim-automate_ui.sc-pipeline-animator .android.sc-pipeline-animator img.sc-pipeline-animator,.anim-automate_ui.sc-pipeline-animator .ios.sc-pipeline-animator img.sc-pipeline-animator,.anim-automate_ui.sc-pipeline-animator .web.sc-pipeline-animator img.sc-pipeline-animator{width:62px;height:62px}.anim-automate_ui.sc-pipeline-animator .testflight.sc-pipeline-animator img.sc-pipeline-animator{width:53px;height:53px}.anim-automate_ui.sc-pipeline-animator .playstore.sc-pipeline-animator img.sc-pipeline-animator{width:50px;height:55px}.anim-automate_ui.sc-pipeline-animator .webhook.sc-pipeline-animator img.sc-pipeline-animator{width:58px;height:54px}.anim-automate_ui.sc-pipeline-animator .master.sc-pipeline-animator,.anim-automate_ui.sc-pipeline-animator .staging.sc-pipeline-animator,.anim-automate_ui.sc-pipeline-animator .qa.sc-pipeline-animator{left:50%;top:220px}.anim-automate_ui.sc-pipeline-animator .android.sc-pipeline-animator,.anim-automate_ui.sc-pipeline-animator .web.sc-pipeline-animator{left:50%;top:410px}.anim-automate_ui.sc-pipeline-animator .android.sc-pipeline-animator,.anim-automate_ui.sc-pipeline-animator .web.sc-pipeline-animator{margin-left:174px}.anim-automate_ui.sc-pipeline-animator .ios.sc-pipeline-animator{margin-left:-178px;left:50%;top:400px}.anim-automate_ui.sc-pipeline-animator .testflight.sc-pipeline-animator,.anim-automate_ui.sc-pipeline-animator .playstore.sc-pipeline-animator{left:50%;top:590px}.anim-automate_ui.sc-pipeline-animator .webhook.sc-pipeline-animator{left:50%;top:578px}.anim-automate_ui.sc-pipeline-animator .testflight.sc-pipeline-animator{margin-left:-352px}.anim-automate_ui.sc-pipeline-animator .playstore.sc-pipeline-animator{margin-left:352px}";
+const pipelineAnimatorCss = ".sc-pipeline-animator-h{display:inline-block;position:relative;height:876px}@media (max-width: 1215px){.sc-pipeline-animator-h{position:relative;height:500px;left:calc((100% - 590px) / 2)}}.anim-automate.sc-pipeline-animator{position:absolute;top:25px;left:25px;margin-left:-400px;transform:scale(1.1)}.anim-automate.sc-pipeline-animator svg.sc-pipeline-animator .connector.sc-pipeline-animator{opacity:0;stroke-dasharray:80px}.anim-automate.sc-pipeline-animator svg.sc-pipeline-animator rect.four.sc-pipeline-animator{opacity:0.6}.anim-automate.sc-pipeline-animator svg.sc-pipeline-animator #top.sc-pipeline-animator,.anim-automate.sc-pipeline-animator svg.sc-pipeline-animator #bottom.sc-pipeline-animator{position:relative}.anim-automate.sc-pipeline-animator svg.sc-pipeline-animator #bottom.sc-pipeline-animator{z-index:1}.anim-automate.sc-pipeline-animator svg.sc-pipeline-animator #top.sc-pipeline-animator{z-index:2}.anim-automate.sc-pipeline-animator svg.sc-pipeline-animator>g.sc-pipeline-animator{transform:translateY(50px)}@media (max-width: 1215px){.anim-automate.sc-pipeline-animator{position:relative;transform:scale(0.8);top:-120px}}@media (max-width: 1023px){.anim-automate.sc-pipeline-animator{transform:scale(0.7)}}.anim-automate_ui.sc-pipeline-animator{position:absolute;width:100%;height:100%}.anim-automate_ui.sc-pipeline-animator>div.sc-pipeline-animator{position:absolute;transform:translate(-50%, -50%);max-width:114px;text-align:center;display:flex;flex-direction:column;align-items:center;opacity:0}.anim-automate_ui.sc-pipeline-animator>div.sc-pipeline-animator img.sc-pipeline-animator{margin-bottom:var(--space-2)}.anim-automate_ui.sc-pipeline-animator>div.sc-pipeline-animator p.sc-pipeline-animator{color:#fff;font-weight:500;line-height:17px}.anim-automate_ui.sc-pipeline-animator>div.sc-pipeline-animator span.sc-pipeline-animator{display:block;opacity:0.6;font-family:12px}.anim-automate_ui.sc-pipeline-animator .master.sc-pipeline-animator img.sc-pipeline-animator{width:100px;height:30px}.anim-automate_ui.sc-pipeline-animator .staging.sc-pipeline-animator img.sc-pipeline-animator{width:110px;height:30px}.anim-automate_ui.sc-pipeline-animator .qa.sc-pipeline-animator img.sc-pipeline-animator{width:61px;height:30px}.anim-automate_ui.sc-pipeline-animator .android.sc-pipeline-animator img.sc-pipeline-animator,.anim-automate_ui.sc-pipeline-animator .ios.sc-pipeline-animator img.sc-pipeline-animator,.anim-automate_ui.sc-pipeline-animator .web.sc-pipeline-animator img.sc-pipeline-animator{width:62px;height:62px}.anim-automate_ui.sc-pipeline-animator .testflight.sc-pipeline-animator img.sc-pipeline-animator{width:53px;height:53px}.anim-automate_ui.sc-pipeline-animator .playstore.sc-pipeline-animator img.sc-pipeline-animator{width:50px;height:55px}.anim-automate_ui.sc-pipeline-animator .webhook.sc-pipeline-animator img.sc-pipeline-animator{width:58px;height:54px}.anim-automate_ui.sc-pipeline-animator .master.sc-pipeline-animator,.anim-automate_ui.sc-pipeline-animator .staging.sc-pipeline-animator,.anim-automate_ui.sc-pipeline-animator .qa.sc-pipeline-animator{left:50%;top:220px}.anim-automate_ui.sc-pipeline-animator .android.sc-pipeline-animator,.anim-automate_ui.sc-pipeline-animator .web.sc-pipeline-animator{left:50%;top:410px}.anim-automate_ui.sc-pipeline-animator .android.sc-pipeline-animator,.anim-automate_ui.sc-pipeline-animator .web.sc-pipeline-animator{margin-left:174px}.anim-automate_ui.sc-pipeline-animator .ios.sc-pipeline-animator{margin-left:-178px;left:50%;top:400px}.anim-automate_ui.sc-pipeline-animator .testflight.sc-pipeline-animator,.anim-automate_ui.sc-pipeline-animator .playstore.sc-pipeline-animator{left:50%;top:590px}.anim-automate_ui.sc-pipeline-animator .webhook.sc-pipeline-animator{left:50%;top:578px}.anim-automate_ui.sc-pipeline-animator .testflight.sc-pipeline-animator{margin-left:-352px}.anim-automate_ui.sc-pipeline-animator .playstore.sc-pipeline-animator{margin-left:352px}";
 
 class PipelineAnimator {
   constructor(hostRef) {
     registerInstance(this, hostRef);
-    this.gsapCdn = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.4.2/gsap.min.js';
     this.tiles = new Map();
     this.bottomLocations = new Map();
     this.topLocations = new Map();
@@ -18159,9 +18098,84 @@ class PipelineAnimator {
       }
     };
     this.isPaused = false;
+    this.setUpAutomateAnimation = () => {
+      this.timeline = gsap.timeline({
+        defaultEase: Linear.easeNone,
+        repeat: -1
+      });
+      this.timeline.pause();
+      const sequence1 = gsap.timeline();
+      sequence1
+        .add(() => {
+        this.animateTileIn('staging');
+        this.animateConnector('staging', 'L');
+      }, 1)
+        .add(() => {
+        this.animateTileIn('ios');
+        this.animateConnector('ios', 'L');
+        this.animateConnector('ios', 'R');
+      }, 1.5)
+        .add(() => {
+        this.animateTileIn('testflight');
+        this.animateTileIn('webhook');
+      }, 2)
+        .add(() => {
+        this.animateTileOut('staging');
+        this.animateTileOut('ios', 0.15);
+        this.animateTileOut('testflight', 0.3);
+        this.animateTileOut('webhook', 0.3);
+      }, 6);
+      this.timeline.add(sequence1, 0);
+      const sequence2 = gsap.timeline({
+        defaultEase: Linear.easeNone
+      });
+      sequence2
+        .add(() => {
+        this.animateTileIn('qa');
+        this.animateConnector('qa', 'R');
+      }, 1)
+        .add(() => {
+        this.animateTileIn('web');
+        this.animateConnector('web', 'L');
+      }, 1.5)
+        .add(() => {
+        this.animateTileIn('webhook');
+      }, 2)
+        .add(() => {
+        this.animateTileOut('qa');
+        this.animateTileOut('web', 0.15);
+        this.animateTileOut('webhook', 0.3);
+      }, 6);
+      this.timeline.add(sequence2, 6);
+      const sequence3 = gsap.timeline({
+        defaultEase: Linear.easeNone
+      });
+      sequence3
+        .add(() => {
+        this.animateTileIn('master');
+        this.animateConnector('master', 'R');
+      }, 1)
+        .add(() => {
+        this.animateTileIn('android');
+        this.animateConnector('android', 'R');
+        this.animateConnector('android', 'L');
+      }, 1.5)
+        .add(() => {
+        this.animateTileIn('playstore');
+        this.animateTileIn('webhook');
+      }, 2)
+        .add(() => {
+        this.animateTileOut('master');
+        this.animateTileOut('android', 0.15);
+        this.animateTileOut('playstore', 0.3);
+        this.animateTileOut('webhook', 0.3);
+      }, 6);
+      this.timeline.add(sequence3, 12);
+      this.setIntersectionHelper();
+    };
   }
   componentDidLoad() {
-    this.importGsap();
+    importGsap(this.setUpAutomateAnimation);
   }
   setIntersectionHelper() {
     addListener(({ entries }) => {
@@ -18169,6 +18183,7 @@ class PipelineAnimator {
       if (!e) {
         return;
       }
+      console.log(e.intersectionRatio);
       if (e.intersectionRatio === 0) {
         this.timeline.pause();
       }
@@ -18178,38 +18193,13 @@ class PipelineAnimator {
     });
     observe(this.el);
   }
-  importGsap() {
-    if (window.gsap)
-      return this.setUpAutomateAnimation();
-    const gsapCdn = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.4.2/gsap.min.js';
-    const scriptAlreadyLoading = Array.from(document.scripts).some(script => {
-      if (script.src === gsapCdn) {
-        script.addEventListener('load', () => {
-          this.setUpAutomateAnimation();
-        });
-        return true;
-      }
-    });
-    if (scriptAlreadyLoading)
-      return;
-    const script = document.createElement('script');
-    script.src = this.gsapCdn;
-    script.onload = () => {
-      if (window) {
-        this.setUpAutomateAnimation();
-      }
-      else {
-        window.onload = this.setUpAutomateAnimation;
-      }
-    };
-    script.onerror = () => console.error('error loading gsap library from: ', this.gsapCdn);
-    document.body.appendChild(script);
-  }
   animateTileIn(name) {
     const tile = this.tileConfig[name];
     const elTop = this.topLocations.get(tile.location);
     const elBottom = this.bottomLocations.get(tile.location);
     const uiEl = this.tiles.get(name);
+    if (!elTop || !elBottom || !uiEl)
+      throw new Error('tile info not found');
     gsap.to(elTop, {
       duration: 0.2,
       fill: tile.color.top
@@ -18243,6 +18233,8 @@ class PipelineAnimator {
     const uiEl = this.tiles.get(name);
     const delay = _delay || 0;
     const defaultColor = tile.location === 'one' ? '#DDE6F7' : '#F5F7FD';
+    if (!elTop || !elBottom || !uiEl)
+      throw new Error('tile info not found');
     gsap.to(elBottom, {
       duration: 0.3,
       alpha: 0,
@@ -18261,8 +18253,10 @@ class PipelineAnimator {
     });
   }
   animateConnector(name, direction) {
-    var tile = this.tileConfig[name];
-    var el = this.connectors.get(`${tile.location}_${direction}`);
+    const tile = this.tileConfig[name];
+    const el = this.connectors.get(`${tile.location}_${direction}`);
+    if (!el)
+      throw new Error('connector not found');
     gsap.set(el, {
       stroke: tile.color.top,
       alpha: 1,
@@ -18273,81 +18267,6 @@ class PipelineAnimator {
       'stroke-dashoffset': '100px',
       delay: 0.3
     });
-  }
-  setUpAutomateAnimation() {
-    this.timeline = gsap.timeline({
-      defaultEase: Linear.easeNone,
-      repeat: -1
-    });
-    this.timeline.pause();
-    const sequence1 = gsap.timeline();
-    sequence1
-      .add(() => {
-      this.animateTileIn('staging');
-      this.animateConnector('staging', 'L');
-    }, 1)
-      .add(() => {
-      this.animateTileIn('ios');
-      this.animateConnector('ios', 'L');
-      this.animateConnector('ios', 'R');
-    }, 1.5)
-      .add(() => {
-      this.animateTileIn('testflight');
-      this.animateTileIn('webhook');
-    }, 2)
-      .add(() => {
-      this.animateTileOut('staging');
-      this.animateTileOut('ios', 0.15);
-      this.animateTileOut('testflight', 0.3);
-      this.animateTileOut('webhook', 0.3);
-    }, 6);
-    this.timeline.add(sequence1, 0);
-    const sequence2 = gsap.timeline({
-      defaultEase: Linear.easeNone
-    });
-    sequence2
-      .add(() => {
-      this.animateTileIn('qa');
-      this.animateConnector('qa', 'R');
-    }, 1)
-      .add(() => {
-      this.animateTileIn('web');
-      this.animateConnector('web', 'L');
-    }, 1.5)
-      .add(() => {
-      this.animateTileIn('webhook');
-    }, 2)
-      .add(() => {
-      this.animateTileOut('qa');
-      this.animateTileOut('web', 0.15);
-      this.animateTileOut('webhook', 0.3);
-    }, 6);
-    this.timeline.add(sequence2, 6);
-    const sequence3 = gsap.timeline({
-      defaultEase: Linear.easeNone
-    });
-    sequence3
-      .add(() => {
-      this.animateTileIn('master');
-      this.animateConnector('master', 'R');
-    }, 1)
-      .add(() => {
-      this.animateTileIn('android');
-      this.animateConnector('android', 'R');
-      this.animateConnector('android', 'L');
-    }, 1.5)
-      .add(() => {
-      this.animateTileIn('playstore');
-      this.animateTileIn('webhook');
-    }, 2)
-      .add(() => {
-      this.animateTileOut('master');
-      this.animateTileOut('android', 0.15);
-      this.animateTileOut('playstore', 0.3);
-      this.animateTileOut('webhook', 0.3);
-    }, 6);
-    this.timeline.add(sequence3, 12);
-    this.setIntersectionHelper();
   }
   render() {
     return (h(Host, null, h("div", { class: "anim-automate" }, h("div", { class: "anim-automate_ui" }, h("div", { class: "master", ref: e => this.tiles.set('master', e) }, h("img", { src: getAssetPath('assets/master.png'), width: "200", height: "60", loading: "lazy", alt: "master branch icon" }), h(Paragraph, { level: 5 }, "Push code")), h("div", { class: "staging", ref: e => this.tiles.set('staging', e) }, h("img", { src: getAssetPath('assets/staging.png'), width: "220", height: "60", loading: "lazy", alt: "staging branch icon" }), h(Paragraph, { level: 5 }, "Push code")), h("div", { class: "qa", ref: e => this.tiles.set('qa', e) }, h("img", { src: getAssetPath('assets/qa.png'), width: "122", height: "60", loading: "lazy", alt: "qa branch icon" }), h(Paragraph, { level: 5 }, "Push code")), h("div", { class: "android", ref: e => this.tiles.set('android', e) }, h("img", { src: getAssetPath('assets/android.png'), width: "124", height: "124", loading: "lazy", alt: "green android circle icon" }), h(Paragraph, { level: 5 }, "Trigger Android build")), h("div", { class: "ios", ref: e => this.tiles.set('ios', e) }, h("img", { src: getAssetPath('assets/ios.png'), width: "124", height: "124", loading: "lazy", alt: "dark gray ios circle icon" }), h(Paragraph, { level: 5 }, "Trigger iOS build")), h("div", { class: "web", ref: e => this.tiles.set('web', e) }, h("img", { src: getAssetPath('assets/js.png'), width: "124", height: "124", loading: "lazy", alt: "yellow javascript circle icon" }), h(Paragraph, { level: 5 }, "Trigger Web build")), h("div", { class: "testflight", ref: e => this.tiles.set('testflight', e) }, h("img", { src: getAssetPath('assets/testflight.png'), width: "106", height: "106", loading: "lazy", alt: "blue testflight icon" }), h(Paragraph, { level: 5 }, "Deploy to TestFlight")), h("div", { class: "playstore", ref: e => this.tiles.set('playstore', e) }, h("img", { src: getAssetPath('assets/playstore.png'), width: "100", height: "110", loading: "lazy", alt: "Google play store icon" }), h(Paragraph, { level: 5 }, "Deploy to Google Play")), h("div", { class: "webhook", ref: e => this.tiles.set('webhook', e) }, h("img", { src: getAssetPath('assets/webhook.png'), width: "116", height: "108", loading: "lazy", alt: "Webhook icon" }), h(Paragraph, { level: 5 }, "Trigger webhook"))), h("svg", { width: "1346", height: "790", xmlns: "http://www.w3.org/2000/svg" }, h("g", { transform: "translate(-14 -14)" }, h("g", null, h("rect", { class: "threeC", ref: e => this.bottomLocations.set('threeC', e), fill: "#F5F7FD", transform: "rotate(135 1022.725 496.6375)", x: "919.725", y: "393.6375", width: "206", height: "206", rx: "34" }), h("rect", { class: "threeB", ref: e => this.bottomLocations.set('threeB', e), fill: "#F5F7FD", transform: "rotate(135 672 496.6375)", x: "569", y: "393.6375", width: "206", height: "206", rx: "34" }), h("rect", { class: "threeA", ref: e => this.bottomLocations.set('threeA', e), fill: "#F5F7FD", transform: "rotate(135 321.275 496.6375)", x: "218.275", y: "393.6375", width: "206", height: "206", rx: "34" }), h("rect", { class: "twoA", ref: e => this.bottomLocations.set('twoA', e), fill: "#F5F7FD", transform: "rotate(135 496.6375 321.275)", x: "393.6375", y: "218.275", width: "206", height: "206", rx: "34" }), h("rect", { class: "twoB", ref: e => this.bottomLocations.set('twoB', e), fill: "#F5F7FD", transform: "rotate(135 847.3625 321.275)", x: "744.3625", y: "218.275", width: "206", height: "206", rx: "34" }), h("rect", { class: "one", ref: e => this.bottomLocations.set('one', e), fill: "#DDE6F7", transform: "rotate(135 672 145.9126)", x: "569", y: "42.9126", width: "206", height: "206", rx: "34" })), h("path", { d: "M920.4007 393.1937l28.9914 28.9914", class: "connector", id: "twoB_R", ref: e => this.connectors.set('twoB_R', e), stroke: "#F2F6FF", "stroke-width": "5", "stroke-linecap": "square" }), h("path", { d: "M774.3242 394.6079l-28.9913 28.9914", class: "connector", id: "twoB_L", ref: e => this.connectors.set('twoB_L', e), stroke: "#F2F6FF", "stroke-width": "5", "stroke-linecap": "square" }), h("path", { d: "M568.9392 395.3445l28.9914 28.9914", class: "connector", id: "twoA_R", ref: e => this.connectors.set('twoA_R', e), stroke: "#F2F6FF", "stroke-width": "5", "stroke-linecap": "square" }), h("path", { d: "M422.9216 393.9303l-28.9913 28.9913", class: "connector", id: "twoA_L", ref: e => this.connectors.set('twoA_L', e), stroke: "#F2F6FF", "stroke-width": "5", "stroke-linecap": "square" }), h("path", { d: "M745.0088 219.2749l28.9914 28.9914", class: "connector", id: "one_R", ref: e => this.connectors.set('one_R', e), stroke: "#F2F6FF", "stroke-width": "5", "stroke-linecap": "square" }), h("path", { d: "M598.2841 218.5678l-28.9914 28.9914", class: "connector", id: "one_L", ref: e => this.connectors.set('one_L', e), stroke: "#F2F6FF", "stroke-width": "5", "stroke-linecap": "square" }), h("g", null, h("rect", { class: "four", fill: "#F5F7FD", transform: "rotate(135 1198.0874 672)", x: "1095.0874", y: "569", width: "206", height: "206", rx: "34" }), h("rect", { class: "four", fill: "#F5F7FD", transform: "rotate(135 145.9126 672)", x: "42.9126", y: "569", width: "206", height: "206", rx: "34" }), h("rect", { class: "four", fill: "#F5F7FD", transform: "rotate(135 496.6375 672)", x: "393.6375", y: "569", width: "206", height: "206", rx: "34" }), h("rect", { class: "four", fill: "#F5F7FD", transform: "rotate(135 847.3625 672)", x: "744.3625", y: "569", width: "206", height: "206", rx: "34" }), h("rect", { class: "threeC", ref: e => this.topLocations.set('threeC', e), fill: "#F5F7FD", transform: "rotate(135 1022.725 496.6375)", x: "919.725", y: "393.6375", width: "206", height: "206", rx: "34" }), h("rect", { class: "threeB", ref: e => this.topLocations.set('threeB', e), fill: "#F5F7FD", transform: "rotate(135 672 496.6375)", x: "569", y: "393.6375", width: "206", height: "206", rx: "34" }), h("rect", { class: "threeA", ref: e => this.topLocations.set('threeA', e), fill: "#F5F7FD", transform: "rotate(135 321.275 496.6375)", x: "218.275", y: "393.6375", width: "206", height: "206", rx: "34" }), h("rect", { class: "twoA", ref: e => this.topLocations.set('twoA', e), fill: "#F5F7FD", transform: "rotate(135 496.6375 321.275)", x: "393.6375", y: "218.275", width: "206", height: "206", rx: "34" }), h("rect", { class: "twoB", ref: e => this.topLocations.set('twoB', e), fill: "#F5F7FD", transform: "rotate(135 847.3625 321.275)", x: "744.3625", y: "218.275", width: "206", height: "206", rx: "34" }), h("rect", { class: "one", ref: e => this.topLocations.set('one', e), fill: "#DDE6F7", transform: "rotate(135 672 145.9126)", x: "569", y: "42.9126", width: "206", height: "206", rx: "34" })))))));
@@ -18545,7 +18464,6 @@ class SiteFooter {
     this.isValid = true;
   }
   handleInlineMessage(returnMessage) {
-    console.log(returnMessage);
     const messageMatch = returnMessage.match && returnMessage.match(/<p>(.*?)<\/p>/);
     return messageMatch ? messageMatch[1] : undefined;
   }
@@ -18591,6 +18509,8 @@ class SiteHeader {
       // this.expanded ? document.body.style.overflowY = 'hidden' : document.body.style.overflowY = 'visible'
     };
     this.handleActive = (e) => {
+      if (!e)
+        return;
       const hrefParts = e.href.split('/');
       if (hrefParts.length < 4)
         return;
@@ -18622,7 +18542,7 @@ class SiteHeader {
       } }, h("header", null, h("site-backdrop", { visible: expanded, onClick: () => toggleExpanded(false) }), h(ResponsiveContainer, { class: "site-header" }, h("a", Object.assign({}, href('/'), { class: "site-header__logo-link" }), appflowLogoWithText({}, { width: 114, height: 24 })), h("button", { onClick: () => toggleExpanded(false), class: "more-button" }, h("ion-icon", { icon: "ellipsis-vertical" })), h("div", { class: {
         'site-header-links': true,
         'site-header-links--expanded': expanded
-      } }, h("div", { class: "nav__wrapper" }, h("nav", { onClick: () => toggleExpanded(true) }, h("a", Object.assign({}, href('/'), { ref: e => handleActive(e) }), "Product"), h("a", Object.assign({}, href('/why-appflow'), { ref: e => handleActive(e) }), "Why Appflow"), h("a", Object.assign({}, href('/pricing'), { ref: e => handleActive(e) }), "Pricing"), h("a", { href: "https://ionicframework.com/docs/appflow", ref: e => handleActive(e), target: "_blank" }, "Docs"), h("a", Object.assign({}, href('/blog'), { ref: e => handleActive(e) }), "Blog"))), h("div", { class: "site-header-links__buttons" }, h("ul", null, h("li", null, h("a", { href: "https://ionicframework.com/login?source=appflow-site&product=appflow" }, "Log in")), h("li", null, h("a", { class: "button", href: "https://ionicframework.com/signup?source=appflow-site&product=appflow" }, "Get started ", h("span", { style: { 'letter-spacing': '0px' } }, "->"))))))))));
+      } }, h("div", { class: "nav__wrapper" }, h("nav", { onClick: () => toggleExpanded(true) }, h("a", Object.assign({}, href('/'), { ref: (e) => handleActive(e) }), "Product"), h("a", Object.assign({}, href('/why-appflow'), { ref: e => handleActive(e) }), "Why Appflow"), h("a", Object.assign({}, href('/pricing'), { ref: e => handleActive(e) }), "Pricing"), h("a", { href: "https://ionicframework.com/docs/appflow", ref: e => handleActive(e), target: "_blank" }, "Docs"), h("a", Object.assign({}, href('/blog'), { ref: e => handleActive(e) }), "Blog"))), h("div", { class: "site-header-links__buttons" }, h("ul", null, h("li", null, h("a", { href: "https://ionicframework.com/login?source=appflow-site&product=appflow" }, "Log in")), h("li", null, h("a", { class: "button", href: "https://ionicframework.com/signup?source=appflow-site&product=appflow" }, "Get started ", h("span", { style: { 'letter-spacing': '0px' } }, "->"))))))))));
   }
   get el() { return getElement(this); }
   static get style() { return appflowSiteHeaderCss; }
@@ -19148,7 +19068,7 @@ const Companies$2 = () => {
     ['norfolk-southern', 96, 24]
   ];
   const iconFactory = (item) => (h("img", { src: getAssetPath(`./assets/logo-${item[0]}@2x.png`), srcset: `${getAssetPath(`./assets/logo-${item[0]}.png`)} 1x,
-                ${getAssetPath(`./assets/logo-${item[0]}@2x.png`)} 2x`, loading: "lazy", width: item[1], height: item[2], alt: `${item[0]} logo` }));
+              ${getAssetPath(`./assets/logo-${item[0]}@2x.png`)} 2x`, loading: "lazy", width: item[1], height: item[2], alt: `${item[0]} logo` }));
   return (h(ResponsiveContainer, { id: "companies", as: "section" }, h(Grid, null, icons.map(icon => (h(Col, { class: "wrapper", cols: 6, xs: 3 }, iconFactory(icon)))))));
 };
 const Benefits = () => {
@@ -19194,7 +19114,6 @@ const Different = () => {
 };
 
 registerComponents([
-  AnchorLink,
   App,
   AppBurger,
   AppIcon,

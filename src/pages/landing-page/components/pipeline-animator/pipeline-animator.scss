@@ -1,6 +1,7 @@
 :host {
   display: inline-block;
   position:relative;
+  height: 876px;
 
   @media (max-width: $screen-md-max)  {  
     position:relative;

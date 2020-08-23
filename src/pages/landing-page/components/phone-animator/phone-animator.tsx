@@ -11,7 +11,6 @@ import { importGsap } from '../../../../utils/gsap';
   assetsDirs: ['assets']
 })
 export class PhoneAnimator {
-  private gsapCdn = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.4.2/gsap.min.js';
   private foreground: SVGElement[] = []
   private background: SVGElement[] = []
   private foregroundColor = ['#5947FB', '#7870FB', '#B8BDFD', '#e2e4fe']

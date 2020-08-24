@@ -1,6 +1,6 @@
 import { Component, h, Host, Prop, State } from '@stencil/core';
 import { RenderedBlog } from '@ionic-internal/markdown-blog/src/models';
-import { twitterLogo, facebookLogo, linkedInLogo } from '../../../../svgs';
+import { twitterLogo, facebookRoundedLogo, linkedInLogo } from '../../../../svgs';
 import Router from '../../../../router';
 
 
@@ -52,13 +52,13 @@ export class BlogSocialActions {
         href={this.facebookUrl.join('')}
         target="_blank" rel="noopener nofollow"
       >
-        {facebookLogo({ main: '#CED6E0' }, { width: 16, height: 16, class: 'facebook' })}
+        {facebookRoundedLogo({ main: '#CED6E0' }, { width: 20, height: 20, class: 'facebook' })}
       </a>
       <a
         href={this.linkedInUrl.join('')}
         target="_blank" rel="noopener nofollow"
       >
-        {linkedInLogo({ main: '#CED6E0' }, { width: 16, height: 16, class: 'linked-in' })}
+        {linkedInLogo({ main: '#CED6E0' }, { width: 20, height: 20, class: 'linked-in' })}
       </a>
     </Host>
   );

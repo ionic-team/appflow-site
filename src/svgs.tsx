@@ -146,6 +146,12 @@ export const facebookLogo = ({ main = 'gray' }: colors = {}, props?: JSXBase.SVG
   </svg>
 );
 
+export const facebookRoundedLogo = ({ main = 'gray' }: colors = {}, props?: JSXBase.SVGAttributes) => (
+  <svg viewBox="0 0 20 20" {...props}>
+    <path fill={main} fill-rule="evenodd" clip-rule="evenodd" d="M20 10.06C20 4.5 15.52 0 10 0S0 4.5 0 10.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H5.9v-2.91h2.54V7.84c0-2.52 1.5-3.91 3.77-3.91 1.1 0 2.24.2 2.24.2V6.6H13.2c-1.24 0-1.63.78-1.63 1.57v1.9h2.78l-.45 2.9h-2.33V20A10.04 10.04 0 0020 10.06z"/>
+  </svg>
+);
+
 export const floatingBoxIcon = ({ main = '#597EFF', second = '#7CABFF', third = '#8DCFFF' }: colors = {}, props?: JSXBase.SVGAttributes) => (
   <svg viewBox="0 0 44 48" {...props}>
     <path fill={third} d="M1.88 11.9c-1-.5-1-1.3 0-1.8L20.22.9c.98-.5 2.58-.5 3.57 0l18.34 9.2c.99.5.99 1.3 0 1.8L23.8 21.1c-.99.5-2.59.5-3.57 0L1.88 11.9z"/>

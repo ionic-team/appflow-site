@@ -126,8 +126,11 @@ tbody {
     }
   }
 
-  tr:first-child  td {
-    padding-top: 55px;
+  tr:first-child  {
+    td,
+    th {
+      padding-top: 55px;
+    }
   }
 
   .pill {

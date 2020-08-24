@@ -62,14 +62,9 @@ export class PricingTable {
             </thead>
             <tbody>
               <tr>
-                <th><strong>Appflow</strong></th>
-                <td><ion-icon name="checkmark-sharp"></ion-icon></td>
-                <td><ion-icon name="checkmark-sharp"></ion-icon></td>
-                <td><ion-icon name="checkmark-sharp"></ion-icon></td>
-                <td><ion-icon name="checkmark-sharp"></ion-icon></td>
-              </tr>
-              <tr>
-                <th>Push to app store</th>
+                <th>
+                  Push to app store
+                </th>
                 <td></td>
                 <td><ion-icon name="checkmark-sharp"></ion-icon></td>
                 <td><ion-icon name="checkmark-sharp"></ion-icon></td>

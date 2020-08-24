@@ -12,7 +12,7 @@ import Router from '../../../../router';
   styleUrl: 'blog-post.scss',
 })
 export class BlogPost {
-  private articleLinks: HTMLAnchorElement[] = [];
+  private keepScrollLinks: HTMLAnchorElement[] = [];
   @Prop() slug?: string;
 
   @Prop() post?: RenderedBlog;
@@ -25,7 +25,7 @@ export class BlogPost {
   }
 
   componentDidLoad() {
-    this.articleLinks.forEach(link => {
+    this.keepScrollLinks.forEach(link => {
       link.addEventListener('click', () => {
         window.scrollTo(0, window.scrollY - this.el.offsetTop + 32);
       })
@@ -35,7 +35,7 @@ export class BlogPost {
   render() {
     if (!this.post) return null;
 
-    const { slug, post, preview, articleLinks } = this;
+    const { slug, post, preview, keepScrollLinks } = this;
     const content = preview ? post.preview : post.html;
 
 
@@ -58,9 +58,9 @@ export class BlogPost {
 
         <article class="post">
           <ThemeProvider type="editorial">
-            <Heading level={1}>
+            <Heading level={1} onClick={() => window.scrollTo(0,0)}>
               {preview 
-              ? <a ref={e => e ? articleLinks.push(e) : ''} {...href(`/blog/${slug}`, Router)}>{post.title}</a>
+              ? <a {...href(`/blog/${slug}`, Router)}>{post.title}</a>
               : post.title}                
             </Heading>
           </ThemeProvider>
@@ -77,7 +77,7 @@ export class BlogPost {
           </div>
 
           {this.preview
-          ? <a class="continue-reading ui-paragraph-2" ref={e => e ? articleLinks.push(e) : ''} {...href(`/blog/${slug}`, Router)}>
+          ? <a class="continue-reading ui-paragraph-2" ref={e => keepScrollLinks.push(e!)} {...href(`/blog/${slug}`, Router)}>
               Continue reading <span class="arrow">-&gt;</span>
             </a> : ''}
         </article>
@@ -89,7 +89,9 @@ export class BlogPost {
 const PostFeaturedImage = ({ post, preview }: { post: RenderedBlog, preview: boolean}) => (
   <div class="featured-image-wrapper">
     {preview 
-    ? <a {...href(`/blog/${post.slug}`, Router)}><img class="featured-image" src={post.featuredImage} alt={post.featuredImageAlt} /></a>
+    ? <a {...href(`/blog/${post.slug}`, Router)}>
+        <img onClick={() => window.scrollTo(0, 0)} class="featured-image" src={post.featuredImage} alt={post.featuredImageAlt} />
+      </a>
     : <img class="featured-image" src={post.featuredImage} alt={post.featuredImageAlt} /> }
   </div>
 );
@@ -97,7 +99,9 @@ const PostFeaturedImage = ({ post, preview }: { post: RenderedBlog, preview: boo
 const PostDefaultImage = ({ post, preview }: { post: RenderedBlog, preview: boolean}) => (
   <div class="default-image-wrapper">
     {preview 
-    ? <a {...href(`/blog/${post.slug}`, Router)}><img class="featured-image" width="2400" height="1280" src="/assets/img/appflow-og-img.jpg" alt="Appflow logo and text on gradient background" /></a>
+    ? <a {...href(`/blog/${post.slug}`, Router)}>
+        <img  onClick={() => window.scrollTo(0, 0)} class="featured-image" width="2400" height="1280" src="/assets/img/appflow-og-img.jpg" alt="Appflow logo and text on gradient background" />
+      </a>
     : <img class="featured-image" width="2400" height="1280" src="/assets/img/appflow-og-img.jpg" alt="Appflow logo and text on gradient background" /> }
   </div>
 );

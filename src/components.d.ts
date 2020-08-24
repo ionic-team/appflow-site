@@ -26,6 +26,11 @@ export namespace Components {
     }
     interface BlogPage {
         "slug"?: string;
+        "viewMode": 'detail' | 'previews';
+    }
+    interface BlogPagination {
+        "linkText": [string, string];
+        "rssIcon": boolean;
     }
     interface BlogPost {
         "post"?: RenderedBlog;
@@ -39,6 +44,9 @@ export namespace Components {
         "post"?: RenderedBlog;
     }
     interface BlogSubnav {
+        "breadcrumbs": [string, string][];
+        "pagination": boolean;
+        "socialActions": boolean;
     }
     interface CodeSnippet {
         "code": string;
@@ -131,6 +139,12 @@ declare global {
     var HTMLBlogPageElement: {
         prototype: HTMLBlogPageElement;
         new (): HTMLBlogPageElement;
+    };
+    interface HTMLBlogPaginationElement extends Components.BlogPagination, HTMLStencilElement {
+    }
+    var HTMLBlogPaginationElement: {
+        prototype: HTMLBlogPaginationElement;
+        new (): HTMLBlogPaginationElement;
     };
     interface HTMLBlogPostElement extends Components.BlogPost, HTMLStencilElement {
     }
@@ -244,6 +258,7 @@ declare global {
         "appflow-site-routes": HTMLAppflowSiteRoutesElement;
         "blog-newsletter": HTMLBlogNewsletterElement;
         "blog-page": HTMLBlogPageElement;
+        "blog-pagination": HTMLBlogPaginationElement;
         "blog-post": HTMLBlogPostElement;
         "blog-search": HTMLBlogSearchElement;
         "blog-social-actions": HTMLBlogSocialActionsElement;
@@ -284,6 +299,11 @@ declare namespace LocalJSX {
     }
     interface BlogPage {
         "slug"?: string;
+        "viewMode"?: 'detail' | 'previews';
+    }
+    interface BlogPagination {
+        "linkText"?: [string, string];
+        "rssIcon"?: boolean;
     }
     interface BlogPost {
         "post"?: RenderedBlog;
@@ -297,6 +317,9 @@ declare namespace LocalJSX {
         "post"?: RenderedBlog;
     }
     interface BlogSubnav {
+        "breadcrumbs"?: [string, string][];
+        "pagination"?: boolean;
+        "socialActions"?: boolean;
     }
     interface CodeSnippet {
         "code": string;
@@ -344,6 +367,7 @@ declare namespace LocalJSX {
         "appflow-site-routes": AppflowSiteRoutes;
         "blog-newsletter": BlogNewsletter;
         "blog-page": BlogPage;
+        "blog-pagination": BlogPagination;
         "blog-post": BlogPost;
         "blog-search": BlogSearch;
         "blog-social-actions": BlogSocialActions;
@@ -376,6 +400,7 @@ declare module "@stencil/core" {
             "appflow-site-routes": LocalJSX.AppflowSiteRoutes & JSXBase.HTMLAttributes<HTMLAppflowSiteRoutesElement>;
             "blog-newsletter": LocalJSX.BlogNewsletter & JSXBase.HTMLAttributes<HTMLBlogNewsletterElement>;
             "blog-page": LocalJSX.BlogPage & JSXBase.HTMLAttributes<HTMLBlogPageElement>;
+            "blog-pagination": LocalJSX.BlogPagination & JSXBase.HTMLAttributes<HTMLBlogPaginationElement>;
             "blog-post": LocalJSX.BlogPost & JSXBase.HTMLAttributes<HTMLBlogPostElement>;
             "blog-search": LocalJSX.BlogSearch & JSXBase.HTMLAttributes<HTMLBlogSearchElement>;
             "blog-social-actions": LocalJSX.BlogSocialActions & JSXBase.HTMLAttributes<HTMLBlogSocialActionsElement>;

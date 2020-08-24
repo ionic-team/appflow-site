@@ -15,23 +15,25 @@
 .ui-breadcrumbs {
   min-width:0;
   margin-inline-end: var(--space-3);
-}
-::slotted(li) {
-  display: flex;
-  align-items: center;
-  white-space: nowrap;
-  
 
-  &:last-of-type {    
-    overflow: hidden;
-    a {
-      display: inline;
-      white-space: nowrap;
+  li {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    
+  
+    &:last-of-type {    
       overflow: hidden;
-      text-overflow: ellipsis;
+      a {
+        display: inline;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
     }
   }
 }
+
 
 .blog-search-wrapper {
   flex-grow: 1;
@@ -79,4 +81,8 @@
     padding-block-end: var(--space-2);
 
   }
+}
+
+.drawer-button {
+  
 }

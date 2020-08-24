@@ -1,13 +1,11 @@
 import { Component, State, Host, Prop, h, Watch, Element } from '@stencil/core';
-
+import { ResponsiveContainer, Heading, Paragraph, Breakpoint } from '@ionic-internal/ionic-ds';
 import { RenderedBlog } from '@ionic-internal/markdown-blog/src/models';
 
 import posts from '../../assets/blog.json';
 import state from '../../store';
-import { ResponsiveContainer, Heading, Paragraph, Breakpoint } from '@ionic-internal/ionic-ds';
-import { href } from 'stencil-router-v2';
-import Router from '../../router';
 import { rssIcon } from '../../svgs';
+import { BlogSubnav } from './components/blog-subnav/blog-subnav';
 
 @Component({
   tag: 'blog-page',
@@ -19,13 +17,17 @@ export class BlogPage {
   @Prop() slug?: string;
   @State() posts?: RenderedBlog[];
   @State() post?: RenderedBlog;
-  private title?: string;
+  @Prop() viewMode: 'detail' | 'previews' = 'previews';
+  @State() breadcrumbs: { base: BlogSubnav['breadcrumbs'], detail?: BlogSubnav['breadcrumbs'] } = {
+    base: [
+      ['Blog', '/blog']
+    ]
+  };
 
   async componentWillLoad() {
     state.stickyHeader = false;
     this.posts = (posts as RenderedBlog[]).slice(0, 10); 
-
-    this.checkSlug();
+    this.checkViewMode(this.viewMode);
   }
 
   componentDidLoad() {
@@ -36,27 +38,27 @@ export class BlogPage {
     state.stickyHeader = false;   
   }
 
-  @Watch('slug')
-  checkSlug() {
-    if (this.slug) {
-      this.post = (posts as RenderedBlog[]).find(p => p.slug === this.slug);
-      this.title = this.post?.title;
-    }  
+  getPost() {
+    this.post = (posts as RenderedBlog[]).find(p => p.slug === this.slug)!;
+    if (!this.post) throw new Error('couldnt find blog post by slug');
   }
+
+  @Watch('viewMode')
+  checkViewMode(newValue: BlogPage['viewMode']) {
+    if (newValue === 'previews') return this.breadcrumbs.detail = this.breadcrumbs.base;
+    
+    this.getPost();
+    this.breadcrumbs.detail = ([...this.breadcrumbs.base, [`${this.post!.title}`, `/blog/${this.post!.slug}`]]);
+  }  
 
   render = () => (
     <Host class="sc-blog-page">
-      <blog-subnav>
-        <li slot="base">
-          <a class="ui-heading-5" {...href('/blog', Router)}>Blog</a>
-        </li>         
-        <li slot="detail">
-          {this.slug ? <a class="ui-heading-5" {...href(`/blog/${this.slug}`, Router)}>{this.title}</a> : ''}   
-        </li>   
-      </blog-subnav>
+      {this.viewMode === 'detail'
+      ? <blog-subnav socialActions breadcrumbs={this.breadcrumbs.detail}/>
+      : <blog-subnav pagination breadcrumbs={this.breadcrumbs.detail}/>}       
       <ResponsiveContainer id="posts" as="section">
         <div class="container-sm">
-          {this.slug
+          {this.viewMode === 'detail'
           ? <DetailView post={this.post}/>
           : <ListView posts={this.posts} />}          
         </div>
@@ -84,24 +86,11 @@ const ListView = ({ posts }: { posts: BlogPage['posts'] }) => {
 
   return [ 
     ...posts.map(p => <blog-post slug={p.slug} post={p} preview/>),
-    <Pagination />,
+    <blog-pagination rssIcon />,
     <blog-newsletter />
   ]
 }
 
-const Pagination = () => (
-  <div class="pagination">
-    <a href="#" class="link ui-paragraph-3">
-      <ion-icon name="chevron-back-outline"></ion-icon>
-      Older posts
-    </a>
-    {rssIcon({}, { height: 32, width: 32 })}
-    <a href="#" class="link ui-paragraph-3">
-      Newer posts
-      <ion-icon name="chevron-forward-outline"></ion-icon>      
-    </a>
-  </div>
-)
 
 const PostAuthor = ({ post }: { post: RenderedBlog }) => (
   <section class="post-author">

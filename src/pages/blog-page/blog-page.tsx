@@ -4,7 +4,6 @@ import { RenderedBlog } from '@ionic-internal/markdown-blog/src/models';
 
 import posts from '../../assets/blog.json';
 import state from '../../store';
-import { rssIcon } from '../../svgs';
 import { BlogSubnav } from './components/blog-subnav/blog-subnav';
 
 @Component({

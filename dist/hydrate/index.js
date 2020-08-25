@@ -6842,7 +6842,7 @@ class AppflowSiteRoutes {
     });
   }
   render() {
-    return (h(Host, null, h(Router.Switch, null, h(Route, { path: match('/', { exact: true }) }, h("landing-page", null)), h(Route, { path: match('/blog', { exact: true }) }, h("blog-page", null)), h(Route, { path: match('/blog/:slug'), render: ({ slug }) => h("blog-page", { slug: slug }) }), h(Route, { path: "/why-appflow" }, h("why-appflow", null)), h(Route, { path: "/pricing" }, h("pricing-page", null)), h(Route, { path: "/privacy-policy" }, h("markdown-page", { file: "privacy-policy" })), h(Route, { path: "/tos" }, h("markdown-page", { file: "tos" })))));
+    return (h(Host, null, h(Router.Switch, null, h(Route, { path: match('/', { exact: true }) }, h("landing-page", null)), h(Route, { path: match('/blog', { exact: true }) }, h("blog-page", { viewMode: "previews" })), h(Route, { path: match('/blog/:slug'), render: ({ slug }) => h("blog-page", { slug: slug, viewMode: "detail" }) }), h(Route, { path: "/why-appflow" }, h("why-appflow", null)), h(Route, { path: "/pricing" }, h("pricing-page", null)), h(Route, { path: "/privacy-policy" }, h("markdown-page", { file: "privacy-policy" })), h(Route, { path: "/tos" }, h("markdown-page", { file: "tos" })))));
   }
   static get style() { return appflowSiteRoutesCss; }
   static get cmpMeta() { return {
@@ -7004,6 +7004,88 @@ var posts = [
 	}
 ];
 
+const blogPageCss = ".sc-blog-page-h{--blog-subnav-height:56px;display:block}blog-post.sc-blog-page+blog-post.sc-blog-page{margin-block-start:82px}.container-sm.sc-blog-page{margin-inline-start:auto;margin-inline-end:auto;position:relative;max-width:736px}.ui-container.sc-blog-page{margin-block-start:var(--space-9)}disqus-comments.sc-blog-page{margin-block-end:160px}blog-newsletter.sc-blog-page{margin-block-end:106px}blog-pagination.sc-blog-page{margin-block-start:var(--space-6);margin-block-end:var(--space-6)}.sticky-wrapper.sc-blog-page{position:absolute;height:100%;left:-96px;top:5px}.sticky-wrapper.sc-blog-page blog-social-actions.top.sc-blog-page{position:sticky;top:calc(var(--blog-subnav-height) + var(--space-6))}blog-social-actions.bottom.sc-blog-page{padding-inline-start:31px;padding-inline-end:31px;background:white;position:absolute;left:50%;transform:translate(-50%, -50%)}.post-author.sc-blog-page{margin-block-start:var(--space-6);margin-block-end:120px}.post-author.sc-blog-page .ui-heading.sc-blog-page{color:#010610}.post-author.sc-blog-page .ui-paragraph.sc-blog-page{color:#92A1B3}";
+
+class BlogPage {
+  constructor(hostRef) {
+    registerInstance(this, hostRef);
+    this.viewMode = 'previews';
+    this.breadcrumbs = {
+      base: [
+        ['Blog', '/blog']
+      ]
+    };
+    this.render = () => (h(Host, { class: "sc-blog-page" }, this.viewMode === 'detail'
+      ? h("blog-subnav", { socialActions: true, breadcrumbs: this.breadcrumbs.detail })
+      : h("blog-subnav", { pagination: true, breadcrumbs: this.breadcrumbs.detail }), h(ResponsiveContainer, { id: "posts", as: "section" }, h("div", { class: "container-sm" }, this.viewMode === 'detail'
+      ? h(DetailView, { post: this.post })
+      : h(ListView, { posts: this.posts })))));
+  }
+  async componentWillLoad() {
+    state.stickyHeader = false;
+    this.posts = posts.slice(0, 10);
+    this.checkViewMode(this.viewMode);
+  }
+  componentDidLoad() {
+    this.el.classList.add();
+  }
+  componentWillUpdate() {
+    state.stickyHeader = false;
+  }
+  getPost() {
+    this.post = posts.find(p => p.slug === this.slug);
+    if (!this.post)
+      throw new Error('couldnt find blog post by slug');
+  }
+  checkViewMode(newValue) {
+    if (newValue === 'previews')
+      return this.breadcrumbs.detail = this.breadcrumbs.base;
+    this.getPost();
+    this.breadcrumbs.detail = ([...this.breadcrumbs.base, [`${this.post.title}`, `/blog/${this.post.slug}`]]);
+  }
+  static get assetsDirs() { return ["assets"]; }
+  get el() { return getElement(this); }
+  static get watchers() { return {
+    "viewMode": ["checkViewMode"]
+  }; }
+  static get style() { return blogPageCss; }
+  static get cmpMeta() { return {
+    "$flags$": 2,
+    "$tagName$": "blog-page",
+    "$members$": {
+      "slug": [1],
+      "viewMode": [1, "view-mode"],
+      "posts": [32],
+      "post": [32],
+      "breadcrumbs": [32]
+    },
+    "$listeners$": undefined,
+    "$lazyBundleId$": "-",
+    "$attrsToReflect$": []
+  }; }
+}
+const DetailView = ({ post }) => {
+  if (!post)
+    return null;
+  return [
+    h(Breakpoint, { md: true, class: "sticky-wrapper" }, h("blog-social-actions", { post: post, column: true, class: "top" })),
+    h("blog-post", { post: post }),
+    h("blog-social-actions", { post: post, class: "bottom" }),
+    h(PostAuthor, { post: post }),
+    h("disqus-comments", { url: `https://useappflow.com/blog/${post.slug}`, siteId: "ionic" })
+  ];
+};
+const ListView = ({ posts }) => {
+  if (!posts)
+    return null;
+  return [
+    ...posts.map(p => h("blog-post", { slug: p.slug, post: p, preview: true })),
+    h("blog-pagination", { rssIcon: true }),
+    h("blog-newsletter", null)
+  ];
+};
+const PostAuthor = ({ post }) => (h("section", { class: "post-author" }, h(Heading, { level: 5 }, post.authorName), h(Paragraph, { level: 4 }, post.authorEmail)));
+
 const aaaLogo = ({ main = '#E21827' } = {}, props) => (h("svg", Object.assign({ viewBox: "0 0 49.71 30" }, props),
   h("path", { fill: main, d: "M49.48 1.17C48.02-1.32 40.37.3 30.83 4.68c.1.07-.1-.07 0 0-3.03-2.38-7.9-4-13.53-4C7.76.68 0 5.5 0 11.38c0 3.56 2.8 6.72 7.09 8.67L7 20.02c-4.14 3.83-6.25 7.08-5.28 8.8 1.19 2 6.3 1.35 13.15-1.18l-.05-.11c-5.5 1.89-9.54 2.27-10.5.65-.81-1.46.9-4.2 4.34-7.5 2.54.92 5.52 1.5 8.66 1.5 9.6 0 17.34-4.86 17.34-10.8 0-2-.9-3.87-2.45-5.48 7.31-3.12 12.96-4.08 14.14-2.03 1.35 2.32-3.99 8.1-12.56 13.83l.11.1C44.36 11 51.1 3.99 49.48 1.18zM26.63 14.24H23l1.78-6.53 1.84 6.53zm-8.41 0H14.6l1.77-6.53 1.84 6.53zM16.55 1.6L13.1 14.24 9.8 3.06c2-.86 4.32-1.35 6.75-1.46zm-6.8 12.64H6.2l1.78-6.53 1.78 6.53zm-6.73-2.86c0-2.76 1.67-5.24 4.36-7.03L4.31 15.48a7.4 7.4 0 01-1.3-4.1zm8.4 8.97a14.48 14.48 0 01-5.98-3.46l.38-1.35h4.31l1.3 4.75v.06zm5.88.86c-1.56 0-3.07-.16-4.47-.49l1.4-5.18h4.36l1.51 5.45c-.91.17-1.83.22-2.8.22zm.54-19.61c2.42.05 4.74.54 6.79 1.35l-3.13 11.3L17.84 1.6zm5.44 18.7l-1.02-3.36.37-1.4H27l.7 2.6a14.1 14.1 0 01-4.42 2.15zm7-4.76l-3.33-11.4c2.9 1.83 4.69 4.37 4.69 7.24 0 1.51-.49 2.92-1.35 4.16z" })));
 const amtrakLogo = ({ main = '#1E8DB5' } = {}, props) => (h("svg", Object.assign({ viewBox: "0 0 63.78 26.25" }, props),
@@ -7063,8 +7145,8 @@ const cloudCircleIcon = ({ main = '#BFE4FF', second = '#3C67FF', third = '#194BF
 const catLogo = ({ main = '#03060B', second = '#FFC409' } = {}, props) => (h("svg", Object.assign({ viewBox: "0 0 41.27 24.38" }, props),
   h("path", { fill: second, d: "M22.25 15.2L9.65 25.2h25.2l-12.6-9.98z" }),
   h("path", { fill: main, d: "M37.24 25.19l-4.52-3.55V6.04h-3.6v-4.5H41.9v4.5h-3.58V25.2h-1.08zM25.97 1.54h-7.53l-4.08 17.98 7.75-6.15.14-.11 7.83 6.23-4.11-17.95zM22.08 12.4h-1.46l1.46-6.5v.02l1.46 6.5h-1.46v-.02zM12.49 20.93l-5.16 4.12c-.16 0-.33.03-.47.03-4.77-.03-6.23-1.93-6.23-6V6.8C.63 2.74 2.1.81 6.9.81c4.93 0 6.4 1.93 6.4 6v4.14H8.4V5.94c0-.76-.58-1.14-1.38-1.14-.66 0-1.38.38-1.38 1.14v14.04c0 .79.72 1.3 1.38 1.3.66 0 1.38-.4 1.38-1.3v-4.77h4.88v3.88c0 .48-.25 1.4-.8 1.84z" })));
-const facebookLogo = ({ main = 'gray' } = {}, props) => (h("svg", Object.assign({ viewBox: "2 2 12 12" }, props),
-  h("path", { fill: main, d: "M13.34 2H2.66C2.3 2 2 2.3 2 2.66v10.68c0 .36.3.66.66.66H8V9.25H6.57V7.5H8V6.2c0-1.54 1.07-2.39 2.46-2.39.66 0 1.37.05 1.54.07V5.5h-1.1c-.76 0-.9.36-.9.88V7.5h1.8l-.24 1.75H10V14h3.34c.36 0 .66-.3.66-.66V2.66c0-.36-.3-.66-.66-.66z" })));
+const facebookRoundedLogo = ({ main = 'gray' } = {}, props) => (h("svg", Object.assign({ viewBox: "0 0 20 20" }, props),
+  h("path", { fill: main, "fill-rule": "evenodd", "clip-rule": "evenodd", d: "M20 10.06C20 4.5 15.52 0 10 0S0 4.5 0 10.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H5.9v-2.91h2.54V7.84c0-2.52 1.5-3.91 3.77-3.91 1.1 0 2.24.2 2.24.2V6.6H13.2c-1.24 0-1.63.78-1.63 1.57v1.9h2.78l-.45 2.9h-2.33V20A10.04 10.04 0 0020 10.06z" })));
 const googleStoreCheckedIcon = ({ main = '#00C1F3', second = '#00DA68', third = '#F93245', fourth = '#FFC803', fifth = '#597EFF' } = {}, props) => (h("svg", Object.assign({ viewBox: "0 0 45 54.27" }, props),
   h("path", { fill: main, d: "M0 7.25v43.94c0 .1.03.2.08.27.05.08.12.14.2.18a.45.45 0 00.52-.1l22.13-22.32L.8 6.91a.46.46 0 00-.51-.1.47.47 0 00-.21.17.5.5 0 00-.08.27z" }),
   h("path", { fill: second, d: "M32.21 20.05L4.46 4.25l-.02-.01c-.48-.27-.93.4-.54.79l21.76 21.5 6.55-6.48z" }),
@@ -7136,114 +7218,23 @@ const triplePhoneIcon = ({ main = '#BFE4FF', second = '#97BDFF', third = '#597EF
 const twitterLogo = ({ main = '#1DA1F2' } = {}, props) => (h("svg", Object.assign({ viewBox: "0.630000114440918 -0.003784056520089507 14.744999885559082 12.00379753112793" }, props),
   h("path", { fill: main, d: "M15.375 1.422a6.116 6.116 0 01-1.738.478A3.036 3.036 0 0014.97.225c-.585.347-1.232.6-1.922.734A3.026 3.026 0 007.89 3.72 8.574 8.574 0 011.653.553a3.029 3.029 0 00.94 4.044c-.5-.013-.968-.15-1.374-.378v.037a3.028 3.028 0 002.428 2.969 3.045 3.045 0 01-.797.106c-.194 0-.384-.019-.569-.056A3.03 3.03 0 005.11 9.378a6.066 6.066 0 01-4.48 1.253A8.457 8.457 0 005.258 12c5.572 0 8.616-4.616 8.616-8.619 0-.131-.003-.262-.01-.39a6.158 6.158 0 001.51-1.57z" })));
 
-const blogPageCss = ".sc-blog-page-h{--blog-subnav-height:56px;display:block}blog-post.sc-blog-page+blog-post.sc-blog-page{margin-block-start:82px}.container-sm.sc-blog-page{margin-inline-start:auto;margin-inline-end:auto;position:relative;max-width:736px}.ui-container.sc-blog-page{margin-block-start:var(--space-9)}.pagination.sc-blog-page{display:flex;justify-content:space-between;align-items:center;margin-block-start:var(--space-6);margin-block-end:var(--space-6)}.pagination.sc-blog-page .link.sc-blog-page{display:flex;align-items:center;color:var(--c-lavender-70)}disqus-comments.sc-blog-page{margin-block-end:160px}blog-newsletter.sc-blog-page{margin-block-end:106px}.sticky-wrapper.sc-blog-page{position:absolute;height:100%;left:-96px;top:5px}.sticky-wrapper.sc-blog-page blog-social-actions.top.sc-blog-page{position:sticky;top:calc(var(--subnav-height) + var(--space-6))}blog-social-actions.bottom.sc-blog-page{padding-inline-start:31px;padding-inline-end:31px;background:white;position:absolute;left:50%;transform:translate(-50%, -50%)}.post-author.sc-blog-page{margin-block-start:var(--space-6);margin-block-end:120px}.post-author.sc-blog-page .ui-heading.sc-blog-page{color:#010610}.post-author.sc-blog-page .ui-paragraph.sc-blog-page{color:#92A1B3}";
+const blogPaginationCss = ".sc-blog-pagination-h{display:flex;justify-content:space-between;align-items:center}.sc-blog-pagination-h .link.sc-blog-pagination{display:flex;align-items:center;color:var(--c-lavender-70)}.sc-blog-pagination-h .link.back.sc-blog-pagination{margin-inline-end:var(--space-1)}.sc-blog-pagination-h .link.forward.sc-blog-pagination{margin-inline-start:var(--space-1)}";
 
-class BlogPage {
+class BlogPagination {
   constructor(hostRef) {
     registerInstance(this, hostRef);
-    this.render = () => (h(Host, { class: "sc-blog-page" }, h("blog-subnav", null, h("li", null, h("a", Object.assign({ class: "ui-heading-5" }, href('/blog', Router)), "Blog")), this.slug ?
-      h("li", null, h("a", Object.assign({ class: "ui-heading-5" }, href(`/blog/${this.slug}`, Router)), this.title)) : ''), h(ResponsiveContainer, { id: "posts", as: "section" }, h("div", { class: "container-sm" }, this.slug
-      ? h(DetailView, { post: this.post })
-      : h(ListView, { posts: this.posts })))));
+    this.linkText = ['Older posts', 'Newer posts'];
+    this.rssIcon = false;
+    this.render = () => (h(Host, null, h("a", { href: "#", class: "link back ui-paragraph-3" }, h("ion-icon", { name: "chevron-back-outline" }), this.linkText[0]), this.rssIcon
+      ? rssIcon({}, { height: 32, width: 32 }) : '', h("a", { href: "#", class: "link forward ui-paragraph-3" }, this.linkText[1], h("ion-icon", { name: "chevron-forward-outline" }))));
   }
-  async componentWillLoad() {
-    state.stickyHeader = false;
-    this.posts = posts.slice(0, 10);
-    this.checkSlug();
-  }
-  componentDidLoad() {
-    this.el.classList.add();
-  }
-  componentWillUpdate() {
-    state.stickyHeader = false;
-  }
-  checkSlug() {
-    var _a;
-    if (this.slug) {
-      this.post = posts.find(p => p.slug === this.slug);
-      this.title = (_a = this.post) === null || _a === void 0 ? void 0 : _a.title;
-    }
-  }
-  get el() { return getElement(this); }
-  static get watchers() { return {
-    "slug": ["checkSlug"]
-  }; }
-  static get style() { return blogPageCss; }
+  static get style() { return blogPaginationCss; }
   static get cmpMeta() { return {
     "$flags$": 2,
-    "$tagName$": "blog-page",
+    "$tagName$": "blog-pagination",
     "$members$": {
-      "slug": [1],
-      "posts": [32],
-      "post": [32]
-    },
-    "$listeners$": undefined,
-    "$lazyBundleId$": "-",
-    "$attrsToReflect$": []
-  }; }
-}
-const DetailView = ({ post }) => {
-  if (!post)
-    return null;
-  return [
-    h(Breakpoint, { md: true, class: "sticky-wrapper" }, h("blog-social-actions", { post: post, column: true, class: "top" })),
-    h("blog-post", { post: post }),
-    h("blog-social-actions", { post: post, class: "bottom" }),
-    h(PostAuthor, { post: post }),
-    h("disqus-comments", { url: `https://useappflow.com/blog/${post.slug}`, siteId: "ionic" })
-  ];
-};
-const ListView = ({ posts }) => {
-  if (!posts)
-    return null;
-  return [
-    ...posts.map(p => h("blog-post", { slug: p.slug, post: p, preview: true })),
-    h(Pagination, null),
-    h("blog-newsletter", null)
-  ];
-};
-const Pagination = () => (h("div", { class: "pagination" }, h("a", { href: "#", class: "link ui-paragraph-3" }, h("ion-icon", { name: "chevron-back-outline" }), "Older posts"), rssIcon({}, { height: 32, width: 32 }), h("a", { href: "#", class: "link ui-paragraph-3" }, "Newer posts", h("ion-icon", { name: "chevron-forward-outline" }))));
-const PostAuthor = ({ post }) => (h("section", { class: "post-author" }, h(Heading, { level: 5 }, post.authorName), h(Paragraph, { level: 4 }, post.authorEmail)));
-
-const blogSubnavCss = ".sc-blog-subnav-h{display:block;background:white;position:sticky;height:var(--blog-subnav-height);top:0;z-index:100}.subnav-wrapper.sc-blog-subnav{position:relative;height:100%}.ui-breadcrumbs.sc-blog-subnav{min-width:0;margin-inline-end:var(--space-3)}.sc-blog-subnav-s>li{display:flex;align-items:center;white-space:nowrap}.sc-blog-subnav-s>li:last-of-type{overflow:hidden}.sc-blog-subnav-s>li:last-of-type a{display:inline;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.blog-search-wrapper.sc-blog-subnav{flex-grow:1;display:flex;justify-content:flex-end}.blog-search-wrapper.sc-blog-subnav .mobile.sc-blog-subnav{align-items:center}.blog-search-wrapper.sc-blog-subnav .mobile.sc-blog-subnav ion-icon.sc-blog-subnav{margin-inline-end:var(--space-1);font-size:20px}.content.sc-blog-subnav{position:relative;display:flex;justify-content:space-between;padding-block-start:var(--space-2);padding-block-end:var(--space-2);height:100%}.subnav-dropdown.sc-blog-subnav{background:white;left:0;right:0;position:absolute;top:0;display:none;transition:transform 2s ease}.subnav-dropdown.open.sc-blog-subnav{transform:translateY(100%);display:block}.subnav-dropdown.sc-blog-subnav .ui-container.sc-blog-subnav{display:flex;align-items:center;justify-content:space-between;padding-block-start:var(--space-2);padding-block-end:var(--space-2)}";
-
-class BlogPage$1 {
-  constructor(hostRef) {
-    registerInstance(this, hostRef);
-    this.sticky = false;
-    this.open = false;
-    this.render = () => (h(Host, { class: {
-        'sticky': this.sticky,
-      } }, h("div", { class: "subnav-wrapper" }, h(ResponsiveContainer, { class: "content" }, h(Breadcrumbs, { onClick: () => window.scrollTo(0, 0) }, h("slot", null), h("slot", null)), h("div", { class: "blog-search-wrapper" }, h(Breakpoint, { md: true }, h("blog-search", null)), h(Breakpoint, { class: "mobile", xs: true, md: false, display: "flex" }, this.open
-      ? h("ion-icon", { onClick: () => this.open = false, role: "button", name: "chevron-up-outline" })
-      : h("ion-icon", { onClick: () => this.open = true, role: "button", name: "chevron-down-outline" }))), h("div", { class: {
-        'subnav-dropdown': true,
-        'open': this.open
-      } }, h(ResponsiveContainer, null, h("blog-social-actions", null), h("blog-search", null)))))));
-  }
-  componentDidLoad() {
-    addListener(({ entries }) => {
-      const e = entries.find((e) => e.target === this.el);
-      if (!e) {
-        return;
-      }
-      if (e.intersectionRatio < 1) {
-        this.sticky = true;
-      }
-      else {
-        this.sticky = false;
-      }
-    });
-    observe(this.el);
-  }
-  get el() { return getElement(this); }
-  static get style() { return blogSubnavCss; }
-  static get cmpMeta() { return {
-    "$flags$": 6,
-    "$tagName$": "blog-subnav",
-    "$members$": {
-      "sticky": [32],
-      "open": [32]
+      "linkText": [16],
+      "rssIcon": [4, "rss-icon"]
     },
     "$listeners$": undefined,
     "$lazyBundleId$": "-",
@@ -7560,7 +7551,7 @@ const blogPostCss = ".sc-blog-post{display:block;--h1-color:var(--c-carbon-100)}
 class BlogPost {
   constructor(hostRef) {
     registerInstance(this, hostRef);
-    this.articleLinks = [];
+    this.keepScrollLinks = [];
     this.preview = false;
   }
   async componentWillLoad() {
@@ -7570,7 +7561,7 @@ class BlogPost {
       this.post = posts.find(p => p.slug === this.slug);
   }
   componentDidLoad() {
-    this.articleLinks.forEach(link => {
+    this.keepScrollLinks.forEach(link => {
       link.addEventListener('click', () => {
         window.scrollTo(0, window.scrollY - this.el.offsetTop + 32);
       });
@@ -7579,17 +7570,17 @@ class BlogPost {
   render() {
     if (!this.post)
       return null;
-    const { slug, post, preview, articleLinks } = this;
+    const { slug, post, preview, keepScrollLinks } = this;
     const content = preview ? post.preview : post.html;
     return (h(Host, { class: {
         'sc-blog-post': true,
         'preview': preview
-      } }, h(Helmet, null, h("title", null, this.post.title, " - Capacitor Blog - Cross-platform native runtime for web apps"), h("meta", { name: "description", content: this.post.description }), h("meta", { name: "twitter:description", content: `${this.post.description} - Capacitor Blog` }), h("meta", { property: "og:image", content: this.post.featuredImage || 'https://capacitorjs.com/assets/img/og.png' })), h("article", { class: "post" }, h(ThemeProvider, { type: "editorial" }, h(Heading, { level: 1 }, preview
-      ? h("a", Object.assign({ ref: e => e ? articleLinks.push(e) : '' }, href(`/blog/${slug}`, Router)), post.title)
+      } }, h(Helmet, null, h("title", null, this.post.title, " - Capacitor Blog - Cross-platform native runtime for web apps"), h("meta", { name: "description", content: this.post.description }), h("meta", { name: "twitter:description", content: `${this.post.description} - Capacitor Blog` }), h("meta", { property: "og:image", content: this.post.featuredImage || 'https://capacitorjs.com/assets/img/og.png' })), h("article", { class: "post" }, h(ThemeProvider, { type: "editorial" }, h(Heading, { level: 1, onClick: () => window.scrollTo(0, 0) }, preview
+      ? h("a", Object.assign({}, href(`/blog/${slug}`, Router)), post.title)
       : post.title)), h(PostAuthor$1, { authorName: post.authorName, authorUrl: post.authorUrl, dateString: post.date }), post.featuredImage
       ? h(PostFeaturedImage, { preview: preview, post: post })
       : h(PostDefaultImage, { preview: preview, post: post }), h("div", { class: "post-content", innerHTML: content }), this.preview
-      ? h("a", Object.assign({ class: "continue-reading ui-paragraph-2", ref: e => e ? articleLinks.push(e) : '' }, href(`/blog/${slug}`, Router)), "Continue reading ", h("span", { class: "arrow" }, "->")) : '')));
+      ? h("a", Object.assign({ class: "continue-reading ui-paragraph-2", ref: e => keepScrollLinks.push(e) }, href(`/blog/${slug}`, Router)), "Continue reading ", h("span", { class: "arrow" }, "->")) : '')));
   }
   get el() { return getElement(this); }
   static get style() { return blogPostCss; }
@@ -7607,10 +7598,10 @@ class BlogPost {
   }; }
 }
 const PostFeaturedImage = ({ post, preview }) => (h("div", { class: "featured-image-wrapper" }, preview
-  ? h("a", Object.assign({}, href(`/blog/${post.slug}`, Router)), h("img", { class: "featured-image", src: post.featuredImage, alt: post.featuredImageAlt }))
+  ? h("a", Object.assign({}, href(`/blog/${post.slug}`, Router)), h("img", { onClick: () => window.scrollTo(0, 0), class: "featured-image", src: post.featuredImage, alt: post.featuredImageAlt }))
   : h("img", { class: "featured-image", src: post.featuredImage, alt: post.featuredImageAlt })));
 const PostDefaultImage = ({ post, preview }) => (h("div", { class: "default-image-wrapper" }, preview
-  ? h("a", Object.assign({}, href(`/blog/${post.slug}`, Router)), h("img", { class: "featured-image", width: "2400", height: "1280", src: "/assets/img/appflow-og-img.jpg", alt: "Appflow logo and text on gradient background" }))
+  ? h("a", Object.assign({}, href(`/blog/${post.slug}`, Router)), h("img", { onClick: () => window.scrollTo(0, 0), class: "featured-image", width: "2400", height: "1280", src: "/assets/img/appflow-og-img.jpg", alt: "Appflow logo and text on gradient background" }))
   : h("img", { class: "featured-image", width: "2400", height: "1280", src: "/assets/img/appflow-og-img.jpg", alt: "Appflow logo and text on gradient background" })));
 const PostAuthor$1 = ({ authorName, authorUrl, dateString }) => {
   const date = parseISO(dateString);
@@ -7660,7 +7651,7 @@ class BlogSocialActions {
         'social-links': true,
         'column': this.column,
         'loaded': this.loaded
-      } }, h("a", { href: this.twitterUrl.join(''), target: "_blank", rel: "noopener nofollow" }, twitterLogo({ main: '#CED6E0' }, { width: 20, height: 16, class: 'twitter' })), h("a", { href: this.facebookUrl.join(''), target: "_blank", rel: "noopener nofollow" }, facebookLogo({ main: '#CED6E0' }, { width: 16, height: 16, class: 'facebook' })), h("a", { href: this.linkedInUrl.join(''), target: "_blank", rel: "noopener nofollow" }, linkedInLogo({ main: '#CED6E0' }, { width: 16, height: 16, class: 'linked-in' }))));
+      } }, h("a", { href: this.twitterUrl.join(''), target: "_blank", rel: "noopener nofollow" }, twitterLogo({ main: '#CED6E0' }, { width: 20, height: 16, class: 'twitter' })), h("a", { href: this.facebookUrl.join(''), target: "_blank", rel: "noopener nofollow" }, facebookRoundedLogo({ main: '#CED6E0' }, { width: 20, height: 20, class: 'facebook' })), h("a", { href: this.linkedInUrl.join(''), target: "_blank", rel: "noopener nofollow" }, linkedInLogo({ main: '#CED6E0' }, { width: 20, height: 20, class: 'linked-in' }))));
   }
   componentDidLoad() {
     requestAnimationFrame(() => {
@@ -7675,6 +7666,60 @@ class BlogSocialActions {
       "post": [16],
       "column": [4],
       "loaded": [32]
+    },
+    "$listeners$": undefined,
+    "$lazyBundleId$": "-",
+    "$attrsToReflect$": []
+  }; }
+}
+
+const blogSubnavCss = ".sc-blog-subnav-h{display:block;background:white;position:sticky;height:var(--blog-subnav-height);top:0;z-index:100}.subnav-wrapper.sc-blog-subnav{position:relative;height:100%}.ui-breadcrumbs.sc-blog-subnav{min-width:0;margin-inline-end:var(--space-3)}.ui-breadcrumbs.sc-blog-subnav li.sc-blog-subnav{display:flex;align-items:center;white-space:nowrap}.ui-breadcrumbs.sc-blog-subnav li.sc-blog-subnav:last-of-type{overflow:hidden}.ui-breadcrumbs.sc-blog-subnav li.sc-blog-subnav:last-of-type a.sc-blog-subnav{display:inline;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.blog-search-wrapper.sc-blog-subnav{flex-grow:1;display:flex;justify-content:flex-end}.blog-search-wrapper.sc-blog-subnav .mobile.sc-blog-subnav{align-items:center}.blog-search-wrapper.sc-blog-subnav .mobile.sc-blog-subnav ion-icon.sc-blog-subnav{margin-inline-end:var(--space-1);font-size:20px}.content.sc-blog-subnav{position:relative;display:flex;justify-content:space-between;padding-block-start:var(--space-2);padding-block-end:var(--space-2);height:100%}.subnav-dropdown.sc-blog-subnav{background:white;left:0;right:0;position:absolute;top:0;display:none;transition:transform 2s ease}.subnav-dropdown.open.sc-blog-subnav{transform:translateY(100%);display:block}.subnav-dropdown.sc-blog-subnav .ui-container.sc-blog-subnav{display:flex;align-items:center;justify-content:space-between;padding-block-start:var(--space-2);padding-block-end:var(--space-2)}";
+
+class BlogSubnav {
+  constructor(hostRef) {
+    registerInstance(this, hostRef);
+    this.sticky = false;
+    this.open = false;
+    this.breadcrumbs = [];
+    this.socialActions = false;
+    this.pagination = false;
+    this.render = () => (h(Host, { class: {
+        'sticky': this.sticky,
+      } }, h("div", { class: "subnav-wrapper" }, h(ResponsiveContainer, { class: "content" }, h(Breadcrumbs, { onClick: () => window.scrollTo(0, 0) }, this.breadcrumbs.map(crumb => (h("li", null, h("a", Object.assign({ class: "ui-heading-5" }, href(`${crumb[1]}`, Router)), crumb[0]))))), h("div", { class: "blog-search-wrapper" }, h(Breakpoint, { md: true }, h("blog-search", null)), h(Breakpoint, { class: "mobile", xs: true, md: false, display: "flex" }, this.open
+      ? h("ion-icon", { onClick: () => this.open = false, class: "drawer-button", role: "button", "aria-label": "close drawer", name: "chevron-up-outline" })
+      : h("ion-icon", { onClick: () => this.open = true, class: "drawer-button", role: "button", "aria-label": "open drawer", name: "chevron-down-outline" }))), h("div", { class: {
+        'subnav-dropdown': true,
+        'open': this.open
+      } }, h(ResponsiveContainer, null, h("blog-search", null), this.socialActions
+      ? h("blog-social-actions", null) : '', this.pagination
+      ? h("blog-pagination", { linkText: ['Older', 'Newer'] }) : ''))))));
+  }
+  componentDidLoad() {
+    addListener(({ entries }) => {
+      const e = entries.find((e) => e.target === this.el);
+      if (!e) {
+        return;
+      }
+      if (e.intersectionRatio < 1) {
+        this.sticky = true;
+      }
+      else {
+        this.sticky = false;
+      }
+    });
+    observe(this.el);
+  }
+  get el() { return getElement(this); }
+  static get style() { return blogSubnavCss; }
+  static get cmpMeta() { return {
+    "$flags$": 2,
+    "$tagName$": "blog-subnav",
+    "$members$": {
+      "breadcrumbs": [16],
+      "socialActions": [4, "social-actions"],
+      "pagination": [4],
+      "sticky": [32],
+      "open": [32]
     },
     "$listeners$": undefined,
     "$lazyBundleId$": "-",
@@ -19121,10 +19166,11 @@ registerComponents([
   AppflowSiteRoutes,
   BlogNewsletter,
   BlogPage,
-  BlogPage$1,
+  BlogPagination,
   BlogPost,
   BlogSearch,
   BlogSocialActions,
+  BlogSubnav,
   CodeSnippet,
   ComponentDetail,
   ComponentList,

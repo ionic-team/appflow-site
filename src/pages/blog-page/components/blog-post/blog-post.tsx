@@ -1,15 +1,17 @@
-import { Component, Prop, h, Host, Element } from '@stencil/core';
+import { Component, Prop, h, Host, Element, getAssetPath } from '@stencil/core';
 import { RenderedBlog } from '@ionic-internal/markdown-blog/src/models';
-import posts from '../../../../assets/blog.json';
+import posts from './assets/blog.json';
 import Helmet from '@stencil/helmet';
 import { ThemeProvider, Heading, Paragraph, DateTime } from '@ionic-internal/ionic-ds';
 import parseISO from 'date-fns/parseISO';
 import { href } from 'stencil-router-v2';
 import Router from '../../../../router';
+import Img from '../../../../components/Img/Img';
 
 @Component({
   tag: 'blog-post',
   styleUrl: 'blog-post.scss',
+  assetsDirs: ['assets']
 })
 export class BlogPost {
   private keepScrollLinks: HTMLAnchorElement[] = [];
@@ -20,6 +22,7 @@ export class BlogPost {
   @Element() el!: HTMLElement;
 
   async componentWillLoad() {
+    console.log(this.post);
     if (this.post) return this.slug = this.post.slug;
     if (this.slug) this.post = (posts as RenderedBlog[]).find(p => p.slug === this.slug)
   }
@@ -67,9 +70,8 @@ export class BlogPost {
 
           <PostAuthor authorName={post.authorName} authorUrl={post.authorUrl} dateString={post.date} />
 
-          {post.featuredImage 
-          ? <PostFeaturedImage preview={preview} post={post} />
-          : <PostDefaultImage preview={preview} post={post}/>}
+          <PostFeaturedImage preview={preview} post={post} />
+
           
           <div
             class="post-content"
@@ -90,21 +92,38 @@ const PostFeaturedImage = ({ post, preview }: { post: RenderedBlog, preview: boo
   <div class="featured-image-wrapper">
     {preview 
     ? <a {...href(`/blog/${post.slug}`, Router)}>
-        <img onClick={() => window.scrollTo(0, 0)} class="featured-image" src={post.featuredImage} alt={post.featuredImageAlt} />
+        <Img
+          // fallback={PostDefaultImage}
+          onClick={() => window.scrollTo(0, 0)}
+          class="featured-image"
+          dimensions="1600x840"
+          name={post.slug}
+          alt={post.slug.split('-').join(' ')}
+          path={getAssetPath(`assets/img/`)}
+        />
       </a>
-    : <img class="featured-image" src={post.featuredImage} alt={post.featuredImageAlt} /> }
+    : <Img
+        // fallback={PostDefaultImage}
+        onClick={() => window.scrollTo(0, 0)}
+        class="featured-image"
+        dimensions="1600x840"
+        name={post.slug}
+        alt={post.slug.split('-').join(' ')}
+        path={getAssetPath(`assets/img/`)}
+      /> }
   </div>
 );
 
-const PostDefaultImage = ({ post, preview }: { post: RenderedBlog, preview: boolean}) => (
-  <div class="default-image-wrapper">
-    {preview 
-    ? <a {...href(`/blog/${post.slug}`, Router)}>
-        <img  onClick={() => window.scrollTo(0, 0)} class="featured-image" width="2400" height="1280" src="/assets/img/appflow-og-img.jpg" alt="Appflow logo and text on gradient background" />
-      </a>
-    : <img class="featured-image" width="2400" height="1280" src="/assets/img/appflow-og-img.jpg" alt="Appflow logo and text on gradient background" /> }
-  </div>
-);
+// const PostDefaultImage = () => (
+//   <Img
+//     onClick={() => window.scrollTo(0, 0)}
+//     class="featured-image"
+//     dimensions="2400x1280"
+//     name="default" type="jpg"
+//     alt="default appflow image"
+//     path={getAssetPath(`assets/img/`)}
+//   />
+// );
 
 
 const PostAuthor = ({ authorName, authorUrl, dateString }: { authorName: string, authorUrl: string, dateString: string }) => {

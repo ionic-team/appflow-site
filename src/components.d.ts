@@ -74,14 +74,6 @@ export namespace Components {
     interface SiteBackdrop {
         "visible": boolean;
     }
-    interface SiteImg {
-        "alt": string;
-        "dimensions": string;
-        "loading"?: 'lazy' | 'eager';
-        "name": string;
-        "path": string;
-        "type": string;
-    }
     interface WhyAppflow {
     }
 }
@@ -236,12 +228,6 @@ declare global {
         prototype: HTMLSiteBackdropElement;
         new (): HTMLSiteBackdropElement;
     };
-    interface HTMLSiteImgElement extends Components.SiteImg, HTMLStencilElement {
-    }
-    var HTMLSiteImgElement: {
-        prototype: HTMLSiteImgElement;
-        new (): HTMLSiteImgElement;
-    };
     interface HTMLWhyAppflowElement extends Components.WhyAppflow, HTMLStencilElement {
     }
     var HTMLWhyAppflowElement: {
@@ -274,7 +260,6 @@ declare global {
         "pricing-page": HTMLPricingPageElement;
         "pricing-table": HTMLPricingTableElement;
         "site-backdrop": HTMLSiteBackdropElement;
-        "site-img": HTMLSiteImgElement;
         "why-appflow": HTMLWhyAppflowElement;
     }
 }
@@ -347,14 +332,6 @@ declare namespace LocalJSX {
     interface SiteBackdrop {
         "visible"?: boolean;
     }
-    interface SiteImg {
-        "alt": string;
-        "dimensions": string;
-        "loading"?: 'lazy' | 'eager';
-        "name": string;
-        "path": string;
-        "type": string;
-    }
     interface WhyAppflow {
     }
     interface IntrinsicElements {
@@ -383,7 +360,6 @@ declare namespace LocalJSX {
         "pricing-page": PricingPage;
         "pricing-table": PricingTable;
         "site-backdrop": SiteBackdrop;
-        "site-img": SiteImg;
         "why-appflow": WhyAppflow;
     }
 }
@@ -416,7 +392,6 @@ declare module "@stencil/core" {
             "pricing-page": LocalJSX.PricingPage & JSXBase.HTMLAttributes<HTMLPricingPageElement>;
             "pricing-table": LocalJSX.PricingTable & JSXBase.HTMLAttributes<HTMLPricingTableElement>;
             "site-backdrop": LocalJSX.SiteBackdrop & JSXBase.HTMLAttributes<HTMLSiteBackdropElement>;
-            "site-img": LocalJSX.SiteImg & JSXBase.HTMLAttributes<HTMLSiteImgElement>;
             "why-appflow": LocalJSX.WhyAppflow & JSXBase.HTMLAttributes<HTMLWhyAppflowElement>;
         }
     }

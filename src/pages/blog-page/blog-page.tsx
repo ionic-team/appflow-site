@@ -2,7 +2,7 @@ import { Component, State, Host, Prop, h, Watch, Element } from '@stencil/core';
 import { ResponsiveContainer, Heading, Paragraph, Breakpoint } from '@ionic-internal/ionic-ds';
 import { RenderedBlog } from '@ionic-internal/markdown-blog/src/models';
 
-import posts from '../../assets/blog.json';
+import posts from './components/blog-post/assets/blog.json';
 import state from '../../store';
 import { BlogSubnav } from './components/blog-subnav/blog-subnav';
 

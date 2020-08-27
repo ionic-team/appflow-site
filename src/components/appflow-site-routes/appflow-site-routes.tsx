@@ -46,6 +46,9 @@ export class AppflowSiteRoutes {
           <Route path="/why-appflow">
             <why-appflow />
           </Route>
+          <Route path="/resources">
+            <resources-page />
+          </Route>
           <Route path="/pricing">
             <pricing-page />
           </Route>

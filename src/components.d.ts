@@ -71,6 +71,8 @@ export namespace Components {
     }
     interface PricingTable {
     }
+    interface ResourcesPage {
+    }
     interface SiteBackdrop {
         "visible": boolean;
     }
@@ -222,6 +224,12 @@ declare global {
         prototype: HTMLPricingTableElement;
         new (): HTMLPricingTableElement;
     };
+    interface HTMLResourcesPageElement extends Components.ResourcesPage, HTMLStencilElement {
+    }
+    var HTMLResourcesPageElement: {
+        prototype: HTMLResourcesPageElement;
+        new (): HTMLResourcesPageElement;
+    };
     interface HTMLSiteBackdropElement extends Components.SiteBackdrop, HTMLStencilElement {
     }
     var HTMLSiteBackdropElement: {
@@ -259,6 +267,7 @@ declare global {
         "plan-pricing": HTMLPlanPricingElement;
         "pricing-page": HTMLPricingPageElement;
         "pricing-table": HTMLPricingTableElement;
+        "resources-page": HTMLResourcesPageElement;
         "site-backdrop": HTMLSiteBackdropElement;
         "why-appflow": HTMLWhyAppflowElement;
     }
@@ -329,6 +338,8 @@ declare namespace LocalJSX {
     }
     interface PricingTable {
     }
+    interface ResourcesPage {
+    }
     interface SiteBackdrop {
         "visible"?: boolean;
     }
@@ -359,6 +370,7 @@ declare namespace LocalJSX {
         "plan-pricing": PlanPricing;
         "pricing-page": PricingPage;
         "pricing-table": PricingTable;
+        "resources-page": ResourcesPage;
         "site-backdrop": SiteBackdrop;
         "why-appflow": WhyAppflow;
     }
@@ -391,6 +403,7 @@ declare module "@stencil/core" {
             "plan-pricing": LocalJSX.PlanPricing & JSXBase.HTMLAttributes<HTMLPlanPricingElement>;
             "pricing-page": LocalJSX.PricingPage & JSXBase.HTMLAttributes<HTMLPricingPageElement>;
             "pricing-table": LocalJSX.PricingTable & JSXBase.HTMLAttributes<HTMLPricingTableElement>;
+            "resources-page": LocalJSX.ResourcesPage & JSXBase.HTMLAttributes<HTMLResourcesPageElement>;
             "site-backdrop": LocalJSX.SiteBackdrop & JSXBase.HTMLAttributes<HTMLSiteBackdropElement>;
             "why-appflow": LocalJSX.WhyAppflow & JSXBase.HTMLAttributes<HTMLWhyAppflowElement>;
         }

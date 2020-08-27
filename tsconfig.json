@@ -16,7 +16,11 @@
     "resolveJsonModule": true,
     "jsx": "react",
     "jsxFactory": "h",
-    "strict": true
+    "strict": true,
+    "baseUrl": ".",
+    "paths": {
+      "@stencil/core": [ "node_modules/@stencil/core"]
+    }
   },
   "include": [
     "src",

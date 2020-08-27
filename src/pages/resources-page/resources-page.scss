@@ -1,0 +1,32 @@
+:host {
+  display: block;
+}
+
+#feature {
+@include box($mbs:var(--space-11), $mbe:var(--space-11));
+}
+
+#latest {
+  resource-card {
+    .image-wrapper {
+    @include box($h:128px);
+    }
+  }
+
+  hr.top {
+  @include box($mbs: var(--space-3));
+  }  
+}
+
+#mid {
+@include box($mbs: var(--space-11));
+
+  resource-card {    
+    .image-wrapper {
+    @include box($h:224px);
+    }
+    .content {
+      background: red;
+    }
+  }
+}

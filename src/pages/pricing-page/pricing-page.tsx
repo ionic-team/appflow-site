@@ -1,7 +1,7 @@
 import { Component, Host, h } from '@stencil/core';
 
 import { ResponsiveContainer, PrismicRichText, Heading, Grid, Col, Paragraph } from '@ionic-internal/ionic-ds';
-import { getPage } from '../../prismic';
+import { getPage } from '../../utils/prismic/prismic';
 import state from '../../store';
 import { aaaLogo, amtrakLogo, nasaLogo, ibmLogo, burgerKingLogo, catLogo, targetLogo } from '../../svgs';
 

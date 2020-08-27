@@ -102,10 +102,12 @@ export class SiteHeader {
                   >                    
                     Why Appflow
                   </a>
-                  {/* <NavLink
-                    path="/resources">
+                  <a
+                    {...href('/resources')}
+                    ref={e => handleActive(e)}
+                  >
                     Resources
-                  </NavLink> */}
+                  </a>
                   <a
                     {...href('/pricing')}
                     ref={e => handleActive(e)}

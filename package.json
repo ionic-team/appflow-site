@@ -7,7 +7,7 @@
     "ci:env": "touch .env && echo PRISMIC_ENDPOINT=$PRISMIC_ENDPOINT >> .env",
     "ci": "npm run ci:env && npm run build",
     "build": "stencil build --prerender",
-    "start": "stencil build --dev --watch --serve",
+    "start": "stencil build --dev --watch --watchAll --serve",
     "generate": "stencil generate",
     "serve": "stencil build --dev --watch",
     "dev": "stencil build --dev --watch --serve",

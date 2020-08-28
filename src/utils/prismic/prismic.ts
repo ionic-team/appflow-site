@@ -14,10 +14,10 @@ export const getPage = async (prismicId: string) => {
     console.log(response);
 
     state.pageData = response.data;
-    
+
     // if the page has meta data, set it, otherwise use the default
     // note, if you're hard coding meta data, do it after calling getPage()
-    (['title', 'description', 'meta_image'] as (keyof typeof defaults)[]).forEach(prop => {
+    (['title', 'description', 'meta_image'] as (keyof typeof defaults)[]).forEach(prop => {      
       state[prop] = response.data[prop] ? response.data[prop]: defaults[prop];
     })
   } catch (e) {

@@ -6,6 +6,7 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { RenderedBlog } from "@ionic-internal/markdown-blog/src/models";
+import { PrismicResource } from "./models/prismic";
 export namespace Components {
     interface AppBurger {
     }
@@ -71,7 +72,23 @@ export namespace Components {
     }
     interface PricingTable {
     }
+    interface ResourceArticle {
+        "prismicData": PrismicResource;
+    }
+    interface ResourceCaseStudy {
+        "prismicData": PrismicResource;
+    }
+    interface ResourceCustomInterview {
+        "prismicData": PrismicResource;
+    }
+    interface ResourceWebinar {
+        "prismicData": PrismicResource;
+    }
+    interface ResourceWhitepaper {
+        "prismicData": PrismicResource;
+    }
     interface ResourcesPage {
+        "prismicUid"?: string;
     }
     interface SiteBackdrop {
         "visible": boolean;
@@ -224,6 +241,36 @@ declare global {
         prototype: HTMLPricingTableElement;
         new (): HTMLPricingTableElement;
     };
+    interface HTMLResourceArticleElement extends Components.ResourceArticle, HTMLStencilElement {
+    }
+    var HTMLResourceArticleElement: {
+        prototype: HTMLResourceArticleElement;
+        new (): HTMLResourceArticleElement;
+    };
+    interface HTMLResourceCaseStudyElement extends Components.ResourceCaseStudy, HTMLStencilElement {
+    }
+    var HTMLResourceCaseStudyElement: {
+        prototype: HTMLResourceCaseStudyElement;
+        new (): HTMLResourceCaseStudyElement;
+    };
+    interface HTMLResourceCustomInterviewElement extends Components.ResourceCustomInterview, HTMLStencilElement {
+    }
+    var HTMLResourceCustomInterviewElement: {
+        prototype: HTMLResourceCustomInterviewElement;
+        new (): HTMLResourceCustomInterviewElement;
+    };
+    interface HTMLResourceWebinarElement extends Components.ResourceWebinar, HTMLStencilElement {
+    }
+    var HTMLResourceWebinarElement: {
+        prototype: HTMLResourceWebinarElement;
+        new (): HTMLResourceWebinarElement;
+    };
+    interface HTMLResourceWhitepaperElement extends Components.ResourceWhitepaper, HTMLStencilElement {
+    }
+    var HTMLResourceWhitepaperElement: {
+        prototype: HTMLResourceWhitepaperElement;
+        new (): HTMLResourceWhitepaperElement;
+    };
     interface HTMLResourcesPageElement extends Components.ResourcesPage, HTMLStencilElement {
     }
     var HTMLResourcesPageElement: {
@@ -267,6 +314,11 @@ declare global {
         "plan-pricing": HTMLPlanPricingElement;
         "pricing-page": HTMLPricingPageElement;
         "pricing-table": HTMLPricingTableElement;
+        "resource-article": HTMLResourceArticleElement;
+        "resource-case-study": HTMLResourceCaseStudyElement;
+        "resource-custom-interview": HTMLResourceCustomInterviewElement;
+        "resource-webinar": HTMLResourceWebinarElement;
+        "resource-whitepaper": HTMLResourceWhitepaperElement;
         "resources-page": HTMLResourcesPageElement;
         "site-backdrop": HTMLSiteBackdropElement;
         "why-appflow": HTMLWhyAppflowElement;
@@ -338,7 +390,23 @@ declare namespace LocalJSX {
     }
     interface PricingTable {
     }
+    interface ResourceArticle {
+        "prismicData": PrismicResource;
+    }
+    interface ResourceCaseStudy {
+        "prismicData": PrismicResource;
+    }
+    interface ResourceCustomInterview {
+        "prismicData": PrismicResource;
+    }
+    interface ResourceWebinar {
+        "prismicData": PrismicResource;
+    }
+    interface ResourceWhitepaper {
+        "prismicData": PrismicResource;
+    }
     interface ResourcesPage {
+        "prismicUid"?: string;
     }
     interface SiteBackdrop {
         "visible"?: boolean;
@@ -370,6 +438,11 @@ declare namespace LocalJSX {
         "plan-pricing": PlanPricing;
         "pricing-page": PricingPage;
         "pricing-table": PricingTable;
+        "resource-article": ResourceArticle;
+        "resource-case-study": ResourceCaseStudy;
+        "resource-custom-interview": ResourceCustomInterview;
+        "resource-webinar": ResourceWebinar;
+        "resource-whitepaper": ResourceWhitepaper;
         "resources-page": ResourcesPage;
         "site-backdrop": SiteBackdrop;
         "why-appflow": WhyAppflow;
@@ -403,6 +476,11 @@ declare module "@stencil/core" {
             "plan-pricing": LocalJSX.PlanPricing & JSXBase.HTMLAttributes<HTMLPlanPricingElement>;
             "pricing-page": LocalJSX.PricingPage & JSXBase.HTMLAttributes<HTMLPricingPageElement>;
             "pricing-table": LocalJSX.PricingTable & JSXBase.HTMLAttributes<HTMLPricingTableElement>;
+            "resource-article": LocalJSX.ResourceArticle & JSXBase.HTMLAttributes<HTMLResourceArticleElement>;
+            "resource-case-study": LocalJSX.ResourceCaseStudy & JSXBase.HTMLAttributes<HTMLResourceCaseStudyElement>;
+            "resource-custom-interview": LocalJSX.ResourceCustomInterview & JSXBase.HTMLAttributes<HTMLResourceCustomInterviewElement>;
+            "resource-webinar": LocalJSX.ResourceWebinar & JSXBase.HTMLAttributes<HTMLResourceWebinarElement>;
+            "resource-whitepaper": LocalJSX.ResourceWhitepaper & JSXBase.HTMLAttributes<HTMLResourceWhitepaperElement>;
             "resources-page": LocalJSX.ResourcesPage & JSXBase.HTMLAttributes<HTMLResourcesPageElement>;
             "site-backdrop": LocalJSX.SiteBackdrop & JSXBase.HTMLAttributes<HTMLSiteBackdropElement>;
             "why-appflow": LocalJSX.WhyAppflow & JSXBase.HTMLAttributes<HTMLWhyAppflowElement>;

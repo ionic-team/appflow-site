@@ -7,12 +7,6 @@
 }
 
 #latest {
-  resource-card {
-    .image-wrapper {
-    @include box($h:128px);
-    }
-  }
-
   hr.top {
   @include box($mbs: var(--space-3));
   }  
@@ -21,12 +15,22 @@
 #mid {
 @include box($mbs: var(--space-11));
 
-  resource-card {    
-    .image-wrapper {
-    @include box($h:224px);
-    }
-    .content {
-      background: red;
-    }
+  .ui-grid {
+  @include box($cg:var(--space-9));
   }
+}
+
+#bottom {
+@include box($mbs: var(--space-11));
+
+}
+
+#trench {
+@include box($mbs: var(--space-11), $mbe: var(--space-11));
+
+}
+
+#chasm {
+@include box($mbs: var(--space-11), $mbe: var(--space-11));
+
 }

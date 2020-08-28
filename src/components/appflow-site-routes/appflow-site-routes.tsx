@@ -46,15 +46,23 @@ export class AppflowSiteRoutes {
           <Route path="/why-appflow">
             <why-appflow />
           </Route>
+
           <Route path="/resources">
             <resources-page />
           </Route>
+          <Route
+            path={match('/resources/:id')}
+            render={({ id }) => <resources-page prismicUid={id} />}
+          />
+
           <Route path="/pricing">
             <pricing-page />
           </Route>
+
           <Route path="/privacy-policy">
             <markdown-page file="privacy-policy" />
           </Route>
+
           <Route path="/tos">
             <markdown-page file="tos" />
           </Route>

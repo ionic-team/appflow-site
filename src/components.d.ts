@@ -81,6 +81,9 @@ export namespace Components {
     interface ResourceCustomInterview {
         "prismicData": PrismicResource;
     }
+    interface ResourceToc {
+        "prismicResource": PrismicResource | null;
+    }
     interface ResourceWebinar {
         "prismicData": PrismicResource;
     }
@@ -259,6 +262,12 @@ declare global {
         prototype: HTMLResourceCustomInterviewElement;
         new (): HTMLResourceCustomInterviewElement;
     };
+    interface HTMLResourceTocElement extends Components.ResourceToc, HTMLStencilElement {
+    }
+    var HTMLResourceTocElement: {
+        prototype: HTMLResourceTocElement;
+        new (): HTMLResourceTocElement;
+    };
     interface HTMLResourceWebinarElement extends Components.ResourceWebinar, HTMLStencilElement {
     }
     var HTMLResourceWebinarElement: {
@@ -317,6 +326,7 @@ declare global {
         "resource-article": HTMLResourceArticleElement;
         "resource-case-study": HTMLResourceCaseStudyElement;
         "resource-custom-interview": HTMLResourceCustomInterviewElement;
+        "resource-toc": HTMLResourceTocElement;
         "resource-webinar": HTMLResourceWebinarElement;
         "resource-whitepaper": HTMLResourceWhitepaperElement;
         "resources-page": HTMLResourcesPageElement;
@@ -399,6 +409,9 @@ declare namespace LocalJSX {
     interface ResourceCustomInterview {
         "prismicData": PrismicResource;
     }
+    interface ResourceToc {
+        "prismicResource"?: PrismicResource | null;
+    }
     interface ResourceWebinar {
         "prismicData": PrismicResource;
     }
@@ -441,6 +454,7 @@ declare namespace LocalJSX {
         "resource-article": ResourceArticle;
         "resource-case-study": ResourceCaseStudy;
         "resource-custom-interview": ResourceCustomInterview;
+        "resource-toc": ResourceToc;
         "resource-webinar": ResourceWebinar;
         "resource-whitepaper": ResourceWhitepaper;
         "resources-page": ResourcesPage;
@@ -479,6 +493,7 @@ declare module "@stencil/core" {
             "resource-article": LocalJSX.ResourceArticle & JSXBase.HTMLAttributes<HTMLResourceArticleElement>;
             "resource-case-study": LocalJSX.ResourceCaseStudy & JSXBase.HTMLAttributes<HTMLResourceCaseStudyElement>;
             "resource-custom-interview": LocalJSX.ResourceCustomInterview & JSXBase.HTMLAttributes<HTMLResourceCustomInterviewElement>;
+            "resource-toc": LocalJSX.ResourceToc & JSXBase.HTMLAttributes<HTMLResourceTocElement>;
             "resource-webinar": LocalJSX.ResourceWebinar & JSXBase.HTMLAttributes<HTMLResourceWebinarElement>;
             "resource-whitepaper": LocalJSX.ResourceWhitepaper & JSXBase.HTMLAttributes<HTMLResourceWhitepaperElement>;
             "resources-page": LocalJSX.ResourcesPage & JSXBase.HTMLAttributes<HTMLResourcesPageElement>;

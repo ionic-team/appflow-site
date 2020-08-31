@@ -44,9 +44,9 @@ export const prismicDocToResource = (doc: PrismicDoc): PrismicResource => {
 
 const getImage = (imageObj: any) => (imageObj && imageObj.url ? imageObj.url : '');
 
-export const getAuthorsForPrismicDoc = (doc: PrismicDoc): ResourceAuthor[] => {
-  if (!doc.data.hosts && !doc.data.author) {
-    return [];
+export const getAuthorsForPrismicDoc = (doc: PrismicDoc): ResourceAuthor[] | null => {
+  if ((!doc.data.hosts || !doc.data.hosts.length) && (!doc.data.author || !doc.data.author.length)) {
+    return null;
   }
 
   if (doc.type === 'webinar') {
@@ -54,14 +54,14 @@ export const getAuthorsForPrismicDoc = (doc: PrismicDoc): ResourceAuthor[] => {
       name: h.name || '',
       title: h.title || '',
       link: h.profile_link?.url || '',
-      avatar: h.photo?.url || '',
+      avatar: h.photo || '',
     }));
   } else if (doc.data.author && doc.data.author.length) {
     return doc.data.author.map((a: any) => ({
       name: a.name || '',
       title: a.title || '',
       link: a.author_url?.url || '',
-      avatar: a.photo?.url || '',
+      avatar: a.photo || '',
     }));
   } else if (doc.data.author) {
     return [
@@ -69,12 +69,12 @@ export const getAuthorsForPrismicDoc = (doc: PrismicDoc): ResourceAuthor[] => {
         name: doc.data.author.name || '',
         title: doc.data.author.title || '',
         link: doc.data.author.author_url?.url || '',
-        avatar: doc.data.author.photo?.url || '',
+        avatar: doc.data.author.photo || '',
       },
     ];
   }
 
-  return [];
+  return null;
 };
 
 export const prismicTypeToResourceType = (type: string) =>

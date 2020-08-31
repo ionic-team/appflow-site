@@ -40,17 +40,18 @@ export class ResourcesPage {
   
   @Watch('prismicUid')
   async componentWillLoad() {
-    if (this.prismicUid) return this.getDetails();
+    if (this.prismicUid) return this.getDetail();
 
     if (!this.havePrismicData) {
       await this.getAllPages()
       this.havePrismicData = true;
     }  
+    console.log(this.allResources);
     
     this.detailView = false;
   }
 
-  async getDetails() {
+  async getDetail() {
     if (!this.havePrismicData) {
       await this.getAllPages()
       this.havePrismicData = true;
@@ -59,9 +60,7 @@ export class ResourcesPage {
     this.getPrismicInfo();
 
     this.allResources.some((resource) => {
-      console.log(resource);
       if (resource.doc?.id === this.prismicId) {
-        console.log('got here')
         this.currentResource.resource = resource;
         return true;
       }
@@ -73,7 +72,6 @@ export class ResourcesPage {
   getPrismicInfo() {
     const match = Object.values(state.pageData).some((val: any) => {
       if (val.uid === this.prismicUid) {
-        console.log(val);
         this.prismicId = val.id;
         this.currentResource.type = val.type;
         return true;
@@ -146,7 +144,6 @@ export class ResourcesPage {
 }
 
 const Feature = ({ prismicData }: { prismicData: PrismicResource }) => {
-
   return (
     <ResponsiveContainer id="feature" as="section">      
       <resource-card
@@ -251,7 +248,6 @@ const Trench = ({ prismicData }: { prismicData: PrismicResource[] }) => {
 }
 
 const Chasm = ({ prismicData }: { prismicData: PrismicResource[] }) => {
-  console.log(prismicData);
   return (
     <ResponsiveContainer id="trench" as="section">
       <Grid>

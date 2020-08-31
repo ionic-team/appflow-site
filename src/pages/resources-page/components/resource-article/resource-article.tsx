@@ -18,13 +18,12 @@ export class ResourceArticle {
 
     return (
     <Host>
-      {/* <ResourcesSubNav resourceItem={resource} /> */}
       <div class="resource-article">
         <ThemeProvider type="editorial">
           <ResponsiveContainer>
             <Grid>
               <Col md={3} sm={3}>
-                <resource-toc prismicResource={resource as PrismicResource} />
+                <resource-toc prismicResource={resource} />
               </Col>
               <Col md={9} sm={9} xs={12} cols={12}>
                 <div class="resource-article-content">

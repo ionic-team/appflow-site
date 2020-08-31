@@ -1,9 +1,9 @@
-import { h, Component, Prop } from '@stencil/core';
+import { h, Component, Prop, Host } from '@stencil/core';
 
 import { ThemeProvider, ResponsiveContainer, Grid, Text, Heading, Col, PrismicContent, Paragraph, PrismicRichText, DateTime } from '@ionic-internal/ionic-ds';
 
-import { PrismicResource } from '../../../../models/prismic';
-import { slugify } from '../../../../utils/slugify';
+import { PrismicResource, ResourceAuthor } from '../../../../models/prismic';
+import { getAuthorsForPrismicDoc } from '../../../../utils/prismic/prismic';
 // import ResourcesSubNav from './ResourceSubNav';
 
 
@@ -13,6 +13,7 @@ import { slugify } from '../../../../utils/slugify';
   scoped: true
 })
 export class ResourceWebinar {
+  private authors!: ResourceAuthor[] | null;
   private happened!: boolean;
   private hasVideo!: boolean;
   @Prop() prismicData!: PrismicResource;
@@ -20,14 +21,20 @@ export class ResourceWebinar {
   componentWillLoad() {
     // this.happened = +parseISO(resource.doc.data.when) < +new Date();
     this.hasVideo = !!this.prismicData.doc.data.wistia_id;
+
+    this.authors = getAuthorsForPrismicDoc(this.prismicData.doc);
+    console.log(this.authors);
   }
 
   render() {
     const resource = this.prismicData;
-    
-    return [
-      // <ResourcesSubNav resourceItem={resource} />,
-      <div class="resource-webinar">
+    console.log(resource);
+    return (
+      <Host class="resource-webinar">
+        {this.authors
+        ? this.authors.map(author => {
+            <resource-author author={author} />
+          }) : ''}        
         <ThemeProvider type="editorial">
           <ResponsiveContainer>
             <div class="resource-webinar__content">
@@ -74,8 +81,8 @@ export class ResourceWebinar {
             </div>
           </ResponsiveContainer>
         </ThemeProvider>
-      </div>,
-    ]
+      </Host>
+    )
   }
 };
 

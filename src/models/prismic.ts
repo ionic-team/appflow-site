@@ -18,7 +18,7 @@ export interface Resource {
   metaImage: string;
   heroImage: string;
   type: ResourceType;
-  authors: ResourceAuthor[];
+  authors: ResourceAuthor[] | null;
   tags: string[];
   source: ResourceSource;
 }

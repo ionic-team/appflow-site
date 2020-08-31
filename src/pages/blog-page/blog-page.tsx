@@ -76,7 +76,7 @@ const DetailView =  ({ post }:{ post: BlogPage['post'] }) => {
     <blog-post post={post}/>,
     <blog-social-actions post={post} class="bottom" />,
     <PostAuthor post={post}/>,
-    <disqus-comments url={`https://useappflow.com/blog/${post.slug}`} siteId="ionic"/>
+    // <disqus-comments url={`https://useappflow.com/blog/${post.slug}`} siteId="ionic"/>
   ]
 }
 

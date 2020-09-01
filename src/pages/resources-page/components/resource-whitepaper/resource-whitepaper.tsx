@@ -16,7 +16,7 @@ export class ResourceWhitepaper {
   @Prop() prismicData!: PrismicResource;
 
   componentWillLoad() {
-
+    console.log('rendered whitepaper')
   }
 
   render() {

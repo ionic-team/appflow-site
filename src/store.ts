@@ -6,7 +6,9 @@ export interface State {
   stickyHeader: boolean;
   title: string,
   description: string,
-  meta_image: string
+  meta_image: string,
+  showHubspotForm: boolean,
+  hubspotGatedPassed: boolean
 }
 
 export const defaults = {
@@ -21,7 +23,10 @@ const { state } = createStore({
   stickyHeader: true,
   title: defaults.title,
   description: defaults.description,
-  meta_image: defaults.meta_image
+  meta_image: defaults.meta_image,
+  showHubspotForm: true,
+  hubspotGatedPassed: false
+
 } as State);
 
 export default state;

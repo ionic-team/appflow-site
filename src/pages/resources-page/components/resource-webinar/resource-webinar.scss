@@ -43,9 +43,34 @@
     }
   }
 
-  wistia-video {
+  .video {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin-block-end: var(--space-11);
-  }  
+
+    &.blured {
+      wistia-video {
+        filter: blur(16px);
+      }      
+    }
+
+    .overlay-form {
+      border-radius: var(--radius-2);
+      text-align: center;
+      position: absolute;
+      z-index: 1000;
+      background: white;
+      padding: 48px;
+
+      .heading-group {
+        .ui-heading {
+          margin-block-end: var(--space-3);
+        }
+      }
+    }
+  }
 
   .article {
     margin-block-end: var(--space-11);
@@ -56,6 +81,8 @@
 }
 :host.future {
   .landing-image {
+    background: var(--c-lavender-70);
+    width: 100%;
     height: 100%;
     position: absolute;
     z-index: -1;
@@ -82,8 +109,6 @@
 
     .ui-heading-1 {
     }
-
-    
   }
 
   .wrapper {
@@ -113,6 +138,10 @@
     margin-inline-start: var(--space-11);
     .ui-heading {
       margin-block-end: 40px;
+    }
+
+    resource-author-item + resource-author-item {
+      margin-block-start: var(--space-3);
     }
   }
 }
@@ -157,3 +186,5 @@
   }
 
 }
+
+

@@ -4,10 +4,11 @@ import { ResourceLink, PrismicDoc, PrismicResource, ResourceType } from '../../m
 import { prismicDocToResource } from '../../utils/prismic/prismic';
 import { Client } from '../../utils/prismic/prismic-configuration'
 import { getPage } from '../../utils/prismic/prismic';
-import { ResponsiveContainer, Col, Heading, Grid } from '@ionic-internal/ionic-ds';
+import { ResponsiveContainer, Col, Heading, Grid, PrismicResponsiveImage } from '@ionic-internal/ionic-ds';
 import state from '../../store';
 import router from '../../router';
 import { typeToResourceType } from 'src/utils/prismic/data';
+import { href } from 'stencil-router-v2';
 
 
 interface PrismicPreviews {
@@ -46,7 +47,6 @@ export class ResourcesPage {
       await this.getAllPages()
       this.havePrismicData = true;
     }  
-    console.log(this.allResources);
     
     this.detailView = false;
   }
@@ -83,6 +83,7 @@ export class ResourcesPage {
 
   async getAllPages() {
     await getPage('appflow_resources');
+    console.log(state.pageData);
 
     // get ids of all linked resources
     const ids = Object.values<ResourceLink>(state.pageData).reduce((acc: string[], cur: ResourceLink) => {
@@ -90,11 +91,15 @@ export class ResourcesPage {
       return [...acc, cur.id];
     }, [] )
 
+    console.log(ids);
+
     // get prismic docs by ids
-    const response = await this.prismicClient.getByIDs(ids, {});
+    const response = await this.prismicClient.getByIDs(ids, { pageSize: 100 });
     this.allResources = response.results.map((resource) => {
       return prismicDocToResource(resource);
     });
+
+    console.log(response);
 
     this.prismicPreviews  = {
       feature: this.allResources[0] || [],
@@ -109,6 +114,8 @@ export class ResourcesPage {
   renderResource = () => {
     if (this.currentResource.type === undefined) return console.error('no resource type present on resource');
     if (this.currentResource.resource === undefined) return console.error('no resource present');
+
+    console.log('got here', this.currentResource.type);
     
     switch (typeToResourceType(this.currentResource.type)) {
       case ResourceType.Article:
@@ -120,7 +127,7 @@ export class ResourcesPage {
       case ResourceType.CustomerInterview:
         return <resource-custom-interview prismicData={this.currentResource.resource} />;
       case ResourceType.Whitepaper:
-        return <resouce-whitepaper prismicData={this.currentResource.resource} />;
+        return <resource-whitepaper prismicData={this.currentResource.resource} />;
     }
 
     return null;
@@ -130,7 +137,7 @@ export class ResourcesPage {
     if (this.detailView) {
       return this.renderResource();
     }
-
+    
     return(
       <Host>
         <Feature prismicData={this.prismicPreviews.feature}/>
@@ -214,7 +221,7 @@ const Bottom = ({ prismicData }: { prismicData: PrismicResource[] }) => {
         {prismicData.map((data) => (
         <Col cols={4}>
           {data.type === 'Whitepaper'
-          ? <WhitepaperCard />
+          ? <WhitepaperCard prismicData={data}/>
           : <resource-card
               routing={{
                 base: '/resources',
@@ -235,7 +242,7 @@ const Trench = ({ prismicData }: { prismicData: PrismicResource[] }) => {
         {prismicData.map((data) => (
         <Col cols={4}>
           {data.type === 'Whitepaper'
-          ? <WhitepaperCard />
+          ? <WhitepaperCard prismicData={data}/>
           : <resource-card
               routing={{
                 base: '/resources',
@@ -250,13 +257,14 @@ const Trench = ({ prismicData }: { prismicData: PrismicResource[] }) => {
 }
 
 const Chasm = ({ prismicData }: { prismicData: PrismicResource[] }) => {
+  console.log(prismicData);
   return (
     <ResponsiveContainer id="trench" as="section">
       <Grid>
         {prismicData.map((data) => (
         <Col cols={4}>
           {data.type === 'Whitepaper'
-          ? <WhitepaperCard />
+          ? <WhitepaperCard prismicData={data}/>
           : <resource-card
               routing={{
                 base: '/resources',
@@ -270,6 +278,26 @@ const Chasm = ({ prismicData }: { prismicData: PrismicResource[] }) => {
   )
 }
 
-const WhitepaperCard = () => (
-  <div></div>
-);
+const WhitepaperCard = ({ prismicData }: { prismicData: PrismicResource }) => {
+  const externalUrl = prismicData.doc.data.content_url.url
+  
+  if (externalUrl) {  
+    return (
+      <a href={externalUrl} target="_blank" class="whitepaper-card">
+        <Heading class="ui-theme--editorial" level={4}>{prismicData.title}</Heading>
+        <div class="wrapper">
+          <PrismicResponsiveImage image={prismicData.doc.data.cover_image} />
+        </div>
+      </a>
+    )
+  }
+
+  return (
+    <a {...href(`/resources/${prismicData.id}`)} class="whitepaper-card">
+      <Heading class="ui-theme--editorial" level={4}>{prismicData.title}</Heading>
+      <div class="wrapper">
+        <PrismicResponsiveImage image={prismicData.doc.data.cover_image} />
+      </div>
+    </a>
+  )
+}

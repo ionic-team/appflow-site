@@ -1,6 +1,6 @@
-import { h, Component, Prop, Host } from '@stencil/core';
+import { h, Component, Prop, Host, getAssetPath } from '@stencil/core';
 
-import { ThemeProvider, ResponsiveContainer, Grid, Text, Heading, Col, PrismicContent, Paragraph, PrismicRichText, DateTime } from '@ionic-internal/ionic-ds';
+import { ThemeProvider, ResponsiveContainer, Grid, Text, Heading, Col, PrismicContent, Paragraph, PrismicRichText, DateTime, PrismicResponsiveImage } from '@ionic-internal/ionic-ds';
 
 import { PrismicResource, ResourceAuthor } from '../../../../models/prismic';
 import { getAuthorsForPrismicDoc } from '../../../../utils/prismic/prismic';
@@ -10,144 +10,112 @@ import { getAuthorsForPrismicDoc } from '../../../../utils/prismic/prismic';
 @Component({
   tag: 'resource-webinar',
   styleUrl: 'resource-webinar.scss',
+  assetsDirs: ['assets'],
   scoped: true
 })
 export class ResourceWebinar {
-  private authors!: ResourceAuthor[] | null;
-  private happened!: boolean;
-  private hasVideo!: boolean;
+  private hosts!: ResourceAuthor[];
+  private hasHappened!: boolean;
+
   @Prop() prismicData!: PrismicResource;
 
   componentWillLoad() {
-    // this.happened = +parseISO(resource.doc.data.when) < +new Date();
-    this.hasVideo = !!this.prismicData.doc.data.wistia_id;
+    console.log(this.prismicData);
+    this.hasHappened = new Date(this.prismicData.doc.data.when) < new Date();
+    this.hasHappened = false;
 
-    this.authors = getAuthorsForPrismicDoc(this.prismicData.doc);
-    console.log(this.authors);
+    this.hosts = getAuthorsForPrismicDoc(this.prismicData.doc);
+    console.log(this.hosts);
   }
 
   render() {
-    const resource = this.prismicData;
-    console.log(resource);
     return (
-      <Host class="resource-webinar">
-        {this.authors
-        ? this.authors.map(author => {
-            <resource-author author={author} />
-          }) : ''}        
-        <ThemeProvider type="editorial">
-          <ResponsiveContainer>
-            <div class="resource-webinar__content">
-              <div class="resource-webinar__header">
-                {/* <ResourceMeta resource={resource} /> */}
-                <Heading level={1}>{resource.title}</Heading>
-                {!this.happened ? <WebinarBegins resource={resource} /> : null}
-                <div class="resource-webinar__authors">
-                  {/* {resource.authors.map((a) => (
-                    <ResourceAuthorItem author={a} key={a.name} singleLine={true} />
-                  ))} */}
-                </div>
-              </div>
-
-              {this.hasVideo ? (
-                <div class="resource-webinar__video-wrap">
-                  {/* <Video resource={resource} blurred={!state.hubspotGatedPassed} />
-                  {!state.hubspotGatedPassed ? <OverlayForm resource={resource} /> : null} */}
-                </div>
-              ) : null}
-
-              {!this.happened ? [<RegisterButton />, <hr />] : null}
-
-              {/* {!this.happened && (
-                <site-modal open={state.showHubspotForm} modalClose={() => (state.showHubspotForm = false)}>
-                  <hgroup>
-                    <Heading level={2}>Register for {resource.title}</Heading>
-                    <p>Enter your information below to join the Webinar list</p>
-                  </hgroup>
-                  <hubspot-form
-                    formId={resource.doc.data.hubspot_form_id}
-                    ajax={false}
-                    onFormSubmitted={() => {
-                      // state.hubspotGatedPassed = true;
-                    }}
-                  />
-                </site-modal>
-              )} */}
-
-              <article class="resource-webinar__article">
-                <PrismicRichText richText={resource.doc.data.description} />
-                {!this.happened ? <RegisterButton /> : null}
-              </article>
-            </div>
-          </ResponsiveContainer>
-        </ThemeProvider>
+      <Host
+        style={{
+          '--checkmark-path': `url("${getAssetPath('assets/checkmark-circle.png')}")`
+        }}
+        class={{
+          'past': this.hasHappened,
+          'future': !this.hasHappened
+        }}>        
+          {this.hasHappened
+          ? <PastWebinar data={this.prismicData} hosts={this.hosts} />
+          : <FutureWebinar data={this.prismicData} hosts={this.hosts}/>}        
       </Host>
     )
   }
 };
 
-const RegisterButton = () => (
-  <button
-    class="resource-webinar__register-button"
-    onClick={() => {
-      // state.showHubspotForm = true;
-    }}>
-    Register Now
-  </button>
-);
+const PastWebinar = ({ data, hosts }: { data: PrismicResource, hosts: ResourceAuthor[] }) => {
+  const videoId = data.doc.data.wistia_id;
 
-const OverlayForm = ({ resource }: { resource: PrismicResource }) => (
-  <ThemeProvider type="base">
-    <div class="resource-webinar__form">
-        <hgroup>
-          <Heading level={3}>Stream {resource.title}</Heading>
-          <Paragraph>You're just a few clicks away from our free Webinar</Paragraph>
-        </hgroup>
-        <hubspot-form
-          ajax={true}
-          formId={resource.doc.data.hubspot_form_id}
-          onFormSubmitted={() => {
-            // state.hubspotGatedPassed = true;
-          }}
-        />
-    </div>
-  </ThemeProvider>
-);
+  return (
+  <ResponsiveContainer>
+    <ThemeProvider type="editorial">
+      <section class="heading">
+        <div class="meta">
+          <Heading level={6} class="type">Webinar</Heading>
+          <resource-meta tags={data.tags} class="tags"/>
+        </div>
+        <Heading level={1}>{data.title}</Heading>
+        <div class="hosts">
+          {hosts.map(host => (
+            <div class="host">
+              <PrismicResponsiveImage class="avatar" image={host.avatar} />
+              <Paragraph class="description | .ui-theme--base">{host.name}{', '}
+              {host.title}</Paragraph>
+            </div>
+          ))}
+        </div>
+      </section>
 
-const Video = ({ resource, blurred = false }: { resource: PrismicResource; blurred: boolean }) => (
-  <div class="resource-webinar__video">
-    {blurred ? <div class="resource-webinar__video--disabled" /> : null}
-    <wistia-video videoId={resource.doc.data.wistia_id} class={blurred ? 'video--blurred' : ''} />
-  </div>
-);
+      <section>
+        {videoId
+        ? <wistia-video videoId={videoId}/>
+        : null}
+      </section>
+      
+      <section class="article">
+        <PrismicRichText richText={data.doc.data.description} leading="prose"/>
+      </section>      
+    </ThemeProvider>    
+  </ResponsiveContainer>
+  )
+}
 
-const WebinarBegins = ({ resource }: { resource: PrismicResource }) => (
-  <div class="resource-webinar__begins">
-    Begins: <WebinarTime when={resource.doc.data.when} />
-  </div>
-);
+const FutureWebinar = ({ data, hosts }: { data: PrismicResource, hosts: ResourceAuthor[] }) => {
+  const date = data.doc.data.when;
+  console.log(new Date(date));
 
-const WebinarTime = ({ when }: { when: string }) => {
-  // const date = parseISO(when);
-  // const now = +new Date();
+  return (
+    <ThemeProvider type="editorial">
+      <section class="heading-group">
+        <PrismicResponsiveImage class="landing-image" image={data.doc.data.landing_image} />
+        <ResponsiveContainer>
+          <div class="heading">
+            <div class="meta">
+              <Heading level={6} class="type">Webinar</Heading>
+              <resource-meta tags={data.tags} class="tags"/>
+            </div>
+            <Heading level={1}>{data.title}</Heading>
+            <Heading class="when" level={4}>Begins: </Heading>
+          </div>
+        </ResponsiveContainer>
+      </section>
 
-  // if (date.getTime() < now) {
-  //   return <span>On Demand</span>;
-  // }
-
-  // return <DateTime date={date} />;
-};
-
-/*
-const WebinarHosts = ({ hosts }: { hosts: ResourceAuthor[] }) => (
-  <span>
-    {hosts.length > 1 ? 'Speakers' : 'Speaker'}:{' '}
-    {hosts.map((host, i) => (
-      <a href={host.link} target="_blank">
-        {host.name}
-        {i < hosts.length - 1 ? ', ' : ''}
-      </a>
-    ))}
-  </span>
-);
-*/
+      <ResponsiveContainer>
+        <section class="wrapper">
+          <div class="article">
+            <PrismicRichText richText={data.doc.data.description} leading="prose"/>
+          </div>
+          <div class="hosts">
+            <Heading level={5}>Your speakers:</Heading>
+            {hosts.map(host => (
+              <resource-author-item author={host} />  
+            ))}
+          </div>
+        </section> 
+      </ResponsiveContainer>           
+    </ThemeProvider>  
+  )
+}

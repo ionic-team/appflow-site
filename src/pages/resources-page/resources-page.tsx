@@ -144,6 +144,8 @@ export class ResourcesPage {
 }
 
 const Feature = ({ prismicData }: { prismicData: PrismicResource }) => {
+  if (!prismicData) return;
+  
   return (
     <ResponsiveContainer id="feature" as="section">      
       <resource-card

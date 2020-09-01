@@ -1,244 +1,159 @@
-.resource-webinar {
-  margin-top: 64px;
-  &__header {
+:host {
+  display: block;
+}
+
+:host.past {
+  
+  .heading {
     text-align: center;
-    .resource-meta {
-      max-width: 400px;
-      margin: auto;
-      justify-content: center;
+    margin-block-start: 89px;
+
+    .meta {
+      margin-block-end: var(--space-5);
     }
-    .resource-author-item {
-      text-align: left;
-      margin: auto;
+
+    .ui-heading-1 {
+      margin-block-end: var(--space-5);
+      color: #010610;
     }
-    .ui-heading {
-      margin: var(--space-5);
-    }
-  }
 
-  &__video-wrap {
-    position: relative;
-  }
+    .hosts {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-block-end: var(--space-9);
 
-  &__form {
-    .ui-heading {
-      font-family: var(--f-family-display);
-      margin-bottom: var(--space-2);
-    }
-    hgroup {
-      margin: var(--space-4) 0;
-      text-align: center;
-    }
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 75%;
-    transform: translate(-50%, -50%);
-    z-index: 2;
-  }
+      .host {
+        display: flex;
 
-  &__authors {
-    display: flex;
-    flex-direction: column;
-    margin: 0 auto 24px auto;
-  }
-
-  &__begins {
-    font-size: 28px;
-    font-weight: 600;
-    color: var(--c-carbon-100);
-    margin-bottom: 24px;
-
-    .ui-date {
-      display: inline;
-    }
-  }
-
-  &__register-button {
-    text-transform: uppercase;
-    font-weight: bold;
-    line-height: 14px;
-  }
-
-  site-modal {
-    hgroup {
-      text-align: center;
-    }
-  }
-
-  &__content {
-    wistia-video {
-      margin: auto;
-      width: 100%;
-      &.video--blurred {
-        filter: blur(8px);
-        opacity: 0.2;
+        & + .host {
+          margin-block-start: var(--space-3);
+        }
+      
+        .avatar {
+          border-radius: var(--radius-4);
+          margin-inline-end: 11px;
+          width: 28px;
+          height: 28px;
+        }
+        .description {
+          color: #73849A;
+        }
       }
     }
-
-    hr {
-      max-width: 968px;
-      margin: 64px auto;
-    }
-
-    .resource-webinar__register-button {
-      display: block;
-      margin: 24px auto;
-    }
   }
 
-  &__video {
+  wistia-video {
+    margin-block-end: var(--space-11);
+  }  
+
+  .article {
+    margin-block-end: var(--space-11);
+    max-width: 672px;
+    margin-inline-start: auto;
+    margin-inline-end: auto;
+  }
+}
+:host.future {
+  .landing-image {
+    height: 100%;
+    position: absolute;
+    z-index: -1;
+    object-fit: cover;
+  }
+
+  .heading-group {
     position: relative;
-    &--disabled {
-      position: absolute;
-      z-index: 1;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: transparent;
+    min-height: 512px;
+    display: flex;
+    align-items: center;
+
+    .heading * {
+      color: white;
+    }
+
+    .when {
+      margin-block-start: var(--space-5);
+    }
+
+    .meta {
+      margin-block-end: var(--space-5);
+    }
+
+    .ui-heading-1 {
+    }
+
+    
+  }
+
+  .wrapper {
+    display: flex;
+    margin-block-start: var(--space-11);
+    margin-block-end: var(--space-11);
+  
+    & > * {
+      flex-grow: 1;
+    }
+
+    .article {
+      max-width: 576px;      
+    }
+
+    @media screen and (max-width: $screen-sm-max) {
+      flex-direction: column;
+
+      .hosts {
+        margin-block-start: var(--space-11);
+        margin-inline-start: 0;
+      }
+    }
+  }  
+
+  .hosts {
+    margin-inline-start: var(--space-11);
+    .ui-heading {
+      margin-block-end: 40px;
     }
   }
+}
 
-  &__article {
-    max-width: 600px;
-    margin: 96px auto;
+.meta {
+  display: inline-flex;
 
-    .resource-webinar__register-button {
-      margin-left: 0;
-      margin-right: 0;
-    }
+  .type {
+    margin-inline-end: 17px;
+  }
+}
+
+.article {
+  p, li {    
+    color: #445B78;
   }
 
-  h4 {
-    font-size: 22px;
-    letter-spacing: -0.018em;
-    line-height: 1.46em;
-    color: #596a89;
+  p + p, p + ul, ul + p, ul + ul {
+    margin-block-start: var(--space-5);
   }
-
-  h4 + h3 {
-    margin-top: 42px;
-  }
-
-  // h3 {
-  //   font-weight: 600;
-  //   font-size: 20px;
-  //   margin-top: 42px;
-  //   margin-bottom: 15px;
-  // }
 
   ul {
-    margin-top: 20px;
-    padding-left: 0;
-    padding-bottom: 6px;
-  }
-
-  strong {
-    font-weight: 600;
+    margin-inline-start: 38px;
   }
 
   li {
-    line-height: 1.8em;
-    font-size: 16px;
-    list-style: none;
-    letter-spacing: -0.004em;
     position: relative;
-    margin-left: 0;
-    padding-left: 44px;
-    margin-bottom: 20px;
 
+    & + li {
+      margin-block-start: var(--space-5);
+    }
+  
     &::before {
-      box-sizing: border-box;
-      background: url(/assets/site-new/icon/ico-check.png) no-repeat 0 0;
-      background-size: auto;
-      background-size: 24px;
-      width: 24px;
-      height: 24px;
-      content: "";
-      position: absolute;
-      left: 0;
+      left: -38px;
       top: 4px;
+      position: absolute;
+      content: '';
+      background: var(--checkmark-path);
+      height: 20px;
+      width: 20px;
     }
   }
 
-  .cta {
-    /* Flow into the header */
-    margin-top: -200px;
-    padding-top: 200px;
-
-    color: var(--c-white);
-
-    h1 {
-      font-size: 56px;
-      margin-top: 22px;
-      max-width: 800px;
-      margin-bottom: 12px;
-      letter-spacing: -0.03em;
-    }
-
-    h4 {
-      text-transform: uppercase;
-      font-size: 13px;
-      letter-spacing: 0.12em;
-      color: var(--c-white);
-    }
-
-    .ui-container {
-      padding-top: 76px;
-      padding-bottom: 159px;
-      max-width: 100%;
-    }
-  }
-
-  &-description {
-    display: grid;
-    grid-template-columns: 1fr 300px;
-
-    margin-top: -32px;
-    margin-bottom: 128px;
-
-    color: #596a89;
-  }
-
-  &-meta {
-    color: #d9e9fe;
-    margin-top: 19px;
-    font-size: 16px;
-    a {
-      color: rgba(255, 255, 255, 0.9);
-    }
-    .ui-button {
-      display: block;
-      margin-top: 48px;
-      background: white;
-      color: var(--c-ionic-brand);
-    }
-  }
-
-  &-aside {
-    padding: 54px 32px 32px;
-    background: #f6f9fc;
-
-    border-radius: 0 14px 14px 0;
-
-    display: flex;
-    flex: 0 0 340px;
-    flex-direction: column;
-
-    h4 {
-      font-size: 14px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-    }
-  }
-
-  .resource-author-item {
-    margin-bottom: 16px;
-    display: block;
-  }
-
-  .sep {
-    margin: 0 6px;
-  }
 }

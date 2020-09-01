@@ -1,6 +1,6 @@
 import { h, Component, Prop } from '@stencil/core';
 
-import { ThemeProvider, ResponsiveContainer, Grid, Text, Heading, Col, PrismicContent } from '@ionic-internal/ionic-ds';
+import { ThemeProvider, ResponsiveContainer, Grid, Text, Heading, Col, PrismicContent, Paragraph } from '@ionic-internal/ionic-ds';
 
 import { PrismicResource } from '../../../../models/prismic';
 import { slugify } from '../../../../utils/slugify';
@@ -25,15 +25,15 @@ export class ResourceCaseStudy {
           <ResponsiveContainer>
             <Grid>
               <Col md={3} sm={3}>
-                {/* <resource-toc prismicResource={resource as PrismicResource} /> */}
+                <resource-toc prismicResource={resource as PrismicResource} />
               </Col>
               <Col md={9} sm={9} xs={12} cols={12}>
                 <div class="resource-article-content">
-                  <hgroup>
+                  <div class="heading-group">
                     <Heading level={1} id={slugify(resource.title)}>
                       {resource.title}
                     </Heading>
-                    <Text>{resource.description}</Text>
+                    <Paragraph level={2}>{resource.description}</Paragraph>
                     <HeroImage image={resource.heroImage} alt={resource.title} />
                     {/*
                   <img
@@ -42,7 +42,7 @@ export class ResourceCaseStudy {
                     alt={resource.doc.data.hero_image.alt}
                   />
                   */}
-                  </hgroup>
+                  </div>
                   <article>
                     <PrismicContent content={resource.doc.data.body} />
                   </article>

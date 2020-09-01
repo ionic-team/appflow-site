@@ -78,9 +78,6 @@ export namespace Components {
     interface ResourceCaseStudy {
         "prismicData": PrismicResource;
     }
-    interface ResourceCustomInterview {
-        "prismicData": PrismicResource;
-    }
     interface ResourceToc {
         "prismicResource": PrismicResource | null;
     }
@@ -97,6 +94,9 @@ export namespace Components {
         "visible": boolean;
     }
     interface WhyAppflow {
+    }
+    interface WistiaVideo {
+        "videoId"?: string;
     }
 }
 declare global {
@@ -256,12 +256,6 @@ declare global {
         prototype: HTMLResourceCaseStudyElement;
         new (): HTMLResourceCaseStudyElement;
     };
-    interface HTMLResourceCustomInterviewElement extends Components.ResourceCustomInterview, HTMLStencilElement {
-    }
-    var HTMLResourceCustomInterviewElement: {
-        prototype: HTMLResourceCustomInterviewElement;
-        new (): HTMLResourceCustomInterviewElement;
-    };
     interface HTMLResourceTocElement extends Components.ResourceToc, HTMLStencilElement {
     }
     var HTMLResourceTocElement: {
@@ -298,6 +292,12 @@ declare global {
         prototype: HTMLWhyAppflowElement;
         new (): HTMLWhyAppflowElement;
     };
+    interface HTMLWistiaVideoElement extends Components.WistiaVideo, HTMLStencilElement {
+    }
+    var HTMLWistiaVideoElement: {
+        prototype: HTMLWistiaVideoElement;
+        new (): HTMLWistiaVideoElement;
+    };
     interface HTMLElementTagNameMap {
         "app-burger": HTMLAppBurgerElement;
         "app-icon": HTMLAppIconElement;
@@ -325,13 +325,13 @@ declare global {
         "pricing-table": HTMLPricingTableElement;
         "resource-article": HTMLResourceArticleElement;
         "resource-case-study": HTMLResourceCaseStudyElement;
-        "resource-custom-interview": HTMLResourceCustomInterviewElement;
         "resource-toc": HTMLResourceTocElement;
         "resource-webinar": HTMLResourceWebinarElement;
         "resource-whitepaper": HTMLResourceWhitepaperElement;
         "resources-page": HTMLResourcesPageElement;
         "site-backdrop": HTMLSiteBackdropElement;
         "why-appflow": HTMLWhyAppflowElement;
+        "wistia-video": HTMLWistiaVideoElement;
     }
 }
 declare namespace LocalJSX {
@@ -406,9 +406,6 @@ declare namespace LocalJSX {
     interface ResourceCaseStudy {
         "prismicData": PrismicResource;
     }
-    interface ResourceCustomInterview {
-        "prismicData": PrismicResource;
-    }
     interface ResourceToc {
         "prismicResource"?: PrismicResource | null;
     }
@@ -425,6 +422,9 @@ declare namespace LocalJSX {
         "visible"?: boolean;
     }
     interface WhyAppflow {
+    }
+    interface WistiaVideo {
+        "videoId"?: string;
     }
     interface IntrinsicElements {
         "app-burger": AppBurger;
@@ -453,13 +453,13 @@ declare namespace LocalJSX {
         "pricing-table": PricingTable;
         "resource-article": ResourceArticle;
         "resource-case-study": ResourceCaseStudy;
-        "resource-custom-interview": ResourceCustomInterview;
         "resource-toc": ResourceToc;
         "resource-webinar": ResourceWebinar;
         "resource-whitepaper": ResourceWhitepaper;
         "resources-page": ResourcesPage;
         "site-backdrop": SiteBackdrop;
         "why-appflow": WhyAppflow;
+        "wistia-video": WistiaVideo;
     }
 }
 export { LocalJSX as JSX };
@@ -492,13 +492,13 @@ declare module "@stencil/core" {
             "pricing-table": LocalJSX.PricingTable & JSXBase.HTMLAttributes<HTMLPricingTableElement>;
             "resource-article": LocalJSX.ResourceArticle & JSXBase.HTMLAttributes<HTMLResourceArticleElement>;
             "resource-case-study": LocalJSX.ResourceCaseStudy & JSXBase.HTMLAttributes<HTMLResourceCaseStudyElement>;
-            "resource-custom-interview": LocalJSX.ResourceCustomInterview & JSXBase.HTMLAttributes<HTMLResourceCustomInterviewElement>;
             "resource-toc": LocalJSX.ResourceToc & JSXBase.HTMLAttributes<HTMLResourceTocElement>;
             "resource-webinar": LocalJSX.ResourceWebinar & JSXBase.HTMLAttributes<HTMLResourceWebinarElement>;
             "resource-whitepaper": LocalJSX.ResourceWhitepaper & JSXBase.HTMLAttributes<HTMLResourceWhitepaperElement>;
             "resources-page": LocalJSX.ResourcesPage & JSXBase.HTMLAttributes<HTMLResourcesPageElement>;
             "site-backdrop": LocalJSX.SiteBackdrop & JSXBase.HTMLAttributes<HTMLSiteBackdropElement>;
             "why-appflow": LocalJSX.WhyAppflow & JSXBase.HTMLAttributes<HTMLWhyAppflowElement>;
+            "wistia-video": LocalJSX.WistiaVideo & JSXBase.HTMLAttributes<HTMLWistiaVideoElement>;
         }
     }
 }

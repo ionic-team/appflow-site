@@ -1,6 +1,6 @@
 import { h, Component, Prop, Host, Watch, State, Element } from '@stencil/core';
 import { PrismicResource, PrismicDoc } from '../../../../models/prismic';
-import { AnchorButton, IntersectionHelper } from '@ionic-internal/ionic-ds';
+import { IntersectionHelper } from '@ionic-internal/ionic-ds';
 import { slugify } from '../../../../utils/slugify';
 import { getResourceUrl } from '../../../../utils/urls';
 
@@ -16,7 +16,7 @@ interface ItemOffset {
   scoped: true,
 })
 export class ResourceTOC {
-  @Element() el?: HTMLResourceTocElement;
+  @Element() el?: HTMLElement;
   @Prop() prismicResource: PrismicResource | null = null;
 
   @State() headings: any[] = [];
@@ -144,9 +144,9 @@ const CTAButton = ({ doc }: { doc: PrismicDoc }) => {
   const { url, target } = doc.data.cta_link;
   const { cta_title } = doc.data;
   return (
-    <AnchorButton href={url} target={target} class="cta-button">
+    <a href={url} target={target} class="cta-button">
       {cta_title}
-    </AnchorButton>
+    </a>
   );
 };
 

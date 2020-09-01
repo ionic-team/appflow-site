@@ -1,28 +1,45 @@
 :host {
   padding-bottom: 76px;
 }
-hgroup {
-  margin-top: 24px;
-  margin-bottom: 53px;
-
+.heading-group {
   img {
-    margin: 24px auto;
     max-width: 100%;
+    margin-block-end: var(--space-11);
   }
-  h1 {
-    font-size: 46px;
-    margin-top: 56px;
+  .ui-heading-1 {
+    margin-block-start: var(--space-10);
+    margin-block-end: var(--space-5);
   }
-  .ui-text {
-    line-height: 1.8em;
-    letter-spacing: .01em;
-    font-size: 18px;
-    font-weight: 400;
-    color: var(--c-indigo-80);
+  .ui-paragraph {
+    color: #73849A;
+    margin-block-end: var(--space-6);
+  }
+}
+
+resource-toc {
+  margin-block-start: var(--space-10);
+}
+
+resource-author-item {
+  margin-block-start: var(--space-3);
+  margin-block-end: var(--space-3);
+
+  &:last-of-type {
+    margin-block-end: 73px;
   }
 }
 
 article {
+  .ui-heading-2 {
+    margin-block-end: var(--space-5);
+  }
+  .ui-heading-3 {
+    margin-block-end: var(--space-3);
+  }
+
+  * + .ui-heading {
+    margin-block-start: var(--space-9);
+  }
   p {
     font-size: 16px;
     letter-spacing: -0.011em;

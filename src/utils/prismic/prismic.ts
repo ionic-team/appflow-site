@@ -44,9 +44,9 @@ export const prismicDocToResource = (doc: PrismicDoc): PrismicResource => {
 
 const getImage = (imageObj: any) => (imageObj && imageObj.url ? imageObj.url : '');
 
-export const getAuthorsForPrismicDoc = (doc: PrismicDoc): ResourceAuthor[] | null => {
+export const getAuthorsForPrismicDoc = (doc: PrismicDoc): ResourceAuthor[] => {
   if ((!doc.data.hosts || !doc.data.hosts.length) && (!doc.data.author || !doc.data.author.length)) {
-    return null;
+    return [];
   }
 
   if (doc.type === 'webinar') {
@@ -74,7 +74,7 @@ export const getAuthorsForPrismicDoc = (doc: PrismicDoc): ResourceAuthor[] | nul
     ];
   }
 
-  return null;
+  return [];
 };
 
 export const prismicTypeToResourceType = (type: string) =>

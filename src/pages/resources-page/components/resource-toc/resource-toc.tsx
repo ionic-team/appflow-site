@@ -1,6 +1,6 @@
 import { h, Component, Prop, Host, Watch, State, Element } from '@stencil/core';
 import { PrismicResource, PrismicDoc } from '../../../../models/prismic';
-import { IntersectionHelper } from '@ionic-internal/ionic-ds';
+import { IntersectionHelper, Heading } from '@ionic-internal/ionic-ds';
 import { slugify } from '../../../../utils/slugify';
 import { getResourceUrl } from '../../../../utils/urls';
 
@@ -16,6 +16,8 @@ interface ItemOffset {
   scoped: true,
 })
 export class ResourceTOC {
+  private pageTitles: HTMLElement[] = [];
+  private tocTitles: HTMLElement[] = [];
   @Element() el?: HTMLElement;
   @Prop() prismicResource: PrismicResource | null = null;
 
@@ -27,19 +29,20 @@ export class ResourceTOC {
   componentDidLoad() {
     this.headings = getHeadings(this.prismicResource!.doc);
 
-    IntersectionHelper.addListener(({ visible }) => {
-      for (const h of this.headings) {
-        const id = slugify(h.text);
-        if (visible.some((e) => e.id === id)) {
-          this.lastVisibleId = id;
-          return;
-        }
+    IntersectionHelper.addListener(({ entries }) => {
+      const e = entries.find((e) => this.pageTitles.find(titleEl => titleEl === (e.target as HTMLElement)));
+      if (!e) return;
+
+      if (e.intersectionRatio === 1) {
+        this.tocTitles.forEach((tocTitle) => {
+          tocTitle.dataset.id === e.target.id ? tocTitle.classList.add('active') : tocTitle.classList.remove('active');
+        })
       }
     });
   }
 
   render() {
-    const { prismicResource: resource, headings } = this;
+    const { prismicResource: resource, headings, Anchor } = this;
 
     if (!resource) {
       return null;
@@ -58,7 +61,7 @@ export class ResourceTOC {
     return (
       <Host>
         <nav>
-          <h4>Contents</h4>
+          <Heading class="title" level={6}>Contents</Heading>
           <ul>
             {headings.map((heading: any) => {
               const href = slugify(heading.text);
@@ -74,6 +77,28 @@ export class ResourceTOC {
       </Host>
     );
   }
+
+  Anchor = ({ heading, key }: AnchorProps) => {
+    const href = 'h-' + slugify(heading.text);
+    const level = parseInt(heading.type[heading.type.length - 1], 10);
+    const target = (document.querySelector(`#${href}`) as HTMLElement);
+
+    this.pageTitles.push(target);
+    IntersectionHelper.observe(target);
+    
+    const offsetY = 100;
+    return (
+      <li
+        class={`toc-item${level ? ` toc-item-level-${level}` : ``}`}
+        data-id={href}
+        ref={e => e ? this.tocTitles.push(e) : ''}
+        key={key}
+        onClick={() => { window.scrollTo({ top: target.offsetTop - offsetY, behavior: 'smooth' })} }
+      >
+      {heading.text}
+      </li>
+    );
+  };
 }
 
 const Sharing = ({ resource }: { resource: PrismicResource }) => {
@@ -147,15 +172,5 @@ const CTAButton = ({ doc }: { doc: PrismicDoc }) => {
     <a href={url} target={target} class="cta-button">
       {cta_title}
     </a>
-  );
-};
-
-const Anchor = ({ heading, isActive, key }: AnchorProps) => {
-  const href = slugify(heading.text);
-  const level = parseInt(heading.type[heading.type.length - 1], 10);
-  return (
-    <li class={`toc-item${level ? ` toc-item-level-${level}` : ``}${isActive ? ` toc-item-active` : ``}`} key={key}>
-      <a href={`#${href}`}>{heading.text}</a>
-    </li>
   );
 };

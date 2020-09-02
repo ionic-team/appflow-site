@@ -66,6 +66,8 @@ export class ResourcesPage {
       }
     })
 
+    console.log(this.currentResource.resource);
+
     this.detailView = true;
   }
 
@@ -83,7 +85,6 @@ export class ResourcesPage {
 
   async getAllPages() {
     await getPage('appflow_resources');
-    console.log(state.pageData);
 
     // get ids of all linked resources
     const ids = Object.values<ResourceLink>(state.pageData).reduce((acc: string[], cur: ResourceLink) => {
@@ -91,15 +92,11 @@ export class ResourcesPage {
       return [...acc, cur.id];
     }, [] )
 
-    console.log(ids);
-
     // get prismic docs by ids
     const response = await this.prismicClient.getByIDs(ids, { pageSize: 100 });
     this.allResources = response.results.map((resource) => {
       return prismicDocToResource(resource);
     });
-
-    console.log(response);
 
     this.prismicPreviews  = {
       feature: this.allResources[0] || [],
@@ -114,8 +111,6 @@ export class ResourcesPage {
   renderResource = () => {
     if (this.currentResource.type === undefined) return console.error('no resource type present on resource');
     if (this.currentResource.resource === undefined) return console.error('no resource present');
-
-    console.log('got here', this.currentResource.type);
     
     switch (typeToResourceType(this.currentResource.type)) {
       case ResourceType.Article:
@@ -285,9 +280,7 @@ const WhitepaperCard = ({ prismicData }: { prismicData: PrismicResource }) => {
     return (
       <a href={externalUrl} target="_blank" class="whitepaper-card">
         <Heading class="ui-theme--editorial" level={4}>{prismicData.title}</Heading>
-        <div class="wrapper">
-          <PrismicResponsiveImage image={prismicData.doc.data.cover_image} />
-        </div>
+        <PrismicResponsiveImage image={prismicData.doc.data.cover_image} />
       </a>
     )
   }
@@ -295,9 +288,7 @@ const WhitepaperCard = ({ prismicData }: { prismicData: PrismicResource }) => {
   return (
     <a {...href(`/resources/${prismicData.id}`)} class="whitepaper-card">
       <Heading class="ui-theme--editorial" level={4}>{prismicData.title}</Heading>
-      <div class="wrapper">
-        <PrismicResponsiveImage image={prismicData.doc.data.cover_image} />
-      </div>
+      <PrismicResponsiveImage image={prismicData.doc.data.cover_image} />
     </a>
   )
 }

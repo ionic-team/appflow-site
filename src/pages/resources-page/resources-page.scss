@@ -11,17 +11,15 @@
     margin-block-end: var(--space-4);
   }
 
-  .wrapper {
-    border-radius: var(--radius-1);
-    overflow:hidden;
 
-    img {
-      transition: transform 200ms cubic-bezier(0.32, 0.72, 0, 1);
-    }
+  img {
+    border-radius: var(--radius-1);
+    transition: transform 200ms cubic-bezier(0.32, 0.72, 0, 1);
   }
 
+
   &:hover, &:active, &:focus {
-    .wrapper img {
+    img {
       transform: scale(1.05);
     }
   }

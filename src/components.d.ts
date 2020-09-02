@@ -95,9 +95,6 @@ export namespace Components {
     }
     interface WhyAppflow {
     }
-    interface WistiaVideo {
-        "videoId"?: string;
-    }
 }
 declare global {
     interface HTMLAppBurgerElement extends Components.AppBurger, HTMLStencilElement {
@@ -292,12 +289,6 @@ declare global {
         prototype: HTMLWhyAppflowElement;
         new (): HTMLWhyAppflowElement;
     };
-    interface HTMLWistiaVideoElement extends Components.WistiaVideo, HTMLStencilElement {
-    }
-    var HTMLWistiaVideoElement: {
-        prototype: HTMLWistiaVideoElement;
-        new (): HTMLWistiaVideoElement;
-    };
     interface HTMLElementTagNameMap {
         "app-burger": HTMLAppBurgerElement;
         "app-icon": HTMLAppIconElement;
@@ -331,7 +322,6 @@ declare global {
         "resources-page": HTMLResourcesPageElement;
         "site-backdrop": HTMLSiteBackdropElement;
         "why-appflow": HTMLWhyAppflowElement;
-        "wistia-video": HTMLWistiaVideoElement;
     }
 }
 declare namespace LocalJSX {
@@ -423,9 +413,6 @@ declare namespace LocalJSX {
     }
     interface WhyAppflow {
     }
-    interface WistiaVideo {
-        "videoId"?: string;
-    }
     interface IntrinsicElements {
         "app-burger": AppBurger;
         "app-icon": AppIcon;
@@ -459,7 +446,6 @@ declare namespace LocalJSX {
         "resources-page": ResourcesPage;
         "site-backdrop": SiteBackdrop;
         "why-appflow": WhyAppflow;
-        "wistia-video": WistiaVideo;
     }
 }
 export { LocalJSX as JSX };
@@ -498,7 +484,6 @@ declare module "@stencil/core" {
             "resources-page": LocalJSX.ResourcesPage & JSXBase.HTMLAttributes<HTMLResourcesPageElement>;
             "site-backdrop": LocalJSX.SiteBackdrop & JSXBase.HTMLAttributes<HTMLSiteBackdropElement>;
             "why-appflow": LocalJSX.WhyAppflow & JSXBase.HTMLAttributes<HTMLWhyAppflowElement>;
-            "wistia-video": LocalJSX.WistiaVideo & JSXBase.HTMLAttributes<HTMLWistiaVideoElement>;
         }
     }
 }

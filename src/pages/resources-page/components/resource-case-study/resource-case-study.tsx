@@ -1,4 +1,4 @@
-import { h, Component, Prop } from '@stencil/core';
+import { h, Component, Element, Prop } from '@stencil/core';
 
 import { ThemeProvider, ResponsiveContainer, Grid, Text, Heading, Col, PrismicContent, Paragraph } from '@ionic-internal/ionic-ds';
 
@@ -13,6 +13,7 @@ import { slugify } from '../../../../utils/slugify';
   scoped: true
 })
 export class ResourceCaseStudy {
+  @Element() el!: HTMLElement;
   @Prop() prismicData!: PrismicResource;
 
   render() {

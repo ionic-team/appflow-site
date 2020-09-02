@@ -1,4 +1,4 @@
-import { h, Component, Host, Prop } from '@stencil/core';
+import { h, Component, Element, Host, Prop } from '@stencil/core';
 
 import { ThemeProvider, ResponsiveContainer, Grid, Text, Heading, Col, PrismicContent, Paragraph } from '@ionic-internal/ionic-ds';
 
@@ -12,6 +12,7 @@ import { getAuthorsForPrismicDoc } from 'src/utils/prismic/prismic';
   scoped: true
 })
 export class ResourceArticle {
+  @Element() el!: HTMLElement;
   @Prop() prismicData!: PrismicResource;
 
   render() {
@@ -46,7 +47,7 @@ export class ResourceArticle {
                     />
                   </div>
                   <article>
-                    <PrismicContent content={resource.doc.data.body} />
+                    <PrismicContent content={resource.doc.data.body}/>
                   </article>
                 </div>
               </Col>

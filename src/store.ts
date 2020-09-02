@@ -24,7 +24,7 @@ const { state } = createStore({
   title: defaults.title,
   description: defaults.description,
   meta_image: defaults.meta_image,
-  showHubspotForm: true,
+  showHubspotForm: false,
   hubspotGatedPassed: false
 
 } as State);

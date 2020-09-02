@@ -21,13 +21,15 @@ export class ResourceWebinar {
   @Prop() prismicData!: PrismicResource;
 
   componentWillLoad() {
+    state.hubspotGatedPassed = false;
     this.hasHappened = new Date(this.prismicData.doc.data.when) < new Date();
-    // this.hasHappened = false;
 
     this.hosts = getAuthorsForPrismicDoc(this.prismicData.doc);
   }
 
   render() {
+    const formId = this.prismicData.doc.data.hubspot_form_id;
+
     return (
       <Host
         style={{
@@ -39,7 +41,20 @@ export class ResourceWebinar {
         }}>        
           {this.hasHappened
           ? <PastWebinar data={this.prismicData} hosts={this.hosts} />
-          : <FutureWebinar data={this.prismicData} hosts={this.hosts}/>}        
+          : [<FutureWebinar data={this.prismicData} hosts={this.hosts}/>,
+            <site-modal open={state.showHubspotForm} modalClose={() => (state.showHubspotForm = false)}>
+              <div class="title">
+                <Heading>Register for {this.prismicData.title}</Heading>
+                <Paragraph>Enter your information below to join the Webinar list</Paragraph>
+              </div>
+              <hubspot-form
+                formId={formId}
+                ajax={false}
+                onFormSubmitted={() => {
+                  state.hubspotGatedPassed = true;
+                }}
+              />
+            </site-modal>] }
       </Host>
     )
   }
@@ -47,8 +62,6 @@ export class ResourceWebinar {
 
 const PastWebinar = ({ data, hosts }: { data: PrismicResource, hosts: ResourceAuthor[] }) => {
   const videoId = data.doc.data.wistia_id;
-  const formId = data.doc.data.hubspot_form_id;
-  console.log(data, formId);
 
   return (
   <ResponsiveContainer>
@@ -94,82 +107,61 @@ const PastWebinar = ({ data, hosts }: { data: PrismicResource, hosts: ResourceAu
 const FutureWebinar = ({ data, hosts }: { data: PrismicResource, hosts: ResourceAuthor[] }) => {
   const date = new Date(data.doc.data.when);
   const image = data.doc.data.landing_image;
-  console.log(image);
 
   return (
-    <ThemeProvider type="editorial">
-      <section class="heading-group">
-        {image.url
-        ? <PrismicResponsiveImage class="landing-image" image={image} />
-        : <div class="landing-image"></div> }
-        <ResponsiveContainer>
-          <div class="heading">
-            <div class="meta">
-              <Heading level={6} class="type">Webinar</Heading>
-              <resource-meta tags={data.tags} class="tags"/>
-            </div>
-            
-            <Heading level={1}>{data.title}</Heading>
-            <Heading class="when" level={4}>
-              Begins:{' '}
-              <DateTime
-                date={date}
-                format={{
-                  weekday: 'long',
-                  month: 'long',
-                  day: 'numeric'
-                }}
-              /> {' @ '}
-              <DateTime
-                date={date}
-                format={{
-                  hour: 'numeric',
-                  timeZoneName: 'short',
-                  timeZone: 'America/Chicago' 
-                }}
-              />
-            </Heading>
-          </div>
-        </ResponsiveContainer>
-      </section>
-
+  <ThemeProvider type="editorial">
+    <section class="heading-group">
+      {image.url
+      ? <PrismicResponsiveImage class="landing-image" image={image} />
+      : <div class="landing-image"></div> }
       <ResponsiveContainer>
-        <section class="wrapper">
-          <div class="article">
-            <PrismicRichText richText={data.doc.data.description} leading="prose"/>
+        <div class="heading">
+          <div class="meta">
+            <Heading level={6} class="type">Webinar</Heading>
+            <resource-meta tags={data.tags} class="tags"/>
           </div>
+          
+          <Heading level={1}>{data.title}</Heading>
+          <Heading class="when" level={4}>
+            Begins:{' '}
+            <DateTime date={date} format={{ weekday: 'long', month: 'long', day: 'numeric' }} />
+            {' @ '}
+            <DateTime date={date} format={{ hour: 'numeric', timeZoneName: 'short', timeZone: 'America/Chicago' }} />
+          </Heading>
 
-          <div class="hosts">
-            <Heading level={5}>Your speakers:</Heading>
-            {hosts.map(host => (
-              <resource-author-item author={host} />  
-            ))}
-          </div>
-        </section> 
-      </ResponsiveContainer>    
-      <JoinWebinarForm data={data}/>     
-    </ThemeProvider>  
+          <RegisterButton />
+        </div>
+      </ResponsiveContainer>
+    </section>
+
+    <ResponsiveContainer>
+      <section class="wrapper">
+        <div class="article">
+          <PrismicRichText richText={data.doc.data.description} leading="prose"/>
+          <RegisterButton />
+        </div>
+
+        <div class="hosts">
+          <Heading level={5}>Your speakers:</Heading>
+          {hosts.map(host => (
+            <resource-author-item author={host} />  
+          ))}
+        </div>
+      </section> 
+    </ResponsiveContainer>     
+  </ThemeProvider>  
   )
 }
 
-const JoinWebinarForm = ({ data }: { data: PrismicResource }) => {
-  const formId = data.doc.data.hubspot_form_id;
-
-  return (
-  <site-modal open={state.showHubspotForm} modalClose={() => (state.showHubspotForm = false)}>
-    <div>
-      <Heading level={2}>Register for {data.title}</Heading>
-      <Paragraph>Enter your information below to join the Webinar list</Paragraph>
-    </div>
-    <hubspot-form
-      formId={formId}
-      ajax={false}
-      onFormSubmitted={() => {
-        state.hubspotGatedPassed = true;
-      }}
-    />
-  </site-modal> )
-}
+const RegisterButton = () => (
+  <button
+    class="register-button"
+    onClick={() => {
+      state.showHubspotForm = true;
+    }}>
+    Register Now
+  </button>
+)
 
 const OverlayForm = ({ data }: { data: PrismicResource }) => {
   const formId = data.doc.data.hubspot_form_id;

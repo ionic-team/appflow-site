@@ -90,24 +90,34 @@
   }
 
   .heading-group {
+    padding-block-start: var(--space-11);
+    padding-block-end: var(--space-11);
     position: relative;
     min-height: 512px;
     display: flex;
     align-items: center;
 
-    .heading * {
+    .ui-heading-1 {
+      max-width: 704px;
       color: white;
     }
 
     .when {
       margin-block-start: var(--space-5);
+      color: white;
     }
 
     .meta {
       margin-block-end: var(--space-5);
+      .type {
+        color: white;
+      }
     }
 
-    .ui-heading-1 {
+    .register-button {
+      background: white;
+      color: #5061F2;
+      margin-block-start: 64px;
     }
   }
 
@@ -121,7 +131,13 @@
     }
 
     .article {
-      max-width: 576px;      
+      max-width: 576px;     
+      
+      .register-button {
+        margin-block-start: var(--space-6);
+        background: #3880FF;
+        color: white;
+      }
     }
 
     @media screen and (max-width: $screen-sm-max) {
@@ -144,6 +160,10 @@
       margin-block-start: var(--space-3);
     }
   }
+
+  resource-meta {
+    --tag-color: rgba(255, 255, 255, .8);
+  }
 }
 
 .meta {
@@ -155,6 +175,10 @@
 }
 
 .article {
+  .ui-heading-2 {
+    margin-block-end: var(--space-3);
+  }
+
   p, li {    
     color: #445B78;
   }
@@ -186,5 +210,24 @@
   }
 
 }
+
+.register-button {
+  padding: 16px 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 16px;
+  line-height: 19px;
+  letter-spacing: 0.1em;
+  border-radius: 8px;
+}
+
+site-modal .title {
+  text-align: center;
+
+  .ui-heading {
+    margin-block-end: var(--space-3);
+  }
+}
+
 
 

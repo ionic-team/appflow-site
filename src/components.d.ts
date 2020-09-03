@@ -79,7 +79,7 @@ export namespace Components {
         "prismicData": PrismicResource;
     }
     interface ResourceToc {
-        "prismicResource": PrismicResource | null;
+        "titleNames": string[];
     }
     interface ResourceWebinar {
         "prismicData": PrismicResource;
@@ -397,7 +397,7 @@ declare namespace LocalJSX {
         "prismicData": PrismicResource;
     }
     interface ResourceToc {
-        "prismicResource"?: PrismicResource | null;
+        "titleNames": string[];
     }
     interface ResourceWebinar {
         "prismicData": PrismicResource;

@@ -2,6 +2,7 @@ import Prismic from 'prismic-javascript';
 import { Document as PrismicDocument } from 'prismic-javascript/d.ts/documents';
 import { PrismicDoc, PrismicResource, ResourceType, ResourceSource, ResourceAuthor } from '../../models/prismic';
 import state, { defaults } from '../../store';
+import { slugify } from '../slugify';
 
 const apiURL = 'https://ionicframeworkcom.prismic.io/api/v2';
 
@@ -23,6 +24,17 @@ export const getPage = async (prismicId: string) => {
   } catch (e) {
     console.warn(e)
   }
+}
+
+export const prismicResourceToToc = (resource: PrismicResource): string[] => {
+  let titles: string[] = [resource.title];
+  resource.doc?.data?.body?.forEach((bodyItem: any) => {
+    bodyItem.primary?.content?.forEach((content:any) => {
+      if (content.type?.includes('heading')) titles.push(content.text)
+    })
+  })
+
+  return titles;
 }
 
 export const prismicDocToResource = (doc: PrismicDoc): PrismicResource => {

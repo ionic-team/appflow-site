@@ -1,13 +1,11 @@
-import { h, Component, Prop, Host, Watch, State, Element } from '@stencil/core';
-import { PrismicResource, PrismicDoc } from '../../../../models/prismic';
-import { IntersectionHelper, Heading } from '@ionic-internal/ionic-ds';
-import { slugify } from '../../../../utils/slugify';
-import { getResourceUrl } from '../../../../utils/urls';
+import { h, Component, Prop, Host, Listen, Watch } from '@stencil/core';
+import { slugify } from 'src/utils/slugify';
 
-// import { ScrollSpyConsumer, ScrollSpyContext } from './ds/ScrollSpy';
-interface ItemOffset {
-  id: string;
-  topOffset?: number;
+interface headingsProps {
+  headingEl?: HTMLElement,
+  tocEl?: HTMLElement,
+  inView?: boolean,
+  top?: number
 }
 
 @Component({
@@ -16,161 +14,106 @@ interface ItemOffset {
   scoped: true,
 })
 export class ResourceTOC {
-  private pageTitles: HTMLElement[] = [];
-  private tocTitles: HTMLElement[] = [];
-  @Element() el?: HTMLElement;
-  @Prop() prismicResource: PrismicResource | null = null;
+  private headings = new Map<string, headingsProps>()
 
-  @State() headings: any[] = [];
-  @State() itemOffsets: ItemOffset[] = [];
-  @State() selectedId?: string;
-  @State() lastVisibleId?: string;
+  @Prop() titleNames!: string[];
 
   componentDidLoad() {
-    this.headings = getHeadings(this.prismicResource!.doc);
+    this.updateItemOffsets();
+  }
 
-    IntersectionHelper.addListener(({ entries }) => {
-      const e = entries.find((e) => this.pageTitles.find(titleEl => titleEl === (e.target as HTMLElement)));
-      if (!e) return;
+  @Listen('scroll', { target: 'window', passive: true })
+  function() {
+    requestAnimationFrame(() => {
+      this.checkInView();
+      this.getFirstInView();
+    })
+  }
 
-      if (e.intersectionRatio === 1) {
-        this.tocTitles.forEach((tocTitle) => {
-          tocTitle.dataset.id === e.target.id ? tocTitle.classList.add('active') : tocTitle.classList.remove('active');
-        })
-      }
+  @Watch('links')
+  @Listen('resize', { target: 'window' })
+  updateItemOffsets() {
+    requestAnimationFrame(() => {
+      this.titleNames.map((title, i) => {
+        const slug = slugify(title);
+        const item = document.getElementById(i === 0 ? slug : `h-${slug}`)!;
+        console.log(item.offsetTop + window.scrollY);
+        this.headings.set(slug, { ...this.headings.get(slug), headingEl: item, top: item.offsetTop });
+      });
     });
   }
 
-  render() {
-    const { prismicResource: resource, headings, Anchor } = this;
+  checkInView() {
+    for (const [ key, val ] of this.headings.entries()) {
+      if (!val.top) continue;
 
-    if (!resource) {
-      return null;
+      (val.top > window.scrollY && val.top < window.innerHeight + window.scrollY)
+        ? this.headings.set(key, { ...this.headings.get(key), inView: true })
+        : this.headings.set(key, { ...this.headings.get(key), inView: false });
     }
-
-    const levels = Object.keys(
-      headings.reduce((levels: any, h: any) => {
-        const level = parseInt(h.type[h.type.length - 1], 10);
-
-        levels[level] = true;
-
-        return levels;
-      }, {}),
-    ).length;
-
-    return (
-      <Host>
-        <nav>
-          <Heading class="title" level={6}>Contents</Heading>
-          <ul>
-            {headings.map((heading: any) => {
-              const href = slugify(heading.text);
-
-              const isActive = this.lastVisibleId === href;
-
-              return <Anchor heading={heading} key={heading.text} isActive={isActive} levels={levels} />;
-            })}
-            {resource.doc.data.cta_title ? <CTAButton doc={resource.doc} /> : null}
-          </ul>
-          <Sharing resource={resource} />
-        </nav>
-      </Host>
-    );
   }
 
-  Anchor = ({ heading, key }: AnchorProps) => {
-    const href = 'h-' + slugify(heading.text);
-    const level = parseInt(heading.type[heading.type.length - 1], 10);
-    const target = (document.querySelector(`#${href}`) as HTMLElement);
+  getFirstInView() {
+    let gotFirst = false;
 
-    this.pageTitles.push(target);
-    IntersectionHelper.observe(target);
-    
-    const offsetY = 100;
-    return (
-      <li
-        class={`toc-item${level ? ` toc-item-level-${level}` : ``}`}
-        data-id={href}
-        ref={e => e ? this.tocTitles.push(e) : ''}
-        key={key}
-        onClick={() => { window.scrollTo({ top: target.offsetTop - offsetY, behavior: 'smooth' })} }
-      >
-      {heading.text}
-      </li>
-    );
-  };
-}
+    for (const val of this.headings.values()) {
+      if (!val.tocEl) continue;
 
-const Sharing = ({ resource }: { resource: PrismicResource }) => {
-  const encodedTitle = encodeURIComponent(resource.title);
-  const encodedUrl = `https://ionicframework.com${encodeURIComponent(getResourceUrl(resource))}`;
+      if (val.inView && !gotFirst) {
+        val.tocEl.classList.add('active');
+        gotFirst = true;
+      } else {
+        val.tocEl.classList.remove('active');
+      }
+    }
 
-  return (
-    <ul class="sharing">
-      <li>
-        <a
-          href={`http://twitter.com/home?status=${encodedTitle}+${encodedUrl}`}
-          onClick={(e: any) => {
-            window.open(e.target.href, 'Share via Twitter', 'width=400, height=300');
-            return false;
-          }}>
-          <ion-icon name="logo-twitter"></ion-icon>
-        </a>
-      </li>
-      <li>
-        <a
-          href={`http://www.facebook.com/share.php?u=${encodedUrl}&amp;title=${encodedTitle}`}
-          onClick={(e: any) => {
-            window.open(e.target.href, 'Share via Facebook', 'width=555, height=656');
-            return false;
-          }}>
-          <ion-icon name="logo-facebook"></ion-icon>
-        </a>
-      </li>
-      <li>
-        <a
-          href={`http://www.linkedin.com/shareArticle?mini=true&amp;url=${encodedUrl}&amp;title=${encodedTitle}&amp;source=${encodeURIComponent(
-            'https://ionicframework.com',
-          )}`}
-          onClick={(e: any) => {
-            window.open(e.target.href, 'Share via LinkedIn', 'width=500, height=600');
-            return false;
-          }}>
-          <ion-icon name="logo-linkedin"></ion-icon>
-        </a>
-      </li>
-      <li id="web-share">
-        <a>
-          <ion-icon name="share"></ion-icon>
-        </a>
-      </li>
-    </ul>
-  );
-};
+    if (!gotFirst) {
+      const { tocEl } = [...this.headings.values()].reduce((acc, cur, i) => {
+        if (i === 0 || !acc.top) return cur;
+        if (!cur.top) return acc;
 
-interface AnchorProps {
-  heading: any;
-  isActive: boolean;
-  levels: number;
-  key: string;
-}
+        if (cur.top - window.scrollY > acc.top - window.scrollY) {
+          return acc;
+        } else {
+          return cur;
+        }
+      })
 
-const getHeadings = (doc: PrismicDoc) => {
-  const textSections = doc.data.body.filter((b: any) => b.slice_type === 'normal_text');
+      tocEl?.classList.add('active');
+    }
+  }
 
-  return textSections
-    .map((b: any) => {
-      return b.primary.content.filter((s: any) => ['heading2', 'heading3'].indexOf(s.type) >= 0);
+  handleTocClick(ev: MouseEvent) {
+    const target = ev.target as HTMLElement;    
+    if (!target?.dataset?.id) return;
+
+    const value = this.headings.get(target.dataset.id);
+    if (!value?.top) return;
+
+    window.scrollTo({
+      top: value.top - 100,
+      behavior: 'smooth'
     })
-    .flat(2);
-};
+  }
 
-const CTAButton = ({ doc }: { doc: PrismicDoc }) => {
-  const { url, target } = doc.data.cta_link;
-  const { cta_title } = doc.data;
-  return (
-    <a href={url} target={target} class="cta-button">
-      {cta_title}
-    </a>
-  );
-};
+  render() {
+    return (
+      <nav>
+        <ul>
+          {this.titleNames.map(link => (
+            <li
+              class="ui-paragraph-4"
+              onClick={(ev) => this.handleTocClick(ev)}
+              data-id={slugify(link)}
+              ref={e => {
+                const id = e?.dataset?.id;
+                if (!id || !e) return;
+                this.headings.set(id, { ...this.headings.get(id), tocEl: (e as HTMLElement) });
+              }}
+            >{link}</li>
+          ))}
+        </ul>
+      </nav>
+    )
+  }
+}

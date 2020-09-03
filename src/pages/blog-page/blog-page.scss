@@ -56,15 +56,28 @@ blog-social-actions.bottom {
 }
 
 .post-author {
+  display: flex;  
   margin-block-start: var(--space-6);
   margin-block-end: 120px;
 
-  .ui-heading {
-    color: #010610;
+  img {
+    width: 56px;
+    height: 56px;
+    margin-inline-end: var(--space-4);
   }
-  .ui-paragraph {
-    color: #92A1B3;
-  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    .ui-heading {
+      color: #010610;
+    }
+    .ui-paragraph {
+      margin-block-start: 4px;
+      color: #92A1B3;
+    }
+  }  
 }
 
 

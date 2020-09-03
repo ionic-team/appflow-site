@@ -7,6 +7,7 @@ import parseISO from 'date-fns/parseISO';
 import { href } from 'stencil-router-v2';
 import Router from '../../../../router';
 import Img from '../../../../components/Img/Img';
+import { slugify } from '../../../../utils/slugify'
 
 @Component({
   tag: 'blog-post',
@@ -28,6 +29,7 @@ export class BlogPost {
   }
 
   componentDidLoad() {
+    console.log(this.post);
     this.keepScrollLinks.forEach(link => {
       link.addEventListener('click', () => {
         window.scrollTo(0, window.scrollY - this.el.offsetTop + 32);
@@ -36,6 +38,7 @@ export class BlogPost {
   }
 
   render() {
+    const { PostAuthor } = this;
     if (!this.post) return null;
 
     const { slug, post, preview, keepScrollLinks } = this;
@@ -68,7 +71,7 @@ export class BlogPost {
             </Heading>
           </ThemeProvider>
 
-          <PostAuthor authorName={post.authorName} authorUrl={post.authorUrl} dateString={post.date} />
+          <PostAuthor post={post}/>
 
           <PostFeaturedImage preview={preview} post={post} />
 
@@ -86,6 +89,21 @@ export class BlogPost {
       </Host>
     )
   }
+
+  PostAuthor = ({ post: { authorName, authorUrl, authorImageName, date }}: { post: RenderedBlog }) => {
+    const dateString = parseISO(date);
+
+    return (
+      <div class="author">
+        {authorImageName
+          ? <img src={getAssetPath(`assets/img/author/${authorImageName}`)} alt={authorName} width="56" height="56"/>
+          : null}
+        <Paragraph>By {authorUrl ?
+          <a href={authorUrl} target="_blank">{authorName}</a> :
+          authorName} on <DateTime date={dateString} /></Paragraph>
+      </div>
+    )
+  }
 }
 
 const PostFeaturedImage = ({ post, preview }: { post: RenderedBlog, preview: boolean}) => (
@@ -99,7 +117,7 @@ const PostFeaturedImage = ({ post, preview }: { post: RenderedBlog, preview: boo
           dimensions="1600x840"
           name={post.slug}
           alt={post.slug.split('-').join(' ')}
-          path={getAssetPath(`assets/img/`)}
+          path={getAssetPath(`assets/img/hero/`)}
         />
       </a>
     : <Img
@@ -109,32 +127,8 @@ const PostFeaturedImage = ({ post, preview }: { post: RenderedBlog, preview: boo
         dimensions="1600x840"
         name={post.slug}
         alt={post.slug.split('-').join(' ')}
-        path={getAssetPath(`assets/img/`)}
+        path={getAssetPath(`assets/img/hero/`)}
       /> }
   </div>
 );
 
-// const PostDefaultImage = () => (
-//   <Img
-//     onClick={() => window.scrollTo(0, 0)}
-//     class="featured-image"
-//     dimensions="2400x1280"
-//     name="default" type="jpg"
-//     alt="default appflow image"
-//     path={getAssetPath(`assets/img/`)}
-//   />
-// );
-
-
-const PostAuthor = ({ authorName, authorUrl, dateString }: { authorName: string, authorUrl: string, dateString: string }) => {
-  const date = parseISO(dateString);
-
-  return (
-    <div class="author">
-      {/* <img src={a.author_avatar.url} alt={a.author_name} /> */}
-      <Paragraph>By {authorUrl ?
-        <a href={authorUrl} target="_blank">{authorName}</a> :
-        authorName} on <DateTime date={date} /></Paragraph>
-    </div>
-  );
-}

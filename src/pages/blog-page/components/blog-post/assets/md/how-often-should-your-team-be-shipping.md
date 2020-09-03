@@ -5,6 +5,8 @@ slug: how-often-should-your-mobile-team-be-shipping
 date: 2020-08-18 12:00:00
 author: Max Lynch <max@ionic.io>
 authorUrl: https://twitter.com/maxlynch
+authorImageName: max-lynch.jpg
+related1: https://ionicframework.com/resources/webinars/hybrid-app-development-redefined
 ---
 
 A feature of highly productive engineering teams is their ability to ship new features and updates frequently.

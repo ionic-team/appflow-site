@@ -5,6 +5,8 @@ description: Exploring what Mobile CI/CD is and how it differs from traditional 
 date: 2020-08-18 08:00:00
 author: Max Lynch <max@ionic.io>
 authorUrl: https://twitter.com/maxlynch
+authorImageName: max-lynch.jpg
+
 ---
 
 Continuous Integration and Continuous Delivery (CI/CD) is one of the fastest growing sectors of the developer market. Focused on enabling teams to continuously test and integrate their apps (instead of doing it all at once before shipping), and then helping teams deliver those apps in an automated fashion, CI/CD has transformed the way developers build and ship software.

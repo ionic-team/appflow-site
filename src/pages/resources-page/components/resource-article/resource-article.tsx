@@ -39,7 +39,7 @@ export class ResourceArticle {
                       <resource-author-item author={author}/>
                     ))}                    
                     {/* <ResourceAuthorItem author={resource.authors[0]} byline={true} /> */}
-                    <PrismicResponsiveImage image={resource.doc.data.hero_image} />
+                    <PrismicResponsiveImage image={resource.doc.data.hero_image} width="800" height="420"/>
                   </div>
                   <article>
                     <PrismicContent content={resource.doc.data.body}/>

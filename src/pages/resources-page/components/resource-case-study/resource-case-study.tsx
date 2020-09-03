@@ -36,7 +36,7 @@ export class ResourceCaseStudy {
                       {resource.title}
                     </Heading>
                     <Paragraph level={2}>{resource.description}</Paragraph>
-                    <PrismicResponsiveImage image={resource.doc.data.hero_image} />
+                    <PrismicResponsiveImage image={resource.doc.data.hero_image} width="800" height="420"/>
                   </div>
                   <article>
                     <PrismicContent content={resource.doc.data.body} />

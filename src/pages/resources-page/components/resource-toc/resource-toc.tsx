@@ -1,4 +1,4 @@
-import { h, Component, Prop, Host, Listen, Watch } from '@stencil/core';
+import { h, Component, Prop, Listen, Watch } from '@stencil/core';
 import { slugify } from 'src/utils/slugify';
 
 interface headingsProps {
@@ -20,6 +20,7 @@ export class ResourceTOC {
 
   componentDidLoad() {
     this.updateItemOffsets();
+    setTimeout(() => this.updateItemOffsets(), 2000);
   }
 
   @Listen('scroll', { target: 'window', passive: true })
@@ -37,7 +38,6 @@ export class ResourceTOC {
       this.titleNames.map((title, i) => {
         const slug = slugify(title);
         const item = document.getElementById(i === 0 ? slug : `h-${slug}`)!;
-        console.log(item.offsetTop + window.scrollY);
         this.headings.set(slug, { ...this.headings.get(slug), headingEl: item, top: item.offsetTop });
       });
     });

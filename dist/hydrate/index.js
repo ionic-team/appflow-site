@@ -5728,26 +5728,26 @@ const automationsIcon = (state = 'default') => (h("svg", { width: "48", height: 
 // Given a set of provided props and extra props,
 // merge to two except for the class prop which is concated
 const applyProps = (props, extra = {}) => {
-  const allKeys = new Set(Object.keys(props).concat(Object.keys(extra)));
-  return Array.from(allKeys).reduce((v, k) => {
-    if (k in extra) {
-      if (k === 'class') {
-        if (typeof extra[k] === 'string') {
-          v[k] = `${extra[k]} ${props[k] ? props[k] : ''}`;
+    const allKeys = new Set(Object.keys(props).concat(Object.keys(extra)));
+    return Array.from(allKeys).reduce((v, k) => {
+        if (k in extra) {
+            if (k === 'class') {
+                if (typeof extra[k] === 'string') {
+                    v[k] = `${extra[k]} ${props[k] ? props[k] : ''}`;
+                }
+                else {
+                    v[k] = Object.assign(Object.assign({}, props[k]), extra[k]);
+                }
+            }
+            else {
+                v[k] = extra[k];
+            }
         }
-        else {
-          v[k] = Object.assign(Object.assign({}, props[k]), extra[k]);
+        else if (k in props) {
+            v[k] = props[k];
         }
-      }
-      else {
-        v[k] = extra[k];
-      }
-    }
-    else if (k in props) {
-      v[k] = props[k];
-    }
-    return v;
-  }, {});
+        return v;
+    }, {});
 };
 
 const Blockquote = (props, children) => (h("blockquote", Object.assign({}, applyProps(props, { class: 'ui-blockquote' })), children));
@@ -5755,114 +5755,114 @@ const Blockquote = (props, children) => (h("blockquote", Object.assign({}, apply
 const Breadcrumbs = (props, children) => (h("ul", Object.assign({}, applyProps(props, { class: 'ui-breadcrumbs' })), children));
 
 var __rest = (undefined && undefined.__rest) || function (s, e) {
-  var t = {};
-  for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-    t[p] = s[p];
-  if (s != null && typeof Object.getOwnPropertySymbols === "function")
-    for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-      if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-        t[p[i]] = s[p[i]];
-    }
-  return t;
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
 };
 const Breakpoint = (_a, children) => {
-  var { xs, sm, md, lg, xl, display = 'block' } = _a, props = __rest(_a, ["xs", "sm", "md", "lg", "xl", "display"]);
-  const Tag = display === 'inline' ? 'span' : 'div';
-  //cascade values up breakpoints
-  xs = xs !== undefined ? xs : false;
-  sm = sm !== undefined ? sm : xs;
-  md = md !== undefined ? md : sm;
-  lg = lg !== undefined ? lg : md;
-  xl = xl !== undefined ? xl : lg;
-  const breakpoints = [['xs', xs], ['sm', sm], ['md', md], ['lg', lg], ['xl', xl]];
-  //Combine classes into string based on breakpoint values
-  const className = breakpoints.reduce((acc, cur) => `${acc} ${cur[1] ? `ui-breakpoint-${cur[0]}` : ``}`, 'ui-breakpoint');
-  return (h(Tag, Object.assign({}, applyProps(props, { class: className }), { style: { '--display': display } }), children));
+    var { xs, sm, md, lg, xl, display = 'block' } = _a, props = __rest(_a, ["xs", "sm", "md", "lg", "xl", "display"]);
+    const Tag = display === 'inline' ? 'span' : 'div';
+    //cascade values up breakpoints
+    xs = xs !== undefined ? xs : false;
+    sm = sm !== undefined ? sm : xs;
+    md = md !== undefined ? md : sm;
+    lg = lg !== undefined ? lg : md;
+    xl = xl !== undefined ? xl : lg;
+    const breakpoints = [['xs', xs], ['sm', sm], ['md', md], ['lg', lg], ['xl', xl]];
+    //Combine classes into string based on breakpoint values
+    const className = breakpoints.reduce((acc, cur) => `${acc} ${cur[1] ? `ui-breakpoint-${cur[0]}` : ``}`, 'ui-breakpoint');
+    return (h(Tag, Object.assign({}, applyProps(props, { class: className }), { style: { '--display': display } }), children));
 };
 
 const Button = (props, children) => (h("button", Object.assign({}, applyProps(props, { class: 'ui-button' })), children));
 
 const Card = (props, children) => (h("div", Object.assign({}, applyProps(props, {
-  class: `ui-card${props.embelish !== false ? ' ui-card--embelish' : ''}`,
+    class: `ui-card${props.embelish !== false ? ' ui-card--embelish' : ''}`,
 })), children));
 
 const CardContent = (props, children) => (h("div", Object.assign({}, applyProps(props, { class: 'ui-card-content' })), children));
 
 var __rest$1 = (undefined && undefined.__rest) || function (s, e) {
-  var t = {};
-  for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-    t[p] = s[p];
-  if (s != null && typeof Object.getOwnPropertySymbols === "function")
-    for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-      if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-        t[p[i]] = s[p[i]];
-    }
-  return t;
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
 };
 const DateTime = (_a) => {
-  var { date, format = {
-    weekday: 'short',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  } } = _a, props = __rest$1(_a, ["date", "format"]);
-  const formatter = new Intl.DateTimeFormat('en-US', Object.assign({}, format));
-  return h("time", Object.assign({}, applyProps(props, { class: 'ui-date' })), formatter.format(date));
+    var { date, format = {
+        weekday: 'short',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+    } } = _a, props = __rest$1(_a, ["date", "format"]);
+    const formatter = new Intl.DateTimeFormat('en-US', Object.assign({}, format));
+    return h("time", Object.assign({}, applyProps(props, { class: 'ui-date' })), formatter.format(date));
 };
 
 var __rest$2 = (undefined && undefined.__rest) || function (s, e) {
-  var t = {};
-  for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-    t[p] = s[p];
-  if (s != null && typeof Object.getOwnPropertySymbols === "function")
-    for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-      if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-        t[p[i]] = s[p[i]];
-    }
-  return t;
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
 };
 const applyClasses = (cols, xs, sm, md, lg) => {
-  const classes = [];
-  // General class, doesn't apply column behavior but
-  // can be useful for selectors
-  classes.push('ui-col');
-  if (cols) {
-    classes.push(`ui-col-${cols}`);
-  }
-  else {
-    // If no "cols" is specified, add a default 12 to make content go full width
-    // in the smallest viewport sizes
-    classes.push(`ui-col-12`);
-  }
-  if (xs) {
-    classes.push(`ui-col-xs-${xs}`);
-  }
-  if (sm) {
-    classes.push(`ui-col-sm-${sm}`);
-  }
-  if (md) {
-    classes.push(`ui-col-md-${md}`);
-  }
-  if (lg) {
-    classes.push(`ui-col-lg-${lg}`);
-  }
-  return classes.join(' ');
+    const classes = [];
+    // General class, doesn't apply column behavior but
+    // can be useful for selectors
+    classes.push('ui-col');
+    if (cols) {
+        classes.push(`ui-col-${cols}`);
+    }
+    else {
+        // If no "cols" is specified, add a default 12 to make content go full width
+        // in the smallest viewport sizes
+        classes.push(`ui-col-12`);
+    }
+    if (xs) {
+        classes.push(`ui-col-xs-${xs}`);
+    }
+    if (sm) {
+        classes.push(`ui-col-sm-${sm}`);
+    }
+    if (md) {
+        classes.push(`ui-col-md-${md}`);
+    }
+    if (lg) {
+        classes.push(`ui-col-lg-${lg}`);
+    }
+    return classes.join(' ');
 };
 const Col = (_a, children) => {
-  var { cols, xs, sm, md, lg } = _a, props = __rest$2(_a, ["cols", "xs", "sm", "md", "lg"]);
-  return (h("div", Object.assign({}, applyProps(props, { class: applyClasses(cols, xs, sm, md, lg) })), children));
+    var { cols, xs, sm, md, lg } = _a, props = __rest$2(_a, ["cols", "xs", "sm", "md", "lg"]);
+    return (h("div", Object.assign({}, applyProps(props, { class: applyClasses(cols, xs, sm, md, lg) })), children));
 };
 
 var __rest$3 = (undefined && undefined.__rest) || function (s, e) {
-  var t = {};
-  for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-    t[p] = s[p];
-  if (s != null && typeof Object.getOwnPropertySymbols === "function")
-    for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-      if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-        t[p[i]] = s[p[i]];
-    }
-  return t;
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
 };
 /*
 interface GridProps {
@@ -5893,120 +5893,120 @@ const getColClasses = (
   );
 */
 const Grid = (_a, children) => {
-  var props = __rest$3(_a, []);
-  return h("div", Object.assign({}, applyProps(props, { class: `ui-grid` })), children);
+    var props = __rest$3(_a, []);
+    return h("div", Object.assign({}, applyProps(props, { class: `ui-grid` })), children);
 };
 
 // import { h } from '@stencil/core';
 const listeners = [];
 const visible = [];
 const observer = new IntersectionObserver((entries, observer) => {
-  entries.forEach((e) => {
-    if (e.intersectionRatio > 0) {
-      if (visible.indexOf(e.target) < 0) {
-        visible.push(e.target);
-      }
-    }
-    else {
-      visible.splice(visible.indexOf(e.target), 1);
-    }
-  });
-  listeners.forEach((l) => l({ entries, observer, visible }));
+    entries.forEach((e) => {
+        if (e.intersectionRatio > 0) {
+            if (visible.indexOf(e.target) < 0) {
+                visible.push(e.target);
+            }
+        }
+        else {
+            visible.splice(visible.indexOf(e.target), 1);
+        }
+    });
+    listeners.forEach((l) => l({ entries, observer, visible }));
 }, { threshold: [0, 1] });
 const addListener = (listener) => listeners.push(listener);
 const observe = (el) => el && observer.observe(el);
 
 var __rest$4 = (undefined && undefined.__rest) || function (s, e) {
-  var t = {};
-  for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-    t[p] = s[p];
-  if (s != null && typeof Object.getOwnPropertySymbols === "function")
-    for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-      if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-        t[p[i]] = s[p[i]];
-    }
-  return t;
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
 };
 const Heading = (_a, children) => {
-  var { level = 3, poster = false, as } = _a, props = __rest$4(_a, ["level", "poster", "as"]);
-  const Tag = as ? as : (poster ? 'h1' : `h${level}`);
-  const classes = [
-    `ui-heading`,
-    `${poster ? `ui-poster-${level}` : `ui-heading-${level}`}`
-  ];
-  return (h(Tag, Object.assign({}, applyProps(props, { class: classes.join(' ') }), { ref: (e) => observe(e) }), children));
+    var { level = 3, poster = false, as } = _a, props = __rest$4(_a, ["level", "poster", "as"]);
+    const Tag = as ? as : (poster ? 'h1' : `h${level}`);
+    const classes = [
+        `ui-heading`,
+        `${poster ? `ui-poster-${level}` : `ui-heading-${level}`}`
+    ];
+    return (h(Tag, Object.assign({}, applyProps(props, { class: classes.join(' ') }), { ref: (e) => observe(e) }), children));
 };
 
 var __rest$5 = (undefined && undefined.__rest) || function (s, e) {
-  var t = {};
-  for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-    t[p] = s[p];
-  if (s != null && typeof Object.getOwnPropertySymbols === "function")
-    for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-      if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-        t[p[i]] = s[p[i]];
-    }
-  return t;
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
 };
 const Paragraph = (_a, children) => {
-  var { level = 3, leading = 'body' } = _a, props = __rest$5(_a, ["level", "leading"]);
-  const classes = [
-    `ui-paragraph`,
-    `ui-paragraph-${level}`,
-    `ui-paragraph--${leading}`,
-  ];
-  return (h("p", Object.assign({}, applyProps(props, { class: classes.join(' ') })), children));
+    var { level = 3, leading = 'body' } = _a, props = __rest$5(_a, ["level", "leading"]);
+    const classes = [
+        `ui-paragraph`,
+        `ui-paragraph-${level}`,
+        `ui-paragraph--${leading}`,
+    ];
+    return (h("p", Object.assign({}, applyProps(props, { class: classes.join(' ') })), children));
 };
 
 var __rest$6 = (undefined && undefined.__rest) || function (s, e) {
-  var t = {};
-  for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-    t[p] = s[p];
-  if (s != null && typeof Object.getOwnPropertySymbols === "function")
-    for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-      if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-        t[p[i]] = s[p[i]];
-    }
-  return t;
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
 };
 const ResponsiveContainer = (_a, children) => {
-  var { as = 'div' } = _a, props = __rest$6(_a, ["as"]);
-  const Tag = as;
-  return h(Tag, Object.assign({}, applyProps(props, { class: 'ui-container' })), children);
+    var { as = 'div' } = _a, props = __rest$6(_a, ["as"]);
+    const Tag = as;
+    return h(Tag, Object.assign({}, applyProps(props, { class: 'ui-container' })), children);
 };
 
 var __rest$7 = (undefined && undefined.__rest) || function (s, e) {
-  var t = {};
-  for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-    t[p] = s[p];
-  if (s != null && typeof Object.getOwnPropertySymbols === "function")
-    for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-      if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-        t[p[i]] = s[p[i]];
-    }
-  return t;
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
 };
 const Skeleton = (_a, children) => {
-  var { animated = true } = _a, props = __rest$7(_a, ["animated"]);
-  return (h("div", Object.assign({}, applyProps(props, { class: `ui-skeleton${animated ? ` ui-skeleton--animated` : ``}` })), children));
+    var { animated = true } = _a, props = __rest$7(_a, ["animated"]);
+    return (h("div", Object.assign({}, applyProps(props, { class: `ui-skeleton${animated ? ` ui-skeleton--animated` : ``}` })), children));
 };
 
 const Text = (props, children) => h("p", Object.assign({}, applyProps(props, { class: 'ui-text' })), children);
 
 var __rest$8 = (undefined && undefined.__rest) || function (s, e) {
-  var t = {};
-  for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-    t[p] = s[p];
-  if (s != null && typeof Object.getOwnPropertySymbols === "function")
-    for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-      if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-        t[p[i]] = s[p[i]];
-    }
-  return t;
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
 };
 const ThemeProvider = (_a, children) => {
-  var { type = 'base' } = _a, props = __rest$8(_a, ["type"]);
-  return (h("div", Object.assign({}, applyProps(props, { class: `ui-theme--${type}` })), children));
+    var { type = 'base' } = _a, props = __rest$8(_a, ["type"]);
+    return (h("div", Object.assign({}, applyProps(props, { class: `ui-theme--${type}` })), children));
 };
 
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
@@ -6424,315 +6424,315 @@ const match = (pathname, options = {}) => {
 };
 
 function createScript({ property, src, id }) {
-  if (!window) {
-    return;
-  }
-  (function (src, id) {
-    var js, fjs = document.getElementsByTagName('script')[0], t = window[property] || {};
-    if (document.getElementById(id)) {
-      return t;
+    if (!window) {
+        return;
     }
-    js = document.createElement('script');
-    js.id = id;
-    js.src = src;
-    fjs.parentNode.insertBefore(js, fjs);
-    t._e = [];
-    t.ready = function (f) {
-      t._e.push(f);
-    };
-    return t;
-  })(src, id);
+    (function (src, id) {
+        var js, fjs = document.getElementsByTagName('script')[0], t = window[property] || {};
+        if (document.getElementById(id)) {
+            return t;
+        }
+        js = document.createElement('script');
+        js.id = id;
+        js.src = src;
+        fjs.parentNode.insertBefore(js, fjs);
+        t._e = [];
+        t.ready = function (f) {
+            t._e.push(f);
+        };
+        return t;
+    })(src, id);
 }
 const embeds = {
-  Twitter: {
-    property: 'twttr',
-    src: 'https://platform.twitter.com/widgets.js',
-    id: 'twitter-wjs',
-    load: function () {
-      if (window && window.twttr) {
-        window.twttr.widgets.load();
-      }
+    Twitter: {
+        property: 'twttr',
+        src: 'https://platform.twitter.com/widgets.js',
+        id: 'twitter-wjs',
+        load: function () {
+            if (window && window.twttr) {
+                window.twttr.widgets.load();
+            }
+        },
     },
-  },
-  Facebook: {
-    property: 'FB',
-    src: 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.3',
-    id: 'fb-wjs',
-    load: (ref) => {
-      if (window && window.FB) {
-        window.FB.XFBML.parse(ref);
-      }
+    Facebook: {
+        property: 'FB',
+        src: 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.3',
+        id: 'fb-wjs',
+        load: (ref) => {
+            if (window && window.FB) {
+                window.FB.XFBML.parse(ref);
+            }
+        },
     },
-  },
-  Instagram: {
-    property: 'instgrm',
-    src: 'https://www.instagram.com/embed.js',
-    id: 'insta-wjs',
-    load: () => {
-      if (window && window.instgrm) {
-        window.instgrm.Embeds.process();
-      }
+    Instagram: {
+        property: 'instgrm',
+        src: 'https://www.instagram.com/embed.js',
+        id: 'insta-wjs',
+        load: () => {
+            if (window && window.instgrm) {
+                window.instgrm.Embeds.process();
+            }
+        },
     },
-  },
 };
 
 function slugify(text) {
-  if (!text) {
-    return '';
-  }
-  return text
-    .toString()
-    .toLowerCase()
-    .replace(/\s+/g, '-') // Replace spaces with -
-    .replace(/\.+/g, '-') // Replace periods with -
-    .replace(/[^\w\-]+/g, '') // Remove all non-word chars
-    .replace(/\-\-+/g, '-') // Replace multiple - with single -
-    .replace(/^-+/, '') // Trim - from start of text
-    .replace(/-+$/, ''); // Trim - from end of text
+    if (!text) {
+        return '';
+    }
+    return text
+        .toString()
+        .toLowerCase()
+        .replace(/\s+/g, '-') // Replace spaces with -
+        .replace(/\.+/g, '-') // Replace periods with -
+        .replace(/[^\w\-]+/g, '') // Remove all non-word chars
+        .replace(/\-\-+/g, '-') // Replace multiple - with single -
+        .replace(/^-+/, '') // Trim - from start of text
+        .replace(/-+$/, ''); // Trim - from end of text
 }
 
 var __rest$9 = (undefined && undefined.__rest) || function (s, e) {
-  var t = {};
-  for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-    t[p] = s[p];
-  if (s != null && typeof Object.getOwnPropertySymbols === "function")
-    for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-      if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-        t[p[i]] = s[p[i]];
-    }
-  return t;
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
 };
 let Poster;
 let Leading;
 let ParagraphLevel;
 function htmlSerializer(type, element, _content, children) {
-  // give headings an ID
-  switch (type) {
-    case 'heading1':
-    case 'heading2':
-    case 'heading3':
-    case 'heading4':
-    case 'heading5':
-    case 'heading6':
-      const level = parseInt(type[type.length - 1], 10);
-      const id = `h-${slugify(element.text)}`;
-      return (h(Heading, Object.assign({}, { id, level, poster: Poster }), children));
-    case 'paragraph':
-      return h(Paragraph, Object.assign({}, { level: ParagraphLevel, leading: Leading }), children);
-    case 'preformatted':
-      return (h("pre", null,
-        h("code", null, children)));
-    // Return null to stick with the default behavior for all other elements
-    default:
-      return null;
-  }
+    // give headings an ID
+    switch (type) {
+        case 'heading1':
+        case 'heading2':
+        case 'heading3':
+        case 'heading4':
+        case 'heading5':
+        case 'heading6':
+            const level = parseInt(type[type.length - 1], 10);
+            const id = `h-${slugify(element.text)}`;
+            return (h(Heading, Object.assign({}, { id, level, poster: Poster }), children));
+        case 'paragraph':
+            return h(Paragraph, Object.assign({}, { level: ParagraphLevel, leading: Leading }), children);
+        case 'preformatted':
+            return (h("pre", null,
+                h("code", null, children)));
+        // Return null to stick with the default behavior for all other elements
+        default:
+            return null;
+    }
 }
 function slugifyHeading(children) {
-  return children.reduce((id, c) => {
-    return id + slugify(c[0]);
-  }, '');
+    return children.reduce((id, c) => {
+        return id + slugify(c[0]);
+    }, '');
 }
 function serialize(linkResolver, elements, type, element, content, children, index, routerLink = false, router = null) {
-  if (elements[type]) {
-    return serializeElement(elements[type], type, element, content, children, index);
-  }
-  const Elements = PrismicRichTextLib.Elements;
-  switch (type) {
-    case Elements.heading1:
-      return serializeStandardTag('h1', element, children, index, { id: slugifyHeading(children) });
-    case Elements.heading2:
-      return serializeStandardTag('h2', element, children, index, { id: slugifyHeading(children) });
-    case Elements.heading3:
-      return serializeStandardTag('h3', element, children, index, { id: slugifyHeading(children) });
-    case Elements.heading4:
-      return serializeStandardTag('h4', element, children, index, { id: slugifyHeading(children) });
-    case Elements.heading5:
-      return serializeStandardTag('h5', element, children, index, { id: slugifyHeading(children) });
-    case Elements.heading6:
-      return serializeStandardTag('h6', element, children, index, { id: slugifyHeading(children) });
-    case Elements.paragraph:
-      return serializeStandardTag('p', element, children, index);
-    case Elements.preformatted:
-      return serializeStandardTag('pre', element, children, index);
-    case Elements.strong:
-      return serializeStandardTag('strong', element, children, index);
-    case Elements.em:
-      return serializeStandardTag('em', element, children, index);
-    case Elements.listItem:
-      return serializeStandardTag('li', element, children, index);
-    case Elements.oListItem:
-      return serializeStandardTag('li', element, children, index);
-    case Elements.list:
-      return serializeStandardTag('ul', element, children, index);
-    case Elements.oList:
-      return serializeStandardTag('ol', element, children, index);
-    case Elements.image:
-      return serializeImage(linkResolver, element, index);
-    case Elements.embed:
-      return serializeEmbed(element, index);
-    case Elements.hyperlink:
-      return serializeHyperlink(linkResolver, element, children, index, routerLink, router);
-    case Elements.label:
-      return serializeLabel(element, children, index);
-    case Elements.span:
-      return serializeSpan(content);
-    default:
-      return null;
-  }
+    if (elements[type]) {
+        return serializeElement(elements[type], type, element, content, children, index);
+    }
+    const Elements = PrismicRichTextLib.Elements;
+    switch (type) {
+        case Elements.heading1:
+            return serializeStandardTag('h1', element, children, index, { id: slugifyHeading(children) });
+        case Elements.heading2:
+            return serializeStandardTag('h2', element, children, index, { id: slugifyHeading(children) });
+        case Elements.heading3:
+            return serializeStandardTag('h3', element, children, index, { id: slugifyHeading(children) });
+        case Elements.heading4:
+            return serializeStandardTag('h4', element, children, index, { id: slugifyHeading(children) });
+        case Elements.heading5:
+            return serializeStandardTag('h5', element, children, index, { id: slugifyHeading(children) });
+        case Elements.heading6:
+            return serializeStandardTag('h6', element, children, index, { id: slugifyHeading(children) });
+        case Elements.paragraph:
+            return serializeStandardTag('p', element, children, index);
+        case Elements.preformatted:
+            return serializeStandardTag('pre', element, children, index);
+        case Elements.strong:
+            return serializeStandardTag('strong', element, children, index);
+        case Elements.em:
+            return serializeStandardTag('em', element, children, index);
+        case Elements.listItem:
+            return serializeStandardTag('li', element, children, index);
+        case Elements.oListItem:
+            return serializeStandardTag('li', element, children, index);
+        case Elements.list:
+            return serializeStandardTag('ul', element, children, index);
+        case Elements.oList:
+            return serializeStandardTag('ol', element, children, index);
+        case Elements.image:
+            return serializeImage(linkResolver, element, index);
+        case Elements.embed:
+            return serializeEmbed(element, index);
+        case Elements.hyperlink:
+            return serializeHyperlink(linkResolver, element, children, index, routerLink, router);
+        case Elements.label:
+            return serializeLabel(element, children, index);
+        case Elements.span:
+            return serializeSpan(content);
+        default:
+            return null;
+    }
 }
 function propsWithUniqueKey(props = {}, key) {
-  return Object.assign(props, { key });
+    return Object.assign(props, { key });
 }
 function serializeElement(Element, type, props, _content, children, index) {
-  return (h(Element, Object.assign({ key: `element-${type}-${index + 1}` }, props, (type === 'image' ? { src: props.url, url: undefined } : null)), children && children.length ? children : undefined));
+    return (h(Element, Object.assign({ key: `element-${type}-${index + 1}` }, props, (type === 'image' ? { src: props.url, url: undefined } : null)), children && children.length ? children : undefined));
 }
 function serializeStandardTag(Tag, element, children, key, extra = {}) {
-  const props = element.label ? Object.assign(extra, { className: element.label }) : extra;
-  return h(Tag, Object.assign({}, propsWithUniqueKey(props, key)), children);
+    const props = element.label ? Object.assign(extra, { className: element.label }) : extra;
+    return h(Tag, Object.assign({}, propsWithUniqueKey(props, key)), children);
 }
 function serializeHyperlink(linkResolver, element, children, key, routerLink = false, router = null) {
-  const targetAttr = element.data.target ? { target: element.data.target } : {};
-  const relAttr = element.data.target ? { rel: 'noopener' } : {};
-  let href$1 = PrismicHelpers.Link.url(element.data, linkResolver);
-  if (element.data.url) {
-    const parsed = new URL(element.data.url);
-    if (parsed.hostname.indexOf('.') < 0) {
-      // Allow relative links
-      href$1 = `/${parsed.hostname}${parsed.pathname + parsed.search + parsed.hash}`;
+    const targetAttr = element.data.target ? { target: element.data.target } : {};
+    const relAttr = element.data.target ? { rel: 'noopener' } : {};
+    let href$1 = PrismicHelpers.Link.url(element.data, linkResolver);
+    if (element.data.url) {
+        const parsed = new URL(element.data.url);
+        if (parsed.hostname.indexOf('.') < 0) {
+            // Allow relative links
+            href$1 = `/${parsed.hostname}${parsed.pathname + parsed.search + parsed.hash}`;
+        }
     }
-  }
-  const props = Object.assign({ href: href$1 }, targetAttr, relAttr);
-  if (routerLink) {
-    return h("a", Object.assign({}, propsWithUniqueKey(props, key), href(props.href, router)), children);
-  }
-  else {
-    return h("a", Object.assign({}, propsWithUniqueKey(props, key)), children);
-  }
+    const props = Object.assign({ href: href$1 }, targetAttr, relAttr);
+    if (routerLink) {
+        return h("a", Object.assign({}, propsWithUniqueKey(props, key), href(props.href, router)), children);
+    }
+    else {
+        return h("a", Object.assign({}, propsWithUniqueKey(props, key)), children);
+    }
 }
 function serializeLabel(element, children, key) {
-  const props = element.data ? Object.assign({}, { className: element.data.label }) : {};
-  return h("span", Object.assign({}, propsWithUniqueKey(props, key)), children);
+    const props = element.data ? Object.assign({}, { className: element.data.label }) : {};
+    return h("span", Object.assign({}, propsWithUniqueKey(props, key)), children);
 }
 function serializeSpan(content) {
-  if (content) {
-    return content.split('\n').reduce((acc, p) => {
-      if (acc.length === 0) {
-        return [p];
-      }
-      else {
-        const brIndex = (acc.length + 1) / 2 - 1;
-        const br = h("br", Object.assign({}, propsWithUniqueKey({}, brIndex)));
-        return acc.concat([br, p]);
-      }
-    }, []);
-  }
-  else {
-    return null;
-  }
+    if (content) {
+        return content.split('\n').reduce((acc, p) => {
+            if (acc.length === 0) {
+                return [p];
+            }
+            else {
+                const brIndex = (acc.length + 1) / 2 - 1;
+                const br = h("br", Object.assign({}, propsWithUniqueKey({}, brIndex)));
+                return acc.concat([br, p]);
+            }
+        }, []);
+    }
+    else {
+        return null;
+    }
 }
 function serializeImage(linkResolver, element, key) {
-  const linkUrl = element.linkTo ? PrismicHelpers.Link.url(element.linkTo, linkResolver) : null;
-  const linkTarget = element.linkTo && element.linkTo.target ? { target: element.linkTo.target } : {};
-  const relAttr = linkTarget.target ? { rel: 'noopener' } : {};
-  const img = h("img", { loading: 'lazy', src: element.url, alt: element.alt || '' });
-  return (h("p", Object.assign({}, propsWithUniqueKey({ className: [element.label || '', 'block-img'].join(' ') }, key)), linkUrl ? h("a", Object.assign({}, Object.assign({ href: linkUrl }, linkTarget, relAttr)), img) : img));
+    const linkUrl = element.linkTo ? PrismicHelpers.Link.url(element.linkTo, linkResolver) : null;
+    const linkTarget = element.linkTo && element.linkTo.target ? { target: element.linkTo.target } : {};
+    const relAttr = linkTarget.target ? { rel: 'noopener' } : {};
+    const img = h("img", { loading: 'lazy', src: element.url, alt: element.alt || '' });
+    return (h("p", Object.assign({}, propsWithUniqueKey({ className: [element.label || '', 'block-img'].join(' ') }, key)), linkUrl ? h("a", Object.assign({}, Object.assign({ href: linkUrl }, linkTarget, relAttr)), img) : img));
 }
 function serializeEmbed(element, key) {
-  if (embeds[element.oembed.provider_name]) {
-    createScript(embeds[element.oembed.provider_name]);
-  }
-  const className = `embed embed-${element.oembed.provider_name.toLowerCase()}`;
-  const props = Object.assign({
-    'data-oembed': element.oembed.embed_url,
-    'data-oembed-type': element.oembed.type,
-    'data-oembed-provider': element.oembed.provider_name,
-    ref: (ref) => {
-      if (embeds[element.oembed.provider_name]) {
-        embeds[element.oembed.provider_name].load(ref);
-      }
-    },
-  }, element.label ? { className: `${className} ${element.label}` } : { className });
-  const embedHtml = h("div", { innerHTML: element.oembed.html });
-  return h("div", Object.assign({}, propsWithUniqueKey(props, key)), embedHtml);
+    if (embeds[element.oembed.provider_name]) {
+        createScript(embeds[element.oembed.provider_name]);
+    }
+    const className = `embed embed-${element.oembed.provider_name.toLowerCase()}`;
+    const props = Object.assign({
+        'data-oembed': element.oembed.embed_url,
+        'data-oembed-type': element.oembed.type,
+        'data-oembed-provider': element.oembed.provider_name,
+        ref: (ref) => {
+            if (embeds[element.oembed.provider_name]) {
+                embeds[element.oembed.provider_name].load(ref);
+            }
+        },
+    }, element.label ? { className: `${className} ${element.label}` } : { className });
+    const embedHtml = h("div", { innerHTML: element.oembed.html });
+    return h("div", Object.assign({}, propsWithUniqueKey(props, key)), embedHtml);
 }
 const PrismicRichText = (_a, _, utils) => {
-  var { richText, linkResolver, htmlSerializerProp = htmlSerializer, routerLink, router, paragraphLevel, poster, leading } = _a, props = __rest$9(_a, ["richText", "linkResolver", "htmlSerializerProp", "routerLink", "router", "paragraphLevel", "poster", "leading"]);
-  // I hate doing this with closure shenanigans, but there aren't many good ways
-  // to pass data through the Prismic library's serialize function to the custom
-  // serializer ~pg
-  ParagraphLevel = paragraphLevel > 0 && paragraphLevel < 7 ? paragraphLevel : undefined;
-  Poster = poster;
-  Leading = leading;
-  const serializedChildren = PrismicRichTextLib.serialize(richText, (...args) => serialize.apply(null, [linkResolver, {}, ...args, routerLink, router]), 
-  // serialize.bind(null, linkResolver, {}), 
-  htmlSerializerProp);
-  return utils.map(serializedChildren, Child => {
-    Child.vattrs = applyProps(props, Child.vattrs);
-    return Child;
-  });
+    var { richText, linkResolver, htmlSerializerProp = htmlSerializer, routerLink, router, paragraphLevel, poster, leading } = _a, props = __rest$9(_a, ["richText", "linkResolver", "htmlSerializerProp", "routerLink", "router", "paragraphLevel", "poster", "leading"]);
+    // I hate doing this with closure shenanigans, but there aren't many good ways
+    // to pass data through the Prismic library's serialize function to the custom
+    // serializer ~pg
+    ParagraphLevel = paragraphLevel > 0 && paragraphLevel < 7 ? paragraphLevel : undefined;
+    Poster = poster;
+    Leading = leading;
+    const serializedChildren = PrismicRichTextLib.serialize(richText, (...args) => serialize.apply(null, [linkResolver, {}, ...args, routerLink, router]), 
+    // serialize.bind(null, linkResolver, {}), 
+    htmlSerializerProp);
+    return utils.map(serializedChildren, Child => {
+        Child.vattrs = applyProps(props, Child.vattrs);
+        return Child;
+    });
 };
 
 const SliceNormalText = ({ slice }) => (h(PrismicRichText, { richText: slice.primary.content, htmlSerializer: htmlSerializer }));
 const SliceRawHtml = ({ slice }) => (h("div", { class: "prismic-raw-html", innerHTML: slice.primary.html_content.map((c) => c.text).join('') }));
 const SliceQuote = ({ slice }) => (h(Blockquote, null,
-  h("div", null,
-    h(PrismicRichText, { richText: slice.primary.quote })),
-  slice.primary.name ? (h("cite", null,
-    slice.primary.name,
-    h("span", null, slice.primary.description))) : null));
+    h("div", null,
+        h(PrismicRichText, { richText: slice.primary.quote })),
+    slice.primary.name ? (h("cite", null,
+        slice.primary.name,
+        h("span", null, slice.primary.description))) : null));
 const SliceFloatingImage = ({ slice }) => (h("figure", null,
-  h("img", { loading: 'lazy', src: slice.primary.illustration.url, alt: slice.primary.illustration.alt })));
+    h("img", { loading: 'lazy', src: slice.primary.illustration.url, alt: slice.primary.illustration.alt })));
 const SliceAd = ({ slice }) => {
-  return (h("aside", { class: "prismic-ad" },
-    h("a", { href: slice.primary.link.url, target: slice.primary.link.target },
-      h(PrismicRichText, { richText: slice.primary.text }),
-      h("img", { class: "prismic-ad__image", loading: 'lazy', alt: slice.primary.image.alt, height: parseInt(slice.primary.image.dimensions.height, 10) / 2, width: parseInt(slice.primary.image.dimensions.width, 10) / 2, src: slice.primary.image.url, srcset: `${slice.primary.image['1x'].url} 1x, ${slice.primary.image.url} 2x` }))));
+    return (h("aside", { class: "prismic-ad" },
+        h("a", { href: slice.primary.link.url, target: slice.primary.link.target },
+            h(PrismicRichText, { richText: slice.primary.text }),
+            h("img", { class: "prismic-ad__image", loading: 'lazy', alt: slice.primary.image.alt, height: parseInt(slice.primary.image.dimensions.height, 10) / 2, width: parseInt(slice.primary.image.dimensions.width, 10) / 2, src: slice.primary.image.url, srcset: `${slice.primary.image['1x'].url} 1x, ${slice.primary.image.url} 2x` }))));
 };
 const PrismicBodySlice = ({ slice, key }) => {
-  switch (slice.slice_type) {
-    case 'normal_text':
-      return h(SliceNormalText, { slice: slice, key: key });
-    case 'raw_html':
-      return h(SliceRawHtml, { slice: slice, key: key });
-    case 'quote':
-      return h(SliceQuote, { slice: slice, key: key });
-    case 'floating_image':
-      return h(SliceFloatingImage, { slice: slice, key: key });
-    case 'ad':
-      return h(SliceAd, { slice: slice, key: key });
-  }
-  return null;
+    switch (slice.slice_type) {
+        case 'normal_text':
+            return h(SliceNormalText, { slice: slice, key: key });
+        case 'raw_html':
+            return h(SliceRawHtml, { slice: slice, key: key });
+        case 'quote':
+            return h(SliceQuote, { slice: slice, key: key });
+        case 'floating_image':
+            return h(SliceFloatingImage, { slice: slice, key: key });
+        case 'ad':
+            return h(SliceAd, { slice: slice, key: key });
+    }
+    return null;
 };
 
 const PrismicContent = ({ content }) => content.map((c, i) => h(PrismicBodySlice, { slice: c, key: i }));
 
 var __rest$a = (undefined && undefined.__rest) || function (s, e) {
-  var t = {};
-  for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-    t[p] = s[p];
-  if (s != null && typeof Object.getOwnPropertySymbols === "function")
-    for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-      if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-        t[p[i]] = s[p[i]];
-    }
-  return t;
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
 };
 const PrismicResponsiveImage = (_a) => {
-  var { image, loading = 'lazy', params, width, height } = _a, props = __rest$a(_a, ["image", "loading", "params", "width", "height"]);
-  const paramString = params ?
-    Object.entries(params).reduce((acc, cur) => {
-      const regex = new RegExp(`\\?.*${cur[0]}=`);
-      if (!image.url.match(regex)) {
-        return `${acc}${acc.match(/^\?$/) ? '' : '&'}${cur.join('=')}`;
-      }
-      return acc;
-    }, image.url.match(/\?/) ? '' : '?') : '';
-  const imageUrl = new URL(image.url + paramString);
-  const dimensions = {
-    'width': width ? width : imageUrl.searchParams.get('w'),
-    'height': height ? height : imageUrl.searchParams.get('h'),
-  };
-  return (h("img", Object.assign({}, applyProps(props), { loading: loading, src: `${imageUrl}` }, { 'srcset': image['1x'] ? `${image['1x'].url}${paramString} 1x, ${imageUrl} 2x` : undefined }, dimensions, { alt: image.alt })));
+    var { image, loading = 'lazy', params, width, height } = _a, props = __rest$a(_a, ["image", "loading", "params", "width", "height"]);
+    const paramString = params ?
+        Object.entries(params).reduce((acc, cur) => {
+            const regex = new RegExp(`\\?.*${cur[0]}=`);
+            if (!image.url.match(regex)) {
+                return `${acc}${acc.match(/^\?$/) ? '' : '&'}${cur.join('=')}`;
+            }
+            return acc;
+        }, image.url.match(/\?/) ? '' : '?') : '';
+    const imageUrl = new URL(image.url + paramString);
+    const dimensions = {
+        'width': width ? width : imageUrl.searchParams.get('w'),
+        'height': height ? height : imageUrl.searchParams.get('h'),
+    };
+    return (h("img", Object.assign({}, applyProps(props), { loading: loading, src: `${imageUrl}` }, { 'srcset': image['1x'] ? `${image['1x'].url}${paramString} 1x, ${imageUrl} 2x` : undefined }, dimensions, { alt: image.alt })));
 };
 
 const importGsap = (callback) => {
@@ -8515,8 +8515,8 @@ class CodeSnippet {
 }
 
 var Blockquote_examples = {
-  title: 'Blockquote',
-  cols: 1
+    title: 'Blockquote',
+    cols: 1
 };
 const example = () => h(Blockquote, null, "With Ionic Enterprise, we have peace of mind with access to Ionic\u2019s stellar Customer Success team, additional help from Ionic experts whenever we need it, and we\u2019re able to rely on Ionic\u2019s secure native solutions to ensure an optimal login experience. Put simply, it provides peace of mind and reduces the effort on maintaining native code.");
 
@@ -8527,19 +8527,19 @@ var blockquoteExamples = /*#__PURE__*/Object.freeze({
 });
 
 var __rest$c = (undefined && undefined.__rest) || function (s, e) {
-  var t = {};
-  for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-    t[p] = s[p];
-  if (s != null && typeof Object.getOwnPropertySymbols === "function")
-    for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-      if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-        t[p[i]] = s[p[i]];
-    }
-  return t;
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
 };
 const Box = (_a, children) => {
-  var props = __rest$c(_a, []);
-  return h("div", Object.assign({}, applyProps(props, { class: `ui-box` })), children);
+    var props = __rest$c(_a, []);
+    return h("div", Object.assign({}, applyProps(props, { class: `ui-box` })), children);
 };
 
 var Box_examples = { title: 'Box' };
@@ -8553,11 +8553,11 @@ var boxExamples = /*#__PURE__*/Object.freeze({
 
 var Breadcrumbs_examples = { title: 'Breadcrumbs' };
 const example$2 = () => (h(Breadcrumbs, { class: "jumanjii" },
-  h("li", null,
-    h("a", { href: "#" }, "Native")),
-  h("li", { class: "nav-sep" }, "/"),
-  h("li", null,
-    h("a", { href: "#" }, "Offline Storage"))));
+    h("li", null,
+        h("a", { href: "#" }, "Native")),
+    h("li", { class: "nav-sep" }, "/"),
+    h("li", null,
+        h("a", { href: "#" }, "Offline Storage"))));
 
 var breadcrumbsExamples = /*#__PURE__*/Object.freeze({
   __proto__: null,
@@ -8612,7 +8612,7 @@ var dateTimeExamples = /*#__PURE__*/Object.freeze({
 });
 
 const Dropdown = ({ open = false }, children) => {
-  return open ? h("ul", { class: `ui-dropdown${open ? ' ui-dropdown--open' : ''}` }, children) : null;
+    return open ? h("ul", { class: `ui-dropdown${open ? ' ui-dropdown--open' : ''}` }, children) : null;
 };
 
 var Dropdown_examples = { title: 'Dropdown' };
@@ -8625,8 +8625,8 @@ var dropdownExamples = /*#__PURE__*/Object.freeze({
 });
 
 var Grid_examples = {
-  title: 'Grid',
-  cols: 1
+    title: 'Grid',
+    cols: 1
 };
 const example$6 = () => h(Grid, null, "This is a Grid");
 
@@ -8686,7 +8686,7 @@ var paragraphExamples = /*#__PURE__*/Object.freeze({
 
 var ResponsiveContainer_examples = { title: 'ResponsiveContainer' };
 const example$7 = () => h(ResponsiveContainer, null,
-  h("div", null, "blah blah blah responsive container"));
+    h("div", null, "blah blah blah responsive container"));
 
 var responsiveContainerExamples = /*#__PURE__*/Object.freeze({
   __proto__: null,
@@ -8705,15 +8705,15 @@ var siteModalExamples = /*#__PURE__*/Object.freeze({
 
 var Skeleton_examples = { title: 'Skeleton' };
 const example$9 = () => (h("div", null,
-  h(Skeleton, { style: { "height": "200px" } }),
-  h(Skeleton, { style: {
-      "width": "100px",
-      "height": "16px"
-    } }),
-  h(Skeleton, { style: { "height": "16px" } }),
-  h(Skeleton, { style: { "height": "16px" } }),
-  h(Skeleton, { style: { "height": "16px" } }),
-  h(Skeleton, { style: { "height": "16px" } })));
+    h(Skeleton, { style: { "height": "200px" } }),
+    h(Skeleton, { style: {
+            "width": "100px",
+            "height": "16px"
+        } }),
+    h(Skeleton, { style: { "height": "16px" } }),
+    h(Skeleton, { style: { "height": "16px" } }),
+    h(Skeleton, { style: { "height": "16px" } }),
+    h(Skeleton, { style: { "height": "16px" } })));
 
 var skeletonExamples = /*#__PURE__*/Object.freeze({
   __proto__: null,
@@ -8740,27 +8740,27 @@ var themeProviderExamples = /*#__PURE__*/Object.freeze({
 });
 
 var coreExamples = {
-  blockquoteExamples,
-  boxExamples,
-  breadcrumbsExamples,
-  breakpointExamples,
-  buttonExamples,
-  cardExamples,
-  dateTimeExamples,
-  dropdownExamples,
-  gridExamples,
-  headingExamples,
-  paragraphExamples,
-  responsiveContainerExamples,
-  siteModalExamples,
-  skeletonExamples,
-  textExamples,
-  themeProviderExamples
+    blockquoteExamples,
+    boxExamples,
+    breadcrumbsExamples,
+    breakpointExamples,
+    buttonExamples,
+    cardExamples,
+    dateTimeExamples,
+    dropdownExamples,
+    gridExamples,
+    headingExamples,
+    paragraphExamples,
+    responsiveContainerExamples,
+    siteModalExamples,
+    skeletonExamples,
+    textExamples,
+    themeProviderExamples
 };
 
 var disqusComments_example = {
-  title: 'disqus-comments',
-  cols: 1
+    title: 'disqus-comments',
+    cols: 1
 };
 const frameworkBlogPost = () => h("disqus-comments", { url: 'https://ds.ionic.io/overview/disqus-comments', "site-id": 'drifty' });
 
@@ -8771,8 +8771,8 @@ var disqusCommentsExamples = /*#__PURE__*/Object.freeze({
 });
 
 var hubspotForm_example = {
-  title: 'hubspot-form',
-  cols: 1
+    title: 'hubspot-form',
+    cols: 1
 };
 const frameworkBlogPost$1 = () => h("hubspot-form", { formId: '9151dc0b-42d9-479f-b7b8-649e0e7bd1bc', ajax: true, onFormSubmitted: () => alert('message recieved!') });
 
@@ -8785,22 +8785,22 @@ var hubspotFormExamples = /*#__PURE__*/Object.freeze({
 var webExamples = { disqusCommentsExamples, hubspotFormExamples };
 
 function transformMethodName(str) {
-  str = str.charAt(0).toUpperCase() + str.slice(1);
-  return (str
-    // Look for long acronyms and filter out the last letter
-    .replace(/([A-Z]+)([A-Z][a-z])/g, ' $1 $2')
-    // Look for lower-case letters followed by upper-case letters
-    .replace(/([a-z\d])([A-Z])/g, '$1 $2')
-    // Look for lower-case letters followed by numbers
-    .replace(/([a-zA-Z])(\d)/g, '$1 $2')
-    .replace(/^./, function (str) {
-    return str.toUpperCase();
-  })
-    // Remove any white space left around the word
-    .trim());
+    str = str.charAt(0).toUpperCase() + str.slice(1);
+    return (str
+        // Look for long acronyms and filter out the last letter
+        .replace(/([A-Z]+)([A-Z][a-z])/g, ' $1 $2')
+        // Look for lower-case letters followed by upper-case letters
+        .replace(/([a-z\d])([A-Z])/g, '$1 $2')
+        // Look for lower-case letters followed by numbers
+        .replace(/([a-zA-Z])(\d)/g, '$1 $2')
+        .replace(/^./, function (str) {
+        return str.toUpperCase();
+    })
+        // Remove any white space left around the word
+        .trim());
 }
 function dashToCamel(str) {
-  return str.replace(/-([a-z])/g, function (g) { return g[1].toUpperCase(); });
+    return str.replace(/-([a-z])/g, function (g) { return g[1].toUpperCase(); });
 }
 
 class ComponentDetail {
@@ -13812,49 +13812,49 @@ var marked = createCommonjsModule(function (module, exports) {
 
 // import { Heading } from '../../core';
 const getReadme = (componentName, isFunctionalComponent = false) => {
-  if (isFunctionalComponent) {
-    componentName = `ui-${componentName.toLowerCase()}`;
-  }
-  let component = null;
-  for (let entry in docsData.components) {
-    if (docsData.components[entry].tag === componentName) {
-      component = docsData.components[entry];
+    if (isFunctionalComponent) {
+        componentName = `ui-${componentName.toLowerCase()}`;
     }
-  }
-  if (!component)
-    return;
-  return [
-    getHeader(component),
-    renderCustomProps(component.props)
-  ];
+    let component = null;
+    for (let entry in docsData.components) {
+        if (docsData.components[entry].tag === componentName) {
+            component = docsData.components[entry];
+        }
+    }
+    if (!component)
+        return;
+    return [
+        getHeader(component),
+        renderCustomProps(component.props)
+    ];
 };
 const getHeader = (component) => {
-  const functionalTag = capitalizeFirstLetter(component.tag.replace('ui-', ''));
-  const newHeader = `# \`<${component.tag}>\`, \`<${functionalTag}>\``;
-  const markdownHeader = component.readme.replace(`# ${component.tag}`, newHeader);
-  return h("div", { innerHTML: marked(markdownHeader) });
+    const functionalTag = capitalizeFirstLetter(component.tag.replace('ui-', ''));
+    const newHeader = `# \`<${component.tag}>\`, \`<${functionalTag}>\``;
+    const markdownHeader = component.readme.replace(`# ${component.tag}`, newHeader);
+    return h("div", { innerHTML: marked(markdownHeader) });
 };
 const renderCustomProps = (customProps = []) => {
-  if (customProps.length === 0) {
-    return null;
-  }
-  return (h("section", null,
-    h("table", null,
-      h("thead", null,
-        h("tr", null,
-          h("th", null, "Property"),
-          h("th", null, "Description"))),
-      h("tbody", null, customProps.map(prop => (h("tr", null,
-        h("td", null,
-          h("code", null,
-            prop.name,
-            prop.optional && '?',
-            prop.type && `: ${prop.type}`,
-            prop.default && ` = ${prop.default}`)),
-        h("td", { innerHTML: marked(prop.docs) }))))))));
+    if (customProps.length === 0) {
+        return null;
+    }
+    return (h("section", null,
+        h("table", null,
+            h("thead", null,
+                h("tr", null,
+                    h("th", null, "Property"),
+                    h("th", null, "Description"))),
+            h("tbody", null, customProps.map(prop => (h("tr", null,
+                h("td", null,
+                    h("code", null,
+                        prop.name,
+                        prop.optional && '?',
+                        prop.type && `: ${prop.type}`,
+                        prop.default && ` = ${prop.default}`)),
+                h("td", { innerHTML: marked(prop.docs) }))))))));
 };
 const capitalizeFirstLetter = string => {
-  return string.charAt(0).toUpperCase() + string.slice(1);
+    return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
 class ComponentOverview {
@@ -14325,83 +14325,83 @@ const cacheLife = 20 * 60 * 1000; // 20 mins
 let ads;
 let lastFetch = null;
 const getLatest = async () => {
-  const api = await Prismic.getApi(apiURL$1);
-  const response = await api.query(Prismic.Predicates.at('document.type', 'docs_ad'), {});
-  ads = response.results;
-  lastFetch = Date.now();
+    const api = await Prismic.getApi(apiURL$1);
+    const response = await api.query(Prismic.Predicates.at('document.type', 'docs_ad'), {});
+    ads = response.results;
+    lastFetch = Date.now();
 };
 const getAd = async () => {
-  if (lastFetch === null || (Date.now() - lastFetch) > cacheLife) {
-    await getLatest();
-  }
-  return chooseAdByWeight();
+    if (lastFetch === null || (Date.now() - lastFetch) > cacheLife) {
+        await getLatest();
+    }
+    return chooseAdByWeight();
 };
 const chooseAdByWeight = () => {
-  var _a;
-  const weightList = []; // Just Checking...
-  for (const ad of ads) {
-    if (ad['data']) { // Safety
-      if (!ad['data'].ad_weight) {
-        ad['data'].ad_weight = 1;
-      }
-      for (let i = 0; i < ad['data'].ad_weight; i++) {
-        weightList.push(ad);
-      }
+    var _a;
+    const weightList = []; // Just Checking...
+    for (const ad of ads) {
+        if (ad['data']) { // Safety
+            if (!ad['data'].ad_weight) {
+                ad['data'].ad_weight = 1;
+            }
+            for (let i = 0; i < ad['data'].ad_weight; i++) {
+                weightList.push(ad);
+            }
+        }
     }
-  }
-  // Probability Fun
-  return ((_a = weightList[Math.floor(Math.random() * weightList.length)]) === null || _a === void 0 ? void 0 : _a.data) || null;
+    // Probability Fun
+    return ((_a = weightList[Math.floor(Math.random() * weightList.length)]) === null || _a === void 0 ? void 0 : _a.data) || null;
 };
 
 const trackView = (adId) => {
-  hubspotTrack('View', adId);
-  googleAnalyticsTrack('View', adId);
+    hubspotTrack('View', adId);
+    googleAnalyticsTrack('View', adId);
 };
 const trackClick = (adId, event) => {
-  const timeForTrackingRequests = 150; // ms
-  if (event) {
-    event.preventDefault();
-  }
-  hubspotTrack('Click', adId);
-  googleAnalyticsTrack('Click', adId);
-  // give tracking request time to complete
-  setTimeout(() => {
-    const link = hrefClimber(event === null || event === void 0 ? void 0 : event.target);
-    if (link.target && link.target.toLowerCase() === '_blank') {
-      window.open(link.href);
+    const timeForTrackingRequests = 150; // ms
+    if (event) {
+        event.preventDefault();
     }
-    else if (link.href) {
-      document.location = link.href;
-    }
-  }, timeForTrackingRequests);
+    hubspotTrack('Click', adId);
+    googleAnalyticsTrack('Click', adId);
+    // give tracking request time to complete
+    setTimeout(() => {
+        const link = hrefClimber(event === null || event === void 0 ? void 0 : event.target);
+        if (link.target && link.target.toLowerCase() === '_blank') {
+            window.open(link.href);
+        }
+        else if (link.href) {
+            document.location = link.href;
+        }
+    }, timeForTrackingRequests);
 };
 const hubspotTrack = (type, adId) => {
-  if (!window['_hsq']) {
-    console.warn('Unable to track Hubspot event, _hsq not found', type, adId);
-    return;
-  }
-  window['_hsq'].push(['trackEvent', {
-      id: `Docs ad - ${type} - ${adId}`
-    }]);
+    if (!window['_hsq']) {
+        console.warn('Unable to track Hubspot event, _hsq not found', type, adId);
+        return;
+    }
+    window['_hsq'].push(['trackEvent', {
+            id: `Docs ad - ${type} - ${adId}`
+        }]);
 };
 const googleAnalyticsTrack = (type, adId) => {
-  if (!window['gtag']) {
-    console.warn('Unable to track Google Analytics event, gtag not found', type, adId);
-    return;
-  }
-  window['gtag']('event', `Docs ad - ${type} - ${adId}`, {
-    'event_category': `Docs ad - ${type}`,
-    'event_label': adId
-  });
+    if (!window['gtag']) {
+        console.warn('Unable to track Google Analytics event, gtag not found', type, adId);
+        return;
+    }
+    window['gtag']('event', `Docs ad - ${type} - ${adId}`, {
+        'event_category': `Docs ad - ${type}`,
+        'event_label': adId
+    });
 };
 // recursive function to climb the DOM looking for href tags
 const hrefClimber = (el) => {
-  if (el['href']) {
-    return el;
-  }
-  else if (el.parentNode) {
-    return hrefClimber(el.parentNode);
-  }
+    if (el['href']) {
+        return el;
+    }
+    else if (el.parentNode) {
+        return hrefClimber(el.parentNode);
+    }
 };
 
 const internalAdCss = "internal-ad{max-width:148px;display:block;margin:48px 0 0}internal-ad p{font-size:13px;line-height:19px;font-weight:400;letter-spacing:0.02em;color:var(--c-indigo-100);-webkit-transition:.2s color;transition:.2s color}internal-ad a:hover p{color:var(--c-indigo-90)}@media (max-width: 1233px){internal-ad{display:none}}";
@@ -18494,119 +18494,119 @@ class MoreButton {
 
 var ResourceType$1;
 (function (ResourceType) {
-  ResourceType["Article"] = "Article";
-  ResourceType["Blog"] = "Blog";
-  ResourceType["Book"] = "Book";
-  ResourceType["CaseStudy"] = "Case Study";
-  ResourceType["CustomerInterview"] = "Customer Interview";
-  ResourceType["Course"] = "Course";
-  ResourceType["Learning"] = "Learning";
-  ResourceType["Doc"] = "Doc";
-  ResourceType["Guide"] = "Guide";
-  ResourceType["Podcast"] = "Podcast";
-  ResourceType["Tutorial"] = "Tutorial";
-  ResourceType["Video"] = "Video";
-  ResourceType["Whitepaper"] = "Whitepaper";
-  ResourceType["Webinar"] = "Webinar";
+    ResourceType["Article"] = "Article";
+    ResourceType["Blog"] = "Blog";
+    ResourceType["Book"] = "Book";
+    ResourceType["CaseStudy"] = "Case Study";
+    ResourceType["CustomerInterview"] = "Customer Interview";
+    ResourceType["Course"] = "Course";
+    ResourceType["Learning"] = "Learning";
+    ResourceType["Doc"] = "Doc";
+    ResourceType["Guide"] = "Guide";
+    ResourceType["Podcast"] = "Podcast";
+    ResourceType["Tutorial"] = "Tutorial";
+    ResourceType["Video"] = "Video";
+    ResourceType["Whitepaper"] = "Whitepaper";
+    ResourceType["Webinar"] = "Webinar";
 })(ResourceType$1 || (ResourceType$1 = {}));
 var ResourceSource$1;
 (function (ResourceSource) {
-  ResourceSource["Prismic"] = "prismic";
+    ResourceSource["Prismic"] = "prismic";
 })(ResourceSource$1 || (ResourceSource$1 = {}));
 
 const prismicResourceToToc = (resource) => {
-  var _a, _b, _c;
-  let titles = [];
-  (_c = (_b = (_a = resource.doc) === null || _a === void 0 ? void 0 : _a.data) === null || _b === void 0 ? void 0 : _b.body) === null || _c === void 0 ? void 0 : _c.forEach((bodyItem) => {
-    var _a, _b;
-    (_b = (_a = bodyItem.primary) === null || _a === void 0 ? void 0 : _a.content) === null || _b === void 0 ? void 0 : _b.forEach((content) => {
-      var _a;
-      if ((_a = content.type) === null || _a === void 0 ? void 0 : _a.includes('heading'))
-        titles.push(content.text);
+    var _a, _b, _c;
+    let titles = [];
+    (_c = (_b = (_a = resource.doc) === null || _a === void 0 ? void 0 : _a.data) === null || _b === void 0 ? void 0 : _b.body) === null || _c === void 0 ? void 0 : _c.forEach((bodyItem) => {
+        var _a, _b;
+        (_b = (_a = bodyItem.primary) === null || _a === void 0 ? void 0 : _a.content) === null || _b === void 0 ? void 0 : _b.forEach((content) => {
+            var _a;
+            if ((_a = content.type) === null || _a === void 0 ? void 0 : _a.includes('heading'))
+                titles.push(content.text);
+        });
     });
-  });
-  return titles;
+    return titles;
 };
 const prismicDocToResource$1 = (doc) => {
-  return {
-    id: doc.uid,
-    title: doc.data.title || null,
-    description: doc.data.tagline || null,
-    tags: doc.tags || [],
-    publishDate: doc.first_publication_date || null,
-    updatedDate: doc.last_publication_date || null,
-    type: prismicTypeToResourceType$1(doc.type),
-    authors: getAuthorsForPrismicDoc$1(doc),
-    metaImage: getImage$1(doc.data.meta_image),
-    heroImage: getImage$1(doc.data.hero_image || doc.data.cover_image),
-    source: ResourceSource$1.Prismic,
-    doc,
-  };
+    return {
+        id: doc.uid,
+        title: doc.data.title || null,
+        description: doc.data.tagline || null,
+        tags: doc.tags || [],
+        publishDate: doc.first_publication_date || null,
+        updatedDate: doc.last_publication_date || null,
+        type: prismicTypeToResourceType$1(doc.type),
+        authors: getAuthorsForPrismicDoc$1(doc),
+        metaImage: getImage$1(doc.data.meta_image),
+        heroImage: getImage$1(doc.data.hero_image || doc.data.cover_image),
+        source: ResourceSource$1.Prismic,
+        doc,
+    };
 };
 const getImage$1 = (imageObj) => (imageObj && imageObj.url ? imageObj.url : '');
 const getAuthorsForPrismicDoc$1 = (doc) => {
-  var _a;
-  if ((!doc.data.hosts || !doc.data.hosts.length) && (!doc.data.author || !doc.data.author.length)) {
+    var _a;
+    if ((!doc.data.hosts || !doc.data.hosts.length) && (!doc.data.author || !doc.data.author.length)) {
+        return [];
+    }
+    if (doc.type === 'webinar') {
+        return doc.data.hosts.map((h) => {
+            var _a;
+            return ({
+                name: h.name || '',
+                title: h.title || '',
+                link: ((_a = h.profile_link) === null || _a === void 0 ? void 0 : _a.url) || '',
+                avatar: h.photo || '',
+            });
+        });
+    }
+    else if (doc.data.author && doc.data.author.length) {
+        return doc.data.author.map((a) => {
+            var _a;
+            return ({
+                name: a.name || '',
+                title: a.title || '',
+                link: ((_a = a.author_url) === null || _a === void 0 ? void 0 : _a.url) || '',
+                avatar: a.photo || '',
+            });
+        });
+    }
+    else if (doc.data.author) {
+        return [
+            {
+                name: doc.data.author.name || '',
+                title: doc.data.author.title || '',
+                link: ((_a = doc.data.author.author_url) === null || _a === void 0 ? void 0 : _a.url) || '',
+                avatar: doc.data.author.photo || '',
+            },
+        ];
+    }
     return [];
-  }
-  if (doc.type === 'webinar') {
-    return doc.data.hosts.map((h) => {
-      var _a;
-      return ({
-        name: h.name || '',
-        title: h.title || '',
-        link: ((_a = h.profile_link) === null || _a === void 0 ? void 0 : _a.url) || '',
-        avatar: h.photo || '',
-      });
-    });
-  }
-  else if (doc.data.author && doc.data.author.length) {
-    return doc.data.author.map((a) => {
-      var _a;
-      return ({
-        name: a.name || '',
-        title: a.title || '',
-        link: ((_a = a.author_url) === null || _a === void 0 ? void 0 : _a.url) || '',
-        avatar: a.photo || '',
-      });
-    });
-  }
-  else if (doc.data.author) {
-    return [
-      {
-        name: doc.data.author.name || '',
-        title: doc.data.author.title || '',
-        link: ((_a = doc.data.author.author_url) === null || _a === void 0 ? void 0 : _a.url) || '',
-        avatar: doc.data.author.photo || '',
-      },
-    ];
-  }
-  return [];
 };
 const prismicTypeToResourceType$1 = (type) => ({
-  article: ResourceType$1.Article,
-  blog: ResourceType$1.Blog,
-  book: ResourceType$1.Book,
-  case_study: ResourceType$1.CaseStudy,
-  course: ResourceType$1.Course,
-  customer_story: ResourceType$1.CustomerInterview,
-  doc: ResourceType$1.Doc,
-  guide: ResourceType$1.Guide,
-  learning: ResourceType$1.Learning,
-  podcast: ResourceType$1.Podcast,
-  tutorial: ResourceType$1.Tutorial,
-  video: ResourceType$1.Video,
-  webinar: ResourceType$1.Webinar,
-  whitepaper: ResourceType$1.Whitepaper,
+    article: ResourceType$1.Article,
+    blog: ResourceType$1.Blog,
+    book: ResourceType$1.Book,
+    case_study: ResourceType$1.CaseStudy,
+    course: ResourceType$1.Course,
+    customer_story: ResourceType$1.CustomerInterview,
+    doc: ResourceType$1.Doc,
+    guide: ResourceType$1.Guide,
+    learning: ResourceType$1.Learning,
+    podcast: ResourceType$1.Podcast,
+    tutorial: ResourceType$1.Tutorial,
+    video: ResourceType$1.Video,
+    webinar: ResourceType$1.Webinar,
+    whitepaper: ResourceType$1.Whitepaper,
 }[type]);
 
 const apiEndpoint$1 = "https://ionicframeworkcom.prismic.io/api/v2" ;
 // Client method to query documents from the Prismic repo
 const Client$1 = (req = null) => Prismic.client(apiEndpoint$1, createClientOptions$1(req, null));
 const createClientOptions$1 = (req = null, prismicAccessToken = null) => {
-  const reqOption = req ? { req } : {};
-  const accessTokenOption = prismicAccessToken ? { accessToken: prismicAccessToken } : {};
-  return Object.assign(Object.assign({}, reqOption), accessTokenOption);
+    const reqOption = req ? { req } : {};
+    const accessTokenOption = prismicAccessToken ? { accessToken: prismicAccessToken } : {};
+    return Object.assign(Object.assign({}, reqOption), accessTokenOption);
 };
 
 const moreResourcesCss = ".sc-more-resources-h{display:block}.ui-grid.size-2.sc-more-resources{-webkit-column-gap:var(--space-6);-moz-column-gap:var(--space-6);column-gap:var(--space-6)}.ui-grid.size-2.sc-more-resources resource-card.sc-more-resources{--image-height:128px}";
@@ -19289,20 +19289,20 @@ class ResourceAuthorItem {
 }
 
 const resourceTypeToPath = (type) => ({
-  [ResourceType$1.Article]: 'articles',
-  [ResourceType$1.Blog]: 'blogs',
-  [ResourceType$1.Book]: 'books',
-  [ResourceType$1.CaseStudy]: 'case-studies',
-  [ResourceType$1.Course]: 'courses',
-  [ResourceType$1.CustomerInterview]: 'customer-interviews',
-  [ResourceType$1.Doc]: 'docs',
-  [ResourceType$1.Guide]: 'guides',
-  [ResourceType$1.Learning]: 'learning',
-  [ResourceType$1.Podcast]: 'podcasts',
-  [ResourceType$1.Tutorial]: 'tutorials',
-  [ResourceType$1.Video]: 'videos',
-  [ResourceType$1.Webinar]: 'webinars',
-  [ResourceType$1.Whitepaper]: 'whitepapers',
+    [ResourceType$1.Article]: 'articles',
+    [ResourceType$1.Blog]: 'blogs',
+    [ResourceType$1.Book]: 'books',
+    [ResourceType$1.CaseStudy]: 'case-studies',
+    [ResourceType$1.Course]: 'courses',
+    [ResourceType$1.CustomerInterview]: 'customer-interviews',
+    [ResourceType$1.Doc]: 'docs',
+    [ResourceType$1.Guide]: 'guides',
+    [ResourceType$1.Learning]: 'learning',
+    [ResourceType$1.Podcast]: 'podcasts',
+    [ResourceType$1.Tutorial]: 'tutorials',
+    [ResourceType$1.Video]: 'videos',
+    [ResourceType$1.Webinar]: 'webinars',
+    [ResourceType$1.Whitepaper]: 'whitepapers',
 }[type]);
 
 const resourceCardCss = ".sc-resource-card-h{--image-height:176px;display:-ms-flexbox;display:flex;row-gap:0;-webkit-column-gap:0;-moz-column-gap:0;column-gap:0;-ms-flex-direction:column;flex-direction:column;height:100%}img.sc-resource-card{display:block}.row.sc-resource-card-h{display:grid}.row.sc-resource-card-h .image-wrapper.sc-resource-card{height:var(--image-height)}.row.sc-resource-card-h .image-wrapper.sc-resource-card img.sc-resource-card{height:100%}.row.sc-resource-card-h .content.sc-resource-card{-webkit-margin-start:var(--space-9);margin-inline-start:var(--space-9)}.row.sc-resource-card-h .content.sc-resource-card .meta.sc-resource-card{-webkit-margin-after:40px;margin-block-end:40px}.row.sc-resource-card-h .content.sc-resource-card .description.sc-resource-card{-webkit-margin-before:var(--space-4);margin-block-start:var(--space-4)}@media screen and (max-width: 640px){.row.sc-resource-card-h{display:-ms-flexbox;display:flex;-ms-flex-direction:column;flex-direction:column}.row.sc-resource-card-h .content.sc-resource-card{-webkit-margin-start:0;margin-inline-start:0}}a.image-wrapper.sc-resource-card{height:var(--image-height);overflow:hidden}a.image-wrapper.sc-resource-card:hover img.sc-resource-card,a.image-wrapper.sc-resource-card:active img.sc-resource-card,a.image-wrapper.sc-resource-card:focus img.sc-resource-card{-webkit-transform:scale(1.05);transform:scale(1.05)}a.image-wrapper.sc-resource-card img.sc-resource-card{height:var(--image-height);-o-object-fit:cover;object-fit:cover;-webkit-transition:-webkit-transform 200ms cubic-bezier(0.32, 0.72, 0, 1);transition:-webkit-transform 200ms cubic-bezier(0.32, 0.72, 0, 1);transition:transform 200ms cubic-bezier(0.32, 0.72, 0, 1);transition:transform 200ms cubic-bezier(0.32, 0.72, 0, 1), -webkit-transform 200ms cubic-bezier(0.32, 0.72, 0, 1)}.content.sc-resource-card{display:-ms-flexbox;display:flex;-ms-flex-positive:1;flex-grow:1;-ms-flex-direction:column;flex-direction:column}.content.sc-resource-card .meta.sc-resource-card{display:-ms-flexbox;display:flex;-webkit-margin-before:var(--space-5);margin-block-start:var(--space-5);-webkit-margin-after:var(--space-3);margin-block-end:var(--space-3);overflow:hidden}.content.sc-resource-card .meta.sc-resource-card .type.sc-resource-card{-webkit-margin-end:var(--space-4);margin-inline-end:var(--space-4)}.content.sc-resource-card .title.sc-resource-card{color:#010610}.content.sc-resource-card .description.sc-resource-card{color:var(--c-indigo-80);-webkit-margin-before:var(--space-5);margin-block-start:var(--space-5)}.author.sc-resource-card{-ms-flex-positive:1;flex-grow:1;display:-ms-flexbox;display:flex;-ms-flex-align:end;align-items:flex-end}.author.sc-resource-card resource-author-item.sc-resource-card{-webkit-margin-before:46px;margin-block-start:46px;justify-self:flex-end}";
@@ -19925,16 +19925,16 @@ class UIBreadcrumbs {
 }
 
 const getProps = (propList, ctx) => {
-  // set context
-  if (!ctx)
-    ctx = undefined;
-  const propObj = {};
-  propList.forEach(prop => {
-    if (ctx[prop] !== undefined) {
-      propObj[prop] = ctx[prop];
-    }
-  });
-  return propObj;
+    // set context
+    if (!ctx)
+        ctx = undefined;
+    const propObj = {};
+    propList.forEach(prop => {
+        if (ctx[prop] !== undefined) {
+            propObj[prop] = ctx[prop];
+        }
+    });
+    return propObj;
 };
 
 class UIBreakpoint {

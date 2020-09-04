@@ -1,5 +1,5 @@
-import { Document } from 'prismic-javascript/types/documents';
-import ApiSearchResponse from 'prismic-javascript/types/ApiSearchResponse';
+import { Document } from 'prismic-javascript/d.ts/documents';
+import ApiSearchResponse from 'prismic-javascript/d.ts/ApiSearchResponse';
 
 export interface PrismicDocsResponse {
   docs: Document[];

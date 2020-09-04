@@ -3,7 +3,7 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 /*!
- Stencil Mock Doc v2.0.0-5 | MIT Licensed | https://stenciljs.com
+ Stencil Mock Doc v2.0.3 | MIT Licensed | https://stenciljs.com
  */
 const CONTENT_REF_ID = 'r';
 const ORG_LOCATION_ID = 'o';
@@ -3779,7 +3779,29 @@ class MockWindow {
     ms = Math.min(ms, this.__maxTimeout);
     if (this.__allowInterval) {
       const intervalId = this.__setInterval(() => {
-        this.__timeouts.delete(intervalId);
+        if (this.__timeouts) {
+          this.__timeouts.delete(intervalId);
+          try {
+            callback(...args);
+          }
+          catch (e) {
+            if (this.console) {
+              this.console.error(e);
+            }
+            else {
+              console.error(e);
+            }
+          }
+        }
+      }, ms);
+      if (this.__timeouts) {
+        this.__timeouts.add(intervalId);
+      }
+      return intervalId;
+    }
+    const timeoutId = this.__setTimeout(() => {
+      if (this.__timeouts) {
+        this.__timeouts.delete(timeoutId);
         try {
           callback(...args);
         }
@@ -3791,25 +3813,11 @@ class MockWindow {
             console.error(e);
           }
         }
-      }, ms);
-      this.__timeouts.add(intervalId);
-      return intervalId;
-    }
-    const timeoutId = this.__setTimeout(() => {
-      this.__timeouts.delete(timeoutId);
-      try {
-        callback(...args);
-      }
-      catch (e) {
-        if (this.console) {
-          this.console.error(e);
-        }
-        else {
-          console.error(e);
-        }
       }
     }, ms);
-    this.__timeouts.add(timeoutId);
+    if (this.__timeouts) {
+      this.__timeouts.add(timeoutId);
+    }
     return timeoutId;
   }
   setTimeout(callback, ms, ...args) {
@@ -3818,20 +3826,24 @@ class MockWindow {
     }
     ms = Math.min(ms, this.__maxTimeout);
     const timeoutId = this.__setTimeout(() => {
-      this.__timeouts.delete(timeoutId);
-      try {
-        callback(...args);
-      }
-      catch (e) {
-        if (this.console) {
-          this.console.error(e);
+      if (this.__timeouts) {
+        this.__timeouts.delete(timeoutId);
+        try {
+          callback(...args);
         }
-        else {
-          console.error(e);
+        catch (e) {
+          if (this.console) {
+            this.console.error(e);
+          }
+          else {
+            console.error(e);
+          }
         }
       }
     }, ms);
-    this.__timeouts.add(timeoutId);
+    if (this.__timeouts) {
+      this.__timeouts.add(timeoutId);
+    }
     return timeoutId;
   }
   get top() {
@@ -4383,8 +4395,8 @@ class MockDocument extends MockHTMLElement {
   }
   get title() {
     const title = this.head.childNodes.find(elm => elm.nodeName === 'TITLE');
-    if (title != null) {
-      return title.textContent;
+    if (title != null && typeof title.textContent === 'string') {
+      return title.textContent.trim();
     }
     return '';
   }
@@ -4439,7 +4451,15 @@ function resetDocument(doc) {
     catch (e) { }
   }
 }
-const DOC_KEY_KEEPERS = new Set(['nodeName', 'nodeType', 'nodeValue', 'ownerDocument', 'parentNode', 'childNodes', '_shadowRoot']);
+const DOC_KEY_KEEPERS = new Set([
+  'nodeName',
+  'nodeType',
+  'nodeValue',
+  'ownerDocument',
+  'parentNode',
+  'childNodes',
+  '_shadowRoot',
+]);
 function getElementById(elm, id) {
   const children = elm.children;
   for (let i = 0, ii = children.length; i < ii; i++) {
@@ -4510,12 +4530,28 @@ function hydrateFactory($stencilWindow, $stencilHydrateOpts, $stencilHydrateResu
   var DOMTokenList = $stencilWindow.DOMTokenList;
   var Element = $stencilWindow.Element;
   var Event = $stencilWindow.Event;
+  var Headers = $stencilWindow.Headers;
+  var HTMLAnchorElement = $stencilWindow.HTMLAnchorElement;
+  var HTMLBaseElement = $stencilWindow.HTMLBaseElement;
+  var HTMLButtonElement = $stencilWindow.HTMLButtonElement;
+  var HTMLCanvasElement = $stencilWindow.HTMLCanvasElement;
   var HTMLElement = $stencilWindow.HTMLElement;
+  var HTMLFormElement = $stencilWindow.HTMLFormElement;
+  var HTMLImageElement = $stencilWindow.HTMLImageElement;
+  var HTMLInputElement = $stencilWindow.HTMLInputElement;
+  var HTMLLinkElement = $stencilWindow.HTMLLinkElement;
+  var HTMLMetaElement = $stencilWindow.HTMLMetaElement;
+  var HTMLScriptElement = $stencilWindow.HTMLScriptElement;
+  var HTMLStyleElement = $stencilWindow.HTMLStyleElement;
+  var HTMLTemplateElement = $stencilWindow.HTMLTemplateElement;
+  var HTMLTitleElement = $stencilWindow.HTMLTitleElement;
   var IntersectionObserver = $stencilWindow.IntersectionObserver;
   var KeyboardEvent = $stencilWindow.KeyboardEvent;
   var MouseEvent = $stencilWindow.MouseEvent;
   var Node = $stencilWindow.Node;
   var NodeList = $stencilWindow.NodeList;
+  var Request = $stencilWindow.Request;
+  var Response = $stencilWindow.Response;
   var URL = $stencilWindow.URL;
 
   var console = $stencilWindow.console;
@@ -4549,7 +4585,7 @@ function hydrateFactory($stencilWindow, $stencilHydrateOpts, $stencilHydrateResu
 
 
 const NAMESPACE = 'site';
-const BUILD = /* site */ { allRenderFn: false, appendChildSlotFix: false, asyncLoading: true, attachStyles: true, cloneNodeFix: false, cmpDidLoad: true, cmpDidRender: false, cmpDidUnload: true, cmpDidUpdate: false, cmpShouldUpdate: false, cmpWillLoad: true, cmpWillRender: false, cmpWillUpdate: true, connectedCallback: true, constructableCSS: false, cssAnnotations: true, cssVarShim: false, devTools: false, disconnectedCallback: true, dynamicImportShim: false, element: false, event: true, hasRenderFn: true, hostListener: true, hostListenerTarget: true, hostListenerTargetBody: false, hostListenerTargetDocument: false, hostListenerTargetParent: false, hostListenerTargetWindow: true, hotModuleReplacement: false, hydrateClientSide: true, hydrateServerSide: true, hydratedAttribute: false, hydratedClass: true, isDebug: false, isDev: false, isTesting: false, lazyLoad: true, lifecycle: true, lifecycleDOMEvents: false, member: true, method: true, mode: false, observeAttribute: true, profile: false, prop: true, propBoolean: true, propMutable: true, propNumber: true, propString: true, reflect: true, safari10: false, scoped: true, scriptDataOpts: false, shadowDelegatesFocus: false, shadowDom: true, shadowDomShim: true, slot: true, slotChildNodesFix: false, slotRelocation: true, state: true, style: true, svg: true, taskQueue: true, updatable: true, vdomAttribute: true, vdomClass: true, vdomFunctional: true, vdomKey: true, vdomListener: true, vdomPropOrAttr: true, vdomRef: true, vdomRender: true, vdomStyle: true, vdomText: true, vdomXlink: true, watchCallback: true };
+const BUILD = /* site */ { allRenderFn: false, appendChildSlotFix: false, asyncLoading: true, attachStyles: true, cloneNodeFix: false, cmpDidLoad: true, cmpDidRender: false, cmpDidUnload: false, cmpDidUpdate: false, cmpShouldUpdate: false, cmpWillLoad: true, cmpWillRender: false, cmpWillUpdate: true, connectedCallback: true, constructableCSS: false, cssAnnotations: true, cssVarShim: false, devTools: false, disconnectedCallback: true, dynamicImportShim: false, element: false, event: true, hasRenderFn: true, hostListener: true, hostListenerTarget: true, hostListenerTargetBody: false, hostListenerTargetDocument: false, hostListenerTargetParent: false, hostListenerTargetWindow: true, hotModuleReplacement: false, hydrateClientSide: true, hydrateServerSide: true, hydratedAttribute: false, hydratedClass: true, isDebug: false, isDev: false, isTesting: false, lazyLoad: true, lifecycle: true, lifecycleDOMEvents: false, member: true, method: true, mode: false, observeAttribute: true, profile: false, prop: true, propBoolean: true, propMutable: true, propNumber: true, propString: true, reflect: true, safari10: false, scoped: true, scriptDataOpts: false, shadowDelegatesFocus: false, shadowDom: true, shadowDomShim: true, slot: true, slotChildNodesFix: false, slotRelocation: true, state: true, style: true, svg: true, taskQueue: true, updatable: true, vdomAttribute: true, vdomClass: true, vdomFunctional: true, vdomKey: true, vdomListener: true, vdomPropOrAttr: true, vdomRef: true, vdomRender: true, vdomStyle: true, vdomText: true, vdomXlink: true, watchCallback: true };
 
 function componentOnReady() {
  return getHostRef(this).$onReadyPromise$;
@@ -4558,7 +4594,7 @@ function componentOnReady() {
 function forceUpdate$1() {}
 
 function hydrateApp(e, t, o, n, s) {
- function l() {
+ function a() {
   global.clearTimeout(p), i.clear(), r.clear();
   try {
    t.clientHydrateAnnotations && insertVdomAnnotations(e.document, t.staticComponents), 
@@ -4568,8 +4604,8 @@ function hydrateApp(e, t, o, n, s) {
   }
   n(e, t, o, s);
  }
- function a(e) {
-  renderCatchError(t, o, e), l();
+ function l(e) {
+  renderCatchError(t, o, e), a();
  }
  const r = new Set, i = new Set, d = new Set, c = e.document.createElement, $ = e.document.createElementNS, m = Promise.resolve();
  let p;
@@ -4590,11 +4626,11 @@ function hydrateApp(e, t, o, n, s) {
      null != t.$members$) {
       const o = getHostRef(e);
       Object.entries(t.$members$).forEach(([n, s]) => {
-       const l = s[0];
-       if (31 & l) {
-        const a = s[1] || n, r = e.getAttribute(a);
+       const a = s[0];
+       if (31 & a) {
+        const l = s[1] || n, r = e.getAttribute(l);
         if (null != r) {
-         const e = parsePropertyValue(r, l);
+         const e = parsePropertyValue(r, a);
          o.$instanceValues$.set(n, e);
         }
         const i = e[n];
@@ -4608,7 +4644,7 @@ function hydrateApp(e, t, o, n, s) {
          configurable: !0,
          enumerable: !0
         });
-       } else 64 & l && Object.defineProperty(e, n, {
+       } else 64 & a && Object.defineProperty(e, n, {
         value() {
          const e = getHostRef(this), t = arguments;
          return e.$onInstancePromise$.then(() => e.$lazyInstance$[n].apply(e.$lazyInstance$, t)).catch(consoleError);
@@ -4626,14 +4662,14 @@ function hydrateApp(e, t, o, n, s) {
     if (t.hasAttribute("no-prerender")) return !1;
     const o = t.parentNode;
     return null == o || e(o);
-   }(n) ? (r.add(n), async function s(e, t, o, n, l) {
+   }(n) ? (r.add(n), async function s(e, t, o, n, a) {
     o = o.toLowerCase();
-    const a = loadModule({
+    const l = loadModule({
      $tagName$: o,
      $flags$: null
     });
-    if (null != a && null != a.cmpMeta) {
-     l.add(n);
+    if (null != l && null != l.cmpMeta) {
+     a.add(n);
      try {
       connectedCallback(n), await n.componentOnReady(), t.hydratedCount++;
       const e = getHostRef(n), s = e.$modeName$ ? e.$modeName$ : "$";
@@ -4646,7 +4682,7 @@ function hydrateApp(e, t, o, n, s) {
      } catch (t) {
       e.console.error(t);
      }
-     l.delete(n);
+     a.delete(n);
     }
    }(e, o, n.nodeName, n, d)) : m;
   }
@@ -4657,7 +4693,7 @@ function hydrateApp(e, t, o, n, s) {
    const s = $.call(e.document, o, n);
    return u(s), s;
   }, p = global.setTimeout((function g() {
-   a("Hydrate exceeded timeout" + function e(t) {
+   l("Hydrate exceeded timeout" + function e(t) {
     return Array.from(t).map(waitingOnElementMsg);
    }(d));
   }), t.timeout), plt.$resourcesUrl$ = new URL(t.resourcesUrl || "./", doc.baseURI).href, 
@@ -4670,9 +4706,9 @@ function hydrateApp(e, t, o, n, s) {
   }(e.document.body), function e() {
    const t = Array.from(i).filter(e => e.parentElement);
    return t.length > 0 ? Promise.all(t.map(f)).then(e) : m;
-  }().then(l).catch(a);
+  }().then(a).catch(l);
  } catch (e) {
-  a(e);
+  l(e);
  }
 }
 
@@ -4727,8 +4763,8 @@ function waitingOnElementMsg(e) {
 
 const addHostEventListeners = (e, t, o, n) => {
   o && (o.map(([o, n, s]) => {
-  const l =  getHostListenerTarget(e, o) , a = hostListenerProxy(t, s), r = hostListenerOpts(o);
-  plt.ael(l, n, a, r), (t.$rmListeners$ = t.$rmListeners$ || []).push(() => plt.rel(l, n, a, r));
+  const a =  getHostListenerTarget(e, o) , l = hostListenerProxy(t, s), r = hostListenerOpts(o);
+  plt.ael(a, n, l, r), (t.$rmListeners$ = t.$rmListeners$ || []).push(() => plt.rel(a, n, l, r));
  }));
 }, hostListenerProxy = (e, t) => o => {
   256 & e.$flags$ ? e.$lazyInstance$[t](o) : (e.$queuedListeners$ = e.$queuedListeners$ || []).push([ t, o ]) ;
@@ -4740,40 +4776,40 @@ const createTime = (e, t = "") => {
  let n = styles.get(e);
  n = t, styles.set(e, n);
 }, addStyle = (e, t, o, n) => {
- let s = getScopeId(t), l = styles.get(s);
- if (e = 11 === e.nodeType ? e : doc, l) if ("string" == typeof l) {
+ let s = getScopeId(t), a = styles.get(s);
+ if (e = 11 === e.nodeType ? e : doc, a) if ("string" == typeof a) {
   e = e.head || e;
-  let o, a = rootAppliedStyles.get(e);
-  if (a || rootAppliedStyles.set(e, a = new Set), !a.has(s)) {
-   if ( e.host && (o = e.querySelector(`[sty-id="${s}"]`))) o.innerHTML = l; else {
-    o = doc.createElement("style"), o.innerHTML = l;
+  let o, l = rootAppliedStyles.get(e);
+  if (l || rootAppliedStyles.set(e, l = new Set), !l.has(s)) {
+   if ( e.host && (o = e.querySelector(`[sty-id="${s}"]`))) o.innerHTML = a; else {
+    o = doc.createElement("style"), o.innerHTML = a;
      o.setAttribute("sty-id", s), 
     e.insertBefore(o, e.querySelector("link"));
    }
-   a && a.add(s);
+   l && l.add(s);
   }
  }
  return s;
 }, attachStyles = e => {
- const t = e.$cmpMeta$, o = e.$hostElement$, n = t.$flags$, s = createTime("attachStyles", t.$tagName$), l = addStyle( o.getRootNode(), t);
-  10 & n && (o["s-sc"] = l, 
- o.classList.add(l + "-h"),  2 & n && o.classList.add(l + "-s")), 
+ const t = e.$cmpMeta$, o = e.$hostElement$, n = t.$flags$, s = createTime("attachStyles", t.$tagName$), a = addStyle( o.getRootNode(), t);
+  10 & n && (o["s-sc"] = a, 
+ o.classList.add(a + "-h"),  2 & n && o.classList.add(a + "-s")), 
  s();
-}, getScopeId = (e, t) => "sc-" + ( e.$tagName$), EMPTY_OBJ = {}, isComplexType = e => "object" == (e = typeof e) || "function" === e, h = (e, t, ...o) => {
- let n = null, s = null, l = null, a = !1, r = !1, i = [];
+}, getScopeId = (e, t) => "sc-" + ( e.$tagName$), EMPTY_OBJ = {}, isComplexType = e => "object" == (e = typeof e) || "function" === e, isPromise = e => !!e && ("object" == typeof e || "function" == typeof e) && "function" == typeof e.then, h = (e, t, ...o) => {
+ let n = null, s = null, a = null, l = !1, r = !1, i = [];
  const d = t => {
-  for (let o = 0; o < t.length; o++) n = t[o], Array.isArray(n) ? d(n) : null != n && "boolean" != typeof n && ((a = "function" != typeof e && !isComplexType(n)) ? n = String(n) : BUILD.isDev  , 
-  a && r ? i[i.length - 1].$text$ += n : i.push(a ? newVNode(null, n) : n), r = a);
+  for (let o = 0; o < t.length; o++) n = t[o], Array.isArray(n) ? d(n) : null != n && "boolean" != typeof n && ((l = "function" != typeof e && !isComplexType(n)) ? n = String(n) : BUILD.isDev  , 
+  l && r ? i[i.length - 1].$text$ += n : i.push(l ? newVNode(null, n) : n), r = l);
  };
  if (d(o), t && ( t.key && (s = t.key), 
-  t.name && (l = t.name), BUILD.vdomClass)) {
+  t.name && (a = t.name), BUILD.vdomClass)) {
   const e = t.className || t.class;
   e && (t.class = "object" != typeof e ? e : Object.keys(e).filter(t => e[t]).join(" "));
  }
  if ( "function" == typeof e) return e(null === t ? {} : t, i, vdomFnUtils);
  const c = newVNode(e, null);
  return c.$attrs$ = t, i.length > 0 && (c.$children$ = i),  (c.$key$ = s), 
-  (c.$name$ = l), c;
+  (c.$name$ = a), c;
 }, newVNode = (e, t) => {
  const o = {
   $flags$: 0,
@@ -4804,53 +4840,53 @@ const createTime = (e, t = "") => {
  const t = newVNode(e.vtag, e.vtext);
  return t.$attrs$ = e.vattrs, t.$children$ = e.vchildren, t.$key$ = e.vkey, t.$name$ = e.vname, 
  t;
-}, setAccessor = (e, t, o, n, s, l) => {
+}, setAccessor = (e, t, o, n, s, a) => {
  if (o !== n) {
-  let a = isMemberInElement(e, t), r = t.toLowerCase();
+  let l = isMemberInElement(e, t), r = t.toLowerCase();
   if ( "class" === t) {
-   const t = e.classList, s = parseClassList(o), l = parseClassList(n);
-   t.remove(...s.filter(e => e && !l.includes(e))), t.add(...l.filter(e => e && !s.includes(e)));
+   const t = e.classList, s = parseClassList(o), a = parseClassList(n);
+   t.remove(...s.filter(e => e && !a.includes(e))), t.add(...a.filter(e => e && !s.includes(e)));
   } else if ( "style" === t) {
    for (const t in o) n && null != n[t] || ( e.style[t] = "");
    for (const t in n) o && n[t] === o[t] || ( e.style[t] = n[t]);
-  } else if ( "key" === t) ; else if ( "ref" === t) n && n(e); else if ( ( a ) || "o" !== t[0] || "n" !== t[1]) {
+  } else if ( "key" === t) ; else if ( "ref" === t) n && n(e); else if ( ( l ) || "o" !== t[0] || "n" !== t[1]) {
    {
     const i = isComplexType(n);
-    if ((a || i && null !== n) && !s) try {
+    if ((l || i && null !== n) && !s) try {
      if (e.tagName.includes("-")) e[t] = n; else {
       let s = null == n ? "" : n;
-      "list" === t ? a = !1 : null != o && e[t] == s || (e[t] = s);
+      "list" === t ? l = !1 : null != o && e[t] == s || (e[t] = s);
      }
     } catch (e) {}
     let d = !1;
-     r !== (r = r.replace(/^xlink\:?/, "")) && (t = r, d = !0), null == n || !1 === n ? !1 === n && "" !== e.getAttribute(t) || ( d ? e.removeAttributeNS(XLINK_NS, t) : e.removeAttribute(t)) : (!a || 4 & l || s) && !i && (n = !0 === n ? "" : n, 
+     r !== (r = r.replace(/^xlink\:?/, "")) && (t = r, d = !0), null == n || !1 === n ? !1 === n && "" !== e.getAttribute(t) || ( d ? e.removeAttributeNS(XLINK_NS, t) : e.removeAttribute(t)) : (!l || 4 & a || s) && !i && (n = !0 === n ? "" : n, 
      d ? e.setAttributeNS(XLINK_NS, t, n) : e.setAttribute(t, n));
    }
   } else t = "-" === t[2] ? t.slice(3) : isMemberInElement(win, r) ? r.slice(2) : r[2] + t.slice(3), 
   o && plt.rel(e, t, o, !1), n && plt.ael(e, t, n, !1);
  }
 }, parseClassListRegex = /\s/, parseClassList = e => e ? e.split(parseClassListRegex) : [], updateElement = (e, t, o, n) => {
- const s = 11 === t.$elm$.nodeType && t.$elm$.host ? t.$elm$.host : t.$elm$, l = e && e.$attrs$ || EMPTY_OBJ, a = t.$attrs$ || EMPTY_OBJ;
- for (n in l) n in a || setAccessor(s, n, l[n], void 0, o, t.$flags$);
- for (n in a) setAccessor(s, n, l[n], a[n], o, t.$flags$);
+ const s = 11 === t.$elm$.nodeType && t.$elm$.host ? t.$elm$.host : t.$elm$, a = e && e.$attrs$ || EMPTY_OBJ, l = t.$attrs$ || EMPTY_OBJ;
+ for (n in a) n in l || setAccessor(s, n, a[n], void 0, o, t.$flags$);
+ for (n in l) setAccessor(s, n, a[n], l[n], o, t.$flags$);
 };
 
 let scopeId, contentRef, hostTagName, useNativeShadowDom = !1, checkSlotFallbackVisibility = !1, checkSlotRelocate = !1, isSvgMode = !1;
 
 const createElm = (e, t, o, n) => {
- let s, l, a, r = t.$children$[o], i = 0;
+ let s, a, l, r = t.$children$[o], i = 0;
  if ( !useNativeShadowDom && (checkSlotRelocate = !0, "slot" === r.$tag$ && (scopeId && n.classList.add(scopeId + "-s"), 
  r.$flags$ |= r.$children$ ? 2 : 1)),  null !== r.$text$) s = r.$elm$ = doc.createTextNode(r.$text$); else if ( 1 & r.$flags$) s = r.$elm$ =  slotReferenceDebugNode(r) ; else {
   if ( !isSvgMode && (isSvgMode = "svg" === r.$tag$), s = r.$elm$ =  doc.createElementNS(isSvgMode ? "http://www.w3.org/2000/svg" : "http://www.w3.org/1999/xhtml",  2 & r.$flags$ ? "slot-fb" : r.$tag$) , 
    isSvgMode && "foreignObject" === r.$tag$ && (isSvgMode = !1),  updateElement(null, r, isSvgMode), 
    null != scopeId && s["s-si"] !== scopeId && s.classList.add(s["s-si"] = scopeId), 
-  r.$children$) for (i = 0; i < r.$children$.length; ++i) l = createElm(e, r, i, s), 
-  l && s.appendChild(l);
+  r.$children$) for (i = 0; i < r.$children$.length; ++i) a = createElm(e, r, i, s), 
+  a && s.appendChild(a);
    ("svg" === r.$tag$ ? isSvgMode = !1 : "foreignObject" === s.tagName && (isSvgMode = !0));
  }
  return  (s["s-hn"] = hostTagName, 3 & r.$flags$ && (s["s-sr"] = !0, 
- s["s-cr"] = contentRef, s["s-sn"] = r.$name$ || "", a = e && e.$children$ && e.$children$[o], 
- a && a.$tag$ === r.$tag$ && e.$elm$ && putBackInOriginalLocation(e.$elm$, !1))), 
+ s["s-cr"] = contentRef, s["s-sn"] = r.$name$ || "", l = e && e.$children$ && e.$children$[o], 
+ l && l.$tag$ === r.$tag$ && e.$elm$ && putBackInOriginalLocation(e.$elm$, !1))), 
  s;
 }, putBackInOriginalLocation = (e, t) => {
  plt.$flags$ |= 1;
@@ -4861,62 +4897,62 @@ const createElm = (e, t, o, n) => {
   n["s-ol"].remove(), n["s-ol"] = void 0, checkSlotRelocate = !0), t && putBackInOriginalLocation(n, t);
  }
  plt.$flags$ &= -2;
-}, addVnodes = (e, t, o, n, s, l) => {
- let a, r =  e["s-cr"] && e["s-cr"].parentNode || e;
- for ( r.shadowRoot && r.tagName === hostTagName && (r = r.shadowRoot); s <= l; ++s) n[s] && (a = createElm(null, o, s, e), 
- a && (n[s].$elm$ = a, r.insertBefore(a,  referenceNode(t) )));
+}, addVnodes = (e, t, o, n, s, a) => {
+ let l, r =  e["s-cr"] && e["s-cr"].parentNode || e;
+ for ( r.shadowRoot && r.tagName === hostTagName && (r = r.shadowRoot); s <= a; ++s) n[s] && (l = createElm(null, o, s, e), 
+ l && (n[s].$elm$ = l, r.insertBefore(l,  referenceNode(t) )));
 }, removeVnodes = (e, t, o, n, s) => {
  for (;t <= o; ++t) (n = e[t]) && (s = n.$elm$, callNodeRefs(n),  (checkSlotFallbackVisibility = !0, 
  s["s-ol"] ? s["s-ol"].remove() : putBackInOriginalLocation(s, !0)), s.remove());
 }, isSameVnode = (e, t) => e.$tag$ === t.$tag$ && ( "slot" === e.$tag$ ? e.$name$ === t.$name$ :  e.$key$ === t.$key$), referenceNode = e => e && e["s-ol"] || e, parentReferenceNode = e => (e["s-ol"] ? e["s-ol"] : e).parentNode, patch = (e, t) => {
- const o = t.$elm$ = e.$elm$, n = e.$children$, s = t.$children$, l = t.$tag$, a = t.$text$;
+ const o = t.$elm$ = e.$elm$, n = e.$children$, s = t.$children$, a = t.$tag$, l = t.$text$;
  let r;
-  null !== a ?  (r = o["s-cr"]) ? r.parentNode.textContent = a :  e.$text$ !== a && (o.data = a) : ( (isSvgMode = "svg" === l || "foreignObject" !== l && isSvgMode), 
-  ( "slot" === l || updateElement(e, t, isSvgMode)), 
+  null !== l ?  (r = o["s-cr"]) ? r.parentNode.textContent = l :  e.$text$ !== l && (o.data = l) : ( (isSvgMode = "svg" === a || "foreignObject" !== a && isSvgMode), 
+  ( "slot" === a || updateElement(e, t, isSvgMode)), 
   null !== n && null !== s ? ((e, t, o, n) => {
-  let s, l, a = 0, r = 0, i = 0, d = 0, c = t.length - 1, $ = t[0], m = t[c], p = n.length - 1, h = n[0], u = n[p];
-  for (;a <= c && r <= p; ) if (null == $) $ = t[++a]; else if (null == m) m = t[--c]; else if (null == h) h = n[++r]; else if (null == u) u = n[--p]; else if (isSameVnode($, h)) patch($, h), 
-  $ = t[++a], h = n[++r]; else if (isSameVnode(m, u)) patch(m, u), m = t[--c], u = n[--p]; else if (isSameVnode($, u))  "slot" !== $.$tag$ && "slot" !== u.$tag$ || putBackInOriginalLocation($.$elm$.parentNode, !1), 
-  patch($, u), e.insertBefore($.$elm$, m.$elm$.nextSibling), $ = t[++a], u = n[--p]; else if (isSameVnode(m, h))  "slot" !== $.$tag$ && "slot" !== u.$tag$ || putBackInOriginalLocation(m.$elm$.parentNode, !1), 
+  let s, a, l = 0, r = 0, i = 0, d = 0, c = t.length - 1, $ = t[0], m = t[c], p = n.length - 1, h = n[0], u = n[p];
+  for (;l <= c && r <= p; ) if (null == $) $ = t[++l]; else if (null == m) m = t[--c]; else if (null == h) h = n[++r]; else if (null == u) u = n[--p]; else if (isSameVnode($, h)) patch($, h), 
+  $ = t[++l], h = n[++r]; else if (isSameVnode(m, u)) patch(m, u), m = t[--c], u = n[--p]; else if (isSameVnode($, u))  "slot" !== $.$tag$ && "slot" !== u.$tag$ || putBackInOriginalLocation($.$elm$.parentNode, !1), 
+  patch($, u), e.insertBefore($.$elm$, m.$elm$.nextSibling), $ = t[++l], u = n[--p]; else if (isSameVnode(m, h))  "slot" !== $.$tag$ && "slot" !== u.$tag$ || putBackInOriginalLocation(m.$elm$.parentNode, !1), 
   patch(m, h), e.insertBefore(m.$elm$, $.$elm$), m = t[--c], h = n[++r]; else {
-   if (i = -1, BUILD.vdomKey) for (d = a; d <= c; ++d) if (t[d] && null !== t[d].$key$ && t[d].$key$ === h.$key$) {
+   if (i = -1, BUILD.vdomKey) for (d = l; d <= c; ++d) if (t[d] && null !== t[d].$key$ && t[d].$key$ === h.$key$) {
     i = d;
     break;
    }
-    i >= 0 ? (l = t[i], l.$tag$ !== h.$tag$ ? s = createElm(t && t[r], o, i, e) : (patch(l, h), 
-   t[i] = void 0, s = l.$elm$), h = n[++r]) : (s = createElm(t && t[r], o, r, e), h = n[++r]), 
+    i >= 0 ? (a = t[i], a.$tag$ !== h.$tag$ ? s = createElm(t && t[r], o, i, e) : (patch(a, h), 
+   t[i] = void 0, s = a.$elm$), h = n[++r]) : (s = createElm(t && t[r], o, r, e), h = n[++r]), 
    s && ( parentReferenceNode($.$elm$).insertBefore(s, referenceNode($.$elm$)) );
   }
-  a > c ? addVnodes(e, null == n[p + 1] ? null : n[p + 1].$elm$, o, n, r, p) :  r > p && removeVnodes(t, a, c);
+  l > c ? addVnodes(e, null == n[p + 1] ? null : n[p + 1].$elm$, o, n, r, p) :  r > p && removeVnodes(t, l, c);
  })(o, n, t, s) : null !== s ? ( null !== e.$text$ && (o.textContent = ""), 
  addVnodes(o, null, t, s, 0, s.length - 1)) :  null !== n && removeVnodes(n, 0, n.length - 1), 
-  isSvgMode && "svg" === l && (isSvgMode = !1));
+  isSvgMode && "svg" === a && (isSvgMode = !1));
 }, updateFallbackSlotVisibility = e => {
- let t, o, n, s, l, a, r = e.childNodes;
+ let t, o, n, s, a, l, r = e.childNodes;
  for (o = 0, n = r.length; o < n; o++) if (t = r[o], 1 === t.nodeType) {
-  if (t["s-sr"]) for (l = t["s-sn"], t.hidden = !1, s = 0; s < n; s++) if (r[s]["s-hn"] !== t["s-hn"]) if (a = r[s].nodeType, 
-  "" !== l) {
-   if (1 === a && l === r[s].getAttribute("slot")) {
+  if (t["s-sr"]) for (a = t["s-sn"], t.hidden = !1, s = 0; s < n; s++) if (r[s]["s-hn"] !== t["s-hn"]) if (l = r[s].nodeType, 
+  "" !== a) {
+   if (1 === l && a === r[s].getAttribute("slot")) {
     t.hidden = !0;
     break;
    }
-  } else if (1 === a || 3 === a && "" !== r[s].textContent.trim()) {
+  } else if (1 === l || 3 === l && "" !== r[s].textContent.trim()) {
    t.hidden = !0;
    break;
   }
   updateFallbackSlotVisibility(t);
  }
 }, relocateNodes = [], relocateSlotContent = e => {
- let t, o, n, s, l, a, r = 0, i = e.childNodes, d = i.length;
+ let t, o, n, s, a, l, r = 0, i = e.childNodes, d = i.length;
  for (;r < d; r++) {
   if (t = i[r], t["s-sr"] && (o = t["s-cr"])) for (n = o.parentNode.childNodes, s = t["s-sn"], 
-  a = n.length - 1; a >= 0; a--) o = n[a], o["s-cn"] || o["s-nr"] || o["s-hn"] === t["s-hn"] || (isNodeLocatedInSlot(o, s) ? (l = relocateNodes.find(e => e.$nodeToRelocate$ === o), 
-  checkSlotFallbackVisibility = !0, o["s-sn"] = o["s-sn"] || s, l ? l.$slotRefNode$ = t : relocateNodes.push({
+  l = n.length - 1; l >= 0; l--) o = n[l], o["s-cn"] || o["s-nr"] || o["s-hn"] === t["s-hn"] || (isNodeLocatedInSlot(o, s) ? (a = relocateNodes.find(e => e.$nodeToRelocate$ === o), 
+  checkSlotFallbackVisibility = !0, o["s-sn"] = o["s-sn"] || s, a ? a.$slotRefNode$ = t : relocateNodes.push({
    $slotRefNode$: t,
    $nodeToRelocate$: o
   }), o["s-sr"] && relocateNodes.map(e => {
-   isNodeLocatedInSlot(e.$nodeToRelocate$, o["s-sn"]) && (l = relocateNodes.find(e => e.$nodeToRelocate$ === o), 
-   l && !e.$slotRefNode$ && (e.$slotRefNode$ = l.$slotRefNode$));
+   isNodeLocatedInSlot(e.$nodeToRelocate$, o["s-sn"]) && (a = relocateNodes.find(e => e.$nodeToRelocate$ === o), 
+   a && !e.$slotRefNode$ && (e.$slotRefNode$ = a.$slotRefNode$));
   })) : relocateNodes.some(e => e.$nodeToRelocate$ === o) || relocateNodes.push({
    $nodeToRelocate$: o
   }));
@@ -4925,32 +4961,32 @@ const createElm = (e, t, o, n) => {
 }, isNodeLocatedInSlot = (e, t) => 1 === e.nodeType ? null === e.getAttribute("slot") && "" === t || e.getAttribute("slot") === t : e["s-sn"] === t || "" === t, callNodeRefs = e => {
   (e.$attrs$ && e.$attrs$.ref && e.$attrs$.ref(null), e.$children$ && e.$children$.map(callNodeRefs));
 }, renderVdom = (e, t) => {
- const o = e.$hostElement$, n = e.$cmpMeta$, s = e.$vnode$ || newVNode(null, null), l = isHost(t) ? t : h(null, null, t);
+ const o = e.$hostElement$, n = e.$cmpMeta$, s = e.$vnode$ || newVNode(null, null), a = isHost(t) ? t : h(null, null, t);
  if (hostTagName = o.tagName, BUILD.isDev  ) ;
- if ( n.$attrsToReflect$ && (l.$attrs$ = l.$attrs$ || {}, n.$attrsToReflect$.map(([e, t]) => l.$attrs$[t] = o[e])), 
- l.$tag$ = null, l.$flags$ |= 4, e.$vnode$ = l, l.$elm$ = s.$elm$ =  o.shadowRoot || o, 
+ if ( n.$attrsToReflect$ && (a.$attrs$ = a.$attrs$ || {}, n.$attrsToReflect$.map(([e, t]) => a.$attrs$[t] = o[e])), 
+ a.$tag$ = null, a.$flags$ |= 4, e.$vnode$ = a, a.$elm$ = s.$elm$ =  o.shadowRoot || o, 
   (scopeId = o["s-sc"]),  (contentRef = o["s-cr"], 
- useNativeShadowDom = supportsShadow, checkSlotFallbackVisibility = !1), patch(s, l), 
+ useNativeShadowDom = supportsShadow, checkSlotFallbackVisibility = !1), patch(s, a), 
  BUILD.slotRelocation) {
   if (plt.$flags$ |= 1, checkSlotRelocate) {
-   let e, t, o, n, s, a;
-   relocateSlotContent(l.$elm$);
+   let e, t, o, n, s, l;
+   relocateSlotContent(a.$elm$);
    let r = 0;
    for (;r < relocateNodes.length; r++) e = relocateNodes[r], t = e.$nodeToRelocate$, 
    t["s-ol"] || (o =  originalLocationDebugNode(t) , 
    o["s-nr"] = t, t.parentNode.insertBefore(t["s-ol"] = o, t));
    for (r = 0; r < relocateNodes.length; r++) if (e = relocateNodes[r], t = e.$nodeToRelocate$, 
    e.$slotRefNode$) {
-    for (n = e.$slotRefNode$.parentNode, s = e.$slotRefNode$.nextSibling, o = t["s-ol"]; o = o.previousSibling; ) if (a = o["s-nr"], 
-    a && a["s-sn"] === t["s-sn"] && n === a.parentNode && (a = a.nextSibling, !a || !a["s-nr"])) {
-     s = a;
+    for (n = e.$slotRefNode$.parentNode, s = e.$slotRefNode$.nextSibling, o = t["s-ol"]; o = o.previousSibling; ) if (l = o["s-nr"], 
+    l && l["s-sn"] === t["s-sn"] && n === l.parentNode && (l = l.nextSibling, !l || !l["s-nr"])) {
+     s = l;
      break;
     }
     (!s && n !== t.parentNode || t.nextSibling !== s) && t !== s && (!t["s-hn"] && t["s-ol"] && (t["s-hn"] = t["s-ol"].parentNode.nodeName), 
     n.insertBefore(t, s));
    } else 1 === t.nodeType && (t.hidden = !0);
   }
-  checkSlotFallbackVisibility && updateFallbackSlotVisibility(l.$elm$), plt.$flags$ &= -2, 
+  checkSlotFallbackVisibility && updateFallbackSlotVisibility(a.$elm$), plt.$flags$ &= -2, 
   relocateNodes.length = 0;
  }
 }, slotReferenceDebugNode = e => doc.createComment(`<slot${e.$name$ ? ' name="' + e.$name$ + '"' : ""}> (host=${hostTagName.toLowerCase()})`), originalLocationDebugNode = e => doc.createComment("org-location for " + (e.localName ? `<${e.localName}> (host=${e["s-hn"]})` : `[${e.textContent}]`)), getElement = e =>  getHostRef(e).$hostElement$ , createEvent = (e, t, o) => {
@@ -4975,20 +5011,20 @@ const createElm = (e, t, o, n) => {
  return  writeTask(o) ;
 }, dispatchHooks = (e, t) => {
  const n = createTime("scheduleUpdate", e.$cmpMeta$.$tagName$), s =  e.$lazyInstance$ ;
- let l;
+ let a;
  return t ? ( (e.$flags$ |= 256, e.$queuedListeners$ && (e.$queuedListeners$.map(([e, t]) => safeCall(s, e, t)), 
- e.$queuedListeners$ = null)),  (l = safeCall(s, "componentWillLoad"))) : ( (l = safeCall(s, "componentWillUpdate"))), n(), then(l, () => updateComponent(e, s, t));
-}, updateComponent = (e, t, o) => {
- const n = e.$hostElement$, s = createTime("update", e.$cmpMeta$.$tagName$), l = n["s-rc"];
+ e.$queuedListeners$ = null)),  (a = safeCall(s, "componentWillLoad"))) : ( (a = safeCall(s, "componentWillUpdate"))), n(), then(a, () => updateComponent(e, s, t));
+}, updateComponent = async (e, t, o) => {
+ const n = e.$hostElement$, s = createTime("update", e.$cmpMeta$.$tagName$), a = n["s-rc"];
   o && attachStyles(e);
- const a = createTime("render", e.$cmpMeta$.$tagName$);
- if ( ( renderVdom(e, callRender(e, t)) ), 
+ const l = createTime("render", e.$cmpMeta$.$tagName$);
+ if ( (  renderVdom(e, await callRender(e, t))  ), 
  BUILD.hydrateServerSide) try {
   serverSideConnected(n), o && (1 & e.$cmpMeta$.$flags$ ? n["s-en"] = "" : 2 & e.$cmpMeta$.$flags$ && (n["s-en"] = "c"));
  } catch (e) {
   consoleError(e);
  }
- if ( l && (l.map(e => e()), n["s-rc"] = void 0), a(), s(), 
+ if ( a && (a.map(e => e()), n["s-rc"] = void 0), l(), s(), 
  BUILD.asyncLoading) {
   const t = n["s-p"], o = () => postUpdateComponent(e);
   0 === t.length ? o() : (Promise.all(t).then(o), e.$flags$ |= 4, t.length = 0);
@@ -5006,10 +5042,10 @@ const callRender = (e, t) => {
  }
  return renderingRef = null, t;
 }, getRenderingRef = () => renderingRef, postUpdateComponent = e => {
- const t = e.$cmpMeta$.$tagName$, o = e.$hostElement$, n = createTime("postUpdate", t), s =  e.$lazyInstance$ , l = e.$ancestorComponent$;
+ const t = e.$cmpMeta$.$tagName$, o = e.$hostElement$, n = createTime("postUpdate", t), s =  e.$lazyInstance$ , a = e.$ancestorComponent$;
  64 & e.$flags$ ? (n()) : (e.$flags$ |= 64,  addHydratedFlag(o), 
   (safeCall(s, "componentDidLoad"), 
- BUILD.isDev ), n(),  (e.$onReadyResolve$(o), l || appDidLoad())),  e.$onInstanceResolve$(o),  (e.$onRenderResolve$ && (e.$onRenderResolve$(), 
+ BUILD.isDev ), n(),  (e.$onReadyResolve$(o), a || appDidLoad())),  e.$onInstanceResolve$(o),  (e.$onRenderResolve$ && (e.$onRenderResolve$(), 
  e.$onRenderResolve$ = void 0), 512 & e.$flags$ && nextTick(() => scheduleUpdate(e, !1)), 
  e.$flags$ &= -517);
 }, forceUpdate = e => {
@@ -5035,49 +5071,49 @@ const callRender = (e, t) => {
   const o = t[e];
   "function" == typeof o.connectedCallback && o.connectedCallback(), serverSideConnected(o);
  }
-}, clientHydrate = (e, t, o, n, s, l, a) => {
+}, clientHydrate = (e, t, o, n, s, a, l) => {
  let r, i, d, c;
- if (1 === l.nodeType) {
-  for (r = l.getAttribute("c-id"), r && (i = r.split("."), i[0] !== a && "0" !== i[0] || (d = {
+ if (1 === a.nodeType) {
+  for (r = a.getAttribute("c-id"), r && (i = r.split("."), i[0] !== l && "0" !== i[0] || (d = {
    $flags$: 0,
    $hostId$: i[0],
    $nodeId$: i[1],
    $depth$: i[2],
    $index$: i[3],
-   $tag$: l.tagName.toLowerCase(),
-   $elm$: l,
+   $tag$: a.tagName.toLowerCase(),
+   $elm$: a,
    $attrs$: null,
    $children$: null,
    $key$: null,
    $name$: null,
    $text$: null
-  }, t.push(d), l.removeAttribute("c-id"), e.$children$ || (e.$children$ = []), e.$children$[d.$index$] = d, 
-  e = d, n && "0" === d.$depth$ && (n[d.$index$] = d.$elm$))), c = l.childNodes.length - 1; c >= 0; c--) clientHydrate(e, t, o, n, s, l.childNodes[c], a);
-  if (l.shadowRoot) for (c = l.shadowRoot.childNodes.length - 1; c >= 0; c--) clientHydrate(e, t, o, n, s, l.shadowRoot.childNodes[c], a);
- } else if (8 === l.nodeType) i = l.nodeValue.split("."), i[1] !== a && "0" !== i[1] || (r = i[0], 
+  }, t.push(d), a.removeAttribute("c-id"), e.$children$ || (e.$children$ = []), e.$children$[d.$index$] = d, 
+  e = d, n && "0" === d.$depth$ && (n[d.$index$] = d.$elm$))), c = a.childNodes.length - 1; c >= 0; c--) clientHydrate(e, t, o, n, s, a.childNodes[c], l);
+  if (a.shadowRoot) for (c = a.shadowRoot.childNodes.length - 1; c >= 0; c--) clientHydrate(e, t, o, n, s, a.shadowRoot.childNodes[c], l);
+ } else if (8 === a.nodeType) i = a.nodeValue.split("."), i[1] !== l && "0" !== i[1] || (r = i[0], 
  d = {
   $flags$: 0,
   $hostId$: i[1],
   $nodeId$: i[2],
   $depth$: i[3],
   $index$: i[4],
-  $elm$: l,
+  $elm$: a,
   $attrs$: null,
   $children$: null,
   $key$: null,
   $name$: null,
   $tag$: null,
   $text$: null
- }, "t" === r ? (d.$elm$ = l.nextSibling, d.$elm$ && 3 === d.$elm$.nodeType && (d.$text$ = d.$elm$.textContent, 
- t.push(d), l.remove(), e.$children$ || (e.$children$ = []), e.$children$[d.$index$] = d, 
- n && "0" === d.$depth$ && (n[d.$index$] = d.$elm$))) : d.$hostId$ === a && ("s" === r ? (d.$tag$ = "slot", 
- i[5] ? l["s-sn"] = d.$name$ = i[5] : l["s-sn"] = "", l["s-sr"] = !0,  n && (d.$elm$ = doc.createElement(d.$tag$), 
- d.$name$ && d.$elm$.setAttribute("name", d.$name$), l.parentNode.insertBefore(d.$elm$, l), 
- l.remove(), "0" === d.$depth$ && (n[d.$index$] = d.$elm$)), o.push(d), e.$children$ || (e.$children$ = []), 
- e.$children$[d.$index$] = d) : "r" === r && ( n ? l.remove() :  (s["s-cr"] = l, 
- l["s-cn"] = !0)))); else if (e && "style" === e.$tag$) {
-  const t = newVNode(null, l.textContent);
-  t.$elm$ = l, t.$index$ = "0", e.$children$ = [ t ];
+ }, "t" === r ? (d.$elm$ = a.nextSibling, d.$elm$ && 3 === d.$elm$.nodeType && (d.$text$ = d.$elm$.textContent, 
+ t.push(d), a.remove(), e.$children$ || (e.$children$ = []), e.$children$[d.$index$] = d, 
+ n && "0" === d.$depth$ && (n[d.$index$] = d.$elm$))) : d.$hostId$ === l && ("s" === r ? (d.$tag$ = "slot", 
+ i[5] ? a["s-sn"] = d.$name$ = i[5] : a["s-sn"] = "", a["s-sr"] = !0,  n && (d.$elm$ = doc.createElement(d.$tag$), 
+ d.$name$ && d.$elm$.setAttribute("name", d.$name$), a.parentNode.insertBefore(d.$elm$, a), 
+ a.remove(), "0" === d.$depth$ && (n[d.$index$] = d.$elm$)), o.push(d), e.$children$ || (e.$children$ = []), 
+ e.$children$[d.$index$] = d) : "r" === r && ( n ? a.remove() :  (s["s-cr"] = a, 
+ a["s-cn"] = !0)))); else if (e && "style" === e.$tag$) {
+  const t = newVNode(null, a.textContent);
+  t.$elm$ = a, t.$index$ = "0", e.$children$ = [ t ];
  }
 }, initializeDocumentHydrate = (e, t) => {
  if (1 === e.nodeType) {
@@ -5089,14 +5125,14 @@ const callRender = (e, t) => {
   "o" === o[0] && (t.set(o[1] + "." + o[2], e), e.nodeValue = "", e["s-en"] = o[3]);
  }
 }, parsePropertyValue = (e, t) => null == e || isComplexType(e) ? e :  4 & t ? "false" !== e && ("" === e || !!e) :  2 & t ? parseFloat(e) :  1 & t ? String(e) : e, getValue = (e, t) => getHostRef(e).$instanceValues$.get(t), setValue = (e, t, o, n) => {
- const s = getHostRef(e), a = s.$instanceValues$.get(t), r = s.$flags$, i =  s.$lazyInstance$ ;
- if (o = parsePropertyValue(o, n.$members$[t][0]), !( 8 & r && void 0 !== a || o === a) && (s.$instanceValues$.set(t, o), 
+ const s = getHostRef(e), l = s.$instanceValues$.get(t), r = s.$flags$, i =  s.$lazyInstance$ ;
+ if (o = parsePropertyValue(o, n.$members$[t][0]), !( 8 & r && void 0 !== l || o === l) && (s.$instanceValues$.set(t, o), 
   i)) {
   if ( n.$watchers$ && 128 & r) {
    const e = n.$watchers$[t];
    e && e.map(e => {
     try {
-     i[e](o, a, t);
+     i[e](o, l, t);
     } catch (e) {
      consoleError(e);
     }
@@ -5162,10 +5198,10 @@ const callRender = (e, t) => {
   }
   if ( s.style) {
    let n = s.style;
-   const l = getScopeId(o);
-   if (!styles.has(l)) {
+   const a = getScopeId(o);
+   if (!styles.has(a)) {
     const e = createTime("registerStyles", o.$tagName$);
-    registerStyle(l, n), e();
+    registerStyle(a, n), e();
    }
   }
  }
@@ -5180,14 +5216,14 @@ const callRender = (e, t) => {
    let n;
    if (t.$flags$ |= 1,  (n = e.getAttribute("s-id"), n)) {
     ((e, t, o, n) => {
-     const s = createTime("hydrateClient", t), l = e.shadowRoot, a = [], r =  l ? [] : null, i = n.$vnode$ = newVNode(t, null);
+     const s = createTime("hydrateClient", t), a = e.shadowRoot, l = [], r =  a ? [] : null, i = n.$vnode$ = newVNode(t, null);
      plt.$orgLocNodes$ || initializeDocumentHydrate(doc.body, plt.$orgLocNodes$ = new Map), 
-     e["s-id"] = o, e.removeAttribute("s-id"), clientHydrate(i, a, [], r, e, e, o), a.map(e => {
+     e["s-id"] = o, e.removeAttribute("s-id"), clientHydrate(i, l, [], r, e, e, o), l.map(e => {
       const o = e.$hostId$ + "." + e.$nodeId$, n = plt.$orgLocNodes$.get(o), s = e.$elm$;
       n && supportsShadow && "" === n["s-en"] && n.parentNode.insertBefore(s, n.nextSibling), 
-      l || (s["s-hn"] = t, n && (s["s-ol"] = n, s["s-ol"]["s-nr"] = s)), plt.$orgLocNodes$.delete(o);
-     }),  l && r.map(e => {
-      e && l.appendChild(e);
+      a || (s["s-hn"] = t, n && (s["s-ol"] = n, s["s-ol"]["s-nr"] = s)), plt.$orgLocNodes$.delete(o);
+     }),  a && r.map(e => {
+      e && a.appendChild(e);
      }), s();
     })(e, o.$tagName$, n, t);
    }
@@ -5219,14 +5255,14 @@ const callRender = (e, t) => {
   parseVNodeAnnotations(e, e.body, o, n), n.forEach(t => {
    if (null != t) {
     const n = t["s-nr"];
-    let s = n["s-host-id"], l = n["s-node-id"], a = `${s}.${l}`;
-    if (null == s) if (s = 0, o.rootLevelIds++, l = o.rootLevelIds, a = `${s}.${l}`, 
-    1 === n.nodeType) n.setAttribute("c-id", a); else if (3 === n.nodeType) {
+    let s = n["s-host-id"], a = n["s-node-id"], l = `${s}.${a}`;
+    if (null == s) if (s = 0, o.rootLevelIds++, a = o.rootLevelIds, l = `${s}.${a}`, 
+    1 === n.nodeType) n.setAttribute("c-id", l); else if (3 === n.nodeType) {
      if (0 === s && "" === n.nodeValue.trim()) return void t.remove();
-     const o = e.createComment(a);
-     o.nodeValue = "t." + a, n.parentNode.insertBefore(o, n);
+     const o = e.createComment(l);
+     o.nodeValue = "t." + l, n.parentNode.insertBefore(o, n);
     }
-    let r = "o." + a;
+    let r = "o." + l;
     const i = t.parentElement;
     i && ("" === i["s-en"] ? r += "." : "c" === i["s-en"] && (r += ".c")), t.nodeValue = r;
    }
@@ -5245,12 +5281,12 @@ const callRender = (e, t) => {
  }));
 }, insertVNodeAnnotations = (e, t, o, n, s) => {
  if (null != o) {
-  const l = ++n.hostIds;
-  if (t.setAttribute("s-id", l), null != t["s-cr"] && (t["s-cr"].nodeValue = "r." + l), 
+  const a = ++n.hostIds;
+  if (t.setAttribute("s-id", a), null != t["s-cr"] && (t["s-cr"].nodeValue = "r." + a), 
   null != o.$children$) {
    const t = 0;
    o.$children$.forEach((o, n) => {
-    insertChildVNodeAnnotations(e, o, s, l, t, n);
+    insertChildVNodeAnnotations(e, o, s, a, t, n);
    });
   }
   if (t && o && o.$elm$ && !t.hasAttribute("c-id")) {
@@ -5264,27 +5300,33 @@ const callRender = (e, t) => {
    }
   }
  }
-}, insertChildVNodeAnnotations = (e, t, o, n, s, l) => {
- const a = t.$elm$;
- if (null == a) return;
- const r = o.nodeIds++, i = `${n}.${r}.${s}.${l}`;
- if (a["s-host-id"] = n, a["s-node-id"] = r, 1 === a.nodeType) a.setAttribute("c-id", i); else if (3 === a.nodeType) {
-  const t = a.parentNode;
+}, insertChildVNodeAnnotations = (e, t, o, n, s, a) => {
+ const l = t.$elm$;
+ if (null == l) return;
+ const r = o.nodeIds++, i = `${n}.${r}.${s}.${a}`;
+ if (l["s-host-id"] = n, l["s-node-id"] = r, 1 === l.nodeType) l.setAttribute("c-id", i); else if (3 === l.nodeType) {
+  const t = l.parentNode;
   if ("STYLE" !== t.nodeName) {
    const o = "t." + i, n = e.createComment(o);
-   t.insertBefore(n, a);
+   t.insertBefore(n, l);
   }
- } else if (8 === a.nodeType && a["s-sr"]) {
-  const e = `s.${i}.${a["s-sn"] || ""}`;
-  a.nodeValue = e;
+ } else if (8 === l.nodeType && l["s-sr"]) {
+  const e = `s.${i}.${l["s-sn"] || ""}`;
+  l.nodeValue = e;
  }
  if (null != t.$children$) {
-  const l = s + 1;
+  const a = s + 1;
   t.$children$.forEach((t, s) => {
-   insertChildVNodeAnnotations(e, t, o, n, l, s);
+   insertChildVNodeAnnotations(e, t, o, n, a, s);
   });
  }
-}, NO_HYDRATE_TAGS = new Set([ "CODE", "HEAD", "IFRAME", "INPUT", "OBJECT", "OUTPUT", "NOSCRIPT", "PRE", "SCRIPT", "SELECT", "STYLE", "TEMPLATE", "TEXTAREA" ]), cmpModules = new Map, getModule = e => {
+}, NO_HYDRATE_TAGS = new Set([ "CODE", "HEAD", "IFRAME", "INPUT", "OBJECT", "OUTPUT", "NOSCRIPT", "PRE", "SCRIPT", "SELECT", "STYLE", "TEMPLATE", "TEXTAREA" ]), hAsync = (e, t, ...o) => {
+ if (Array.isArray(o) && o.length > 0) {
+  const n = o.flat(1 / 0);
+  return n.some(isPromise) ? Promise.all(n).then(o => h(e, t, ...o)).catch(o => h(e, t)) : h(e, t, ...o);
+ }
+ return h(e, t);
+}, cmpModules = new Map, getModule = e => {
  if ("string" == typeof e) {
   e = e.toLowerCase();
   const t = cmpModules.get(e);
@@ -5512,7 +5554,7 @@ const createStore = (defaultState, shouldUpdate) => {
 const defaults = {
   title: 'Appflow - Continuous Mobile DevOps',
   description: 'Move even faster with cloud native builds, live app deploys, and CI/CD automation for Ionic, Capacitor, and Cordova app delivery.',
-  meta_image: 'https://useappflow.com/assets/img/appflow-og-img.jpg'
+  meta_image: '/assets/img/appflow-og-img.jpg'
 };
 const { state } = createStore({
   pageTheme: 'light',
@@ -5643,7 +5685,7 @@ class App {
     registerInstance(this, hostRef);
   }
   render() {
-    return (h("site-root", { class: `page-theme--${state.pageTheme}` }, h(MetaHead, null), h("appflow-site-header", null), h("main", null, h("appflow-site-routes", null)), h("appflow-site-footer", null)));
+    return (hAsync("site-root", { class: `page-theme--${state.pageTheme}` }, hAsync(MetaHead, null), hAsync("appflow-site-header", null), hAsync("main", null, hAsync("appflow-site-routes", null)), hAsync("appflow-site-footer", null)));
   }
   static get style() { return appflowSiteCss; }
   static get cmpMeta() { return {
@@ -5656,7 +5698,7 @@ class App {
   }; }
 }
 const MetaHead = () => {
-  return (h(Helmet, null, h("title", null, state.title), h("meta", { name: "description", content: state.description }), h("meta", { name: "twitter:card", content: "summary_large_image" }), h("meta", { name: "twitter:site", content: "@ionicframework" }), h("meta", { name: "twitter:creator", content: "ionicframework" }), h("meta", { name: "twitter:title", content: state.title }), h("meta", { name: "twitter:description", content: state.description }), h("meta", { name: "twitter:image", content: state.meta_image }), h("meta", { property: "fb:page_id", content: "1321836767955949" }), h("meta", { property: "og:title", content: state.title }), h("meta", { property: "og:image", content: state.meta_image }), h("meta", { property: "og:description", content: state.description }), h("meta", { property: "og:site_name", content: "Ionic" }), h("meta", { property: "article:publisher", content: "https://www.facebook.com/ionicframework" }), h("meta", { property: "og:locale", content: "en_US" })));
+  return (hAsync(Helmet, null, hAsync("title", null, state.title), hAsync("meta", { name: "description", content: state.description }), hAsync("meta", { name: "twitter:card", content: "summary_large_image" }), hAsync("meta", { name: "twitter:site", content: "@ionicframework" }), hAsync("meta", { name: "twitter:creator", content: "ionicframework" }), hAsync("meta", { name: "twitter:title", content: state.title }), hAsync("meta", { name: "twitter:description", content: state.description }), hAsync("meta", { name: "twitter:image", content: state.meta_image }), hAsync("meta", { property: "fb:page_id", content: "1321836767955949" }), hAsync("meta", { property: "og:title", content: state.title }), hAsync("meta", { property: "og:image", content: state.meta_image }), hAsync("meta", { property: "og:description", content: state.description }), hAsync("meta", { property: "og:site_name", content: "Ionic" }), hAsync("meta", { property: "article:publisher", content: "https://www.facebook.com/ionicframework" }), hAsync("meta", { property: "og:locale", content: "en_US" })));
 };
 
 const appBurgerCss = "app-burger{display:none;position:fixed;top:0px;left:0px;z-index:999}app-burger>div{padding:18px;display:flex;align-items:flex-start;justify-content:center}app-burger>div:hover app-icon{opacity:1}app-burger .icon-menu{display:block}app-burger .icon-close{display:none}app-burger app-icon{transition:opacity 0.3s;opacity:0.7;cursor:pointer}app-burger.left-sidebar-in>div{height:100vh;padding-right:50px}app-burger.left-sidebar-in .icon-menu{display:none}app-burger.left-sidebar-in .icon-close{display:block}@media screen and (max-width: 1023px){app-burger{display:block}}";
@@ -5670,7 +5712,7 @@ class AppBurger {
     this.burgerClick.emit();
   }
   render() {
-    return (h("div", { class: "burger", onClick: () => this.handleBurgerClicked() }, h("app-icon", { name: "menu" }), h("app-icon", { name: "close" })));
+    return (hAsync("div", { class: "burger", onClick: () => this.handleBurgerClicked() }, hAsync("app-icon", { name: "menu" }), hAsync("app-icon", { name: "close" })));
   }
   static get style() { return appBurgerCss; }
   static get cmpMeta() { return {
@@ -5690,7 +5732,7 @@ class AppIcon {
     registerInstance(this, hostRef);
   }
   render() {
-    return (h("svg", { class: `icon icon-${this.name}` }, h("use", { xlinkHref: `#icon-${this.name}` })));
+    return (hAsync("svg", { class: `icon icon-${this.name}` }, hAsync("use", { xlinkHref: `#icon-${this.name}` })));
   }
   static get style() { return appIconCss; }
   static get cmpMeta() { return {
@@ -5713,166 +5755,166 @@ const iconColors = {
     '#E3EFF9', '#9CB2F8', '#B7CBF1', '#C4D7FA'
   ]
 };
-const publishIcon = (state = 'default') => (h("svg", { width: "48", height: "48", viewBox: "0 0 48 48", fill: "none", xmlns: "http://www.w3.org/2000/svg" },
-  h("circle", { cx: "24", cy: "24", r: "24", fill: iconColors[state][0] }),
-  h("path", { d: "M37.5 13C37.5 12.4477 37.0523 12 36.5 12H27.1282C26.6827 12 26.4596 12.5386 26.7746 12.8536L36.6464 22.7254C36.9614 23.0404 37.5 22.8173 37.5 22.3718V13Z", fill: "#B2CEFF" }),
-  h("path", { "fill-rule": "evenodd", "clip-rule": "evenodd", d: "M23.4267 23.3122C21.6604 26.895 20.74 30.9366 20.6261 35.6052C20.6126 36.1573 21.0618 36.6053 21.614 36.6053H24.4386C24.9909 36.6053 25.437 36.1569 25.4523 35.6049C25.5643 31.5688 26.3607 28.2717 27.754 25.4455C29.1338 22.6466 31.1549 20.1964 33.8805 17.9059C34.3033 17.5505 34.3777 16.9227 34.0348 16.4897L32.281 14.2756C31.9381 13.8427 31.308 13.7687 30.8839 14.1225C27.7012 16.7774 25.1771 19.7616 23.4267 23.3122Z", fill: "#B2CEFF" }),
-  h("path", { d: "M27.9875 35.9753C27.8705 31.2109 26.927 27.0438 25.0922 23.3293C23.2739 19.6481 20.6598 16.5731 17.4019 13.8604C16.5338 13.1376 15.2644 13.3014 14.5829 14.1602L12.8395 16.3569C12.147 17.2295 12.3108 18.4711 13.1344 19.1621C15.7648 21.3691 17.682 23.7009 18.9846 26.3379C20.2997 29.0003 21.0675 32.1342 21.1763 36.0275C21.2064 37.1017 22.0772 38 23.1897 38H26C27.0981 38 28.0153 37.1051 27.9875 35.9753Z", fill: iconColors[state][3], stroke: iconColors[state][0], "stroke-width": "2" }),
-  h("path", { d: "M10 13C10 12.4477 10.4477 12 11 12H20.3718C20.8173 12 21.0404 12.5386 20.7254 12.8536L10.8536 22.7254C10.5386 23.0404 10 22.8173 10 22.3718V13Z", fill: iconColors[state][3] }),
-  h("circle", { cx: "24", cy: "34", r: "6", fill: iconColors[state][3], stroke: iconColors[state][0], "stroke-width": "2" })));
-const updatesIcon = (state = 'default') => (h("svg", { width: "48", height: "48", viewBox: "0 0 48 48", fill: "none", xmlns: "http://www.w3.org/2000/svg" },
-  h("circle", { cx: "24", cy: "24", r: "24", fill: iconColors[state][0] }),
-  h("path", { d: "M35.5975 18.8571H12.4025C11.1713 18.8571 10.4644 20.2585 11.1963 21.2486L22.7937 36.9393C23.3933 37.7506 24.6067 37.7506 25.2063 36.9393L36.8037 21.2486C37.5356 20.2585 36.8287 18.8571 35.5975 18.8571Z", fill: iconColors[state][1] }),
-  h("path", { d: "M32.1075 11.1428H15.8925C14.65 11.1428 13.9462 12.567 14.701 13.554L22.8085 24.1561C23.4088 24.9412 24.5912 24.9412 25.1915 24.1561L33.299 13.554C34.0538 12.567 33.35 11.1428 32.1075 11.1428Z", fill: iconColors[state][3] })));
-const buildsIcon = (state = 'default') => (h("svg", { width: "48", height: "48", viewBox: "0 0 48 48", fill: "none", xmlns: "http://www.w3.org/2000/svg" },
-  h("circle", { cx: "24", cy: "24", r: "24", fill: iconColors[state][0] }),
-  h("path", { d: "M24 10.2858C23.7602 10.2858 23.5204 10.3388 23.3017 10.4451L11.0956 16.3707C10.5978 16.6123 10.2857 17.0911 10.2857 17.613V29.2302C10.2857 29.7522 10.5978 30.2309 11.0956 30.4726L23.3017 36.3982C23.5204 36.5044 23.7602 36.5575 24 36.5575V10.2858Z", fill: iconColors[state][3] }),
-  h("path", { d: "M24 10.2858C24.2398 10.2858 24.4796 10.3388 24.6983 10.4451L36.9044 16.3707C37.4022 16.6123 37.7143 17.0911 37.7143 17.613V29.2302C37.7143 29.7522 37.4022 30.2309 36.9044 30.4726L24.6983 36.3982C24.4796 36.5044 24.2398 36.5575 24 36.5575V10.2858Z", fill: iconColors[state][3] }),
-  h("path", { d: "M24 21.8572C24.8571 21.8572 25.7143 21.4314 25.7143 21.4314L35.5825 16.8486C36.5767 16.3869 37.7142 17.1129 37.7142 18.2091V29.8664C37.7142 31.034 37.0368 32.0955 35.9778 32.5873L25.7143 37.3537C25.7143 37.3537 24.8571 37.7143 24 37.7143V21.8572Z", fill: iconColors[state][1] }),
-  h("path", { d: "M24 21.8572C23.1429 21.8572 22.2797 21.4287 22.2797 21.4287L12.4175 16.8486C11.4233 16.3869 10.2857 17.1129 10.2857 18.2091V29.8664C10.2857 31.034 10.9632 32.0955 12.0221 32.5873L22.2857 37.3537C22.2857 37.3537 23.1429 37.7143 24 37.7143V21.8572Z", fill: iconColors[state][2] })));
-const automationsIcon = (state = 'default') => (h("svg", { width: "48", height: "48", viewBox: "0 0 48 48", fill: "none", xmlns: "http://www.w3.org/2000/svg" },
-  h("circle", { cx: "24", cy: "24", r: "24", fill: iconColors[state][0] }),
-  h("rect", { x: "12", y: "12", width: "24", height: "24", rx: "6", fill: state === 'active' ? iconColors[state][1] : iconColors[state][3] }),
-  h("path", { d: "M32.0488 21.6741H24.8049L28.313 8.0895C28.3733 7.76242 28.005 7.57344 27.831 7.84237L15.5324 25.3519C15.278 25.7589 15.519 26.3258 15.9542 26.3258H23.1981L19.6899 39.9104C19.6297 40.2375 19.9979 40.4265 20.172 40.1575L32.4706 22.6553C32.7183 22.241 32.484 21.6741 32.0488 21.6741Z", fill: state === 'active' ? iconColors[state][3] : iconColors[state][1] })));
+const publishIcon = (state = 'default') => (hAsync("svg", { width: "48", height: "48", viewBox: "0 0 48 48", fill: "none", xmlns: "http://www.w3.org/2000/svg" },
+  hAsync("circle", { cx: "24", cy: "24", r: "24", fill: iconColors[state][0] }),
+  hAsync("path", { d: "M37.5 13C37.5 12.4477 37.0523 12 36.5 12H27.1282C26.6827 12 26.4596 12.5386 26.7746 12.8536L36.6464 22.7254C36.9614 23.0404 37.5 22.8173 37.5 22.3718V13Z", fill: "#B2CEFF" }),
+  hAsync("path", { "fill-rule": "evenodd", "clip-rule": "evenodd", d: "M23.4267 23.3122C21.6604 26.895 20.74 30.9366 20.6261 35.6052C20.6126 36.1573 21.0618 36.6053 21.614 36.6053H24.4386C24.9909 36.6053 25.437 36.1569 25.4523 35.6049C25.5643 31.5688 26.3607 28.2717 27.754 25.4455C29.1338 22.6466 31.1549 20.1964 33.8805 17.9059C34.3033 17.5505 34.3777 16.9227 34.0348 16.4897L32.281 14.2756C31.9381 13.8427 31.308 13.7687 30.8839 14.1225C27.7012 16.7774 25.1771 19.7616 23.4267 23.3122Z", fill: "#B2CEFF" }),
+  hAsync("path", { d: "M27.9875 35.9753C27.8705 31.2109 26.927 27.0438 25.0922 23.3293C23.2739 19.6481 20.6598 16.5731 17.4019 13.8604C16.5338 13.1376 15.2644 13.3014 14.5829 14.1602L12.8395 16.3569C12.147 17.2295 12.3108 18.4711 13.1344 19.1621C15.7648 21.3691 17.682 23.7009 18.9846 26.3379C20.2997 29.0003 21.0675 32.1342 21.1763 36.0275C21.2064 37.1017 22.0772 38 23.1897 38H26C27.0981 38 28.0153 37.1051 27.9875 35.9753Z", fill: iconColors[state][3], stroke: iconColors[state][0], "stroke-width": "2" }),
+  hAsync("path", { d: "M10 13C10 12.4477 10.4477 12 11 12H20.3718C20.8173 12 21.0404 12.5386 20.7254 12.8536L10.8536 22.7254C10.5386 23.0404 10 22.8173 10 22.3718V13Z", fill: iconColors[state][3] }),
+  hAsync("circle", { cx: "24", cy: "34", r: "6", fill: iconColors[state][3], stroke: iconColors[state][0], "stroke-width": "2" })));
+const updatesIcon = (state = 'default') => (hAsync("svg", { width: "48", height: "48", viewBox: "0 0 48 48", fill: "none", xmlns: "http://www.w3.org/2000/svg" },
+  hAsync("circle", { cx: "24", cy: "24", r: "24", fill: iconColors[state][0] }),
+  hAsync("path", { d: "M35.5975 18.8571H12.4025C11.1713 18.8571 10.4644 20.2585 11.1963 21.2486L22.7937 36.9393C23.3933 37.7506 24.6067 37.7506 25.2063 36.9393L36.8037 21.2486C37.5356 20.2585 36.8287 18.8571 35.5975 18.8571Z", fill: iconColors[state][1] }),
+  hAsync("path", { d: "M32.1075 11.1428H15.8925C14.65 11.1428 13.9462 12.567 14.701 13.554L22.8085 24.1561C23.4088 24.9412 24.5912 24.9412 25.1915 24.1561L33.299 13.554C34.0538 12.567 33.35 11.1428 32.1075 11.1428Z", fill: iconColors[state][3] })));
+const buildsIcon = (state = 'default') => (hAsync("svg", { width: "48", height: "48", viewBox: "0 0 48 48", fill: "none", xmlns: "http://www.w3.org/2000/svg" },
+  hAsync("circle", { cx: "24", cy: "24", r: "24", fill: iconColors[state][0] }),
+  hAsync("path", { d: "M24 10.2858C23.7602 10.2858 23.5204 10.3388 23.3017 10.4451L11.0956 16.3707C10.5978 16.6123 10.2857 17.0911 10.2857 17.613V29.2302C10.2857 29.7522 10.5978 30.2309 11.0956 30.4726L23.3017 36.3982C23.5204 36.5044 23.7602 36.5575 24 36.5575V10.2858Z", fill: iconColors[state][3] }),
+  hAsync("path", { d: "M24 10.2858C24.2398 10.2858 24.4796 10.3388 24.6983 10.4451L36.9044 16.3707C37.4022 16.6123 37.7143 17.0911 37.7143 17.613V29.2302C37.7143 29.7522 37.4022 30.2309 36.9044 30.4726L24.6983 36.3982C24.4796 36.5044 24.2398 36.5575 24 36.5575V10.2858Z", fill: iconColors[state][3] }),
+  hAsync("path", { d: "M24 21.8572C24.8571 21.8572 25.7143 21.4314 25.7143 21.4314L35.5825 16.8486C36.5767 16.3869 37.7142 17.1129 37.7142 18.2091V29.8664C37.7142 31.034 37.0368 32.0955 35.9778 32.5873L25.7143 37.3537C25.7143 37.3537 24.8571 37.7143 24 37.7143V21.8572Z", fill: iconColors[state][1] }),
+  hAsync("path", { d: "M24 21.8572C23.1429 21.8572 22.2797 21.4287 22.2797 21.4287L12.4175 16.8486C11.4233 16.3869 10.2857 17.1129 10.2857 18.2091V29.8664C10.2857 31.034 10.9632 32.0955 12.0221 32.5873L22.2857 37.3537C22.2857 37.3537 23.1429 37.7143 24 37.7143V21.8572Z", fill: iconColors[state][2] })));
+const automationsIcon = (state = 'default') => (hAsync("svg", { width: "48", height: "48", viewBox: "0 0 48 48", fill: "none", xmlns: "http://www.w3.org/2000/svg" },
+  hAsync("circle", { cx: "24", cy: "24", r: "24", fill: iconColors[state][0] }),
+  hAsync("rect", { x: "12", y: "12", width: "24", height: "24", rx: "6", fill: state === 'active' ? iconColors[state][1] : iconColors[state][3] }),
+  hAsync("path", { d: "M32.0488 21.6741H24.8049L28.313 8.0895C28.3733 7.76242 28.005 7.57344 27.831 7.84237L15.5324 25.3519C15.278 25.7589 15.519 26.3258 15.9542 26.3258H23.1981L19.6899 39.9104C19.6297 40.2375 19.9979 40.4265 20.172 40.1575L32.4706 22.6553C32.7183 22.241 32.484 21.6741 32.0488 21.6741Z", fill: state === 'active' ? iconColors[state][3] : iconColors[state][1] })));
 
 // Given a set of provided props and extra props,
 // merge to two except for the class prop which is concated
 const applyProps = (props, extra = {}) => {
-    const allKeys = new Set(Object.keys(props).concat(Object.keys(extra)));
-    return Array.from(allKeys).reduce((v, k) => {
-        if (k in extra) {
-            if (k === 'class') {
-                if (typeof extra[k] === 'string') {
-                    v[k] = `${extra[k]} ${props[k] ? props[k] : ''}`;
-                }
-                else {
-                    v[k] = Object.assign(Object.assign({}, props[k]), extra[k]);
-                }
-            }
-            else {
-                v[k] = extra[k];
-            }
+  const allKeys = new Set(Object.keys(props).concat(Object.keys(extra)));
+  return Array.from(allKeys).reduce((v, k) => {
+    if (k in extra) {
+      if (k === 'class') {
+        if (typeof extra[k] === 'string') {
+          v[k] = `${extra[k]} ${props[k] ? props[k] : ''}`;
         }
-        else if (k in props) {
-            v[k] = props[k];
+        else {
+          v[k] = Object.assign(Object.assign({}, props[k]), extra[k]);
         }
-        return v;
-    }, {});
+      }
+      else {
+        v[k] = extra[k];
+      }
+    }
+    else if (k in props) {
+      v[k] = props[k];
+    }
+    return v;
+  }, {});
 };
 
-const Blockquote = (props, children) => (h("blockquote", Object.assign({}, applyProps(props, { class: 'ui-blockquote' })), children));
+const Blockquote = (props, children) => (hAsync("blockquote", Object.assign({}, applyProps(props, { class: 'ui-blockquote' })), children));
 
-const Breadcrumbs = (props, children) => (h("ul", Object.assign({}, applyProps(props, { class: 'ui-breadcrumbs' })), children));
+const Breadcrumbs = (props, children) => (hAsync("ul", Object.assign({}, applyProps(props, { class: 'ui-breadcrumbs' })), children));
 
 var __rest = (undefined && undefined.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
+  var t = {};
+  for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+    t[p] = s[p];
+  if (s != null && typeof Object.getOwnPropertySymbols === "function")
+    for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+      if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+        t[p[i]] = s[p[i]];
+    }
+  return t;
 };
 const Breakpoint = (_a, children) => {
-    var { xs, sm, md, lg, xl, display = 'block' } = _a, props = __rest(_a, ["xs", "sm", "md", "lg", "xl", "display"]);
-    const Tag = display === 'inline' ? 'span' : 'div';
-    //cascade values up breakpoints
-    xs = xs !== undefined ? xs : false;
-    sm = sm !== undefined ? sm : xs;
-    md = md !== undefined ? md : sm;
-    lg = lg !== undefined ? lg : md;
-    xl = xl !== undefined ? xl : lg;
-    const breakpoints = [['xs', xs], ['sm', sm], ['md', md], ['lg', lg], ['xl', xl]];
-    //Combine classes into string based on breakpoint values
-    const className = breakpoints.reduce((acc, cur) => `${acc} ${cur[1] ? `ui-breakpoint-${cur[0]}` : ``}`, 'ui-breakpoint');
-    return (h(Tag, Object.assign({}, applyProps(props, { class: className }), { style: { '--display': display } }), children));
+  var { xs, sm, md, lg, xl, display = 'block' } = _a, props = __rest(_a, ["xs", "sm", "md", "lg", "xl", "display"]);
+  const Tag = display === 'inline' ? 'span' : 'div';
+  //cascade values up breakpoints
+  xs = xs !== undefined ? xs : false;
+  sm = sm !== undefined ? sm : xs;
+  md = md !== undefined ? md : sm;
+  lg = lg !== undefined ? lg : md;
+  xl = xl !== undefined ? xl : lg;
+  const breakpoints = [['xs', xs], ['sm', sm], ['md', md], ['lg', lg], ['xl', xl]];
+  //Combine classes into string based on breakpoint values
+  const className = breakpoints.reduce((acc, cur) => `${acc} ${cur[1] ? `ui-breakpoint-${cur[0]}` : ``}`, 'ui-breakpoint');
+  return (hAsync(Tag, Object.assign({}, applyProps(props, { class: className }), { style: { '--display': display } }), children));
 };
 
-const Button = (props, children) => (h("button", Object.assign({}, applyProps(props, { class: 'ui-button' })), children));
+const Button = (props, children) => (hAsync("button", Object.assign({}, applyProps(props, { class: 'ui-button' })), children));
 
-const Card = (props, children) => (h("div", Object.assign({}, applyProps(props, {
-    class: `ui-card${props.embelish !== false ? ' ui-card--embelish' : ''}`,
+const Card = (props, children) => (hAsync("div", Object.assign({}, applyProps(props, {
+  class: `ui-card${props.embelish !== false ? ' ui-card--embelish' : ''}`,
 })), children));
 
-const CardContent = (props, children) => (h("div", Object.assign({}, applyProps(props, { class: 'ui-card-content' })), children));
+const CardContent = (props, children) => (hAsync("div", Object.assign({}, applyProps(props, { class: 'ui-card-content' })), children));
 
 var __rest$1 = (undefined && undefined.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
+  var t = {};
+  for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+    t[p] = s[p];
+  if (s != null && typeof Object.getOwnPropertySymbols === "function")
+    for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+      if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+        t[p[i]] = s[p[i]];
+    }
+  return t;
 };
 const DateTime = (_a) => {
-    var { date, format = {
-        weekday: 'short',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-    } } = _a, props = __rest$1(_a, ["date", "format"]);
-    const formatter = new Intl.DateTimeFormat('en-US', Object.assign({}, format));
-    return h("time", Object.assign({}, applyProps(props, { class: 'ui-date' })), formatter.format(date));
+  var { date, format = {
+    weekday: 'short',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  } } = _a, props = __rest$1(_a, ["date", "format"]);
+  const formatter = new Intl.DateTimeFormat('en-US', Object.assign({}, format));
+  return hAsync("time", Object.assign({}, applyProps(props, { class: 'ui-date' })), formatter.format(date));
 };
 
 var __rest$2 = (undefined && undefined.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
+  var t = {};
+  for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+    t[p] = s[p];
+  if (s != null && typeof Object.getOwnPropertySymbols === "function")
+    for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+      if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+        t[p[i]] = s[p[i]];
+    }
+  return t;
 };
 const applyClasses = (cols, xs, sm, md, lg) => {
-    const classes = [];
-    // General class, doesn't apply column behavior but
-    // can be useful for selectors
-    classes.push('ui-col');
-    if (cols) {
-        classes.push(`ui-col-${cols}`);
-    }
-    else {
-        // If no "cols" is specified, add a default 12 to make content go full width
-        // in the smallest viewport sizes
-        classes.push(`ui-col-12`);
-    }
-    if (xs) {
-        classes.push(`ui-col-xs-${xs}`);
-    }
-    if (sm) {
-        classes.push(`ui-col-sm-${sm}`);
-    }
-    if (md) {
-        classes.push(`ui-col-md-${md}`);
-    }
-    if (lg) {
-        classes.push(`ui-col-lg-${lg}`);
-    }
-    return classes.join(' ');
+  const classes = [];
+  // General class, doesn't apply column behavior but
+  // can be useful for selectors
+  classes.push('ui-col');
+  if (cols) {
+    classes.push(`ui-col-${cols}`);
+  }
+  else {
+    // If no "cols" is specified, add a default 12 to make content go full width
+    // in the smallest viewport sizes
+    classes.push(`ui-col-12`);
+  }
+  if (xs) {
+    classes.push(`ui-col-xs-${xs}`);
+  }
+  if (sm) {
+    classes.push(`ui-col-sm-${sm}`);
+  }
+  if (md) {
+    classes.push(`ui-col-md-${md}`);
+  }
+  if (lg) {
+    classes.push(`ui-col-lg-${lg}`);
+  }
+  return classes.join(' ');
 };
 const Col = (_a, children) => {
-    var { cols, xs, sm, md, lg } = _a, props = __rest$2(_a, ["cols", "xs", "sm", "md", "lg"]);
-    return (h("div", Object.assign({}, applyProps(props, { class: applyClasses(cols, xs, sm, md, lg) })), children));
+  var { cols, xs, sm, md, lg } = _a, props = __rest$2(_a, ["cols", "xs", "sm", "md", "lg"]);
+  return (hAsync("div", Object.assign({}, applyProps(props, { class: applyClasses(cols, xs, sm, md, lg) })), children));
 };
 
 var __rest$3 = (undefined && undefined.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
+  var t = {};
+  for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+    t[p] = s[p];
+  if (s != null && typeof Object.getOwnPropertySymbols === "function")
+    for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+      if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+        t[p[i]] = s[p[i]];
+    }
+  return t;
 };
 /*
 interface GridProps {
@@ -5903,120 +5945,120 @@ const getColClasses = (
   );
 */
 const Grid = (_a, children) => {
-    var props = __rest$3(_a, []);
-    return h("div", Object.assign({}, applyProps(props, { class: `ui-grid` })), children);
+  var props = __rest$3(_a, []);
+  return hAsync("div", Object.assign({}, applyProps(props, { class: `ui-grid` })), children);
 };
 
 // import { h } from '@stencil/core';
 const listeners = [];
 const visible = [];
 const observer = new IntersectionObserver((entries, observer) => {
-    entries.forEach((e) => {
-        if (e.intersectionRatio > 0) {
-            if (visible.indexOf(e.target) < 0) {
-                visible.push(e.target);
-            }
-        }
-        else {
-            visible.splice(visible.indexOf(e.target), 1);
-        }
-    });
-    listeners.forEach((l) => l({ entries, observer, visible }));
+  entries.forEach((e) => {
+    if (e.intersectionRatio > 0) {
+      if (visible.indexOf(e.target) < 0) {
+        visible.push(e.target);
+      }
+    }
+    else {
+      visible.splice(visible.indexOf(e.target), 1);
+    }
+  });
+  listeners.forEach((l) => l({ entries, observer, visible }));
 }, { threshold: [0, 1] });
 const addListener = (listener) => listeners.push(listener);
 const observe = (el) => el && observer.observe(el);
 
 var __rest$4 = (undefined && undefined.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
+  var t = {};
+  for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+    t[p] = s[p];
+  if (s != null && typeof Object.getOwnPropertySymbols === "function")
+    for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+      if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+        t[p[i]] = s[p[i]];
+    }
+  return t;
 };
 const Heading = (_a, children) => {
-    var { level = 3, poster = false, as } = _a, props = __rest$4(_a, ["level", "poster", "as"]);
-    const Tag = as ? as : (poster ? 'h1' : `h${level}`);
-    const classes = [
-        `ui-heading`,
-        `${poster ? `ui-poster-${level}` : `ui-heading-${level}`}`
-    ];
-    return (h(Tag, Object.assign({}, applyProps(props, { class: classes.join(' ') }), { ref: (e) => observe(e) }), children));
+  var { level = 3, poster = false, as } = _a, props = __rest$4(_a, ["level", "poster", "as"]);
+  const Tag = as ? as : (poster ? 'h1' : `h${level}`);
+  const classes = [
+    `ui-heading`,
+    `${poster ? `ui-poster-${level}` : `ui-heading-${level}`}`
+  ];
+  return (hAsync(Tag, Object.assign({}, applyProps(props, { class: classes.join(' ') }), { ref: (e) => observe(e) }), children));
 };
 
 var __rest$5 = (undefined && undefined.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
+  var t = {};
+  for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+    t[p] = s[p];
+  if (s != null && typeof Object.getOwnPropertySymbols === "function")
+    for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+      if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+        t[p[i]] = s[p[i]];
+    }
+  return t;
 };
 const Paragraph = (_a, children) => {
-    var { level = 3, leading = 'body' } = _a, props = __rest$5(_a, ["level", "leading"]);
-    const classes = [
-        `ui-paragraph`,
-        `ui-paragraph-${level}`,
-        `ui-paragraph--${leading}`,
-    ];
-    return (h("p", Object.assign({}, applyProps(props, { class: classes.join(' ') })), children));
+  var { level = 3, leading = 'body' } = _a, props = __rest$5(_a, ["level", "leading"]);
+  const classes = [
+    `ui-paragraph`,
+    `ui-paragraph-${level}`,
+    `ui-paragraph--${leading}`,
+  ];
+  return (hAsync("p", Object.assign({}, applyProps(props, { class: classes.join(' ') })), children));
 };
 
 var __rest$6 = (undefined && undefined.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
+  var t = {};
+  for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+    t[p] = s[p];
+  if (s != null && typeof Object.getOwnPropertySymbols === "function")
+    for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+      if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+        t[p[i]] = s[p[i]];
+    }
+  return t;
 };
 const ResponsiveContainer = (_a, children) => {
-    var { as = 'div' } = _a, props = __rest$6(_a, ["as"]);
-    const Tag = as;
-    return h(Tag, Object.assign({}, applyProps(props, { class: 'ui-container' })), children);
+  var { as = 'div' } = _a, props = __rest$6(_a, ["as"]);
+  const Tag = as;
+  return hAsync(Tag, Object.assign({}, applyProps(props, { class: 'ui-container' })), children);
 };
 
 var __rest$7 = (undefined && undefined.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
+  var t = {};
+  for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+    t[p] = s[p];
+  if (s != null && typeof Object.getOwnPropertySymbols === "function")
+    for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+      if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+        t[p[i]] = s[p[i]];
+    }
+  return t;
 };
 const Skeleton = (_a, children) => {
-    var { animated = true } = _a, props = __rest$7(_a, ["animated"]);
-    return (h("div", Object.assign({}, applyProps(props, { class: `ui-skeleton${animated ? ` ui-skeleton--animated` : ``}` })), children));
+  var { animated = true } = _a, props = __rest$7(_a, ["animated"]);
+  return (hAsync("div", Object.assign({}, applyProps(props, { class: `ui-skeleton${animated ? ` ui-skeleton--animated` : ``}` })), children));
 };
 
-const Text = (props, children) => h("p", Object.assign({}, applyProps(props, { class: 'ui-text' })), children);
+const Text = (props, children) => hAsync("p", Object.assign({}, applyProps(props, { class: 'ui-text' })), children);
 
 var __rest$8 = (undefined && undefined.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
+  var t = {};
+  for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+    t[p] = s[p];
+  if (s != null && typeof Object.getOwnPropertySymbols === "function")
+    for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+      if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+        t[p[i]] = s[p[i]];
+    }
+  return t;
 };
 const ThemeProvider = (_a, children) => {
-    var { type = 'base' } = _a, props = __rest$8(_a, ["type"]);
-    return (h("div", Object.assign({}, applyProps(props, { class: `ui-theme--${type}` })), children));
+  var { type = 'base' } = _a, props = __rest$8(_a, ["type"]);
+  return (hAsync("div", Object.assign({}, applyProps(props, { class: `ui-theme--${type}` })), children));
 };
 
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
@@ -6430,252 +6472,315 @@ const match = (pathname, options = {}) => {
 };
 
 function createScript({ property, src, id }) {
-    if (!window) {
-        return;
+  if (!window) {
+    return;
+  }
+  (function (src, id) {
+    var js, fjs = document.getElementsByTagName('script')[0], t = window[property] || {};
+    if (document.getElementById(id)) {
+      return t;
     }
-    (function (src, id) {
-        var js, fjs = document.getElementsByTagName('script')[0], t = window[property] || {};
-        if (document.getElementById(id)) {
-            return t;
-        }
-        js = document.createElement('script');
-        js.id = id;
-        js.src = src;
-        fjs.parentNode.insertBefore(js, fjs);
-        t._e = [];
-        t.ready = function (f) {
-            t._e.push(f);
-        };
-        return t;
-    })(src, id);
+    js = document.createElement('script');
+    js.id = id;
+    js.src = src;
+    fjs.parentNode.insertBefore(js, fjs);
+    t._e = [];
+    t.ready = function (f) {
+      t._e.push(f);
+    };
+    return t;
+  })(src, id);
 }
 const embeds = {
-    Twitter: {
-        property: 'twttr',
-        src: 'https://platform.twitter.com/widgets.js',
-        id: 'twitter-wjs',
-        load: function () {
-            if (window && window.twttr) {
-                window.twttr.widgets.load();
-            }
-        },
+  Twitter: {
+    property: 'twttr',
+    src: 'https://platform.twitter.com/widgets.js',
+    id: 'twitter-wjs',
+    load: function () {
+      if (window && window.twttr) {
+        window.twttr.widgets.load();
+      }
     },
-    Facebook: {
-        property: 'FB',
-        src: 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.3',
-        id: 'fb-wjs',
-        load: (ref) => {
-            if (window && window.FB) {
-                window.FB.XFBML.parse(ref);
-            }
-        },
+  },
+  Facebook: {
+    property: 'FB',
+    src: 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.3',
+    id: 'fb-wjs',
+    load: (ref) => {
+      if (window && window.FB) {
+        window.FB.XFBML.parse(ref);
+      }
     },
-    Instagram: {
-        property: 'instgrm',
-        src: 'https://www.instagram.com/embed.js',
-        id: 'insta-wjs',
-        load: () => {
-            if (window && window.instgrm) {
-                window.instgrm.Embeds.process();
-            }
-        },
+  },
+  Instagram: {
+    property: 'instgrm',
+    src: 'https://www.instagram.com/embed.js',
+    id: 'insta-wjs',
+    load: () => {
+      if (window && window.instgrm) {
+        window.instgrm.Embeds.process();
+      }
     },
+  },
 };
 
 function slugify(text) {
-    if (!text) {
-        return '';
-    }
-    return text
-        .toString()
-        .toLowerCase()
-        .replace(/\s+/g, '-') // Replace spaces with -
-        .replace(/\.+/g, '-') // Replace periods with -
-        .replace(/[^\w\-]+/g, '') // Remove all non-word chars
-        .replace(/\-\-+/g, '-') // Replace multiple - with single -
-        .replace(/^-+/, '') // Trim - from start of text
-        .replace(/-+$/, ''); // Trim - from end of text
+  if (!text) {
+    return '';
+  }
+  return text
+    .toString()
+    .toLowerCase()
+    .replace(/\s+/g, '-') // Replace spaces with -
+    .replace(/\.+/g, '-') // Replace periods with -
+    .replace(/[^\w\-]+/g, '') // Remove all non-word chars
+    .replace(/\-\-+/g, '-') // Replace multiple - with single -
+    .replace(/^-+/, '') // Trim - from start of text
+    .replace(/-+$/, ''); // Trim - from end of text
 }
 
 var __rest$9 = (undefined && undefined.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
+  var t = {};
+  for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+    t[p] = s[p];
+  if (s != null && typeof Object.getOwnPropertySymbols === "function")
+    for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+      if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+        t[p[i]] = s[p[i]];
+    }
+  return t;
 };
 let Poster;
 let Leading;
 let ParagraphLevel;
 function htmlSerializer(type, element, _content, children) {
-    // give headings an ID
-    switch (type) {
-        case 'heading1':
-        case 'heading2':
-        case 'heading3':
-        case 'heading4':
-        case 'heading5':
-        case 'heading6':
-            const level = parseInt(type[type.length - 1], 10);
-            const id = `h-${slugify(element.text)}`;
-            return (h(Heading, Object.assign({}, { id, level, poster: Poster }), children));
-        case 'paragraph':
-            return h(Paragraph, Object.assign({}, { level: ParagraphLevel, leading: Leading }), children);
-        case 'preformatted':
-            return (h("pre", null,
-                h("code", null, children)));
-        // Return null to stick with the default behavior for all other elements
-        default:
-            return null;
-    }
+  // give headings an ID
+  switch (type) {
+    case 'heading1':
+    case 'heading2':
+    case 'heading3':
+    case 'heading4':
+    case 'heading5':
+    case 'heading6':
+      const level = parseInt(type[type.length - 1], 10);
+      const id = `h-${slugify(element.text)}`;
+      return (hAsync(Heading, Object.assign({}, { id, level, poster: Poster }), children));
+    case 'paragraph':
+      return hAsync(Paragraph, Object.assign({}, { level: ParagraphLevel, leading: Leading }), children);
+    case 'preformatted':
+      return (hAsync("pre", null,
+        hAsync("code", null, children)));
+    // Return null to stick with the default behavior for all other elements
+    default:
+      return null;
+  }
 }
 function slugifyHeading(children) {
-    return children.reduce((id, c) => {
-        return id + slugify(c[0]);
-    }, '');
+  return children.reduce((id, c) => {
+    return id + slugify(c[0]);
+  }, '');
 }
 function serialize(linkResolver, elements, type, element, content, children, index, routerLink = false, router = null) {
-    if (elements[type]) {
-        return serializeElement(elements[type], type, element, content, children, index);
-    }
-    const Elements = PrismicRichTextLib.Elements;
-    switch (type) {
-        case Elements.heading1:
-            return serializeStandardTag('h1', element, children, index, { id: slugifyHeading(children) });
-        case Elements.heading2:
-            return serializeStandardTag('h2', element, children, index, { id: slugifyHeading(children) });
-        case Elements.heading3:
-            return serializeStandardTag('h3', element, children, index, { id: slugifyHeading(children) });
-        case Elements.heading4:
-            return serializeStandardTag('h4', element, children, index, { id: slugifyHeading(children) });
-        case Elements.heading5:
-            return serializeStandardTag('h5', element, children, index, { id: slugifyHeading(children) });
-        case Elements.heading6:
-            return serializeStandardTag('h6', element, children, index, { id: slugifyHeading(children) });
-        case Elements.paragraph:
-            return serializeStandardTag('p', element, children, index);
-        case Elements.preformatted:
-            return serializeStandardTag('pre', element, children, index);
-        case Elements.strong:
-            return serializeStandardTag('strong', element, children, index);
-        case Elements.em:
-            return serializeStandardTag('em', element, children, index);
-        case Elements.listItem:
-            return serializeStandardTag('li', element, children, index);
-        case Elements.oListItem:
-            return serializeStandardTag('li', element, children, index);
-        case Elements.list:
-            return serializeStandardTag('ul', element, children, index);
-        case Elements.oList:
-            return serializeStandardTag('ol', element, children, index);
-        case Elements.image:
-            return serializeImage(linkResolver, element, index);
-        case Elements.embed:
-            return serializeEmbed(element, index);
-        case Elements.hyperlink:
-            return serializeHyperlink(linkResolver, element, children, index, routerLink, router);
-        case Elements.label:
-            return serializeLabel(element, children, index);
-        case Elements.span:
-            return serializeSpan(content);
-        default:
-            return null;
-    }
+  if (elements[type]) {
+    return serializeElement(elements[type], type, element, content, children, index);
+  }
+  const Elements = PrismicRichTextLib.Elements;
+  switch (type) {
+    case Elements.heading1:
+      return serializeStandardTag('h1', element, children, index, { id: slugifyHeading(children) });
+    case Elements.heading2:
+      return serializeStandardTag('h2', element, children, index, { id: slugifyHeading(children) });
+    case Elements.heading3:
+      return serializeStandardTag('h3', element, children, index, { id: slugifyHeading(children) });
+    case Elements.heading4:
+      return serializeStandardTag('h4', element, children, index, { id: slugifyHeading(children) });
+    case Elements.heading5:
+      return serializeStandardTag('h5', element, children, index, { id: slugifyHeading(children) });
+    case Elements.heading6:
+      return serializeStandardTag('h6', element, children, index, { id: slugifyHeading(children) });
+    case Elements.paragraph:
+      return serializeStandardTag('p', element, children, index);
+    case Elements.preformatted:
+      return serializeStandardTag('pre', element, children, index);
+    case Elements.strong:
+      return serializeStandardTag('strong', element, children, index);
+    case Elements.em:
+      return serializeStandardTag('em', element, children, index);
+    case Elements.listItem:
+      return serializeStandardTag('li', element, children, index);
+    case Elements.oListItem:
+      return serializeStandardTag('li', element, children, index);
+    case Elements.list:
+      return serializeStandardTag('ul', element, children, index);
+    case Elements.oList:
+      return serializeStandardTag('ol', element, children, index);
+    case Elements.image:
+      return serializeImage(linkResolver, element, index);
+    case Elements.embed:
+      return serializeEmbed(element, index);
+    case Elements.hyperlink:
+      return serializeHyperlink(linkResolver, element, children, index, routerLink, router);
+    case Elements.label:
+      return serializeLabel(element, children, index);
+    case Elements.span:
+      return serializeSpan(content);
+    default:
+      return null;
+  }
 }
 function propsWithUniqueKey(props = {}, key) {
-    return Object.assign(props, { key });
+  return Object.assign(props, { key });
 }
 function serializeElement(Element, type, props, _content, children, index) {
-    return (h(Element, Object.assign({ key: `element-${type}-${index + 1}` }, props, (type === 'image' ? { src: props.url, url: undefined } : null)), children && children.length ? children : undefined));
+  return (hAsync(Element, Object.assign({ key: `element-${type}-${index + 1}` }, props, (type === 'image' ? { src: props.url, url: undefined } : null)), children && children.length ? children : undefined));
 }
 function serializeStandardTag(Tag, element, children, key, extra = {}) {
-    const props = element.label ? Object.assign(extra, { className: element.label }) : extra;
-    return h(Tag, Object.assign({}, propsWithUniqueKey(props, key)), children);
+  const props = element.label ? Object.assign(extra, { className: element.label }) : extra;
+  return hAsync(Tag, Object.assign({}, propsWithUniqueKey(props, key)), children);
 }
 function serializeHyperlink(linkResolver, element, children, key, routerLink = false, router = null) {
-    const targetAttr = element.data.target ? { target: element.data.target } : {};
-    const relAttr = element.data.target ? { rel: 'noopener' } : {};
-    let href$1 = PrismicHelpers.Link.url(element.data, linkResolver);
-    if (element.data.url) {
-        const parsed = new URL(element.data.url);
-        if (parsed.hostname.indexOf('.') < 0) {
-            // Allow relative links
-            href$1 = `/${parsed.hostname}${parsed.pathname + parsed.search + parsed.hash}`;
-        }
+  const targetAttr = element.data.target ? { target: element.data.target } : {};
+  const relAttr = element.data.target ? { rel: 'noopener' } : {};
+  let href$1 = PrismicHelpers.Link.url(element.data, linkResolver);
+  if (element.data.url) {
+    const parsed = new URL(element.data.url);
+    if (parsed.hostname.indexOf('.') < 0) {
+      // Allow relative links
+      href$1 = `/${parsed.hostname}${parsed.pathname + parsed.search + parsed.hash}`;
     }
-    const props = Object.assign({ href: href$1 }, targetAttr, relAttr);
-    if (routerLink) {
-        return h("a", Object.assign({}, propsWithUniqueKey(props, key), href(props.href, router)), children);
-    }
-    else {
-        return h("a", Object.assign({}, propsWithUniqueKey(props, key)), children);
-    }
+  }
+  const props = Object.assign({ href: href$1 }, targetAttr, relAttr);
+  if (routerLink) {
+    return hAsync("a", Object.assign({}, propsWithUniqueKey(props, key), href(props.href, router)), children);
+  }
+  else {
+    return hAsync("a", Object.assign({}, propsWithUniqueKey(props, key)), children);
+  }
 }
 function serializeLabel(element, children, key) {
-    const props = element.data ? Object.assign({}, { className: element.data.label }) : {};
-    return h("span", Object.assign({}, propsWithUniqueKey(props, key)), children);
+  const props = element.data ? Object.assign({}, { className: element.data.label }) : {};
+  return hAsync("span", Object.assign({}, propsWithUniqueKey(props, key)), children);
 }
 function serializeSpan(content) {
-    if (content) {
-        return content.split('\n').reduce((acc, p) => {
-            if (acc.length === 0) {
-                return [p];
-            }
-            else {
-                const brIndex = (acc.length + 1) / 2 - 1;
-                const br = h("br", Object.assign({}, propsWithUniqueKey({}, brIndex)));
-                return acc.concat([br, p]);
-            }
-        }, []);
-    }
-    else {
-        return null;
-    }
+  if (content) {
+    return content.split('\n').reduce((acc, p) => {
+      if (acc.length === 0) {
+        return [p];
+      }
+      else {
+        const brIndex = (acc.length + 1) / 2 - 1;
+        const br = hAsync("br", Object.assign({}, propsWithUniqueKey({}, brIndex)));
+        return acc.concat([br, p]);
+      }
+    }, []);
+  }
+  else {
+    return null;
+  }
 }
 function serializeImage(linkResolver, element, key) {
-    const linkUrl = element.linkTo ? PrismicHelpers.Link.url(element.linkTo, linkResolver) : null;
-    const linkTarget = element.linkTo && element.linkTo.target ? { target: element.linkTo.target } : {};
-    const relAttr = linkTarget.target ? { rel: 'noopener' } : {};
-    const img = h("img", { loading: 'lazy', src: element.url, alt: element.alt || '' });
-    return (h("p", Object.assign({}, propsWithUniqueKey({ className: [element.label || '', 'block-img'].join(' ') }, key)), linkUrl ? h("a", Object.assign({}, Object.assign({ href: linkUrl }, linkTarget, relAttr)), img) : img));
+  const linkUrl = element.linkTo ? PrismicHelpers.Link.url(element.linkTo, linkResolver) : null;
+  const linkTarget = element.linkTo && element.linkTo.target ? { target: element.linkTo.target } : {};
+  const relAttr = linkTarget.target ? { rel: 'noopener' } : {};
+  const img = hAsync("img", { loading: 'lazy', src: element.url, alt: element.alt || '' });
+  return (hAsync("p", Object.assign({}, propsWithUniqueKey({ className: [element.label || '', 'block-img'].join(' ') }, key)), linkUrl ? hAsync("a", Object.assign({}, Object.assign({ href: linkUrl }, linkTarget, relAttr)), img) : img));
 }
 function serializeEmbed(element, key) {
-    if (embeds[element.oembed.provider_name]) {
-        createScript(embeds[element.oembed.provider_name]);
-    }
-    const className = `embed embed-${element.oembed.provider_name.toLowerCase()}`;
-    const props = Object.assign({
-        'data-oembed': element.oembed.embed_url,
-        'data-oembed-type': element.oembed.type,
-        'data-oembed-provider': element.oembed.provider_name,
-        ref: (ref) => {
-            if (embeds[element.oembed.provider_name]) {
-                embeds[element.oembed.provider_name].load(ref);
-            }
-        },
-    }, element.label ? { className: `${className} ${element.label}` } : { className });
-    const embedHtml = h("div", { innerHTML: element.oembed.html });
-    return h("div", Object.assign({}, propsWithUniqueKey(props, key)), embedHtml);
+  if (embeds[element.oembed.provider_name]) {
+    createScript(embeds[element.oembed.provider_name]);
+  }
+  const className = `embed embed-${element.oembed.provider_name.toLowerCase()}`;
+  const props = Object.assign({
+    'data-oembed': element.oembed.embed_url,
+    'data-oembed-type': element.oembed.type,
+    'data-oembed-provider': element.oembed.provider_name,
+    ref: (ref) => {
+      if (embeds[element.oembed.provider_name]) {
+        embeds[element.oembed.provider_name].load(ref);
+      }
+    },
+  }, element.label ? { className: `${className} ${element.label}` } : { className });
+  const embedHtml = hAsync("div", { innerHTML: element.oembed.html });
+  return hAsync("div", Object.assign({}, propsWithUniqueKey(props, key)), embedHtml);
 }
 const PrismicRichText = (_a, _, utils) => {
-    var { richText, linkResolver, htmlSerializerProp = htmlSerializer, routerLink, router, paragraphLevel, poster, leading } = _a, props = __rest$9(_a, ["richText", "linkResolver", "htmlSerializerProp", "routerLink", "router", "paragraphLevel", "poster", "leading"]);
-    // I hate doing this with closure shenanigans, but there aren't many good ways
-    // to pass data through the Prismic library's serialize function to the custom
-    // serializer ~pg
-    ParagraphLevel = paragraphLevel > 0 && paragraphLevel < 7 ? paragraphLevel : undefined;
-    Poster = poster;
-    Leading = leading;
-    const serializedChildren = PrismicRichTextLib.serialize(richText, (...args) => serialize.apply(null, [linkResolver, {}, ...args, routerLink, router]), 
-    // serialize.bind(null, linkResolver, {}), 
-    htmlSerializerProp);
-    return utils.map(serializedChildren, Child => {
-        Child.vattrs = applyProps(props, Child.vattrs);
-        return Child;
-    });
+  var { richText, linkResolver, htmlSerializerProp = htmlSerializer, routerLink, router, paragraphLevel, poster, leading } = _a, props = __rest$9(_a, ["richText", "linkResolver", "htmlSerializerProp", "routerLink", "router", "paragraphLevel", "poster", "leading"]);
+  // I hate doing this with closure shenanigans, but there aren't many good ways
+  // to pass data through the Prismic library's serialize function to the custom
+  // serializer ~pg
+  ParagraphLevel = paragraphLevel > 0 && paragraphLevel < 7 ? paragraphLevel : undefined;
+  Poster = poster;
+  Leading = leading;
+  const serializedChildren = PrismicRichTextLib.serialize(richText, (...args) => serialize.apply(null, [linkResolver, {}, ...args, routerLink, router]), 
+  // serialize.bind(null, linkResolver, {}), 
+  htmlSerializerProp);
+  return utils.map(serializedChildren, Child => {
+    Child.vattrs = applyProps(props, Child.vattrs);
+    return Child;
+  });
+};
+
+const SliceNormalText = ({ slice }) => (hAsync(PrismicRichText, { richText: slice.primary.content, htmlSerializer: htmlSerializer }));
+const SliceRawHtml = ({ slice }) => (hAsync("div", { class: "prismic-raw-html", innerHTML: slice.primary.html_content.map((c) => c.text).join('') }));
+const SliceQuote = ({ slice }) => (hAsync(Blockquote, null,
+  hAsync("div", null,
+    hAsync(PrismicRichText, { richText: slice.primary.quote })),
+  slice.primary.name ? (hAsync("cite", null,
+    slice.primary.name,
+    hAsync("span", null, slice.primary.description))) : null));
+const SliceFloatingImage = ({ slice }) => (hAsync("figure", null,
+  hAsync("img", { loading: 'lazy', src: slice.primary.illustration.url, alt: slice.primary.illustration.alt })));
+const SliceAd = ({ slice }) => {
+  return (hAsync("aside", { class: "prismic-ad" },
+    hAsync("a", { href: slice.primary.link.url, target: slice.primary.link.target },
+      hAsync(PrismicRichText, { richText: slice.primary.text }),
+      hAsync("img", { class: "prismic-ad__image", loading: 'lazy', alt: slice.primary.image.alt, height: parseInt(slice.primary.image.dimensions.height, 10) / 2, width: parseInt(slice.primary.image.dimensions.width, 10) / 2, src: slice.primary.image.url, srcset: `${slice.primary.image['1x'].url} 1x, ${slice.primary.image.url} 2x` }))));
+};
+const PrismicBodySlice = ({ slice, key }) => {
+  switch (slice.slice_type) {
+    case 'normal_text':
+      return hAsync(SliceNormalText, { slice: slice, key: key });
+    case 'raw_html':
+      return hAsync(SliceRawHtml, { slice: slice, key: key });
+    case 'quote':
+      return hAsync(SliceQuote, { slice: slice, key: key });
+    case 'floating_image':
+      return hAsync(SliceFloatingImage, { slice: slice, key: key });
+    case 'ad':
+      return hAsync(SliceAd, { slice: slice, key: key });
+  }
+  return null;
+};
+
+const PrismicContent = ({ content }) => content.map((c, i) => hAsync(PrismicBodySlice, { slice: c, key: i }));
+
+var __rest$a = (undefined && undefined.__rest) || function (s, e) {
+  var t = {};
+  for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+    t[p] = s[p];
+  if (s != null && typeof Object.getOwnPropertySymbols === "function")
+    for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+      if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+        t[p[i]] = s[p[i]];
+    }
+  return t;
+};
+const PrismicResponsiveImage = (_a) => {
+  var { image, loading = 'lazy', params, width, height } = _a, props = __rest$a(_a, ["image", "loading", "params", "width", "height"]);
+  const paramString = params ?
+    Object.entries(params).reduce((acc, cur) => {
+      const regex = new RegExp(`\\?.*${cur[0]}=`);
+      if (!image.url.match(regex)) {
+        return `${acc}${acc.match(/^\?$/) ? '' : '&'}${cur.join('=')}`;
+      }
+      return acc;
+    }, image.url.match(/\?/) ? '' : '?') : '';
+  const imageUrl = new URL(image.url + paramString);
+  const dimensions = {
+    'width': width ? width : imageUrl.searchParams.get('w'),
+    'height': height ? height : imageUrl.searchParams.get('h'),
+  };
+  return (hAsync("img", Object.assign({}, applyProps(props), { loading: loading, src: `${imageUrl}` }, { 'srcset': image['1x'] ? `${image['1x'].url}${paramString} 1x, ${imageUrl} 2x` : undefined }, dimensions, { alt: image.alt })));
 };
 
 const importGsap = (callback) => {
@@ -6754,9 +6859,9 @@ class AppflowActivator {
       });
       this.setIntersectionHelper();
     };
-    this.render = () => (h(Host, { style: {
+    this.render = () => (hAsync(Host, { style: {
         '--max-image-width': this.maxImageWidth + 'px'
-      } }, h("div", { class: "app-screenshot" }, h("div", { class: "images" }, h("div", { class: "images__wrapper", style: { 'height': this.imageHeight + 'px' } }, this.screens.map((screen, i) => (h("img", { class: `screen ${i === this.currentScreen ? 'animate-in' : 'animate-out'}`, src: screen.image, width: "2400", height: "1280", loading: i === 0 ? 'eager' : 'lazy', style: { 'position': i !== 0 ? 'absolute' : undefined }, alt: screen.description }))))), h("div", { class: "nav" }, h(ResponsiveContainer, null, h("ul", null, this.screens.map((screen, i) => h("li", { class: (i === this.currentScreen) ? 'active' : 'default', onMouseEnter: () => { this.override(i); this.tween.pause(); }, onMouseLeave: () => this.tween.play() }, screen.icon(i === this.currentScreen ? 'active' : 'default'), h(Heading, { level: 5 }, screen.name), h(Paragraph, { level: 4 }, screen.description), h("div", { class: "indicator", ref: el => this.indicators[i] = el })))))))));
+      } }, hAsync("div", { class: "app-screenshot" }, hAsync("div", { class: "images" }, hAsync("div", { class: "images__wrapper", style: { 'height': this.imageHeight + 'px' } }, this.screens.map((screen, i) => (hAsync("img", { class: `screen ${i === this.currentScreen ? 'animate-in' : 'animate-out'}`, src: screen.image, width: "2400", height: "1280", loading: i === 0 ? 'eager' : 'lazy', style: { 'position': i !== 0 ? 'absolute' : undefined }, alt: screen.description }))))), hAsync("div", { class: "nav" }, hAsync(ResponsiveContainer, null, hAsync("ul", null, this.screens.map((screen, i) => hAsync("li", { class: (i === this.currentScreen) ? 'active' : 'default', onMouseEnter: () => { this.override(i); this.tween.pause(); }, onMouseLeave: () => this.tween.play() }, screen.icon(i === this.currentScreen ? 'active' : 'default'), hAsync(Heading, { level: 5 }, screen.name), hAsync(Paragraph, { level: 4 }, screen.description), hAsync("div", { class: "indicator", ref: el => this.indicators[i] = el })))))))));
   }
   componentWillLoad() {
     this.updateItemOffsets();
@@ -6842,7 +6947,7 @@ class AppflowSiteRoutes {
     });
   }
   render() {
-    return (h(Host, null, h(Router.Switch, null, h(Route, { path: match('/', { exact: true }) }, h("landing-page", null)), h(Route, { path: match('/blog', { exact: true }) }, h("blog-page", { viewMode: "previews" })), h(Route, { path: match('/blog/:slug'), render: ({ slug }) => h("blog-page", { slug: slug, viewMode: "detail" }) }), h(Route, { path: "/why-appflow" }, h("why-appflow", null)), h(Route, { path: "/pricing" }, h("pricing-page", null)), h(Route, { path: "/privacy-policy" }, h("markdown-page", { file: "privacy-policy" })), h(Route, { path: "/tos" }, h("markdown-page", { file: "tos" })))));
+    return (hAsync(Host, null, hAsync(Router.Switch, null, hAsync(Route, { path: match('/', { exact: true }) }, hAsync("landing-page", null)), hAsync(Route, { path: match('/blog', { exact: true }) }, hAsync("blog-page", { viewMode: "previews" })), hAsync(Route, { path: match('/blog/:slug'), render: ({ slug }) => hAsync("blog-page", { slug: slug, viewMode: "detail" }) }), hAsync(Route, { path: "/why-appflow" }, hAsync("why-appflow", null)), hAsync(Route, { path: "/pricing" }, hAsync("pricing-page", null)), hAsync(Route, { path: "/privacy-policy" }, hAsync("markdown-page", { file: "privacy-policy" })), hAsync(Route, { path: "/tos" }, hAsync("markdown-page", { file: "tos" })))));
   }
   static get style() { return appflowSiteRoutesCss; }
   static get cmpMeta() { return {
@@ -6855,7 +6960,7 @@ class AppflowSiteRoutes {
   }; }
 }
 
-const blogNewsletterCss = ".sc-blog-newsletter-h{display:block;border-radius:var(--radius-2);background:var(--c-lavender-0);padding:40px 32px}.heading-group.sc-blog-newsletter .ui-heading.sc-blog-newsletter{color:var(--c-lavender-90)}.heading-group.sc-blog-newsletter .ui-paragraph.sc-blog-newsletter{color:var(--c-lavender-60)}.form.sc-blog-newsletter .form-message.sc-blog-newsletter{display:flex;align-items:center}.form.sc-blog-newsletter .form-message.sc-blog-newsletter ion-icon.sc-blog-newsletter{font-size:32px;color:#597EFF;margin-inline-end:var(--space-3)}.form.sc-blog-newsletter form.sc-blog-newsletter{position:relative;display:flex;align-items:center;max-width:320px}.form.sc-blog-newsletter form.sc-blog-newsletter input.sc-blog-newsletter{border-radius:var(--radius-4);border:none;padding:15px 44px 15px 16px;width:100%;height:44px}.form.sc-blog-newsletter form.sc-blog-newsletter input.sc-blog-newsletter::placeholder{color:var(--c-indigo-60);font-size:var(--p4-size);letter-spacing:var(--p4-tracking);line-height:var(--p4-leading);line-height:100%;font-family:var(--font-family-text)}.form.sc-blog-newsletter form.sc-blog-newsletter button.sc-blog-newsletter{display:flex;align-items:center;position:absolute;right:14px;font-size:20px;color:var(--c-lavender-80);opacity:0.4}";
+const blogNewsletterCss = ".sc-blog-newsletter-h{display:block;border-radius:var(--radius-2);background:var(--c-lavender-0);padding:40px 32px}.heading-group.sc-blog-newsletter .ui-heading.sc-blog-newsletter{color:var(--c-lavender-90)}.heading-group.sc-blog-newsletter .ui-paragraph.sc-blog-newsletter{color:var(--c-lavender-60)}.form.sc-blog-newsletter .form-message.sc-blog-newsletter{display:flex;align-items:center}.form.sc-blog-newsletter .form-message.sc-blog-newsletter ion-icon.sc-blog-newsletter{font-size:32px;color:#597EFF;margin-inline-end:var(--space-3)}.form.sc-blog-newsletter form.sc-blog-newsletter{position:relative;display:flex;align-items:center;max-width:320px}.form.sc-blog-newsletter form.sc-blog-newsletter input.sc-blog-newsletter{border-radius:var(--radius-4);border:none;padding:15px 44px 15px 16px;width:100%;height:44px;box-shadow:var(--elevation-2)}.form.sc-blog-newsletter form.sc-blog-newsletter input.sc-blog-newsletter::placeholder{color:var(--c-indigo-60);font-size:var(--p4-size);letter-spacing:var(--p4-tracking);line-height:var(--p4-leading);line-height:100%;font-family:var(--font-family-text)}.form.sc-blog-newsletter form.sc-blog-newsletter button.sc-blog-newsletter{display:flex;align-items:center;position:absolute;right:14px;font-size:20px;color:var(--c-lavender-80);opacity:0.4}";
 
 class BlogNewsletter {
   constructor(hostRef) {
@@ -6865,10 +6970,10 @@ class BlogNewsletter {
     this.hasSubmitted = false;
     this.isValid = true;
     this.inlineMessage = '';
-    this.render = () => (h(Host, null, h(Grid, null, h(Col, { class: "heading-group", cols: 12, xs: 6 }, h(Heading, { class: "title", level: 4 }, "Get our newsletter"), h(Paragraph, { level: 4 }, "Never spam. Only the good stuff.")), h(Col, { cols: 12, xs: 6 }, h("div", { class: "form" }, this.hasSubmitted
-      ? h("div", { class: "form-message" }, h("ion-icon", { name: "checkmark-circle" }), h(Paragraph, null, this.handleInlineMessage(this.inlineMessage)))
-      : h("form", { onSubmit: (e) => this.handleNewsletterSubmit(e) }, h("input", { name: "email", type: "email", value: this.email, onInput: () => this.handleEmailChange(event), disabled: this.isLoading, placeholder: "Email address", class: { 'error': this.isValid, 'ui-paragraph-4': true }, "aria-label": "Email", required: true }), h("button", { class: "button", type: "submit", disabled: this.isLoading || this.hasSubmitted }, h("ion-icon", { name: "arrow-forward-sharp" })), !this.isValid &&
-        h(Paragraph, { level: 5, class: "error-message" }, this.inlineMessage)))))));
+    this.render = () => (hAsync(Host, null, hAsync(Grid, null, hAsync(Col, { class: "heading-group", cols: 12, xs: 6 }, hAsync(Heading, { class: "title", level: 4 }, "Get our newsletter"), hAsync(Paragraph, { level: 4 }, "Never spam. Only the good stuff.")), hAsync(Col, { cols: 12, xs: 6 }, hAsync("div", { class: "form" }, this.hasSubmitted
+      ? hAsync("div", { class: "form-message" }, hAsync("ion-icon", { name: "checkmark-circle" }), hAsync(Paragraph, null, this.handleInlineMessage(this.inlineMessage)))
+      : hAsync("form", { onSubmit: (e) => this.handleNewsletterSubmit(e) }, hAsync("input", { name: "email", type: "email", value: this.email, onInput: () => this.handleEmailChange(event), disabled: this.isLoading, placeholder: "Email address", class: { 'error': this.isValid, 'ui-paragraph-4': true }, "aria-label": "Email", required: true }), hAsync("button", { class: "button", type: "submit", disabled: this.isLoading || this.hasSubmitted }, hAsync("ion-icon", { name: "arrow-forward-sharp" })), !this.isValid &&
+        hAsync(Paragraph, { level: 5, class: "error-message" }, this.inlineMessage)))))));
   }
   handleNewsletterSubmit(e) {
     e.preventDefault();
@@ -6948,9 +7053,10 @@ var posts = [
 		authorName: "Max Lynch",
 		authorEmail: "max@ionic.io",
 		authorUrl: "https://twitter.com/maxlynch",
+		authorImageName: "max-lynch.jpg",
 		slug: "how-to-build-your-mobile-ci-cd-solution-on-jenkins-circleci-azure-devops",
 		date: "2020-08-18T15:00:00.000Z",
-		contents: "---\ntitle: Building a robust Mobile CI/CD pipeline on Jenkins/Circle CI/Azure/etc.\ndescription: What does it take to build a scalable, robust Mobile CI/CD pipeline on popular services such as Jenkins, Circle CI, or Azure DevOps?\nslug: how-to-build-your-mobile-ci-cd-solution-on-jenkins-circleci-azure-devops\ndate: 2020-08-18 15:00:00\nauthor: Max Lynch <max@ionic.io>\nauthorUrl: https://twitter.com/maxlynch\n---\n\nEnterprise teams building mobile apps are looking to add Mobile CI/CD capabilities to their existing CI/CD workflows in use for their backend and frontend web apps.\n\nTeams running or using Jenkins, Circle CI, Azure or AWS CI/CD solutions, and more, often ask how they can start to continuously build, test, and deploy their mobile apps utilizing their existing CI/CD investments.\n\nWhile it’s possible to do so, it’s important to understand the aspects that make Mobile CI/CD uniquely challenging, and why there’s a good chance your team should buy rather than build their own solution for mobile builds.\n\nBefore jumping in, if you’re new to Mobile CI/CD, take a look at our introduction to Mobile CI/CD to understand what tasks are required to build, test, and deploy mobile apps in a continuous fashion.\n\nWith that in mind, what would a team need to build in order to add Mobile CI/CD capabilities to their existing CI/CD service and workflows?\n\n<!--more-->\n\n## Step 1: Integration with Git provider\n\nA source code repository is the central point for any app, so a Mobile CI/CD workflow will need to connect and integrate with your source repository host.\n\nDepending on your provider, this could mean integrating with GitHub Enterprise, GitLab Enterprise, BitBucket, Azure/AWS code hosting, or another popular provider.\n\n## Step 2: Trigger builds on commits\n\nOnce a connection has been made to your source code repository, a system needs to be set up to trigger builds on each commit, across all branches in your project. That means integrating with the API for the given provider, handling web hooks on commits, and then processing the updated code to perform builds.\n\n## Step 3: Run iOS and Android Build Infrastructure\n\nTo perform builds, specialized infrastructure needs to be set up to enable iOS and Android builds at the very least, and possibly builds for web if building Progressive Web Apps or hybrid apps (Ionic/Capacitor, Cordova, React Native, etc).\n\nFor iOS, this means running genuine, legal Mac hardware with updated versions of macOS. Running Mac servers is not straightforward as it’s not as easily or legally virtualized as Linux. Teams will need to run physical mac hardware (such as Mac minis or Macbook Pros) which means data center colocation.\n\nThese servers then need to be orchestrated, routinely patched for security issues, kept up to date with yearly mobile OS and SDK updates.\n\n## Step 4: Make that infrastructure scalable and flexible\n\nOf course, running the server infrastructure for mobile builds is just one piece of the infrastructure puzzle. Mobile builds are resource-intensive, so teams will need to invest in making server resources elastic and scale to meet build demand. This will keep engineers productive and help them avoid wasting valuable time waiting for someone else’s build to finish.\n\n## Step 5: Manage certificates\n\nMobile build tooling requires extensive code signing, which means managing extremely sensitive signing credentials and certificates.\n\nA Mobile CI/CD solution will need a powerful certificate management system that keeps certificates encrypted and secure until needed for code signing.\n\n## Step 6: For Hybrid apps, enable remote deploys\n\nDevelopers of hybrid apps, such as those built with Ionic Framework, Capacitor, Cordova, and React Native, expect to be able to update the web code of their apps remotely and in realtime. That means being able to push fixes and updates without needing to resubmit to the app stores.\n\nA proper Mobile CI/CD solution for these teams will come with remove deploy features to give these developers the agility they expect.\n\n## Step 7: Set up infrastructure to manage development, beta, and production channels\n\nMobile app teams need to deploy different versions of their app to different people, whether those are beta testers, coworkers, stakeholders, or customers.\n\nFor beta testing, teams will need to submit those apps to testing tools such as Testflight.\n\nMany mobile teams utilize homegrown versioning to build beta, testing, and production versions of their app. A Mobile CI/CD solution will need a way to support this use case.\n\n## Step 8: Automatically deploy apps to Apple App Store and Google Play Store\n\nOne of the most time consuming and frustration inducing aspects of mobile development is uploading and publishing apps to the Apple App Store and Google Play Store.\n\nThankfully, these steps can be automated with sufficiently advanced tooling. Mobile CI/CD solutions will likely offer the way to automatically upload builds to the app stores to avoid this tedious process.\n\n## Step 9: Support multiple “build stacks” for different app OS/SDK version requirements\n\nMany apps have different mobile OS and tooling version requirements. Those apps will need to have some control over which version of tools like Xcode, macOS, etc they build on.\n\nA proper Mobile CI/CD solution will enable some control over the build stack for an app.\n\n## Step 10: Set up process to upgrade and security patch operating systems, servers, tooling, and more\n\nA cornerstone of mobile is the (at least!) yearly OS and device refresh and launch cycle.\n\nMobile tooling changes rapidly, far more so than typical backend or frontend environments. New versions of iOS and Android are released, along with new device features, and corresponding API, build tooling, and OS upgrade requirements.\n\nThis means teams need to frequently upgrade servers, operating systems, and build environments.\n\nThis is in addition to the typical work of patching operating systems and tooling for security issues which is a full time job.\n\nMobile CI/CD platforms will upgrade their build environments frequently, and patch security flaws on a constant basis.\n\n## Step 11: Provide a nice UI for the above features\n\nBeyond infrastructure, many of the above processes require UI for users to setup, configure, and monitor their builds. \n\nIt’s likely this UI will need to be built as general purpose CI/CD tooling does not typically have the above features for mobile builds.\n\n## Hiring to build Mobile CI/CD infrastructure\n\nOne thing you’ll note about the above steps is they require a different type of engineering skill than the mobile team has, so your team will need to find a way to hire backend engineers, server administrators, data center administrators, and DevOps engineers.\n\nFor running iOS build infrastructure, teams will also need unique macOS server administrators which is a pretty rare skill as macOS is very rarely used as server infrastructure.\n\n## What about an off-the-shelf solution?\n\nMany mobile teams, when faced with the requirements needed to build scalable, reliable, and secure Mobile CI/CD infrastructure for their mobile apps, realize they would be better served buying an off-the-shelf solution instead of building their own.\n\nThe Mobile CI/CD market has a number of companies providing their solution to the challenges of Mobile CI/CD.\n\nOne of the leaders is [Appflow](https://useappflow.com/), created by the [team](https://ionic.io/) behind [Ionic Framework](https://ionicframework.com/). Appflow is used by thousands of companies and a significant portion of the Fortune 1000, helping teams like Burger King, AAA, and Shipt ensure mobile app quality and ship at the speed of development.\n\nThe Appflow team features some of the leading experts in mobile and backend build infrastructure, and hires for unique experience that mobile teams likely do not have (or need!), so your team does not. The team has spent years building solutions to the above problems and is focused exclusively on providing a Mobile CI/CD solution to teams and enterprise users.\n\n## Conclusion\n\nMobile CI/CD is considerably more complex than traditional CI/CD, and requires specialized skills, server infrastructure, and features. While it’s possible for mobile teams to build their own Mobile CI/CD on top of general purpose CI/CD tooling such as Jenkins or Circle CI, doing so requires a massive investment and hiring for rare engineering skills.\n\nGenerally, teams will want to purchase an off-the-shelf, Mobile-specific solution such as [Appflow](https://useappflow.com/) so they can focus on what they do best: building a great mobile experience.\n\n",
+		contents: "---\ntitle: Building a robust Mobile CI/CD pipeline on Jenkins/Circle CI/Azure/etc.\ndescription: What does it take to build a scalable, robust Mobile CI/CD pipeline on popular services such as Jenkins, Circle CI, or Azure DevOps?\nslug: how-to-build-your-mobile-ci-cd-solution-on-jenkins-circleci-azure-devops\ndate: 2020-08-18 15:00:00\nauthor: Max Lynch <max@ionic.io>\nauthorUrl: https://twitter.com/maxlynch\nauthorImageName: max-lynch.jpg\n---\n\nEnterprise teams building mobile apps are looking to add Mobile CI/CD capabilities to their existing CI/CD workflows in use for their backend and frontend web apps.\n\nTeams running or using Jenkins, Circle CI, Azure or AWS CI/CD solutions, and more, often ask how they can start to continuously build, test, and deploy their mobile apps utilizing their existing CI/CD investments.\n\nWhile it’s possible to do so, it’s important to understand the aspects that make Mobile CI/CD uniquely challenging, and why there’s a good chance your team should buy rather than build their own solution for mobile builds.\n\nBefore jumping in, if you’re new to Mobile CI/CD, take a look at our introduction to Mobile CI/CD to understand what tasks are required to build, test, and deploy mobile apps in a continuous fashion.\n\nWith that in mind, what would a team need to build in order to add Mobile CI/CD capabilities to their existing CI/CD service and workflows?\n\n<!--more-->\n\n## Step 1: Integration with Git provider\n\nA source code repository is the central point for any app, so a Mobile CI/CD workflow will need to connect and integrate with your source repository host.\n\nDepending on your provider, this could mean integrating with GitHub Enterprise, GitLab Enterprise, BitBucket, Azure/AWS code hosting, or another popular provider.\n\n## Step 2: Trigger builds on commits\n\nOnce a connection has been made to your source code repository, a system needs to be set up to trigger builds on each commit, across all branches in your project. That means integrating with the API for the given provider, handling web hooks on commits, and then processing the updated code to perform builds.\n\n## Step 3: Run iOS and Android Build Infrastructure\n\nTo perform builds, specialized infrastructure needs to be set up to enable iOS and Android builds at the very least, and possibly builds for web if building Progressive Web Apps or hybrid apps (Ionic/Capacitor, Cordova, React Native, etc).\n\nFor iOS, this means running genuine, legal Mac hardware with updated versions of macOS. Running Mac servers is not straightforward as it’s not as easily or legally virtualized as Linux. Teams will need to run physical mac hardware (such as Mac minis or Macbook Pros) which means data center colocation.\n\nThese servers then need to be orchestrated, routinely patched for security issues, kept up to date with yearly mobile OS and SDK updates.\n\n## Step 4: Make that infrastructure scalable and flexible\n\nOf course, running the server infrastructure for mobile builds is just one piece of the infrastructure puzzle. Mobile builds are resource-intensive, so teams will need to invest in making server resources elastic and scale to meet build demand. This will keep engineers productive and help them avoid wasting valuable time waiting for someone else’s build to finish.\n\n## Step 5: Manage certificates\n\nMobile build tooling requires extensive code signing, which means managing extremely sensitive signing credentials and certificates.\n\nA Mobile CI/CD solution will need a powerful certificate management system that keeps certificates encrypted and secure until needed for code signing.\n\n## Step 6: For Hybrid apps, enable remote deploys\n\nDevelopers of hybrid apps, such as those built with Ionic Framework, Capacitor, Cordova, and React Native, expect to be able to update the web code of their apps remotely and in realtime. That means being able to push fixes and updates without needing to resubmit to the app stores.\n\nA proper Mobile CI/CD solution for these teams will come with remove deploy features to give these developers the agility they expect.\n\n## Step 7: Set up infrastructure to manage development, beta, and production channels\n\nMobile app teams need to deploy different versions of their app to different people, whether those are beta testers, coworkers, stakeholders, or customers.\n\nFor beta testing, teams will need to submit those apps to testing tools such as Testflight.\n\nMany mobile teams utilize homegrown versioning to build beta, testing, and production versions of their app. A Mobile CI/CD solution will need a way to support this use case.\n\n## Step 8: Automatically deploy apps to Apple App Store and Google Play Store\n\nOne of the most time consuming and frustration inducing aspects of mobile development is uploading and publishing apps to the Apple App Store and Google Play Store.\n\nThankfully, these steps can be automated with sufficiently advanced tooling. Mobile CI/CD solutions will likely offer the way to automatically upload builds to the app stores to avoid this tedious process.\n\n## Step 9: Support multiple “build stacks” for different app OS/SDK version requirements\n\nMany apps have different mobile OS and tooling version requirements. Those apps will need to have some control over which version of tools like Xcode, macOS, etc they build on.\n\nA proper Mobile CI/CD solution will enable some control over the build stack for an app.\n\n## Step 10: Set up process to upgrade and security patch operating systems, servers, tooling, and more\n\nA cornerstone of mobile is the (at least!) yearly OS and device refresh and launch cycle.\n\nMobile tooling changes rapidly, far more so than typical backend or frontend environments. New versions of iOS and Android are released, along with new device features, and corresponding API, build tooling, and OS upgrade requirements.\n\nThis means teams need to frequently upgrade servers, operating systems, and build environments.\n\nThis is in addition to the typical work of patching operating systems and tooling for security issues which is a full time job.\n\nMobile CI/CD platforms will upgrade their build environments frequently, and patch security flaws on a constant basis.\n\n## Step 11: Provide a nice UI for the above features\n\nBeyond infrastructure, many of the above processes require UI for users to setup, configure, and monitor their builds. \n\nIt’s likely this UI will need to be built as general purpose CI/CD tooling does not typically have the above features for mobile builds.\n\n## Hiring to build Mobile CI/CD infrastructure\n\nOne thing you’ll note about the above steps is they require a different type of engineering skill than the mobile team has, so your team will need to find a way to hire backend engineers, server administrators, data center administrators, and DevOps engineers.\n\nFor running iOS build infrastructure, teams will also need unique macOS server administrators which is a pretty rare skill as macOS is very rarely used as server infrastructure.\n\n## What about an off-the-shelf solution?\n\nMany mobile teams, when faced with the requirements needed to build scalable, reliable, and secure Mobile CI/CD infrastructure for their mobile apps, realize they would be better served buying an off-the-shelf solution instead of building their own.\n\nThe Mobile CI/CD market has a number of companies providing their solution to the challenges of Mobile CI/CD.\n\nOne of the leaders is [Appflow](https://useappflow.com/), created by the [team](https://ionic.io/) behind [Ionic Framework](https://ionicframework.com/). Appflow is used by thousands of companies and a significant portion of the Fortune 1000, helping teams like Burger King, AAA, and Shipt ensure mobile app quality and ship at the speed of development.\n\nThe Appflow team features some of the leading experts in mobile and backend build infrastructure, and hires for unique experience that mobile teams likely do not have (or need!), so your team does not. The team has spent years building solutions to the above problems and is focused exclusively on providing a Mobile CI/CD solution to teams and enterprise users.\n\n## Conclusion\n\nMobile CI/CD is considerably more complex than traditional CI/CD, and requires specialized skills, server infrastructure, and features. While it’s possible for mobile teams to build their own Mobile CI/CD on top of general purpose CI/CD tooling such as Jenkins or Circle CI, doing so requires a massive investment and hiring for rare engineering skills.\n\nGenerally, teams will want to purchase an off-the-shelf, Mobile-specific solution such as [Appflow](https://useappflow.com/) so they can focus on what they do best: building a great mobile experience.\n\n",
 		preview: "<p>Enterprise teams building mobile apps are looking to add Mobile CI/CD capabilities to their existing CI/CD workflows in use for their backend and frontend web apps.</p>\n<p>Teams running or using Jenkins, Circle CI, Azure or AWS CI/CD solutions, and more, often ask how they can start to continuously build, test, and deploy their mobile apps utilizing their existing CI/CD investments.</p>\n<p>While it’s possible to do so, it’s important to understand the aspects that make Mobile CI/CD uniquely challenging, and why there’s a good chance your team should buy rather than build their own solution for mobile builds.</p>\n<p>Before jumping in, if you’re new to Mobile CI/CD, take a look at our introduction to Mobile CI/CD to understand what tasks are required to build, test, and deploy mobile apps in a continuous fashion.</p>\n<p>With that in mind, what would a team need to build in order to add Mobile CI/CD capabilities to their existing CI/CD service and workflows?</p>\n",
 		html: "<p>Enterprise teams building mobile apps are looking to add Mobile CI/CD capabilities to their existing CI/CD workflows in use for their backend and frontend web apps.</p>\n<p>Teams running or using Jenkins, Circle CI, Azure or AWS CI/CD solutions, and more, often ask how they can start to continuously build, test, and deploy their mobile apps utilizing their existing CI/CD investments.</p>\n<p>While it’s possible to do so, it’s important to understand the aspects that make Mobile CI/CD uniquely challenging, and why there’s a good chance your team should buy rather than build their own solution for mobile builds.</p>\n<p>Before jumping in, if you’re new to Mobile CI/CD, take a look at our introduction to Mobile CI/CD to understand what tasks are required to build, test, and deploy mobile apps in a continuous fashion.</p>\n<p>With that in mind, what would a team need to build in order to add Mobile CI/CD capabilities to their existing CI/CD service and workflows?</p>\n<!--more-->\n\n<h2 id=\"step-1-integration-with-git-provider\">Step 1: Integration with Git provider</h2>\n<p>A source code repository is the central point for any app, so a Mobile CI/CD workflow will need to connect and integrate with your source repository host.</p>\n<p>Depending on your provider, this could mean integrating with GitHub Enterprise, GitLab Enterprise, BitBucket, Azure/AWS code hosting, or another popular provider.</p>\n<h2 id=\"step-2-trigger-builds-on-commits\">Step 2: Trigger builds on commits</h2>\n<p>Once a connection has been made to your source code repository, a system needs to be set up to trigger builds on each commit, across all branches in your project. That means integrating with the API for the given provider, handling web hooks on commits, and then processing the updated code to perform builds.</p>\n<h2 id=\"step-3-run-ios-and-android-build-infrastructure\">Step 3: Run iOS and Android Build Infrastructure</h2>\n<p>To perform builds, specialized infrastructure needs to be set up to enable iOS and Android builds at the very least, and possibly builds for web if building Progressive Web Apps or hybrid apps (Ionic/Capacitor, Cordova, React Native, etc).</p>\n<p>For iOS, this means running genuine, legal Mac hardware with updated versions of macOS. Running Mac servers is not straightforward as it’s not as easily or legally virtualized as Linux. Teams will need to run physical mac hardware (such as Mac minis or Macbook Pros) which means data center colocation.</p>\n<p>These servers then need to be orchestrated, routinely patched for security issues, kept up to date with yearly mobile OS and SDK updates.</p>\n<h2 id=\"step-4-make-that-infrastructure-scalable-and-flexible\">Step 4: Make that infrastructure scalable and flexible</h2>\n<p>Of course, running the server infrastructure for mobile builds is just one piece of the infrastructure puzzle. Mobile builds are resource-intensive, so teams will need to invest in making server resources elastic and scale to meet build demand. This will keep engineers productive and help them avoid wasting valuable time waiting for someone else’s build to finish.</p>\n<h2 id=\"step-5-manage-certificates\">Step 5: Manage certificates</h2>\n<p>Mobile build tooling requires extensive code signing, which means managing extremely sensitive signing credentials and certificates.</p>\n<p>A Mobile CI/CD solution will need a powerful certificate management system that keeps certificates encrypted and secure until needed for code signing.</p>\n<h2 id=\"step-6-for-hybrid-apps-enable-remote-deploys\">Step 6: For Hybrid apps, enable remote deploys</h2>\n<p>Developers of hybrid apps, such as those built with Ionic Framework, Capacitor, Cordova, and React Native, expect to be able to update the web code of their apps remotely and in realtime. That means being able to push fixes and updates without needing to resubmit to the app stores.</p>\n<p>A proper Mobile CI/CD solution for these teams will come with remove deploy features to give these developers the agility they expect.</p>\n<h2 id=\"step-7-set-up-infrastructure-to-manage-development-beta-and-production-channels\">Step 7: Set up infrastructure to manage development, beta, and production channels</h2>\n<p>Mobile app teams need to deploy different versions of their app to different people, whether those are beta testers, coworkers, stakeholders, or customers.</p>\n<p>For beta testing, teams will need to submit those apps to testing tools such as Testflight.</p>\n<p>Many mobile teams utilize homegrown versioning to build beta, testing, and production versions of their app. A Mobile CI/CD solution will need a way to support this use case.</p>\n<h2 id=\"step-8-automatically-deploy-apps-to-apple-app-store-and-google-play-store\">Step 8: Automatically deploy apps to Apple App Store and Google Play Store</h2>\n<p>One of the most time consuming and frustration inducing aspects of mobile development is uploading and publishing apps to the Apple App Store and Google Play Store.</p>\n<p>Thankfully, these steps can be automated with sufficiently advanced tooling. Mobile CI/CD solutions will likely offer the way to automatically upload builds to the app stores to avoid this tedious process.</p>\n<h2 id=\"step-9-support-multiple-build-stacks-for-different-app-ossdk-version-requirements\">Step 9: Support multiple “build stacks” for different app OS/SDK version requirements</h2>\n<p>Many apps have different mobile OS and tooling version requirements. Those apps will need to have some control over which version of tools like Xcode, macOS, etc they build on.</p>\n<p>A proper Mobile CI/CD solution will enable some control over the build stack for an app.</p>\n<h2 id=\"step-10-set-up-process-to-upgrade-and-security-patch-operating-systems-servers-tooling-and-more\">Step 10: Set up process to upgrade and security patch operating systems, servers, tooling, and more</h2>\n<p>A cornerstone of mobile is the (at least!) yearly OS and device refresh and launch cycle.</p>\n<p>Mobile tooling changes rapidly, far more so than typical backend or frontend environments. New versions of iOS and Android are released, along with new device features, and corresponding API, build tooling, and OS upgrade requirements.</p>\n<p>This means teams need to frequently upgrade servers, operating systems, and build environments.</p>\n<p>This is in addition to the typical work of patching operating systems and tooling for security issues which is a full time job.</p>\n<p>Mobile CI/CD platforms will upgrade their build environments frequently, and patch security flaws on a constant basis.</p>\n<h2 id=\"step-11-provide-a-nice-ui-for-the-above-features\">Step 11: Provide a nice UI for the above features</h2>\n<p>Beyond infrastructure, many of the above processes require UI for users to setup, configure, and monitor their builds. </p>\n<p>It’s likely this UI will need to be built as general purpose CI/CD tooling does not typically have the above features for mobile builds.</p>\n<h2 id=\"hiring-to-build-mobile-cicd-infrastructure\">Hiring to build Mobile CI/CD infrastructure</h2>\n<p>One thing you’ll note about the above steps is they require a different type of engineering skill than the mobile team has, so your team will need to find a way to hire backend engineers, server administrators, data center administrators, and DevOps engineers.</p>\n<p>For running iOS build infrastructure, teams will also need unique macOS server administrators which is a pretty rare skill as macOS is very rarely used as server infrastructure.</p>\n<h2 id=\"what-about-an-off-the-shelf-solution\">What about an off-the-shelf solution?</h2>\n<p>Many mobile teams, when faced with the requirements needed to build scalable, reliable, and secure Mobile CI/CD infrastructure for their mobile apps, realize they would be better served buying an off-the-shelf solution instead of building their own.</p>\n<p>The Mobile CI/CD market has a number of companies providing their solution to the challenges of Mobile CI/CD.</p>\n<p>One of the leaders is <a href=\"https://useappflow.com/\">Appflow</a>, created by the <a href=\"https://ionic.io/\">team</a> behind <a href=\"https://ionicframework.com/\">Ionic Framework</a>. Appflow is used by thousands of companies and a significant portion of the Fortune 1000, helping teams like Burger King, AAA, and Shipt ensure mobile app quality and ship at the speed of development.</p>\n<p>The Appflow team features some of the leading experts in mobile and backend build infrastructure, and hires for unique experience that mobile teams likely do not have (or need!), so your team does not. The team has spent years building solutions to the above problems and is focused exclusively on providing a Mobile CI/CD solution to teams and enterprise users.</p>\n<h2 id=\"conclusion\">Conclusion</h2>\n<p>Mobile CI/CD is considerably more complex than traditional CI/CD, and requires specialized skills, server infrastructure, and features. While it’s possible for mobile teams to build their own Mobile CI/CD on top of general purpose CI/CD tooling such as Jenkins or Circle CI, doing so requires a massive investment and hiring for rare engineering skills.</p>\n<p>Generally, teams will want to purchase an off-the-shelf, Mobile-specific solution such as <a href=\"https://useappflow.com/\">Appflow</a> so they can focus on what they do best: building a great mobile experience.</p>\n",
 		meta: {
@@ -6959,7 +7065,8 @@ var posts = [
 			slug: "how-to-build-your-mobile-ci-cd-solution-on-jenkins-circleci-azure-devops",
 			date: "2020-08-18T15:00:00.000Z",
 			author: "Max Lynch <max@ionic.io>",
-			authorUrl: "https://twitter.com/maxlynch"
+			authorUrl: "https://twitter.com/maxlynch",
+			authorImageName: "max-lynch.jpg"
 		}
 	},
 	{
@@ -6968,9 +7075,10 @@ var posts = [
 		authorName: "Max Lynch",
 		authorEmail: "max@ionic.io",
 		authorUrl: "https://twitter.com/maxlynch",
+		authorImageName: "max-lynch.jpg",
 		slug: "how-often-should-your-mobile-team-be-shipping",
 		date: "2020-08-18T12:00:00.000Z",
-		contents: "---\ntitle: How Often Should your Mobile Team Ship?\ndescription: How the best mobile engineering teams work to ship frequently and drive growth\nslug: how-often-should-your-mobile-team-be-shipping\ndate: 2020-08-18 12:00:00\nauthor: Max Lynch <max@ionic.io>\nauthorUrl: https://twitter.com/maxlynch\n---\n\nA feature of highly productive engineering teams is their ability to ship new features and updates frequently.\n\nFor backend and frontend web teams, shipping is straightforward: push a commit to a git repo, trigger a build in CI/CD, and deploy a new version of the code on backend infrastructure or a static hosting service.\n\nBut for Mobile, shipping is a completely different beast, requiring a complex chain of events that culminate in an app store publishing and approval process that goes far beyond anything in the backend and frontend worlds.\n\nEven with this considerable complexity, highly productive mobile teams are shipping frequently, with some shipping multiple times per day!\n\nHow do they do it, and how frequently should your mobile teams be shipping? Let’s take a look at some highly productive mobile teams to find out:\n\n<!--more-->\n\n## How 86 400 ships weekly\n\n[86 400](https://www.86400.com.au/), Australia’s first smartbank, knew they had to meet customers where they are: on mobile. So they built the first mobile banking solution for Australia, providing fast access to savings accounts and their whole financial picture. The other thing customers expect? Frequent updates, features, and bug fixes. To do that, 86 400 reached for [Appflow](https://useappflow.com/), the leading Mobile CI/CD platform from the team behind popular open source project Ionic Framework.\n\n86 400 uses Appflow to ship updates weekly, and has used Appflow’s deploy feature to fix bugs in realtime without the delay of republishing to the app stores.\n\nThe team at 86 400 ships at least after each two week sprint, and sometimes more frequently!\n\n## How Napa Group helps Acker meet bi-weekly deadlines\n\nAcker, the world’s largest auction house for wine, engaged app consultancy Napa Group to build a development process that would help meet the need to run bi-weekly auctions on their mobile app.\n\nWith Appflow, Napa Group found a platform that enabled them to ship at the speed of development, pushing app updates daily and having polished, stable releases ready for each bi-weekly auction.\n\nThis development process would have been impossible without a service like Appflow providing a powerful Mobile CI/CD solution and key features such as live deploy.\n\n## How often should your team be shipping?\n\nThe very best engineering teams ship often, even on mobile. These are just two examples of highly productive mobile teams. The overhead of building and publishing mobile apps is no excuse for these productive mobile teams. In fact, most are shipping weekly.\n\nShipping frequently, even weekly, has a number of major benefits:\n\n* Keeps the app top of mind - it shows up on the user’s device in the App Store updates list\n* Frequent updates demonstrate that you’re committed to the app and that it’s still maintained\n* New features drive business value and grow app adoption\n* Engineering morale is tied strongly to shipping\n\nShipping frequently is certainly better than the opposite. So, how do they do it, and how can your team do it, too?\n\nWell, shipping this frequently on mobile wouldn’t be possible without a powerful Mobile CI/CD solution that continuously builds, tests, and integrates a mobile app after each commit. And for hybrid app developers, being able to push web code updates without app store republishing is another key driver of developer agility.\n\nA leading Mobile CI/CD service with the above features is Appflow, which powers apps for companies like Burger King, AAA, and more.\n\n## Get shipping\n\nIf you’re new to Mobile CI/CD, read more about [what Mobile CI/CD is](/blog/what-is-mobile-ci-cd) and how it differs from traditional CI/CD. If you’ve also been exploring building Mobile CI/CD capabilities on top of existing CI/CD infrastructure, take a look at our post on how you could build your own Appflow-style service, and why you might not want to given the complexity of mobile.\n\nEither way, we hope your team is well on its way to shipping at least weekly and delighting users with frequent updates and bug fixes.\n",
+		contents: "---\ntitle: How Often Should your Mobile Team Ship?\ndescription: How the best mobile engineering teams work to ship frequently and drive growth\nslug: how-often-should-your-mobile-team-be-shipping\ndate: 2020-08-18 12:00:00\nauthor: Max Lynch <max@ionic.io>\nauthorUrl: https://twitter.com/maxlynch\nauthorImageName: max-lynch.jpg\nrelated1: https://ionicframework.com/resources/webinars/hybrid-app-development-redefined\n---\n\nA feature of highly productive engineering teams is their ability to ship new features and updates frequently.\n\nFor backend and frontend web teams, shipping is straightforward: push a commit to a git repo, trigger a build in CI/CD, and deploy a new version of the code on backend infrastructure or a static hosting service.\n\nBut for Mobile, shipping is a completely different beast, requiring a complex chain of events that culminate in an app store publishing and approval process that goes far beyond anything in the backend and frontend worlds.\n\nEven with this considerable complexity, highly productive mobile teams are shipping frequently, with some shipping multiple times per day!\n\nHow do they do it, and how frequently should your mobile teams be shipping? Let’s take a look at some highly productive mobile teams to find out:\n\n<!--more-->\n\n## How 86 400 ships weekly\n\n[86 400](https://www.86400.com.au/), Australia’s first smartbank, knew they had to meet customers where they are: on mobile. So they built the first mobile banking solution for Australia, providing fast access to savings accounts and their whole financial picture. The other thing customers expect? Frequent updates, features, and bug fixes. To do that, 86 400 reached for [Appflow](https://useappflow.com/), the leading Mobile CI/CD platform from the team behind popular open source project Ionic Framework.\n\n86 400 uses Appflow to ship updates weekly, and has used Appflow’s deploy feature to fix bugs in realtime without the delay of republishing to the app stores.\n\nThe team at 86 400 ships at least after each two week sprint, and sometimes more frequently!\n\n## How Napa Group helps Acker meet bi-weekly deadlines\n\nAcker, the world’s largest auction house for wine, engaged app consultancy Napa Group to build a development process that would help meet the need to run bi-weekly auctions on their mobile app.\n\nWith Appflow, Napa Group found a platform that enabled them to ship at the speed of development, pushing app updates daily and having polished, stable releases ready for each bi-weekly auction.\n\nThis development process would have been impossible without a service like Appflow providing a powerful Mobile CI/CD solution and key features such as live deploy.\n\n## How often should your team be shipping?\n\nThe very best engineering teams ship often, even on mobile. These are just two examples of highly productive mobile teams. The overhead of building and publishing mobile apps is no excuse for these productive mobile teams. In fact, most are shipping weekly.\n\nShipping frequently, even weekly, has a number of major benefits:\n\n* Keeps the app top of mind - it shows up on the user’s device in the App Store updates list\n* Frequent updates demonstrate that you’re committed to the app and that it’s still maintained\n* New features drive business value and grow app adoption\n* Engineering morale is tied strongly to shipping\n\nShipping frequently is certainly better than the opposite. So, how do they do it, and how can your team do it, too?\n\nWell, shipping this frequently on mobile wouldn’t be possible without a powerful Mobile CI/CD solution that continuously builds, tests, and integrates a mobile app after each commit. And for hybrid app developers, being able to push web code updates without app store republishing is another key driver of developer agility.\n\nA leading Mobile CI/CD service with the above features is Appflow, which powers apps for companies like Burger King, AAA, and more.\n\n## Get shipping\n\nIf you’re new to Mobile CI/CD, read more about [what Mobile CI/CD is](/blog/what-is-mobile-ci-cd) and how it differs from traditional CI/CD. If you’ve also been exploring building Mobile CI/CD capabilities on top of existing CI/CD infrastructure, take a look at our post on how you could build your own Appflow-style service, and why you might not want to given the complexity of mobile.\n\nEither way, we hope your team is well on its way to shipping at least weekly and delighting users with frequent updates and bug fixes.\n",
 		preview: "<p>A feature of highly productive engineering teams is their ability to ship new features and updates frequently.</p>\n<p>For backend and frontend web teams, shipping is straightforward: push a commit to a git repo, trigger a build in CI/CD, and deploy a new version of the code on backend infrastructure or a static hosting service.</p>\n<p>But for Mobile, shipping is a completely different beast, requiring a complex chain of events that culminate in an app store publishing and approval process that goes far beyond anything in the backend and frontend worlds.</p>\n<p>Even with this considerable complexity, highly productive mobile teams are shipping frequently, with some shipping multiple times per day!</p>\n<p>How do they do it, and how frequently should your mobile teams be shipping? Let’s take a look at some highly productive mobile teams to find out:</p>\n",
 		html: "<p>A feature of highly productive engineering teams is their ability to ship new features and updates frequently.</p>\n<p>For backend and frontend web teams, shipping is straightforward: push a commit to a git repo, trigger a build in CI/CD, and deploy a new version of the code on backend infrastructure or a static hosting service.</p>\n<p>But for Mobile, shipping is a completely different beast, requiring a complex chain of events that culminate in an app store publishing and approval process that goes far beyond anything in the backend and frontend worlds.</p>\n<p>Even with this considerable complexity, highly productive mobile teams are shipping frequently, with some shipping multiple times per day!</p>\n<p>How do they do it, and how frequently should your mobile teams be shipping? Let’s take a look at some highly productive mobile teams to find out:</p>\n<!--more-->\n\n<h2 id=\"how-86-400-ships-weekly\">How 86 400 ships weekly</h2>\n<p><a href=\"https://www.86400.com.au/\">86 400</a>, Australia’s first smartbank, knew they had to meet customers where they are: on mobile. So they built the first mobile banking solution for Australia, providing fast access to savings accounts and their whole financial picture. The other thing customers expect? Frequent updates, features, and bug fixes. To do that, 86 400 reached for <a href=\"https://useappflow.com/\">Appflow</a>, the leading Mobile CI/CD platform from the team behind popular open source project Ionic Framework.</p>\n<p>86 400 uses Appflow to ship updates weekly, and has used Appflow’s deploy feature to fix bugs in realtime without the delay of republishing to the app stores.</p>\n<p>The team at 86 400 ships at least after each two week sprint, and sometimes more frequently!</p>\n<h2 id=\"how-napa-group-helps-acker-meet-bi-weekly-deadlines\">How Napa Group helps Acker meet bi-weekly deadlines</h2>\n<p>Acker, the world’s largest auction house for wine, engaged app consultancy Napa Group to build a development process that would help meet the need to run bi-weekly auctions on their mobile app.</p>\n<p>With Appflow, Napa Group found a platform that enabled them to ship at the speed of development, pushing app updates daily and having polished, stable releases ready for each bi-weekly auction.</p>\n<p>This development process would have been impossible without a service like Appflow providing a powerful Mobile CI/CD solution and key features such as live deploy.</p>\n<h2 id=\"how-often-should-your-team-be-shipping\">How often should your team be shipping?</h2>\n<p>The very best engineering teams ship often, even on mobile. These are just two examples of highly productive mobile teams. The overhead of building and publishing mobile apps is no excuse for these productive mobile teams. In fact, most are shipping weekly.</p>\n<p>Shipping frequently, even weekly, has a number of major benefits:</p>\n<ul>\n<li>Keeps the app top of mind - it shows up on the user’s device in the App Store updates list</li>\n<li>Frequent updates demonstrate that you’re committed to the app and that it’s still maintained</li>\n<li>New features drive business value and grow app adoption</li>\n<li>Engineering morale is tied strongly to shipping</li>\n</ul>\n<p>Shipping frequently is certainly better than the opposite. So, how do they do it, and how can your team do it, too?</p>\n<p>Well, shipping this frequently on mobile wouldn’t be possible without a powerful Mobile CI/CD solution that continuously builds, tests, and integrates a mobile app after each commit. And for hybrid app developers, being able to push web code updates without app store republishing is another key driver of developer agility.</p>\n<p>A leading Mobile CI/CD service with the above features is Appflow, which powers apps for companies like Burger King, AAA, and more.</p>\n<h2 id=\"get-shipping\">Get shipping</h2>\n<p>If you’re new to Mobile CI/CD, read more about <a href=\"/blog/what-is-mobile-ci-cd\">what Mobile CI/CD is</a> and how it differs from traditional CI/CD. If you’ve also been exploring building Mobile CI/CD capabilities on top of existing CI/CD infrastructure, take a look at our post on how you could build your own Appflow-style service, and why you might not want to given the complexity of mobile.</p>\n<p>Either way, we hope your team is well on its way to shipping at least weekly and delighting users with frequent updates and bug fixes.</p>\n",
 		meta: {
@@ -6979,8 +7087,13 @@ var posts = [
 			slug: "how-often-should-your-mobile-team-be-shipping",
 			date: "2020-08-18T12:00:00.000Z",
 			author: "Max Lynch <max@ionic.io>",
-			authorUrl: "https://twitter.com/maxlynch"
-		}
+			authorUrl: "https://twitter.com/maxlynch",
+			authorImageName: "max-lynch.jpg",
+			related1: "https://ionicframework.com/resources/webinars/hybrid-app-development-redefined"
+		},
+		related1: "https://ionicframework.com/resources/webinars/hybrid-app-development-redefined",
+		related2: "https://ionicframework.com/resources/webinars/hybrid-app-development-redefined",
+		related3: "https://ionicframework.com/resources/webinars/hybrid-app-development-redefined"
 	},
 	{
 		title: "What is Mobile CI/CD?",
@@ -6988,9 +7101,10 @@ var posts = [
 		authorName: "Max Lynch",
 		authorEmail: "max@ionic.io",
 		authorUrl: "https://twitter.com/maxlynch",
+		authorImageName: "max-lynch.jpg",
 		slug: "what-is-mobile-ci-cd",
 		date: "2020-08-18T08:00:00.000Z",
-		contents: "---\ntitle: What is Mobile CI/CD?\nslug: what-is-mobile-ci-cd\ndescription: Exploring what Mobile CI/CD is and how it differs from traditional CI/CD, and how Appflow is a leading Mobile CI/CD service.\ndate: 2020-08-18 08:00:00\nauthor: Max Lynch <max@ionic.io>\nauthorUrl: https://twitter.com/maxlynch\n---\n\nContinuous Integration and Continuous Delivery (CI/CD) is one of the fastest growing sectors of the developer market. Focused on enabling teams to continuously test and integrate their apps (instead of doing it all at once before shipping), and then helping teams deliver those apps in an automated fashion, CI/CD has transformed the way developers build and ship software.\n\nA staple in the backend and, more recently, frontend ecosystems, CI/CD services have proliferated to help developers perform a set of tedious tasks on every commit to their app, including:\n\n* Running builds every commit to every branch in a git repo\n* Running test suites and tracking failing and succeeding tests\n* Performing webhooks and other actions after builds\n* Launching or deploying apps to hosting destinations after successful builds\n\nThis list applies to nearly every type of software application, whether it’s a backend, frontend web, or mobile app. This has led to a proliferation of general purpose CI/CD services that integrate with popular code repository hosting services, provide on-demand clean build infrastructure, and a system to trigger actions before and after builds.\n\n<!--more-->\n\n## What about Mobile CI/CD?\n\nMobile app development is one of the most complicated areas of software development when it comes to CI/CD solutions. Given that mobile apps utilize extensive native compilation, rigid operating system requirements, rigorous code signing, frequently-updated SDKs and tooling, complex operating system licensing, device testing, and app store submission, a CI/CD platform for mobile apps will need to have extra features to cover these unique demands.\n\nA proper Mobile CI/CD setup will feature:\n\n* Managed build environments for iOS, Android, and mobile web apps (for teams building Progressive Web Apps)\n* Managed servers and server infrastructure for legal, licensed builds on macOS and Linux.\n* Per-platform tooling: Xcode for iOS, Android SDK for Android, etc.\n* Certificate and profile management for mobile code signing\n* Deployment for web assets for hybrid mobile and Progressive Web Apps\n* Multiple deployment channels to enable easy development, beta, and production tracks\n* Automatic submission to Apple App Store and Google Play Store\n* Frequent security patches and upgrades for safe builds on the latest Apple and Google approved tools and SDKs\n\nThese are specialized mobile tasks that most CI/CD services do not handle, so clearly mobile teams will need mobile-specific CI/CD services and infrastructure.\n\n## What is Appflow?\n\n[Appflow](https://useappflow.com/) is a leading Mobile CI/CD service focused entirely on the unique nature of mobile app development, testing, and delivery. Appflow powers Mobile CI/CD at companies like Burger King, AAA, BCBS, and more. And Appflow is a major part of the Ionic app platform, a set of mobile-focused tools with millions of users and hundreds of major enterprise customers, which powers a significant portion of the Apple App Store and Google Play Store.\n\nAppflow provides fully managed build environments for iOS, Android, and Progressive Web Apps by offering genuine macOS build servers for iOS and Linux for Android and Web apps.\n\nAppflow manages signing certificates for apps and enables direct publishing of built apps to the Apple App Store and Google Play Store.\n\nFor teams building hybrid apps using Capacitor or Cordova (including users of Ionic Framework), Appflow offers some additional features such as the ability to live-update web assets in an app remotely. This means a hybrid app in the app stores can be updated in realtime for changes at the web app layer.\n\nAppflow has a powerful channel system where builds and deployments can be performed across an arbitrary number of environments to enable easy development, alpha/beta, and production builds.\n\nFinally, Appflow offers a flexible automation layer across all of these features for the easy creation of complex workflows and integrating with third party services through webhooks.\n\n## When do you need a Mobile CI/CD Solution?\n\nFor teams building and deploying app store apps, a Mobile CI/CD solution is critical. We work with many teams that are new to mobile and are bringing their existing backend or frontend CI/CD experience to mobile and struggling to adapt to the massive difference in complexity and tooling requirements for Mobile CI/CD.\n\nIt’s simply not feasible for most teams to build or run their own Mobile CI/CD infrastructure, and it’s likely not feasible for teams to add Mobile CI/CD functionality to an existing general purpose CI/CD service like Circle CI, GitHub Actions, or Azure’s various CI/CD offerings. That’s because doing so would require a full time team to build, manage, and keep updated every aspect of the Mobile CI/CD feature set described earlier. Also, the skills needed to build and maintain CI/CD infrastructure are very different from the skills needed to build frontend and mobile apps, so teams would need to hire outside of their team’s core competency.\n\n## Getting Started with Appflow\n\nWe encourage your team to explore the Mobile CI/CD space before making a decision on a platform. Appflow is a great choice for fast-growing startups and SMBs all the way up to the Fortune 1000, with plenty of enterprise-specific features for mission critical apps.\n\nGetting started with Appflow is free. Go to [useappflow.com](https://useappflow.com/), create a free account, and connect your app. Explore the [Appflow Documentation](https://ionicframework.com/docs/appflow) to see the full feature set of Appflow and integrate those features into your apps.\n\nThe Appflow team are also experts in Mobile CI/CD and are available for consultation to help your team build out a winning Mobile CI/CD strategy. Please [get in touch with the team](https://ionicframework.com/enterprise/contact) to see how Appflow and Mobile CI/CD can help your team move faster and ensure quality throughout the app development lifecycle.",
+		contents: "---\ntitle: What is Mobile CI/CD?\nslug: what-is-mobile-ci-cd\ndescription: Exploring what Mobile CI/CD is and how it differs from traditional CI/CD, and how Appflow is a leading Mobile CI/CD service.\ndate: 2020-08-18 08:00:00\nauthor: Max Lynch <max@ionic.io>\nauthorUrl: https://twitter.com/maxlynch\nauthorImageName: max-lynch.jpg\n\n---\n\nContinuous Integration and Continuous Delivery (CI/CD) is one of the fastest growing sectors of the developer market. Focused on enabling teams to continuously test and integrate their apps (instead of doing it all at once before shipping), and then helping teams deliver those apps in an automated fashion, CI/CD has transformed the way developers build and ship software.\n\nA staple in the backend and, more recently, frontend ecosystems, CI/CD services have proliferated to help developers perform a set of tedious tasks on every commit to their app, including:\n\n* Running builds every commit to every branch in a git repo\n* Running test suites and tracking failing and succeeding tests\n* Performing webhooks and other actions after builds\n* Launching or deploying apps to hosting destinations after successful builds\n\nThis list applies to nearly every type of software application, whether it’s a backend, frontend web, or mobile app. This has led to a proliferation of general purpose CI/CD services that integrate with popular code repository hosting services, provide on-demand clean build infrastructure, and a system to trigger actions before and after builds.\n\n<!--more-->\n\n## What about Mobile CI/CD?\n\nMobile app development is one of the most complicated areas of software development when it comes to CI/CD solutions. Given that mobile apps utilize extensive native compilation, rigid operating system requirements, rigorous code signing, frequently-updated SDKs and tooling, complex operating system licensing, device testing, and app store submission, a CI/CD platform for mobile apps will need to have extra features to cover these unique demands.\n\nA proper Mobile CI/CD setup will feature:\n\n* Managed build environments for iOS, Android, and mobile web apps (for teams building Progressive Web Apps)\n* Managed servers and server infrastructure for legal, licensed builds on macOS and Linux.\n* Per-platform tooling: Xcode for iOS, Android SDK for Android, etc.\n* Certificate and profile management for mobile code signing\n* Deployment for web assets for hybrid mobile and Progressive Web Apps\n* Multiple deployment channels to enable easy development, beta, and production tracks\n* Automatic submission to Apple App Store and Google Play Store\n* Frequent security patches and upgrades for safe builds on the latest Apple and Google approved tools and SDKs\n\nThese are specialized mobile tasks that most CI/CD services do not handle, so clearly mobile teams will need mobile-specific CI/CD services and infrastructure.\n\n## What is Appflow?\n\n[Appflow](https://useappflow.com/) is a leading Mobile CI/CD service focused entirely on the unique nature of mobile app development, testing, and delivery. Appflow powers Mobile CI/CD at companies like Burger King, AAA, BCBS, and more. And Appflow is a major part of the Ionic app platform, a set of mobile-focused tools with millions of users and hundreds of major enterprise customers, which powers a significant portion of the Apple App Store and Google Play Store.\n\nAppflow provides fully managed build environments for iOS, Android, and Progressive Web Apps by offering genuine macOS build servers for iOS and Linux for Android and Web apps.\n\nAppflow manages signing certificates for apps and enables direct publishing of built apps to the Apple App Store and Google Play Store.\n\nFor teams building hybrid apps using Capacitor or Cordova (including users of Ionic Framework), Appflow offers some additional features such as the ability to live-update web assets in an app remotely. This means a hybrid app in the app stores can be updated in realtime for changes at the web app layer.\n\nAppflow has a powerful channel system where builds and deployments can be performed across an arbitrary number of environments to enable easy development, alpha/beta, and production builds.\n\nFinally, Appflow offers a flexible automation layer across all of these features for the easy creation of complex workflows and integrating with third party services through webhooks.\n\n## When do you need a Mobile CI/CD Solution?\n\nFor teams building and deploying app store apps, a Mobile CI/CD solution is critical. We work with many teams that are new to mobile and are bringing their existing backend or frontend CI/CD experience to mobile and struggling to adapt to the massive difference in complexity and tooling requirements for Mobile CI/CD.\n\nIt’s simply not feasible for most teams to build or run their own Mobile CI/CD infrastructure, and it’s likely not feasible for teams to add Mobile CI/CD functionality to an existing general purpose CI/CD service like Circle CI, GitHub Actions, or Azure’s various CI/CD offerings. That’s because doing so would require a full time team to build, manage, and keep updated every aspect of the Mobile CI/CD feature set described earlier. Also, the skills needed to build and maintain CI/CD infrastructure are very different from the skills needed to build frontend and mobile apps, so teams would need to hire outside of their team’s core competency.\n\n## Getting Started with Appflow\n\nWe encourage your team to explore the Mobile CI/CD space before making a decision on a platform. Appflow is a great choice for fast-growing startups and SMBs all the way up to the Fortune 1000, with plenty of enterprise-specific features for mission critical apps.\n\nGetting started with Appflow is free. Go to [useappflow.com](https://useappflow.com/), create a free account, and connect your app. Explore the [Appflow Documentation](https://ionicframework.com/docs/appflow) to see the full feature set of Appflow and integrate those features into your apps.\n\nThe Appflow team are also experts in Mobile CI/CD and are available for consultation to help your team build out a winning Mobile CI/CD strategy. Please [get in touch with the team](https://ionicframework.com/enterprise/contact) to see how Appflow and Mobile CI/CD can help your team move faster and ensure quality throughout the app development lifecycle.",
 		preview: "<p>Continuous Integration and Continuous Delivery (CI/CD) is one of the fastest growing sectors of the developer market. Focused on enabling teams to continuously test and integrate their apps (instead of doing it all at once before shipping), and then helping teams deliver those apps in an automated fashion, CI/CD has transformed the way developers build and ship software.</p>\n<p>A staple in the backend and, more recently, frontend ecosystems, CI/CD services have proliferated to help developers perform a set of tedious tasks on every commit to their app, including:</p>\n<ul>\n<li>Running builds every commit to every branch in a git repo</li>\n<li>Running test suites and tracking failing and succeeding tests</li>\n<li>Performing webhooks and other actions after builds</li>\n<li>Launching or deploying apps to hosting destinations after successful builds</li>\n</ul>\n<p>This list applies to nearly every type of software application, whether it’s a backend, frontend web, or mobile app. This has led to a proliferation of general purpose CI/CD services that integrate with popular code repository hosting services, provide on-demand clean build infrastructure, and a system to trigger actions before and after builds.</p>\n",
 		html: "<p>Continuous Integration and Continuous Delivery (CI/CD) is one of the fastest growing sectors of the developer market. Focused on enabling teams to continuously test and integrate their apps (instead of doing it all at once before shipping), and then helping teams deliver those apps in an automated fashion, CI/CD has transformed the way developers build and ship software.</p>\n<p>A staple in the backend and, more recently, frontend ecosystems, CI/CD services have proliferated to help developers perform a set of tedious tasks on every commit to their app, including:</p>\n<ul>\n<li>Running builds every commit to every branch in a git repo</li>\n<li>Running test suites and tracking failing and succeeding tests</li>\n<li>Performing webhooks and other actions after builds</li>\n<li>Launching or deploying apps to hosting destinations after successful builds</li>\n</ul>\n<p>This list applies to nearly every type of software application, whether it’s a backend, frontend web, or mobile app. This has led to a proliferation of general purpose CI/CD services that integrate with popular code repository hosting services, provide on-demand clean build infrastructure, and a system to trigger actions before and after builds.</p>\n<!--more-->\n\n<h2 id=\"what-about-mobile-cicd\">What about Mobile CI/CD?</h2>\n<p>Mobile app development is one of the most complicated areas of software development when it comes to CI/CD solutions. Given that mobile apps utilize extensive native compilation, rigid operating system requirements, rigorous code signing, frequently-updated SDKs and tooling, complex operating system licensing, device testing, and app store submission, a CI/CD platform for mobile apps will need to have extra features to cover these unique demands.</p>\n<p>A proper Mobile CI/CD setup will feature:</p>\n<ul>\n<li>Managed build environments for iOS, Android, and mobile web apps (for teams building Progressive Web Apps)</li>\n<li>Managed servers and server infrastructure for legal, licensed builds on macOS and Linux.</li>\n<li>Per-platform tooling: Xcode for iOS, Android SDK for Android, etc.</li>\n<li>Certificate and profile management for mobile code signing</li>\n<li>Deployment for web assets for hybrid mobile and Progressive Web Apps</li>\n<li>Multiple deployment channels to enable easy development, beta, and production tracks</li>\n<li>Automatic submission to Apple App Store and Google Play Store</li>\n<li>Frequent security patches and upgrades for safe builds on the latest Apple and Google approved tools and SDKs</li>\n</ul>\n<p>These are specialized mobile tasks that most CI/CD services do not handle, so clearly mobile teams will need mobile-specific CI/CD services and infrastructure.</p>\n<h2 id=\"what-is-appflow\">What is Appflow?</h2>\n<p><a href=\"https://useappflow.com/\">Appflow</a> is a leading Mobile CI/CD service focused entirely on the unique nature of mobile app development, testing, and delivery. Appflow powers Mobile CI/CD at companies like Burger King, AAA, BCBS, and more. And Appflow is a major part of the Ionic app platform, a set of mobile-focused tools with millions of users and hundreds of major enterprise customers, which powers a significant portion of the Apple App Store and Google Play Store.</p>\n<p>Appflow provides fully managed build environments for iOS, Android, and Progressive Web Apps by offering genuine macOS build servers for iOS and Linux for Android and Web apps.</p>\n<p>Appflow manages signing certificates for apps and enables direct publishing of built apps to the Apple App Store and Google Play Store.</p>\n<p>For teams building hybrid apps using Capacitor or Cordova (including users of Ionic Framework), Appflow offers some additional features such as the ability to live-update web assets in an app remotely. This means a hybrid app in the app stores can be updated in realtime for changes at the web app layer.</p>\n<p>Appflow has a powerful channel system where builds and deployments can be performed across an arbitrary number of environments to enable easy development, alpha/beta, and production builds.</p>\n<p>Finally, Appflow offers a flexible automation layer across all of these features for the easy creation of complex workflows and integrating with third party services through webhooks.</p>\n<h2 id=\"when-do-you-need-a-mobile-cicd-solution\">When do you need a Mobile CI/CD Solution?</h2>\n<p>For teams building and deploying app store apps, a Mobile CI/CD solution is critical. We work with many teams that are new to mobile and are bringing their existing backend or frontend CI/CD experience to mobile and struggling to adapt to the massive difference in complexity and tooling requirements for Mobile CI/CD.</p>\n<p>It’s simply not feasible for most teams to build or run their own Mobile CI/CD infrastructure, and it’s likely not feasible for teams to add Mobile CI/CD functionality to an existing general purpose CI/CD service like Circle CI, GitHub Actions, or Azure’s various CI/CD offerings. That’s because doing so would require a full time team to build, manage, and keep updated every aspect of the Mobile CI/CD feature set described earlier. Also, the skills needed to build and maintain CI/CD infrastructure are very different from the skills needed to build frontend and mobile apps, so teams would need to hire outside of their team’s core competency.</p>\n<h2 id=\"getting-started-with-appflow\">Getting Started with Appflow</h2>\n<p>We encourage your team to explore the Mobile CI/CD space before making a decision on a platform. Appflow is a great choice for fast-growing startups and SMBs all the way up to the Fortune 1000, with plenty of enterprise-specific features for mission critical apps.</p>\n<p>Getting started with Appflow is free. Go to <a href=\"https://useappflow.com/\">useappflow.com</a>, create a free account, and connect your app. Explore the <a href=\"https://ionicframework.com/docs/appflow\">Appflow Documentation</a> to see the full feature set of Appflow and integrate those features into your apps.</p>\n<p>The Appflow team are also experts in Mobile CI/CD and are available for consultation to help your team build out a winning Mobile CI/CD strategy. Please <a href=\"https://ionicframework.com/enterprise/contact\">get in touch with the team</a> to see how Appflow and Mobile CI/CD can help your team move faster and ensure quality throughout the app development lifecycle.</p>\n",
 		meta: {
@@ -6999,35 +7113,682 @@ var posts = [
 			description: "Exploring what Mobile CI/CD is and how it differs from traditional CI/CD, and how Appflow is a leading Mobile CI/CD service.",
 			date: "2020-08-18T08:00:00.000Z",
 			author: "Max Lynch <max@ionic.io>",
-			authorUrl: "https://twitter.com/maxlynch"
+			authorUrl: "https://twitter.com/maxlynch",
+			authorImageName: "max-lynch.jpg"
 		}
 	}
 ];
 
-const blogPageCss = ".sc-blog-page-h{--blog-subnav-height:56px;display:block}blog-post.sc-blog-page+blog-post.sc-blog-page{margin-block-start:82px}.container-sm.sc-blog-page{margin-inline-start:auto;margin-inline-end:auto;position:relative;max-width:736px}.ui-container.sc-blog-page{margin-block-start:var(--space-9)}disqus-comments.sc-blog-page{margin-block-end:160px}blog-newsletter.sc-blog-page{margin-block-end:106px}blog-pagination.sc-blog-page{margin-block-start:var(--space-6);margin-block-end:var(--space-6)}.sticky-wrapper.sc-blog-page{position:absolute;height:100%;left:-96px;top:5px}.sticky-wrapper.sc-blog-page blog-social-actions.top.sc-blog-page{position:sticky;top:calc(var(--blog-subnav-height) + var(--space-6))}blog-social-actions.bottom.sc-blog-page{padding-inline-start:31px;padding-inline-end:31px;background:white;position:absolute;left:50%;transform:translate(-50%, -50%)}.post-author.sc-blog-page{margin-block-start:var(--space-6);margin-block-end:120px}.post-author.sc-blog-page .ui-heading.sc-blog-page{color:#010610}.post-author.sc-blog-page .ui-paragraph.sc-blog-page{color:#92A1B3}";
+(function(self) {
+
+  if (self.fetch) {
+    return
+  }
+
+  var support = {
+    searchParams: 'URLSearchParams' in self,
+    iterable: 'Symbol' in self && 'iterator' in Symbol,
+    blob: 'FileReader' in self && 'Blob' in self && (function() {
+      try {
+        new Blob();
+        return true
+      } catch(e) {
+        return false
+      }
+    })(),
+    formData: 'FormData' in self,
+    arrayBuffer: 'ArrayBuffer' in self
+  };
+
+  if (support.arrayBuffer) {
+    var viewClasses = [
+      '[object Int8Array]',
+      '[object Uint8Array]',
+      '[object Uint8ClampedArray]',
+      '[object Int16Array]',
+      '[object Uint16Array]',
+      '[object Int32Array]',
+      '[object Uint32Array]',
+      '[object Float32Array]',
+      '[object Float64Array]'
+    ];
+
+    var isDataView = function(obj) {
+      return obj && DataView.prototype.isPrototypeOf(obj)
+    };
+
+    var isArrayBufferView = ArrayBuffer.isView || function(obj) {
+      return obj && viewClasses.indexOf(Object.prototype.toString.call(obj)) > -1
+    };
+  }
+
+  function normalizeName(name) {
+    if (typeof name !== 'string') {
+      name = String(name);
+    }
+    if (/[^a-z0-9\-#$%&'*+.\^_`|~]/i.test(name)) {
+      throw new TypeError('Invalid character in header field name')
+    }
+    return name.toLowerCase()
+  }
+
+  function normalizeValue(value) {
+    if (typeof value !== 'string') {
+      value = String(value);
+    }
+    return value
+  }
+
+  // Build a destructive iterator for the value list
+  function iteratorFor(items) {
+    var iterator = {
+      next: function() {
+        var value = items.shift();
+        return {done: value === undefined, value: value}
+      }
+    };
+
+    if (support.iterable) {
+      iterator[Symbol.iterator] = function() {
+        return iterator
+      };
+    }
+
+    return iterator
+  }
+
+  function Headers(headers) {
+    this.map = {};
+
+    if (headers instanceof Headers) {
+      headers.forEach(function(value, name) {
+        this.append(name, value);
+      }, this);
+    } else if (Array.isArray(headers)) {
+      headers.forEach(function(header) {
+        this.append(header[0], header[1]);
+      }, this);
+    } else if (headers) {
+      Object.getOwnPropertyNames(headers).forEach(function(name) {
+        this.append(name, headers[name]);
+      }, this);
+    }
+  }
+
+  Headers.prototype.append = function(name, value) {
+    name = normalizeName(name);
+    value = normalizeValue(value);
+    var oldValue = this.map[name];
+    this.map[name] = oldValue ? oldValue+','+value : value;
+  };
+
+  Headers.prototype['delete'] = function(name) {
+    delete this.map[normalizeName(name)];
+  };
+
+  Headers.prototype.get = function(name) {
+    name = normalizeName(name);
+    return this.has(name) ? this.map[name] : null
+  };
+
+  Headers.prototype.has = function(name) {
+    return this.map.hasOwnProperty(normalizeName(name))
+  };
+
+  Headers.prototype.set = function(name, value) {
+    this.map[normalizeName(name)] = normalizeValue(value);
+  };
+
+  Headers.prototype.forEach = function(callback, thisArg) {
+    for (var name in this.map) {
+      if (this.map.hasOwnProperty(name)) {
+        callback.call(thisArg, this.map[name], name, this);
+      }
+    }
+  };
+
+  Headers.prototype.keys = function() {
+    var items = [];
+    this.forEach(function(value, name) { items.push(name); });
+    return iteratorFor(items)
+  };
+
+  Headers.prototype.values = function() {
+    var items = [];
+    this.forEach(function(value) { items.push(value); });
+    return iteratorFor(items)
+  };
+
+  Headers.prototype.entries = function() {
+    var items = [];
+    this.forEach(function(value, name) { items.push([name, value]); });
+    return iteratorFor(items)
+  };
+
+  if (support.iterable) {
+    Headers.prototype[Symbol.iterator] = Headers.prototype.entries;
+  }
+
+  function consumed(body) {
+    if (body.bodyUsed) {
+      return Promise.reject(new TypeError('Already read'))
+    }
+    body.bodyUsed = true;
+  }
+
+  function fileReaderReady(reader) {
+    return new Promise(function(resolve, reject) {
+      reader.onload = function() {
+        resolve(reader.result);
+      };
+      reader.onerror = function() {
+        reject(reader.error);
+      };
+    })
+  }
+
+  function readBlobAsArrayBuffer(blob) {
+    var reader = new FileReader();
+    var promise = fileReaderReady(reader);
+    reader.readAsArrayBuffer(blob);
+    return promise
+  }
+
+  function readBlobAsText(blob) {
+    var reader = new FileReader();
+    var promise = fileReaderReady(reader);
+    reader.readAsText(blob);
+    return promise
+  }
+
+  function readArrayBufferAsText(buf) {
+    var view = new Uint8Array(buf);
+    var chars = new Array(view.length);
+
+    for (var i = 0; i < view.length; i++) {
+      chars[i] = String.fromCharCode(view[i]);
+    }
+    return chars.join('')
+  }
+
+  function bufferClone(buf) {
+    if (buf.slice) {
+      return buf.slice(0)
+    } else {
+      var view = new Uint8Array(buf.byteLength);
+      view.set(new Uint8Array(buf));
+      return view.buffer
+    }
+  }
+
+  function Body() {
+    this.bodyUsed = false;
+
+    this._initBody = function(body) {
+      this._bodyInit = body;
+      if (!body) {
+        this._bodyText = '';
+      } else if (typeof body === 'string') {
+        this._bodyText = body;
+      } else if (support.blob && Blob.prototype.isPrototypeOf(body)) {
+        this._bodyBlob = body;
+      } else if (support.formData && FormData.prototype.isPrototypeOf(body)) {
+        this._bodyFormData = body;
+      } else if (support.searchParams && URLSearchParams.prototype.isPrototypeOf(body)) {
+        this._bodyText = body.toString();
+      } else if (support.arrayBuffer && support.blob && isDataView(body)) {
+        this._bodyArrayBuffer = bufferClone(body.buffer);
+        // IE 10-11 can't handle a DataView body.
+        this._bodyInit = new Blob([this._bodyArrayBuffer]);
+      } else if (support.arrayBuffer && (ArrayBuffer.prototype.isPrototypeOf(body) || isArrayBufferView(body))) {
+        this._bodyArrayBuffer = bufferClone(body);
+      } else {
+        throw new Error('unsupported BodyInit type')
+      }
+
+      if (!this.headers.get('content-type')) {
+        if (typeof body === 'string') {
+          this.headers.set('content-type', 'text/plain;charset=UTF-8');
+        } else if (this._bodyBlob && this._bodyBlob.type) {
+          this.headers.set('content-type', this._bodyBlob.type);
+        } else if (support.searchParams && URLSearchParams.prototype.isPrototypeOf(body)) {
+          this.headers.set('content-type', 'application/x-www-form-urlencoded;charset=UTF-8');
+        }
+      }
+    };
+
+    if (support.blob) {
+      this.blob = function() {
+        var rejected = consumed(this);
+        if (rejected) {
+          return rejected
+        }
+
+        if (this._bodyBlob) {
+          return Promise.resolve(this._bodyBlob)
+        } else if (this._bodyArrayBuffer) {
+          return Promise.resolve(new Blob([this._bodyArrayBuffer]))
+        } else if (this._bodyFormData) {
+          throw new Error('could not read FormData body as blob')
+        } else {
+          return Promise.resolve(new Blob([this._bodyText]))
+        }
+      };
+
+      this.arrayBuffer = function() {
+        if (this._bodyArrayBuffer) {
+          return consumed(this) || Promise.resolve(this._bodyArrayBuffer)
+        } else {
+          return this.blob().then(readBlobAsArrayBuffer)
+        }
+      };
+    }
+
+    this.text = function() {
+      var rejected = consumed(this);
+      if (rejected) {
+        return rejected
+      }
+
+      if (this._bodyBlob) {
+        return readBlobAsText(this._bodyBlob)
+      } else if (this._bodyArrayBuffer) {
+        return Promise.resolve(readArrayBufferAsText(this._bodyArrayBuffer))
+      } else if (this._bodyFormData) {
+        throw new Error('could not read FormData body as text')
+      } else {
+        return Promise.resolve(this._bodyText)
+      }
+    };
+
+    if (support.formData) {
+      this.formData = function() {
+        return this.text().then(decode)
+      };
+    }
+
+    this.json = function() {
+      return this.text().then(JSON.parse)
+    };
+
+    return this
+  }
+
+  // HTTP methods whose capitalization should be normalized
+  var methods = ['DELETE', 'GET', 'HEAD', 'OPTIONS', 'POST', 'PUT'];
+
+  function normalizeMethod(method) {
+    var upcased = method.toUpperCase();
+    return (methods.indexOf(upcased) > -1) ? upcased : method
+  }
+
+  function Request(input, options) {
+    options = options || {};
+    var body = options.body;
+
+    if (input instanceof Request) {
+      if (input.bodyUsed) {
+        throw new TypeError('Already read')
+      }
+      this.url = input.url;
+      this.credentials = input.credentials;
+      if (!options.headers) {
+        this.headers = new Headers(input.headers);
+      }
+      this.method = input.method;
+      this.mode = input.mode;
+      if (!body && input._bodyInit != null) {
+        body = input._bodyInit;
+        input.bodyUsed = true;
+      }
+    } else {
+      this.url = String(input);
+    }
+
+    this.credentials = options.credentials || this.credentials || 'omit';
+    if (options.headers || !this.headers) {
+      this.headers = new Headers(options.headers);
+    }
+    this.method = normalizeMethod(options.method || this.method || 'GET');
+    this.mode = options.mode || this.mode || null;
+    this.referrer = null;
+
+    if ((this.method === 'GET' || this.method === 'HEAD') && body) {
+      throw new TypeError('Body not allowed for GET or HEAD requests')
+    }
+    this._initBody(body);
+  }
+
+  Request.prototype.clone = function() {
+    return new Request(this, { body: this._bodyInit })
+  };
+
+  function decode(body) {
+    var form = new FormData();
+    body.trim().split('&').forEach(function(bytes) {
+      if (bytes) {
+        var split = bytes.split('=');
+        var name = split.shift().replace(/\+/g, ' ');
+        var value = split.join('=').replace(/\+/g, ' ');
+        form.append(decodeURIComponent(name), decodeURIComponent(value));
+      }
+    });
+    return form
+  }
+
+  function parseHeaders(rawHeaders) {
+    var headers = new Headers();
+    // Replace instances of \r\n and \n followed by at least one space or horizontal tab with a space
+    // https://tools.ietf.org/html/rfc7230#section-3.2
+    var preProcessedHeaders = rawHeaders.replace(/\r?\n[\t ]+/g, ' ');
+    preProcessedHeaders.split(/\r?\n/).forEach(function(line) {
+      var parts = line.split(':');
+      var key = parts.shift().trim();
+      if (key) {
+        var value = parts.join(':').trim();
+        headers.append(key, value);
+      }
+    });
+    return headers
+  }
+
+  Body.call(Request.prototype);
+
+  function Response(bodyInit, options) {
+    if (!options) {
+      options = {};
+    }
+
+    this.type = 'default';
+    this.status = options.status === undefined ? 200 : options.status;
+    this.ok = this.status >= 200 && this.status < 300;
+    this.statusText = 'statusText' in options ? options.statusText : 'OK';
+    this.headers = new Headers(options.headers);
+    this.url = options.url || '';
+    this._initBody(bodyInit);
+  }
+
+  Body.call(Response.prototype);
+
+  Response.prototype.clone = function() {
+    return new Response(this._bodyInit, {
+      status: this.status,
+      statusText: this.statusText,
+      headers: new Headers(this.headers),
+      url: this.url
+    })
+  };
+
+  Response.error = function() {
+    var response = new Response(null, {status: 0, statusText: ''});
+    response.type = 'error';
+    return response
+  };
+
+  var redirectStatuses = [301, 302, 303, 307, 308];
+
+  Response.redirect = function(url, status) {
+    if (redirectStatuses.indexOf(status) === -1) {
+      throw new RangeError('Invalid status code')
+    }
+
+    return new Response(null, {status: status, headers: {location: url}})
+  };
+
+  self.Headers = Headers;
+  self.Request = Request;
+  self.Response = Response;
+
+  self.fetch = function(input, init) {
+    return new Promise(function(resolve, reject) {
+      var request = new Request(input, init);
+      var xhr = new XMLHttpRequest();
+
+      xhr.onload = function() {
+        var options = {
+          status: xhr.status,
+          statusText: xhr.statusText,
+          headers: parseHeaders(xhr.getAllResponseHeaders() || '')
+        };
+        options.url = 'responseURL' in xhr ? xhr.responseURL : options.headers.get('X-Request-URL');
+        var body = 'response' in xhr ? xhr.response : xhr.responseText;
+        resolve(new Response(body, options));
+      };
+
+      xhr.onerror = function() {
+        reject(new TypeError('Network request failed'));
+      };
+
+      xhr.ontimeout = function() {
+        reject(new TypeError('Network request failed'));
+      };
+
+      xhr.open(request.method, request.url, true);
+
+      if (request.credentials === 'include') {
+        xhr.withCredentials = true;
+      } else if (request.credentials === 'omit') {
+        xhr.withCredentials = false;
+      }
+
+      if ('responseType' in xhr && support.blob) {
+        xhr.responseType = 'blob';
+      }
+
+      request.headers.forEach(function(value, name) {
+        xhr.setRequestHeader(name, value);
+      });
+
+      xhr.send(typeof request._bodyInit === 'undefined' ? null : request._bodyInit);
+    })
+  };
+  self.fetch.polyfill = true;
+})(typeof self !== 'undefined' ? self : undefined);
+
+var browserPolyfill = /*#__PURE__*/Object.freeze({
+  __proto__: null
+});
+
+var prismicJavascript_min = createCommonjsModule(function (module, exports) {
+!function(t,e){module.exports=e(browserPolyfill);}("undefined"!=typeof self?self:commonjsGlobal,function(t){return function(t){var e={};function n(r){if(e[r])return e[r].exports;var o=e[r]={i:r,l:!1,exports:{}};return t[r].call(o.exports,o,o.exports,n),o.l=!0,o.exports}return n.m=t,n.c=e,n.d=function(t,e,r){n.o(t,e)||Object.defineProperty(t,e,{enumerable:!0,get:r});},n.r=function(t){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0});},n.t=function(t,e){if(1&e&&(t=n(t)),8&e)return t;if(4&e&&"object"==typeof t&&t&&t.__esModule)return t;var r=Object.create(null);if(n.r(r),Object.defineProperty(r,"default",{enumerable:!0,value:t}),2&e&&"string"!=typeof t)for(var o in t)n.d(r,o,function(e){return t[e]}.bind(null,o));return r},n.n=function(t){var e=t&&t.__esModule?function(){return t.default}:function(){return t};return n.d(e,"a",e),e},n.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)},n.p="",n(n.s=20)}([function(t,e,n){e.a=function(t){var e=this.constructor;return this.then(function(n){return e.resolve(t()).then(function(){return n})},function(n){return e.resolve(t()).then(function(){return e.reject(n)})})};},function(t,e,n){e.__esModule=!0,e.createPreviewResolver=function(t,e,n){return {token:t,documentId:e,resolve:function(r,o,i){return e&&n?n(e,{ref:t}).then(function(t){if(t){var e=r(t);return i&&i(null,e),e}return i&&i(null,o),o}):Promise.resolve(o)}}};},function(t,e,n){var r=this&&this.__assign||Object.assign||function(t){for(var e,n=1,r=arguments.length;n<r;n++)for(var o in e=arguments[n])Object.prototype.hasOwnProperty.call(e,o)&&(t[o]=e[o]);return t};e.__esModule=!0;var o=n(5),i=n(4),u=n(6),a=n(12),s=n(1);e.PREVIEW_COOKIE="io.prismic.preview",e.EXPERIMENT_COOKIE="io.prismic.experiment";var f=function(){function t(t,e,n){this.data=t,this.masterRef=t.refs.filter(function(t){return t.isMasterRef})[0],this.experiments=new o.Experiments(t.experiments),this.bookmarks=t.bookmarks,this.httpClient=e,this.options=n,this.refs=t.refs,this.tags=t.tags,this.types=t.types,this.languages=t.languages;}return t.prototype.form=function(t){var e=this.data.forms[t];return e?new i.SearchForm(e,this.httpClient):null},t.prototype.everything=function(){var t=this.form("everything");if(!t)throw new Error("Missing everything form");return t},t.prototype.master=function(){return this.masterRef.ref},t.prototype.ref=function(t){var e=this.data.refs.filter(function(e){return e.label===t})[0];return e?e.ref:null},t.prototype.currentExperiment=function(){return this.experiments.current()},t.prototype.query=function(t,n,r){void 0===r&&(r=function(){});var o="function"==typeof n?{options:{},callback:n}:{options:n||{},callback:r},i=o.options,u=o.callback,s=this.everything();for(var f in i)s=s.set(f,i[f]);if(!i.ref){var c="";this.options.req?c=this.options.req.headers.cookie||"":"undefined"!=typeof window&&window.document&&(c=window.document.cookie||"");var l=a.default.parse(c),p=l[e.PREVIEW_COOKIE],h=this.experiments.refFromCookie(l[e.EXPERIMENT_COOKIE]);s=s.ref(p||h||this.masterRef.ref);}return t&&s.query(t),s.submit(u)},t.prototype.queryFirst=function(t,e,n){var o="function"==typeof e?{options:{},callback:e}:{options:r({},e)||{},callback:n||function(){}},i=o.options,u=o.callback;return i.page=1,i.pageSize=1,this.query(t,i).then(function(t){var e=t&&t.results&&t.results[0];return u(null,e),e}).catch(function(t){throw u(t),t})},t.prototype.getByID=function(t,e,n){var o=e?r({},e):{};return o.lang||(o.lang="*"),this.queryFirst(u.default.at("document.id",t),o,n)},t.prototype.getByIDs=function(t,e,n){var o=e?r({},e):{};return o.lang||(o.lang="*"),this.query(u.default.in("document.id",t),o,n)},t.prototype.getByUID=function(t,e,n,o){var i=n?r({},n):{};if("*"===i.lang)throw new Error("FORDIDDEN. You can't use getByUID with *, use the predicates instead.");return i.page||(i.page=1),this.queryFirst(u.default.at("my."+t+".uid",e),i,o)},t.prototype.getSingle=function(t,e,n){var o=e?r({},e):{};return this.queryFirst(u.default.at("document.type",t),o,n)},t.prototype.getBookmark=function(t,e,n){var r=this.data.bookmarks[t];return r?this.getByID(r,e,n):Promise.reject("Error retrieving bookmarked id")},t.prototype.getPreviewResolver=function(t,e){return s.createPreviewResolver(t,e,this.getByID.bind(this))},t.prototype.previewSession=function(t,e,n,r){var o=this;return console.warn("previewSession function is deprecated in favor of getPreviewResolver function."),new Promise(function(i,u){o.httpClient.request(t,function(a,s){if(a)r&&r(a),u(a);else if(s){if(s.mainDocument)return o.getByID(s.mainDocument,{ref:t}).then(function(t){if(t){var o=e(t);r&&r(null,o),i(o);}else r&&r(null,n),i(n);}).catch(u);r&&r(null,n),i(n);}});})},t}();e.default=f;},function(t,e,n){e.__esModule=!0;var r=n(2),o=n(11);function i(t){return t.indexOf("?")>-1?"&":"?"}var u=function(){function t(t,e){if(this.options=e||{},this.url=t,this.options.accessToken){var n="access_token="+this.options.accessToken;this.url+=i(t)+n;}this.options.routes&&(this.url+=i(t)+"routes="+encodeURIComponent(JSON.stringify(this.options.routes))),this.apiDataTTL=this.options.apiDataTTL||5,this.httpClient=new o.default(this.options.requestHandler,this.options.apiCache,this.options.proxyAgent,this.options.timeoutInMs);}return t.prototype.get=function(t){var e=this;return this.httpClient.cachedRequest(this.url,{ttl:this.apiDataTTL}).then(function(n){var o=new r.default(n,e.httpClient,e.options);return t&&t(null,o),o}).catch(function(e){throw t&&t(e),e})},t}();e.default=u;},function(t,e,n){e.__esModule=!0;var r=function(){function t(t,e){this.id=t,this.api=e,this.fields={};}return t.prototype.set=function(t,e){return this.fields[t]=e,this},t.prototype.ref=function(t){return this.set("ref",t)},t.prototype.query=function(t){return this.set("q",t)},t.prototype.pageSize=function(t){return this.set("pageSize",t)},t.prototype.fetch=function(t){return console.warn("Warning: Using Fetch is deprecated. Use the property `graphQuery` instead."),this.set("fetch",t)},t.prototype.fetchLinks=function(t){return console.warn("Warning: Using FetchLinks is deprecated. Use the property `graphQuery` instead."),this.set("fetchLinks",t)},t.prototype.graphQuery=function(t){return this.set("graphQuery",t)},t.prototype.lang=function(t){return this.set("lang",t)},t.prototype.page=function(t){return this.set("page",t)},t.prototype.after=function(t){return this.set("after",t)},t.prototype.orderings=function(t){return this.set("orderings",t)},t.prototype.url=function(){var e=this;return this.api.get().then(function(n){return t.toSearchForm(e,n).url()})},t.prototype.submit=function(e){var n=this;return this.api.get().then(function(r){return t.toSearchForm(n,r).submit(e)})},t.toSearchForm=function(t,e){var n=e.form(t.id);if(n)return Object.keys(t.fields).reduce(function(e,n){var r=t.fields[n];return "q"===n?e.query(r):"pageSize"===n?e.pageSize(r):"fetch"===n?e.fetch(r):"fetchLinks"===n?e.fetchLinks(r):"graphQuery"===n?e.graphQuery(r):"lang"===n?e.lang(r):"page"===n?e.page(r):"after"===n?e.after(r):"orderings"===n?e.orderings(r):e.set(n,r)},n);throw new Error("Unable to access to form "+t.id)},t}();e.LazySearchForm=r;var o=function(){function t(t,e){for(var n in this.httpClient=e,this.form=t,this.data={},t.fields)t.fields[n].default&&(this.data[n]=[t.fields[n].default]);}return t.prototype.set=function(t,e){var n=this.form.fields[t];if(!n)throw new Error("Unknown field "+t);var r=""===e||void 0===e?null:e,o=this.data[t]||[];return o=n.multiple?r?o.concat([r]):o:r?[r]:o,this.data[t]=o,this},t.prototype.ref=function(t){return this.set("ref",t)},t.prototype.query=function(t){if("string"==typeof t)return this.query([t]);if(Array.isArray(t))return this.set("q","["+t.join("")+"]");throw new Error("Invalid query : "+t)},t.prototype.pageSize=function(t){return this.set("pageSize",t)},t.prototype.fetch=function(t){console.warn("Warning: Using Fetch is deprecated. Use the property `graphQuery` instead.");var e=Array.isArray(t)?t.join(","):t;return this.set("fetch",e)},t.prototype.fetchLinks=function(t){console.warn("Warning: Using FetchLinks is deprecated. Use the property `graphQuery` instead.");var e=Array.isArray(t)?t.join(","):t;return this.set("fetchLinks",e)},t.prototype.graphQuery=function(t){return this.set("graphQuery",t)},t.prototype.lang=function(t){return this.set("lang",t)},t.prototype.page=function(t){return this.set("page",t)},t.prototype.after=function(t){return this.set("after",t)},t.prototype.orderings=function(t){return t?this.set("orderings","["+t.join(",")+"]"):this},t.prototype.url=function(){var t=this.form.action;if(this.data){var e=t.indexOf("?")>-1?"&":"?";for(var n in this.data)if(this.data.hasOwnProperty(n)){var r=this.data[n];if(r)for(var o=0;o<r.length;o++)t+=e+n+"="+encodeURIComponent(r[o]),e="&";}}return t},t.prototype.submit=function(t){return this.httpClient.cachedRequest(this.url()).then(function(e){return t&&t(null,e),e}).catch(function(e){throw t&&t(e),e})},t}();e.SearchForm=o;},function(t,e,n){e.__esModule=!0;var r=function(){function t(t){this.data={},this.data=t;}return t.prototype.id=function(){return this.data.id},t.prototype.ref=function(){return this.data.ref},t.prototype.label=function(){return this.data.label},t}();e.Variation=r;var o=function(){function t(t){this.data={},this.data=t,this.variations=(t.variations||[]).map(function(t){return new r(t)});}return t.prototype.id=function(){return this.data.id},t.prototype.googleId=function(){return this.data.googleId},t.prototype.name=function(){return this.data.name},t}();e.Experiment=o;var i=function(){function t(t){t&&(this.drafts=(t.drafts||[]).map(function(t){return new o(t)}),this.running=(t.running||[]).map(function(t){return new o(t)}));}return t.prototype.current=function(){return this.running.length>0?this.running[0]:null},t.prototype.refFromCookie=function(t){if(!t||""===t.trim())return null;var e=t.trim().split(" ");if(e.length<2)return null;var n=e[0],r=parseInt(e[1],10),o=this.running.filter(function(t){return t.googleId()===n&&t.variations.length>r})[0];return o?o.variations[r].ref():null},t}();e.Experiments=i;},function(t,e,n){e.__esModule=!0;var r="at",o="not",i="missing",u="has",a="any",s="in",f="fulltext",c="similar",l="number.gt",p="number.lt",h="number.inRange",d="date.before",y="date.after",m="date.between",g="date.day-of-month",v="date.day-of-month-after",w="date.day-of-month-before",b="date.day-of-week",_="date.day-of-week-after",k="date.day-of-week-before",I="date.month",T="date.month-before",E="date.month-after",O="date.year",A="date.hour",x="date.hour-before",M="date.hour-after",P="geopoint.near";function j(t){if("string"==typeof t)return '"'+t+'"';if("number"==typeof t)return t.toString();if(t instanceof Date)return t.getTime().toString();if(Array.isArray(t))return "["+t.map(function(t){return j(t)}).join(",")+"]";if("boolean"==typeof t)return t.toString();throw new Error("Unable to encode "+t+" of type "+typeof t)}var q={near:function(t,e,n,r){return "["+P+"("+t+", "+e+", "+n+", "+r+")]"}},R={before:function(t,e){return "["+d+"("+t+", "+j(e)+")]"},after:function(t,e){return "["+y+"("+t+", "+j(e)+")]"},between:function(t,e,n){return "["+m+"("+t+", "+j(e)+", "+j(n)+")]"},dayOfMonth:function(t,e){return "["+g+"("+t+", "+e+")]"},dayOfMonthAfter:function(t,e){return "["+v+"("+t+", "+e+")]"},dayOfMonthBefore:function(t,e){return "["+w+"("+t+", "+e+")]"},dayOfWeek:function(t,e){return "["+b+"("+t+", "+j(e)+")]"},dayOfWeekAfter:function(t,e){return "["+_+"("+t+", "+j(e)+")]"},dayOfWeekBefore:function(t,e){return "["+k+"("+t+", "+j(e)+")]"},month:function(t,e){return "["+I+"("+t+", "+j(e)+")]"},monthBefore:function(t,e){return "["+T+"("+t+", "+j(e)+")]"},monthAfter:function(t,e){return "["+E+"("+t+", "+j(e)+")]"},year:function(t,e){return "["+O+"("+t+", "+e+")]"},hour:function(t,e){return "["+A+"("+t+", "+e+")]"},hourBefore:function(t,e){return "["+x+"("+t+", "+e+")]"},hourAfter:function(t,e){return "["+M+"("+t+", "+e+")]"}},S={gt:function(t,e){return "["+l+"("+t+", "+e+")]"},lt:function(t,e){return "["+p+"("+t+", "+e+")]"},inRange:function(t,e,n){return "["+h+"("+t+", "+e+", "+n+")]"}};e.default={at:function(t,e){return "["+r+"("+t+", "+j(e)+")]"},not:function(t,e){return "["+o+"("+t+", "+j(e)+")]"},missing:function(t){return "["+i+"("+t+")]"},has:function(t){return "["+u+"("+t+")]"},any:function(t,e){return "["+a+"("+t+", "+j(e)+")]"},in:function(t,e){return "["+s+"("+t+", "+j(e)+")]"},fulltext:function(t,e){return "["+f+"("+t+", "+j(e)+")]"},similar:function(t,e){return "["+c+'("'+t+'", '+e+")]"},date:R,dateBefore:R.before,dateAfter:R.after,dateBetween:R.between,dayOfMonth:R.dayOfMonth,dayOfMonthAfter:R.dayOfMonthAfter,dayOfMonthBefore:R.dayOfMonthBefore,dayOfWeek:R.dayOfWeek,dayOfWeekAfter:R.dayOfWeekAfter,dayOfWeekBefore:R.dayOfWeekBefore,month:R.month,monthBefore:R.monthBefore,monthAfter:R.monthAfter,year:R.year,hour:R.hour,hourBefore:R.hourBefore,hourAfter:R.hourAfter,number:S,gt:S.gt,lt:S.lt,inRange:S.inRange,near:q.near,geopoint:q};},function(t,e,n){(function(t){var r=n(0),o=setTimeout;function i(){}function u(t){if(!(this instanceof u))throw new TypeError("Promises must be constructed via new");if("function"!=typeof t)throw new TypeError("not a function");this._state=0,this._handled=!1,this._value=void 0,this._deferreds=[],l(t,this);}function a(t,e){for(;3===t._state;)t=t._value;0!==t._state?(t._handled=!0,u._immediateFn(function(){var n=1===t._state?e.onFulfilled:e.onRejected;if(null!==n){var r;try{r=n(t._value);}catch(t){return void f(e.promise,t)}s(e.promise,r);}else (1===t._state?s:f)(e.promise,t._value);})):t._deferreds.push(e);}function s(t,e){try{if(e===t)throw new TypeError("A promise cannot be resolved with itself.");if(e&&("object"==typeof e||"function"==typeof e)){var n=e.then;if(e instanceof u)return t._state=3,t._value=e,void c(t);if("function"==typeof n)return void l(function(t,e){return function(){t.apply(e,arguments);}}(n,e),t)}t._state=1,t._value=e,c(t);}catch(e){f(t,e);}}function f(t,e){t._state=2,t._value=e,c(t);}function c(t){2===t._state&&0===t._deferreds.length&&u._immediateFn(function(){t._handled||u._unhandledRejectionFn(t._value);});for(var e=0,n=t._deferreds.length;e<n;e++)a(t,t._deferreds[e]);t._deferreds=null;}function l(t,e){var n=!1;try{t(function(t){n||(n=!0,s(e,t));},function(t){n||(n=!0,f(e,t));});}catch(t){if(n)return;n=!0,f(e,t);}}u.prototype.catch=function(t){return this.then(null,t)},u.prototype.then=function(t,e){var n=new this.constructor(i);return a(this,new function(t,e,n){this.onFulfilled="function"==typeof t?t:null,this.onRejected="function"==typeof e?e:null,this.promise=n;}(t,e,n)),n},u.prototype.finally=r.a,u.all=function(t){return new u(function(e,n){if(!t||void 0===t.length)throw new TypeError("Promise.all accepts an array");var r=Array.prototype.slice.call(t);if(0===r.length)return e([]);var o=r.length;function i(t,u){try{if(u&&("object"==typeof u||"function"==typeof u)){var a=u.then;if("function"==typeof a)return void a.call(u,function(e){i(t,e);},n)}r[t]=u,0==--o&&e(r);}catch(t){n(t);}}for(var u=0;u<r.length;u++)i(u,r[u]);})},u.resolve=function(t){return t&&"object"==typeof t&&t.constructor===u?t:new u(function(e){e(t);})},u.reject=function(t){return new u(function(e,n){n(t);})},u.race=function(t){return new u(function(e,n){for(var r=0,o=t.length;r<o;r++)t[r].then(e,n);})},u._immediateFn="function"==typeof t&&function(e){t(e);}||function(t){o(t,0);},u._unhandledRejectionFn=function(t){"undefined"!=typeof console&&console&&console.warn("Possible Unhandled Promise Rejection:",t);},e.a=u;}).call(this,n(18).setImmediate);},function(t,e,n){e.__esModule=!0;var r=function(){function t(t){this.options=t||{};}return t.prototype.request=function(t,e){!function(t,e,n){var r,o={headers:{Accept:"application/json"}};e&&e.proxyAgent&&(o.agent=e.proxyAgent);var i=fetch(t,o);(e.timeoutInMs?Promise.race([i,new Promise(function(n,o){r=setTimeout(function(){return o(new Error(t+" response timeout"))},e.timeoutInMs);})]):i).then(function(e){return clearTimeout(r),~~(e.status/100!=2)?e.text().then(function(){var n=new Error("Unexpected status code ["+e.status+"] on URL "+t);throw n.status=e.status,n}):e.json().then(function(t){var r=e.headers.get("cache-control"),o=r?/max-age=(\d+)/.exec(r):null,i=o?parseInt(o[1],10):void 0;n(null,t,e,i);})}).catch(function(t){clearTimeout(r),n(t);});}(t,this.options,e);},t}();e.DefaultRequestHandler=r;},function(t,e,n){function r(t){this.size=0,this.limit=t,this._keymap={};}e.__esModule=!0,e.MakeLRUCache=function(t){return new r(t)},r.prototype.put=function(t,e){var n={key:t,value:e};if(this._keymap[t]=n,this.tail?(this.tail.newer=n,n.older=this.tail):this.head=n,this.tail=n,this.size===this.limit)return this.shift();this.size++;},r.prototype.shift=function(){var t=this.head;return t&&(this.head.newer?(this.head=this.head.newer,this.head.older=void 0):this.head=void 0,t.newer=t.older=void 0,delete this._keymap[t.key]),console.log("purging ",t.key),t},r.prototype.get=function(t,e){var n=this._keymap[t];if(void 0!==n)return n===this.tail?e?n:n.value:(n.newer&&(n===this.head&&(this.head=n.newer),n.newer.older=n.older),n.older&&(n.older.newer=n.newer),n.newer=void 0,n.older=this.tail,this.tail&&(this.tail.newer=n),this.tail=n,e?n:n.value)},r.prototype.find=function(t){return this._keymap[t]},r.prototype.set=function(t,e){var n,r=this.get(t,!0);return r?(n=r.value,r.value=e):(n=this.put(t,e))&&(n=n.value),n},r.prototype.remove=function(t){var e=this._keymap[t];if(e)return delete this._keymap[e.key],e.newer&&e.older?(e.older.newer=e.newer,e.newer.older=e.older):e.newer?(e.newer.older=void 0,this.head=e.newer):e.older?(e.older.newer=void 0,this.tail=e.older):this.head=this.tail=void 0,this.size--,e.value},r.prototype.removeAll=function(){this.head=this.tail=void 0,this.size=0,this._keymap={};},"function"==typeof Object.keys?r.prototype.keys=function(){return Object.keys(this._keymap)}:r.prototype.keys=function(){var t=[];for(var e in this._keymap)t.push(e);return t},r.prototype.forEach=function(t,e,n){var r;if(!0===e?(n=!0,e=void 0):"object"!=typeof e&&(e=this),n)for(r=this.tail;r;)t.call(e,r.key,r.value,this),r=r.older;else for(r=this.head;r;)t.call(e,r.key,r.value,this),r=r.newer;},r.prototype.toString=function(){for(var t="",e=this.head;e;)t+=String(e.key)+":"+e.value,(e=e.newer)&&(t+=" < ");return t};},function(t,e,n){e.__esModule=!0;var r=n(9),o=function(){function t(t){void 0===t&&(t=1e3),this.lru=r.MakeLRUCache(t);}return t.prototype.isExpired=function(t){var e=this.lru.get(t,!1);return !!e&&(0!==e.expiredIn&&e.expiredIn<Date.now())},t.prototype.get=function(t,e){var n=this.lru.get(t,!1);n&&!this.isExpired(t)?e(null,n.data):e&&e(null);},t.prototype.set=function(t,e,n,r){this.lru.remove(t),this.lru.put(t,{data:e,expiredIn:n?Date.now()+1e3*n:0}),r&&r(null);},t.prototype.remove=function(t,e){this.lru.remove(t),e&&e(null);},t.prototype.clear=function(t){this.lru.removeAll(),t&&t(null);},t}();e.DefaultApiCache=o;},function(t,e,n){e.__esModule=!0;var r=n(10),o=n(8),i=function(){function t(t,e,n,i){this.requestHandler=t||new o.DefaultRequestHandler({proxyAgent:n,timeoutInMs:i}),this.cache=e||new r.DefaultApiCache;}return t.prototype.request=function(t,e){this.requestHandler.request(t,function(t,n,r,o){t?e&&e(t,null,r,o):n&&e&&e(null,n,r,o);});},t.prototype.cachedRequest=function(t,e){var n=this,r=e||{};return new Promise(function(e,o){!function(e){var o=r.cacheKey||t;n.cache.get(o,function(i,u){i||u?e(i,u):n.request(t,function(t,i,u,a){if(t)e(t,null);else {var s=a||r.ttl;s&&n.cache.set(o,i,s,e),e(null,i);}});});}(function(t,n){t&&o(t),n&&e(n);});})},t}();e.default=i;},function(t,e,n){e.__esModule=!0;var r=decodeURIComponent;e.default={parse:function(t,e){if("string"!=typeof t)throw new TypeError("argument str must be a string");var n={},o=e||{},i=t.split(/; */),u=o.decode||r;return i.forEach(function(t){var e=t.indexOf("=");if(!(e<0)){var r=t.substr(0,e).trim(),o=t.substr(++e,t.length).trim();'"'==o[0]&&(o=o.slice(1,-1)),void 0==n[r]&&(n[r]=function(t,e){try{return e(t)}catch(e){return t}}(o,u));}}),n}};},function(t,e,n){e.__esModule=!0;var r=n(4),o=n(3),i=n(1),u=function(){function t(t,e){this.api=new o.default(t,e);}return t.prototype.getApi=function(){return this.api.get()},t.prototype.everything=function(){return this.form("everything")},t.prototype.form=function(t){return new r.LazySearchForm(t,this.api)},t.prototype.query=function(t,e,n){return this.getApi().then(function(r){return r.query(t,e,n)})},t.prototype.queryFirst=function(t,e,n){return this.getApi().then(function(r){return r.queryFirst(t,e,n)})},t.prototype.getByID=function(t,e,n){return this.getApi().then(function(r){return r.getByID(t,e,n)})},t.prototype.getByIDs=function(t,e,n){return this.getApi().then(function(r){return r.getByIDs(t,e,n)})},t.prototype.getByUID=function(t,e,n,r){return this.getApi().then(function(o){return o.getByUID(t,e,n,r)})},t.prototype.getSingle=function(t,e,n){return this.getApi().then(function(r){return r.getSingle(t,e,n)})},t.prototype.getBookmark=function(t,e,n){return this.getApi().then(function(r){return r.getBookmark(t,e,n)})},t.prototype.previewSession=function(t,e,n,r){return this.getApi().then(function(o){return o.previewSession(t,e,n,r)})},t.prototype.getPreviewResolver=function(t,e){var n=this;return i.createPreviewResolver(t,e,function(t){return n.getApi().then(function(e){return e.getByID(t)})})},t.getApi=function(t,e){return new o.default(t,e).get()},t}();e.DefaultClient=u;},function(t,e,n){var r,o=n(6),i=n(5),u=n(13),a=n(3),s=n(2);!function(t){function e(t,e){return u.DefaultClient.getApi(t,e)}t.experimentCookie=s.EXPERIMENT_COOKIE,t.previewCookie=s.PREVIEW_COOKIE,t.Predicates=o.default,t.Experiments=i.Experiments,t.Api=a.default,t.client=function(t,e){return new u.DefaultClient(t,e)},t.getApi=e,t.api=function(t,n){return e(t,n)};}(r||(r={})),t.exports=r;},function(e,n){e.exports=t;},function(t,e){var n,r,o=t.exports={};function i(){throw new Error("setTimeout has not been defined")}function u(){throw new Error("clearTimeout has not been defined")}function a(t){if(n===setTimeout)return setTimeout(t,0);if((n===i||!n)&&setTimeout)return n=setTimeout,setTimeout(t,0);try{return n(t,0)}catch(e){try{return n.call(null,t,0)}catch(e){return n.call(this,t,0)}}}!function(){try{n="function"==typeof setTimeout?setTimeout:i;}catch(t){n=i;}try{r="function"==typeof clearTimeout?clearTimeout:u;}catch(t){r=u;}}();var s,f=[],c=!1,l=-1;function p(){c&&s&&(c=!1,s.length?f=s.concat(f):l=-1,f.length&&h());}function h(){if(!c){var t=a(p);c=!0;for(var e=f.length;e;){for(s=f,f=[];++l<e;)s&&s[l].run();l=-1,e=f.length;}s=null,c=!1,function(t){if(r===clearTimeout)return clearTimeout(t);if((r===u||!r)&&clearTimeout)return r=clearTimeout,clearTimeout(t);try{r(t);}catch(e){try{return r.call(null,t)}catch(e){return r.call(this,t)}}}(t);}}function d(t,e){this.fun=t,this.array=e;}function y(){}o.nextTick=function(t){var e=new Array(arguments.length-1);if(arguments.length>1)for(var n=1;n<arguments.length;n++)e[n-1]=arguments[n];f.push(new d(t,e)),1!==f.length||c||a(h);},d.prototype.run=function(){this.fun.apply(null,this.array);},o.title="browser",o.browser=!0,o.env={},o.argv=[],o.version="",o.versions={},o.on=y,o.addListener=y,o.once=y,o.off=y,o.removeListener=y,o.removeAllListeners=y,o.emit=y,o.prependListener=y,o.prependOnceListener=y,o.listeners=function(t){return []},o.binding=function(t){throw new Error("process.binding is not supported")},o.cwd=function(){return "/"},o.chdir=function(t){throw new Error("process.chdir is not supported")},o.umask=function(){return 0};},function(t,e,n){(function(t){!function(e,n){if(!e.setImmediate){var r,o=1,i={},u=!1,a=e.document,s=Object.getPrototypeOf&&Object.getPrototypeOf(e);s=s&&s.setTimeout?s:e,"[object process]"==={}.toString.call(e.process)?r=function(e){t.nextTick(function(){c(e);});}:function(){if(e.postMessage&&!e.importScripts){var t=!0,n=e.onmessage;return e.onmessage=function(){t=!1;},e.postMessage("","*"),e.onmessage=n,t}}()?function(){var t="setImmediate$"+Math.random()+"$",n=function(n){n.source===e&&"string"==typeof n.data&&0===n.data.indexOf(t)&&c(+n.data.slice(t.length));};e.addEventListener?e.addEventListener("message",n,!1):e.attachEvent("onmessage",n),r=function(n){e.postMessage(t+n,"*");};}():e.MessageChannel?function(){var t=new MessageChannel;t.port1.onmessage=function(t){c(t.data);},r=function(e){t.port2.postMessage(e);};}():a&&"onreadystatechange"in a.createElement("script")?function(){var t=a.documentElement;r=function(e){var n=a.createElement("script");n.onreadystatechange=function(){c(e),n.onreadystatechange=null,t.removeChild(n),n=null;},t.appendChild(n);};}():r=function(t){setTimeout(c,0,t);},s.setImmediate=function(t){"function"!=typeof t&&(t=new Function(""+t));for(var e=new Array(arguments.length-1),n=0;n<e.length;n++)e[n]=arguments[n+1];var u={callback:t,args:e};return i[o]=u,r(o),o++},s.clearImmediate=f;}function f(t){delete i[t];}function c(t){if(u)setTimeout(c,0,t);else {var e=i[t];if(e){u=!0;try{!function(t){var e=t.callback,r=t.args;switch(r.length){case 0:e();break;case 1:e(r[0]);break;case 2:e(r[0],r[1]);break;case 3:e(r[0],r[1],r[2]);break;default:e.apply(n,r);}}(e);}finally{f(t),u=!1;}}}}}("undefined"==typeof self?"undefined"==typeof commonjsGlobal?this:commonjsGlobal:self);}).call(this,n(16));},function(t,e,n){var r="undefined"!=typeof commonjsGlobal&&commonjsGlobal||"undefined"!=typeof self&&self||window,o=Function.prototype.apply;function i(t,e){this._id=t,this._clearFn=e;}e.setTimeout=function(){return new i(o.call(setTimeout,r,arguments),clearTimeout)},e.setInterval=function(){return new i(o.call(setInterval,r,arguments),clearInterval)},e.clearTimeout=e.clearInterval=function(t){t&&t.close();},i.prototype.unref=i.prototype.ref=function(){},i.prototype.close=function(){this._clearFn.call(r,this._id);},e.enroll=function(t,e){clearTimeout(t._idleTimeoutId),t._idleTimeout=e;},e.unenroll=function(t){clearTimeout(t._idleTimeoutId),t._idleTimeout=-1;},e._unrefActive=e.active=function(t){clearTimeout(t._idleTimeoutId);var e=t._idleTimeout;e>=0&&(t._idleTimeoutId=setTimeout(function(){t._onTimeout&&t._onTimeout();},e));},n(17),e.setImmediate="undefined"!=typeof self&&self.setImmediate||"undefined"!=typeof commonjsGlobal&&commonjsGlobal.setImmediate||this&&this.setImmediate,e.clearImmediate="undefined"!=typeof self&&self.clearImmediate||"undefined"!=typeof commonjsGlobal&&commonjsGlobal.clearImmediate||this&&this.clearImmediate;},function(t,e,n){n.r(e);var r=n(7),o=n(0),i=function(){if("undefined"!=typeof self)return self;if("undefined"!=typeof window)return window;if("undefined"!=typeof commonjsGlobal)return commonjsGlobal;throw new Error("unable to locate global object")}();i.Promise?i.Promise.prototype.finally||(i.Promise.prototype.finally=o.a):i.Promise=r.a;},function(t,e,n){n(19),n(15),t.exports=n(14);}])});
+});
+
+var Prismic = /*@__PURE__*/getDefaultExportFromCjs(prismicJavascript_min);
+
+const apiEndpoint = "https://ionicframeworkcom.prismic.io/api/v2" ;
+// Client method to query documents from the Prismic repo
+const Client = (req = null) => Prismic.client(apiEndpoint, createClientOptions(req, null));
+const createClientOptions = (req = null, prismicAccessToken = null) => {
+  const reqOption = req ? { req } : {};
+  const accessTokenOption = prismicAccessToken ? { accessToken: prismicAccessToken } : {};
+  return Object.assign(Object.assign({}, reqOption), accessTokenOption);
+};
+
+var ResourceType;
+(function (ResourceType) {
+  ResourceType["Article"] = "Article";
+  ResourceType["Blog"] = "Blog";
+  ResourceType["Book"] = "Book";
+  ResourceType["CaseStudy"] = "Case Study";
+  ResourceType["CustomerInterview"] = "Customer Interview";
+  ResourceType["Course"] = "Course";
+  ResourceType["Doc"] = "Doc";
+  ResourceType["Guide"] = "Guide";
+  ResourceType["Learning"] = "Learning";
+  ResourceType["Podcast"] = "Podcast";
+  ResourceType["Tutorial"] = "Tutorial";
+  ResourceType["Video"] = "Video";
+  ResourceType["Whitepaper"] = "Whitepaper";
+  ResourceType["Webinar"] = "Webinar";
+})(ResourceType || (ResourceType = {}));
+var ResourceSource;
+(function (ResourceSource) {
+  ResourceSource["Prismic"] = "prismic";
+})(ResourceSource || (ResourceSource = {}));
+
+const apiURL = 'https://ionicframeworkcom.prismic.io/api/v2';
+const getPage = async (prismicId) => {
+  if (!prismicId)
+    return;
+  try {
+    const api = await Prismic.getApi(apiURL);
+    const response = await api.getSingle(prismicId);
+    console.log(response);
+    state.pageData = response.data;
+    // if the page has meta data, set it, otherwise use the default
+    // note, if you're hard coding meta data, do it after calling getPage()
+    ['title', 'description', 'meta_image'].forEach(prop => {
+      state[prop] = response.data[prop] ? response.data[prop] : defaults[prop];
+    });
+  }
+  catch (e) {
+    console.warn(e);
+  }
+};
+const prismicDocToResource = (doc) => {
+  return {
+    id: doc.uid,
+    title: doc.data.title || null,
+    description: doc.data.tagline || null,
+    tags: doc.tags || [],
+    publishDate: doc.first_publication_date || null,
+    updatedDate: doc.last_publication_date || null,
+    type: prismicTypeToResourceType(doc.type),
+    authors: getAuthorsForPrismicDoc(doc),
+    metaImage: getImage(doc.data.meta_image),
+    heroImage: getImage(doc.data.hero_image || doc.data.cover_image),
+    source: ResourceSource.Prismic,
+    doc,
+  };
+};
+const getImage = (imageObj) => (imageObj && imageObj.url ? imageObj.url : '');
+const getAuthorsForPrismicDoc = (doc) => {
+  var _a;
+  if ((!doc.data.hosts || !doc.data.hosts.length) && (!doc.data.author || !doc.data.author.length)) {
+    return [];
+  }
+  if (doc.type === 'webinar') {
+    return doc.data.hosts.map((h) => {
+      var _a;
+      return ({
+        name: h.name || '',
+        title: h.title || '',
+        link: ((_a = h.profile_link) === null || _a === void 0 ? void 0 : _a.url) || '',
+        avatar: h.photo || '',
+      });
+    });
+  }
+  else if (doc.data.author && doc.data.author.length) {
+    return doc.data.author.map((a) => {
+      var _a;
+      return ({
+        name: a.name || '',
+        title: a.title || '',
+        link: ((_a = a.author_url) === null || _a === void 0 ? void 0 : _a.url) || '',
+        avatar: a.photo || '',
+      });
+    });
+  }
+  else if (doc.data.author) {
+    return [
+      {
+        name: doc.data.author.name || '',
+        title: doc.data.author.title || '',
+        link: ((_a = doc.data.author.author_url) === null || _a === void 0 ? void 0 : _a.url) || '',
+        avatar: doc.data.author.photo || '',
+      },
+    ];
+  }
+  return [];
+};
+const prismicTypeToResourceType = (type) => ({
+  article: ResourceType.Article,
+  blog: ResourceType.Blog,
+  book: ResourceType.Book,
+  case_study: ResourceType.CaseStudy,
+  course: ResourceType.Course,
+  customer_story: ResourceType.CustomerInterview,
+  doc: ResourceType.Doc,
+  guide: ResourceType.Guide,
+  learning: ResourceType.Learning,
+  podcast: ResourceType.Podcast,
+  tutorial: ResourceType.Tutorial,
+  video: ResourceType.Video,
+  webinar: ResourceType.Webinar,
+  whitepaper: ResourceType.Whitepaper,
+}[type]);
+const resourceTypeToPrismicType = (type) => ({
+  [ResourceType.Article]: 'article',
+  [ResourceType.Blog]: 'blog',
+  [ResourceType.Book]: 'book',
+  [ResourceType.CaseStudy]: 'case_study',
+  [ResourceType.Course]: 'course',
+  [ResourceType.CustomerInterview]: 'customer_story',
+  [ResourceType.Doc]: 'doc',
+  [ResourceType.Guide]: 'guide',
+  [ResourceType.Learning]: 'learning',
+  [ResourceType.Podcast]: 'podcast',
+  [ResourceType.Tutorial]: 'tutorial',
+  [ResourceType.Video]: 'video',
+  [ResourceType.Webinar]: 'webinar',
+  [ResourceType.Whitepaper]: 'whitepaper',
+}[type]);
+
+const getResourceTypeForParam = (param) => ({
+  articles: ResourceType.Article,
+  blogs: ResourceType.Blog,
+  docs: ResourceType.Doc,
+  'case-studies': ResourceType.CaseStudy,
+  courses: ResourceType.Course,
+  'customer-interviews': ResourceType.CustomerInterview,
+  guides: ResourceType.Guide,
+  learning: ResourceType.Learning,
+  podcasts: ResourceType.Podcast,
+  tutorial: ResourceType.Tutorial,
+  videos: ResourceType.Video,
+  webinars: ResourceType.Webinar,
+  whitepapers: ResourceType.Whitepaper,
+}[param]);
+
+const blogPageCss = ".sc-blog-page-h{--blog-subnav-height:56px;display:block}blog-post.sc-blog-page+blog-post.sc-blog-page{margin-block-start:82px}.container-sm.sc-blog-page{margin-inline-start:auto;margin-inline-end:auto;position:relative;max-width:736px}.ui-container.sc-blog-page{margin-block-start:var(--space-9)}.detail-view.sc-blog-page more-resources.sc-blog-page{margin-block-end:121px}.detail-view.sc-blog-page .more-resources__title.sc-blog-page{margin-block-end:var(--space-5)}.detail-view.sc-blog-page disqus-comments.sc-blog-page{margin-block-end:160px}.detail-view.sc-blog-page blog-social-actions.bottom.sc-blog-page{padding-inline-start:31px;padding-inline-end:31px;background:white;position:absolute;left:50%;transform:translate(-50%, -50%)}.list-view.sc-blog-page blog-newsletter.sc-blog-page{margin-block-end:106px}.list-view.sc-blog-page blog-pagination.sc-blog-page{margin-block-start:var(--space-6);margin-block-end:var(--space-6)}.sticky-wrapper.sc-blog-page{position:absolute;height:100%;left:-96px;top:5px}.sticky-wrapper.sc-blog-page blog-social-actions.top.sc-blog-page{position:sticky;top:calc(var(--blog-subnav-height) + var(--space-6))}.post-author.sc-blog-page{display:flex;margin-block-start:var(--space-6);margin-block-end:120px}.post-author.sc-blog-page img.sc-blog-page{width:56px;height:56px;margin-inline-end:var(--space-4)}.post-author__info.sc-blog-page{display:flex;flex-direction:column;justify-content:center}.post-author__info.sc-blog-page .ui-heading.sc-blog-page{color:#010610}.post-author__info.sc-blog-page .ui-paragraph.sc-blog-page{margin-block-start:4px;color:#92A1B3}";
 
 class BlogPage {
   constructor(hostRef) {
     registerInstance(this, hostRef);
+    this.relatedResources = [];
     this.viewMode = 'previews';
     this.breadcrumbs = {
       base: [
         ['Blog', '/blog']
       ]
     };
-    this.render = () => (h(Host, { class: "sc-blog-page" }, this.viewMode === 'detail'
-      ? h("blog-subnav", { socialActions: true, breadcrumbs: this.breadcrumbs.detail })
-      : h("blog-subnav", { pagination: true, breadcrumbs: this.breadcrumbs.detail }), h(ResponsiveContainer, { id: "posts", as: "section" }, h("div", { class: "container-sm" }, this.viewMode === 'detail'
-      ? h(DetailView, { post: this.post })
-      : h(ListView, { posts: this.posts })))));
+    this.PostAuthor = ({ post: { authorName, authorUrl, authorImageName, authorDescription } }) => {
+      if (!authorImageName)
+        return null;
+      return (hAsync("a", { href: authorUrl, target: "_blank", class: "post-author" }, hAsync("img", { src: getAssetPath(`assets/img/author/${authorImageName}`), alt: authorName, width: "56", height: "56" }), hAsync("div", { class: "post-author__info" }, hAsync(Heading, { level: 5 }, authorName), authorDescription
+        ? hAsync(Paragraph, { level: 4 }, authorDescription)
+        : null)));
+    };
+    this.DetailView = () => {
+      const { post, PostAuthor } = this;
+      if (!post)
+        return null;
+      return (hAsync("div", { class: "detail-view" }, hAsync(Breakpoint, { md: true, class: "sticky-wrapper" }, hAsync("blog-social-actions", { post: post, column: true, class: "top" })), hAsync("blog-post", { post: post }), hAsync("blog-social-actions", { post: post, class: "bottom" }), hAsync(PostAuthor, { post: post }), this.relatedResources.length > 0
+        ? [hAsync(Heading, { level: 4, class: "more-resources__title | ui-theme--editorial" }, "You might also like..."),
+          hAsync("more-resources", { resources: this.relatedResources, routing: { base: 'https://ionicframework.com/resources' } })]
+        : null));
+    };
+    this.ListView = () => {
+      const { posts } = this;
+      if (!posts)
+        return null;
+      return (hAsync("div", { class: "list-view" }, posts.map(p => hAsync("blog-post", { slug: p.slug, post: p, preview: true })), hAsync("blog-newsletter", null)));
+    };
   }
-  async componentWillLoad() {
+  componentWillLoad() {
     state.stickyHeader = false;
     this.posts = posts.slice(0, 10);
     this.checkViewMode(this.viewMode);
-  }
-  componentDidLoad() {
-    this.el.classList.add();
   }
   componentWillUpdate() {
     state.stickyHeader = false;
@@ -7035,15 +7796,46 @@ class BlogPage {
   getPost() {
     this.post = posts.find(p => p.slug === this.slug);
     if (!this.post)
-      throw new Error('couldnt find blog post by slug');
+      console.error('couldnt find blog post by slug');
   }
   checkViewMode(newValue) {
     if (newValue === 'previews')
       return this.breadcrumbs.detail = this.breadcrumbs.base;
     this.getPost();
     this.breadcrumbs.detail = ([...this.breadcrumbs.base, [`${this.post.title}`, `/blog/${this.post.slug}`]]);
+    this.getRelatedResources();
   }
-  static get assetsDirs() { return ["assets"]; }
+  async getRelatedResources() {
+    if (!this.post)
+      return;
+    const { related1, related2 } = this.post;
+    const client = Client();
+    const getTypeAndUid = (item) => {
+      const typeMatch = item.match(/\/resources\/(.*?)\/(.*?)$/);
+      return {
+        type: typeMatch ? getResourceTypeForParam(typeMatch[1]) : undefined,
+        uid: typeMatch ? typeMatch[2] : undefined,
+      };
+    };
+    let resources = [];
+    await Promise.all([related1, related2].map(async (related) => {
+      if (!related)
+        return;
+      const { type, uid } = getTypeAndUid(related);
+      const prismicType = resourceTypeToPrismicType(type);
+      const doc = await client.getByUID(prismicType, uid, {});
+      resources.push(prismicDocToResource(doc));
+    }));
+    this.relatedResources = [...resources];
+  }
+  render() {
+    const { DetailView, ListView } = this;
+    return (hAsync(Host, { class: "sc-blog-page" }, this.viewMode === 'detail'
+      ? hAsync("blog-subnav", { socialActions: true, breadcrumbs: this.breadcrumbs.detail })
+      : hAsync("blog-subnav", { pagination: true, breadcrumbs: this.breadcrumbs.detail }), hAsync(ResponsiveContainer, { id: "posts", as: "section" }, hAsync("div", { class: "container-sm" }, this.viewMode === 'detail'
+      ? hAsync(DetailView, null)
+      : hAsync(ListView, null)))));
+  }
   get el() { return getElement(this); }
   static get watchers() { return {
     "viewMode": ["checkViewMode"]
@@ -7057,6 +7849,7 @@ class BlogPage {
       "viewMode": [1, "view-mode"],
       "posts": [32],
       "post": [32],
+      "relatedResources": [32],
       "breadcrumbs": [32]
     },
     "$listeners$": undefined,
@@ -7064,159 +7857,138 @@ class BlogPage {
     "$attrsToReflect$": []
   }; }
 }
-const DetailView = ({ post }) => {
-  if (!post)
-    return null;
-  return [
-    h(Breakpoint, { md: true, class: "sticky-wrapper" }, h("blog-social-actions", { post: post, column: true, class: "top" })),
-    h("blog-post", { post: post }),
-    h("blog-social-actions", { post: post, class: "bottom" }),
-    h(PostAuthor, { post: post }),
-    h("disqus-comments", { url: `https://useappflow.com/blog/${post.slug}`, siteId: "ionic" })
-  ];
-};
-const ListView = ({ posts }) => {
-  if (!posts)
-    return null;
-  return [
-    ...posts.map(p => h("blog-post", { slug: p.slug, post: p, preview: true })),
-    h("blog-pagination", { rssIcon: true }),
-    h("blog-newsletter", null)
-  ];
-};
-const PostAuthor = ({ post }) => (h("section", { class: "post-author" }, h(Heading, { level: 5 }, post.authorName), h(Paragraph, { level: 4 }, post.authorEmail)));
 
-const aaaLogo = ({ main = '#E21827' } = {}, props) => (h("svg", Object.assign({ viewBox: "0 0 49.71 30" }, props),
-  h("path", { fill: main, d: "M49.48 1.17C48.02-1.32 40.37.3 30.83 4.68c.1.07-.1-.07 0 0-3.03-2.38-7.9-4-13.53-4C7.76.68 0 5.5 0 11.38c0 3.56 2.8 6.72 7.09 8.67L7 20.02c-4.14 3.83-6.25 7.08-5.28 8.8 1.19 2 6.3 1.35 13.15-1.18l-.05-.11c-5.5 1.89-9.54 2.27-10.5.65-.81-1.46.9-4.2 4.34-7.5 2.54.92 5.52 1.5 8.66 1.5 9.6 0 17.34-4.86 17.34-10.8 0-2-.9-3.87-2.45-5.48 7.31-3.12 12.96-4.08 14.14-2.03 1.35 2.32-3.99 8.1-12.56 13.83l.11.1C44.36 11 51.1 3.99 49.48 1.18zM26.63 14.24H23l1.78-6.53 1.84 6.53zm-8.41 0H14.6l1.77-6.53 1.84 6.53zM16.55 1.6L13.1 14.24 9.8 3.06c2-.86 4.32-1.35 6.75-1.46zm-6.8 12.64H6.2l1.78-6.53 1.78 6.53zm-6.73-2.86c0-2.76 1.67-5.24 4.36-7.03L4.31 15.48a7.4 7.4 0 01-1.3-4.1zm8.4 8.97a14.48 14.48 0 01-5.98-3.46l.38-1.35h4.31l1.3 4.75v.06zm5.88.86c-1.56 0-3.07-.16-4.47-.49l1.4-5.18h4.36l1.51 5.45c-.91.17-1.83.22-2.8.22zm.54-19.61c2.42.05 4.74.54 6.79 1.35l-3.13 11.3L17.84 1.6zm5.44 18.7l-1.02-3.36.37-1.4H27l.7 2.6a14.1 14.1 0 01-4.42 2.15zm7-4.76l-3.33-11.4c2.9 1.83 4.69 4.37 4.69 7.24 0 1.51-.49 2.92-1.35 4.16z" })));
-const amtrakLogo = ({ main = '#1E8DB5' } = {}, props) => (h("svg", Object.assign({ viewBox: "0 0 63.78 26.25" }, props),
-  h("path", { fill: main, d: "M29.93 4.77l-.64-2.5-1.52 2.5h-1.79l-1.52-2.5-.63 2.5H21.9l1.24-3.9h2.11l1.64 2.67L28.5.87h2.1l1.24 3.9h-1.91zM15.98.88L13.2 4.73h1.87l.44-.68h2.91l.44.68h2.08L18.13.87h-2.15zm0 2.47l1-1.54 1 1.54h-2zM51.47.88l-2.8 3.86h1.88l.44-.68h2.91l.44.68h2.07L53.62.87h-2.15zm0 2.47l1-1.54 1 1.54h-2zM61.99 4.77L59.7 2.94v1.83H57.8V.87h1.91V2.6L62 .87h2.3l-2.58 1.88 2.79 2.02h-2.51zM45.42 4.77h2.2l-1.44-1.5c.8-.18 1.11-.63 1.11-1.12 0-.6-.44-.9-1.07-1.09-.68-.15-1.56-.19-2.4-.19h-2.95v3.87h1.92V3.57h1.63l1 1.2zm-2.63-3.1h1.2c.99 0 1.39.18 1.39.55 0 .3-.28.53-.6.57-.24.03-.48.07-.84.07H42.8v-1.2zM36.9 1.77v3h-1.96v-3h-2.47l.2-.9h6.74l-.2.9H36.9zM27.23 23.08c3.95 1.56 8 3 11.53 4.05 4.17-8.1 11.75-14.53 25.74-20.44v-.31c-17.94 4.77-29.16 8.2-37.27 16.7zM34.57 7.3C30.62 7.08 9.9 6.49.7 10.86c2.46 1.65 5.13 3.3 8.33 5.2 9.19-4.73 20.94-6.38 31.83-7.09v-.35c-2.14-.24-4.48-.71-6.3-1.3z" }),
-  h("path", { fill: main, d: "M44.63 8.81C36.41 9.66 22 12 13.77 17.06c2.99 1.49 6.09 2.97 9.3 4.34 8.53-7.3 20.07-10.58 31.71-12.8V8.3c-2.88.31-7.37.52-10.15.52z" })));
-const appflowLogoWithText = ({ main = '#639CFF', second = '#4F68FF', third = '#001A3A' } = {}, props) => (h("svg", Object.assign({ viewBox: "0 0 114 24" }, props),
-  h("path", { fill: third, d: "M43.882 6.392v11.781h-2.994v-1.439c-.754 1.08-2.102 1.709-3.793 1.709-3.474 0-5.508-2.743-5.508-6.16 0-3.418 2.034-6.16 5.508-6.16 1.69 0 3.039.629 3.793 1.708V6.392h2.994zm-6.102 2.54c-1.805 0-2.948 1.44-2.948 3.35 0 1.912 1.143 3.35 2.948 3.35 1.806 0 2.948-1.438 2.948-3.35 0-1.91-1.142-3.35-2.948-3.35zM48.446 22.528H45.2V6.392h2.993v1.44c.755-1.08 2.103-1.71 3.794-1.71 3.474 0 5.507 2.743 5.507 6.16 0 3.418-2.033 6.16-5.507 6.16-1.691 0-2.925-.718-3.542-1.528v5.614zm2.856-6.895c1.806 0 2.948-1.44 2.948-3.35 0-1.911-1.142-3.35-2.948-3.35-1.805 0-2.947 1.439-2.947 3.35 0 1.91 1.142 3.35 2.947 3.35zM61.759 22.528h-3.245V6.392h2.993v1.44c.755-1.08 2.103-1.71 3.794-1.71 3.474 0 5.507 2.743 5.507 6.16 0 3.418-2.034 6.16-5.507 6.16-1.691 0-2.925-.718-3.542-1.528v5.614zm2.856-6.895c1.806 0 2.948-1.44 2.948-3.35 0-1.911-1.142-3.35-2.948-3.35-1.805 0-2.947 1.439-2.947 3.35 0 1.91 1.142 3.35 2.947 3.35zM81.363 1.472h-3.245v16.701h3.245V1.472zM75.02 5.541c0-.99.584-1.304 1.361-1.304.366 0 .748.023.748.023V1.517s-.715-.045-1.287-.045c-2.422 0-4.067 1.304-4.067 4.136v12.565h3.245V8.91h2.177V6.392H75.02v-.851zM82.305 12.283c0-3.35 2.445-6.16 6.285-6.16 3.839 0 6.284 2.81 6.284 6.16s-2.445 6.16-6.284 6.16c-3.84 0-6.285-2.81-6.285-6.16zm6.285 3.35c1.713 0 3.039-1.237 3.039-3.35 0-2.114-1.326-3.35-3.04-3.35-1.713 0-3.039 1.236-3.039 3.35 0 2.113 1.326 3.35 3.04 3.35zM103.816 10.889h-.045l-2.445 7.284h-3.04l-4.182-11.78h3.36l2.4 7.756 2.467-7.757h2.925l2.491 7.802 2.422-7.802h3.291l-4.182 11.781h-3.039l-2.423-7.284z" }),
-  h("ellipse", { cx: "13.764", cy: "16.755", rx: "2.99", ry: "2.943", fill: second }),
-  h("path", { d: "M26.988 24L16.823 0h-6.099L20.89 24h6.099z", fill: second }),
-  h("path", { opacity: ".2", d: "M14.854 9.75L16.824 0h-6.1l2.541 6 1.271 3 .159.375.159.375z", fill: "#000" }),
-  h("path", { d: "M.54 24L10.705 0h6.098L6.64 24H.54z", fill: main })));
-const appleStoreCheckedIcon = ({ main = '#30cdfb', second = '#1d70f1', third = '#597EFF', fourth = '#fff' } = {}, props) => (h("svg", Object.assign({ viewBox: "0 0 52 52" }, props),
-  h("rect", { fill: "url(#app_store_checked_icon_gradient_0)", y: "4", width: "48", height: "48", rx: "15.2852" }),
-  h("circle", { fill: fourth, cx: "43.9999", cy: "7.99991", r: "5.99991" }),
-  h("path", { fill: third, d: "M43.9999 0C39.5888 0 36 3.74553 36 8.34927C36 12.953 39.5888 16.6985 43.9999 16.6985C48.411 16.6985 51.9998 12.953 51.9998 8.34927C51.9998 3.74553 48.411 0 43.9999 0ZM48.1633 5.55106L42.9941 11.9736C42.9374 12.0441 42.8669 12.101 42.7872 12.1406C42.7076 12.1801 42.6208 12.2013 42.5326 12.2028H42.5222C42.436 12.2027 42.3507 12.1838 42.2719 12.1471C42.1931 12.1105 42.1226 12.057 42.0649 11.99L39.8496 9.42103C39.7933 9.35875 39.7495 9.28536 39.7208 9.20517C39.6921 9.12499 39.6791 9.03963 39.6824 8.9541C39.6858 8.86858 39.7055 8.78462 39.7404 8.70716C39.7753 8.6297 39.8247 8.5603 39.8857 8.50304C39.9466 8.44578 40.0179 8.40182 40.0954 8.37374C40.1729 8.34566 40.255 8.33402 40.3368 8.33951C40.4187 8.34501 40.4986 8.36752 40.572 8.40573C40.6454 8.44394 40.7107 8.49708 40.7642 8.56202L42.5061 10.5819L47.221 4.72496C47.3267 4.59735 47.4764 4.5183 47.6375 4.50489C47.7987 4.49149 47.9584 4.54481 48.0822 4.65334C48.206 4.76186 48.2839 4.91687 48.2991 5.08486C48.3142 5.25284 48.2655 5.42031 48.1633 5.55106Z" }),
-  h("path", { fill: fourth, d: "M 19.6 31.8 C 20.202 31.629 21.15 31.7 21.8 31.7 C 21.8 31.7 25.2 31.7 25.2 31.7 C 25.946 31.701 26.758 31.783 27.4 32.197 C 28.175 32.696 28.665 33.58 28.696 34.5 C 28.706 34.813 28.673 35.585 28.357 35.743 C 28.214 35.814 27.866 35.8 27.7 35.8 C 27.7 35.8 9.9 35.8 9.9 35.8 C 9.191 35.799 8.376 35.709 7.804 35.247 C 6.823 34.455 6.897 32.9 7.902 32.164 C 8.466 31.75 9.414 31.701 10.1 31.7 C 10.1 31.7 13.8 31.7 13.8 31.7 C 14.047 31.7 14.369 31.72 14.59 31.598 C 14.953 31.397 15.73 29.851 16 29.4 C 16 29.4 20.339 21.9 20.339 21.9 C 20.339 21.9 21.251 20.3 21.251 20.3 C 21.415 20.004 21.587 19.75 21.491 19.4 C 21.43 19.182 21.073 18.625 20.94 18.4 C 20.94 18.4 20.28 17.2 20.28 17.2 C 19.687 16.195 19.266 15.813 19.302 14.6 C 19.315 14.128 19.42 13.797 19.753 13.447 C 20.712 12.435 22.231 12.715 22.991 13.801 C 23.178 14.07 23.697 15.196 24 15.196 C 24.33 15.196 24.83 14.107 25.011 13.829 C 25.814 12.599 27.64 12.405 28.466 13.704 C 29.159 14.796 28.533 15.835 27.985 16.8 C 27.985 16.8 26.78 18.9 26.78 18.9 C 26.78 18.9 25.358 21.4 25.358 21.4 C 25.358 21.4 21.472 28.1 21.472 28.1 C 21.472 28.1 20.14 30.4 20.14 30.4 C 19.863 30.872 19.576 31.238 19.6 31.8 Z M 27.1 21 C 27.1 21 29.231 24.6 29.231 24.6 C 29.231 24.6 30.699 27.1 30.699 27.1 C 30.699 27.1 31.84 29.1 31.84 29.1 C 31.84 29.1 32.77 30.7 32.77 30.7 C 32.928 30.989 33.126 31.431 33.418 31.598 C 33.633 31.72 33.957 31.7 34.2 31.7 C 34.2 31.7 38.1 31.7 38.1 31.7 C 38.61 31.706 39.461 31.786 39.9 32.036 C 41.229 32.795 41.255 34.699 39.9 35.444 C 38.968 35.957 36.902 35.8 35.8 35.8 C 35.976 36.357 37.07 38.17 37.428 38.8 C 37.696 39.272 38.014 39.749 38.082 40.3 C 38.239 41.576 37.331 42.681 36 42.567 C 34.841 42.468 34.5 41.833 33.956 40.925 C 33.956 40.925 32.057 37.628 32.057 37.628 C 32.057 37.628 28.119 30.8 28.119 30.8 C 27.517 29.768 26.23 27.753 25.93 26.7 C 25.77 26.141 25.581 25.275 25.604 24.7 C 25.654 23.422 26.192 21.914 27.1 21 Z M 12.3 36.843 C 13.244 36.726 14.085 36.855 14.9 37.371 C 15.119 37.509 15.482 37.746 15.559 38.004 C 15.664 38.357 15.071 39.176 14.885 39.5 C 14.181 40.727 13.619 42.429 12 42.567 C 10.739 42.675 9.72 41.536 9.933 40.3 C 10.056 39.585 10.577 38.82 10.939 38.2 C 11.401 37.408 11.357 37.01 12.3 36.843 Z" }),
-  h("defs", null,
-    h("linearGradient", { id: "app_store_checked_icon_gradient_0", gradientTransform: "rotate(90)" },
-      h("stop", { offset: "0", "stop-color": main }),
-      h("stop", { offset: "1", "stop-color": second })))));
-const appleCloudIcon = ({ main = '#597EFF', second = '#BFE4FF', third = '#F0F6FF' } = {}, props) => (h("svg", Object.assign({ viewBox: "0 0 48 48" }, props),
-  h("rect", { fill: second, width: "48", height: "48", rx: "24" }),
-  h("path", { fill: main, d: "M34.4 36H15.1c-2.71 0-5.23-.93-7.1-2.62a9.1 9.1 0 01-3-6.83c0-2.7 1-5.04 2.87-6.74a10.92 10.92 0 015.14-2.5 1.19 1.19 0 00.84-.68c.71-1.6 1.78-3.01 3.12-4.14a11.43 11.43 0 0114.98.68 12.95 12.95 0 013.65 6.8 1.18 1.18 0 00.9.9c3.38.76 6.5 3.2 6.5 7.45 0 2.46-.9 4.49-2.63 5.85A9.51 9.51 0 0134.4 36z" }),
-  h("path", { fill: third, d: "M26.91 20.28c-1.26 0-1.79.6-2.67.6-.9 0-1.58-.6-2.68-.6-1.07 0-2.2.65-2.93 1.76-1.02 1.57-.84 4.52.8 7.04.6.9 1.38 1.9 2.41 1.92h.02c.9 0 1.16-.59 2.4-.6h.01c1.22 0 1.46.6 2.36.6h.01c1.04-.01 1.86-1.13 2.45-2.03.43-.64.58-.97.91-1.7-2.38-.9-2.76-4.28-.4-5.57a3.56 3.56 0 00-2.69-1.42z" }),
-  h("path", { fill: third, d: "M26.64 17a3.3 3.3 0 00-2.14 1.15c-.47.57-.85 1.4-.7 2.22h.06c.8 0 1.62-.48 2.1-1.1.45-.59.8-1.42.68-2.27z" })));
-const buildingBlocksIcon = ({ main = '#3C67FF', second = '#597EFF', third = '#7CABFF', fourth = '#8DCFFF' } = {}, props) => (h("svg", Object.assign({ width: "64", height: "64" }, props),
-  h("rect", { y: "54", width: "64", height: "10", rx: "2", fill: main }),
-  h("rect", { x: "48", y: "36", width: "16", height: "16", rx: "2", fill: second }),
-  h("rect", { x: "48", y: "18", width: "16", height: "16", rx: "2", fill: third }),
-  h("rect", { x: "48", width: "16", height: "16", rx: "2", fill: fourth }),
-  h("rect", { x: "30", y: "36", width: "16", height: "16", rx: "2", fill: second }),
-  h("rect", { x: "30", y: "18", width: "16", height: "16", rx: "2", fill: third }),
-  h("rect", { x: "12", y: "36", width: "16", height: "16", rx: "2", fill: second })));
-const burgerKingLogo = ({ main = '#EE1D23', second = '#185494', third = '#FAAF18' } = {}, props) => (h("svg", Object.assign({ viewBox: "0 0 30.32 32" }, props),
-  h("path", { fill: third, d: "M23.85 4.5c.08-.18-.07-.36-.07-.36s-1.18-2.01-5.32-2.47c-2.23-.24-5.25.22-7.37 1.38C7.23 5.15 6.65 8.6 6.65 8.6c-.02.09-.05.35.04.46.08.1.21.1.37.05 1.36-.46 5.4-1.82 7.95-2.5a95.24 95.24 0 018.52-1.9c.15-.03.27-.08.32-.2z" }),
-  h("path", { fill: second, d: "M28 20.8c-2.18 4.94-6.34 8.38-11.81 8.46a14.09 14.09 0 01-10.03-3.74l-1.53.67v-2.41A14.15 14.15 0 012 15.33C1.99 6.93 8.34.3 17.2.3c1.45 0 2.75.23 3.74.46A15.05 15.05 0 0016.23 0C6.72 0 .32 7.81.32 15.87.32 24.65 7.12 32 16.04 32c8.52 0 13.11-6.09 14.6-9.75L28 20.79z" }),
-  h("path", { fill: main, d: "M25.8 19.06a4.31 4.31 0 002.58-1.13c.43-.43.54-1.02.54-1.46.02-.65 0-2.7 0-2.7l-3.31.73v.78c.01.52.26.8.8.7.16-.02.42-.1.42-.1v.64c0-.02.05.36-.78.52-1.1.17-1.59-.5-1.6-1.71.02-1.3.74-2.03 1.62-2.24.98-.22 1.54.01 1.86.06 1.1.16 1.4-1.5.41-1.89-.74-.3-1.7-.36-2.6-.17a4.42 4.42 0 00-3.62 4.63c-.01 2.67 1.93 3.53 3.67 3.34z" }),
-  h("path", { fill: main, d: "M15.03 21.91l1.1-.38c.82-.28 1.12-.78 1.12-1.62-.02-.93-.02-2.73-.02-2.73l2.37 2.76c.39.4.87.43 1.3.3.46-.13.84-.55.85-1.15v-6.84s-.6.13-1.11.27c-.58.16-1.03.54-1.03 1.54v2.37s-1.35-1.7-2.21-2.58c-.46-.46-1.24-.18-1.24-.18l-1.13.34v7.9z" }),
-  h("path", { fill: main, d: "M14.31 14.19s-.7.2-1.28.42c-.75.27-1.2.72-1.2 1.87v6.56s.66-.23 1.28-.47c.87-.33 1.2-.79 1.2-1.71v-6.67z" }),
-  h("path", { fill: main, d: "M10.79 15.75c-.65-.3-1.21.03-1.45.4l-2 3.46v-2.79l-2.38 1v7.87l1.66-.7s.33-.1.53-.42c.18-.3.17-.77.17-.77v-2.5l1.86 2.01c.4.44 1.16.65 1.82.11.6-.49.5-1.32.17-1.7l-1.69-1.73 1.74-2.78c.32-.54.16-1.19-.43-1.46z" }),
-  h("path", { fill: third, d: "M9.86 25.01c-.09.21.11.42.11.42.86 1.1 4.68 2.48 8.84 1.46 6.34-1.55 7.68-6.1 7.83-6.74.03-.13.05-.33-.07-.46-.1-.11-.24-.11-.44-.07a117.41 117.41 0 00-15.95 5.16c-.18.07-.26.1-.32.23z" }),
-  h("path", { fill: main, d: "M6.1 14.69c-.01-.44-.34-.68-.91-.38v1.4l.32-.15c.34-.17.6-.45.59-.87zm-.92-1.27l.26-.12a.9.9 0 00.54-.81c0-.43-.34-.54-.8-.3v1.23zm2.44 1.06c.02 1.1-.76 1.7-1.79 2.12l-2.09.9v-5.74s1.32-.54 1.75-.7c1.22-.46 1.94.1 1.94.92 0 .55-.24 1.02-.74 1.43.49.08.92.5.93 1.07z" }),
-  h("path", { fill: main, d: "M11.58 9.64c0-.48-.33-.6-.73-.5l-.7.24v3.57c0 .36-.05.8-.49.91-.33.09-.49-.14-.49-.5v-2.91c0-.5-.33-.63-.73-.5-.45.15-.7.26-.7.26v3.53c-.01 1.19.8 1.78 2.02 1.41 1.08-.32 1.81-.94 1.82-2.51v-3z" }),
-  h("path", { fill: main, d: "M23.21 11.12c.31-.07.5-.3.5-.68v-.62l-1.69.38V9.19l1.06-.23c.3-.07.44-.23.44-.56V7.8l-1.5.33v-.8l1.2-.26c.33-.06.44-.29.44-.6v-.61c-.75.13-2.17.42-3.06.63l-.01 5.23 2.62-.61z" }),
-  h("path", { fill: main, d: "M13.4 10.9s.84-.44.84-1.14c-.01-.6-.55-.46-.83-.36v1.5zm.01.82v1.4c0 .39-.26.66-.58.79 0 0 0-.01 0 0l-.84.29V8.8s1.19-.41 1.88-.58c1.07-.26 1.84.24 1.83 1.13a2.21 2.21 0 01-.89 1.71l.93.9c.27.28.3.77-.02 1.08-.19.18-.7.37-1.08-.04l-1.23-1.28zM25.42 8s.82-.3.81-.98c-.01-.57-.56-.47-.82-.4V8zm-1.4 2.96V5.79s1.5-.27 1.88-.31c1.07-.14 1.79.46 1.76 1.31a1.8 1.8 0 01-.86 1.48l.92 1.05c.26.3.24.8-.14 1.05a.73.73 0 01-.98-.13l-1.18-1.43v1.26c0 .38-.23.66-.61.73l-.79.16z" }),
-  h("path", { fill: main, d: "M20.25 8.79l-2.1.48v.6c0 .28.19.46.47.4l.3-.06v.6c0 .23-.34.38-.7.37-.51-.02-.8-.42-.8-1.18 0-1 .48-1.58 1.11-1.75.31-.08.6-.04.83 0 .54.08.85-.18.86-.64.01-.48-.42-.79-1.33-.75-1.99.06-3 1.51-3 3.24 0 1.77 1.14 2.55 2.53 2.3a2.9 2.9 0 001.45-.66c.27-.24.38-.6.38-.91V8.79z" }),
-  h("path", { fill: "#fff", d: "M11.93 3C9.6 4.05 8.03 6.53 7.94 7.57c-.03.41.51.48.57.03C9 5.7 10.5 3.9 11.93 3zM19.66 4.78c1.25-.31 1.94-.35 1.95-.93.03-.95-2.65-2.06-5.11-1.85 2.5.17 4 1.15 4 1.82.01.43-.36.81-.84.96zM20.43 25.83a8.7 8.7 0 004.7-4.34c.29-.62-.55-.94-.78-.2a8.97 8.97 0 01-3.92 4.54z" })));
-const checkmarkCircle = ({ main = '#597EFF', second = '#EEFEFF' } = {}, props) => (h("svg", Object.assign({ viewBox: "0 0 16 16" }, props),
-  h("circle", { cx: "8", cy: "8", r: "8", fill: main }),
-  h("path", { d: "M11 5l-4.2 6L5 8.75", fill: "none", stroke: second, "stroke-linecap": "round", "stroke-linejoin": "round" })));
-const checkmarkRounded = ({ main = '#5B708B' } = {}, props) => (h("svg", Object.assign({ viewBox: "0 0 12 12" }, props),
-  h("path", { d: "M1 7.11L4.89 11 11 1", stroke: main, fill: "none", "stroke-width": "2", "stroke-linecap": "round", "stroke-linejoin": "round" })));
-const cloudCircleIcon = ({ main = '#BFE4FF', second = '#3C67FF', third = '#194BFD' } = {}, props) => (h("svg", Object.assign({ viewBox: "0 0 48 48" }, props),
-  h("rect", { fill: main, width: "48", height: "48", rx: "24" }),
-  h("path", { fill: second, opacity: "0.6", d: "M29.75 35H13.5C11.2225 35 9.1025 34.2144 7.53063 32.7869C5.89875 31.305 5 29.25 5 27C5 24.7138 5.83688 22.7425 7.42 21.2988C8.55188 20.2657 10.0588 19.5332 11.7438 19.1819C11.8991 19.1498 12.0445 19.0812 12.1681 18.9817C12.2916 18.8823 12.3898 18.7549 12.4544 18.6101C13.0543 17.2596 13.9529 16.0629 15.0825 15.1101C16.735 13.7307 18.7812 13.0001 21 13.0001C23.4958 12.9892 25.8977 13.951 27.6963 15.6813C29.2419 17.1694 30.29 19.1363 30.77 21.4313C30.8085 21.6195 30.9005 21.7926 31.0348 21.9299C31.1691 22.0673 31.3402 22.163 31.5275 22.2057C34.375 22.8388 37 24.9019 37 28.5C37 30.5869 36.235 32.2988 34.7869 33.4519C33.5144 34.4644 31.7731 35 29.75 35Z" }),
-  h("path", { fill: third, opacity: "0.3", d: "M38.4688 28H28.3125C26.8891 28 25.5641 27.5001 24.5816 26.5917C23.5617 25.6486 23 24.3409 23 22.9091C23 21.4542 23.523 20.1998 24.5125 19.2811C25.2199 18.6236 26.1617 18.1575 27.2148 17.934C27.3119 17.9135 27.4028 17.8698 27.48 17.8066C27.5573 17.7433 27.6186 17.6622 27.659 17.57C28.0339 16.7106 28.5956 15.9491 29.3016 15.3428C30.3344 14.465 31.6133 14.0001 33 14.0001C34.5599 13.9931 36.061 14.6052 37.1852 15.7063C38.1512 16.6533 38.8063 17.9049 39.1063 19.3654C39.1303 19.4851 39.1878 19.5953 39.2718 19.6827C39.3557 19.7701 39.4626 19.831 39.5797 19.8582C41.3594 20.2611 43 21.5739 43 23.8637C43 25.1917 42.5219 26.281 41.6168 27.0148C40.8215 27.6592 39.7332 28 38.4688 28Z" })));
-const catLogo = ({ main = '#03060B', second = '#FFC409' } = {}, props) => (h("svg", Object.assign({ viewBox: "0 0 41.27 24.38" }, props),
-  h("path", { fill: second, d: "M22.25 15.2L9.65 25.2h25.2l-12.6-9.98z" }),
-  h("path", { fill: main, d: "M37.24 25.19l-4.52-3.55V6.04h-3.6v-4.5H41.9v4.5h-3.58V25.2h-1.08zM25.97 1.54h-7.53l-4.08 17.98 7.75-6.15.14-.11 7.83 6.23-4.11-17.95zM22.08 12.4h-1.46l1.46-6.5v.02l1.46 6.5h-1.46v-.02zM12.49 20.93l-5.16 4.12c-.16 0-.33.03-.47.03-4.77-.03-6.23-1.93-6.23-6V6.8C.63 2.74 2.1.81 6.9.81c4.93 0 6.4 1.93 6.4 6v4.14H8.4V5.94c0-.76-.58-1.14-1.38-1.14-.66 0-1.38.38-1.38 1.14v14.04c0 .79.72 1.3 1.38 1.3.66 0 1.38-.4 1.38-1.3v-4.77h4.88v3.88c0 .48-.25 1.4-.8 1.84z" })));
-const facebookRoundedLogo = ({ main = 'gray' } = {}, props) => (h("svg", Object.assign({ viewBox: "0 0 20 20" }, props),
-  h("path", { fill: main, "fill-rule": "evenodd", "clip-rule": "evenodd", d: "M20 10.06C20 4.5 15.52 0 10 0S0 4.5 0 10.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H5.9v-2.91h2.54V7.84c0-2.52 1.5-3.91 3.77-3.91 1.1 0 2.24.2 2.24.2V6.6H13.2c-1.24 0-1.63.78-1.63 1.57v1.9h2.78l-.45 2.9h-2.33V20A10.04 10.04 0 0020 10.06z" })));
-const googleStoreCheckedIcon = ({ main = '#00C1F3', second = '#00DA68', third = '#F93245', fourth = '#FFC803', fifth = '#597EFF' } = {}, props) => (h("svg", Object.assign({ viewBox: "0 0 45 54.27" }, props),
-  h("path", { fill: main, d: "M0 7.25v43.94c0 .1.03.2.08.27.05.08.12.14.2.18a.45.45 0 00.52-.1l22.13-22.32L.8 6.91a.46.46 0 00-.51-.1.47.47 0 00-.21.17.5.5 0 00-.08.27z" }),
-  h("path", { fill: second, d: "M32.21 20.05L4.46 4.25l-.02-.01c-.48-.27-.93.4-.54.79l21.76 21.5 6.55-6.48z" }),
-  h("path", { fill: third, d: "M3.9 53.42c-.4.39.06 1.06.54.79l.02-.01 27.75-15.8-6.55-6.49L3.9 53.42z" }),
-  h("path", { fill: fourth, d: "M43.42 26.43L35.67 22l-7.29 7.21 7.29 7.2 7.75-4.4a3.26 3.26 0 000-5.6z" }),
-  h("circle", { fill: "#fff", cx: "37", cy: "8", r: "6" }),
-  h("path", { fill: fifth, d: "M37 0c-4.41 0-8 3.75-8 8.35s3.59 8.35 8 8.35 8-3.75 8-8.35S41.41 0 37 0zm4.16 5.55L36 11.97a.62.62 0 01-.46.23.6.6 0 01-.47-.21l-2.21-2.57a.65.65 0 01-.17-.47.67.67 0 01.2-.45.6.6 0 01.46-.16.6.6 0 01.42.22l1.75 2.02 4.71-5.86a.6.6 0 01.86-.07.66.66 0 01.08.9z" })));
-const ibmLogo = ({ main = '#1F70C1' } = {}, props) => (h("svg", Object.assign({ viewBox: "0 0 52.53 21.56" }, props),
-  h("path", { fill: main, d: "M53.32 1.75h-8.75l.56-1.53h8.19v1.53zM30 .22h8.12l.5 1.53H30V.22zM23.55.22a5.6 5.6 0 013.47 1.53H12.28V.22h11.27zM10.99.22H.79v1.53h10.2V.22zM53.32 4.6h-9.76l.5-1.54h9.2V4.6h.06zM39.7 4.6H30V3.12h9.13l.56 1.48zM28.2 3.12c.17.51.45.91.45 1.54H12.34V3.12H28.2zM10.99 3.12H.79v1.54h10.2V3.12zM42.6 7.5l.51-1.54h7.35V7.5H42.6zM40.14 5.96l.56 1.54h-7.79V5.96h7.23zM28.76 5.96c0 .52-.06 1.09-.22 1.54h-4.49V5.96h4.71zM8.02 5.96H3.65V7.5h4.37V5.96zM19.68 5.96H15.3V7.5h4.37V5.96zM37.23 9.15v1.14H32.9V8.75h8.24l.5 1.43.51-1.43h8.3v1.54h-4.32V9.15l-.4 1.14h-8.12l-.4-1.14zM15.3 8.81h12.62a6.43 6.43 0 01-1.23 1.54H15.36c-.05-.06-.05-1.54-.05-1.54zM8.02 8.81H3.65v1.54h4.37V8.8zM50.46 11.65h-4.32v1.54h4.32v-1.54zM37.23 11.65H32.9v1.54h4.32v-1.54zM45.3 11.65l-.5 1.54h-6.12l-.56-1.54h7.18zM15.3 11.65h11.33c.5.46 1.01.97 1.35 1.54H15.3v-1.54zM8.02 13.19v-1.54H3.65v1.54h4.37zM50.46 14.56h-4.32v1.53h4.32v-1.53zM37.23 14.56H32.9v1.53h4.32v-1.53zM43.73 16.1s.5-1.54.56-1.54h-5.21l.56 1.53h4.09zM15.3 16.04V14.5h4.44v1.54H15.3zM28.6 14.56c.22.45.22 1.02.27 1.53h-4.7v-1.53h4.42zM8.02 14.56H3.65v1.53h4.37v-1.53zM53.32 17.34h-7.18v1.54h7.18v-1.54zM37.17 17.34h-7.18v1.54h7.18v-1.54zM42.78 18.88h-2.19l-.56-1.54h3.25l-.5 1.54zM.79 17.34v1.54h10.2v-1.54H.79zM28.7 17.34c-.1.52-.22 1.14-.56 1.54h-15.8v-1.54H28.7zM41.77 21.72h-.17l-.56-1.47h1.29l-.56 1.47zM53.32 20.25h-7.18v1.53h7.18v-1.53zM12.34 21.72V20.2h14.8a5.75 5.75 0 01-3.82 1.53H12.34zM37.17 20.25h-7.18v1.53h7.18v-1.53zM10.99 20.25v1.53H.79v-1.53h10.2z" })));
-const linkedInLogo = ({ main = '#0072b1' } = {}, props) => (h("svg", Object.assign({ viewBox: "0 0 12 12" }, props),
-  h("path", { fill: main, d: "M11.04 0H1.03C.48 0 0 .4 0 .93v10.04C0 11.52.48 12 1.03 12h10c.56 0 .97-.49.97-1.03V.93c0-.54-.41-.93-.96-.93zM3.72 10H2V4.66h1.72V10zm-.8-6.16h-.01c-.55 0-.9-.4-.9-.92S2.36 2 2.92 2s.9.4.92.92c0 .52-.36.92-.93.92zM10 10H8.28V7.08c0-.7-.25-1.18-.87-1.18-.47 0-.76.32-.88.64-.05.1-.06.26-.06.42V10H4.75V4.66h1.72v.74c.25-.35.64-.87 1.55-.87 1.13 0 1.98.75 1.98 2.35V10z" })));
-const nasaLogo = ({ main = '#E72031' } = {}, props) => (h("svg", Object.assign({ viewBox: "0 0 71.29 18.75" }, props),
-  h("path", { fill: main, d: "M14.55 19.38a4.99 4.99 0 01-4.83-3.43L6.45 5.06a.97.97 0 00-.93-.66c-.54 0-.98.4-.98.91v13.6H.5V5.31C.5 2.71 2.74.62 5.5.62c2.25 0 4.23 1.4 4.83 3.42l3.27 10.89c.12.39.5.66.94.66.54 0 .98-.4.98-.91V1.09h4.04v13.6c0 2.58-2.25 4.69-5.01 4.69zM47.41 18.91H36.53v-3.77H47.4c.96 0 1.74-.73 1.74-1.63 0-.9-.78-1.63-1.74-1.63h-5.04c-3.18 0-5.78-2.42-5.78-5.4 0-2.97 2.6-5.4 5.78-5.4h9.84v3.78h-9.84c-.96 0-1.74.73-1.74 1.62 0 .9.78 1.63 1.74 1.63h5.04c3.19 0 5.78 2.42 5.78 5.4 0 2.98-2.59 5.4-5.78 5.4z" }),
-  h("path", { fill: main, d: "M66.57 3.86A4.99 4.99 0 0061.79.63c-2.19 0-4.1 1.3-4.78 3.23L51.77 18.9h4.25l4.83-13.87c.1-.32.44-.64.93-.64.5 0 .83.32.94.64l4.82 13.87h4.25L66.57 3.86zM33.36 3.86A4.99 4.99 0 0028.6.63c-2.19 0-4.1 1.3-4.78 3.23L18.57 18.9h4.25l4.82-13.87c.11-.32.45-.64.94-.64.5 0 .83.32.94.64l4.83 13.88h4.25L33.36 3.86z" })));
-const publishingIcon = ({ main = '#597EFF', second = '#8DCFFF', third = '#D3ECFF', fourth = '#fff', fifth = '#7493FF' } = {}, props) => (h("svg", Object.assign({ viewBox: "0 0 48 48" }, props),
-  h("rect", { fill: third, width: "48", height: "48", rx: "24" }),
-  h("rect", { fill: second, opacity: ".5", x: "9", y: "9", width: "30", height: "30", rx: "15" }),
-  h("path", { stroke: fifth, fill: "none", d: "M7 13v4.05a8 8 0 008 8h18a8 8 0 018 8V35", "stroke-width": "2" }),
-  h("circle", { fill: main, cx: "41", cy: "41", r: "7" }),
-  h("path", { stroke: fourth, fill: "none", d: "M38 41.75L40 44l4-6", "stroke-linecap": "round", "stroke-linejoin": "round" }),
-  h("circle", { fill: main, stroke: "#B0DEFF", cx: "24", cy: "24", r: "8", "stroke-width": "2" }),
-  h("path", { fill: fourth, d: "M22.96 28a.32.32 0 01-.24-.1.3.3 0 01-.07-.26l.48-2.57h-1.86a.28.28 0 01-.24-.15.26.26 0 01.03-.29l3.74-4.51c.04-.06.1-.1.16-.11a.32.32 0 01.36.14.3.3 0 01.04.2v.01l-.49 2.57h1.86a.28.28 0 01.24.16.26.26 0 01-.03.28l-3.74 4.51a.31.31 0 01-.24.12z" }),
-  h("circle", { fill: main, cx: "7", cy: "7", r: "7" }),
-  h("circle", { fill: fourth, cx: "7", cy: "7", r: "2" })));
-const rssIcon = ({ main = '#E3EDFF', second = '#597EFF' } = {}, props) => (h("svg", Object.assign({ viewBox: "0 0 32 32" }, props),
-  h("circle", { fill: main, cx: "16", cy: "16", r: "16" }),
-  h("path", { fill: second, d: "M11.139 18.861a2 2 0 00-1.996 1.993c0 1.1.896 1.986 1.996 1.986a1.99 1.99 0 001.996-1.986 1.997 1.997 0 00-1.996-1.993z" }),
-  h("path", { fill: second, d: "M9.143 13.714v2.854c1.714 0 3.36.507 4.571 1.718 1.21 1.21 1.714 2.853 1.714 4.571h2.857c0-4.996-4.142-9.143-9.142-9.143z" }),
-  h("path", { fill: second, d: "M9.143 9.143v2.853c6.107 0 10.853 4.75 10.853 10.861h2.86c0-7.56-6.142-13.714-13.713-13.714z" })));
-const targetLogo = ({ main = '#C00' } = {}, props) => (h("svg", Object.assign({ viewBox: "0 0 33 32" }, props),
-  h("path", { fill: main, d: "M.9 16a15.99 15.99 0 1132 0c0 8.84-7.15 16-16 16-8.84.05-16-7.16-16-16zm16 10.68c5.92 0 10.69-4.77 10.69-10.68S22.82 5.32 16.9 5.32A10.67 10.67 0 006.22 16c0 5.91 4.77 10.68 10.68 10.68zM22.22 16a5.32 5.32 0 11-10.65-.01 5.32 5.32 0 0110.65.01z" })));
-const testflightLogo = ({ main = '#30cdfb', second = '#1d70f1', third = '#fff', fourth = '#597EFF' } = {}, props) => (h("svg", Object.assign({ viewBox: "0 0 52 52" }, props),
-  h("rect", { y: "4", width: "48", height: "48", rx: "15.29", fill: "url(#app_store_checked_icon_gradient_0)" }),
-  h("circle", { cx: "44", cy: "8", r: "6", fill: third }),
-  h("path", { fill: fourth, d: "M44 0c-4.41 0-8 3.75-8 8.35s3.59 8.35 8 8.35 8-3.75 8-8.35S48.41 0 44 0zm4.16 5.55L43 11.97a.62.62 0 01-.46.23.6.6 0 01-.47-.21l-2.21-2.57a.65.65 0 01-.17-.47.67.67 0 01.2-.45.6.6 0 01.46-.16.6.6 0 01.42.22l1.75 2.02 4.71-5.86a.6.6 0 01.86-.07.66.66 0 01.08.9z" }),
-  h("path", { fill: third, d: "M23.1 9.25c.58-.09 2-.16 2.45.22.6.48.51 1.17.56 1.83l.09 1v3.2l-.1 1.7-.12 2.3-.3 2.9-.1 1.3c.04.39.42.47.72.66.38.23.78.6 1.07.94.42.52.74 1.23.81 1.9.04.38-.07 1.07.18 1.36.15.18.8.45 1.04.56l1.5.6 1.3.6 5.2 2.65c.85.47 2.15 1.15 2.9 1.75 1.09.88.62 1.58.08 2.58-.25.44-.46.9-.98 1.04-.63.19-1.16-.11-1.7-.38l-2-1.06-5.7-3.54-2-1.43c-.24-.18-.86-.68-1.1-.76-.39-.13-1.02.34-1.4.48-.5.2-1.07.16-1.6.15-.51 0-.83-.08-1.3-.29-.3-.14-.65-.43-1-.34-.27.06-.84.54-1.1.73l-2.3 1.64a62.96 62.96 0 01-5.4 3.35l-2.7 1.4c-1.22.44-1.67-.37-2.2-1.29-.3-.52-.56-1.11-.26-1.7.33-.63 2.18-1.67 2.86-2.02l1.3-.75 5.4-2.64 2.1-.87c.2-.1.7-.31.83-.47.17-.21.07-.58.09-.85.03-.45.19-1.19.37-1.6.24-.57.63-1.05 1.11-1.43.25-.2.83-.53.93-.8.1-.2.01-.54 0-.77l-.21-1.7-.32-4.4-.1-1.1v-4.2c0-.97 0-2.13 1.1-2.45zm2.2 2.45h-1.8c-.2 0-.46-.01-.6.16-.12.16-.1.54-.1.74 0 2.5.07 5 .32 7.5l.34 2.7c.03.25.02.74.21.9.18.14.8.1 1.03.1l.27-2.3.23-3.3.1-1.5v-5zM24 24.93c-.67.11-1.39.38-1.87.89a2.88 2.88 0 001.97 4.86c1.88.14 3.33-1.68 2.95-3.48a2.87 2.87 0 00-1.85-2.08 2.4 2.4 0 00-1.2-.2zm-3.61 4.64c-.38.05-2.35.9-2.79 1.1l-1.6.7-2.6 1.33-.9.43-1.1.64c-.3.16-1.36.73-1.57.92-.41.4.35 1.33.58 1.7.13.2.23.43.5.44.25 0 .67-.27.89-.39l1.6-.9 5.8-3.77c.3-.2 1.48-1.04 1.64-1.25.28-.36-.1-.84-.45-.95zM38.9 34.8l-1.5-.87-2.7-1.43-2.8-1.37-3.6-1.53c-.52-.13-.82.42-.8.7.03.24.32.4.5.54l1.2.88a59.99 59.99 0 005.6 3.67l2 1.14c.22.13.6.39.86.3.2-.06.35-.36.46-.53.27-.46.62-1 .78-1.5z" }),
-  h("circle", { cx: "24.2", cy: "27.9", r: "18.7", stroke: third, opacity: ".3", fill: "transparent" }),
-  h("path", { fill: third, opacity: ".3", d: "M24.7 27.78s-.03.02 0 .06l.66.65c.13.19 0 .55-.37.43l-.66-.65c-.03-.04-.1-.04-.13 0l-.64.69c-.28.12-.53-.06-.45-.39l.69-.7c.02-.02 0-.06 0-.06l-.74-.74c-.07-.28.15-.51.44-.41l.7.7c.05.05.08.04.12-.01l.68-.7c.25-.12.53.14.4.4l-.7.73z" }),
-  h("defs", null,
-    h("linearGradient", { id: "app_store_checked_icon_gradient_0", gradientTransform: "rotate(90)" },
-      h("stop", { offset: "0", "stop-color": main }),
-      h("stop", { offset: "1", "stop-color": second })))));
-const tripleLayerIcon = ({ main = '#BFE4FF', second = '#97BDFF', third = '#597EFF', fourth = '#fff' } = {}, props) => (h("svg", Object.assign({ viewBox: "0 0 64 64" }, props),
-  h("path", { fill: main, d: "M32 32c-2.07 0-4.14.37-5.76 1.1L3.47 43.5C2.43 43.96 0 45.35 0 47.96c0 2.62 2.43 4 3.47 4.48l22.97 10.48a14.76 14.76 0 0011.1 0l22.99-10.48c1.04-.47 3.47-1.86 3.47-4.48s-2.43-4-3.47-4.48L37.76 33.1A14.29 14.29 0 0032 32z" }),
-  h("path", { fill: second, d: "M32 16c-2.07 0-4.14.37-5.76 1.1L3.47 27.5C2.43 27.96 0 29.35 0 31.96c0 2.62 2.43 4 3.47 4.48l22.97 10.48a14.76 14.76 0 0011.1 0l22.99-10.48c1.04-.47 3.47-1.86 3.47-4.48s-2.43-4-3.47-4.48L37.76 17.1A14.29 14.29 0 0032 16z" }),
-  h("path", { fill: third, d: "M32 0c-2.07 0-4.14.37-5.76 1.1L3.47 11.5C2.43 11.96 0 13.35 0 15.96c0 2.62 2.43 4 3.47 4.48l22.97 10.48a14.76 14.76 0 0011.1 0l22.99-10.48c1.04-.47 3.47-1.86 3.47-4.48s-2.43-4-3.47-4.48L37.76 1.1A14.29 14.29 0 0032 0z" }),
-  h("path", { fill: "url(#figure_8_gradient_1)", d: "M 47.375 12.3593 C 46.8125 15.5675 41.8544 17.1769 37.0625 16.6563 C 37.0625 16.6563 26.6875 15.3593 26.6875 15.3593 C 23.5781 14.9293 21.7263 16.3282 21.7081 17.4013 C 21.7081 17.4013 16.6563 16.9532 16.6563 16.9532 C 17 14.1093 21.4375 11.8907 26.4063 12.3907 C 26.4063 12.3907 34.6875 13.4218 34.6875 13.4218 C 37.0113 13.6718 38.5681 14.0012 39.6819 13.7063 C 41.8756 13.3362 42.3181 12.24 42.4063 11.6398 C 42.4063 11.64 47.375 12.3593 47.375 12.3591 Z" }),
-  h("path", { fill: "url(#figure_8_gradient_0)", d: "M 16.656 16.95 C 16.4431 18.9332 18.6263 22.0131 24.75 22.8282 C 31.5625 23.3593 34.3438 20.5157 34.2813 18.8593 C 34.2813 18.8593 34.8438 10.4843 34.8438 10.4843 C 35.1075 9.5532 36.8975 9.0357 39.0113 9.2063 C 42.4775 9.8424 42.4063 11.6399 42.4063 11.6399 C 42.4063 11.6399 47.3738 12.3605 47.3738 12.3605 C 47.7656 10.125 45.3125 6.7188 38.0862 6.2106 C 34.3362 6.1274 29.7119 7.4337 29.7656 10.6875 C 29.7656 10.6875 29.75 10.7657 29.2188 18.6718 C 28.7287 19.8756 25.7294 20.255 24.2919 19.7138 C 22.1694 19.1363 21.7856 18.1062 21.7081 17.4012 Z" }),
-  h("defs", null,
-    h("linearGradient", { id: "figure_8_gradient_0" },
-      h("stop", { offset: "0", "stop-color": second }),
-      h("stop", { offset: ".1", "stop-color": second }),
-      h("stop", { offset: ".5", "stop-color": fourth }),
-      h("stop", { offset: ".9", "stop-color": second }),
-      h("stop", { offset: "1", "stop-color": second })),
-    h("linearGradient", { id: "figure_8_gradient_1" },
-      h("stop", { offset: "0", "stop-color": second }),
-      h("stop", { offset: ".3", "stop-color": second }),
-      h("stop", { offset: ".5", "stop-color": third }),
-      h("stop", { offset: ".7", "stop-color": second }),
-      h("stop", { offset: "1", "stop-color": second })))));
-const triplePhoneIcon = ({ main = '#BFE4FF', second = '#97BDFF', third = '#597EFF' } = {}, props) => (h("svg", Object.assign({ width: "64", height: "64" }, props),
-  h("rect", { x: "38", width: "26", height: "48", rx: "6", fill: main }),
-  h("rect", { x: "19", y: "8", width: "26", height: "48", rx: "6", fill: second }),
-  h("rect", { y: "16", width: "26", height: "48", rx: "6", fill: third }),
-  h("circle", { opacity: ".8", cx: "13", cy: "58", r: "2", fill: "#fff" }),
-  h("circle", { opacity: ".7", cx: "32", cy: "50", r: "2", fill: "#fff" }),
-  h("circle", { opacity: ".7", cx: "51", cy: "42", r: "2", fill: "#fff" })));
-const twitterLogo = ({ main = '#1DA1F2' } = {}, props) => (h("svg", Object.assign({ viewBox: "0.630000114440918 -0.003784056520089507 14.744999885559082 12.00379753112793" }, props),
-  h("path", { fill: main, d: "M15.375 1.422a6.116 6.116 0 01-1.738.478A3.036 3.036 0 0014.97.225c-.585.347-1.232.6-1.922.734A3.026 3.026 0 007.89 3.72 8.574 8.574 0 011.653.553a3.029 3.029 0 00.94 4.044c-.5-.013-.968-.15-1.374-.378v.037a3.028 3.028 0 002.428 2.969 3.045 3.045 0 01-.797.106c-.194 0-.384-.019-.569-.056A3.03 3.03 0 005.11 9.378a6.066 6.066 0 01-4.48 1.253A8.457 8.457 0 005.258 12c5.572 0 8.616-4.616 8.616-8.619 0-.131-.003-.262-.01-.39a6.158 6.158 0 001.51-1.57z" })));
+const aaaLogo = ({ main = '#E21827' } = {}, props) => (hAsync("svg", Object.assign({ viewBox: "0 0 49.71 30" }, props),
+  hAsync("path", { fill: main, d: "M49.48 1.17C48.02-1.32 40.37.3 30.83 4.68c.1.07-.1-.07 0 0-3.03-2.38-7.9-4-13.53-4C7.76.68 0 5.5 0 11.38c0 3.56 2.8 6.72 7.09 8.67L7 20.02c-4.14 3.83-6.25 7.08-5.28 8.8 1.19 2 6.3 1.35 13.15-1.18l-.05-.11c-5.5 1.89-9.54 2.27-10.5.65-.81-1.46.9-4.2 4.34-7.5 2.54.92 5.52 1.5 8.66 1.5 9.6 0 17.34-4.86 17.34-10.8 0-2-.9-3.87-2.45-5.48 7.31-3.12 12.96-4.08 14.14-2.03 1.35 2.32-3.99 8.1-12.56 13.83l.11.1C44.36 11 51.1 3.99 49.48 1.18zM26.63 14.24H23l1.78-6.53 1.84 6.53zm-8.41 0H14.6l1.77-6.53 1.84 6.53zM16.55 1.6L13.1 14.24 9.8 3.06c2-.86 4.32-1.35 6.75-1.46zm-6.8 12.64H6.2l1.78-6.53 1.78 6.53zm-6.73-2.86c0-2.76 1.67-5.24 4.36-7.03L4.31 15.48a7.4 7.4 0 01-1.3-4.1zm8.4 8.97a14.48 14.48 0 01-5.98-3.46l.38-1.35h4.31l1.3 4.75v.06zm5.88.86c-1.56 0-3.07-.16-4.47-.49l1.4-5.18h4.36l1.51 5.45c-.91.17-1.83.22-2.8.22zm.54-19.61c2.42.05 4.74.54 6.79 1.35l-3.13 11.3L17.84 1.6zm5.44 18.7l-1.02-3.36.37-1.4H27l.7 2.6a14.1 14.1 0 01-4.42 2.15zm7-4.76l-3.33-11.4c2.9 1.83 4.69 4.37 4.69 7.24 0 1.51-.49 2.92-1.35 4.16z" })));
+const amtrakLogo = ({ main = '#1E8DB5' } = {}, props) => (hAsync("svg", Object.assign({ viewBox: "0 0 63.78 26.25" }, props),
+  hAsync("path", { fill: main, d: "M29.93 4.77l-.64-2.5-1.52 2.5h-1.79l-1.52-2.5-.63 2.5H21.9l1.24-3.9h2.11l1.64 2.67L28.5.87h2.1l1.24 3.9h-1.91zM15.98.88L13.2 4.73h1.87l.44-.68h2.91l.44.68h2.08L18.13.87h-2.15zm0 2.47l1-1.54 1 1.54h-2zM51.47.88l-2.8 3.86h1.88l.44-.68h2.91l.44.68h2.07L53.62.87h-2.15zm0 2.47l1-1.54 1 1.54h-2zM61.99 4.77L59.7 2.94v1.83H57.8V.87h1.91V2.6L62 .87h2.3l-2.58 1.88 2.79 2.02h-2.51zM45.42 4.77h2.2l-1.44-1.5c.8-.18 1.11-.63 1.11-1.12 0-.6-.44-.9-1.07-1.09-.68-.15-1.56-.19-2.4-.19h-2.95v3.87h1.92V3.57h1.63l1 1.2zm-2.63-3.1h1.2c.99 0 1.39.18 1.39.55 0 .3-.28.53-.6.57-.24.03-.48.07-.84.07H42.8v-1.2zM36.9 1.77v3h-1.96v-3h-2.47l.2-.9h6.74l-.2.9H36.9zM27.23 23.08c3.95 1.56 8 3 11.53 4.05 4.17-8.1 11.75-14.53 25.74-20.44v-.31c-17.94 4.77-29.16 8.2-37.27 16.7zM34.57 7.3C30.62 7.08 9.9 6.49.7 10.86c2.46 1.65 5.13 3.3 8.33 5.2 9.19-4.73 20.94-6.38 31.83-7.09v-.35c-2.14-.24-4.48-.71-6.3-1.3z" }),
+  hAsync("path", { fill: main, d: "M44.63 8.81C36.41 9.66 22 12 13.77 17.06c2.99 1.49 6.09 2.97 9.3 4.34 8.53-7.3 20.07-10.58 31.71-12.8V8.3c-2.88.31-7.37.52-10.15.52z" })));
+const appflowLogoWithText = ({ main = '#639CFF', second = '#4F68FF', third = '#001A3A' } = {}, props) => (hAsync("svg", Object.assign({ viewBox: "0 0 114 24" }, props),
+  hAsync("path", { fill: third, d: "M43.882 6.392v11.781h-2.994v-1.439c-.754 1.08-2.102 1.709-3.793 1.709-3.474 0-5.508-2.743-5.508-6.16 0-3.418 2.034-6.16 5.508-6.16 1.69 0 3.039.629 3.793 1.708V6.392h2.994zm-6.102 2.54c-1.805 0-2.948 1.44-2.948 3.35 0 1.912 1.143 3.35 2.948 3.35 1.806 0 2.948-1.438 2.948-3.35 0-1.91-1.142-3.35-2.948-3.35zM48.446 22.528H45.2V6.392h2.993v1.44c.755-1.08 2.103-1.71 3.794-1.71 3.474 0 5.507 2.743 5.507 6.16 0 3.418-2.033 6.16-5.507 6.16-1.691 0-2.925-.718-3.542-1.528v5.614zm2.856-6.895c1.806 0 2.948-1.44 2.948-3.35 0-1.911-1.142-3.35-2.948-3.35-1.805 0-2.947 1.439-2.947 3.35 0 1.91 1.142 3.35 2.947 3.35zM61.759 22.528h-3.245V6.392h2.993v1.44c.755-1.08 2.103-1.71 3.794-1.71 3.474 0 5.507 2.743 5.507 6.16 0 3.418-2.034 6.16-5.507 6.16-1.691 0-2.925-.718-3.542-1.528v5.614zm2.856-6.895c1.806 0 2.948-1.44 2.948-3.35 0-1.911-1.142-3.35-2.948-3.35-1.805 0-2.947 1.439-2.947 3.35 0 1.91 1.142 3.35 2.947 3.35zM81.363 1.472h-3.245v16.701h3.245V1.472zM75.02 5.541c0-.99.584-1.304 1.361-1.304.366 0 .748.023.748.023V1.517s-.715-.045-1.287-.045c-2.422 0-4.067 1.304-4.067 4.136v12.565h3.245V8.91h2.177V6.392H75.02v-.851zM82.305 12.283c0-3.35 2.445-6.16 6.285-6.16 3.839 0 6.284 2.81 6.284 6.16s-2.445 6.16-6.284 6.16c-3.84 0-6.285-2.81-6.285-6.16zm6.285 3.35c1.713 0 3.039-1.237 3.039-3.35 0-2.114-1.326-3.35-3.04-3.35-1.713 0-3.039 1.236-3.039 3.35 0 2.113 1.326 3.35 3.04 3.35zM103.816 10.889h-.045l-2.445 7.284h-3.04l-4.182-11.78h3.36l2.4 7.756 2.467-7.757h2.925l2.491 7.802 2.422-7.802h3.291l-4.182 11.781h-3.039l-2.423-7.284z" }),
+  hAsync("ellipse", { cx: "13.764", cy: "16.755", rx: "2.99", ry: "2.943", fill: second }),
+  hAsync("path", { d: "M26.988 24L16.823 0h-6.099L20.89 24h6.099z", fill: second }),
+  hAsync("path", { opacity: ".2", d: "M14.854 9.75L16.824 0h-6.1l2.541 6 1.271 3 .159.375.159.375z", fill: "#000" }),
+  hAsync("path", { d: "M.54 24L10.705 0h6.098L6.64 24H.54z", fill: main })));
+const appleStoreCheckedIcon = ({ main = '#30cdfb', second = '#1d70f1', third = '#597EFF', fourth = '#fff' } = {}, props) => (hAsync("svg", Object.assign({ viewBox: "0 0 52 52" }, props),
+  hAsync("rect", { fill: "url(#app_store_checked_icon_gradient_0)", y: "4", width: "48", height: "48", rx: "15.2852" }),
+  hAsync("circle", { fill: fourth, cx: "43.9999", cy: "7.99991", r: "5.99991" }),
+  hAsync("path", { fill: third, d: "M43.9999 0C39.5888 0 36 3.74553 36 8.34927C36 12.953 39.5888 16.6985 43.9999 16.6985C48.411 16.6985 51.9998 12.953 51.9998 8.34927C51.9998 3.74553 48.411 0 43.9999 0ZM48.1633 5.55106L42.9941 11.9736C42.9374 12.0441 42.8669 12.101 42.7872 12.1406C42.7076 12.1801 42.6208 12.2013 42.5326 12.2028H42.5222C42.436 12.2027 42.3507 12.1838 42.2719 12.1471C42.1931 12.1105 42.1226 12.057 42.0649 11.99L39.8496 9.42103C39.7933 9.35875 39.7495 9.28536 39.7208 9.20517C39.6921 9.12499 39.6791 9.03963 39.6824 8.9541C39.6858 8.86858 39.7055 8.78462 39.7404 8.70716C39.7753 8.6297 39.8247 8.5603 39.8857 8.50304C39.9466 8.44578 40.0179 8.40182 40.0954 8.37374C40.1729 8.34566 40.255 8.33402 40.3368 8.33951C40.4187 8.34501 40.4986 8.36752 40.572 8.40573C40.6454 8.44394 40.7107 8.49708 40.7642 8.56202L42.5061 10.5819L47.221 4.72496C47.3267 4.59735 47.4764 4.5183 47.6375 4.50489C47.7987 4.49149 47.9584 4.54481 48.0822 4.65334C48.206 4.76186 48.2839 4.91687 48.2991 5.08486C48.3142 5.25284 48.2655 5.42031 48.1633 5.55106Z" }),
+  hAsync("path", { fill: fourth, d: "M 19.6 31.8 C 20.202 31.629 21.15 31.7 21.8 31.7 C 21.8 31.7 25.2 31.7 25.2 31.7 C 25.946 31.701 26.758 31.783 27.4 32.197 C 28.175 32.696 28.665 33.58 28.696 34.5 C 28.706 34.813 28.673 35.585 28.357 35.743 C 28.214 35.814 27.866 35.8 27.7 35.8 C 27.7 35.8 9.9 35.8 9.9 35.8 C 9.191 35.799 8.376 35.709 7.804 35.247 C 6.823 34.455 6.897 32.9 7.902 32.164 C 8.466 31.75 9.414 31.701 10.1 31.7 C 10.1 31.7 13.8 31.7 13.8 31.7 C 14.047 31.7 14.369 31.72 14.59 31.598 C 14.953 31.397 15.73 29.851 16 29.4 C 16 29.4 20.339 21.9 20.339 21.9 C 20.339 21.9 21.251 20.3 21.251 20.3 C 21.415 20.004 21.587 19.75 21.491 19.4 C 21.43 19.182 21.073 18.625 20.94 18.4 C 20.94 18.4 20.28 17.2 20.28 17.2 C 19.687 16.195 19.266 15.813 19.302 14.6 C 19.315 14.128 19.42 13.797 19.753 13.447 C 20.712 12.435 22.231 12.715 22.991 13.801 C 23.178 14.07 23.697 15.196 24 15.196 C 24.33 15.196 24.83 14.107 25.011 13.829 C 25.814 12.599 27.64 12.405 28.466 13.704 C 29.159 14.796 28.533 15.835 27.985 16.8 C 27.985 16.8 26.78 18.9 26.78 18.9 C 26.78 18.9 25.358 21.4 25.358 21.4 C 25.358 21.4 21.472 28.1 21.472 28.1 C 21.472 28.1 20.14 30.4 20.14 30.4 C 19.863 30.872 19.576 31.238 19.6 31.8 Z M 27.1 21 C 27.1 21 29.231 24.6 29.231 24.6 C 29.231 24.6 30.699 27.1 30.699 27.1 C 30.699 27.1 31.84 29.1 31.84 29.1 C 31.84 29.1 32.77 30.7 32.77 30.7 C 32.928 30.989 33.126 31.431 33.418 31.598 C 33.633 31.72 33.957 31.7 34.2 31.7 C 34.2 31.7 38.1 31.7 38.1 31.7 C 38.61 31.706 39.461 31.786 39.9 32.036 C 41.229 32.795 41.255 34.699 39.9 35.444 C 38.968 35.957 36.902 35.8 35.8 35.8 C 35.976 36.357 37.07 38.17 37.428 38.8 C 37.696 39.272 38.014 39.749 38.082 40.3 C 38.239 41.576 37.331 42.681 36 42.567 C 34.841 42.468 34.5 41.833 33.956 40.925 C 33.956 40.925 32.057 37.628 32.057 37.628 C 32.057 37.628 28.119 30.8 28.119 30.8 C 27.517 29.768 26.23 27.753 25.93 26.7 C 25.77 26.141 25.581 25.275 25.604 24.7 C 25.654 23.422 26.192 21.914 27.1 21 Z M 12.3 36.843 C 13.244 36.726 14.085 36.855 14.9 37.371 C 15.119 37.509 15.482 37.746 15.559 38.004 C 15.664 38.357 15.071 39.176 14.885 39.5 C 14.181 40.727 13.619 42.429 12 42.567 C 10.739 42.675 9.72 41.536 9.933 40.3 C 10.056 39.585 10.577 38.82 10.939 38.2 C 11.401 37.408 11.357 37.01 12.3 36.843 Z" }),
+  hAsync("defs", null,
+    hAsync("linearGradient", { id: "app_store_checked_icon_gradient_0", gradientTransform: "rotate(90)" },
+      hAsync("stop", { offset: "0", "stop-color": main }),
+      hAsync("stop", { offset: "1", "stop-color": second })))));
+const appleCloudIcon = ({ main = '#597EFF', second = '#BFE4FF', third = '#F0F6FF' } = {}, props) => (hAsync("svg", Object.assign({ viewBox: "0 0 48 48" }, props),
+  hAsync("rect", { fill: second, width: "48", height: "48", rx: "24" }),
+  hAsync("path", { fill: main, d: "M34.4 36H15.1c-2.71 0-5.23-.93-7.1-2.62a9.1 9.1 0 01-3-6.83c0-2.7 1-5.04 2.87-6.74a10.92 10.92 0 015.14-2.5 1.19 1.19 0 00.84-.68c.71-1.6 1.78-3.01 3.12-4.14a11.43 11.43 0 0114.98.68 12.95 12.95 0 013.65 6.8 1.18 1.18 0 00.9.9c3.38.76 6.5 3.2 6.5 7.45 0 2.46-.9 4.49-2.63 5.85A9.51 9.51 0 0134.4 36z" }),
+  hAsync("path", { fill: third, d: "M26.91 20.28c-1.26 0-1.79.6-2.67.6-.9 0-1.58-.6-2.68-.6-1.07 0-2.2.65-2.93 1.76-1.02 1.57-.84 4.52.8 7.04.6.9 1.38 1.9 2.41 1.92h.02c.9 0 1.16-.59 2.4-.6h.01c1.22 0 1.46.6 2.36.6h.01c1.04-.01 1.86-1.13 2.45-2.03.43-.64.58-.97.91-1.7-2.38-.9-2.76-4.28-.4-5.57a3.56 3.56 0 00-2.69-1.42z" }),
+  hAsync("path", { fill: third, d: "M26.64 17a3.3 3.3 0 00-2.14 1.15c-.47.57-.85 1.4-.7 2.22h.06c.8 0 1.62-.48 2.1-1.1.45-.59.8-1.42.68-2.27z" })));
+const buildingBlocksIcon = ({ main = '#3C67FF', second = '#597EFF', third = '#7CABFF', fourth = '#8DCFFF' } = {}, props) => (hAsync("svg", Object.assign({ width: "64", height: "64" }, props),
+  hAsync("rect", { y: "54", width: "64", height: "10", rx: "2", fill: main }),
+  hAsync("rect", { x: "48", y: "36", width: "16", height: "16", rx: "2", fill: second }),
+  hAsync("rect", { x: "48", y: "18", width: "16", height: "16", rx: "2", fill: third }),
+  hAsync("rect", { x: "48", width: "16", height: "16", rx: "2", fill: fourth }),
+  hAsync("rect", { x: "30", y: "36", width: "16", height: "16", rx: "2", fill: second }),
+  hAsync("rect", { x: "30", y: "18", width: "16", height: "16", rx: "2", fill: third }),
+  hAsync("rect", { x: "12", y: "36", width: "16", height: "16", rx: "2", fill: second })));
+const burgerKingLogo = ({ main = '#EE1D23', second = '#185494', third = '#FAAF18' } = {}, props) => (hAsync("svg", Object.assign({ viewBox: "0 0 30.32 32" }, props),
+  hAsync("path", { fill: third, d: "M23.85 4.5c.08-.18-.07-.36-.07-.36s-1.18-2.01-5.32-2.47c-2.23-.24-5.25.22-7.37 1.38C7.23 5.15 6.65 8.6 6.65 8.6c-.02.09-.05.35.04.46.08.1.21.1.37.05 1.36-.46 5.4-1.82 7.95-2.5a95.24 95.24 0 018.52-1.9c.15-.03.27-.08.32-.2z" }),
+  hAsync("path", { fill: second, d: "M28 20.8c-2.18 4.94-6.34 8.38-11.81 8.46a14.09 14.09 0 01-10.03-3.74l-1.53.67v-2.41A14.15 14.15 0 012 15.33C1.99 6.93 8.34.3 17.2.3c1.45 0 2.75.23 3.74.46A15.05 15.05 0 0016.23 0C6.72 0 .32 7.81.32 15.87.32 24.65 7.12 32 16.04 32c8.52 0 13.11-6.09 14.6-9.75L28 20.79z" }),
+  hAsync("path", { fill: main, d: "M25.8 19.06a4.31 4.31 0 002.58-1.13c.43-.43.54-1.02.54-1.46.02-.65 0-2.7 0-2.7l-3.31.73v.78c.01.52.26.8.8.7.16-.02.42-.1.42-.1v.64c0-.02.05.36-.78.52-1.1.17-1.59-.5-1.6-1.71.02-1.3.74-2.03 1.62-2.24.98-.22 1.54.01 1.86.06 1.1.16 1.4-1.5.41-1.89-.74-.3-1.7-.36-2.6-.17a4.42 4.42 0 00-3.62 4.63c-.01 2.67 1.93 3.53 3.67 3.34z" }),
+  hAsync("path", { fill: main, d: "M15.03 21.91l1.1-.38c.82-.28 1.12-.78 1.12-1.62-.02-.93-.02-2.73-.02-2.73l2.37 2.76c.39.4.87.43 1.3.3.46-.13.84-.55.85-1.15v-6.84s-.6.13-1.11.27c-.58.16-1.03.54-1.03 1.54v2.37s-1.35-1.7-2.21-2.58c-.46-.46-1.24-.18-1.24-.18l-1.13.34v7.9z" }),
+  hAsync("path", { fill: main, d: "M14.31 14.19s-.7.2-1.28.42c-.75.27-1.2.72-1.2 1.87v6.56s.66-.23 1.28-.47c.87-.33 1.2-.79 1.2-1.71v-6.67z" }),
+  hAsync("path", { fill: main, d: "M10.79 15.75c-.65-.3-1.21.03-1.45.4l-2 3.46v-2.79l-2.38 1v7.87l1.66-.7s.33-.1.53-.42c.18-.3.17-.77.17-.77v-2.5l1.86 2.01c.4.44 1.16.65 1.82.11.6-.49.5-1.32.17-1.7l-1.69-1.73 1.74-2.78c.32-.54.16-1.19-.43-1.46z" }),
+  hAsync("path", { fill: third, d: "M9.86 25.01c-.09.21.11.42.11.42.86 1.1 4.68 2.48 8.84 1.46 6.34-1.55 7.68-6.1 7.83-6.74.03-.13.05-.33-.07-.46-.1-.11-.24-.11-.44-.07a117.41 117.41 0 00-15.95 5.16c-.18.07-.26.1-.32.23z" }),
+  hAsync("path", { fill: main, d: "M6.1 14.69c-.01-.44-.34-.68-.91-.38v1.4l.32-.15c.34-.17.6-.45.59-.87zm-.92-1.27l.26-.12a.9.9 0 00.54-.81c0-.43-.34-.54-.8-.3v1.23zm2.44 1.06c.02 1.1-.76 1.7-1.79 2.12l-2.09.9v-5.74s1.32-.54 1.75-.7c1.22-.46 1.94.1 1.94.92 0 .55-.24 1.02-.74 1.43.49.08.92.5.93 1.07z" }),
+  hAsync("path", { fill: main, d: "M11.58 9.64c0-.48-.33-.6-.73-.5l-.7.24v3.57c0 .36-.05.8-.49.91-.33.09-.49-.14-.49-.5v-2.91c0-.5-.33-.63-.73-.5-.45.15-.7.26-.7.26v3.53c-.01 1.19.8 1.78 2.02 1.41 1.08-.32 1.81-.94 1.82-2.51v-3z" }),
+  hAsync("path", { fill: main, d: "M23.21 11.12c.31-.07.5-.3.5-.68v-.62l-1.69.38V9.19l1.06-.23c.3-.07.44-.23.44-.56V7.8l-1.5.33v-.8l1.2-.26c.33-.06.44-.29.44-.6v-.61c-.75.13-2.17.42-3.06.63l-.01 5.23 2.62-.61z" }),
+  hAsync("path", { fill: main, d: "M13.4 10.9s.84-.44.84-1.14c-.01-.6-.55-.46-.83-.36v1.5zm.01.82v1.4c0 .39-.26.66-.58.79 0 0 0-.01 0 0l-.84.29V8.8s1.19-.41 1.88-.58c1.07-.26 1.84.24 1.83 1.13a2.21 2.21 0 01-.89 1.71l.93.9c.27.28.3.77-.02 1.08-.19.18-.7.37-1.08-.04l-1.23-1.28zM25.42 8s.82-.3.81-.98c-.01-.57-.56-.47-.82-.4V8zm-1.4 2.96V5.79s1.5-.27 1.88-.31c1.07-.14 1.79.46 1.76 1.31a1.8 1.8 0 01-.86 1.48l.92 1.05c.26.3.24.8-.14 1.05a.73.73 0 01-.98-.13l-1.18-1.43v1.26c0 .38-.23.66-.61.73l-.79.16z" }),
+  hAsync("path", { fill: main, d: "M20.25 8.79l-2.1.48v.6c0 .28.19.46.47.4l.3-.06v.6c0 .23-.34.38-.7.37-.51-.02-.8-.42-.8-1.18 0-1 .48-1.58 1.11-1.75.31-.08.6-.04.83 0 .54.08.85-.18.86-.64.01-.48-.42-.79-1.33-.75-1.99.06-3 1.51-3 3.24 0 1.77 1.14 2.55 2.53 2.3a2.9 2.9 0 001.45-.66c.27-.24.38-.6.38-.91V8.79z" }),
+  hAsync("path", { fill: "#fff", d: "M11.93 3C9.6 4.05 8.03 6.53 7.94 7.57c-.03.41.51.48.57.03C9 5.7 10.5 3.9 11.93 3zM19.66 4.78c1.25-.31 1.94-.35 1.95-.93.03-.95-2.65-2.06-5.11-1.85 2.5.17 4 1.15 4 1.82.01.43-.36.81-.84.96zM20.43 25.83a8.7 8.7 0 004.7-4.34c.29-.62-.55-.94-.78-.2a8.97 8.97 0 01-3.92 4.54z" })));
+const checkmarkCircle = ({ main = '#597EFF', second = '#EEFEFF' } = {}, props) => (hAsync("svg", Object.assign({ viewBox: "0 0 16 16" }, props),
+  hAsync("circle", { cx: "8", cy: "8", r: "8", fill: main }),
+  hAsync("path", { d: "M11 5l-4.2 6L5 8.75", fill: "none", stroke: second, "stroke-linecap": "round", "stroke-linejoin": "round" })));
+const checkmarkRounded = ({ main = '#5B708B' } = {}, props) => (hAsync("svg", Object.assign({ viewBox: "0 0 12 12" }, props),
+  hAsync("path", { d: "M1 7.11L4.89 11 11 1", stroke: main, fill: "none", "stroke-width": "2", "stroke-linecap": "round", "stroke-linejoin": "round" })));
+const cloudCircleIcon = ({ main = '#BFE4FF', second = '#3C67FF', third = '#194BFD' } = {}, props) => (hAsync("svg", Object.assign({ viewBox: "0 0 48 48" }, props),
+  hAsync("rect", { fill: main, width: "48", height: "48", rx: "24" }),
+  hAsync("path", { fill: second, opacity: "0.6", d: "M29.75 35H13.5C11.2225 35 9.1025 34.2144 7.53063 32.7869C5.89875 31.305 5 29.25 5 27C5 24.7138 5.83688 22.7425 7.42 21.2988C8.55188 20.2657 10.0588 19.5332 11.7438 19.1819C11.8991 19.1498 12.0445 19.0812 12.1681 18.9817C12.2916 18.8823 12.3898 18.7549 12.4544 18.6101C13.0543 17.2596 13.9529 16.0629 15.0825 15.1101C16.735 13.7307 18.7812 13.0001 21 13.0001C23.4958 12.9892 25.8977 13.951 27.6963 15.6813C29.2419 17.1694 30.29 19.1363 30.77 21.4313C30.8085 21.6195 30.9005 21.7926 31.0348 21.9299C31.1691 22.0673 31.3402 22.163 31.5275 22.2057C34.375 22.8388 37 24.9019 37 28.5C37 30.5869 36.235 32.2988 34.7869 33.4519C33.5144 34.4644 31.7731 35 29.75 35Z" }),
+  hAsync("path", { fill: third, opacity: "0.3", d: "M38.4688 28H28.3125C26.8891 28 25.5641 27.5001 24.5816 26.5917C23.5617 25.6486 23 24.3409 23 22.9091C23 21.4542 23.523 20.1998 24.5125 19.2811C25.2199 18.6236 26.1617 18.1575 27.2148 17.934C27.3119 17.9135 27.4028 17.8698 27.48 17.8066C27.5573 17.7433 27.6186 17.6622 27.659 17.57C28.0339 16.7106 28.5956 15.9491 29.3016 15.3428C30.3344 14.465 31.6133 14.0001 33 14.0001C34.5599 13.9931 36.061 14.6052 37.1852 15.7063C38.1512 16.6533 38.8063 17.9049 39.1063 19.3654C39.1303 19.4851 39.1878 19.5953 39.2718 19.6827C39.3557 19.7701 39.4626 19.831 39.5797 19.8582C41.3594 20.2611 43 21.5739 43 23.8637C43 25.1917 42.5219 26.281 41.6168 27.0148C40.8215 27.6592 39.7332 28 38.4688 28Z" })));
+const catLogo = ({ main = '#03060B', second = '#FFC409' } = {}, props) => (hAsync("svg", Object.assign({ viewBox: "0 0 41.27 24.38" }, props),
+  hAsync("path", { fill: second, d: "M22.25 15.2L9.65 25.2h25.2l-12.6-9.98z" }),
+  hAsync("path", { fill: main, d: "M37.24 25.19l-4.52-3.55V6.04h-3.6v-4.5H41.9v4.5h-3.58V25.2h-1.08zM25.97 1.54h-7.53l-4.08 17.98 7.75-6.15.14-.11 7.83 6.23-4.11-17.95zM22.08 12.4h-1.46l1.46-6.5v.02l1.46 6.5h-1.46v-.02zM12.49 20.93l-5.16 4.12c-.16 0-.33.03-.47.03-4.77-.03-6.23-1.93-6.23-6V6.8C.63 2.74 2.1.81 6.9.81c4.93 0 6.4 1.93 6.4 6v4.14H8.4V5.94c0-.76-.58-1.14-1.38-1.14-.66 0-1.38.38-1.38 1.14v14.04c0 .79.72 1.3 1.38 1.3.66 0 1.38-.4 1.38-1.3v-4.77h4.88v3.88c0 .48-.25 1.4-.8 1.84z" })));
+const facebookRoundedLogo = ({ main = 'gray' } = {}, props) => (hAsync("svg", Object.assign({ viewBox: "0 0 20 20" }, props),
+  hAsync("path", { fill: main, "fill-rule": "evenodd", "clip-rule": "evenodd", d: "M20 10.06C20 4.5 15.52 0 10 0S0 4.5 0 10.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H5.9v-2.91h2.54V7.84c0-2.52 1.5-3.91 3.77-3.91 1.1 0 2.24.2 2.24.2V6.6H13.2c-1.24 0-1.63.78-1.63 1.57v1.9h2.78l-.45 2.9h-2.33V20A10.04 10.04 0 0020 10.06z" })));
+const googleStoreCheckedIcon = ({ main = '#00C1F3', second = '#00DA68', third = '#F93245', fourth = '#FFC803', fifth = '#597EFF' } = {}, props) => (hAsync("svg", Object.assign({ viewBox: "0 0 45 54.27" }, props),
+  hAsync("path", { fill: main, d: "M0 7.25v43.94c0 .1.03.2.08.27.05.08.12.14.2.18a.45.45 0 00.52-.1l22.13-22.32L.8 6.91a.46.46 0 00-.51-.1.47.47 0 00-.21.17.5.5 0 00-.08.27z" }),
+  hAsync("path", { fill: second, d: "M32.21 20.05L4.46 4.25l-.02-.01c-.48-.27-.93.4-.54.79l21.76 21.5 6.55-6.48z" }),
+  hAsync("path", { fill: third, d: "M3.9 53.42c-.4.39.06 1.06.54.79l.02-.01 27.75-15.8-6.55-6.49L3.9 53.42z" }),
+  hAsync("path", { fill: fourth, d: "M43.42 26.43L35.67 22l-7.29 7.21 7.29 7.2 7.75-4.4a3.26 3.26 0 000-5.6z" }),
+  hAsync("circle", { fill: "#fff", cx: "37", cy: "8", r: "6" }),
+  hAsync("path", { fill: fifth, d: "M37 0c-4.41 0-8 3.75-8 8.35s3.59 8.35 8 8.35 8-3.75 8-8.35S41.41 0 37 0zm4.16 5.55L36 11.97a.62.62 0 01-.46.23.6.6 0 01-.47-.21l-2.21-2.57a.65.65 0 01-.17-.47.67.67 0 01.2-.45.6.6 0 01.46-.16.6.6 0 01.42.22l1.75 2.02 4.71-5.86a.6.6 0 01.86-.07.66.66 0 01.08.9z" })));
+const ibmLogo = ({ main = '#1F70C1' } = {}, props) => (hAsync("svg", Object.assign({ viewBox: "0 0 52.53 21.56" }, props),
+  hAsync("path", { fill: main, d: "M53.32 1.75h-8.75l.56-1.53h8.19v1.53zM30 .22h8.12l.5 1.53H30V.22zM23.55.22a5.6 5.6 0 013.47 1.53H12.28V.22h11.27zM10.99.22H.79v1.53h10.2V.22zM53.32 4.6h-9.76l.5-1.54h9.2V4.6h.06zM39.7 4.6H30V3.12h9.13l.56 1.48zM28.2 3.12c.17.51.45.91.45 1.54H12.34V3.12H28.2zM10.99 3.12H.79v1.54h10.2V3.12zM42.6 7.5l.51-1.54h7.35V7.5H42.6zM40.14 5.96l.56 1.54h-7.79V5.96h7.23zM28.76 5.96c0 .52-.06 1.09-.22 1.54h-4.49V5.96h4.71zM8.02 5.96H3.65V7.5h4.37V5.96zM19.68 5.96H15.3V7.5h4.37V5.96zM37.23 9.15v1.14H32.9V8.75h8.24l.5 1.43.51-1.43h8.3v1.54h-4.32V9.15l-.4 1.14h-8.12l-.4-1.14zM15.3 8.81h12.62a6.43 6.43 0 01-1.23 1.54H15.36c-.05-.06-.05-1.54-.05-1.54zM8.02 8.81H3.65v1.54h4.37V8.8zM50.46 11.65h-4.32v1.54h4.32v-1.54zM37.23 11.65H32.9v1.54h4.32v-1.54zM45.3 11.65l-.5 1.54h-6.12l-.56-1.54h7.18zM15.3 11.65h11.33c.5.46 1.01.97 1.35 1.54H15.3v-1.54zM8.02 13.19v-1.54H3.65v1.54h4.37zM50.46 14.56h-4.32v1.53h4.32v-1.53zM37.23 14.56H32.9v1.53h4.32v-1.53zM43.73 16.1s.5-1.54.56-1.54h-5.21l.56 1.53h4.09zM15.3 16.04V14.5h4.44v1.54H15.3zM28.6 14.56c.22.45.22 1.02.27 1.53h-4.7v-1.53h4.42zM8.02 14.56H3.65v1.53h4.37v-1.53zM53.32 17.34h-7.18v1.54h7.18v-1.54zM37.17 17.34h-7.18v1.54h7.18v-1.54zM42.78 18.88h-2.19l-.56-1.54h3.25l-.5 1.54zM.79 17.34v1.54h10.2v-1.54H.79zM28.7 17.34c-.1.52-.22 1.14-.56 1.54h-15.8v-1.54H28.7zM41.77 21.72h-.17l-.56-1.47h1.29l-.56 1.47zM53.32 20.25h-7.18v1.53h7.18v-1.53zM12.34 21.72V20.2h14.8a5.75 5.75 0 01-3.82 1.53H12.34zM37.17 20.25h-7.18v1.53h7.18v-1.53zM10.99 20.25v1.53H.79v-1.53h10.2z" })));
+const linkedInLogo = ({ main = '#0072b1' } = {}, props) => (hAsync("svg", Object.assign({ viewBox: "0 0 12 12" }, props),
+  hAsync("path", { fill: main, d: "M11.04 0H1.03C.48 0 0 .4 0 .93v10.04C0 11.52.48 12 1.03 12h10c.56 0 .97-.49.97-1.03V.93c0-.54-.41-.93-.96-.93zM3.72 10H2V4.66h1.72V10zm-.8-6.16h-.01c-.55 0-.9-.4-.9-.92S2.36 2 2.92 2s.9.4.92.92c0 .52-.36.92-.93.92zM10 10H8.28V7.08c0-.7-.25-1.18-.87-1.18-.47 0-.76.32-.88.64-.05.1-.06.26-.06.42V10H4.75V4.66h1.72v.74c.25-.35.64-.87 1.55-.87 1.13 0 1.98.75 1.98 2.35V10z" })));
+const nasaLogo = ({ main = '#E72031' } = {}, props) => (hAsync("svg", Object.assign({ viewBox: "0 0 71.29 18.75" }, props),
+  hAsync("path", { fill: main, d: "M14.55 19.38a4.99 4.99 0 01-4.83-3.43L6.45 5.06a.97.97 0 00-.93-.66c-.54 0-.98.4-.98.91v13.6H.5V5.31C.5 2.71 2.74.62 5.5.62c2.25 0 4.23 1.4 4.83 3.42l3.27 10.89c.12.39.5.66.94.66.54 0 .98-.4.98-.91V1.09h4.04v13.6c0 2.58-2.25 4.69-5.01 4.69zM47.41 18.91H36.53v-3.77H47.4c.96 0 1.74-.73 1.74-1.63 0-.9-.78-1.63-1.74-1.63h-5.04c-3.18 0-5.78-2.42-5.78-5.4 0-2.97 2.6-5.4 5.78-5.4h9.84v3.78h-9.84c-.96 0-1.74.73-1.74 1.62 0 .9.78 1.63 1.74 1.63h5.04c3.19 0 5.78 2.42 5.78 5.4 0 2.98-2.59 5.4-5.78 5.4z" }),
+  hAsync("path", { fill: main, d: "M66.57 3.86A4.99 4.99 0 0061.79.63c-2.19 0-4.1 1.3-4.78 3.23L51.77 18.9h4.25l4.83-13.87c.1-.32.44-.64.93-.64.5 0 .83.32.94.64l4.82 13.87h4.25L66.57 3.86zM33.36 3.86A4.99 4.99 0 0028.6.63c-2.19 0-4.1 1.3-4.78 3.23L18.57 18.9h4.25l4.82-13.87c.11-.32.45-.64.94-.64.5 0 .83.32.94.64l4.83 13.88h4.25L33.36 3.86z" })));
+const publishingIcon = ({ main = '#597EFF', second = '#8DCFFF', third = '#D3ECFF', fourth = '#fff', fifth = '#7493FF' } = {}, props) => (hAsync("svg", Object.assign({ viewBox: "0 0 48 48" }, props),
+  hAsync("rect", { fill: third, width: "48", height: "48", rx: "24" }),
+  hAsync("rect", { fill: second, opacity: ".5", x: "9", y: "9", width: "30", height: "30", rx: "15" }),
+  hAsync("path", { stroke: fifth, fill: "none", d: "M7 13v4.05a8 8 0 008 8h18a8 8 0 018 8V35", "stroke-width": "2" }),
+  hAsync("circle", { fill: main, cx: "41", cy: "41", r: "7" }),
+  hAsync("path", { stroke: fourth, fill: "none", d: "M38 41.75L40 44l4-6", "stroke-linecap": "round", "stroke-linejoin": "round" }),
+  hAsync("circle", { fill: main, stroke: "#B0DEFF", cx: "24", cy: "24", r: "8", "stroke-width": "2" }),
+  hAsync("path", { fill: fourth, d: "M22.96 28a.32.32 0 01-.24-.1.3.3 0 01-.07-.26l.48-2.57h-1.86a.28.28 0 01-.24-.15.26.26 0 01.03-.29l3.74-4.51c.04-.06.1-.1.16-.11a.32.32 0 01.36.14.3.3 0 01.04.2v.01l-.49 2.57h1.86a.28.28 0 01.24.16.26.26 0 01-.03.28l-3.74 4.51a.31.31 0 01-.24.12z" }),
+  hAsync("circle", { fill: main, cx: "7", cy: "7", r: "7" }),
+  hAsync("circle", { fill: fourth, cx: "7", cy: "7", r: "2" })));
+const rssIcon = ({ main = '#E3EDFF', second = '#597EFF' } = {}, props) => (hAsync("svg", Object.assign({ viewBox: "0 0 32 32" }, props),
+  hAsync("circle", { fill: main, cx: "16", cy: "16", r: "16" }),
+  hAsync("path", { fill: second, d: "M11.139 18.861a2 2 0 00-1.996 1.993c0 1.1.896 1.986 1.996 1.986a1.99 1.99 0 001.996-1.986 1.997 1.997 0 00-1.996-1.993z" }),
+  hAsync("path", { fill: second, d: "M9.143 13.714v2.854c1.714 0 3.36.507 4.571 1.718 1.21 1.21 1.714 2.853 1.714 4.571h2.857c0-4.996-4.142-9.143-9.142-9.143z" }),
+  hAsync("path", { fill: second, d: "M9.143 9.143v2.853c6.107 0 10.853 4.75 10.853 10.861h2.86c0-7.56-6.142-13.714-13.713-13.714z" })));
+const targetLogo = ({ main = '#C00' } = {}, props) => (hAsync("svg", Object.assign({ viewBox: "0 0 33 32" }, props),
+  hAsync("path", { fill: main, d: "M.9 16a15.99 15.99 0 1132 0c0 8.84-7.15 16-16 16-8.84.05-16-7.16-16-16zm16 10.68c5.92 0 10.69-4.77 10.69-10.68S22.82 5.32 16.9 5.32A10.67 10.67 0 006.22 16c0 5.91 4.77 10.68 10.68 10.68zM22.22 16a5.32 5.32 0 11-10.65-.01 5.32 5.32 0 0110.65.01z" })));
+const testflightLogo = ({ main = '#30cdfb', second = '#1d70f1', third = '#fff', fourth = '#597EFF' } = {}, props) => (hAsync("svg", Object.assign({ viewBox: "0 0 52 52" }, props),
+  hAsync("rect", { y: "4", width: "48", height: "48", rx: "15.29", fill: "url(#app_store_checked_icon_gradient_0)" }),
+  hAsync("circle", { cx: "44", cy: "8", r: "6", fill: third }),
+  hAsync("path", { fill: fourth, d: "M44 0c-4.41 0-8 3.75-8 8.35s3.59 8.35 8 8.35 8-3.75 8-8.35S48.41 0 44 0zm4.16 5.55L43 11.97a.62.62 0 01-.46.23.6.6 0 01-.47-.21l-2.21-2.57a.65.65 0 01-.17-.47.67.67 0 01.2-.45.6.6 0 01.46-.16.6.6 0 01.42.22l1.75 2.02 4.71-5.86a.6.6 0 01.86-.07.66.66 0 01.08.9z" }),
+  hAsync("path", { fill: third, d: "M23.1 9.25c.58-.09 2-.16 2.45.22.6.48.51 1.17.56 1.83l.09 1v3.2l-.1 1.7-.12 2.3-.3 2.9-.1 1.3c.04.39.42.47.72.66.38.23.78.6 1.07.94.42.52.74 1.23.81 1.9.04.38-.07 1.07.18 1.36.15.18.8.45 1.04.56l1.5.6 1.3.6 5.2 2.65c.85.47 2.15 1.15 2.9 1.75 1.09.88.62 1.58.08 2.58-.25.44-.46.9-.98 1.04-.63.19-1.16-.11-1.7-.38l-2-1.06-5.7-3.54-2-1.43c-.24-.18-.86-.68-1.1-.76-.39-.13-1.02.34-1.4.48-.5.2-1.07.16-1.6.15-.51 0-.83-.08-1.3-.29-.3-.14-.65-.43-1-.34-.27.06-.84.54-1.1.73l-2.3 1.64a62.96 62.96 0 01-5.4 3.35l-2.7 1.4c-1.22.44-1.67-.37-2.2-1.29-.3-.52-.56-1.11-.26-1.7.33-.63 2.18-1.67 2.86-2.02l1.3-.75 5.4-2.64 2.1-.87c.2-.1.7-.31.83-.47.17-.21.07-.58.09-.85.03-.45.19-1.19.37-1.6.24-.57.63-1.05 1.11-1.43.25-.2.83-.53.93-.8.1-.2.01-.54 0-.77l-.21-1.7-.32-4.4-.1-1.1v-4.2c0-.97 0-2.13 1.1-2.45zm2.2 2.45h-1.8c-.2 0-.46-.01-.6.16-.12.16-.1.54-.1.74 0 2.5.07 5 .32 7.5l.34 2.7c.03.25.02.74.21.9.18.14.8.1 1.03.1l.27-2.3.23-3.3.1-1.5v-5zM24 24.93c-.67.11-1.39.38-1.87.89a2.88 2.88 0 001.97 4.86c1.88.14 3.33-1.68 2.95-3.48a2.87 2.87 0 00-1.85-2.08 2.4 2.4 0 00-1.2-.2zm-3.61 4.64c-.38.05-2.35.9-2.79 1.1l-1.6.7-2.6 1.33-.9.43-1.1.64c-.3.16-1.36.73-1.57.92-.41.4.35 1.33.58 1.7.13.2.23.43.5.44.25 0 .67-.27.89-.39l1.6-.9 5.8-3.77c.3-.2 1.48-1.04 1.64-1.25.28-.36-.1-.84-.45-.95zM38.9 34.8l-1.5-.87-2.7-1.43-2.8-1.37-3.6-1.53c-.52-.13-.82.42-.8.7.03.24.32.4.5.54l1.2.88a59.99 59.99 0 005.6 3.67l2 1.14c.22.13.6.39.86.3.2-.06.35-.36.46-.53.27-.46.62-1 .78-1.5z" }),
+  hAsync("circle", { cx: "24.2", cy: "27.9", r: "18.7", stroke: third, opacity: ".3", fill: "transparent" }),
+  hAsync("path", { fill: third, opacity: ".3", d: "M24.7 27.78s-.03.02 0 .06l.66.65c.13.19 0 .55-.37.43l-.66-.65c-.03-.04-.1-.04-.13 0l-.64.69c-.28.12-.53-.06-.45-.39l.69-.7c.02-.02 0-.06 0-.06l-.74-.74c-.07-.28.15-.51.44-.41l.7.7c.05.05.08.04.12-.01l.68-.7c.25-.12.53.14.4.4l-.7.73z" }),
+  hAsync("defs", null,
+    hAsync("linearGradient", { id: "app_store_checked_icon_gradient_0", gradientTransform: "rotate(90)" },
+      hAsync("stop", { offset: "0", "stop-color": main }),
+      hAsync("stop", { offset: "1", "stop-color": second })))));
+const tripleLayerIcon = ({ main = '#BFE4FF', second = '#97BDFF', third = '#597EFF', fourth = '#fff' } = {}, props) => (hAsync("svg", Object.assign({ viewBox: "0 0 64 64" }, props),
+  hAsync("path", { fill: main, d: "M32 32c-2.07 0-4.14.37-5.76 1.1L3.47 43.5C2.43 43.96 0 45.35 0 47.96c0 2.62 2.43 4 3.47 4.48l22.97 10.48a14.76 14.76 0 0011.1 0l22.99-10.48c1.04-.47 3.47-1.86 3.47-4.48s-2.43-4-3.47-4.48L37.76 33.1A14.29 14.29 0 0032 32z" }),
+  hAsync("path", { fill: second, d: "M32 16c-2.07 0-4.14.37-5.76 1.1L3.47 27.5C2.43 27.96 0 29.35 0 31.96c0 2.62 2.43 4 3.47 4.48l22.97 10.48a14.76 14.76 0 0011.1 0l22.99-10.48c1.04-.47 3.47-1.86 3.47-4.48s-2.43-4-3.47-4.48L37.76 17.1A14.29 14.29 0 0032 16z" }),
+  hAsync("path", { fill: third, d: "M32 0c-2.07 0-4.14.37-5.76 1.1L3.47 11.5C2.43 11.96 0 13.35 0 15.96c0 2.62 2.43 4 3.47 4.48l22.97 10.48a14.76 14.76 0 0011.1 0l22.99-10.48c1.04-.47 3.47-1.86 3.47-4.48s-2.43-4-3.47-4.48L37.76 1.1A14.29 14.29 0 0032 0z" }),
+  hAsync("path", { fill: "url(#figure_8_gradient_1)", d: "M 47.375 12.3593 C 46.8125 15.5675 41.8544 17.1769 37.0625 16.6563 C 37.0625 16.6563 26.6875 15.3593 26.6875 15.3593 C 23.5781 14.9293 21.7263 16.3282 21.7081 17.4013 C 21.7081 17.4013 16.6563 16.9532 16.6563 16.9532 C 17 14.1093 21.4375 11.8907 26.4063 12.3907 C 26.4063 12.3907 34.6875 13.4218 34.6875 13.4218 C 37.0113 13.6718 38.5681 14.0012 39.6819 13.7063 C 41.8756 13.3362 42.3181 12.24 42.4063 11.6398 C 42.4063 11.64 47.375 12.3593 47.375 12.3591 Z" }),
+  hAsync("path", { fill: "url(#figure_8_gradient_0)", d: "M 16.656 16.95 C 16.4431 18.9332 18.6263 22.0131 24.75 22.8282 C 31.5625 23.3593 34.3438 20.5157 34.2813 18.8593 C 34.2813 18.8593 34.8438 10.4843 34.8438 10.4843 C 35.1075 9.5532 36.8975 9.0357 39.0113 9.2063 C 42.4775 9.8424 42.4063 11.6399 42.4063 11.6399 C 42.4063 11.6399 47.3738 12.3605 47.3738 12.3605 C 47.7656 10.125 45.3125 6.7188 38.0862 6.2106 C 34.3362 6.1274 29.7119 7.4337 29.7656 10.6875 C 29.7656 10.6875 29.75 10.7657 29.2188 18.6718 C 28.7287 19.8756 25.7294 20.255 24.2919 19.7138 C 22.1694 19.1363 21.7856 18.1062 21.7081 17.4012 Z" }),
+  hAsync("defs", null,
+    hAsync("linearGradient", { id: "figure_8_gradient_0" },
+      hAsync("stop", { offset: "0", "stop-color": second }),
+      hAsync("stop", { offset: ".1", "stop-color": second }),
+      hAsync("stop", { offset: ".5", "stop-color": fourth }),
+      hAsync("stop", { offset: ".9", "stop-color": second }),
+      hAsync("stop", { offset: "1", "stop-color": second })),
+    hAsync("linearGradient", { id: "figure_8_gradient_1" },
+      hAsync("stop", { offset: "0", "stop-color": second }),
+      hAsync("stop", { offset: ".3", "stop-color": second }),
+      hAsync("stop", { offset: ".5", "stop-color": third }),
+      hAsync("stop", { offset: ".7", "stop-color": second }),
+      hAsync("stop", { offset: "1", "stop-color": second })))));
+const triplePhoneIcon = ({ main = '#BFE4FF', second = '#97BDFF', third = '#597EFF' } = {}, props) => (hAsync("svg", Object.assign({ width: "64", height: "64" }, props),
+  hAsync("rect", { x: "38", width: "26", height: "48", rx: "6", fill: main }),
+  hAsync("rect", { x: "19", y: "8", width: "26", height: "48", rx: "6", fill: second }),
+  hAsync("rect", { y: "16", width: "26", height: "48", rx: "6", fill: third }),
+  hAsync("circle", { opacity: ".8", cx: "13", cy: "58", r: "2", fill: "#fff" }),
+  hAsync("circle", { opacity: ".7", cx: "32", cy: "50", r: "2", fill: "#fff" }),
+  hAsync("circle", { opacity: ".7", cx: "51", cy: "42", r: "2", fill: "#fff" })));
+const twitterLogo = ({ main = '#1DA1F2' } = {}, props) => (hAsync("svg", Object.assign({ viewBox: "0.630000114440918 -0.003784056520089507 14.744999885559082 12.00379753112793" }, props),
+  hAsync("path", { fill: main, d: "M15.375 1.422a6.116 6.116 0 01-1.738.478A3.036 3.036 0 0014.97.225c-.585.347-1.232.6-1.922.734A3.026 3.026 0 007.89 3.72 8.574 8.574 0 011.653.553a3.029 3.029 0 00.94 4.044c-.5-.013-.968-.15-1.374-.378v.037a3.028 3.028 0 002.428 2.969 3.045 3.045 0 01-.797.106c-.194 0-.384-.019-.569-.056A3.03 3.03 0 005.11 9.378a6.066 6.066 0 01-4.48 1.253A8.457 8.457 0 005.258 12c5.572 0 8.616-4.616 8.616-8.619 0-.131-.003-.262-.01-.39a6.158 6.158 0 001.51-1.57z" })));
 
 const blogPaginationCss = ".sc-blog-pagination-h{display:flex;justify-content:space-between;align-items:center}.sc-blog-pagination-h .link.sc-blog-pagination{display:flex;align-items:center;color:var(--c-lavender-70)}.sc-blog-pagination-h .link.back.sc-blog-pagination{margin-inline-end:var(--space-1)}.sc-blog-pagination-h .link.forward.sc-blog-pagination{margin-inline-start:var(--space-1)}";
 
@@ -7225,8 +7997,8 @@ class BlogPagination {
     registerInstance(this, hostRef);
     this.linkText = ['Older posts', 'Newer posts'];
     this.rssIcon = false;
-    this.render = () => (h(Host, null, h("a", { href: "#", class: "link back ui-paragraph-3" }, h("ion-icon", { name: "chevron-back-outline" }), this.linkText[0]), this.rssIcon
-      ? rssIcon({}, { height: 32, width: 32 }) : '', h("a", { href: "#", class: "link forward ui-paragraph-3" }, this.linkText[1], h("ion-icon", { name: "chevron-forward-outline" }))));
+    this.render = () => (hAsync(Host, null, hAsync("a", { href: "#", class: "link back ui-paragraph-3" }, hAsync("ion-icon", { name: "chevron-back-outline" }), this.linkText[0]), this.rssIcon
+      ? rssIcon({}, { height: 32, width: 32 }) : '', hAsync("a", { href: "#", class: "link forward ui-paragraph-3" }, this.linkText[1], hAsync("ion-icon", { name: "chevron-forward-outline" }))));
   }
   static get style() { return blogPaginationCss; }
   static get cmpMeta() { return {
@@ -7546,13 +8318,39 @@ function validateTimezone(_hours, minutes) {
   return minutes >= 0 && minutes <= 59;
 }
 
-const blogPostCss = ".sc-blog-post{display:block;--h1-color:var(--c-carbon-100)}.sc-blog-post .post{padding-block-end:var(--space-11);border-bottom:2px solid var(--c-indigo-20)}.sc-blog-post .post .ui-heading-1{margin-block-end:var(--space-5)}.sc-blog-post .post .ui-heading-1 a{color:inherit}.sc-blog-post .post .author{margin-block-end:var(--space-6)}.sc-blog-post .post .author .ui-paragraph{color:#92A1B3}.sc-blog-post .post .featured-image-wrapper,.sc-blog-post .post .default-image-wrapper{margin-inline-start:-32px;margin-inline-end:-32px;margin-block-end:var(--space-8);overflow:hidden}.sc-blog-post .post .featured-image-wrapper img,.sc-blog-post .post .default-image-wrapper img{max-height:400px;object-fit:cover;transition:transform 0.2s cubic-bezier(0.32, 0.72, 0, 1)}.sc-blog-post .post .post-content p{margin:0}.sc-blog-post .post .post-content p,.sc-blog-post .post .post-content li{color:var(--c-indigo-100);letter-spacing:var(--p2-tracking);line-height:var(--f-leading-prose);font-size:var(--p2-size);font-weight:var(--p2-weight)}.sc-blog-post .post .post-content ul{margin-block-start:var(--space-6);margin-block-end:var(--space-6)}.sc-blog-post .post .post-content li{list-style:disc;margin-inline-start:var(--space-9)}.sc-blog-post .post .post-content li+li{padding-block-start:var(--space-3)}.sc-blog-post .post .post-content p+p{margin-block-start:var(--space-6)}.sc-blog-post .post .post-content p+h2{margin-block-start:var(--space-9)}.sc-blog-post .post .continue-reading{margin-block-start:30px;color:var(--c-lavender-70)}.sc-blog-post.preview .post-content>*{display:none}.sc-blog-post.preview .post-content :first-child{display:block}.sc-blog-post.preview .post-content :first-child::after{content:\"..\"}.sc-blog-post.preview .featured-image-wrapper,.sc-blog-post.preview .default-image-wrapper{max-height:368px;margin-inline-start:0px;margin-inline-end:0px}.sc-blog-post.preview .featured-image-wrapper img,.sc-blog-post.preview .default-image-wrapper img{max-height:368px}.sc-blog-post.preview .featured-image-wrapper a:hover img,.sc-blog-post.preview .featured-image-wrapper a:focus img,.sc-blog-post.preview .featured-image-wrapper a:active img,.sc-blog-post.preview .default-image-wrapper a:hover img,.sc-blog-post.preview .default-image-wrapper a:focus img,.sc-blog-post.preview .default-image-wrapper a:active img{transform:scale(1.05, 1.05)}";
+var __rest$b = (undefined && undefined.__rest) || function (s, e) {
+  var t = {};
+  for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+    t[p] = s[p];
+  if (s != null && typeof Object.getOwnPropertySymbols === "function")
+    for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+      if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+        t[p[i]] = s[p[i]];
+    }
+  return t;
+};
+const Img = (_a) => {
+  var { path, name, type = 'png', alt, dimensions, fallback } = _a, props = __rest$b(_a, ["path", "name", "type", "alt", "dimensions", "fallback"]);
+  !props.loading ? props.loading = 'lazy' : '';
+  return (hAsync("img", Object.assign({}, props, { src: `${path}${name}@2x.${type}`, srcset: `${path}${name}.${type} 1x,
+              ${path}${name}@2x.${type} 2x`, width: dimensions.split('x')[0], height: dimensions.split('x')[1] })));
+};
+
+const blogPostCss = ".sc-blog-post{display:block;--h1-color:var(--c-carbon-100)}.sc-blog-post .post{padding-block-end:var(--space-11);border-bottom:2px solid var(--c-indigo-20)}.sc-blog-post .post .ui-heading-1{margin-block-end:var(--space-5)}.sc-blog-post .post .ui-heading-1 a{color:inherit}.sc-blog-post .post .author{display:flex;align-items:center;margin-block-end:var(--space-6)}.sc-blog-post .post .author img{margin-inline-end:var(--space-3);width:32px;height:32px}.sc-blog-post .post .author .ui-paragraph{color:#92A1B3}.sc-blog-post .post .featured-image-wrapper,.sc-blog-post .post .default-image-wrapper{margin-inline-start:-32px;margin-inline-end:-32px;margin-block-end:var(--space-8);overflow:hidden}.sc-blog-post .post .featured-image-wrapper img,.sc-blog-post .post .default-image-wrapper img{max-height:400px;object-fit:cover;transition:transform 0.2s cubic-bezier(0.32, 0.72, 0, 1)}.sc-blog-post .post .post-content p{margin:0}.sc-blog-post .post .post-content p,.sc-blog-post .post .post-content li{color:var(--c-indigo-100);letter-spacing:var(--p2-tracking);line-height:var(--f-leading-prose);font-size:var(--p2-size);font-weight:var(--p2-weight)}.sc-blog-post .post .post-content ul{margin-block-start:var(--space-6);margin-block-end:var(--space-6)}.sc-blog-post .post .post-content li{list-style:disc;margin-inline-start:var(--space-9)}.sc-blog-post .post .post-content li+li{padding-block-start:var(--space-3)}.sc-blog-post .post .post-content p+p{margin-block-start:var(--space-6)}.sc-blog-post .post .post-content p+h2{margin-block-start:var(--space-9)}.sc-blog-post .post .continue-reading{margin-block-start:30px;color:var(--c-lavender-70)}.sc-blog-post.preview .post-content>*{display:none}.sc-blog-post.preview .post-content :first-child{display:block}.sc-blog-post.preview .post-content :first-child::after{content:\"..\"}.sc-blog-post.preview .featured-image-wrapper,.sc-blog-post.preview .default-image-wrapper{max-height:368px;margin-inline-start:0px;margin-inline-end:0px}.sc-blog-post.preview .featured-image-wrapper img,.sc-blog-post.preview .default-image-wrapper img{max-height:368px}.sc-blog-post.preview .featured-image-wrapper a:hover img,.sc-blog-post.preview .featured-image-wrapper a:focus img,.sc-blog-post.preview .featured-image-wrapper a:active img,.sc-blog-post.preview .default-image-wrapper a:hover img,.sc-blog-post.preview .default-image-wrapper a:focus img,.sc-blog-post.preview .default-image-wrapper a:active img{transform:scale(1.05, 1.05)}";
 
 class BlogPost {
   constructor(hostRef) {
     registerInstance(this, hostRef);
     this.keepScrollLinks = [];
     this.preview = false;
+    this.PostAuthor = ({ post: { authorName, authorUrl, authorImageName, date } }) => {
+      const dateString = parseISO(date);
+      return (hAsync("div", { class: "author" }, authorImageName
+        ? hAsync("img", { src: getAssetPath(`assets/img/author/${authorImageName}`), alt: authorName, width: "56", height: "56" })
+        : null, hAsync(Paragraph, null, "By ", authorUrl ?
+        hAsync("a", { href: authorUrl, target: "_blank" }, authorName) :
+        authorName, " on ", hAsync(DateTime, { date: dateString }))));
+    };
   }
   async componentWillLoad() {
     if (this.post)
@@ -7561,6 +8359,7 @@ class BlogPost {
       this.post = posts.find(p => p.slug === this.slug);
   }
   componentDidLoad() {
+    console.log(this.post);
     this.keepScrollLinks.forEach(link => {
       link.addEventListener('click', () => {
         window.scrollTo(0, window.scrollY - this.el.offsetTop + 32);
@@ -7568,20 +8367,20 @@ class BlogPost {
     });
   }
   render() {
+    const { PostAuthor } = this;
     if (!this.post)
       return null;
     const { slug, post, preview, keepScrollLinks } = this;
     const content = preview ? post.preview : post.html;
-    return (h(Host, { class: {
+    return (hAsync(Host, { class: {
         'sc-blog-post': true,
         'preview': preview
-      } }, h(Helmet, null, h("title", null, this.post.title, " - Capacitor Blog - Cross-platform native runtime for web apps"), h("meta", { name: "description", content: this.post.description }), h("meta", { name: "twitter:description", content: `${this.post.description} - Capacitor Blog` }), h("meta", { property: "og:image", content: this.post.featuredImage || 'https://capacitorjs.com/assets/img/og.png' })), h("article", { class: "post" }, h(ThemeProvider, { type: "editorial" }, h(Heading, { level: 1, onClick: () => window.scrollTo(0, 0) }, preview
-      ? h("a", Object.assign({}, href(`/blog/${slug}`, Router)), post.title)
-      : post.title)), h(PostAuthor$1, { authorName: post.authorName, authorUrl: post.authorUrl, dateString: post.date }), post.featuredImage
-      ? h(PostFeaturedImage, { preview: preview, post: post })
-      : h(PostDefaultImage, { preview: preview, post: post }), h("div", { class: "post-content", innerHTML: content }), this.preview
-      ? h("a", Object.assign({ class: "continue-reading ui-paragraph-2", ref: e => keepScrollLinks.push(e) }, href(`/blog/${slug}`, Router)), "Continue reading ", h("span", { class: "arrow" }, "->")) : '')));
+      } }, hAsync(Helmet, null, hAsync("title", null, this.post.title, " - Capacitor Blog - Cross-platform native runtime for web apps"), hAsync("meta", { name: "description", content: this.post.description }), hAsync("meta", { name: "twitter:description", content: `${this.post.description} - Capacitor Blog` }), hAsync("meta", { property: "og:image", content: this.post.featuredImage || 'https://capacitorjs.com/assets/img/og.png' })), hAsync("article", { class: "post" }, hAsync(ThemeProvider, { type: "editorial" }, hAsync(Heading, { level: 1, onClick: () => window.scrollTo(0, 0) }, preview
+      ? hAsync("a", Object.assign({}, href(`/blog/${slug}`, Router)), post.title)
+      : post.title)), hAsync(PostAuthor, { post: post }), hAsync(PostFeaturedImage, { preview: preview, post: post }), hAsync("div", { class: "post-content", innerHTML: content }), this.preview
+      ? hAsync("a", Object.assign({ class: "continue-reading ui-paragraph-2", ref: e => keepScrollLinks.push(e) }, href(`/blog/${slug}`, Router)), "Continue reading ", hAsync("span", { class: "arrow" }, "->")) : '')));
   }
+  static get assetsDirs() { return ["assets"]; }
   get el() { return getElement(this); }
   static get style() { return blogPostCss; }
   static get cmpMeta() { return {
@@ -7597,25 +8396,26 @@ class BlogPost {
     "$attrsToReflect$": []
   }; }
 }
-const PostFeaturedImage = ({ post, preview }) => (h("div", { class: "featured-image-wrapper" }, preview
-  ? h("a", Object.assign({}, href(`/blog/${post.slug}`, Router)), h("img", { onClick: () => window.scrollTo(0, 0), class: "featured-image", src: post.featuredImage, alt: post.featuredImageAlt }))
-  : h("img", { class: "featured-image", src: post.featuredImage, alt: post.featuredImageAlt })));
-const PostDefaultImage = ({ post, preview }) => (h("div", { class: "default-image-wrapper" }, preview
-  ? h("a", Object.assign({}, href(`/blog/${post.slug}`, Router)), h("img", { onClick: () => window.scrollTo(0, 0), class: "featured-image", width: "2400", height: "1280", src: "/assets/img/appflow-og-img.jpg", alt: "Appflow logo and text on gradient background" }))
-  : h("img", { class: "featured-image", width: "2400", height: "1280", src: "/assets/img/appflow-og-img.jpg", alt: "Appflow logo and text on gradient background" })));
-const PostAuthor$1 = ({ authorName, authorUrl, dateString }) => {
-  const date = parseISO(dateString);
-  return (h("div", { class: "author" }, h(Paragraph, null, "By ", authorUrl ?
-    h("a", { href: authorUrl, target: "_blank" }, authorName) :
-    authorName, " on ", h(DateTime, { date: date }))));
-};
+const PostFeaturedImage = ({ post, preview }) => (hAsync("div", { class: "featured-image-wrapper" }, preview
+  ? hAsync("a", Object.assign({}, href(`/blog/${post.slug}`, Router)), hAsync(Img
+  // fallback={PostDefaultImage}
+  , {
+    // fallback={PostDefaultImage}
+    onClick: () => window.scrollTo(0, 0), class: "featured-image", dimensions: "1600x840", name: post.slug, alt: post.slug.split('-').join(' '), path: getAssetPath(`assets/img/hero/`)
+  }))
+  : hAsync(Img
+  // fallback={PostDefaultImage}
+  , {
+    // fallback={PostDefaultImage}
+    onClick: () => window.scrollTo(0, 0), class: "featured-image", dimensions: "1600x840", name: post.slug, alt: post.slug.split('-').join(' '), path: getAssetPath(`assets/img/hero/`)
+  })));
 
 const blogSearchCss = ".sc-blog-search-h{display:inline-block;height:32px;position:relative;display:flex;align-items:center}.search.sc-blog-search{position:absolute;left:12.75px;color:var(--c-indigo-50)}input.sc-blog-search{border:1px solid var(--c-indigo-20);border-radius:var(--radius-4);padding:6px 30px 6px 33px;max-width:192px}input.sc-blog-search::placeholder{color:var(--c-indigo-60)}";
 
 class BlogSearch {
   constructor(hostRef) {
     registerInstance(this, hostRef);
-    this.render = () => (h(Host, null, h("ion-icon", { class: "search", name: "search-outline" }), h("input", { class: "ui-paragraph-6", type: "text", placeholder: "Search the blog..." })));
+    this.render = () => (hAsync(Host, null, hAsync("ion-icon", { class: "search", name: "search-outline" }), hAsync("input", { class: "ui-paragraph-6", type: "text", placeholder: "Search the blog..." })));
   }
   static get style() { return blogSearchCss; }
   static get cmpMeta() { return {
@@ -7647,11 +8447,11 @@ class BlogSocialActions {
     ];
     this.column = false;
     this.loaded = false;
-    this.render = () => (h(Host, { class: {
+    this.render = () => (hAsync(Host, { class: {
         'social-links': true,
         'column': this.column,
         'loaded': this.loaded
-      } }, h("a", { href: this.twitterUrl.join(''), target: "_blank", rel: "noopener nofollow" }, twitterLogo({ main: '#CED6E0' }, { width: 20, height: 16, class: 'twitter' })), h("a", { href: this.facebookUrl.join(''), target: "_blank", rel: "noopener nofollow" }, facebookRoundedLogo({ main: '#CED6E0' }, { width: 20, height: 20, class: 'facebook' })), h("a", { href: this.linkedInUrl.join(''), target: "_blank", rel: "noopener nofollow" }, linkedInLogo({ main: '#CED6E0' }, { width: 20, height: 20, class: 'linked-in' }))));
+      } }, hAsync("a", { href: this.twitterUrl.join(''), target: "_blank", rel: "noopener nofollow" }, twitterLogo({ main: '#CED6E0' }, { width: 20, height: 16, class: 'twitter' })), hAsync("a", { href: this.facebookUrl.join(''), target: "_blank", rel: "noopener nofollow" }, facebookRoundedLogo({ main: '#CED6E0' }, { width: 20, height: 20, class: 'facebook' })), hAsync("a", { href: this.linkedInUrl.join(''), target: "_blank", rel: "noopener nofollow" }, linkedInLogo({ main: '#CED6E0' }, { width: 20, height: 20, class: 'linked-in' }))));
   }
   componentDidLoad() {
     requestAnimationFrame(() => {
@@ -7673,7 +8473,7 @@ class BlogSocialActions {
   }; }
 }
 
-const blogSubnavCss = ".sc-blog-subnav-h{display:block;background:white;position:sticky;height:var(--blog-subnav-height);top:0;z-index:100}.subnav-wrapper.sc-blog-subnav{position:relative;height:100%}.ui-breadcrumbs.sc-blog-subnav{min-width:0;margin-inline-end:var(--space-3)}.ui-breadcrumbs.sc-blog-subnav li.sc-blog-subnav{display:flex;align-items:center;white-space:nowrap}.ui-breadcrumbs.sc-blog-subnav li.sc-blog-subnav:last-of-type{overflow:hidden}.ui-breadcrumbs.sc-blog-subnav li.sc-blog-subnav:last-of-type a.sc-blog-subnav{display:inline;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.blog-search-wrapper.sc-blog-subnav{flex-grow:1;display:flex;justify-content:flex-end}.blog-search-wrapper.sc-blog-subnav .mobile.sc-blog-subnav{align-items:center}.blog-search-wrapper.sc-blog-subnav .mobile.sc-blog-subnav ion-icon.sc-blog-subnav{margin-inline-end:var(--space-1);font-size:20px}.content.sc-blog-subnav{position:relative;display:flex;justify-content:space-between;padding-block-start:var(--space-2);padding-block-end:var(--space-2);height:100%}.subnav-dropdown.sc-blog-subnav{background:white;left:0;right:0;position:absolute;top:0;display:none;transition:transform 2s ease}.subnav-dropdown.open.sc-blog-subnav{transform:translateY(100%);display:block}.subnav-dropdown.sc-blog-subnav .ui-container.sc-blog-subnav{display:flex;align-items:center;justify-content:space-between;padding-block-start:var(--space-2);padding-block-end:var(--space-2)}";
+const blogSubnavCss = ".sc-blog-subnav-h{display:block;background:white;position:sticky;height:var(--blog-subnav-height);top:0;z-index:100}.subnav-wrapper.sc-blog-subnav{position:relative;height:100%}.ui-breadcrumbs.sc-blog-subnav{min-width:0;margin-inline-end:var(--space-3)}.ui-breadcrumbs.sc-blog-subnav li.sc-blog-subnav{display:flex;align-items:center;white-space:nowrap}.ui-breadcrumbs.sc-blog-subnav li.sc-blog-subnav:last-of-type{overflow:hidden}.ui-breadcrumbs.sc-blog-subnav li.sc-blog-subnav:last-of-type a.sc-blog-subnav{padding-block-start:2px;padding-block-end:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.blog-search-wrapper.sc-blog-subnav{flex-grow:1;display:flex;justify-content:flex-end}.blog-search-wrapper.sc-blog-subnav .mobile.sc-blog-subnav{align-items:center}.blog-search-wrapper.sc-blog-subnav .mobile.sc-blog-subnav ion-icon.sc-blog-subnav{margin-inline-end:var(--space-1);font-size:20px}.content.sc-blog-subnav{position:relative;display:flex;justify-content:space-between;padding-block-start:var(--space-2);padding-block-end:var(--space-2);height:100%}.subnav-dropdown.sc-blog-subnav{background:white;left:0;right:0;position:absolute;top:0;display:none;transition:transform 2s ease}.subnav-dropdown.open.sc-blog-subnav{transform:translateY(100%);display:block}.subnav-dropdown.sc-blog-subnav .ui-container.sc-blog-subnav{display:flex;align-items:center;justify-content:space-between;padding-block-start:var(--space-2);padding-block-end:var(--space-2)}";
 
 class BlogSubnav {
   constructor(hostRef) {
@@ -7683,16 +8483,9 @@ class BlogSubnav {
     this.breadcrumbs = [];
     this.socialActions = false;
     this.pagination = false;
-    this.render = () => (h(Host, { class: {
+    this.render = () => (hAsync(Host, { class: {
         'sticky': this.sticky,
-      } }, h("div", { class: "subnav-wrapper" }, h(ResponsiveContainer, { class: "content" }, h(Breadcrumbs, { onClick: () => window.scrollTo(0, 0) }, this.breadcrumbs.map(crumb => (h("li", null, h("a", Object.assign({ class: "ui-heading-5" }, href(`${crumb[1]}`, Router)), crumb[0]))))), h("div", { class: "blog-search-wrapper" }, h(Breakpoint, { md: true }, h("blog-search", null)), h(Breakpoint, { class: "mobile", xs: true, md: false, display: "flex" }, this.open
-      ? h("ion-icon", { onClick: () => this.open = false, class: "drawer-button", role: "button", "aria-label": "close drawer", name: "chevron-up-outline" })
-      : h("ion-icon", { onClick: () => this.open = true, class: "drawer-button", role: "button", "aria-label": "open drawer", name: "chevron-down-outline" }))), h("div", { class: {
-        'subnav-dropdown': true,
-        'open': this.open
-      } }, h(ResponsiveContainer, null, h("blog-search", null), this.socialActions
-      ? h("blog-social-actions", null) : '', this.pagination
-      ? h("blog-pagination", { linkText: ['Older', 'Newer'] }) : ''))))));
+      } }, hAsync("div", { class: "subnav-wrapper" }, hAsync(ResponsiveContainer, { class: "content" }, hAsync(Breadcrumbs, { onClick: () => window.scrollTo(0, 0) }, this.breadcrumbs.map(crumb => (hAsync("li", null, hAsync("a", Object.assign({ class: "ui-heading-5" }, href(`${crumb[1]}`, Router)), crumb[0]))))), hAsync("div", { class: "blog-search-wrapper" })))));
   }
   componentDidLoad() {
     addListener(({ entries }) => {
@@ -7750,7 +8543,7 @@ class CodeSnippet {
     (_b = (_a = this.scriptEl) === null || _a === void 0 ? void 0 : _a.parentNode) === null || _b === void 0 ? void 0 : _b.removeChild(this.scriptEl);
   }
   render() {
-    return (h(Host, null, h("pre", null, h("code", { class: `language-${this.language}`, ref: e => this.codeRef = e }, this.code.trim()))));
+    return (hAsync(Host, null, hAsync("pre", null, hAsync("code", { class: `language-${this.language}`, ref: e => this.codeRef = e }, this.code.trim()))));
   }
   get el() { return getElement(this); }
   static get style() { return codeSnippetCss; }
@@ -7768,10 +8561,10 @@ class CodeSnippet {
 }
 
 var Blockquote_examples = {
-    title: 'Blockquote',
-    cols: 1
+  title: 'Blockquote',
+  cols: 1
 };
-const example = () => h(Blockquote, null, "With Ionic Enterprise, we have peace of mind with access to Ionic\u2019s stellar Customer Success team, additional help from Ionic experts whenever we need it, and we\u2019re able to rely on Ionic\u2019s secure native solutions to ensure an optimal login experience. Put simply, it provides peace of mind and reduces the effort on maintaining native code.");
+const example = () => hAsync(Blockquote, null, "With Ionic Enterprise, we have peace of mind with access to Ionic\u2019s stellar Customer Success team, additional help from Ionic experts whenever we need it, and we\u2019re able to rely on Ionic\u2019s secure native solutions to ensure an optimal login experience. Put simply, it provides peace of mind and reduces the effort on maintaining native code.");
 
 var blockquoteExamples = /*#__PURE__*/Object.freeze({
   __proto__: null,
@@ -7779,24 +8572,24 @@ var blockquoteExamples = /*#__PURE__*/Object.freeze({
   example: example
 });
 
-var __rest$a = (undefined && undefined.__rest) || function (s, e) {
-    var t = {};
-    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-        t[p] = s[p];
-    if (s != null && typeof Object.getOwnPropertySymbols === "function")
-        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-                t[p[i]] = s[p[i]];
-        }
-    return t;
+var __rest$c = (undefined && undefined.__rest) || function (s, e) {
+  var t = {};
+  for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+    t[p] = s[p];
+  if (s != null && typeof Object.getOwnPropertySymbols === "function")
+    for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+      if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+        t[p[i]] = s[p[i]];
+    }
+  return t;
 };
 const Box = (_a, children) => {
-    var props = __rest$a(_a, []);
-    return h("div", Object.assign({}, applyProps(props, { class: `ui-box` })), children);
+  var props = __rest$c(_a, []);
+  return hAsync("div", Object.assign({}, applyProps(props, { class: `ui-box` })), children);
 };
 
 var Box_examples = { title: 'Box' };
-const example$1 = () => h(Box, null, "This is a box");
+const example$1 = () => hAsync(Box, null, "This is a box");
 
 var boxExamples = /*#__PURE__*/Object.freeze({
   __proto__: null,
@@ -7805,12 +8598,12 @@ var boxExamples = /*#__PURE__*/Object.freeze({
 });
 
 var Breadcrumbs_examples = { title: 'Breadcrumbs' };
-const example$2 = () => (h(Breadcrumbs, { class: "jumanjii" },
-    h("li", null,
-        h("a", { href: "#" }, "Native")),
-    h("li", { class: "nav-sep" }, "/"),
-    h("li", null,
-        h("a", { href: "#" }, "Offline Storage"))));
+const example$2 = () => (hAsync(Breadcrumbs, { class: "jumanjii" },
+  hAsync("li", null,
+    hAsync("a", { href: "#" }, "Native")),
+  hAsync("li", { class: "nav-sep" }, "/"),
+  hAsync("li", null,
+    hAsync("a", { href: "#" }, "Offline Storage"))));
 
 var breadcrumbsExamples = /*#__PURE__*/Object.freeze({
   __proto__: null,
@@ -7819,11 +8612,11 @@ var breadcrumbsExamples = /*#__PURE__*/Object.freeze({
 });
 
 var Breakpoint_examples = { title: 'Breakpoint' };
-const xsOnly = () => h(Breakpoint, { xs: true, sm: false }, "This item shows when screen size is under 480px");
-const mdOnly = () => h(Breakpoint, { sm: false, md: true, lg: false }, "This item shows when screen size is between 768px and 992px");
-const lgOnly = () => h(Breakpoint, { md: false, lg: true }, "This item shows when screen size is above 992px");
-const notXs = () => h(Breakpoint, { xs: false, sm: true }, "This item shows when screen size is above 480px");
-const notMd = () => h(Breakpoint, { xs: true, sm: true, md: false, lg: true }, "This item shows when screen size is smaller than 768px or greater than 992px");
+const xsOnly = () => hAsync(Breakpoint, { xs: true, sm: false }, "This item shows when screen size is under 480px");
+const mdOnly = () => hAsync(Breakpoint, { sm: false, md: true, lg: false }, "This item shows when screen size is between 768px and 992px");
+const lgOnly = () => hAsync(Breakpoint, { md: false, lg: true }, "This item shows when screen size is above 992px");
+const notXs = () => hAsync(Breakpoint, { xs: false, sm: true }, "This item shows when screen size is above 480px");
+const notMd = () => hAsync(Breakpoint, { xs: true, sm: true, md: false, lg: true }, "This item shows when screen size is smaller than 768px or greater than 992px");
 
 var breakpointExamples = /*#__PURE__*/Object.freeze({
   __proto__: null,
@@ -7836,7 +8629,7 @@ var breakpointExamples = /*#__PURE__*/Object.freeze({
 });
 
 var Button_examples = { title: 'Button' };
-const example$3 = () => h(Button, null, "Button");
+const example$3 = () => hAsync(Button, null, "Button");
 
 var buttonExamples = /*#__PURE__*/Object.freeze({
   __proto__: null,
@@ -7845,8 +8638,8 @@ var buttonExamples = /*#__PURE__*/Object.freeze({
 });
 
 var Card_examples = { title: 'Card' };
-const card = () => h(Card, null, "This is a card");
-const cardEmbelished = () => h(Card, { embelish: true, style: "height: 100px" }, "This is an embelished card");
+const card = () => hAsync(Card, null, "This is a card");
+const cardEmbelished = () => hAsync(Card, { embelish: true, style: "height: 100px" }, "This is an embelished card");
 
 var cardExamples = /*#__PURE__*/Object.freeze({
   __proto__: null,
@@ -7856,7 +8649,7 @@ var cardExamples = /*#__PURE__*/Object.freeze({
 });
 
 var DateTime_examples = { title: 'DateTime' };
-const example$4 = () => h(DateTime, { date: new Date() });
+const example$4 = () => hAsync(DateTime, { date: new Date() });
 
 var dateTimeExamples = /*#__PURE__*/Object.freeze({
   __proto__: null,
@@ -7865,11 +8658,11 @@ var dateTimeExamples = /*#__PURE__*/Object.freeze({
 });
 
 const Dropdown = ({ open = false }, children) => {
-    return open ? h("ul", { class: `ui-dropdown${open ? ' ui-dropdown--open' : ''}` }, children) : null;
+  return open ? hAsync("ul", { class: `ui-dropdown${open ? ' ui-dropdown--open' : ''}` }, children) : null;
 };
 
 var Dropdown_examples = { title: 'Dropdown' };
-const example$5 = () => h(Dropdown, { open: true }, "This is a dropdown");
+const example$5 = () => hAsync(Dropdown, { open: true }, "This is a dropdown");
 
 var dropdownExamples = /*#__PURE__*/Object.freeze({
   __proto__: null,
@@ -7878,10 +8671,10 @@ var dropdownExamples = /*#__PURE__*/Object.freeze({
 });
 
 var Grid_examples = {
-    title: 'Grid',
-    cols: 1
+  title: 'Grid',
+  cols: 1
 };
-const example$6 = () => h(Grid, null, "This is a Grid");
+const example$6 = () => hAsync(Grid, null, "This is a Grid");
 
 var gridExamples = /*#__PURE__*/Object.freeze({
   __proto__: null,
@@ -7890,17 +8683,17 @@ var gridExamples = /*#__PURE__*/Object.freeze({
 });
 
 var Heading_examples = { title: 'Heading' };
-const level1 = () => h(Heading, { level: 1 }, "Level 1");
-const level2 = () => h(Heading, { level: 2 }, "Level 2");
-const level3 = () => h(Heading, { level: 3 }, "Level 3");
-const level4 = () => h(Heading, { level: 4 }, "Level 4");
-const level5 = () => h(Heading, { level: 5 }, "Level 5");
-const level6 = () => h(Heading, { level: 6 }, "Level 6");
-const posterLevel1 = () => h(Heading, { poster: true, level: 1 }, "Poster Level 1");
-const posterLevel2 = () => h(Heading, { poster: true, level: 2 }, "Poster Level 2");
-const posterLevel3 = () => h(Heading, { poster: true, level: 3 }, "Poster Level 3");
-const posterLevel4 = () => h(Heading, { poster: true, level: 4 }, "Poster Level 4");
-const level4as2 = () => h(Heading, { poster: true, level: 4, as: 'h2' }, "Poster Level 4 as h2");
+const level1 = () => hAsync(Heading, { level: 1 }, "Level 1");
+const level2 = () => hAsync(Heading, { level: 2 }, "Level 2");
+const level3 = () => hAsync(Heading, { level: 3 }, "Level 3");
+const level4 = () => hAsync(Heading, { level: 4 }, "Level 4");
+const level5 = () => hAsync(Heading, { level: 5 }, "Level 5");
+const level6 = () => hAsync(Heading, { level: 6 }, "Level 6");
+const posterLevel1 = () => hAsync(Heading, { poster: true, level: 1 }, "Poster Level 1");
+const posterLevel2 = () => hAsync(Heading, { poster: true, level: 2 }, "Poster Level 2");
+const posterLevel3 = () => hAsync(Heading, { poster: true, level: 3 }, "Poster Level 3");
+const posterLevel4 = () => hAsync(Heading, { poster: true, level: 4 }, "Poster Level 4");
+const level4as2 = () => hAsync(Heading, { poster: true, level: 4, as: 'h2' }, "Poster Level 4 as h2");
 
 var headingExamples = /*#__PURE__*/Object.freeze({
   __proto__: null,
@@ -7919,12 +8712,12 @@ var headingExamples = /*#__PURE__*/Object.freeze({
 });
 
 var Paragraph_examples = { title: 'Paragraph' };
-const level1$1 = () => h(Paragraph, { level: 1 }, "Ionic Framework is an open source mobile UI toolkit for building high quality, cross-platform native and web app experiences. Move faster with a single codebase, running everywhere.");
-const level2$1 = () => h(Paragraph, { level: 2 }, "Ionic Framework is an open source mobile UI toolkit for building high quality, cross-platform native and web app experiences. Move faster with a single codebase, running everywhere.");
-const level3$1 = () => h(Paragraph, { level: 3 }, "Ionic Framework is an open source mobile UI toolkit for building high quality, cross-platform native and web app experiences. Move faster with a single codebase, running everywhere.");
-const level4$1 = () => h(Paragraph, { level: 4 }, "Ionic Framework is an open source mobile UI toolkit for building high quality, cross-platform native and web app experiences. Move faster with a single codebase, running everywhere.");
-const level5$1 = () => h(Paragraph, { level: 5 }, "Ionic Framework is an open source mobile UI toolkit for building high quality, cross-platform native and web app experiences. Move faster with a single codebase, running everywhere.");
-const level6$1 = () => h(Paragraph, { level: 6 }, "Ionic Framework is an open source mobile UI toolkit for building high quality, cross-platform native and web app experiences. Move faster with a single codebase, running everywhere.");
+const level1$1 = () => hAsync(Paragraph, { level: 1 }, "Ionic Framework is an open source mobile UI toolkit for building high quality, cross-platform native and web app experiences. Move faster with a single codebase, running everywhere.");
+const level2$1 = () => hAsync(Paragraph, { level: 2 }, "Ionic Framework is an open source mobile UI toolkit for building high quality, cross-platform native and web app experiences. Move faster with a single codebase, running everywhere.");
+const level3$1 = () => hAsync(Paragraph, { level: 3 }, "Ionic Framework is an open source mobile UI toolkit for building high quality, cross-platform native and web app experiences. Move faster with a single codebase, running everywhere.");
+const level4$1 = () => hAsync(Paragraph, { level: 4 }, "Ionic Framework is an open source mobile UI toolkit for building high quality, cross-platform native and web app experiences. Move faster with a single codebase, running everywhere.");
+const level5$1 = () => hAsync(Paragraph, { level: 5 }, "Ionic Framework is an open source mobile UI toolkit for building high quality, cross-platform native and web app experiences. Move faster with a single codebase, running everywhere.");
+const level6$1 = () => hAsync(Paragraph, { level: 6 }, "Ionic Framework is an open source mobile UI toolkit for building high quality, cross-platform native and web app experiences. Move faster with a single codebase, running everywhere.");
 
 var paragraphExamples = /*#__PURE__*/Object.freeze({
   __proto__: null,
@@ -7938,8 +8731,8 @@ var paragraphExamples = /*#__PURE__*/Object.freeze({
 });
 
 var ResponsiveContainer_examples = { title: 'ResponsiveContainer' };
-const example$7 = () => h(ResponsiveContainer, null,
-    h("div", null, "blah blah blah responsive container"));
+const example$7 = () => hAsync(ResponsiveContainer, null,
+  hAsync("div", null, "blah blah blah responsive container"));
 
 var responsiveContainerExamples = /*#__PURE__*/Object.freeze({
   __proto__: null,
@@ -7948,7 +8741,7 @@ var responsiveContainerExamples = /*#__PURE__*/Object.freeze({
 });
 
 var SiteModal_examples = { title: 'SiteModal' };
-const example$8 = () => h("site-modal", null, "This is a box");
+const example$8 = () => hAsync("site-modal", null, "This is a box");
 
 var siteModalExamples = /*#__PURE__*/Object.freeze({
   __proto__: null,
@@ -7957,16 +8750,16 @@ var siteModalExamples = /*#__PURE__*/Object.freeze({
 });
 
 var Skeleton_examples = { title: 'Skeleton' };
-const example$9 = () => (h("div", null,
-    h(Skeleton, { style: { "height": "200px" } }),
-    h(Skeleton, { style: {
-            "width": "100px",
-            "height": "16px"
-        } }),
-    h(Skeleton, { style: { "height": "16px" } }),
-    h(Skeleton, { style: { "height": "16px" } }),
-    h(Skeleton, { style: { "height": "16px" } }),
-    h(Skeleton, { style: { "height": "16px" } })));
+const example$9 = () => (hAsync("div", null,
+  hAsync(Skeleton, { style: { "height": "200px" } }),
+  hAsync(Skeleton, { style: {
+      "width": "100px",
+      "height": "16px"
+    } }),
+  hAsync(Skeleton, { style: { "height": "16px" } }),
+  hAsync(Skeleton, { style: { "height": "16px" } }),
+  hAsync(Skeleton, { style: { "height": "16px" } }),
+  hAsync(Skeleton, { style: { "height": "16px" } })));
 
 var skeletonExamples = /*#__PURE__*/Object.freeze({
   __proto__: null,
@@ -7975,7 +8768,7 @@ var skeletonExamples = /*#__PURE__*/Object.freeze({
 });
 
 var Text_examples = { title: 'Text' };
-const example$a = () => h(Text, null, "This is a box");
+const example$a = () => hAsync(Text, null, "This is a box");
 
 var textExamples = /*#__PURE__*/Object.freeze({
   __proto__: null,
@@ -7984,7 +8777,7 @@ var textExamples = /*#__PURE__*/Object.freeze({
 });
 
 var ThemeProvider_examples = { title: 'ThemeProvider' };
-const example$b = () => h(ThemeProvider, null, "This is a box");
+const example$b = () => hAsync(ThemeProvider, null, "This is a box");
 
 var themeProviderExamples = /*#__PURE__*/Object.freeze({
   __proto__: null,
@@ -7993,29 +8786,29 @@ var themeProviderExamples = /*#__PURE__*/Object.freeze({
 });
 
 var coreExamples = {
-    blockquoteExamples,
-    boxExamples,
-    breadcrumbsExamples,
-    breakpointExamples,
-    buttonExamples,
-    cardExamples,
-    dateTimeExamples,
-    dropdownExamples,
-    gridExamples,
-    headingExamples,
-    paragraphExamples,
-    responsiveContainerExamples,
-    siteModalExamples,
-    skeletonExamples,
-    textExamples,
-    themeProviderExamples
+  blockquoteExamples,
+  boxExamples,
+  breadcrumbsExamples,
+  breakpointExamples,
+  buttonExamples,
+  cardExamples,
+  dateTimeExamples,
+  dropdownExamples,
+  gridExamples,
+  headingExamples,
+  paragraphExamples,
+  responsiveContainerExamples,
+  siteModalExamples,
+  skeletonExamples,
+  textExamples,
+  themeProviderExamples
 };
 
 var disqusComments_example = {
-    title: 'disqus-comments',
-    cols: 1
+  title: 'disqus-comments',
+  cols: 1
 };
-const frameworkBlogPost = () => h("disqus-comments", { url: 'https://ds.ionic.io/overview/disqus-comments', "site-id": 'drifty' });
+const frameworkBlogPost = () => hAsync("disqus-comments", { url: 'https://ds.ionic.io/overview/disqus-comments', "site-id": 'drifty' });
 
 var disqusCommentsExamples = /*#__PURE__*/Object.freeze({
   __proto__: null,
@@ -8024,10 +8817,10 @@ var disqusCommentsExamples = /*#__PURE__*/Object.freeze({
 });
 
 var hubspotForm_example = {
-    title: 'hubspot-form',
-    cols: 1
+  title: 'hubspot-form',
+  cols: 1
 };
-const frameworkBlogPost$1 = () => h("hubspot-form", { formId: '9151dc0b-42d9-479f-b7b8-649e0e7bd1bc', ajax: true, onFormSubmitted: () => alert('message recieved!') });
+const frameworkBlogPost$1 = () => hAsync("hubspot-form", { formId: '9151dc0b-42d9-479f-b7b8-649e0e7bd1bc', ajax: true, onFormSubmitted: () => alert('message recieved!') });
 
 var hubspotFormExamples = /*#__PURE__*/Object.freeze({
   __proto__: null,
@@ -8038,22 +8831,22 @@ var hubspotFormExamples = /*#__PURE__*/Object.freeze({
 var webExamples = { disqusCommentsExamples, hubspotFormExamples };
 
 function transformMethodName(str) {
-    str = str.charAt(0).toUpperCase() + str.slice(1);
-    return (str
-        // Look for long acronyms and filter out the last letter
-        .replace(/([A-Z]+)([A-Z][a-z])/g, ' $1 $2')
-        // Look for lower-case letters followed by upper-case letters
-        .replace(/([a-z\d])([A-Z])/g, '$1 $2')
-        // Look for lower-case letters followed by numbers
-        .replace(/([a-zA-Z])(\d)/g, '$1 $2')
-        .replace(/^./, function (str) {
-        return str.toUpperCase();
-    })
-        // Remove any white space left around the word
-        .trim());
+  str = str.charAt(0).toUpperCase() + str.slice(1);
+  return (str
+    // Look for long acronyms and filter out the last letter
+    .replace(/([A-Z]+)([A-Z][a-z])/g, ' $1 $2')
+    // Look for lower-case letters followed by upper-case letters
+    .replace(/([a-z\d])([A-Z])/g, '$1 $2')
+    // Look for lower-case letters followed by numbers
+    .replace(/([a-zA-Z])(\d)/g, '$1 $2')
+    .replace(/^./, function (str) {
+    return str.toUpperCase();
+  })
+    // Remove any white space left around the word
+    .trim());
 }
 function dashToCamel(str) {
-    return str.replace(/-([a-z])/g, function (g) { return g[1].toUpperCase(); });
+  return str.replace(/-([a-z])/g, function (g) { return g[1].toUpperCase(); });
 }
 
 class ComponentDetail {
@@ -8071,11 +8864,11 @@ class ComponentDetail {
       }
     }
     return [
-      h("a", Object.assign({ class: "back-link" }, href(`/overview/${examples.default.title}`)), "\u2190 Back to ", examples.default.title, " List"),
-      h(Heading, null, examples.default.title, " / ", transformMethodName(example)),
-      h("code", { class: "example-code" }, h("pre", null, examples[example].toString())),
-      h("hr", null),
-      h("div", { class: "demo-container" }, examples[example] && examples[example]())
+      hAsync("a", Object.assign({ class: "back-link" }, href(`/overview/${examples.default.title}`)), "\u2190 Back to ", examples.default.title, " List"),
+      hAsync(Heading, null, examples.default.title, " / ", transformMethodName(example)),
+      hAsync("code", { class: "example-code" }, hAsync("pre", null, examples[example].toString())),
+      hAsync("hr", null),
+      hAsync("div", { class: "demo-container" }, examples[example] && examples[example]())
     ];
   }
   static get style() { return ".back-link {\n      margin-bottom: var(--space-6);\n      display: block;\n    }\n    .example-code {\n      background: var(--c-indigo-20);\n      display: inline-block;\n      padding: 0 var(--space-6);\n      margin: var(--space-6) 0;\n    }"; }
@@ -8112,13 +8905,13 @@ class ComponentList {
     "$attrsToReflect$": []
   }; }
 }
-const listSection = (title, components) => (h("div", { class: "demo-container" }, h(Heading, null, title), h("ul", { class: "component-list" }, Object.keys(components).map(name => (h("li", null, h("a", Object.assign({}, href(`/overview/${components[name].default.title}`)), components[name].default.title)))))));
+const listSection = (title, components) => (hAsync("div", { class: "demo-container" }, hAsync(Heading, null, title), hAsync("ul", { class: "component-list" }, Object.keys(components).map(name => (hAsync("li", null, hAsync("a", Object.assign({}, href(`/overview/${components[name].default.title}`)), components[name].default.title)))))));
 
-const timestamp = "2020-08-13T22:19:23";
+const timestamp = "2020-09-04T17:19:33";
 const compiler = {
 	name: "@stencil/core",
-	version: "1.17.3",
-	typescriptVersion: "3.9.7"
+	version: "2.0.2",
+	typescriptVersion: "4.0.2"
 };
 const components = [
 	{
@@ -8303,7 +9096,7 @@ const components = [
 	},
 	{
 		filePath: "./src/web/components/disqus-comments/disqus-comments.tsx",
-		encapsulation: "none",
+		encapsulation: "scoped",
 		tag: "disqus-comments",
 		readme: "# disqus-comments\n\n[Disqus](https://disqus.com) is a common community commenting service used \nextensively at Ionic. You can log in with SSO using your Ionic email account.\nThere you can obtain a `siteId`, manage comments, and configure what is and \nisn't allowed in the comments section of your pages. \n\nThis component is all you need to add a Disqus comment section to your site.\n\n![Discus example](https://i.imgur.com/XZXBBqD.png)\n",
 		docs: "[Disqus](https://disqus.com) is a common community commenting service used \nextensively at Ionic. You can log in with SSO using your Ionic email account.\nThere you can obtain a `siteId`, manage comments, and configure what is and \nisn't allowed in the comments section of your pages. \n\nThis component is all you need to add a Disqus comment section to your site.\n\n![Discus example](https://i.imgur.com/XZXBBqD.png)",
@@ -8427,6 +9220,13 @@ const components = [
 			"shared-demo": [
 				"site-platform-bar",
 				"more-resources"
+			],
+			"more-resources": [
+				"resource-card"
+			],
+			"resource-card": [
+				"resource-meta",
+				"resource-author-item"
 			],
 			"component-overview": [
 				"site-modal",
@@ -8553,7 +9353,9 @@ const components = [
 		dependents: [
 			"component-detail",
 			"component-list",
-			"component-overview"
+			"component-overview",
+			"resource-webinar",
+			"resource-whitepaper"
 		],
 		dependencies: [
 		],
@@ -8565,6 +9367,12 @@ const components = [
 				"hubspot-form"
 			],
 			"component-overview": [
+				"hubspot-form"
+			],
+			"resource-webinar": [
+				"hubspot-form"
+			],
+			"resource-whitepaper": [
 				"hubspot-form"
 			]
 		}
@@ -8625,6 +9433,24 @@ const components = [
 		},
 		props: [
 			{
+				name: "description",
+				type: "boolean",
+				mutable: false,
+				attr: "description",
+				reflectToAttr: false,
+				docs: "",
+				docsTags: [
+				],
+				"default": "false",
+				values: [
+					{
+						type: "boolean"
+					}
+				],
+				optional: false,
+				required: false
+			},
+			{
 				name: "prismicEndpoint",
 				type: "string",
 				mutable: false,
@@ -8643,8 +9469,24 @@ const components = [
 				required: false
 			},
 			{
+				name: "resourceData",
+				type: "{ uid: string; type: string; }[]",
+				mutable: false,
+				reflectToAttr: false,
+				docs: "",
+				docsTags: [
+				],
+				values: [
+					{
+						type: "{ uid: string; type: string; }[]"
+					}
+				],
+				optional: true,
+				required: false
+			},
+			{
 				name: "resources",
-				type: "any[]",
+				type: "PrismicResource[]",
 				mutable: false,
 				reflectToAttr: false,
 				docs: "",
@@ -8652,43 +9494,23 @@ const components = [
 				],
 				values: [
 					{
-						type: "any[]"
+						type: "PrismicResource[]"
 					}
 				],
-				optional: false,
+				optional: true,
 				required: false
 			},
 			{
-				name: "showAuthor",
-				type: "boolean",
+				name: "routing",
+				type: "{ base?: string; includeType?: boolean; router?: Router; }",
 				mutable: false,
-				attr: "show-author",
 				reflectToAttr: false,
 				docs: "",
 				docsTags: [
 				],
-				"default": "false",
 				values: [
 					{
-						type: "boolean"
-					}
-				],
-				optional: false,
-				required: false
-			},
-			{
-				name: "showDescription",
-				type: "boolean",
-				mutable: false,
-				attr: "show-description",
-				reflectToAttr: false,
-				docs: "",
-				docsTags: [
-				],
-				"default": "true",
-				values: [
-					{
-						type: "boolean"
+						type: "{ base?: string; includeType?: boolean; router?: Router; }"
 					}
 				],
 				optional: false,
@@ -8711,10 +9533,566 @@ const components = [
 			"shared-demo"
 		],
 		dependencies: [
+			"resource-card"
 		],
 		dependencyGraph: {
+			"more-resources": [
+				"resource-card"
+			],
+			"resource-card": [
+				"resource-meta",
+				"resource-author-item"
+			],
 			"shared-demo": [
 				"more-resources"
+			]
+		}
+	},
+	{
+		filePath: "./src/resource-center/types/resource-article/resource-article.tsx",
+		encapsulation: "scoped",
+		tag: "resource-article",
+		readme: "# resource-article\n\n\n",
+		docs: "",
+		docsTags: [
+		],
+		usage: {
+		},
+		props: [
+			{
+				name: "prismicData",
+				type: "PrismicResource",
+				mutable: false,
+				reflectToAttr: false,
+				docs: "",
+				docsTags: [
+				],
+				values: [
+					{
+						type: "PrismicResource"
+					}
+				],
+				optional: false,
+				required: true
+			}
+		],
+		methods: [
+		],
+		events: [
+		],
+		listeners: [
+		],
+		styles: [
+		],
+		slots: [
+		],
+		parts: [
+		],
+		dependents: [
+		],
+		dependencies: [
+			"resource-toc",
+			"resource-author-item"
+		],
+		dependencyGraph: {
+			"resource-article": [
+				"resource-toc",
+				"resource-author-item"
+			]
+		}
+	},
+	{
+		filePath: "./src/resource-center/resource-author-item/resource-author-item.tsx",
+		encapsulation: "scoped",
+		tag: "resource-author-item",
+		readme: "# resource-author\n\n\n",
+		docs: "",
+		docsTags: [
+		],
+		usage: {
+		},
+		props: [
+			{
+				name: "author",
+				type: "ResourceAuthor",
+				mutable: false,
+				reflectToAttr: false,
+				docs: "",
+				docsTags: [
+				],
+				values: [
+					{
+						type: "ResourceAuthor"
+					}
+				],
+				optional: false,
+				required: true
+			}
+		],
+		methods: [
+		],
+		events: [
+		],
+		listeners: [
+		],
+		styles: [
+		],
+		slots: [
+		],
+		parts: [
+		],
+		dependents: [
+			"resource-article",
+			"resource-card",
+			"resource-webinar"
+		],
+		dependencies: [
+		],
+		dependencyGraph: {
+			"resource-article": [
+				"resource-author-item"
+			],
+			"resource-card": [
+				"resource-author-item"
+			],
+			"resource-webinar": [
+				"resource-author-item"
+			]
+		}
+	},
+	{
+		filePath: "./src/resource-center/resource-card/resource-card.tsx",
+		encapsulation: "scoped",
+		tag: "resource-card",
+		readme: "# resource-card\n\n\n",
+		docs: "",
+		docsTags: [
+		],
+		usage: {
+		},
+		props: [
+			{
+				name: "description",
+				type: "boolean",
+				mutable: false,
+				attr: "description",
+				reflectToAttr: false,
+				docs: "",
+				docsTags: [
+				],
+				"default": "true",
+				values: [
+					{
+						type: "boolean"
+					}
+				],
+				optional: false,
+				required: false
+			},
+			{
+				name: "headingLevel",
+				type: "1 | 2 | 3 | 4 | 5 | 6",
+				mutable: false,
+				attr: "heading-level",
+				reflectToAttr: false,
+				docs: "",
+				docsTags: [
+				],
+				"default": "4",
+				values: [
+					{
+						value: "1",
+						type: "number"
+					},
+					{
+						value: "2",
+						type: "number"
+					},
+					{
+						value: "3",
+						type: "number"
+					},
+					{
+						value: "4",
+						type: "number"
+					},
+					{
+						value: "5",
+						type: "number"
+					},
+					{
+						value: "6",
+						type: "number"
+					}
+				],
+				optional: false,
+				required: false
+			},
+			{
+				name: "prismicData",
+				type: "PrismicResource",
+				mutable: false,
+				reflectToAttr: false,
+				docs: "",
+				docsTags: [
+				],
+				values: [
+					{
+						type: "PrismicResource"
+					}
+				],
+				optional: false,
+				required: true
+			},
+			{
+				name: "routing",
+				type: "{ base?: string; includeType?: boolean; router?: Router; }",
+				mutable: false,
+				reflectToAttr: false,
+				docs: "",
+				docsTags: [
+				],
+				values: [
+					{
+						type: "{ base?: string; includeType?: boolean; router?: Router; }"
+					}
+				],
+				optional: false,
+				required: false
+			},
+			{
+				name: "row",
+				type: "boolean",
+				mutable: false,
+				attr: "row",
+				reflectToAttr: false,
+				docs: "",
+				docsTags: [
+				],
+				"default": "false",
+				values: [
+					{
+						type: "boolean"
+					}
+				],
+				optional: false,
+				required: false
+			}
+		],
+		methods: [
+		],
+		events: [
+		],
+		listeners: [
+		],
+		styles: [
+		],
+		slots: [
+		],
+		parts: [
+		],
+		dependents: [
+			"more-resources"
+		],
+		dependencies: [
+			"resource-meta",
+			"resource-author-item"
+		],
+		dependencyGraph: {
+			"resource-card": [
+				"resource-meta",
+				"resource-author-item"
+			],
+			"more-resources": [
+				"resource-card"
+			]
+		}
+	},
+	{
+		filePath: "./src/resource-center/types/resource-case-study/resource-case-study.tsx",
+		encapsulation: "scoped",
+		tag: "resource-case-study",
+		readme: "# resource-case-study\n\n\n",
+		docs: "",
+		docsTags: [
+		],
+		usage: {
+		},
+		props: [
+			{
+				name: "prismicData",
+				type: "PrismicResource",
+				mutable: false,
+				reflectToAttr: false,
+				docs: "",
+				docsTags: [
+				],
+				values: [
+					{
+						type: "PrismicResource"
+					}
+				],
+				optional: false,
+				required: true
+			}
+		],
+		methods: [
+		],
+		events: [
+		],
+		listeners: [
+		],
+		styles: [
+		],
+		slots: [
+		],
+		parts: [
+		],
+		dependents: [
+		],
+		dependencies: [
+			"resource-toc"
+		],
+		dependencyGraph: {
+			"resource-case-study": [
+				"resource-toc"
+			]
+		}
+	},
+	{
+		filePath: "./src/resource-center/resource-meta/resource-meta.tsx",
+		encapsulation: "scoped",
+		tag: "resource-meta",
+		readme: "# resource-meta\n\n\n",
+		docs: "",
+		docsTags: [
+		],
+		usage: {
+		},
+		props: [
+			{
+				name: "tags",
+				type: "string[]",
+				mutable: false,
+				reflectToAttr: false,
+				docs: "",
+				docsTags: [
+				],
+				values: [
+					{
+						type: "string[]"
+					}
+				],
+				optional: false,
+				required: true
+			}
+		],
+		methods: [
+		],
+		events: [
+		],
+		listeners: [
+		],
+		styles: [
+		],
+		slots: [
+		],
+		parts: [
+		],
+		dependents: [
+			"resource-card",
+			"resource-webinar"
+		],
+		dependencies: [
+		],
+		dependencyGraph: {
+			"resource-card": [
+				"resource-meta"
+			],
+			"resource-webinar": [
+				"resource-meta"
+			]
+		}
+	},
+	{
+		filePath: "./src/resource-center/resource-toc/resource-toc.tsx",
+		encapsulation: "scoped",
+		tag: "resource-toc",
+		readme: "# resource-toc\n\n\n",
+		docs: "",
+		docsTags: [
+		],
+		usage: {
+		},
+		props: [
+			{
+				name: "titleNames",
+				type: "string[]",
+				mutable: false,
+				reflectToAttr: false,
+				docs: "",
+				docsTags: [
+				],
+				values: [
+					{
+						type: "string[]"
+					}
+				],
+				optional: false,
+				required: true
+			}
+		],
+		methods: [
+		],
+		events: [
+		],
+		listeners: [
+		],
+		styles: [
+		],
+		slots: [
+		],
+		parts: [
+		],
+		dependents: [
+			"resource-article",
+			"resource-case-study"
+		],
+		dependencies: [
+		],
+		dependencyGraph: {
+			"resource-article": [
+				"resource-toc"
+			],
+			"resource-case-study": [
+				"resource-toc"
+			]
+		}
+	},
+	{
+		filePath: "./src/resource-center/types/resource-webinar/resource-webinar.tsx",
+		encapsulation: "scoped",
+		tag: "resource-webinar",
+		readme: "# resource-webinar\n\n\n",
+		docs: "",
+		docsTags: [
+		],
+		usage: {
+		},
+		props: [
+			{
+				name: "prismicData",
+				type: "PrismicResource",
+				mutable: false,
+				reflectToAttr: false,
+				docs: "",
+				docsTags: [
+				],
+				values: [
+					{
+						type: "PrismicResource"
+					}
+				],
+				optional: false,
+				required: true
+			},
+			{
+				name: "state",
+				type: "any",
+				mutable: false,
+				attr: "state",
+				reflectToAttr: false,
+				docs: "",
+				docsTags: [
+				],
+				values: [
+					{
+						type: "any"
+					}
+				],
+				optional: false,
+				required: true
+			}
+		],
+		methods: [
+		],
+		events: [
+		],
+		listeners: [
+		],
+		styles: [
+		],
+		slots: [
+		],
+		parts: [
+		],
+		dependents: [
+		],
+		dependencies: [
+			"resource-meta",
+			"wistia-video",
+			"resource-author-item",
+			"hubspot-form",
+			"site-modal"
+		],
+		dependencyGraph: {
+			"resource-webinar": [
+				"resource-meta",
+				"wistia-video",
+				"resource-author-item",
+				"hubspot-form",
+				"site-modal"
+			]
+		}
+	},
+	{
+		filePath: "./src/resource-center/types/resource-whitepaper/resource-whitepaper.tsx",
+		encapsulation: "scoped",
+		tag: "resource-whitepaper",
+		readme: "# resource-whitepaper\n\n\n",
+		docs: "",
+		docsTags: [
+		],
+		usage: {
+		},
+		props: [
+			{
+				name: "prismicData",
+				type: "PrismicResource",
+				mutable: false,
+				reflectToAttr: false,
+				docs: "",
+				docsTags: [
+				],
+				values: [
+					{
+						type: "PrismicResource"
+					}
+				],
+				optional: false,
+				required: true
+			}
+		],
+		methods: [
+		],
+		events: [
+		],
+		listeners: [
+		],
+		styles: [
+		],
+		slots: [
+		],
+		parts: [
+		],
+		dependents: [
+		],
+		dependencies: [
+			"hubspot-form"
+		],
+		dependencyGraph: {
+			"resource-whitepaper": [
+				"hubspot-form"
 			]
 		}
 	},
@@ -8753,6 +10131,13 @@ const components = [
 			"shared-demo": [
 				"site-platform-bar",
 				"more-resources"
+			],
+			"more-resources": [
+				"resource-card"
+			],
+			"resource-card": [
+				"resource-meta",
+				"resource-author-item"
 			],
 			"docs-root": [
 				"shared-demo"
@@ -8836,7 +10221,8 @@ const components = [
 		dependents: [
 			"component-detail",
 			"component-list",
-			"component-overview"
+			"component-overview",
+			"resource-webinar"
 		],
 		dependencies: [
 		],
@@ -8848,6 +10234,9 @@ const components = [
 				"site-modal"
 			],
 			"component-overview": [
+				"site-modal"
+			],
+			"resource-webinar": [
 				"site-modal"
 			]
 		}
@@ -9804,6 +11193,64 @@ const components = [
 		dependencies: [
 		],
 		dependencyGraph: {
+		}
+	},
+	{
+		filePath: "./src/web/components/wistia-video/wistia-video.tsx",
+		encapsulation: "scoped",
+		tag: "wistia-video",
+		readme: "# wistia-video\n\n\n",
+		docs: "",
+		docsTags: [
+		],
+		usage: {
+		},
+		props: [
+			{
+				name: "videoId",
+				type: "string",
+				mutable: false,
+				attr: "video-id",
+				reflectToAttr: false,
+				docs: "",
+				docsTags: [
+				],
+				values: [
+					{
+						type: "string"
+					}
+				],
+				optional: true,
+				required: false
+			}
+		],
+		methods: [
+		],
+		events: [
+		],
+		listeners: [
+			{
+				event: "resize",
+				target: "window",
+				capture: false,
+				passive: true
+			}
+		],
+		styles: [
+		],
+		slots: [
+		],
+		parts: [
+		],
+		dependents: [
+			"resource-webinar"
+		],
+		dependencies: [
+		],
+		dependencyGraph: {
+			"resource-webinar": [
+				"wistia-video"
+			]
 		}
 	}
 ];
@@ -12411,49 +13858,49 @@ var marked = createCommonjsModule(function (module, exports) {
 
 // import { Heading } from '../../core';
 const getReadme = (componentName, isFunctionalComponent = false) => {
-    if (isFunctionalComponent) {
-        componentName = `ui-${componentName.toLowerCase()}`;
+  if (isFunctionalComponent) {
+    componentName = `ui-${componentName.toLowerCase()}`;
+  }
+  let component = null;
+  for (let entry in docsData.components) {
+    if (docsData.components[entry].tag === componentName) {
+      component = docsData.components[entry];
     }
-    let component = null;
-    for (let entry in docsData.components) {
-        if (docsData.components[entry].tag === componentName) {
-            component = docsData.components[entry];
-        }
-    }
-    if (!component)
-        return;
-    return [
-        getHeader(component),
-        renderCustomProps(component.props)
-    ];
+  }
+  if (!component)
+    return;
+  return [
+    getHeader(component),
+    renderCustomProps(component.props)
+  ];
 };
 const getHeader = (component) => {
-    const functionalTag = capitalizeFirstLetter(component.tag.replace('ui-', ''));
-    const newHeader = `# \`<${component.tag}>\`, \`<${functionalTag}>\``;
-    const markdownHeader = component.readme.replace(`# ${component.tag}`, newHeader);
-    return h("div", { innerHTML: marked(markdownHeader) });
+  const functionalTag = capitalizeFirstLetter(component.tag.replace('ui-', ''));
+  const newHeader = `# \`<${component.tag}>\`, \`<${functionalTag}>\``;
+  const markdownHeader = component.readme.replace(`# ${component.tag}`, newHeader);
+  return hAsync("div", { innerHTML: marked(markdownHeader) });
 };
 const renderCustomProps = (customProps = []) => {
-    if (customProps.length === 0) {
-        return null;
-    }
-    return (h("section", null,
-        h("table", null,
-            h("thead", null,
-                h("tr", null,
-                    h("th", null, "Property"),
-                    h("th", null, "Description"))),
-            h("tbody", null, customProps.map(prop => (h("tr", null,
-                h("td", null,
-                    h("code", null,
-                        prop.name,
-                        prop.optional && '?',
-                        prop.type && `: ${prop.type}`,
-                        prop.default && ` = ${prop.default}`)),
-                h("td", { innerHTML: marked(prop.docs) }))))))));
+  if (customProps.length === 0) {
+    return null;
+  }
+  return (hAsync("section", null,
+    hAsync("table", null,
+      hAsync("thead", null,
+        hAsync("tr", null,
+          hAsync("th", null, "Property"),
+          hAsync("th", null, "Description"))),
+      hAsync("tbody", null, customProps.map(prop => (hAsync("tr", null,
+        hAsync("td", null,
+          hAsync("code", null,
+            prop.name,
+            prop.optional && '?',
+            prop.type && `: ${prop.type}`,
+            prop.default && ` = ${prop.default}`)),
+        hAsync("td", { innerHTML: marked(prop.docs) }))))))));
 };
 const capitalizeFirstLetter = string => {
-    return string.charAt(0).toUpperCase() + string.slice(1);
+  return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
 class ComponentOverview {
@@ -12470,12 +13917,12 @@ class ComponentOverview {
       { xs: 12, sm: 6, md: 4 } // 3 columns
     ];
     return [
-      h("a", Object.assign({ class: "back-link" }, href('/')), "\u2190 Back to Example List"),
-      h("div", { class: "readme" }, readme),
-      h(Heading, { class: "examples-title" }, "Examples"),
-      h(Grid, null, example && Object.keys(example)
+      hAsync("a", Object.assign({ class: "back-link" }, href('/')), "\u2190 Back to Example List"),
+      hAsync("div", { class: "readme" }, readme),
+      hAsync(Heading, { class: "examples-title" }, "Examples"),
+      hAsync(Grid, null, example && Object.keys(example)
         .filter(methodName => methodName !== 'default')
-        .map(methodName => (h(Col, Object.assign({ class: "example" }, columns[(example.default.cols || 3) - 1]), h(Card, Object.assign({}, href(`/detail/${this.component}/${methodName}`)), h(CardContent, null, h("div", { class: "example-body" }, example[methodName]())))))))
+        .map(methodName => (hAsync(Col, Object.assign({ class: "example" }, columns[(example.default.cols || 3) - 1]), hAsync(Card, Object.assign({}, href(`/detail/${this.component}/${methodName}`)), hAsync(CardContent, null, hAsync("div", { class: "example-body" }, example[methodName]())))))))
     ];
   }
   static get style() { return "table {\n      padding: var(--space-6) 0 var(--space-10);\n    }\n    th {\n      background: var(--c-indigo-20);\n    }\n    .examples-title {\n      margin-bottom: var(--space-6);\n      background: var(--c-indigo-20);\n    }\n    .readme img {\n      border: 2px solid var(--c-carbon-90);\n      max-width: 100%;\n    }"; }
@@ -12491,483 +13938,7 @@ class ComponentOverview {
   }; }
 }
 
-(function(self) {
-
-  if (self.fetch) {
-    return
-  }
-
-  var support = {
-    searchParams: 'URLSearchParams' in self,
-    iterable: 'Symbol' in self && 'iterator' in Symbol,
-    blob: 'FileReader' in self && 'Blob' in self && (function() {
-      try {
-        new Blob();
-        return true
-      } catch(e) {
-        return false
-      }
-    })(),
-    formData: 'FormData' in self,
-    arrayBuffer: 'ArrayBuffer' in self
-  };
-
-  if (support.arrayBuffer) {
-    var viewClasses = [
-      '[object Int8Array]',
-      '[object Uint8Array]',
-      '[object Uint8ClampedArray]',
-      '[object Int16Array]',
-      '[object Uint16Array]',
-      '[object Int32Array]',
-      '[object Uint32Array]',
-      '[object Float32Array]',
-      '[object Float64Array]'
-    ];
-
-    var isDataView = function(obj) {
-      return obj && DataView.prototype.isPrototypeOf(obj)
-    };
-
-    var isArrayBufferView = ArrayBuffer.isView || function(obj) {
-      return obj && viewClasses.indexOf(Object.prototype.toString.call(obj)) > -1
-    };
-  }
-
-  function normalizeName(name) {
-    if (typeof name !== 'string') {
-      name = String(name);
-    }
-    if (/[^a-z0-9\-#$%&'*+.\^_`|~]/i.test(name)) {
-      throw new TypeError('Invalid character in header field name')
-    }
-    return name.toLowerCase()
-  }
-
-  function normalizeValue(value) {
-    if (typeof value !== 'string') {
-      value = String(value);
-    }
-    return value
-  }
-
-  // Build a destructive iterator for the value list
-  function iteratorFor(items) {
-    var iterator = {
-      next: function() {
-        var value = items.shift();
-        return {done: value === undefined, value: value}
-      }
-    };
-
-    if (support.iterable) {
-      iterator[Symbol.iterator] = function() {
-        return iterator
-      };
-    }
-
-    return iterator
-  }
-
-  function Headers(headers) {
-    this.map = {};
-
-    if (headers instanceof Headers) {
-      headers.forEach(function(value, name) {
-        this.append(name, value);
-      }, this);
-    } else if (Array.isArray(headers)) {
-      headers.forEach(function(header) {
-        this.append(header[0], header[1]);
-      }, this);
-    } else if (headers) {
-      Object.getOwnPropertyNames(headers).forEach(function(name) {
-        this.append(name, headers[name]);
-      }, this);
-    }
-  }
-
-  Headers.prototype.append = function(name, value) {
-    name = normalizeName(name);
-    value = normalizeValue(value);
-    var oldValue = this.map[name];
-    this.map[name] = oldValue ? oldValue+','+value : value;
-  };
-
-  Headers.prototype['delete'] = function(name) {
-    delete this.map[normalizeName(name)];
-  };
-
-  Headers.prototype.get = function(name) {
-    name = normalizeName(name);
-    return this.has(name) ? this.map[name] : null
-  };
-
-  Headers.prototype.has = function(name) {
-    return this.map.hasOwnProperty(normalizeName(name))
-  };
-
-  Headers.prototype.set = function(name, value) {
-    this.map[normalizeName(name)] = normalizeValue(value);
-  };
-
-  Headers.prototype.forEach = function(callback, thisArg) {
-    for (var name in this.map) {
-      if (this.map.hasOwnProperty(name)) {
-        callback.call(thisArg, this.map[name], name, this);
-      }
-    }
-  };
-
-  Headers.prototype.keys = function() {
-    var items = [];
-    this.forEach(function(value, name) { items.push(name); });
-    return iteratorFor(items)
-  };
-
-  Headers.prototype.values = function() {
-    var items = [];
-    this.forEach(function(value) { items.push(value); });
-    return iteratorFor(items)
-  };
-
-  Headers.prototype.entries = function() {
-    var items = [];
-    this.forEach(function(value, name) { items.push([name, value]); });
-    return iteratorFor(items)
-  };
-
-  if (support.iterable) {
-    Headers.prototype[Symbol.iterator] = Headers.prototype.entries;
-  }
-
-  function consumed(body) {
-    if (body.bodyUsed) {
-      return Promise.reject(new TypeError('Already read'))
-    }
-    body.bodyUsed = true;
-  }
-
-  function fileReaderReady(reader) {
-    return new Promise(function(resolve, reject) {
-      reader.onload = function() {
-        resolve(reader.result);
-      };
-      reader.onerror = function() {
-        reject(reader.error);
-      };
-    })
-  }
-
-  function readBlobAsArrayBuffer(blob) {
-    var reader = new FileReader();
-    var promise = fileReaderReady(reader);
-    reader.readAsArrayBuffer(blob);
-    return promise
-  }
-
-  function readBlobAsText(blob) {
-    var reader = new FileReader();
-    var promise = fileReaderReady(reader);
-    reader.readAsText(blob);
-    return promise
-  }
-
-  function readArrayBufferAsText(buf) {
-    var view = new Uint8Array(buf);
-    var chars = new Array(view.length);
-
-    for (var i = 0; i < view.length; i++) {
-      chars[i] = String.fromCharCode(view[i]);
-    }
-    return chars.join('')
-  }
-
-  function bufferClone(buf) {
-    if (buf.slice) {
-      return buf.slice(0)
-    } else {
-      var view = new Uint8Array(buf.byteLength);
-      view.set(new Uint8Array(buf));
-      return view.buffer
-    }
-  }
-
-  function Body() {
-    this.bodyUsed = false;
-
-    this._initBody = function(body) {
-      this._bodyInit = body;
-      if (!body) {
-        this._bodyText = '';
-      } else if (typeof body === 'string') {
-        this._bodyText = body;
-      } else if (support.blob && Blob.prototype.isPrototypeOf(body)) {
-        this._bodyBlob = body;
-      } else if (support.formData && FormData.prototype.isPrototypeOf(body)) {
-        this._bodyFormData = body;
-      } else if (support.searchParams && URLSearchParams.prototype.isPrototypeOf(body)) {
-        this._bodyText = body.toString();
-      } else if (support.arrayBuffer && support.blob && isDataView(body)) {
-        this._bodyArrayBuffer = bufferClone(body.buffer);
-        // IE 10-11 can't handle a DataView body.
-        this._bodyInit = new Blob([this._bodyArrayBuffer]);
-      } else if (support.arrayBuffer && (ArrayBuffer.prototype.isPrototypeOf(body) || isArrayBufferView(body))) {
-        this._bodyArrayBuffer = bufferClone(body);
-      } else {
-        throw new Error('unsupported BodyInit type')
-      }
-
-      if (!this.headers.get('content-type')) {
-        if (typeof body === 'string') {
-          this.headers.set('content-type', 'text/plain;charset=UTF-8');
-        } else if (this._bodyBlob && this._bodyBlob.type) {
-          this.headers.set('content-type', this._bodyBlob.type);
-        } else if (support.searchParams && URLSearchParams.prototype.isPrototypeOf(body)) {
-          this.headers.set('content-type', 'application/x-www-form-urlencoded;charset=UTF-8');
-        }
-      }
-    };
-
-    if (support.blob) {
-      this.blob = function() {
-        var rejected = consumed(this);
-        if (rejected) {
-          return rejected
-        }
-
-        if (this._bodyBlob) {
-          return Promise.resolve(this._bodyBlob)
-        } else if (this._bodyArrayBuffer) {
-          return Promise.resolve(new Blob([this._bodyArrayBuffer]))
-        } else if (this._bodyFormData) {
-          throw new Error('could not read FormData body as blob')
-        } else {
-          return Promise.resolve(new Blob([this._bodyText]))
-        }
-      };
-
-      this.arrayBuffer = function() {
-        if (this._bodyArrayBuffer) {
-          return consumed(this) || Promise.resolve(this._bodyArrayBuffer)
-        } else {
-          return this.blob().then(readBlobAsArrayBuffer)
-        }
-      };
-    }
-
-    this.text = function() {
-      var rejected = consumed(this);
-      if (rejected) {
-        return rejected
-      }
-
-      if (this._bodyBlob) {
-        return readBlobAsText(this._bodyBlob)
-      } else if (this._bodyArrayBuffer) {
-        return Promise.resolve(readArrayBufferAsText(this._bodyArrayBuffer))
-      } else if (this._bodyFormData) {
-        throw new Error('could not read FormData body as text')
-      } else {
-        return Promise.resolve(this._bodyText)
-      }
-    };
-
-    if (support.formData) {
-      this.formData = function() {
-        return this.text().then(decode)
-      };
-    }
-
-    this.json = function() {
-      return this.text().then(JSON.parse)
-    };
-
-    return this
-  }
-
-  // HTTP methods whose capitalization should be normalized
-  var methods = ['DELETE', 'GET', 'HEAD', 'OPTIONS', 'POST', 'PUT'];
-
-  function normalizeMethod(method) {
-    var upcased = method.toUpperCase();
-    return (methods.indexOf(upcased) > -1) ? upcased : method
-  }
-
-  function Request(input, options) {
-    options = options || {};
-    var body = options.body;
-
-    if (input instanceof Request) {
-      if (input.bodyUsed) {
-        throw new TypeError('Already read')
-      }
-      this.url = input.url;
-      this.credentials = input.credentials;
-      if (!options.headers) {
-        this.headers = new Headers(input.headers);
-      }
-      this.method = input.method;
-      this.mode = input.mode;
-      if (!body && input._bodyInit != null) {
-        body = input._bodyInit;
-        input.bodyUsed = true;
-      }
-    } else {
-      this.url = String(input);
-    }
-
-    this.credentials = options.credentials || this.credentials || 'omit';
-    if (options.headers || !this.headers) {
-      this.headers = new Headers(options.headers);
-    }
-    this.method = normalizeMethod(options.method || this.method || 'GET');
-    this.mode = options.mode || this.mode || null;
-    this.referrer = null;
-
-    if ((this.method === 'GET' || this.method === 'HEAD') && body) {
-      throw new TypeError('Body not allowed for GET or HEAD requests')
-    }
-    this._initBody(body);
-  }
-
-  Request.prototype.clone = function() {
-    return new Request(this, { body: this._bodyInit })
-  };
-
-  function decode(body) {
-    var form = new FormData();
-    body.trim().split('&').forEach(function(bytes) {
-      if (bytes) {
-        var split = bytes.split('=');
-        var name = split.shift().replace(/\+/g, ' ');
-        var value = split.join('=').replace(/\+/g, ' ');
-        form.append(decodeURIComponent(name), decodeURIComponent(value));
-      }
-    });
-    return form
-  }
-
-  function parseHeaders(rawHeaders) {
-    var headers = new Headers();
-    // Replace instances of \r\n and \n followed by at least one space or horizontal tab with a space
-    // https://tools.ietf.org/html/rfc7230#section-3.2
-    var preProcessedHeaders = rawHeaders.replace(/\r?\n[\t ]+/g, ' ');
-    preProcessedHeaders.split(/\r?\n/).forEach(function(line) {
-      var parts = line.split(':');
-      var key = parts.shift().trim();
-      if (key) {
-        var value = parts.join(':').trim();
-        headers.append(key, value);
-      }
-    });
-    return headers
-  }
-
-  Body.call(Request.prototype);
-
-  function Response(bodyInit, options) {
-    if (!options) {
-      options = {};
-    }
-
-    this.type = 'default';
-    this.status = options.status === undefined ? 200 : options.status;
-    this.ok = this.status >= 200 && this.status < 300;
-    this.statusText = 'statusText' in options ? options.statusText : 'OK';
-    this.headers = new Headers(options.headers);
-    this.url = options.url || '';
-    this._initBody(bodyInit);
-  }
-
-  Body.call(Response.prototype);
-
-  Response.prototype.clone = function() {
-    return new Response(this._bodyInit, {
-      status: this.status,
-      statusText: this.statusText,
-      headers: new Headers(this.headers),
-      url: this.url
-    })
-  };
-
-  Response.error = function() {
-    var response = new Response(null, {status: 0, statusText: ''});
-    response.type = 'error';
-    return response
-  };
-
-  var redirectStatuses = [301, 302, 303, 307, 308];
-
-  Response.redirect = function(url, status) {
-    if (redirectStatuses.indexOf(status) === -1) {
-      throw new RangeError('Invalid status code')
-    }
-
-    return new Response(null, {status: status, headers: {location: url}})
-  };
-
-  self.Headers = Headers;
-  self.Request = Request;
-  self.Response = Response;
-
-  self.fetch = function(input, init) {
-    return new Promise(function(resolve, reject) {
-      var request = new Request(input, init);
-      var xhr = new XMLHttpRequest();
-
-      xhr.onload = function() {
-        var options = {
-          status: xhr.status,
-          statusText: xhr.statusText,
-          headers: parseHeaders(xhr.getAllResponseHeaders() || '')
-        };
-        options.url = 'responseURL' in xhr ? xhr.responseURL : options.headers.get('X-Request-URL');
-        var body = 'response' in xhr ? xhr.response : xhr.responseText;
-        resolve(new Response(body, options));
-      };
-
-      xhr.onerror = function() {
-        reject(new TypeError('Network request failed'));
-      };
-
-      xhr.ontimeout = function() {
-        reject(new TypeError('Network request failed'));
-      };
-
-      xhr.open(request.method, request.url, true);
-
-      if (request.credentials === 'include') {
-        xhr.withCredentials = true;
-      } else if (request.credentials === 'omit') {
-        xhr.withCredentials = false;
-      }
-
-      if ('responseType' in xhr && support.blob) {
-        xhr.responseType = 'blob';
-      }
-
-      request.headers.forEach(function(value, name) {
-        xhr.setRequestHeader(name, value);
-      });
-
-      xhr.send(typeof request._bodyInit === 'undefined' ? null : request._bodyInit);
-    })
-  };
-  self.fetch.polyfill = true;
-})(typeof self !== 'undefined' ? self : undefined);
-
-var browserPolyfill = /*#__PURE__*/Object.freeze({
-  __proto__: null
-});
-
-var prismicJavascript_min = createCommonjsModule(function (module, exports) {
-!function(t,e){module.exports=e(browserPolyfill);}("undefined"!=typeof self?self:commonjsGlobal,function(t){return function(t){var e={};function n(r){if(e[r])return e[r].exports;var o=e[r]={i:r,l:!1,exports:{}};return t[r].call(o.exports,o,o.exports,n),o.l=!0,o.exports}return n.m=t,n.c=e,n.d=function(t,e,r){n.o(t,e)||Object.defineProperty(t,e,{enumerable:!0,get:r});},n.r=function(t){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0});},n.t=function(t,e){if(1&e&&(t=n(t)),8&e)return t;if(4&e&&"object"==typeof t&&t&&t.__esModule)return t;var r=Object.create(null);if(n.r(r),Object.defineProperty(r,"default",{enumerable:!0,value:t}),2&e&&"string"!=typeof t)for(var o in t)n.d(r,o,function(e){return t[e]}.bind(null,o));return r},n.n=function(t){var e=t&&t.__esModule?function(){return t.default}:function(){return t};return n.d(e,"a",e),e},n.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)},n.p="",n(n.s=20)}([function(t,e,n){e.a=function(t){var e=this.constructor;return this.then(function(n){return e.resolve(t()).then(function(){return n})},function(n){return e.resolve(t()).then(function(){return e.reject(n)})})};},function(t,e,n){e.__esModule=!0,e.createPreviewResolver=function(t,e,n){return {token:t,documentId:e,resolve:function(r,o,i){return e&&n?n(e,{ref:t}).then(function(t){if(t){var e=r(t);return i&&i(null,e),e}return i&&i(null,o),o}):Promise.resolve(o)}}};},function(t,e,n){var r=this&&this.__assign||Object.assign||function(t){for(var e,n=1,r=arguments.length;n<r;n++)for(var o in e=arguments[n])Object.prototype.hasOwnProperty.call(e,o)&&(t[o]=e[o]);return t};e.__esModule=!0;var o=n(5),i=n(4),u=n(6),a=n(12),s=n(1);e.PREVIEW_COOKIE="io.prismic.preview",e.EXPERIMENT_COOKIE="io.prismic.experiment";var f=function(){function t(t,e,n){this.data=t,this.masterRef=t.refs.filter(function(t){return t.isMasterRef})[0],this.experiments=new o.Experiments(t.experiments),this.bookmarks=t.bookmarks,this.httpClient=e,this.options=n,this.refs=t.refs,this.tags=t.tags,this.types=t.types,this.languages=t.languages;}return t.prototype.form=function(t){var e=this.data.forms[t];return e?new i.SearchForm(e,this.httpClient):null},t.prototype.everything=function(){var t=this.form("everything");if(!t)throw new Error("Missing everything form");return t},t.prototype.master=function(){return this.masterRef.ref},t.prototype.ref=function(t){var e=this.data.refs.filter(function(e){return e.label===t})[0];return e?e.ref:null},t.prototype.currentExperiment=function(){return this.experiments.current()},t.prototype.query=function(t,n,r){void 0===r&&(r=function(){});var o="function"==typeof n?{options:{},callback:n}:{options:n||{},callback:r},i=o.options,u=o.callback,s=this.everything();for(var f in i)s=s.set(f,i[f]);if(!i.ref){var c="";this.options.req?c=this.options.req.headers.cookie||"":"undefined"!=typeof window&&window.document&&(c=window.document.cookie||"");var l=a.default.parse(c),p=l[e.PREVIEW_COOKIE],h=this.experiments.refFromCookie(l[e.EXPERIMENT_COOKIE]);s=s.ref(p||h||this.masterRef.ref);}return t&&s.query(t),s.submit(u)},t.prototype.queryFirst=function(t,e,n){var o="function"==typeof e?{options:{},callback:e}:{options:r({},e)||{},callback:n||function(){}},i=o.options,u=o.callback;return i.page=1,i.pageSize=1,this.query(t,i).then(function(t){var e=t&&t.results&&t.results[0];return u(null,e),e}).catch(function(t){throw u(t),t})},t.prototype.getByID=function(t,e,n){var o=e?r({},e):{};return o.lang||(o.lang="*"),this.queryFirst(u.default.at("document.id",t),o,n)},t.prototype.getByIDs=function(t,e,n){var o=e?r({},e):{};return o.lang||(o.lang="*"),this.query(u.default.in("document.id",t),o,n)},t.prototype.getByUID=function(t,e,n,o){var i=n?r({},n):{};if("*"===i.lang)throw new Error("FORDIDDEN. You can't use getByUID with *, use the predicates instead.");return i.page||(i.page=1),this.queryFirst(u.default.at("my."+t+".uid",e),i,o)},t.prototype.getSingle=function(t,e,n){var o=e?r({},e):{};return this.queryFirst(u.default.at("document.type",t),o,n)},t.prototype.getBookmark=function(t,e,n){var r=this.data.bookmarks[t];return r?this.getByID(r,e,n):Promise.reject("Error retrieving bookmarked id")},t.prototype.getPreviewResolver=function(t,e){return s.createPreviewResolver(t,e,this.getByID.bind(this))},t.prototype.previewSession=function(t,e,n,r){var o=this;return console.warn("previewSession function is deprecated in favor of getPreviewResolver function."),new Promise(function(i,u){o.httpClient.request(t,function(a,s){if(a)r&&r(a),u(a);else if(s){if(s.mainDocument)return o.getByID(s.mainDocument,{ref:t}).then(function(t){if(t){var o=e(t);r&&r(null,o),i(o);}else r&&r(null,n),i(n);}).catch(u);r&&r(null,n),i(n);}});})},t}();e.default=f;},function(t,e,n){e.__esModule=!0;var r=n(2),o=n(11);function i(t){return t.indexOf("?")>-1?"&":"?"}var u=function(){function t(t,e){if(this.options=e||{},this.url=t,this.options.accessToken){var n="access_token="+this.options.accessToken;this.url+=i(t)+n;}this.options.routes&&(this.url+=i(t)+"routes="+encodeURIComponent(JSON.stringify(this.options.routes))),this.apiDataTTL=this.options.apiDataTTL||5,this.httpClient=new o.default(this.options.requestHandler,this.options.apiCache,this.options.proxyAgent,this.options.timeoutInMs);}return t.prototype.get=function(t){var e=this;return this.httpClient.cachedRequest(this.url,{ttl:this.apiDataTTL}).then(function(n){var o=new r.default(n,e.httpClient,e.options);return t&&t(null,o),o}).catch(function(e){throw t&&t(e),e})},t}();e.default=u;},function(t,e,n){e.__esModule=!0;var r=function(){function t(t,e){this.id=t,this.api=e,this.fields={};}return t.prototype.set=function(t,e){return this.fields[t]=e,this},t.prototype.ref=function(t){return this.set("ref",t)},t.prototype.query=function(t){return this.set("q",t)},t.prototype.pageSize=function(t){return this.set("pageSize",t)},t.prototype.fetch=function(t){return console.warn("Warning: Using Fetch is deprecated. Use the property `graphQuery` instead."),this.set("fetch",t)},t.prototype.fetchLinks=function(t){return console.warn("Warning: Using FetchLinks is deprecated. Use the property `graphQuery` instead."),this.set("fetchLinks",t)},t.prototype.graphQuery=function(t){return this.set("graphQuery",t)},t.prototype.lang=function(t){return this.set("lang",t)},t.prototype.page=function(t){return this.set("page",t)},t.prototype.after=function(t){return this.set("after",t)},t.prototype.orderings=function(t){return this.set("orderings",t)},t.prototype.url=function(){var e=this;return this.api.get().then(function(n){return t.toSearchForm(e,n).url()})},t.prototype.submit=function(e){var n=this;return this.api.get().then(function(r){return t.toSearchForm(n,r).submit(e)})},t.toSearchForm=function(t,e){var n=e.form(t.id);if(n)return Object.keys(t.fields).reduce(function(e,n){var r=t.fields[n];return "q"===n?e.query(r):"pageSize"===n?e.pageSize(r):"fetch"===n?e.fetch(r):"fetchLinks"===n?e.fetchLinks(r):"graphQuery"===n?e.graphQuery(r):"lang"===n?e.lang(r):"page"===n?e.page(r):"after"===n?e.after(r):"orderings"===n?e.orderings(r):e.set(n,r)},n);throw new Error("Unable to access to form "+t.id)},t}();e.LazySearchForm=r;var o=function(){function t(t,e){for(var n in this.httpClient=e,this.form=t,this.data={},t.fields)t.fields[n].default&&(this.data[n]=[t.fields[n].default]);}return t.prototype.set=function(t,e){var n=this.form.fields[t];if(!n)throw new Error("Unknown field "+t);var r=""===e||void 0===e?null:e,o=this.data[t]||[];return o=n.multiple?r?o.concat([r]):o:r?[r]:o,this.data[t]=o,this},t.prototype.ref=function(t){return this.set("ref",t)},t.prototype.query=function(t){if("string"==typeof t)return this.query([t]);if(Array.isArray(t))return this.set("q","["+t.join("")+"]");throw new Error("Invalid query : "+t)},t.prototype.pageSize=function(t){return this.set("pageSize",t)},t.prototype.fetch=function(t){console.warn("Warning: Using Fetch is deprecated. Use the property `graphQuery` instead.");var e=Array.isArray(t)?t.join(","):t;return this.set("fetch",e)},t.prototype.fetchLinks=function(t){console.warn("Warning: Using FetchLinks is deprecated. Use the property `graphQuery` instead.");var e=Array.isArray(t)?t.join(","):t;return this.set("fetchLinks",e)},t.prototype.graphQuery=function(t){return this.set("graphQuery",t)},t.prototype.lang=function(t){return this.set("lang",t)},t.prototype.page=function(t){return this.set("page",t)},t.prototype.after=function(t){return this.set("after",t)},t.prototype.orderings=function(t){return t?this.set("orderings","["+t.join(",")+"]"):this},t.prototype.url=function(){var t=this.form.action;if(this.data){var e=t.indexOf("?")>-1?"&":"?";for(var n in this.data)if(this.data.hasOwnProperty(n)){var r=this.data[n];if(r)for(var o=0;o<r.length;o++)t+=e+n+"="+encodeURIComponent(r[o]),e="&";}}return t},t.prototype.submit=function(t){return this.httpClient.cachedRequest(this.url()).then(function(e){return t&&t(null,e),e}).catch(function(e){throw t&&t(e),e})},t}();e.SearchForm=o;},function(t,e,n){e.__esModule=!0;var r=function(){function t(t){this.data={},this.data=t;}return t.prototype.id=function(){return this.data.id},t.prototype.ref=function(){return this.data.ref},t.prototype.label=function(){return this.data.label},t}();e.Variation=r;var o=function(){function t(t){this.data={},this.data=t,this.variations=(t.variations||[]).map(function(t){return new r(t)});}return t.prototype.id=function(){return this.data.id},t.prototype.googleId=function(){return this.data.googleId},t.prototype.name=function(){return this.data.name},t}();e.Experiment=o;var i=function(){function t(t){t&&(this.drafts=(t.drafts||[]).map(function(t){return new o(t)}),this.running=(t.running||[]).map(function(t){return new o(t)}));}return t.prototype.current=function(){return this.running.length>0?this.running[0]:null},t.prototype.refFromCookie=function(t){if(!t||""===t.trim())return null;var e=t.trim().split(" ");if(e.length<2)return null;var n=e[0],r=parseInt(e[1],10),o=this.running.filter(function(t){return t.googleId()===n&&t.variations.length>r})[0];return o?o.variations[r].ref():null},t}();e.Experiments=i;},function(t,e,n){e.__esModule=!0;var r="at",o="not",i="missing",u="has",a="any",s="in",f="fulltext",c="similar",l="number.gt",p="number.lt",h="number.inRange",d="date.before",y="date.after",m="date.between",g="date.day-of-month",v="date.day-of-month-after",w="date.day-of-month-before",b="date.day-of-week",_="date.day-of-week-after",k="date.day-of-week-before",I="date.month",T="date.month-before",E="date.month-after",O="date.year",A="date.hour",x="date.hour-before",M="date.hour-after",P="geopoint.near";function j(t){if("string"==typeof t)return '"'+t+'"';if("number"==typeof t)return t.toString();if(t instanceof Date)return t.getTime().toString();if(Array.isArray(t))return "["+t.map(function(t){return j(t)}).join(",")+"]";if("boolean"==typeof t)return t.toString();throw new Error("Unable to encode "+t+" of type "+typeof t)}var q={near:function(t,e,n,r){return "["+P+"("+t+", "+e+", "+n+", "+r+")]"}},R={before:function(t,e){return "["+d+"("+t+", "+j(e)+")]"},after:function(t,e){return "["+y+"("+t+", "+j(e)+")]"},between:function(t,e,n){return "["+m+"("+t+", "+j(e)+", "+j(n)+")]"},dayOfMonth:function(t,e){return "["+g+"("+t+", "+e+")]"},dayOfMonthAfter:function(t,e){return "["+v+"("+t+", "+e+")]"},dayOfMonthBefore:function(t,e){return "["+w+"("+t+", "+e+")]"},dayOfWeek:function(t,e){return "["+b+"("+t+", "+j(e)+")]"},dayOfWeekAfter:function(t,e){return "["+_+"("+t+", "+j(e)+")]"},dayOfWeekBefore:function(t,e){return "["+k+"("+t+", "+j(e)+")]"},month:function(t,e){return "["+I+"("+t+", "+j(e)+")]"},monthBefore:function(t,e){return "["+T+"("+t+", "+j(e)+")]"},monthAfter:function(t,e){return "["+E+"("+t+", "+j(e)+")]"},year:function(t,e){return "["+O+"("+t+", "+e+")]"},hour:function(t,e){return "["+A+"("+t+", "+e+")]"},hourBefore:function(t,e){return "["+x+"("+t+", "+e+")]"},hourAfter:function(t,e){return "["+M+"("+t+", "+e+")]"}},S={gt:function(t,e){return "["+l+"("+t+", "+e+")]"},lt:function(t,e){return "["+p+"("+t+", "+e+")]"},inRange:function(t,e,n){return "["+h+"("+t+", "+e+", "+n+")]"}};e.default={at:function(t,e){return "["+r+"("+t+", "+j(e)+")]"},not:function(t,e){return "["+o+"("+t+", "+j(e)+")]"},missing:function(t){return "["+i+"("+t+")]"},has:function(t){return "["+u+"("+t+")]"},any:function(t,e){return "["+a+"("+t+", "+j(e)+")]"},in:function(t,e){return "["+s+"("+t+", "+j(e)+")]"},fulltext:function(t,e){return "["+f+"("+t+", "+j(e)+")]"},similar:function(t,e){return "["+c+'("'+t+'", '+e+")]"},date:R,dateBefore:R.before,dateAfter:R.after,dateBetween:R.between,dayOfMonth:R.dayOfMonth,dayOfMonthAfter:R.dayOfMonthAfter,dayOfMonthBefore:R.dayOfMonthBefore,dayOfWeek:R.dayOfWeek,dayOfWeekAfter:R.dayOfWeekAfter,dayOfWeekBefore:R.dayOfWeekBefore,month:R.month,monthBefore:R.monthBefore,monthAfter:R.monthAfter,year:R.year,hour:R.hour,hourBefore:R.hourBefore,hourAfter:R.hourAfter,number:S,gt:S.gt,lt:S.lt,inRange:S.inRange,near:q.near,geopoint:q};},function(t,e,n){(function(t){var r=n(0),o=setTimeout;function i(){}function u(t){if(!(this instanceof u))throw new TypeError("Promises must be constructed via new");if("function"!=typeof t)throw new TypeError("not a function");this._state=0,this._handled=!1,this._value=void 0,this._deferreds=[],l(t,this);}function a(t,e){for(;3===t._state;)t=t._value;0!==t._state?(t._handled=!0,u._immediateFn(function(){var n=1===t._state?e.onFulfilled:e.onRejected;if(null!==n){var r;try{r=n(t._value);}catch(t){return void f(e.promise,t)}s(e.promise,r);}else (1===t._state?s:f)(e.promise,t._value);})):t._deferreds.push(e);}function s(t,e){try{if(e===t)throw new TypeError("A promise cannot be resolved with itself.");if(e&&("object"==typeof e||"function"==typeof e)){var n=e.then;if(e instanceof u)return t._state=3,t._value=e,void c(t);if("function"==typeof n)return void l(function(t,e){return function(){t.apply(e,arguments);}}(n,e),t)}t._state=1,t._value=e,c(t);}catch(e){f(t,e);}}function f(t,e){t._state=2,t._value=e,c(t);}function c(t){2===t._state&&0===t._deferreds.length&&u._immediateFn(function(){t._handled||u._unhandledRejectionFn(t._value);});for(var e=0,n=t._deferreds.length;e<n;e++)a(t,t._deferreds[e]);t._deferreds=null;}function l(t,e){var n=!1;try{t(function(t){n||(n=!0,s(e,t));},function(t){n||(n=!0,f(e,t));});}catch(t){if(n)return;n=!0,f(e,t);}}u.prototype.catch=function(t){return this.then(null,t)},u.prototype.then=function(t,e){var n=new this.constructor(i);return a(this,new function(t,e,n){this.onFulfilled="function"==typeof t?t:null,this.onRejected="function"==typeof e?e:null,this.promise=n;}(t,e,n)),n},u.prototype.finally=r.a,u.all=function(t){return new u(function(e,n){if(!t||void 0===t.length)throw new TypeError("Promise.all accepts an array");var r=Array.prototype.slice.call(t);if(0===r.length)return e([]);var o=r.length;function i(t,u){try{if(u&&("object"==typeof u||"function"==typeof u)){var a=u.then;if("function"==typeof a)return void a.call(u,function(e){i(t,e);},n)}r[t]=u,0==--o&&e(r);}catch(t){n(t);}}for(var u=0;u<r.length;u++)i(u,r[u]);})},u.resolve=function(t){return t&&"object"==typeof t&&t.constructor===u?t:new u(function(e){e(t);})},u.reject=function(t){return new u(function(e,n){n(t);})},u.race=function(t){return new u(function(e,n){for(var r=0,o=t.length;r<o;r++)t[r].then(e,n);})},u._immediateFn="function"==typeof t&&function(e){t(e);}||function(t){o(t,0);},u._unhandledRejectionFn=function(t){"undefined"!=typeof console&&console&&console.warn("Possible Unhandled Promise Rejection:",t);},e.a=u;}).call(this,n(18).setImmediate);},function(t,e,n){e.__esModule=!0;var r=function(){function t(t){this.options=t||{};}return t.prototype.request=function(t,e){!function(t,e,n){var r,o={headers:{Accept:"application/json"}};e&&e.proxyAgent&&(o.agent=e.proxyAgent);var i=fetch(t,o);(e.timeoutInMs?Promise.race([i,new Promise(function(n,o){r=setTimeout(function(){return o(new Error(t+" response timeout"))},e.timeoutInMs);})]):i).then(function(e){return clearTimeout(r),~~(e.status/100!=2)?e.text().then(function(){var n=new Error("Unexpected status code ["+e.status+"] on URL "+t);throw n.status=e.status,n}):e.json().then(function(t){var r=e.headers.get("cache-control"),o=r?/max-age=(\d+)/.exec(r):null,i=o?parseInt(o[1],10):void 0;n(null,t,e,i);})}).catch(function(t){clearTimeout(r),n(t);});}(t,this.options,e);},t}();e.DefaultRequestHandler=r;},function(t,e,n){function r(t){this.size=0,this.limit=t,this._keymap={};}e.__esModule=!0,e.MakeLRUCache=function(t){return new r(t)},r.prototype.put=function(t,e){var n={key:t,value:e};if(this._keymap[t]=n,this.tail?(this.tail.newer=n,n.older=this.tail):this.head=n,this.tail=n,this.size===this.limit)return this.shift();this.size++;},r.prototype.shift=function(){var t=this.head;return t&&(this.head.newer?(this.head=this.head.newer,this.head.older=void 0):this.head=void 0,t.newer=t.older=void 0,delete this._keymap[t.key]),console.log("purging ",t.key),t},r.prototype.get=function(t,e){var n=this._keymap[t];if(void 0!==n)return n===this.tail?e?n:n.value:(n.newer&&(n===this.head&&(this.head=n.newer),n.newer.older=n.older),n.older&&(n.older.newer=n.newer),n.newer=void 0,n.older=this.tail,this.tail&&(this.tail.newer=n),this.tail=n,e?n:n.value)},r.prototype.find=function(t){return this._keymap[t]},r.prototype.set=function(t,e){var n,r=this.get(t,!0);return r?(n=r.value,r.value=e):(n=this.put(t,e))&&(n=n.value),n},r.prototype.remove=function(t){var e=this._keymap[t];if(e)return delete this._keymap[e.key],e.newer&&e.older?(e.older.newer=e.newer,e.newer.older=e.older):e.newer?(e.newer.older=void 0,this.head=e.newer):e.older?(e.older.newer=void 0,this.tail=e.older):this.head=this.tail=void 0,this.size--,e.value},r.prototype.removeAll=function(){this.head=this.tail=void 0,this.size=0,this._keymap={};},"function"==typeof Object.keys?r.prototype.keys=function(){return Object.keys(this._keymap)}:r.prototype.keys=function(){var t=[];for(var e in this._keymap)t.push(e);return t},r.prototype.forEach=function(t,e,n){var r;if(!0===e?(n=!0,e=void 0):"object"!=typeof e&&(e=this),n)for(r=this.tail;r;)t.call(e,r.key,r.value,this),r=r.older;else for(r=this.head;r;)t.call(e,r.key,r.value,this),r=r.newer;},r.prototype.toString=function(){for(var t="",e=this.head;e;)t+=String(e.key)+":"+e.value,(e=e.newer)&&(t+=" < ");return t};},function(t,e,n){e.__esModule=!0;var r=n(9),o=function(){function t(t){void 0===t&&(t=1e3),this.lru=r.MakeLRUCache(t);}return t.prototype.isExpired=function(t){var e=this.lru.get(t,!1);return !!e&&(0!==e.expiredIn&&e.expiredIn<Date.now())},t.prototype.get=function(t,e){var n=this.lru.get(t,!1);n&&!this.isExpired(t)?e(null,n.data):e&&e(null);},t.prototype.set=function(t,e,n,r){this.lru.remove(t),this.lru.put(t,{data:e,expiredIn:n?Date.now()+1e3*n:0}),r&&r(null);},t.prototype.remove=function(t,e){this.lru.remove(t),e&&e(null);},t.prototype.clear=function(t){this.lru.removeAll(),t&&t(null);},t}();e.DefaultApiCache=o;},function(t,e,n){e.__esModule=!0;var r=n(10),o=n(8),i=function(){function t(t,e,n,i){this.requestHandler=t||new o.DefaultRequestHandler({proxyAgent:n,timeoutInMs:i}),this.cache=e||new r.DefaultApiCache;}return t.prototype.request=function(t,e){this.requestHandler.request(t,function(t,n,r,o){t?e&&e(t,null,r,o):n&&e&&e(null,n,r,o);});},t.prototype.cachedRequest=function(t,e){var n=this,r=e||{};return new Promise(function(e,o){!function(e){var o=r.cacheKey||t;n.cache.get(o,function(i,u){i||u?e(i,u):n.request(t,function(t,i,u,a){if(t)e(t,null);else {var s=a||r.ttl;s&&n.cache.set(o,i,s,e),e(null,i);}});});}(function(t,n){t&&o(t),n&&e(n);});})},t}();e.default=i;},function(t,e,n){e.__esModule=!0;var r=decodeURIComponent;e.default={parse:function(t,e){if("string"!=typeof t)throw new TypeError("argument str must be a string");var n={},o=e||{},i=t.split(/; */),u=o.decode||r;return i.forEach(function(t){var e=t.indexOf("=");if(!(e<0)){var r=t.substr(0,e).trim(),o=t.substr(++e,t.length).trim();'"'==o[0]&&(o=o.slice(1,-1)),void 0==n[r]&&(n[r]=function(t,e){try{return e(t)}catch(e){return t}}(o,u));}}),n}};},function(t,e,n){e.__esModule=!0;var r=n(4),o=n(3),i=n(1),u=function(){function t(t,e){this.api=new o.default(t,e);}return t.prototype.getApi=function(){return this.api.get()},t.prototype.everything=function(){return this.form("everything")},t.prototype.form=function(t){return new r.LazySearchForm(t,this.api)},t.prototype.query=function(t,e,n){return this.getApi().then(function(r){return r.query(t,e,n)})},t.prototype.queryFirst=function(t,e,n){return this.getApi().then(function(r){return r.queryFirst(t,e,n)})},t.prototype.getByID=function(t,e,n){return this.getApi().then(function(r){return r.getByID(t,e,n)})},t.prototype.getByIDs=function(t,e,n){return this.getApi().then(function(r){return r.getByIDs(t,e,n)})},t.prototype.getByUID=function(t,e,n,r){return this.getApi().then(function(o){return o.getByUID(t,e,n,r)})},t.prototype.getSingle=function(t,e,n){return this.getApi().then(function(r){return r.getSingle(t,e,n)})},t.prototype.getBookmark=function(t,e,n){return this.getApi().then(function(r){return r.getBookmark(t,e,n)})},t.prototype.previewSession=function(t,e,n,r){return this.getApi().then(function(o){return o.previewSession(t,e,n,r)})},t.prototype.getPreviewResolver=function(t,e){var n=this;return i.createPreviewResolver(t,e,function(t){return n.getApi().then(function(e){return e.getByID(t)})})},t.getApi=function(t,e){return new o.default(t,e).get()},t}();e.DefaultClient=u;},function(t,e,n){var r,o=n(6),i=n(5),u=n(13),a=n(3),s=n(2);!function(t){function e(t,e){return u.DefaultClient.getApi(t,e)}t.experimentCookie=s.EXPERIMENT_COOKIE,t.previewCookie=s.PREVIEW_COOKIE,t.Predicates=o.default,t.Experiments=i.Experiments,t.Api=a.default,t.client=function(t,e){return new u.DefaultClient(t,e)},t.getApi=e,t.api=function(t,n){return e(t,n)};}(r||(r={})),t.exports=r;},function(e,n){e.exports=t;},function(t,e){var n,r,o=t.exports={};function i(){throw new Error("setTimeout has not been defined")}function u(){throw new Error("clearTimeout has not been defined")}function a(t){if(n===setTimeout)return setTimeout(t,0);if((n===i||!n)&&setTimeout)return n=setTimeout,setTimeout(t,0);try{return n(t,0)}catch(e){try{return n.call(null,t,0)}catch(e){return n.call(this,t,0)}}}!function(){try{n="function"==typeof setTimeout?setTimeout:i;}catch(t){n=i;}try{r="function"==typeof clearTimeout?clearTimeout:u;}catch(t){r=u;}}();var s,f=[],c=!1,l=-1;function p(){c&&s&&(c=!1,s.length?f=s.concat(f):l=-1,f.length&&h());}function h(){if(!c){var t=a(p);c=!0;for(var e=f.length;e;){for(s=f,f=[];++l<e;)s&&s[l].run();l=-1,e=f.length;}s=null,c=!1,function(t){if(r===clearTimeout)return clearTimeout(t);if((r===u||!r)&&clearTimeout)return r=clearTimeout,clearTimeout(t);try{r(t);}catch(e){try{return r.call(null,t)}catch(e){return r.call(this,t)}}}(t);}}function d(t,e){this.fun=t,this.array=e;}function y(){}o.nextTick=function(t){var e=new Array(arguments.length-1);if(arguments.length>1)for(var n=1;n<arguments.length;n++)e[n-1]=arguments[n];f.push(new d(t,e)),1!==f.length||c||a(h);},d.prototype.run=function(){this.fun.apply(null,this.array);},o.title="browser",o.browser=!0,o.env={},o.argv=[],o.version="",o.versions={},o.on=y,o.addListener=y,o.once=y,o.off=y,o.removeListener=y,o.removeAllListeners=y,o.emit=y,o.prependListener=y,o.prependOnceListener=y,o.listeners=function(t){return []},o.binding=function(t){throw new Error("process.binding is not supported")},o.cwd=function(){return "/"},o.chdir=function(t){throw new Error("process.chdir is not supported")},o.umask=function(){return 0};},function(t,e,n){(function(t){!function(e,n){if(!e.setImmediate){var r,o=1,i={},u=!1,a=e.document,s=Object.getPrototypeOf&&Object.getPrototypeOf(e);s=s&&s.setTimeout?s:e,"[object process]"==={}.toString.call(e.process)?r=function(e){t.nextTick(function(){c(e);});}:function(){if(e.postMessage&&!e.importScripts){var t=!0,n=e.onmessage;return e.onmessage=function(){t=!1;},e.postMessage("","*"),e.onmessage=n,t}}()?function(){var t="setImmediate$"+Math.random()+"$",n=function(n){n.source===e&&"string"==typeof n.data&&0===n.data.indexOf(t)&&c(+n.data.slice(t.length));};e.addEventListener?e.addEventListener("message",n,!1):e.attachEvent("onmessage",n),r=function(n){e.postMessage(t+n,"*");};}():e.MessageChannel?function(){var t=new MessageChannel;t.port1.onmessage=function(t){c(t.data);},r=function(e){t.port2.postMessage(e);};}():a&&"onreadystatechange"in a.createElement("script")?function(){var t=a.documentElement;r=function(e){var n=a.createElement("script");n.onreadystatechange=function(){c(e),n.onreadystatechange=null,t.removeChild(n),n=null;},t.appendChild(n);};}():r=function(t){setTimeout(c,0,t);},s.setImmediate=function(t){"function"!=typeof t&&(t=new Function(""+t));for(var e=new Array(arguments.length-1),n=0;n<e.length;n++)e[n]=arguments[n+1];var u={callback:t,args:e};return i[o]=u,r(o),o++},s.clearImmediate=f;}function f(t){delete i[t];}function c(t){if(u)setTimeout(c,0,t);else {var e=i[t];if(e){u=!0;try{!function(t){var e=t.callback,r=t.args;switch(r.length){case 0:e();break;case 1:e(r[0]);break;case 2:e(r[0],r[1]);break;case 3:e(r[0],r[1],r[2]);break;default:e.apply(n,r);}}(e);}finally{f(t),u=!1;}}}}}("undefined"==typeof self?"undefined"==typeof commonjsGlobal?this:commonjsGlobal:self);}).call(this,n(16));},function(t,e,n){var r="undefined"!=typeof commonjsGlobal&&commonjsGlobal||"undefined"!=typeof self&&self||window,o=Function.prototype.apply;function i(t,e){this._id=t,this._clearFn=e;}e.setTimeout=function(){return new i(o.call(setTimeout,r,arguments),clearTimeout)},e.setInterval=function(){return new i(o.call(setInterval,r,arguments),clearInterval)},e.clearTimeout=e.clearInterval=function(t){t&&t.close();},i.prototype.unref=i.prototype.ref=function(){},i.prototype.close=function(){this._clearFn.call(r,this._id);},e.enroll=function(t,e){clearTimeout(t._idleTimeoutId),t._idleTimeout=e;},e.unenroll=function(t){clearTimeout(t._idleTimeoutId),t._idleTimeout=-1;},e._unrefActive=e.active=function(t){clearTimeout(t._idleTimeoutId);var e=t._idleTimeout;e>=0&&(t._idleTimeoutId=setTimeout(function(){t._onTimeout&&t._onTimeout();},e));},n(17),e.setImmediate="undefined"!=typeof self&&self.setImmediate||"undefined"!=typeof commonjsGlobal&&commonjsGlobal.setImmediate||this&&this.setImmediate,e.clearImmediate="undefined"!=typeof self&&self.clearImmediate||"undefined"!=typeof commonjsGlobal&&commonjsGlobal.clearImmediate||this&&this.clearImmediate;},function(t,e,n){n.r(e);var r=n(7),o=n(0),i=function(){if("undefined"!=typeof self)return self;if("undefined"!=typeof window)return window;if("undefined"!=typeof commonjsGlobal)return commonjsGlobal;throw new Error("unable to locate global object")}();i.Promise?i.Promise.prototype.finally||(i.Promise.prototype.finally=o.a):i.Promise=r.a;},function(t,e,n){n(19),n(15),t.exports=n(14);}])});
-});
-
-var Prismic = /*@__PURE__*/getDefaultExportFromCjs(prismicJavascript_min);
-
-const demoCss = "@charset \"UTF-8\";@font-face{font-family:\"Eina\";font-display:swap;src:local(\"Eina Bold\"), url(\"/assets/fonts/eina/eina-01-bold.woff2\") format(\"woff2\"), url(\"/assets/fonts/eina/eina-01-bold.woff\") format(\"woff\"), url(\"/assets/fonts/eina/eina-01-bold.ttf\") format(\"ttf\"), url(\"/assets/fonts/eina/eina-01-bold.eot?#iefix\") format(\"eot\");font-weight:700;unicode-range:U+000-5FF}@font-face{font-family:\"Eina\";font-display:swap;src:local(\"Eina Semibold\"), url(\"/assets/fonts/eina/eina-01-semibold.woff2\") format(\"woff2\"), url(\"/assets/fonts/eina/eina-01-semibold.woff\") format(\"woff\"), url(\"/assets/fonts/eina/eina-01-semibold.ttf\") format(\"ttf\"), url(\"/assets/fonts/eina/eina-01-semibold.eot?#iefix\") format(\"eot\");font-weight:600;unicode-range:U+000-5FF}@font-face{font-family:\"Eina\";font-display:swap;src:local(\"Eina Regular\"), url(\"/assets/fonts/eina/eina-01-regular.woff2\") format(\"woff2\"), url(\"/assets/fonts/eina/eina-01-regular.woff\") format(\"woff\"), url(\"/assets/fonts/eina/eina-01-regular.ttf\") format(\"ttf\"), url(\"/assets/fonts/eina/eina-01-regular.eot?#iefix\") format(\"eot\");font-weight:400;unicode-range:U+000-5FF}@font-face{font-family:\"Inter\";font-display:swap;font-style:normal;font-weight:400;unicode-range:U+000-5FF;src:local(\"Inter Regular\"), url(\"/assets/fonts/inter/Inter-variable-ASCII-subset.woff2\") format(\"woff2-variations\"), url(\"/assets/fonts/inter/Inter-Regular.woff2\") format(\"woff2\"), url(\"/assets/fonts/inter/Inter-Regular.woff\") format(\"woff\")}@font-face{font-family:\"Inter\";font-display:swap;font-style:italic;font-weight:400;unicode-range:U+000-5FF;src:local(\"Inter Italic\"), url(\"/assets/fonts/inter/Inter-variable-ASCII-subset.woff2\") format(\"woff2-variations\"), url(\"/assets/fonts/inter/Inter-Italic.woff2\") format(\"woff2\"), url(\"/assets/fonts/inter/Inter-Italic.woff\") format(\"woff\")}@font-face{font-family:\"Inter\";font-display:swap;font-style:normal;font-weight:500;unicode-range:U+000-5FF;src:local(\"Inter Medium\"), url(\"/assets/fonts/inter/Inter-variable-ASCII-subset.woff2\") format(\"woff2-variations\"), url(\"/assets/fonts/inter/Inter-Medium.woff2\") format(\"woff2\"), url(\"/assets/fonts/inter/Inter-Medium.woff\") format(\"woff\")}@font-face{font-family:\"Inter\";font-display:swap;font-style:italic;font-weight:500;unicode-range:U+000-5FF;src:local(\"Inter Medium Italic\"), url(\"/assets/fonts/inter/Inter-variable-ASCII-subset.woff2\") format(\"woff2-variations\"), url(\"/assets/fonts/inter/Inter-MediumItalic.woff2\") format(\"woff2\"), url(\"/assets/fonts/inter/Inter-MediumItalic.woff\") format(\"woff\")}@font-face{font-family:\"Inter\";font-display:swap;font-style:normal;font-weight:600;unicode-range:U+000-5FF;src:local(\"Inter SemiBold\"), url(\"/assets/fonts/inter/Inter-variable-ASCII-subset.woff2\") format(\"woff2-variations\"), url(\"/assets/fonts/inter/Inter-SemiBold.woff2\") format(\"woff2\"), url(\"/assets/fonts/inter/Inter-SemiBold.woff\") format(\"woff\")}@font-face{font-family:\"Inter\";font-display:swap;font-style:italic;font-weight:600;unicode-range:U+000-5FF;src:local(\"Inter SemiBoldItalic\"), url(\"/assets/fonts/inter/Inter-variable-ASCII-subset.woff2\") format(\"woff2-variations\"), url(\"/assets/fonts/inter/Inter-SemiBoldItalic.woff2\") format(\"woff2\"), url(\"/assets/fonts/inter/Inter-SemiBoldItalic.woff\") format(\"woff\")}@font-face{font-family:\"Inter\";font-display:swap;font-style:normal;font-weight:700;unicode-range:U+000-5FF;src:local(\"Inter Bold\"), url(\"/assets/fonts/inter/Inter-variable-ASCII-subset.woff2\") format(\"woff2-variations\"), url(\"/assets/fonts/inter/Inter-Bold.woff2\") format(\"woff2\"), url(\"/assets/fonts/inter/Inter-Bold.woff\") format(\"woff\")}@font-face{font-family:\"Inter\";font-display:swap;font-style:italic;font-weight:700;unicode-range:U+000-5FF;src:local(\"Inter BoldItalic\"), url(\"/assets/fonts/inter/Inter-variable-ASCII-subset.woff2\") format(\"woff2-variations\"), url(\"/assets/fonts/inter/Inter-BoldItalic.woff2\") format(\"woff2\"), url(\"/assets/fonts/inter/Inter-BoldItalic.woff\") format(\"woff\")}@font-face{font-family:\"Inter\";font-display:swap;font-style:normal;font-weight:800;unicode-range:U+000-5FF;src:local(\"Inter ExtraBold\"), url(\"/assets/fonts/inter/Inter-variable-ASCII-subset.woff2\") format(\"woff2-variations\"), url(\"/assets/fonts/inter/Inter-ExtraBold.woff2\") format(\"woff2\"), url(\"/assets/fonts/inter/Inter-ExtraBold.woff\") format(\"woff\")}@font-face{font-family:\"Inter\";font-display:swap;font-style:italic;font-weight:800;unicode-range:U+000-5FF;src:local(\"Inter ExtraBoldItalic\"), url(\"/assets/fonts/inter/Inter-variable-ASCII-subset.woff2\") format(\"woff2-variations\"), url(\"/assets/fonts/inter/Inter-ExtraBoldItalic.woff2\") format(\"woff2\"), url(\"/assets/fonts/inter/Inter-ExtraBoldItalic.woff\") format(\"woff\")}@font-face{font-family:\"Inter\";font-display:swap;font-style:normal;font-weight:900;unicode-range:U+000-5FF;src:local(\"Inter Black\"), url(\"/assets/fonts/inter/Inter-variable-ASCII-subset.woff2\") format(\"woff2-variations\"), url(\"/assets/fonts/inter/Inter-Black.woff2\") format(\"woff2\"), url(\"/assets/fonts/inter/Inter-Black.woff\") format(\"woff\")}@font-face{font-family:\"Inter\";font-display:swap;font-style:italic;font-weight:900;unicode-range:U+000-5FF;src:local(\"Inter BlackItalic\"), url(\"/assets/fonts/inter/Inter-variable-ASCII-subset.woff2\") format(\"woff2-variations\"), url(\"/assets/fonts/inter/Inter-BlackItalic.woff2\") format(\"woff2\"), url(\"/assets/fonts/inter/Inter-BlackItalic.woff\") format(\"woff\")}@font-face{font-family:\"FreightTextPro\";font-display:swap;font-weight:400;unicode-range:U+000-5FF;src:url(\"/assets/fonts//29D26A_0_0.eot\");src:url(\"/assets/fonts//29D26A_0_0.eot?#iefix\") format(\"embedded-opentype\"), url(\"/assets/fonts//29D26A_0_0.woff\") format(\"woff\"), url(\"/assets/fonts/29D26A_0_0.ttf\") format(\"truetype\")}@font-face{font-family:\"FreightTextPro\";font-display:swap;font-weight:500;unicode-range:U+000-5FF;src:url(\"/assets/fonts/29D26A_1_0.eot\");src:url(\"/assets/fonts/29D26A_1_0.eot?#iefix\") format(\"embedded-opentype\"), url(\"/assets/fonts/29D26A_1_0.woff\") format(\"woff\"), url(\"/assets/fonts/29D26A_1_0.ttf\") format(\"truetype\")}:root{--f-family-display:Eina, \"Helvetica Neue\", Helvetica, sans-serif;--f-family-text:Inter, \"Inter UI\", Helvetica, Arial, sans-serif;--f-family-system:apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;--f-family-monospace:\"SF Mono\", \"Roboto Mono\", Menlo, monospace;--f-family-serif:\"Adobe Caslon\", Georgia, Times, \"Times New Roman\", serif;--f-weight-light:300;--f-weight-regular:400;--f-weight-medium:500;--f-weight-semibold:600;--f-weight-bold:700;--f-size-0:0.625rem;--f-size-1:0.6875rem;--f-size-2:0.75rem;--f-size-3:0.8125rem;--f-size-4:0.875rem;--f-size-5:1rem;--f-size-6:1.25rem;--f-size-7:1.5rem;--f-size-8:1.75rem;--f-size-9:2rem;--f-size-10:2.5rem;--f-size-11:3rem;--f-size-12:3.5rem;--f-size-13:4rem;--f-size-14:4.5rem;--f-size-15:5rem;--f-size-16:5.5rem;--f-size-17:6rem;--f-leading-solid:1;--f-leading-title:1.12;--f-leading-body:1.6;--f-leading-prose:1.8;--f-tracking-dense:-0.04em;--f-tracking-tight:-0.02em;--f-tracking-solid:0em;--f-tracking-wide:0.04em;--f-tracking-super:0.08em;--f-tracking-extra:0.16em;--space-0:0.25rem;--space-1:0.5rem;--space-2:0.75rem;--space-3:1rem;--space-4:1.25rem;--space-5:1.5rem;--space-6:2rem;--space-7:2.5rem;--space-8:3rem;--space-9:4rem;--space-10:5rem;--space-11:6rem;--space-12:8rem;--space-13:10rem;--space-14:12rem;--space-15:14rem;--space-16:16rem;--breakpoint-0:640px;--breakpoint-1:768px;--breakpoint-2:1024px;--breakpoint-3:1280px;--radius-0:0px;--radius-1:6px;--radius-2:8px;--radius-3:16px;--radius-4:1000px;--border-regular:1px solid;--border-dashed:1px dashed;--border-heavy:2px solid;--elevation-0:none;--elevation-1:0px 1px 2px rgba(2, 8, 20, 0.1), 0px 0px 1px rgba(2, 8, 20, 0.08);--elevation-2:0px 2px 4px rgba(2, 8, 20, 0.1), 0px 1px 2px rgba(2, 8, 20, 0.08);--elevation-3:0px 4px 8px rgba(2, 8, 20, 0.08), 0px 2px 4px rgba(2, 8, 20, 0.08);--elevation-4:0px 8px 16px rgba(2, 8, 20, 0.08), 0px 4px 8px rgba(2, 8, 20, 0.08);--elevation-5:0px 16px 32px rgba(2, 8, 20, 0.08), 0px 8px 16px rgba(2, 8, 20, 0.08);--elevation-6:0px 32px 64px rgba(2, 8, 20, 0.08), 0px 16px 32px rgba(2, 8, 20, 0.1);--duration-instantly:0s;--duration-quickly:0.15s;--c-black:#000000;--c-white:#ffffff;--c-blue-0:#f0f6ff;--c-blue-10:#e3edff;--c-blue-20:#cddfff;--c-blue-30:#b2ceff;--c-blue-40:#97bdff;--c-blue-50:#7cabff;--c-blue-60:#639bff;--c-blue-70:#4d8dff;--c-blue-80:#3880ff;--c-blue-90:#1b6dff;--c-blue-100:#0054e9;--c-gray-0:#f3f3f3;--c-gray-10:#e4e4e4;--c-gray-20:#c8c8c8;--c-gray-30:#aeaeae;--c-gray-40:#959595;--c-gray-50:#818181;--c-gray-60:#6d6d6d;--c-gray-70:#5f5f5f;--c-gray-80:#474747;--c-gray-90:#2f2f2f;--c-gray-100:#141414;--c-carbon-0:#eef1f3;--c-carbon-10:#d7dde2;--c-carbon-20:#b4bcc6;--c-carbon-30:#98a2ad;--c-carbon-40:#7d8894;--c-carbon-50:#677483;--c-carbon-60:#556170;--c-carbon-70:#434f5e;--c-carbon-80:#35404e;--c-carbon-90:#222d3a;--c-carbon-100:#03060b;--c-indigo-0:#fbfbfd;--c-indigo-10:#f6f8fb;--c-indigo-20:#e9edf3;--c-indigo-30:#dee3ea;--c-indigo-40:#ced6e0;--c-indigo-50:#b2becd;--c-indigo-60:#92a0b3;--c-indigo-70:#73849a;--c-indigo-80:#445b78;--c-indigo-90:#2d4665;--c-indigo-100:#001a3a;--c-green-0:#effff3;--c-green-10:#e7ffee;--c-green-20:#d0ffdd;--c-green-30:#b8ffcb;--c-green-40:#97ffb3;--c-green-50:#71f895;--c-green-60:#4ef27a;--c-green-70:#31e962;--c-green-80:#18dd4c;--c-green-90:#00d338;--c-green-100:#00b831;--c-lime-0:#f8fff0;--c-lime-10:#f2ffe1;--c-lime-20:#eeffd8;--c-lime-30:#e5ffc3;--c-lime-40:#d8ffa7;--c-lime-50:#c8ff83;--c-lime-60:#b7f964;--c-lime-70:#a7f544;--c-lime-80:#97ec2d;--c-lime-90:#87e017;--c-lime-100:#75d100;--c-lavender-0:#f6f8ff;--c-lavender-10:#e5ebff;--c-lavender-20:#ced9ff;--c-lavender-30:#b6c6ff;--c-lavender-40:#9fb5ff;--c-lavender-50:#8aa4ff;--c-lavender-60:#7493ff;--c-lavender-70:#597eff;--c-lavender-80:#3c67ff;--c-lavender-90:#194bfd;--c-lavender-100:#0033e8;--c-purple-0:#f4f4ff;--c-purple-10:#e9eaff;--c-purple-20:#d0d2ff;--c-purple-30:#b6b9f9;--c-purple-40:#9a99fc;--c-purple-50:#8482fb;--c-purple-60:#786df9;--c-purple-70:#6e5afd;--c-purple-80:#6030ff;--c-purple-90:#4712fb;--c-purple-100:#3400e5;--c-pink-0:#fff2fb;--c-pink-10:#ffe3f6;--c-pink-20:#ffd4f1;--c-pink-30:#ffc7ec;--c-pink-40:#ffb6e8;--c-pink-50:#ff9cdf;--c-pink-60:#fc82d5;--c-pink-70:#f567c8;--c-pink-80:#ef4cbb;--c-pink-90:#f02fb2;--c-pink-100:#e410a1;--c-red-0:#fff2f2;--c-red-10:#ffdddd;--c-red-20:#ffc8c7;--c-red-30:#ffb6b5;--c-red-40:#ff9e9c;--c-red-50:#ff8a88;--c-red-60:#ff7370;--c-red-70:#ff605b;--c-red-80:#ff4747;--c-red-90:#ff201a;--c-red-100:#e70700;--c-orange-0:#fff5f0;--c-orange-10:#ffede5;--c-orange-20:#ffdfd1;--c-orange-30:#ffd0bc;--c-orange-40:#ffc0a5;--c-orange-50:#ffaf8c;--c-orange-60:#ff9b70;--c-orange-70:#ff8753;--c-orange-80:#ff7336;--c-orange-90:#ff5b13;--c-orange-100:#eb4700;--c-yellow-0:#fffbef;--c-yellow-10:#fff8e3;--c-yellow-20:#fff6d8;--c-yellow-30:#fff3c9;--c-yellow-40:#ffedad;--c-yellow-50:#ffe78f;--c-yellow-60:#ffe072;--c-yellow-70:#ffd84d;--c-yellow-80:#ffd130;--c-yellow-90:#ffc805;--c-yellow-100:#f5bf00;--c-aqua-0:#f0fff9;--c-aqua-10:#e5fff6;--c-aqua-20:#d5ffef;--c-aqua-30:#c0ffe8;--c-aqua-40:#aaffe0;--c-aqua-50:#90fbd4;--c-aqua-60:#70f6c5;--c-aqua-70:#4deeb2;--c-aqua-80:#32e2a1;--c-aqua-90:#00db8a;--c-aqua-100:#00cc80;--c-teal-0:#eefeff;--c-teal-10:#dffdff;--c-teal-20:#d0fdff;--c-teal-30:#bbfcff;--c-teal-40:#a2fcff;--c-teal-50:#8bfbff;--c-teal-60:#73f6fb;--c-teal-70:#55ecf2;--c-teal-80:#35e2e9;--c-teal-90:#1bd2d9;--c-teal-100:#00b9c0;--c-cyan-0:#f3faff;--c-cyan-10:#e8f5ff;--c-cyan-20:#d3ecff;--c-cyan-30:#bfe4ff;--c-cyan-40:#a7daff;--c-cyan-50:#8dcfff;--c-cyan-60:#77c6ff;--c-cyan-70:#62bdff;--c-cyan-80:#46b1ff;--c-cyan-90:#24a3ff;--c-cyan-100:#0091fa}:root{--c-ionic-brand:var(--c-blue-80);--f-size-root:16px;--z-subnav:1000;--z-header-dropdown:1005}*{box-sizing:border-box}html,body{padding:0;margin:0;width:100%}body{-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;font-family:var(--f-family-text);font-size:var(--f-size-root);line-height:var(--f-leading-body);letter-spacing:var(--f-tracking-tight);color:var(--c-carbon-90);position:relative;overflow-x:hidden}body.no-scroll{overflow:hidden}a{text-decoration:none;color:var(--c-ionic-brand)}stencil-route-link a{color:inherit}ul{margin:0;padding:0}li{list-style:none}hr{border:none;height:1px;background:var(--c-indigo-30);margin:var(--space-6) 0}.ui-blockquote{background:#f2f5f8;border-radius:4px;position:relative;padding:64px 80px 68px 111px;color:#5e749a;font-family:\"Adobe Caslon\", Georgia, Times, \"Times New Roman\", serif;font-style:italic;border:none;margin:77px -16px 54px}.ui-blockquote:before{position:absolute;top:-6px;left:54px;font-size:180px;content:\"“\";color:#e3e7ec}.ui-breadcrumbs{display:flex;align-items:center}.ui-breadcrumbs li{display:inline-block}.ui-breadcrumbs li:last-child a{color:#010610}.ui-breadcrumbs li+li::before{content:\"/\";display:inline-block;font-size:16px;font-weight:400;color:rgba(65, 77, 92, 0.2);margin:0 6px}.ui-breadcrumbs a{color:var(--c-indigo-60)}.ui-breakpoint{display:none}@media (min-width: 1216px){.ui-breakpoint-xl{display:var(--display)}}@media (min-width: 1024px) and (max-width: 1215px){.ui-breakpoint-lg{display:var(--display)}}@media (min-width: 768px) and (max-width: 1023px){.ui-breakpoint-md{display:var(--display)}}@media (min-width: 640px) and (max-width: 767px){.ui-breakpoint-sm{display:var(--display)}}@media (max-width: 639px){.ui-breakpoint-xs{display:var(--display)}}.ui-button{cursor:pointer;display:inline-block;font-weight:500;border-radius:8px;line-height:1.4em;padding:16px 20px;transition:all 0.3s ease;font-size:16px;border:0px solid rgba(0, 0, 0, 0);color:#fff;background:var(--button-background, var(--c-ionic-brand));letter-spacing:0.01em}.ui-card--embelish{background-color:#fff;border-radius:6px;box-shadow:var(--elevation-4);border-radius:14px}.ui-card--embelish .ui-card-content{padding:32px}.ui-card[href]{cursor:pointer}.ui-container{padding-right:8px;padding-left:8px;margin-right:auto;margin-left:auto}@media (min-width: 768px){.ui-container{width:768px;padding-right:16px;padding-left:16px}}@media (min-width: 1024px){.ui-container{width:1024px}}@media (min-width: 1216px){.ui-container{width:1152px}}.ui-grid{display:grid;column-gap:56px;row-gap:96px;grid-template-columns:repeat(12, minmax(0, 1fr))}@media (max-width: 640px){.ui-grid{column-gap:0;row-gap:48px}}@media (max-width: 768px){.ui-grid{column-gap:0;row-gap:24px}}.ui-grid .ui-col-1{grid-column-end:span 1}.ui-grid .ui-col-2{grid-column-end:span 2}.ui-grid .ui-col-3{grid-column-end:span 3}.ui-grid .ui-col-4{grid-column-end:span 4}.ui-grid .ui-col-5{grid-column-end:span 5}.ui-grid .ui-col-6{grid-column-end:span 6}.ui-grid .ui-col-7{grid-column-end:span 7}.ui-grid .ui-col-8{grid-column-end:span 8}.ui-grid .ui-col-9{grid-column-end:span 9}.ui-grid .ui-col-10{grid-column-end:span 10}.ui-grid .ui-col-11{grid-column-end:span 11}.ui-grid .ui-col-12{grid-column-end:span 12}@media (min-width: 640px){.ui-grid .ui-col-xs-1{grid-column-end:span 1}.ui-grid .ui-col-xs-2{grid-column-end:span 2}.ui-grid .ui-col-xs-3{grid-column-end:span 3}.ui-grid .ui-col-xs-4{grid-column-end:span 4}.ui-grid .ui-col-xs-5{grid-column-end:span 5}.ui-grid .ui-col-xs-6{grid-column-end:span 6}.ui-grid .ui-col-xs-7{grid-column-end:span 7}.ui-grid .ui-col-xs-8{grid-column-end:span 8}.ui-grid .ui-col-xs-9{grid-column-end:span 9}.ui-grid .ui-col-xs-10{grid-column-end:span 10}.ui-grid .ui-col-xs-11{grid-column-end:span 11}.ui-grid .ui-col-xs-12{grid-column-end:span 12}}@media (min-width: 768px){.ui-grid .ui-col-sm-1{grid-column-end:span 1}.ui-grid .ui-col-sm-2{grid-column-end:span 2}.ui-grid .ui-col-sm-3{grid-column-end:span 3}.ui-grid .ui-col-sm-4{grid-column-end:span 4}.ui-grid .ui-col-sm-5{grid-column-end:span 5}.ui-grid .ui-col-sm-6{grid-column-end:span 6}.ui-grid .ui-col-sm-7{grid-column-end:span 7}.ui-grid .ui-col-sm-8{grid-column-end:span 8}.ui-grid .ui-col-sm-9{grid-column-end:span 9}.ui-grid .ui-col-sm-10{grid-column-end:span 10}.ui-grid .ui-col-sm-11{grid-column-end:span 11}.ui-grid .ui-col-sm-12{grid-column-end:span 12}}@media (min-width: 1024px){.ui-grid .ui-col-md-1{grid-column-end:span 1}.ui-grid .ui-col-md-2{grid-column-end:span 2}.ui-grid .ui-col-md-3{grid-column-end:span 3}.ui-grid .ui-col-md-4{grid-column-end:span 4}.ui-grid .ui-col-md-5{grid-column-end:span 5}.ui-grid .ui-col-md-6{grid-column-end:span 6}.ui-grid .ui-col-md-7{grid-column-end:span 7}.ui-grid .ui-col-md-8{grid-column-end:span 8}.ui-grid .ui-col-md-9{grid-column-end:span 9}.ui-grid .ui-col-md-10{grid-column-end:span 10}.ui-grid .ui-col-md-11{grid-column-end:span 11}.ui-grid .ui-col-md-12{grid-column-end:span 12}}@media (min-width: 1216px){.ui-grid .ui-col-lg-1{grid-column-end:span 1}.ui-grid .ui-col-lg-2{grid-column-end:span 2}.ui-grid .ui-col-lg-3{grid-column-end:span 3}.ui-grid .ui-col-lg-4{grid-column-end:span 4}.ui-grid .ui-col-lg-5{grid-column-end:span 5}.ui-grid .ui-col-lg-6{grid-column-end:span 6}.ui-grid .ui-col-lg-7{grid-column-end:span 7}.ui-grid .ui-col-lg-8{grid-column-end:span 8}.ui-grid .ui-col-lg-9{grid-column-end:span 9}.ui-grid .ui-col-lg-10{grid-column-end:span 10}.ui-grid .ui-col-lg-11{grid-column-end:span 11}.ui-grid .ui-col-lg-12{grid-column-end:span 12}}:root{--h1-color:var(--c-carbon-90);--h2-color:var(--c-carbon-90);--h3-color:var(--c-carbon-90);--h4-color:var(--c-carbon-90);--h5-color:var(--c-carbon-90);--h6-color:var(--c-indigo-70);--h1-size:var(--f-size-13);--h2-size:var(--f-size-11);--h3-size:var(--f-size-8);--h4-size:var(--f-size-6);--h5-size:var(--f-size-5);--h6-size:var(--f-size-2);--h1-leading:var(--f-leading-solid);--h2-leading:var(--f-leading-title);--h3-leading:var(--f-leading-title);--h4-leading:var(--f-leading-title);--h5-leading:var(--f-leading-title);--h6-leading:var(--f-leading-title);--h1-tracking:var(--f-tracking-dense);--h2-tracking:var(--f-tracking-dense);--h3-tracking:var(--f-tracking-tight);--h4-tracking:var(--f-tracking-tight);--h5-tracking:var(--f-tracking-tight);--h6-tracking:var(--f-tracking-extra);--h1-font:var(--f-family-display);--h2-font:var(--f-family-display);--h3-font:var(--f-family-display);--h4-font:var(--f-family-text);--h5-font:var(--f-family-text);--h6-font:var(--f-family-monospace);--h1-weight:var(--f-weight-bold);--h2-weight:var(--f-weight-bold);--h3-weight:var(--f-weight-semibold);--h4-weight:var(--f-weight-medium);--h5-weight:var(--f-weight-semibold);--h6-weight:var(--f-weight-bold);--h1-transform:none;--h2-transform:none;--h3-transform:none;--h4-transform:none;--h5-transform:none;--h6-transform:uppercase;--poster1-color:var(--c-carbon-90);--poster2-color:var(--c-carbon-90);--poster3-color:var(--c-carbon-90);--poster4-color:var(--c-carbon-90);--poster1-size:var(--f-size-17);--poster2-size:var(--f-size-16);--poster3-size:var(--f-size-15);--poster4-size:var(--f-size-14);--poster1-leading:var(--f-leading-solid);--poster2-leading:var(--f-leading-solid);--poster3-leading:var(--f-leading-solid);--poster4-leading:var(--f-leading-solid);--poster1-tracking:var(--f-tracking-dense);--poster2-tracking:var(--f-tracking-dense);--poster3-tracking:var(--f-tracking-dense);--poster4-tracking:var(--f-tracking-dense);--poster1-font:var(--f-family-display);--poster2-font:var(--f-family-display);--poster3-font:var(--f-family-display);--poster4-font:var(--f-family-text);--poster1-weight:var(--f-weight-bold);--poster2-weight:var(--f-weight-semibold);--poster3-weight:var(--f-weight-bold);--poster4-weight:var(--f-weight-semibold);--poster1-transform:none;--poster2-transform:none;--poster3-transform:none;--poster4-transform:none}.ui-heading{margin:0}.ui-theme--editorial .ui-heading,.ui-heading.ui-theme--editorial{--h6-color:var(--c-carbon-90);--h1-size:var(--f-size-10);--h2-size:var(--f-size-9);--h3-size:var(--f-size-7);--h6-size:var(--f-size-0);--h1-leading:var(--f-leading-title);--h1-font:var(--f-family-text);--h2-font:var(--f-family-text);--h3-font:var(--f-family-text);--h6-font:var(--f-family-text);--h1-tracking:var(--f-tracking-tight);--h2-tracking:var(--f-tracking-tight);--h3-tracking:var(--f-tracking-solid);--h4-tracking:var(--f-tracking-solid);--h6-tracking:var(--f-tracking-super);--h1-leading:var(--f-leading-title);--h1-weight:var(--f-weight-semibold);--h2-weight:var(--f-weight-semibold);--h4-weight:var(--f-weight-semibold);--h5-weight:var(--f-weight-medium);--h6-weight:var(--f-weight-medium)}.ui-heading-1{font-family:var(--h1-font);font-size:var(--h1-size);line-height:var(--h1-leading);letter-spacing:var(--h1-tracking);font-weight:var(--h1-weight);color:var(--h1-color);text-transform:var(--h1-transform)}.ui-heading-2{font-family:var(--h2-font);font-size:var(--h2-size);line-height:var(--h2-leading);letter-spacing:var(--h2-tracking);font-weight:var(--h2-weight);color:var(--h2-color);text-transform:var(--h2-transform)}.ui-heading-3{font-family:var(--h3-font);font-size:var(--h3-size);line-height:var(--h3-leading);letter-spacing:var(--h3-tracking);font-weight:var(--h3-weight);color:var(--h3-color);text-transform:var(--h3-transform)}.ui-heading-4{font-family:var(--h4-font);font-size:var(--h4-size);line-height:var(--h4-leading);letter-spacing:var(--h4-tracking);font-weight:var(--h4-weight);color:var(--h4-color);text-transform:var(--h4-transform)}.ui-heading-5{font-family:var(--h5-font);font-size:var(--h5-size);line-height:var(--h5-leading);letter-spacing:var(--h5-tracking);font-weight:var(--h5-weight);color:var(--h5-color);text-transform:var(--h5-transform)}.ui-heading-6{font-family:var(--h6-font);font-size:var(--h6-size);line-height:var(--h6-leading);letter-spacing:var(--h6-tracking);font-weight:var(--h6-weight);color:var(--h6-color);text-transform:var(--h6-transform)}.ui-poster-1{font-family:var(--poster1-font);font-size:var(--poster1-size);line-height:var(--poster1-leading);letter-spacing:var(--poster1-tracking);font-weight:var(--poster1-weight);color:var(--poster1-color);text-transform:var(--poster1-transform)}.ui-poster-2{font-family:var(--poster2-font);font-size:var(--poster2-size);line-height:var(--poster2-leading);letter-spacing:var(--poster2-tracking);font-weight:var(--poster2-weight);color:var(--poster2-color);text-transform:var(--poster2-transform)}.ui-poster-3{font-family:var(--poster3-font);font-size:var(--poster3-size);line-height:var(--poster3-leading);letter-spacing:var(--poster3-tracking);font-weight:var(--poster3-weight);color:var(--poster3-color);text-transform:var(--poster3-transform)}.ui-poster-4{font-family:var(--poster4-font);font-size:var(--poster4-size);line-height:var(--poster4-leading);letter-spacing:var(--poster4-tracking);font-weight:var(--poster4-weight);color:var(--poster4-color);text-transform:var(--poster4-transform)}:root{--p1-color:var(--c-indigo-90);--p2-color:var(--c-indigo-90);--p3-color:var(--c-indigo-90);--p4-color:var(--c-indigo-90);--p5-color:var(--c-indigo-90);--p6-color:var(--c-indigo-90);--p1-size:var(--f-size-7);--p2-size:var(--f-size-6);--p3-size:var(--f-size-5);--p4-size:var(--f-size-4);--p5-size:var(--f-size-3);--p6-size:var(--f-size-2);--p1-leading:var(--f-leading-body);--p2-leading:var(--f-leading-body);--p3-leading:var(--f-leading-body);--p4-leading:var(--f-leading-body);--p5-leading:var(--f-leading-body);--p6-leading:var(--f-leading-body);--p1-tracking:var(--f-tracking-tight);--p2-tracking:var(--f-tracking-tight);--p3-tracking:var(--f-tracking-tight);--p4-tracking:var(--f-tracking-solid);--p5-tracking:var(--f-tracking-solid);--p6-tracking:var(--f-tracking-solid);--p1-weight:var(--f-weight-regular);--p2-weight:var(--f-weight-regular);--p3-weight:var(--f-weight-regular);--p4-weight:var(--f-weight-regular);--p5-weight:var(--f-weight-regular);--p6-weight:var(--f-weight-regular);--p1-transform:none;--p2-transform:none;--p3-transform:none;--p4-transform:none;--p5-transform:none;--p6-transform:none}.ui-paragraph{margin:0}.ui-paragraph--base{--p1-leading:var(--f-leading-body);--p2-leading:var(--f-leading-body);--p3-leading:var(--f-leading-body);--p4-leading:var(--f-leading-body);--p5-leading:var(--f-leading-body);--p6-leading:var(--f-leading-body)}.ui-paragraph--prose{--p1-leading:var(--f-leading-prose);--p2-leading:var(--f-leading-prose);--p3-leading:var(--f-leading-prose);--p4-leading:var(--f-leading-prose);--p5-leading:var(--f-leading-prose);--p6-leading:var(--f-leading-prose)}.ui-paragraph--none{--p1-leading:100%;--p2-leading:100%;--p3-leading:100%;--p4-leading:100%;--p5-leading:100%;--p6-leading:100%}.ui-paragraph-1{font-family:var(--p1-font);font-size:var(--p1-size);line-height:var(--p1-leading);letter-spacing:var(--p1-tracking);font-weight:var(--p1-weight);color:var(--p1-color);text-transform:var(--p1-transform)}.ui-paragraph-2{font-family:var(--p2-font);font-size:var(--p2-size);line-height:var(--p2-leading);letter-spacing:var(--p2-tracking);font-weight:var(--p2-weight);color:var(--p2-color);text-transform:var(--p2-transform)}.ui-paragraph-3{font-family:var(--p3-font);font-size:var(--p3-size);line-height:var(--p3-leading);letter-spacing:var(--p3-tracking);font-weight:var(--p3-weight);color:var(--p3-color);text-transform:var(--p3-transform)}.ui-paragraph-4{font-family:var(--p4-font);font-size:var(--p4-size);line-height:var(--p4-leading);letter-spacing:var(--p4-tracking);font-weight:var(--p4-weight);color:var(--p4-color);text-transform:var(--p4-transform)}.ui-paragraph-5{font-family:var(--p5-font);font-size:var(--p5-size);line-height:var(--p5-leading);letter-spacing:var(--p5-tracking);font-weight:var(--p5-weight);color:var(--p5-color);text-transform:var(--p5-transform)}.ui-paragraph-6{font-family:var(--p6-font);font-size:var(--p6-size);line-height:var(--p6-leading);letter-spacing:var(--p6-tracking);font-weight:var(--p6-weight);color:var(--p6-color);text-transform:var(--p6-transform)}.ui-skeleton{display:block;width:100%;height:inherit;margin-top:4px;margin-bottom:4px;background:#EEEEEE;line-height:10px;user-select:none;pointer-events:none}.ui-skeleton--animated{position:relative;background:linear-gradient(to right, rgba(0, 0, 0, 0.065) 8%, rgba(0, 0, 0, 0.135) 18%, rgba(0, 0, 0, 0.065) 33%);background-size:800px 104px;animation-duration:1s;animation-fill-mode:forwards;animation-iteration-count:infinite;animation-name:shimmer;animation-timing-function:linear}@keyframes shimmer{0%{background-position:-468px 0}100%{background-position:468px 0}}.ui-skeleton span{display:inline-block}.prismic-raw-html{width:100%;overflow:auto}.prismic-raw-html table{overflow-x:auto;margin-right:-15px;padding-right:15px;box-sizing:content-box;font-size:13px;border-collapse:collapse;border-spacing:0;margin-bottom:48px}.prismic-raw-html table td,.prismic-raw-html table th{text-align:left;min-width:120px;padding-right:12px;padding-top:12px;padding-bottom:12px}.prismic-raw-html table td:last-child,.prismic-raw-html table th:last-child{padding-right:0}.prismic-raw-html table th,.prismic-raw-html table b{font-weight:600}.prismic-raw-html table tbody tr td{border-top:1px solid #DEE3EA}.prismic-raw-html table tbody tr:first-child td{border-top:none}.prismic-raw-html table>thead>tr>th{border-bottom:1px solid #E9EDF3;font-weight:600}:host{display:block}.demo{margin-bottom:48px}";
+const demoCss = "@charset \"UTF-8\";@font-face{font-family:\"Eina\";font-display:swap;src:local(\"Eina Bold\"), url(\"/assets/fonts/eina/eina-01-bold.woff2\") format(\"woff2\"), url(\"/assets/fonts/eina/eina-01-bold.woff\") format(\"woff\"), url(\"/assets/fonts/eina/eina-01-bold.ttf\") format(\"ttf\"), url(\"/assets/fonts/eina/eina-01-bold.eot?#iefix\") format(\"eot\");font-weight:700;unicode-range:U+000-5FF}@font-face{font-family:\"Eina\";font-display:swap;src:local(\"Eina Semibold\"), url(\"/assets/fonts/eina/eina-01-semibold.woff2\") format(\"woff2\"), url(\"/assets/fonts/eina/eina-01-semibold.woff\") format(\"woff\"), url(\"/assets/fonts/eina/eina-01-semibold.ttf\") format(\"ttf\"), url(\"/assets/fonts/eina/eina-01-semibold.eot?#iefix\") format(\"eot\");font-weight:600;unicode-range:U+000-5FF}@font-face{font-family:\"Eina\";font-display:swap;src:local(\"Eina Regular\"), url(\"/assets/fonts/eina/eina-01-regular.woff2\") format(\"woff2\"), url(\"/assets/fonts/eina/eina-01-regular.woff\") format(\"woff\"), url(\"/assets/fonts/eina/eina-01-regular.ttf\") format(\"ttf\"), url(\"/assets/fonts/eina/eina-01-regular.eot?#iefix\") format(\"eot\");font-weight:400;unicode-range:U+000-5FF}@font-face{font-family:\"Inter\";font-display:swap;font-style:normal;font-weight:400;unicode-range:U+000-5FF;src:local(\"Inter Regular\"), url(\"/assets/fonts/inter/Inter-variable-ASCII-subset.woff2\") format(\"woff2-variations\"), url(\"/assets/fonts/inter/Inter-Regular.woff2\") format(\"woff2\"), url(\"/assets/fonts/inter/Inter-Regular.woff\") format(\"woff\")}@font-face{font-family:\"Inter\";font-display:swap;font-style:italic;font-weight:400;unicode-range:U+000-5FF;src:local(\"Inter Italic\"), url(\"/assets/fonts/inter/Inter-variable-ASCII-subset.woff2\") format(\"woff2-variations\"), url(\"/assets/fonts/inter/Inter-Italic.woff2\") format(\"woff2\"), url(\"/assets/fonts/inter/Inter-Italic.woff\") format(\"woff\")}@font-face{font-family:\"Inter\";font-display:swap;font-style:normal;font-weight:500;unicode-range:U+000-5FF;src:local(\"Inter Medium\"), url(\"/assets/fonts/inter/Inter-variable-ASCII-subset.woff2\") format(\"woff2-variations\"), url(\"/assets/fonts/inter/Inter-Medium.woff2\") format(\"woff2\"), url(\"/assets/fonts/inter/Inter-Medium.woff\") format(\"woff\")}@font-face{font-family:\"Inter\";font-display:swap;font-style:italic;font-weight:500;unicode-range:U+000-5FF;src:local(\"Inter Medium Italic\"), url(\"/assets/fonts/inter/Inter-variable-ASCII-subset.woff2\") format(\"woff2-variations\"), url(\"/assets/fonts/inter/Inter-MediumItalic.woff2\") format(\"woff2\"), url(\"/assets/fonts/inter/Inter-MediumItalic.woff\") format(\"woff\")}@font-face{font-family:\"Inter\";font-display:swap;font-style:normal;font-weight:600;unicode-range:U+000-5FF;src:local(\"Inter SemiBold\"), url(\"/assets/fonts/inter/Inter-variable-ASCII-subset.woff2\") format(\"woff2-variations\"), url(\"/assets/fonts/inter/Inter-SemiBold.woff2\") format(\"woff2\"), url(\"/assets/fonts/inter/Inter-SemiBold.woff\") format(\"woff\")}@font-face{font-family:\"Inter\";font-display:swap;font-style:italic;font-weight:600;unicode-range:U+000-5FF;src:local(\"Inter SemiBoldItalic\"), url(\"/assets/fonts/inter/Inter-variable-ASCII-subset.woff2\") format(\"woff2-variations\"), url(\"/assets/fonts/inter/Inter-SemiBoldItalic.woff2\") format(\"woff2\"), url(\"/assets/fonts/inter/Inter-SemiBoldItalic.woff\") format(\"woff\")}@font-face{font-family:\"Inter\";font-display:swap;font-style:normal;font-weight:700;unicode-range:U+000-5FF;src:local(\"Inter Bold\"), url(\"/assets/fonts/inter/Inter-variable-ASCII-subset.woff2\") format(\"woff2-variations\"), url(\"/assets/fonts/inter/Inter-Bold.woff2\") format(\"woff2\"), url(\"/assets/fonts/inter/Inter-Bold.woff\") format(\"woff\")}@font-face{font-family:\"Inter\";font-display:swap;font-style:italic;font-weight:700;unicode-range:U+000-5FF;src:local(\"Inter BoldItalic\"), url(\"/assets/fonts/inter/Inter-variable-ASCII-subset.woff2\") format(\"woff2-variations\"), url(\"/assets/fonts/inter/Inter-BoldItalic.woff2\") format(\"woff2\"), url(\"/assets/fonts/inter/Inter-BoldItalic.woff\") format(\"woff\")}@font-face{font-family:\"Inter\";font-display:swap;font-style:normal;font-weight:800;unicode-range:U+000-5FF;src:local(\"Inter ExtraBold\"), url(\"/assets/fonts/inter/Inter-variable-ASCII-subset.woff2\") format(\"woff2-variations\"), url(\"/assets/fonts/inter/Inter-ExtraBold.woff2\") format(\"woff2\"), url(\"/assets/fonts/inter/Inter-ExtraBold.woff\") format(\"woff\")}@font-face{font-family:\"Inter\";font-display:swap;font-style:italic;font-weight:800;unicode-range:U+000-5FF;src:local(\"Inter ExtraBoldItalic\"), url(\"/assets/fonts/inter/Inter-variable-ASCII-subset.woff2\") format(\"woff2-variations\"), url(\"/assets/fonts/inter/Inter-ExtraBoldItalic.woff2\") format(\"woff2\"), url(\"/assets/fonts/inter/Inter-ExtraBoldItalic.woff\") format(\"woff\")}@font-face{font-family:\"Inter\";font-display:swap;font-style:normal;font-weight:900;unicode-range:U+000-5FF;src:local(\"Inter Black\"), url(\"/assets/fonts/inter/Inter-variable-ASCII-subset.woff2\") format(\"woff2-variations\"), url(\"/assets/fonts/inter/Inter-Black.woff2\") format(\"woff2\"), url(\"/assets/fonts/inter/Inter-Black.woff\") format(\"woff\")}@font-face{font-family:\"Inter\";font-display:swap;font-style:italic;font-weight:900;unicode-range:U+000-5FF;src:local(\"Inter BlackItalic\"), url(\"/assets/fonts/inter/Inter-variable-ASCII-subset.woff2\") format(\"woff2-variations\"), url(\"/assets/fonts/inter/Inter-BlackItalic.woff2\") format(\"woff2\"), url(\"/assets/fonts/inter/Inter-BlackItalic.woff\") format(\"woff\")}@font-face{font-family:\"FreightTextPro\";font-display:swap;font-weight:400;unicode-range:U+000-5FF;src:url(\"/assets/fonts//29D26A_0_0.eot\");src:url(\"/assets/fonts//29D26A_0_0.eot?#iefix\") format(\"embedded-opentype\"), url(\"/assets/fonts//29D26A_0_0.woff\") format(\"woff\"), url(\"/assets/fonts/29D26A_0_0.ttf\") format(\"truetype\")}@font-face{font-family:\"FreightTextPro\";font-display:swap;font-weight:500;unicode-range:U+000-5FF;src:url(\"/assets/fonts/29D26A_1_0.eot\");src:url(\"/assets/fonts/29D26A_1_0.eot?#iefix\") format(\"embedded-opentype\"), url(\"/assets/fonts/29D26A_1_0.woff\") format(\"woff\"), url(\"/assets/fonts/29D26A_1_0.ttf\") format(\"truetype\")}:root{--f-family-display:Eina, \"Helvetica Neue\", Helvetica, sans-serif;--f-family-text:Inter, \"Inter UI\", Helvetica, Arial, sans-serif;--f-family-system:apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;--f-family-monospace:\"SF Mono\", \"Roboto Mono\", Menlo, monospace;--f-family-serif:\"Adobe Caslon\", Georgia, Times, \"Times New Roman\", serif;--f-weight-light:300;--f-weight-regular:400;--f-weight-medium:500;--f-weight-semibold:600;--f-weight-bold:700;--f-size-0:0.625rem;--f-size-1:0.6875rem;--f-size-2:0.75rem;--f-size-3:0.8125rem;--f-size-4:0.875rem;--f-size-5:1rem;--f-size-6:1.25rem;--f-size-7:1.5rem;--f-size-8:1.75rem;--f-size-9:2rem;--f-size-10:2.5rem;--f-size-11:3rem;--f-size-12:3.5rem;--f-size-13:4rem;--f-size-14:4.5rem;--f-size-15:5rem;--f-size-16:5.5rem;--f-size-17:6rem;--f-leading-solid:1;--f-leading-title:1.12;--f-leading-body:1.6;--f-leading-prose:1.8;--f-tracking-dense:-0.04em;--f-tracking-tight:-0.02em;--f-tracking-solid:0em;--f-tracking-wide:0.04em;--f-tracking-super:0.08em;--f-tracking-extra:0.16em;--space-0:0.25rem;--space-1:0.5rem;--space-2:0.75rem;--space-3:1rem;--space-4:1.25rem;--space-5:1.5rem;--space-6:2rem;--space-7:2.5rem;--space-8:3rem;--space-9:4rem;--space-10:5rem;--space-11:6rem;--space-12:8rem;--space-13:10rem;--space-14:12rem;--space-15:14rem;--space-16:16rem;--breakpoint-0:640px;--breakpoint-1:768px;--breakpoint-2:1024px;--breakpoint-3:1280px;--radius-0:0px;--radius-1:6px;--radius-2:8px;--radius-3:16px;--radius-4:1000px;--border-regular:1px solid;--border-dashed:1px dashed;--border-heavy:2px solid;--elevation-0:none;--elevation-1:0px 1px 2px rgba(2, 8, 20, 0.1), 0px 0px 1px rgba(2, 8, 20, 0.08);--elevation-2:0px 2px 4px rgba(2, 8, 20, 0.1), 0px 1px 2px rgba(2, 8, 20, 0.08);--elevation-3:0px 4px 8px rgba(2, 8, 20, 0.08), 0px 2px 4px rgba(2, 8, 20, 0.08);--elevation-4:0px 8px 16px rgba(2, 8, 20, 0.08), 0px 4px 8px rgba(2, 8, 20, 0.08);--elevation-5:0px 16px 32px rgba(2, 8, 20, 0.08), 0px 8px 16px rgba(2, 8, 20, 0.08);--elevation-6:0px 32px 64px rgba(2, 8, 20, 0.08), 0px 16px 32px rgba(2, 8, 20, 0.1);--duration-instantly:0s;--duration-quickly:0.15s;--c-black:#000000;--c-white:#ffffff;--c-blue-0:#f0f6ff;--c-blue-10:#e3edff;--c-blue-20:#cddfff;--c-blue-30:#b2ceff;--c-blue-40:#97bdff;--c-blue-50:#7cabff;--c-blue-60:#639bff;--c-blue-70:#4d8dff;--c-blue-80:#3880ff;--c-blue-90:#1b6dff;--c-blue-100:#0054e9;--c-gray-0:#f3f3f3;--c-gray-10:#e4e4e4;--c-gray-20:#c8c8c8;--c-gray-30:#aeaeae;--c-gray-40:#959595;--c-gray-50:#818181;--c-gray-60:#6d6d6d;--c-gray-70:#5f5f5f;--c-gray-80:#474747;--c-gray-90:#2f2f2f;--c-gray-100:#141414;--c-carbon-0:#eef1f3;--c-carbon-10:#d7dde2;--c-carbon-20:#b4bcc6;--c-carbon-30:#98a2ad;--c-carbon-40:#7d8894;--c-carbon-50:#677483;--c-carbon-60:#556170;--c-carbon-70:#434f5e;--c-carbon-80:#35404e;--c-carbon-90:#222d3a;--c-carbon-100:#03060b;--c-indigo-0:#fbfbfd;--c-indigo-10:#f6f8fb;--c-indigo-20:#e9edf3;--c-indigo-30:#dee3ea;--c-indigo-40:#ced6e0;--c-indigo-50:#b2becd;--c-indigo-60:#92a0b3;--c-indigo-70:#73849a;--c-indigo-80:#445b78;--c-indigo-90:#2d4665;--c-indigo-100:#001a3a;--c-green-0:#effff3;--c-green-10:#e7ffee;--c-green-20:#d0ffdd;--c-green-30:#b8ffcb;--c-green-40:#97ffb3;--c-green-50:#71f895;--c-green-60:#4ef27a;--c-green-70:#31e962;--c-green-80:#18dd4c;--c-green-90:#00d338;--c-green-100:#00b831;--c-lime-0:#f8fff0;--c-lime-10:#f2ffe1;--c-lime-20:#eeffd8;--c-lime-30:#e5ffc3;--c-lime-40:#d8ffa7;--c-lime-50:#c8ff83;--c-lime-60:#b7f964;--c-lime-70:#a7f544;--c-lime-80:#97ec2d;--c-lime-90:#87e017;--c-lime-100:#75d100;--c-lavender-0:#f6f8ff;--c-lavender-10:#e5ebff;--c-lavender-20:#ced9ff;--c-lavender-30:#b6c6ff;--c-lavender-40:#9fb5ff;--c-lavender-50:#8aa4ff;--c-lavender-60:#7493ff;--c-lavender-70:#597eff;--c-lavender-80:#3c67ff;--c-lavender-90:#194bfd;--c-lavender-100:#0033e8;--c-purple-0:#f4f4ff;--c-purple-10:#e9eaff;--c-purple-20:#d0d2ff;--c-purple-30:#b6b9f9;--c-purple-40:#9a99fc;--c-purple-50:#8482fb;--c-purple-60:#786df9;--c-purple-70:#6e5afd;--c-purple-80:#6030ff;--c-purple-90:#4712fb;--c-purple-100:#3400e5;--c-pink-0:#fff2fb;--c-pink-10:#ffe3f6;--c-pink-20:#ffd4f1;--c-pink-30:#ffc7ec;--c-pink-40:#ffb6e8;--c-pink-50:#ff9cdf;--c-pink-60:#fc82d5;--c-pink-70:#f567c8;--c-pink-80:#ef4cbb;--c-pink-90:#f02fb2;--c-pink-100:#e410a1;--c-red-0:#fff2f2;--c-red-10:#ffdddd;--c-red-20:#ffc8c7;--c-red-30:#ffb6b5;--c-red-40:#ff9e9c;--c-red-50:#ff8a88;--c-red-60:#ff7370;--c-red-70:#ff605b;--c-red-80:#ff4747;--c-red-90:#ff201a;--c-red-100:#e70700;--c-orange-0:#fff5f0;--c-orange-10:#ffede5;--c-orange-20:#ffdfd1;--c-orange-30:#ffd0bc;--c-orange-40:#ffc0a5;--c-orange-50:#ffaf8c;--c-orange-60:#ff9b70;--c-orange-70:#ff8753;--c-orange-80:#ff7336;--c-orange-90:#ff5b13;--c-orange-100:#eb4700;--c-yellow-0:#fffbef;--c-yellow-10:#fff8e3;--c-yellow-20:#fff6d8;--c-yellow-30:#fff3c9;--c-yellow-40:#ffedad;--c-yellow-50:#ffe78f;--c-yellow-60:#ffe072;--c-yellow-70:#ffd84d;--c-yellow-80:#ffd130;--c-yellow-90:#ffc805;--c-yellow-100:#f5bf00;--c-aqua-0:#f0fff9;--c-aqua-10:#e5fff6;--c-aqua-20:#d5ffef;--c-aqua-30:#c0ffe8;--c-aqua-40:#aaffe0;--c-aqua-50:#90fbd4;--c-aqua-60:#70f6c5;--c-aqua-70:#4deeb2;--c-aqua-80:#32e2a1;--c-aqua-90:#00db8a;--c-aqua-100:#00cc80;--c-teal-0:#eefeff;--c-teal-10:#dffdff;--c-teal-20:#d0fdff;--c-teal-30:#bbfcff;--c-teal-40:#a2fcff;--c-teal-50:#8bfbff;--c-teal-60:#73f6fb;--c-teal-70:#55ecf2;--c-teal-80:#35e2e9;--c-teal-90:#1bd2d9;--c-teal-100:#00b9c0;--c-cyan-0:#f3faff;--c-cyan-10:#e8f5ff;--c-cyan-20:#d3ecff;--c-cyan-30:#bfe4ff;--c-cyan-40:#a7daff;--c-cyan-50:#8dcfff;--c-cyan-60:#77c6ff;--c-cyan-70:#62bdff;--c-cyan-80:#46b1ff;--c-cyan-90:#24a3ff;--c-cyan-100:#0091fa}:root{--c-ionic-brand:var(--c-blue-80);--f-size-root:16px;--z-subnav:1000;--z-header-dropdown:1005}*{box-sizing:border-box}html,body{padding:0;margin:0;width:100%}body{-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;font-family:var(--f-family-text);font-size:var(--f-size-root);line-height:var(--f-leading-body);letter-spacing:var(--f-tracking-tight);color:var(--c-carbon-90);position:relative;overflow-x:hidden}body.no-scroll{overflow:hidden}a{text-decoration:none;color:var(--c-ionic-brand)}stencil-route-link a{color:inherit}ul{margin:0;padding:0}li{list-style:none}hr{border:none;height:1px;background:var(--c-indigo-30);margin:var(--space-6) 0}.ui-blockquote{background:#f2f5f8;border-radius:4px;position:relative;padding:64px 80px 68px 111px;color:#5e749a;font-family:\"Adobe Caslon\", Georgia, Times, \"Times New Roman\", serif;font-style:italic;border:none;margin:77px -16px 54px}.ui-blockquote:before{position:absolute;top:-6px;left:54px;font-size:180px;content:\"“\";color:#e3e7ec}.ui-blockquote>*{position:relative;z-index:1}.ui-breadcrumbs{display:flex;align-items:center}.ui-breadcrumbs li{display:inline-block}.ui-breadcrumbs li:last-child a{color:#010610}.ui-breadcrumbs li+li::before{content:\"/\";display:inline-block;font-size:16px;font-weight:400;color:rgba(65, 77, 92, 0.2);margin:0 6px}.ui-breadcrumbs a{color:var(--c-indigo-60)}.ui-breakpoint{display:none}@media (min-width: 1216px){.ui-breakpoint-xl{display:var(--display)}}@media (min-width: 1024px) and (max-width: 1215px){.ui-breakpoint-lg{display:var(--display)}}@media (min-width: 768px) and (max-width: 1023px){.ui-breakpoint-md{display:var(--display)}}@media (min-width: 640px) and (max-width: 767px){.ui-breakpoint-sm{display:var(--display)}}@media (max-width: 639px){.ui-breakpoint-xs{display:var(--display)}}.ui-button{cursor:pointer;display:inline-block;font-weight:500;border-radius:8px;line-height:1.4em;padding:16px 20px;transition:all 0.3s ease;font-size:16px;border:0px solid rgba(0, 0, 0, 0);color:#fff;background:var(--button-background, var(--c-ionic-brand));letter-spacing:0.01em}.ui-card--embelish{background-color:#fff;border-radius:6px;box-shadow:var(--elevation-4);border-radius:14px}.ui-card--embelish .ui-card-content{padding:32px}.ui-card[href]{cursor:pointer}.ui-container{padding-right:8px;padding-left:8px;margin-right:auto;margin-left:auto}@media (min-width: 768px){.ui-container{width:768px;padding-right:16px;padding-left:16px}}@media (min-width: 1024px){.ui-container{width:1024px}}@media (min-width: 1216px){.ui-container{width:1152px}}.ui-grid{display:grid;column-gap:56px;row-gap:96px;grid-template-columns:repeat(12, minmax(0, 1fr))}@media (max-width: 640px){.ui-grid{column-gap:0;row-gap:48px}}@media (max-width: 768px){.ui-grid{column-gap:0;row-gap:24px}}.ui-grid .ui-col-1{grid-column-end:span 1}.ui-grid .ui-col-2{grid-column-end:span 2}.ui-grid .ui-col-3{grid-column-end:span 3}.ui-grid .ui-col-4{grid-column-end:span 4}.ui-grid .ui-col-5{grid-column-end:span 5}.ui-grid .ui-col-6{grid-column-end:span 6}.ui-grid .ui-col-7{grid-column-end:span 7}.ui-grid .ui-col-8{grid-column-end:span 8}.ui-grid .ui-col-9{grid-column-end:span 9}.ui-grid .ui-col-10{grid-column-end:span 10}.ui-grid .ui-col-11{grid-column-end:span 11}.ui-grid .ui-col-12{grid-column-end:span 12}@media (min-width: 640px){.ui-grid .ui-col-xs-1{grid-column-end:span 1}.ui-grid .ui-col-xs-2{grid-column-end:span 2}.ui-grid .ui-col-xs-3{grid-column-end:span 3}.ui-grid .ui-col-xs-4{grid-column-end:span 4}.ui-grid .ui-col-xs-5{grid-column-end:span 5}.ui-grid .ui-col-xs-6{grid-column-end:span 6}.ui-grid .ui-col-xs-7{grid-column-end:span 7}.ui-grid .ui-col-xs-8{grid-column-end:span 8}.ui-grid .ui-col-xs-9{grid-column-end:span 9}.ui-grid .ui-col-xs-10{grid-column-end:span 10}.ui-grid .ui-col-xs-11{grid-column-end:span 11}.ui-grid .ui-col-xs-12{grid-column-end:span 12}}@media (min-width: 768px){.ui-grid .ui-col-sm-1{grid-column-end:span 1}.ui-grid .ui-col-sm-2{grid-column-end:span 2}.ui-grid .ui-col-sm-3{grid-column-end:span 3}.ui-grid .ui-col-sm-4{grid-column-end:span 4}.ui-grid .ui-col-sm-5{grid-column-end:span 5}.ui-grid .ui-col-sm-6{grid-column-end:span 6}.ui-grid .ui-col-sm-7{grid-column-end:span 7}.ui-grid .ui-col-sm-8{grid-column-end:span 8}.ui-grid .ui-col-sm-9{grid-column-end:span 9}.ui-grid .ui-col-sm-10{grid-column-end:span 10}.ui-grid .ui-col-sm-11{grid-column-end:span 11}.ui-grid .ui-col-sm-12{grid-column-end:span 12}}@media (min-width: 1024px){.ui-grid .ui-col-md-1{grid-column-end:span 1}.ui-grid .ui-col-md-2{grid-column-end:span 2}.ui-grid .ui-col-md-3{grid-column-end:span 3}.ui-grid .ui-col-md-4{grid-column-end:span 4}.ui-grid .ui-col-md-5{grid-column-end:span 5}.ui-grid .ui-col-md-6{grid-column-end:span 6}.ui-grid .ui-col-md-7{grid-column-end:span 7}.ui-grid .ui-col-md-8{grid-column-end:span 8}.ui-grid .ui-col-md-9{grid-column-end:span 9}.ui-grid .ui-col-md-10{grid-column-end:span 10}.ui-grid .ui-col-md-11{grid-column-end:span 11}.ui-grid .ui-col-md-12{grid-column-end:span 12}}@media (min-width: 1216px){.ui-grid .ui-col-lg-1{grid-column-end:span 1}.ui-grid .ui-col-lg-2{grid-column-end:span 2}.ui-grid .ui-col-lg-3{grid-column-end:span 3}.ui-grid .ui-col-lg-4{grid-column-end:span 4}.ui-grid .ui-col-lg-5{grid-column-end:span 5}.ui-grid .ui-col-lg-6{grid-column-end:span 6}.ui-grid .ui-col-lg-7{grid-column-end:span 7}.ui-grid .ui-col-lg-8{grid-column-end:span 8}.ui-grid .ui-col-lg-9{grid-column-end:span 9}.ui-grid .ui-col-lg-10{grid-column-end:span 10}.ui-grid .ui-col-lg-11{grid-column-end:span 11}.ui-grid .ui-col-lg-12{grid-column-end:span 12}}:root{--h1-color:var(--c-carbon-90);--h2-color:var(--c-carbon-90);--h3-color:var(--c-carbon-90);--h4-color:var(--c-carbon-90);--h5-color:var(--c-carbon-90);--h6-color:var(--c-indigo-70);--h1-size:var(--f-size-13);--h2-size:var(--f-size-11);--h3-size:var(--f-size-8);--h4-size:var(--f-size-6);--h5-size:var(--f-size-5);--h6-size:var(--f-size-2);--h1-leading:var(--f-leading-solid);--h2-leading:var(--f-leading-title);--h3-leading:var(--f-leading-title);--h4-leading:var(--f-leading-title);--h5-leading:var(--f-leading-title);--h6-leading:var(--f-leading-title);--h1-tracking:var(--f-tracking-dense);--h2-tracking:var(--f-tracking-dense);--h3-tracking:var(--f-tracking-tight);--h4-tracking:var(--f-tracking-tight);--h5-tracking:var(--f-tracking-tight);--h6-tracking:var(--f-tracking-extra);--h1-font:var(--f-family-display);--h2-font:var(--f-family-display);--h3-font:var(--f-family-display);--h4-font:var(--f-family-text);--h5-font:var(--f-family-text);--h6-font:var(--f-family-monospace);--h1-weight:var(--f-weight-bold);--h2-weight:var(--f-weight-bold);--h3-weight:var(--f-weight-semibold);--h4-weight:var(--f-weight-medium);--h5-weight:var(--f-weight-semibold);--h6-weight:var(--f-weight-bold);--h1-transform:none;--h2-transform:none;--h3-transform:none;--h4-transform:none;--h5-transform:none;--h6-transform:uppercase;--poster1-color:var(--c-carbon-90);--poster2-color:var(--c-carbon-90);--poster3-color:var(--c-carbon-90);--poster4-color:var(--c-carbon-90);--poster1-size:var(--f-size-17);--poster2-size:var(--f-size-16);--poster3-size:var(--f-size-15);--poster4-size:var(--f-size-14);--poster1-leading:var(--f-leading-solid);--poster2-leading:var(--f-leading-solid);--poster3-leading:var(--f-leading-solid);--poster4-leading:var(--f-leading-solid);--poster1-tracking:var(--f-tracking-dense);--poster2-tracking:var(--f-tracking-dense);--poster3-tracking:var(--f-tracking-dense);--poster4-tracking:var(--f-tracking-dense);--poster1-font:var(--f-family-display);--poster2-font:var(--f-family-display);--poster3-font:var(--f-family-display);--poster4-font:var(--f-family-text);--poster1-weight:var(--f-weight-bold);--poster2-weight:var(--f-weight-semibold);--poster3-weight:var(--f-weight-bold);--poster4-weight:var(--f-weight-semibold);--poster1-transform:none;--poster2-transform:none;--poster3-transform:none;--poster4-transform:none}.ui-heading{margin:0}.ui-theme--editorial .ui-heading,.ui-heading.ui-theme--editorial{--h6-color:var(--c-carbon-90);--h1-size:var(--f-size-10);--h2-size:var(--f-size-9);--h3-size:var(--f-size-7);--h6-size:var(--f-size-0);--h1-leading:var(--f-leading-title);--h1-font:var(--f-family-text);--h2-font:var(--f-family-text);--h3-font:var(--f-family-text);--h6-font:var(--f-family-text);--h1-tracking:var(--f-tracking-tight);--h2-tracking:var(--f-tracking-tight);--h3-tracking:var(--f-tracking-solid);--h4-tracking:var(--f-tracking-solid);--h6-tracking:var(--f-tracking-super);--h1-leading:var(--f-leading-title);--h1-weight:var(--f-weight-semibold);--h2-weight:var(--f-weight-semibold);--h4-weight:var(--f-weight-semibold);--h5-weight:var(--f-weight-medium);--h6-weight:var(--f-weight-medium)}.ui-heading-1{font-family:var(--h1-font);font-size:var(--h1-size);line-height:var(--h1-leading);letter-spacing:var(--h1-tracking);font-weight:var(--h1-weight);color:var(--h1-color);text-transform:var(--h1-transform)}.ui-heading-2{font-family:var(--h2-font);font-size:var(--h2-size);line-height:var(--h2-leading);letter-spacing:var(--h2-tracking);font-weight:var(--h2-weight);color:var(--h2-color);text-transform:var(--h2-transform)}.ui-heading-3{font-family:var(--h3-font);font-size:var(--h3-size);line-height:var(--h3-leading);letter-spacing:var(--h3-tracking);font-weight:var(--h3-weight);color:var(--h3-color);text-transform:var(--h3-transform)}.ui-heading-4{font-family:var(--h4-font);font-size:var(--h4-size);line-height:var(--h4-leading);letter-spacing:var(--h4-tracking);font-weight:var(--h4-weight);color:var(--h4-color);text-transform:var(--h4-transform)}.ui-heading-5{font-family:var(--h5-font);font-size:var(--h5-size);line-height:var(--h5-leading);letter-spacing:var(--h5-tracking);font-weight:var(--h5-weight);color:var(--h5-color);text-transform:var(--h5-transform)}.ui-heading-6{font-family:var(--h6-font);font-size:var(--h6-size);line-height:var(--h6-leading);letter-spacing:var(--h6-tracking);font-weight:var(--h6-weight);color:var(--h6-color);text-transform:var(--h6-transform)}.ui-poster-1{font-family:var(--poster1-font);font-size:var(--poster1-size);line-height:var(--poster1-leading);letter-spacing:var(--poster1-tracking);font-weight:var(--poster1-weight);color:var(--poster1-color);text-transform:var(--poster1-transform)}.ui-poster-2{font-family:var(--poster2-font);font-size:var(--poster2-size);line-height:var(--poster2-leading);letter-spacing:var(--poster2-tracking);font-weight:var(--poster2-weight);color:var(--poster2-color);text-transform:var(--poster2-transform)}.ui-poster-3{font-family:var(--poster3-font);font-size:var(--poster3-size);line-height:var(--poster3-leading);letter-spacing:var(--poster3-tracking);font-weight:var(--poster3-weight);color:var(--poster3-color);text-transform:var(--poster3-transform)}.ui-poster-4{font-family:var(--poster4-font);font-size:var(--poster4-size);line-height:var(--poster4-leading);letter-spacing:var(--poster4-tracking);font-weight:var(--poster4-weight);color:var(--poster4-color);text-transform:var(--poster4-transform)}:root{--p1-color:var(--c-indigo-90);--p2-color:var(--c-indigo-90);--p3-color:var(--c-indigo-90);--p4-color:var(--c-indigo-90);--p5-color:var(--c-indigo-90);--p6-color:var(--c-indigo-90);--p1-size:var(--f-size-7);--p2-size:var(--f-size-6);--p3-size:var(--f-size-5);--p4-size:var(--f-size-4);--p5-size:var(--f-size-3);--p6-size:var(--f-size-2);--p1-leading:var(--f-leading-body);--p2-leading:var(--f-leading-body);--p3-leading:var(--f-leading-body);--p4-leading:var(--f-leading-body);--p5-leading:var(--f-leading-body);--p6-leading:var(--f-leading-body);--p1-tracking:var(--f-tracking-tight);--p2-tracking:var(--f-tracking-tight);--p3-tracking:var(--f-tracking-tight);--p4-tracking:var(--f-tracking-solid);--p5-tracking:var(--f-tracking-solid);--p6-tracking:var(--f-tracking-solid);--p1-weight:var(--f-weight-regular);--p2-weight:var(--f-weight-regular);--p3-weight:var(--f-weight-regular);--p4-weight:var(--f-weight-regular);--p5-weight:var(--f-weight-regular);--p6-weight:var(--f-weight-regular);--p1-transform:none;--p2-transform:none;--p3-transform:none;--p4-transform:none;--p5-transform:none;--p6-transform:none}.ui-paragraph{margin-bottom:1.6em}.ui-paragraph--base{--p1-leading:var(--f-leading-body);--p2-leading:var(--f-leading-body);--p3-leading:var(--f-leading-body);--p4-leading:var(--f-leading-body);--p5-leading:var(--f-leading-body);--p6-leading:var(--f-leading-body)}.ui-paragraph--prose{--p1-leading:var(--f-leading-prose);--p2-leading:var(--f-leading-prose);--p3-leading:var(--f-leading-prose);--p4-leading:var(--f-leading-prose);--p5-leading:var(--f-leading-prose);--p6-leading:var(--f-leading-prose)}.ui-paragraph--none{--p1-leading:100%;--p2-leading:100%;--p3-leading:100%;--p4-leading:100%;--p5-leading:100%;--p6-leading:100%}.ui-paragraph-1{font-family:var(--p1-font);font-size:var(--p1-size);line-height:var(--p1-leading);letter-spacing:var(--p1-tracking);font-weight:var(--p1-weight);color:var(--p1-color);text-transform:var(--p1-transform)}.ui-paragraph-2{font-family:var(--p2-font);font-size:var(--p2-size);line-height:var(--p2-leading);letter-spacing:var(--p2-tracking);font-weight:var(--p2-weight);color:var(--p2-color);text-transform:var(--p2-transform)}.ui-paragraph-3{font-family:var(--p3-font);font-size:var(--p3-size);line-height:var(--p3-leading);letter-spacing:var(--p3-tracking);font-weight:var(--p3-weight);color:var(--p3-color);text-transform:var(--p3-transform)}.ui-paragraph-4{font-family:var(--p4-font);font-size:var(--p4-size);line-height:var(--p4-leading);letter-spacing:var(--p4-tracking);font-weight:var(--p4-weight);color:var(--p4-color);text-transform:var(--p4-transform)}.ui-paragraph-5{font-family:var(--p5-font);font-size:var(--p5-size);line-height:var(--p5-leading);letter-spacing:var(--p5-tracking);font-weight:var(--p5-weight);color:var(--p5-color);text-transform:var(--p5-transform)}.ui-paragraph-6{font-family:var(--p6-font);font-size:var(--p6-size);line-height:var(--p6-leading);letter-spacing:var(--p6-tracking);font-weight:var(--p6-weight);color:var(--p6-color);text-transform:var(--p6-transform)}.ui-skeleton{display:block;width:100%;height:inherit;margin-top:4px;margin-bottom:4px;background:#EEEEEE;line-height:10px;user-select:none;pointer-events:none}.ui-skeleton--animated{position:relative;background:linear-gradient(to right, rgba(0, 0, 0, 0.065) 8%, rgba(0, 0, 0, 0.135) 18%, rgba(0, 0, 0, 0.065) 33%);background-size:800px 104px;animation-duration:1s;animation-fill-mode:forwards;animation-iteration-count:infinite;animation-name:shimmer;animation-timing-function:linear}@keyframes shimmer{0%{background-position:-468px 0}100%{background-position:468px 0}}.ui-skeleton span{display:inline-block}.prismic-raw-html{width:100%;overflow:auto}.prismic-raw-html table{overflow-x:auto;margin-right:-15px;padding-right:15px;box-sizing:content-box;font-size:13px;border-collapse:collapse;border-spacing:0;margin-bottom:48px}.prismic-raw-html table td,.prismic-raw-html table th{text-align:left;min-width:120px;padding-right:12px;padding-top:12px;padding-bottom:12px}.prismic-raw-html table td:last-child,.prismic-raw-html table th:last-child{padding-right:0}.prismic-raw-html table th,.prismic-raw-html table b{font-weight:600}.prismic-raw-html table tbody tr td{border-top:1px solid #DEE3EA}.prismic-raw-html table tbody tr:first-child td{border-top:none}.prismic-raw-html table>thead>tr>th{border-bottom:1px solid #E9EDF3;font-weight:600}.prismic-ad{display:block;margin:var(--space-9) 0 var(--space-10)}.prismic-ad a{display:flex;flex-direction:column;justify-content:center;padding:var(--space-6) 368px var(--space-6) var(--space-6);border:var(--border-regular);border-color:var(--c-indigo-30);border-radius:var(--radius-2);overflow:hidden;position:relative;min-height:225px;transition:0.2s box-shadow ease-out}.prismic-ad a .ui-paragraph{margin-bottom:0}.prismic-ad a .prismic-ad__image{position:absolute;right:0;top:0;bottom:0;width:100%;max-width:337px;object-fit:cover;z-index:-1}.prismic-ad a:hover{box-shadow:var(--elevation-3)}.prismic-ad .ui-heading{color:var(--c-indigo-100);margin-bottom:var(--space-2)}@media (max-width: 1023px){.prismic-ad a{padding-right:var(--space-6)}.prismic-ad a .prismic-ad__image{opacity:0.25}}:host{display:block}.demo{margin-bottom:48px}";
 
 class Demo {
   constructor(hostRef) {
@@ -12983,7 +13954,9 @@ class Demo {
         return;
       try {
         const api = await Prismic.getApi(apiURL);
-        const response = await api.getSingle(prismicId);
+        // const response: PrismicDocument = await api.getSingle(prismicId)
+        const response = await api.getByID(prismicId);
+        console.log(response);
         this.data = response.data;
         console.log(response.data);
         // if the page has meta data, set it, otherwise use the default
@@ -12998,13 +13971,13 @@ class Demo {
     };
   }
   async componentWillLoad() {
-    await this.getPage('appflow_homepage');
+    await this.getPage('XGSEmBAAACwAiigU');
   }
   render() {
     const { data } = this;
     if (!data)
       return;
-    return (h("div", { class: "demos" }, h(GridDemo2, null), h(PrismicRichText, { paragraphLevel: 4, richText: data.top }), h("site-platform-bar", { "product-name": "a jalapeno" }), h(ButtonDemo, null), h(HeadingDemo, null), h(ParagraphDemo, null), h(GridDemo, null), h(CardDemo, null), h(MoresResourcesDemo, null)));
+    return (hAsync("div", { class: "demos" }, hAsync(GridDemo2, null), hAsync(PrismicContent, { content: data.body }), hAsync("site-platform-bar", { "product-name": "a jalapeno" }), hAsync(ButtonDemo, null), hAsync(HeadingDemo, null), hAsync(ParagraphDemo, null), hAsync(GridDemo, null), hAsync(CardDemo, null), hAsync(MoresResourcesDemo, null)));
   }
   static get style() { return demoCss; }
   static get cmpMeta() { return {
@@ -13019,15 +13992,15 @@ class Demo {
   }; }
 }
 const GridDemo2 = () => [
-  h(Grid, null, h(Col, { size: 2, style: { background: '#eee' } }, h("img", { src: '...logo.png' })), h(Col, { size: 1, offset: 1, centered: true, style: { background: '#fee' } }, h("nav", null, "...")), h(Col, { size: 3, right: true, style: { background: '#efe' } }, h("nav", null, "..."))),
-  h(Grid, null, h(Col, { size: 10, offset: 1, centered: true, style: { background: '#eef' } }, h(Heading, { level: 1 }, "..."), h(Paragraph, null, "..."), h(Button, null, "...")), h(Col, { size: 12, gutter: false, style: { background: '#ffe' } }, h("img", { src: "...screenshot.png" })))
+  hAsync(Grid, null, hAsync(Col, { size: 2, style: { background: '#eee' } }, hAsync("img", { src: '...logo.png' })), hAsync(Col, { size: 1, offset: 1, centered: true, style: { background: '#fee' } }, hAsync("nav", null, "...")), hAsync(Col, { size: 3, right: true, style: { background: '#efe' } }, hAsync("nav", null, "..."))),
+  hAsync(Grid, null, hAsync(Col, { size: 10, offset: 1, centered: true, style: { background: '#eef' } }, hAsync(Heading, { level: 1 }, "..."), hAsync(Paragraph, null, "..."), hAsync(Button, null, "...")), hAsync(Col, { size: 12, gutter: false, style: { background: '#ffe' } }, hAsync("img", { src: "...screenshot.png" })))
 ];
-const ButtonDemo = () => (h("div", { class: "demo demo-button" }, h(Heading, { level: 3, bordered: true }, "Buttons"), h(Button, null, "Button")));
-const ParagraphDemo = () => (h("div", { class: "demo demo-heading" }, h(Paragraph, { level: 1 }, "La final de la Copa de Campeones de Europa de 1977-78 fue un partido de f\u00FAtbol disputado el 10 de mayo de 1978 entre el Liverpool de Inglaterra y el Club Brujas de B\u00E9lgica en el Estadio Wembley de Londres, lugar definido por el comit\u00E9 ejecutivo de la UEFA el 20 de septiembre de 1977. El partido defini\u00F3 al campe\u00F3n de la Copa de Campeones de Europa 1977-78, principal competici\u00F3n futbol\u00EDstica europea de la temporada. Liverpool lleg\u00F3 a la instancia como el vigente campe\u00F3n y esta era su segunda final en la competencia, mientras que para Club Brujas era la primera vez que llegaba al encuentro definitorio. Anteriormente se enfrentaron en la final de la Copa de la UEFA 1975-76, con victoria por 4-3 del equipo ingl\u00E9s en el global."), h(Paragraph, { level: 2 }, "La final de la Copa de Campeones de Europa de 1977-78 fue un partido de f\u00FAtbol disputado el 10 de mayo de 1978 entre el Liverpool de Inglaterra y el Club Brujas de B\u00E9lgica en el Estadio Wembley de Londres, lugar definido por el comit\u00E9 ejecutivo de la UEFA el 20 de septiembre de 1977. El partido defini\u00F3 al campe\u00F3n de la Copa de Campeones de Europa 1977-78, principal competici\u00F3n futbol\u00EDstica europea de la temporada. Liverpool lleg\u00F3 a la instancia como el vigente campe\u00F3n y esta era su segunda final en la competencia, mientras que para Club Brujas era la primera vez que llegaba al encuentro definitorio. Anteriormente se enfrentaron en la final de la Copa de la UEFA 1975-76, con victoria por 4-3 del equipo ingl\u00E9s en el global."), h(Paragraph, { level: 3 }, "La final de la Copa de Campeones de Europa de 1977-78 fue un partido de f\u00FAtbol disputado el 10 de mayo de 1978 entre el Liverpool de Inglaterra y el Club Brujas de B\u00E9lgica en el Estadio Wembley de Londres, lugar definido por el comit\u00E9 ejecutivo de la UEFA el 20 de septiembre de 1977. El partido defini\u00F3 al campe\u00F3n de la Copa de Campeones de Europa 1977-78, principal competici\u00F3n futbol\u00EDstica europea de la temporada. Liverpool lleg\u00F3 a la instancia como el vigente campe\u00F3n y esta era su segunda final en la competencia, mientras que para Club Brujas era la primera vez que llegaba al encuentro definitorio. Anteriormente se enfrentaron en la final de la Copa de la UEFA 1975-76, con victoria por 4-3 del equipo ingl\u00E9s en el global."), h(Paragraph, { level: 4, leading: 'prose' }, "La final de la Copa de Campeones de Europa de 1977-78 fue un partido de f\u00FAtbol disputado el 10 de mayo de 1978 entre el Liverpool de Inglaterra y el Club Brujas de B\u00E9lgica en el Estadio Wembley de Londres, lugar definido por el comit\u00E9 ejecutivo de la UEFA el 20 de septiembre de 1977. El partido defini\u00F3 al campe\u00F3n de la Copa de Campeones de Europa 1977-78, principal competici\u00F3n futbol\u00EDstica europea de la temporada. Liverpool lleg\u00F3 a la instancia como el vigente campe\u00F3n y esta era su segunda final en la competencia, mientras que para Club Brujas era la primera vez que llegaba al encuentro definitorio. Anteriormente se enfrentaron en la final de la Copa de la UEFA 1975-76, con victoria por 4-3 del equipo ingl\u00E9s en el global."), h(Paragraph, { level: 5, leading: 'prose' }, "La final de la Copa de Campeones de Europa de 1977-78 fue un partido de f\u00FAtbol disputado el 10 de mayo de 1978 entre el Liverpool de Inglaterra y el Club Brujas de B\u00E9lgica en el Estadio Wembley de Londres, lugar definido por el comit\u00E9 ejecutivo de la UEFA el 20 de septiembre de 1977. El partido defini\u00F3 al campe\u00F3n de la Copa de Campeones de Europa 1977-78, principal competici\u00F3n futbol\u00EDstica europea de la temporada. Liverpool lleg\u00F3 a la instancia como el vigente campe\u00F3n y esta era su segunda final en la competencia, mientras que para Club Brujas era la primera vez que llegaba al encuentro definitorio. Anteriormente se enfrentaron en la final de la Copa de la UEFA 1975-76, con victoria por 4-3 del equipo ingl\u00E9s en el global."), h(Paragraph, { level: 6 }, "La final de la Copa de Campeones de Europa de 1977-78 fue un partido de f\u00FAtbol disputado el 10 de mayo de 1978 entre el Liverpool de Inglaterra y el Club Brujas de B\u00E9lgica en el Estadio Wembley de Londres, lugar definido por el comit\u00E9 ejecutivo de la UEFA el 20 de septiembre de 1977. El partido defini\u00F3 al campe\u00F3n de la Copa de Campeones de Europa 1977-78, principal competici\u00F3n futbol\u00EDstica europea de la temporada. Liverpool lleg\u00F3 a la instancia como el vigente campe\u00F3n y esta era su segunda final en la competencia, mientras que para Club Brujas era la primera vez que llegaba al encuentro definitorio. Anteriormente se enfrentaron en la final de la Copa de la UEFA 1975-76, con victoria por 4-3 del equipo ingl\u00E9s en el global.")));
-const HeadingDemo = () => (h("div", { class: "demo demo-heading" }, h(ThemeProvider, { type: 'editorial' }, h(Heading, { level: 1, as: 'h6' }, "Headings"), h(Heading, { level: 3, as: 'h5' }, "Level 1"), h(Heading, { level: 2 }, "Level 2"), h(Heading, { level: 3 }, "Level 3"), h(Heading, { level: 4 }, "Level 4"), h(Heading, { level: 5 }, "Level 5"), h(Heading, { level: 6 }, "Level 6"))));
-const GridDemo = () => (h("div", { class: "demo demo-grid" }, h(Heading, { level: 3, bordered: true }, "Grid"), h(Grid, { class: "demo demo-grid" }, h(Col, { md: 3, sm: 3, xs: 3, cols: 12 }, "Column 1"), h(Col, { md: 3, sm: 3, xs: 3, cols: 12 }, "Column 2"), h(Col, { md: 3, sm: 3, xs: 3, cols: 12 }, "Column 3"), h(Col, { md: 3, sm: 3, xs: 3, cols: 12 }, "Column 4"))));
-const CardDemo = () => (h("div", { class: "demo demo-card" }, h(Heading, { level: 3, bordered: true }, "Cards"), h(Card, null, h(CardContent, null, h("hgroup", null, h(Heading, { level: 3 }, "Card"), h(Paragraph, null, "Unicorn next level roof party health goth, squid brooklyn pabst biodiesel kickstarter man bun small batch kale chips flexitarian. Edison bulb selfies mumblecore ethical, helvetica affogato palo santo. Taxidermy humblebrag hexagon, pabst stumptown PBR&B succulents. Lumbersexual fam shabby chic cardigan lomo quinoa put a bird on it salvia authentic hell of migas aesthetic truffaut gentrify tattooed. Migas direct trade polaroid distillery, ugh brunch farm-to-table fingerstache vaporware readymade occupy aesthetic four dollar toast. Freegan lyft vegan ramps vexillologist taxidermy listicle vinyl blue bottle pug."))))));
-const MoresResourcesDemo = () => (h("div", null, h("more-resources", { resources: [
+const ButtonDemo = () => (hAsync("div", { class: "demo demo-button" }, hAsync(Heading, { level: 3, bordered: true }, "Buttons"), hAsync(Button, null, "Button")));
+const ParagraphDemo = () => (hAsync("div", { class: "demo demo-heading" }, hAsync(Paragraph, { level: 1 }, "La final de la Copa de Campeones de Europa de 1977-78 fue un partido de f\u00FAtbol disputado el 10 de mayo de 1978 entre el Liverpool de Inglaterra y el Club Brujas de B\u00E9lgica en el Estadio Wembley de Londres, lugar definido por el comit\u00E9 ejecutivo de la UEFA el 20 de septiembre de 1977. El partido defini\u00F3 al campe\u00F3n de la Copa de Campeones de Europa 1977-78, principal competici\u00F3n futbol\u00EDstica europea de la temporada. Liverpool lleg\u00F3 a la instancia como el vigente campe\u00F3n y esta era su segunda final en la competencia, mientras que para Club Brujas era la primera vez que llegaba al encuentro definitorio. Anteriormente se enfrentaron en la final de la Copa de la UEFA 1975-76, con victoria por 4-3 del equipo ingl\u00E9s en el global."), hAsync(Paragraph, { level: 2 }, "La final de la Copa de Campeones de Europa de 1977-78 fue un partido de f\u00FAtbol disputado el 10 de mayo de 1978 entre el Liverpool de Inglaterra y el Club Brujas de B\u00E9lgica en el Estadio Wembley de Londres, lugar definido por el comit\u00E9 ejecutivo de la UEFA el 20 de septiembre de 1977. El partido defini\u00F3 al campe\u00F3n de la Copa de Campeones de Europa 1977-78, principal competici\u00F3n futbol\u00EDstica europea de la temporada. Liverpool lleg\u00F3 a la instancia como el vigente campe\u00F3n y esta era su segunda final en la competencia, mientras que para Club Brujas era la primera vez que llegaba al encuentro definitorio. Anteriormente se enfrentaron en la final de la Copa de la UEFA 1975-76, con victoria por 4-3 del equipo ingl\u00E9s en el global."), hAsync(Paragraph, { level: 3 }, "La final de la Copa de Campeones de Europa de 1977-78 fue un partido de f\u00FAtbol disputado el 10 de mayo de 1978 entre el Liverpool de Inglaterra y el Club Brujas de B\u00E9lgica en el Estadio Wembley de Londres, lugar definido por el comit\u00E9 ejecutivo de la UEFA el 20 de septiembre de 1977. El partido defini\u00F3 al campe\u00F3n de la Copa de Campeones de Europa 1977-78, principal competici\u00F3n futbol\u00EDstica europea de la temporada. Liverpool lleg\u00F3 a la instancia como el vigente campe\u00F3n y esta era su segunda final en la competencia, mientras que para Club Brujas era la primera vez que llegaba al encuentro definitorio. Anteriormente se enfrentaron en la final de la Copa de la UEFA 1975-76, con victoria por 4-3 del equipo ingl\u00E9s en el global."), hAsync(Paragraph, { level: 4, leading: 'prose' }, "La final de la Copa de Campeones de Europa de 1977-78 fue un partido de f\u00FAtbol disputado el 10 de mayo de 1978 entre el Liverpool de Inglaterra y el Club Brujas de B\u00E9lgica en el Estadio Wembley de Londres, lugar definido por el comit\u00E9 ejecutivo de la UEFA el 20 de septiembre de 1977. El partido defini\u00F3 al campe\u00F3n de la Copa de Campeones de Europa 1977-78, principal competici\u00F3n futbol\u00EDstica europea de la temporada. Liverpool lleg\u00F3 a la instancia como el vigente campe\u00F3n y esta era su segunda final en la competencia, mientras que para Club Brujas era la primera vez que llegaba al encuentro definitorio. Anteriormente se enfrentaron en la final de la Copa de la UEFA 1975-76, con victoria por 4-3 del equipo ingl\u00E9s en el global."), hAsync(Paragraph, { level: 5, leading: 'prose' }, "La final de la Copa de Campeones de Europa de 1977-78 fue un partido de f\u00FAtbol disputado el 10 de mayo de 1978 entre el Liverpool de Inglaterra y el Club Brujas de B\u00E9lgica en el Estadio Wembley de Londres, lugar definido por el comit\u00E9 ejecutivo de la UEFA el 20 de septiembre de 1977. El partido defini\u00F3 al campe\u00F3n de la Copa de Campeones de Europa 1977-78, principal competici\u00F3n futbol\u00EDstica europea de la temporada. Liverpool lleg\u00F3 a la instancia como el vigente campe\u00F3n y esta era su segunda final en la competencia, mientras que para Club Brujas era la primera vez que llegaba al encuentro definitorio. Anteriormente se enfrentaron en la final de la Copa de la UEFA 1975-76, con victoria por 4-3 del equipo ingl\u00E9s en el global."), hAsync(Paragraph, { level: 6 }, "La final de la Copa de Campeones de Europa de 1977-78 fue un partido de f\u00FAtbol disputado el 10 de mayo de 1978 entre el Liverpool de Inglaterra y el Club Brujas de B\u00E9lgica en el Estadio Wembley de Londres, lugar definido por el comit\u00E9 ejecutivo de la UEFA el 20 de septiembre de 1977. El partido defini\u00F3 al campe\u00F3n de la Copa de Campeones de Europa 1977-78, principal competici\u00F3n futbol\u00EDstica europea de la temporada. Liverpool lleg\u00F3 a la instancia como el vigente campe\u00F3n y esta era su segunda final en la competencia, mientras que para Club Brujas era la primera vez que llegaba al encuentro definitorio. Anteriormente se enfrentaron en la final de la Copa de la UEFA 1975-76, con victoria por 4-3 del equipo ingl\u00E9s en el global.")));
+const HeadingDemo = () => (hAsync("div", { class: "demo demo-heading" }, hAsync(ThemeProvider, { type: 'editorial' }, hAsync(Heading, { level: 1, as: 'h6' }, "Headings"), hAsync(Heading, { level: 3, as: 'h5' }, "Level 1"), hAsync(Heading, { level: 2 }, "Level 2"), hAsync(Heading, { level: 3 }, "Level 3"), hAsync(Heading, { level: 4 }, "Level 4"), hAsync(Heading, { level: 5 }, "Level 5"), hAsync(Heading, { level: 6 }, "Level 6"))));
+const GridDemo = () => (hAsync("div", { class: "demo demo-grid" }, hAsync(Heading, { level: 3, bordered: true }, "Grid"), hAsync(Grid, { class: "demo demo-grid" }, hAsync(Col, { md: 3, sm: 3, xs: 3, cols: 12 }, "Column 1"), hAsync(Col, { md: 3, sm: 3, xs: 3, cols: 12 }, "Column 2"), hAsync(Col, { md: 3, sm: 3, xs: 3, cols: 12 }, "Column 3"), hAsync(Col, { md: 3, sm: 3, xs: 3, cols: 12 }, "Column 4"))));
+const CardDemo = () => (hAsync("div", { class: "demo demo-card" }, hAsync(Heading, { level: 3, bordered: true }, "Cards"), hAsync(Card, null, hAsync(CardContent, null, hAsync("hgroup", null, hAsync(Heading, { level: 3 }, "Card"), hAsync(Paragraph, null, "Unicorn next level roof party health goth, squid brooklyn pabst biodiesel kickstarter man bun small batch kale chips flexitarian. Edison bulb selfies mumblecore ethical, helvetica affogato palo santo. Taxidermy humblebrag hexagon, pabst stumptown PBR&B succulents. Lumbersexual fam shabby chic cardigan lomo quinoa put a bird on it salvia authentic hell of migas aesthetic truffaut gentrify tattooed. Migas direct trade polaroid distillery, ugh brunch farm-to-table fingerstache vaporware readymade occupy aesthetic four dollar toast. Freegan lyft vegan ramps vexillologist taxidermy listicle vinyl blue bottle pug."))))));
+const MoresResourcesDemo = () => (hAsync("div", null, hAsync("more-resources", { resourceData: [
     { uid: 'capacitor-vs-cordova-modern-hybrid-app-development', type: 'article' },
     { uid: 'capacitor-vs-cordova-modern-hybrid-app-development', type: 'article' },
     { uid: 'capacitor-vs-cordova-modern-hybrid-app-development', type: 'article' },
@@ -13086,7 +14059,7 @@ class DisqusComments {
     }
   }
   render() {
-    return (h(Host, null, h("div", { id: "disqus_thread" }), h("noscript", null, "Please enable JavaScript to view the", ' ', h("a", { href: "https://disqus.com/?ref_noscript" }, "comments powered by Disqus."))));
+    return (hAsync(Host, null, hAsync("div", { id: "disqus_thread" }), hAsync("noscript", null, "Please enable JavaScript to view the", ' ', hAsync("a", { href: "https://disqus.com/?ref_noscript" }, "comments powered by Disqus."))));
   }
   static get style() { return disqusCommentsCss; }
   static get cmpMeta() { return {
@@ -13108,7 +14081,7 @@ class DocsRoot {
     registerInstance(this, hostRef);
   }
   render() {
-    return (h("site-root", null, h(ResponsiveContainer, null, h(Router$1.Switch, null, h(Route, { path: "/" }, h("component-list", null)), h(Route, { path: "/demo" }, h("shared-demo", null)), h(Route, { path: match("/overview/:component"), render: ({ component }) => h("component-overview", { component: component }) }), h(Route, { path: match("/detail/:component/:example"), render: ({ component, example }) => h("component-detail", { component: component, example: example }) }), h(Route, { path: "/demo" }, h("shared-demo", null)), h(Route, { path: /^.*/ }, h(Heading, null, "404: Nothing to see here"), h(Paragraph, null, h("a", Object.assign({}, href('/')), "Go Home")), h("img", { src: "https://i.imgflip.com/48lv0y.jpg" }))))));
+    return (hAsync("site-root", null, hAsync(ResponsiveContainer, null, hAsync(Router$1.Switch, null, hAsync(Route, { path: "/" }, hAsync("component-list", null)), hAsync(Route, { path: "/demo" }, hAsync("shared-demo", null)), hAsync(Route, { path: match("/overview/:component"), render: ({ component }) => hAsync("component-overview", { component: component }) }), hAsync(Route, { path: match("/detail/:component/:example"), render: ({ component, example }) => hAsync("component-detail", { component: component, example: example }) }), hAsync(Route, { path: "/demo" }, hAsync("shared-demo", null)), hAsync(Route, { path: /^.*/ }, hAsync(Heading, null, "404: Nothing to see here"), hAsync(Paragraph, null, hAsync("a", Object.assign({}, href('/')), "Go Home")), hAsync("img", { src: "https://i.imgflip.com/48lv0y.jpg" }))))));
   }
   static get style() { return ".ui-container {\n      padding: var(--space-6) 0;\n    }"; }
   static get cmpMeta() { return {
@@ -13128,7 +14101,7 @@ class GetStartedSection {
     registerInstance(this, hostRef);
   }
   render() {
-    return (h("section", null, h(ResponsiveContainer, null, h("div", { class: "heading-group" }, h(Heading, null, "Appflow is an integrated mobile DevOps platform for modern app teams and businesses."), h(Paragraph, { level: 1 }, "Ready to make life easier?")), h("a", { class: "cta button", href: "https://ionicframework.com/signup?source=appflow-site&product=appflow" }, "Get started - it's free to try"))));
+    return (hAsync("section", null, hAsync(ResponsiveContainer, null, hAsync("div", { class: "heading-group" }, hAsync(Heading, null, "Appflow is an integrated mobile DevOps platform for modern app teams and businesses."), hAsync(Paragraph, { level: 1 }, "Ready to make life easier?")), hAsync("a", { class: "cta button", href: "https://ionicframework.com/signup?source=appflow-site&product=appflow" }, "Get started - it's free to try"))));
   }
   static get style() { return getStartedSectionCss; }
   static get cmpMeta() { return {
@@ -13205,7 +14178,7 @@ class HubspotForm {
       }
     };
   }
-  componentDidUnload() {
+  disconnectCallback() {
     var _a, _b;
     (_b = (_a = this.scriptEl) === null || _a === void 0 ? void 0 : _a.parentNode) === null || _b === void 0 ? void 0 : _b.removeChild(this.scriptEl);
   }
@@ -13236,7 +14209,7 @@ class HubspotForm {
     }
   }
   render() {
-    return (h(Host, null, h("div", { class: "hubspot-override" }, h("div", { id: this.getFormElementId() })), this.error ? h("div", { class: "hs-error-msgs" }, this.error) : null));
+    return (hAsync(Host, null, hAsync("div", { class: "hubspot-override" }, hAsync("div", { id: this.getFormElementId() })), this.error ? hAsync("div", { class: "hs-error-msgs" }, this.error) : null));
   }
   get el() { return getElement(this); }
   static get style() { return hubspotFormCss; }
@@ -13340,7 +14313,7 @@ class Icon {
   render() {
     const mode = this.mode || 'md';
     const flipRtl = this.flipRtl || (this.ariaLabel && (this.ariaLabel.indexOf('arrow') > -1 || this.ariaLabel.indexOf('chevron') > -1) && this.flipRtl !== false);
-    return (h(Host, { role: "img", class: Object.assign(Object.assign({ [mode]: true }, createColorClasses(this.color)), { [`icon-${this.size}`]: !!this.size, 'flip-rtl': !!flipRtl && this.el.ownerDocument.dir === 'rtl' }) }, ( h("div", { class: "icon-inner" }))));
+    return (hAsync(Host, { role: "img", class: Object.assign(Object.assign({ [mode]: true }, createColorClasses(this.color)), { [`icon-${this.size}`]: !!this.size, 'flip-rtl': !!flipRtl && this.el.ownerDocument.dir === 'rtl' }) }, ( hAsync("div", { class: "icon-inner" }))));
   }
   static get assetsDirs() { return ["svg"]; }
   get el() { return getElement(this); }
@@ -13391,90 +14364,90 @@ var prismicDom_min = createCommonjsModule(function (module, exports) {
  */var r=/["'&<>]/;e.exports=function(e){var t,n=""+e,o=r.exec(n);if(!o)return n;var i="",u=0,c=0;for(u=o.index;u<n.length;u++){switch(n.charCodeAt(u)){case 34:t="&quot;";break;case 38:t="&amp;";break;case 39:t="&#39;";break;case 60:t="&lt;";break;case 62:t="&gt;";break;default:continue}c!==u&&(i+=n.substring(c,u)),c=u+1,i+=t;}return c!==u?i+n.substring(c,u):i};}])}));
 });
 
-var PrismicDom = /*@__PURE__*/getDefaultExportFromCjs(prismicDom_min);
+var PrismicDOM = /*@__PURE__*/getDefaultExportFromCjs(prismicDom_min);
 
-const apiURL = 'https://ionicframeworkcom.prismic.io/api/v2';
+const apiURL$1 = 'https://ionicframeworkcom.prismic.io/api/v2';
 const cacheLife = 20 * 60 * 1000; // 20 mins
 let ads;
 let lastFetch = null;
 const getLatest = async () => {
-    const api = await Prismic.getApi(apiURL);
-    const response = await api.query(Prismic.Predicates.at('document.type', 'docs_ad'), {});
-    ads = response.results;
-    lastFetch = Date.now();
+  const api = await Prismic.getApi(apiURL$1);
+  const response = await api.query(Prismic.Predicates.at('document.type', 'docs_ad'), {});
+  ads = response.results;
+  lastFetch = Date.now();
 };
 const getAd = async () => {
-    if (lastFetch === null || (Date.now() - lastFetch) > cacheLife) {
-        await getLatest();
-    }
-    return chooseAdByWeight();
+  if (lastFetch === null || (Date.now() - lastFetch) > cacheLife) {
+    await getLatest();
+  }
+  return chooseAdByWeight();
 };
 const chooseAdByWeight = () => {
-    var _a;
-    const weightList = []; // Just Checking...
-    for (const ad of ads) {
-        if (ad['data']) { // Safety
-            if (!ad['data'].ad_weight) {
-                ad['data'].ad_weight = 1;
-            }
-            for (let i = 0; i < ad['data'].ad_weight; i++) {
-                weightList.push(ad);
-            }
-        }
+  var _a;
+  const weightList = []; // Just Checking...
+  for (const ad of ads) {
+    if (ad['data']) { // Safety
+      if (!ad['data'].ad_weight) {
+        ad['data'].ad_weight = 1;
+      }
+      for (let i = 0; i < ad['data'].ad_weight; i++) {
+        weightList.push(ad);
+      }
     }
-    // Probability Fun
-    return ((_a = weightList[Math.floor(Math.random() * weightList.length)]) === null || _a === void 0 ? void 0 : _a.data) || null;
+  }
+  // Probability Fun
+  return ((_a = weightList[Math.floor(Math.random() * weightList.length)]) === null || _a === void 0 ? void 0 : _a.data) || null;
 };
 
 const trackView = (adId) => {
-    hubspotTrack('View', adId);
-    googleAnalyticsTrack('View', adId);
+  hubspotTrack('View', adId);
+  googleAnalyticsTrack('View', adId);
 };
 const trackClick = (adId, event) => {
-    const timeForTrackingRequests = 150; // ms
-    if (event) {
-        event.preventDefault();
+  const timeForTrackingRequests = 150; // ms
+  if (event) {
+    event.preventDefault();
+  }
+  hubspotTrack('Click', adId);
+  googleAnalyticsTrack('Click', adId);
+  // give tracking request time to complete
+  setTimeout(() => {
+    const link = hrefClimber(event === null || event === void 0 ? void 0 : event.target);
+    if (link.target && link.target.toLowerCase() === '_blank') {
+      window.open(link.href);
     }
-    hubspotTrack('Click', adId);
-    googleAnalyticsTrack('Click', adId);
-    // give tracking request time to complete
-    setTimeout(() => {
-        const link = hrefClimber(event === null || event === void 0 ? void 0 : event.target);
-        if (link.target && link.target.toLowerCase() === '_blank') {
-            window.open(link.href);
-        }
-        else if (link.href) {
-            document.location = link.href;
-        }
-    }, timeForTrackingRequests);
+    else if (link.href) {
+      document.location = link.href;
+    }
+  }, timeForTrackingRequests);
 };
 const hubspotTrack = (type, adId) => {
-    if (!window['_hsq']) {
-        console.warn('Unable to track Hubspot event, _hsq not found', type, adId);
-        return;
-    }
-    window['_hsq'].push(['trackEvent', {
-            id: `Docs ad - ${type} - ${adId}`
-        }]);
+  if (!window['_hsq']) {
+    console.warn('Unable to track Hubspot event, _hsq not found', type, adId);
+    return;
+  }
+  window['_hsq'].push(['trackEvent', {
+      id: `Docs ad - ${type} - ${adId}`
+    }]);
 };
 const googleAnalyticsTrack = (type, adId) => {
-    if (!window['gtag']) {
-        console.warn('Unable to track Google Analytics event, gtag not found', type, adId);
-        return;
-    }
-    window['gtag']('event', `Docs ad - ${type} - ${adId}`, {
-        'event_category': `Docs ad - ${type}`,
-        'event_label': adId
-    });
+  if (!window['gtag']) {
+    console.warn('Unable to track Google Analytics event, gtag not found', type, adId);
+    return;
+  }
+  window['gtag']('event', `Docs ad - ${type} - ${adId}`, {
+    'event_category': `Docs ad - ${type}`,
+    'event_label': adId
+  });
 };
 // recursive function to climb the DOM looking for href tags
 const hrefClimber = (el) => {
-    if (el['href']) {
-        return el;
-    }
-    else if (el.parentNode) {
-        return hrefClimber(el.parentNode);
-    }
+  if (el['href']) {
+    return el;
+  }
+  else if (el.parentNode) {
+    return hrefClimber(el.parentNode);
+  }
 };
 
 const internalAdCss = "internal-ad{max-width:148px;display:block;margin:48px 0 0}internal-ad p{font-size:13px;line-height:19px;font-weight:400;letter-spacing:0.02em;color:var(--c-indigo-100);transition:.2s color}internal-ad a:hover p{color:var(--c-indigo-90)}@media (max-width: 1233px){internal-ad{display:none}}";
@@ -13502,7 +14475,7 @@ class InternalAd {
     if (!this.ad || Object.keys(this.ad).length === 0) {
       return;
     }
-    return (h("a", { href: this.ad.ad_url.url, target: this.ad.ad_url.target, onClick: e => trackClick(this.ad.ad_id, e) }, h("picture", null, h("source", { media: "(min-width: 37.5em)", src: this.ad.ad_image.url }), h("source", { src: this.ad.ad_image['1x'].url }), h("img", { src: this.ad.ad_image.url, alt: this.ad.ad_image.alt, height: this.ad.ad_image['1x'].dimensions.height, width: this.ad.ad_image['1x'].dimensions.width }), h("p", null, this.ad.ad_image.alt)), h("div", { innerHTML: PrismicDom.RichText.asHtml(this.ad.ad_copy) })));
+    return (hAsync("a", { href: this.ad.ad_url.url, target: this.ad.ad_url.target, onClick: e => trackClick(this.ad.ad_id, e) }, hAsync("picture", null, hAsync("source", { media: "(min-width: 37.5em)", src: this.ad.ad_image.url }), hAsync("source", { src: this.ad.ad_image['1x'].url }), hAsync("img", { src: this.ad.ad_image.url, alt: this.ad.ad_image.alt, height: this.ad.ad_image['1x'].dimensions.height, width: this.ad.ad_image['1x'].dimensions.width }), hAsync("p", null, this.ad.ad_image.alt)), hAsync("div", { innerHTML: PrismicDOM.RichText.asHtml(this.ad.ad_copy) })));
   }
   static get style() { return internalAdCss; }
   static get cmpMeta() { return {
@@ -13518,32 +14491,12 @@ class InternalAd {
   }; }
 }
 
-const apiURL$1 = 'https://ionicframeworkcom.prismic.io/api/v2';
-const getPage = async (prismicId) => {
-  if (!prismicId)
-    return;
-  try {
-    const api = await Prismic.getApi(apiURL$1);
-    const response = await api.getSingle(prismicId);
-    console.log(response);
-    state.pageData = response.data;
-    // if the page has meta data, set it, otherwise use the default
-    // note, if you're hard coding meta data, do it after calling getPage()
-    ['title', 'description', 'meta_image'].forEach(prop => {
-      state[prop] = response.data[prop] ? response.data[prop] : defaults[prop];
-    });
-  }
-  catch (e) {
-    console.warn(e);
-  }
-};
-
 const landingPageCss = ".sc-landing-page-h{--p2-color:var(--c-indigo-80);--p3-color:var(--c-indigo-80);--p4-color:var(--c-indigo-80);--poster1-color:#fff;--h1-color:#fff;--h2-color:var(--c-carbon-100);--h4-color:var(--c-carbon-100);--h5-color:var(--c-carbon-100);--h6-color:var(--c-lavender-70);--p2-color:var(--c-indigo-80);--p3-color:var(--c-indigo-80);--p4-color:var(--c-indigo-80)}a.sc-landing-page{color:var(--c-lavender-80)}.ui-heading-2.sc-landing-page{margin-block-end:var(--space-5)}.ui-heading-4.sc-landing-page{margin-block-end:var(--space-3)}.ui-heading-5.sc-landing-page{margin-block-end:var(--space-3)}.ui-heading-6.sc-landing-page{margin-block-end:var(--space-6)}#top.sc-landing-page{min-height:100vh;contain:content}@media screen and (max-width: 1023px){#top.sc-landing-page{min-height:830px}}@keyframes fadeInUp{0%{opacity:0;transform:translateY(20px)}50%{opacity:1}100%{opacity:1;transform:translateY(0)}}#top.sc-landing-page .background.sc-landing-page{width:max(1800px, 100%);position:absolute;left:min(calc((100% - 1800px) / 2), 0px);z-index:-1}#top.sc-landing-page .heading-group.sc-landing-page{margin-inline-start:auto;margin-inline-end:auto;max-width:800px;min-height:326px;padding-block-start:var(--space-11);padding-block-end:74px;text-align:center}#top.sc-landing-page .heading-group.sc-landing-page .ui-heading.sc-landing-page{opacity:0;animation:1s fadeInUp 0.2s forwards}#top.sc-landing-page .heading-group.sc-landing-page .ui-paragraph.sc-landing-page{margin-block-start:var(--space-5);margin-block-end:var(--space-6);color:#fff;opacity:0;animation:1s fadeInUp 0.4s forwards}#top.sc-landing-page .heading-group.sc-landing-page .cta.sc-landing-page{display:inline-flex;padding:15px 16px;background:#fff;border-radius:var(--radius-4);justify-content:center;align-items:center;opacity:0;animation:1s fadeInUp 0.6s forwards;font-weight:600;font-size:14px;line-height:112%;letter-spacing:-0.02em}#top.sc-landing-page .heading-group.sc-landing-page .cta.sc-landing-page::after{content:\" ->\";font-size:18px;letter-spacing:0;white-space:pre}#top.sc-landing-page .activator.sc-landing-page{opacity:0;animation:1s fadeInUp 0.8s forwards}#companies.sc-landing-page{margin-block-start:160px}#companies.sc-landing-page .ui-heading.sc-landing-page{margin-block-end:var(--space-8);color:var(--c-indigo-70);text-align:center}#companies.sc-landing-page .logos.sc-landing-page{display:flex;margin-inline-start:auto;margin-inline-end:auto;margin-block-end:calc(-1 * var(--space-6));flex-grow:1;max-width:1019px;justify-content:space-between;align-items:center;flex-wrap:wrap}#companies.sc-landing-page .logos.sc-landing-page .wrapper.sc-landing-page{display:inline-grid;margin-block-end:var(--space-6);flex-grow:1;min-width:400px;grid-template-columns:repeat(auto-fit, minmax(64px, 1fr));row-gap:var(--space-6);justify-items:center;align-items:center}@media screen and (max-width: 1023px){#companies.sc-landing-page .logos.sc-landing-page .wrapper.sc-landing-page{flex-basis:400px;min-width:auto}}#companies.sc-landing-page .logos.sc-landing-page .wrapper.sc-landing-page:first-of-type{flex-grow:1.3333333333}#ship.sc-landing-page{margin-block-start:160px;margin-block-end:160px}#ship.sc-landing-page .ui-grid.sc-landing-page{row-gap:var(--space-9)}#ship.sc-landing-page .heading-group.sc-landing-page{margin-inline-start:auto;margin-inline-end:auto;margin-block-end:var(--space-11);max-width:736px;text-align:center}#ship.sc-landing-page .list.sc-landing-page .list-item.sc-landing-page svg.sc-landing-page{margin-block-end:var(--space-6)}#push.sc-landing-page{background:var(--c-indigo-10);padding-block-start:160px;contain:content}@media screen and (max-width: 1023px){#push.sc-landing-page{padding-block-end:160px}}@media screen and (max-width: 767px){#push.sc-landing-page{padding-block-end:0}}#push.sc-landing-page .ui-container.sc-landing-page{display:flex}#push.sc-landing-page .ui-grid.sc-landing-page{row-gap:var(--space-11)}#push.sc-landing-page .text.sc-landing-page{max-width:448px}#push.sc-landing-page .text.sc-landing-page .heading-group.sc-landing-page{margin-block-end:72px}#push.sc-landing-page .list.sc-landing-page{display:grid;grid-template-columns:repeat(auto-fit, minmax(0px, 192px));column-gap:var(--space-9);row-gap:var(--space-6)}#push.sc-landing-page .list.sc-landing-page .list-item.sc-landing-page svg.sc-landing-page{margin-block-end:var(--space-5)}#push.sc-landing-page .image.sc-landing-page{display:flex;flex-grow:1;position:relative;left:var(--space-5);flex-direction:column}@media screen and (max-width: 1215px){#push.sc-landing-page .image.sc-landing-page{left:0}}#push.sc-landing-page .image.sc-landing-page .icons.sc-landing-page{margin-block-end:var(--space-6)}#push.sc-landing-page .image.sc-landing-page .icons.sc-landing-page svg.sc-landing-page+svg.sc-landing-page{margin-inline-start:var(--space-5)}#push.sc-landing-page .image.sc-landing-page img.sc-landing-page{width:1092px;height:585px}#live.sc-landing-page{padding-block-start:160px;padding-block-end:160px;overflow:hidden;contain:content}#live.sc-landing-page .ui-container.sc-landing-page{display:flex;position:relative}#live.sc-landing-page .text.sc-landing-page .ui-heading.sc-landing-page{max-width:400px}#live.sc-landing-page .text.sc-landing-page .ui-paragraph.sc-landing-page{max-width:448px}#live.sc-landing-page .list.sc-landing-page{margin-block-start:var(--space-8)}#live.sc-landing-page .list.sc-landing-page .list-item.sc-landing-page{display:flex;align-items:center}#live.sc-landing-page .list.sc-landing-page .list-item.sc-landing-page svg.sc-landing-page{margin-inline-end:var(--space-3)}#live.sc-landing-page .list.sc-landing-page .list-item.sc-landing-page+.list-item.sc-landing-page{margin-block-start:var(--space-2)}#live.sc-landing-page phone-animator.sc-landing-page{flex-grow:1}@media screen and (max-width: 1023px){#live.sc-landing-page phone-animator.sc-landing-page{width:100%;height:100%;position:absolute;z-index:-1;opacity:0.07}}#native.sc-landing-page{background:var(--c-indigo-10);padding-block-start:160px;padding-block-end:237px}@media screen and (max-width: 1023px){#native.sc-landing-page{padding-block-end:160px}}#native.sc-landing-page .ui-container.sc-landing-page{display:flex}#native.sc-landing-page .heading-group.sc-landing-page{margin-block-end:72px}#native.sc-landing-page .heading-group.sc-landing-page .ui-heading.sc-landing-page{max-width:576px}#native.sc-landing-page .heading-group.sc-landing-page .ui-paragraph.sc-landing-page{max-width:448px}#native.sc-landing-page .subtext.sc-landing-page{max-width:256px}#native.sc-landing-page .subtext.sc-landing-page svg.sc-landing-page{margin-block-end:var(--space-5)}#native.sc-landing-page .image.sc-landing-page{display:flex;flex-grow:1;position:relative;justify-content:center}@media screen and (max-width: 767px){#native.sc-landing-page .image.sc-landing-page{display:none}}#native.sc-landing-page .image__wrapper.sc-landing-page{width:auto;position:absolute;top:calc(50% + 150px);right:-150px;left:-250px;transform:translateY(-50%)}#native.sc-landing-page .image__wrapper.sc-landing-page img.sc-landing-page{max-width:857px}#automate.sc-landing-page{padding-block-start:160px;padding-block-end:302px;contain:content}@media screen and (max-width: 1023px){#automate.sc-landing-page{padding-block-end:0}}#automate.sc-landing-page .ui-container.sc-landing-page{display:flex}#automate.sc-landing-page .ui-grid.sc-landing-page{row-gap:var(--space-5)}#automate.sc-landing-page .ui-grid.sc-landing-page .ui-col.sc-landing-page:last-of-type{margin-block-end:-245px}#automate.sc-landing-page .heading-group.sc-landing-page .ui-heading.sc-landing-page{max-width:480px}#automate.sc-landing-page .heading-group.sc-landing-page .ui-paragraph.sc-landing-page{max-width:448px}#automate.sc-landing-page .subtext.sc-landing-page{margin-inline-start:var(--space-3);margin-block-start:var(--space-8);max-width:430px;position:relative}#automate.sc-landing-page .subtext.sc-landing-page::before{content:\" \";background:var(--c-lavender-70);width:2px;height:64px;position:absolute;top:50%;left:-16px;transform:translateY(-50%)}#automate.sc-landing-page .subtext.sc-landing-page strong.sc-landing-page{font-weight:500;color:var(--c-indigo-100)}#automate.sc-landing-page pipeline-animator.sc-landing-page{flex-grow:1}#managed.sc-landing-page{background:var(--c-indigo-10);position:relative;padding-block-start:256px;padding-block-end:260px}#managed.sc-landing-page .ui-container.sc-landing-page{display:flex}#managed.sc-landing-page .text.sc-landing-page{max-width:448px}#managed.sc-landing-page .image.sc-landing-page{display:flex;flex-grow:1;position:relative;justify-content:center}@media screen and (max-width: 767px){#managed.sc-landing-page .image.sc-landing-page{display:none}}#managed.sc-landing-page .image__wrapper.sc-landing-page{width:auto;position:absolute;top:50%;right:-200px;left:-150px;transform:translateY(-50%)}@media screen and (max-width: 1215px){#managed.sc-landing-page .image__wrapper.sc-landing-page{left:-90px}}#experience.sc-landing-page{background:var(--c-purple-60);padding-block-start:160px;padding-block-end:160px}#experience.sc-landing-page .ui-grid.sc-landing-page{row-gap:var(--space-9)}#experience.sc-landing-page .title.sc-landing-page{margin-block-end:var(--space-9);max-width:740px}#experience.sc-landing-page .subtext.sc-landing-page .ui-heading.sc-landing-page{margin-block-end:var(--space-2)}#experience.sc-landing-page .subtext.sc-landing-page .ui-paragraph.sc-landing-page{margin-block-end:var(--space-6);color:var(--c-lavender-10)}#experience.sc-landing-page .ui-heading.sc-landing-page{color:#fff}#experience.sc-landing-page .cta.sc-landing-page{display:inline-flex;padding:14px 16px;background:#8C93FF;color:#fff;border-radius:var(--radius-4);justify-content:center;align-items:center;font-weight:600;font-size:14px;line-height:112%;letter-spacing:-0.02em}#experience.sc-landing-page .cta.sc-landing-page::after{content:\" ->\";letter-spacing:0;white-space:pre}#experience.sc-landing-page .button.sc-landing-page:hover,#experience.sc-landing-page .button.sc-landing-page:active,#experience.sc-landing-page .button.sc-landing-page:focus,#experience.sc-landing-page .button.sc-landing-page:focus-within{background:#969dff}#experience.sc-landing-page .list__wrapper.sc-landing-page{display:flex;align-items:flex-end;flex-direction:column}@media screen and (max-width: 1023px){#experience.sc-landing-page .list__wrapper.sc-landing-page{align-items:flex-start}}#experience.sc-landing-page .list-item.sc-landing-page{display:flex;align-items:center}#experience.sc-landing-page .list-item.sc-landing-page+.list-item.sc-landing-page{margin-block-start:14px}#experience.sc-landing-page .list-item.sc-landing-page svg.sc-landing-page{margin-inline-end:var(--space-3);min-width:16px;min-height:16px}#experience.sc-landing-page .list-item.sc-landing-page .ui-paragraph.sc-landing-page{color:var(--c-lavender-0)}#get-started.sc-landing-page{background:#212752;padding-block-start:120px;padding-block-end:119px}#get-started.sc-landing-page .ui-heading.sc-landing-page{margin-block-end:7px;color:#fff}#get-started.sc-landing-page .ui-paragraph.sc-landing-page{color:var(--c-lavender-50)}#get-started.sc-landing-page .cta.sc-landing-page{display:inline-flex;padding:14px 16px;background:var(--c-lavender-60);color:#fff;border-radius:var(--radius-4);justify-content:center;align-items:center;font-weight:600;font-size:16px;line-height:112%;letter-spacing:-0.02em}#get-started.sc-landing-page .cta.sc-landing-page::after{content:\" ->\";letter-spacing:0;white-space:pre}";
 
 class LandingPage {
   constructor(hostRef) {
     registerInstance(this, hostRef);
-    this.render = () => (h(Host, null, h(Top, null), h(Companies, null), h(Ship, null), h(Push, null), h(Live, null), h(Native, null), h(Automate, null), h(Managed, null), h(Experience, null), h("get-started-section", null)));
+    this.render = () => (hAsync(Host, null, hAsync(Top, null), hAsync(Companies, null), hAsync(Ship, null), hAsync(Push, null), hAsync(Live, null), hAsync(Native, null), hAsync(Automate, null), hAsync(Managed, null), hAsync(Experience, null), hAsync("get-started-section", null)));
   }
   async componentWillLoad() {
     await getPage('appflow_homepage');
@@ -13561,11 +14514,11 @@ class LandingPage {
 }
 const Top = () => {
   const { top, top__cta } = state.pageData;
-  return (h("section", { id: "top" }, h("svg", { class: "background", viewBox: "0 0 1600 992", xmlns: "http://www.w3.org/2000/svg" }, h("rect", { width: "1600", height: "992", fill: "url(#landing_bg_paint1_linear)" }), h("path", { d: "M1298.04 97.309L1494.1 970.579L1066.48 878.169L859.254 53.3663L1298.04 97.309Z", fill: "url(#landing_bg_paint3_linear)", "fill-opacity": "0.12" }), h("path", { d: "M1665.55 102.568L1760.72 1044.29L1304.71 873.559L1209.54 -68.1665L1665.55 102.568Z", fill: "url(#landing_bg_paint4_linear)", "fill-opacity": "0.08" }), h("path", { d: "M996.453 199.416L1325.18 982.749L887.983 955.103L559.252 171.77L996.453 199.416Z", fill: "url(#landing_bg_paint5_linear)", "fill-opacity": "0.1" }), h("path", { d: "M753.376 310.796L1135.39 1073.31L690.115 1071.58L308.1 309.07L753.376 310.796Z", fill: "url(#landing_bg_paint6_linear)", "fill-opacity": "0.1" }), h("path", { d: "M555.833 445.941L991.857 1178.91L547.616 1209.31L111.592 476.339L555.833 445.941Z", fill: "url(#landing_bg_paint7_linear)", "fill-opacity": "0.1" }), h("path", { d: "M389.921 598.053L857.694 1311.18L415.215 1361.05L-52.5576 647.919L389.921 598.053Z", fill: "url(#landing_bg_paint8_linear)", "fill-opacity": "0.1" }), h("path", { d: "M244.912 756.619L712.685 1469.75L270.206 1519.61L-197.567 806.485L244.912 756.619Z", fill: "url(#landing_bg_paint9_linear)", "fill-opacity": "0.1" }), h("defs", null, h("linearGradient", { id: "landing_bg_paint1_linear", x1: "0", y1: "496", x2: "1600", y2: "496", gradientUnits: "userSpaceOnUse" }, h("stop", { "stop-color": "#634CF2" }), h("stop", { offset: "1", "stop-color": "#67A5F8" })), h("linearGradient", { id: "landing_bg_paint2_linear", x1: "0", y1: "496", x2: "1600", y2: "496", gradientUnits: "userSpaceOnUse" }, h("stop", { "stop-color": "#634CF2" }), h("stop", { offset: "1", "stop-color": "#6799F8" })), h("linearGradient", { id: "landing_bg_paint3_linear", x1: "941.605", y1: "385.074", x2: "1301.97", y2: "330.074", gradientUnits: "userSpaceOnUse" }, h("stop", { "stop-color": "white" }), h("stop", { offset: "1", "stop-color": "white", "stop-opacity": "0" })), h("linearGradient", { id: "landing_bg_paint4_linear", x1: "1246.73", y1: "310.405", x2: "1652.44", y2: "307.959", gradientUnits: "userSpaceOnUse" }, h("stop", { "stop-color": "white" }), h("stop", { offset: "1", "stop-color": "white", "stop-opacity": "0" })), h("linearGradient", { id: "landing_bg_paint5_linear", x1: "690.478", y1: "486.947", x2: "1050.11", y2: "343.353", gradientUnits: "userSpaceOnUse" }, h("stop", { "stop-color": "white" }), h("stop", { offset: "1", "stop-color": "white", "stop-opacity": "0" })), h("linearGradient", { id: "landing_bg_paint6_linear", x1: "460.75", y1: "615.931", x2: "820.393", y2: "452.104", gradientUnits: "userSpaceOnUse" }, h("stop", { "stop-color": "white" }), h("stop", { offset: "1", "stop-color": "white", "stop-opacity": "0" })), h("linearGradient", { id: "landing_bg_paint7_linear", x1: "285.98", y1: "771.39", x2: "632.869", y2: "582.046", gradientUnits: "userSpaceOnUse" }, h("stop", { "stop-color": "white" }), h("stop", { offset: "1", "stop-color": "white", "stop-opacity": "0" })), h("linearGradient", { id: "landing_bg_paint8_linear", x1: "134.612", y1: "935.032", x2: "472.856", y2: "730.646", gradientUnits: "userSpaceOnUse" }, h("stop", { "stop-color": "white" }), h("stop", { offset: "1", "stop-color": "white", "stop-opacity": "0" })), h("linearGradient", { id: "landing_bg_paint9_linear", x1: "-10.397", y1: "1093.6", x2: "327.847", y2: "889.212", gradientUnits: "userSpaceOnUse" }, h("stop", { "stop-color": "white" }), h("stop", { offset: "1", "stop-color": "white", "stop-opacity": "0" })))), h(ResponsiveContainer, null, h("div", { class: "heading-group" }, h(Breakpoint, { sm: true }, h(PrismicRichText, { richText: top, poster: true, paragraphLevel: 2 })), h(Breakpoint, { xs: true, sm: false }, h(PrismicRichText, { richText: top, paragraphLevel: 2 })), h("a", { class: "cta button", href: "https://ionicframework.com/signup?source=appflow-site&product=appflow" }, top__cta))), h("div", { class: "activator" }, h("appflow-activator", null))));
+  return (hAsync("section", { id: "top" }, hAsync("svg", { class: "background", viewBox: "0 0 1600 992", xmlns: "http://www.w3.org/2000/svg" }, hAsync("rect", { width: "1600", height: "992", fill: "url(#landing_bg_paint1_linear)" }), hAsync("path", { d: "M1298.04 97.309L1494.1 970.579L1066.48 878.169L859.254 53.3663L1298.04 97.309Z", fill: "url(#landing_bg_paint3_linear)", "fill-opacity": "0.12" }), hAsync("path", { d: "M1665.55 102.568L1760.72 1044.29L1304.71 873.559L1209.54 -68.1665L1665.55 102.568Z", fill: "url(#landing_bg_paint4_linear)", "fill-opacity": "0.08" }), hAsync("path", { d: "M996.453 199.416L1325.18 982.749L887.983 955.103L559.252 171.77L996.453 199.416Z", fill: "url(#landing_bg_paint5_linear)", "fill-opacity": "0.1" }), hAsync("path", { d: "M753.376 310.796L1135.39 1073.31L690.115 1071.58L308.1 309.07L753.376 310.796Z", fill: "url(#landing_bg_paint6_linear)", "fill-opacity": "0.1" }), hAsync("path", { d: "M555.833 445.941L991.857 1178.91L547.616 1209.31L111.592 476.339L555.833 445.941Z", fill: "url(#landing_bg_paint7_linear)", "fill-opacity": "0.1" }), hAsync("path", { d: "M389.921 598.053L857.694 1311.18L415.215 1361.05L-52.5576 647.919L389.921 598.053Z", fill: "url(#landing_bg_paint8_linear)", "fill-opacity": "0.1" }), hAsync("path", { d: "M244.912 756.619L712.685 1469.75L270.206 1519.61L-197.567 806.485L244.912 756.619Z", fill: "url(#landing_bg_paint9_linear)", "fill-opacity": "0.1" }), hAsync("defs", null, hAsync("linearGradient", { id: "landing_bg_paint1_linear", x1: "0", y1: "496", x2: "1600", y2: "496", gradientUnits: "userSpaceOnUse" }, hAsync("stop", { "stop-color": "#634CF2" }), hAsync("stop", { offset: "1", "stop-color": "#67A5F8" })), hAsync("linearGradient", { id: "landing_bg_paint2_linear", x1: "0", y1: "496", x2: "1600", y2: "496", gradientUnits: "userSpaceOnUse" }, hAsync("stop", { "stop-color": "#634CF2" }), hAsync("stop", { offset: "1", "stop-color": "#6799F8" })), hAsync("linearGradient", { id: "landing_bg_paint3_linear", x1: "941.605", y1: "385.074", x2: "1301.97", y2: "330.074", gradientUnits: "userSpaceOnUse" }, hAsync("stop", { "stop-color": "white" }), hAsync("stop", { offset: "1", "stop-color": "white", "stop-opacity": "0" })), hAsync("linearGradient", { id: "landing_bg_paint4_linear", x1: "1246.73", y1: "310.405", x2: "1652.44", y2: "307.959", gradientUnits: "userSpaceOnUse" }, hAsync("stop", { "stop-color": "white" }), hAsync("stop", { offset: "1", "stop-color": "white", "stop-opacity": "0" })), hAsync("linearGradient", { id: "landing_bg_paint5_linear", x1: "690.478", y1: "486.947", x2: "1050.11", y2: "343.353", gradientUnits: "userSpaceOnUse" }, hAsync("stop", { "stop-color": "white" }), hAsync("stop", { offset: "1", "stop-color": "white", "stop-opacity": "0" })), hAsync("linearGradient", { id: "landing_bg_paint6_linear", x1: "460.75", y1: "615.931", x2: "820.393", y2: "452.104", gradientUnits: "userSpaceOnUse" }, hAsync("stop", { "stop-color": "white" }), hAsync("stop", { offset: "1", "stop-color": "white", "stop-opacity": "0" })), hAsync("linearGradient", { id: "landing_bg_paint7_linear", x1: "285.98", y1: "771.39", x2: "632.869", y2: "582.046", gradientUnits: "userSpaceOnUse" }, hAsync("stop", { "stop-color": "white" }), hAsync("stop", { offset: "1", "stop-color": "white", "stop-opacity": "0" })), hAsync("linearGradient", { id: "landing_bg_paint8_linear", x1: "134.612", y1: "935.032", x2: "472.856", y2: "730.646", gradientUnits: "userSpaceOnUse" }, hAsync("stop", { "stop-color": "white" }), hAsync("stop", { offset: "1", "stop-color": "white", "stop-opacity": "0" })), hAsync("linearGradient", { id: "landing_bg_paint9_linear", x1: "-10.397", y1: "1093.6", x2: "327.847", y2: "889.212", gradientUnits: "userSpaceOnUse" }, hAsync("stop", { "stop-color": "white" }), hAsync("stop", { offset: "1", "stop-color": "white", "stop-opacity": "0" })))), hAsync(ResponsiveContainer, null, hAsync("div", { class: "heading-group" }, hAsync(Breakpoint, { sm: true }, hAsync(PrismicRichText, { richText: top, poster: true, paragraphLevel: 2 })), hAsync(Breakpoint, { xs: true, sm: false }, hAsync(PrismicRichText, { richText: top, paragraphLevel: 2 })), hAsync("a", { class: "cta button", href: "https://ionicframework.com/signup?source=appflow-site&product=appflow" }, top__cta))), hAsync("div", { class: "activator" }, hAsync("appflow-activator", null))));
 };
 const Companies = () => {
   const { companies } = state.pageData;
-  return (h(ResponsiveContainer, { id: "companies", as: "section" }, h(Heading, { level: 6 }, companies), h("div", { class: "logos" }, h("div", { class: "wrapper" }, aaaLogo({}, { width: '50' }), amtrakLogo({}, { width: '64' }), nasaLogo({}, { width: '50' }), ibmLogo({}, { width: '53' })), h("div", { class: "wrapper" }, burgerKingLogo({}, { width: '50' }), catLogo({}, { width: '50' }), targetLogo({}, { width: '50' })))));
+  return (hAsync(ResponsiveContainer, { id: "companies", as: "section" }, hAsync(Heading, { level: 6 }, companies), hAsync("div", { class: "logos" }, hAsync("div", { class: "wrapper" }, aaaLogo({}, { width: '50' }), amtrakLogo({}, { width: '64' }), nasaLogo({}, { width: '50' }), ibmLogo({}, { width: '53' })), hAsync("div", { class: "wrapper" }, burgerKingLogo({}, { width: '50' }), catLogo({}, { width: '50' }), targetLogo({}, { width: '50' })))));
 };
 const Ship = () => {
   const { ship, ship__list } = state.pageData;
@@ -13574,7 +14527,7 @@ const Ship = () => {
     tripleLayerIcon({}, { width: 64, height: 64 }),
     buildingBlocksIcon({}, { width: 64, height: 64 })
   ];
-  return (h(ResponsiveContainer, { id: "ship", as: "section" }, h("div", { class: "heading-group" }, h(PrismicRichText, { richText: ship, paragraphLevel: 2 })), h(Grid, { class: "list" }, ship__list.map(({ content }, i) => (h(Col, { class: "list-item", xs: 12, sm: 4 }, icons[i], h(PrismicRichText, { richText: content })))))));
+  return (hAsync(ResponsiveContainer, { id: "ship", as: "section" }, hAsync("div", { class: "heading-group" }, hAsync(PrismicRichText, { richText: ship, paragraphLevel: 2 })), hAsync(Grid, { class: "list" }, ship__list.map(({ content }, i) => (hAsync(Col, { class: "list-item", xs: 12, sm: 4 }, icons[i], hAsync(PrismicRichText, { richText: content })))))));
 };
 const Push = () => {
   const { push, push__list } = state.pageData;
@@ -13582,28 +14535,28 @@ const Push = () => {
     publishingIcon({}, { width: 48, height: 48 }),
     appleCloudIcon({}, { width: 48, height: 48 })
   ];
-  return (h("section", { id: "push" }, h("div", { class: "push__wrapper" }, h(ResponsiveContainer, null, h(Grid, null, h(Col, { class: "text", cols: 12, sm: 6 }, h("div", { class: "heading-group" }, h(PrismicRichText, { richText: push, paragraphLevel: 2 })), h("ul", { class: "list" }, push__list.map(({ content }, i) => (h("li", { class: "list-item" }, icons[i], h(PrismicRichText, { richText: content, paragraphLevel: 4 })))))), h(Col, { class: "image", cols: 12, sm: 6 }, h("div", { class: "icons" }, appleStoreCheckedIcon({}, { width: 52, height: 52 }), testflightLogo({}, { width: 52, height: 52 }), googleStoreCheckedIcon({}, { width: 52, height: 52 })), h("img", { src: getAssetPath('assets/push@2x.png'), srcset: `${getAssetPath('assets/push.png')}, ${getAssetPath('assets/push@2x.png')} 2x`, loading: "lazy", width: "1568", height: "1234", alt: "appflow deploys screen" })))))));
+  return (hAsync("section", { id: "push" }, hAsync("div", { class: "push__wrapper" }, hAsync(ResponsiveContainer, null, hAsync(Grid, null, hAsync(Col, { class: "text", cols: 12, sm: 6 }, hAsync("div", { class: "heading-group" }, hAsync(PrismicRichText, { richText: push, paragraphLevel: 2 })), hAsync("ul", { class: "list" }, push__list.map(({ content }, i) => (hAsync("li", { class: "list-item" }, icons[i], hAsync(PrismicRichText, { richText: content, paragraphLevel: 4 })))))), hAsync(Col, { class: "image", cols: 12, sm: 6 }, hAsync("div", { class: "icons" }, appleStoreCheckedIcon({}, { width: 52, height: 52 }), testflightLogo({}, { width: 52, height: 52 }), googleStoreCheckedIcon({}, { width: 52, height: 52 })), hAsync("img", { src: getAssetPath('assets/push@2x.png'), srcset: `${getAssetPath('assets/push.png')}, ${getAssetPath('assets/push@2x.png')} 2x`, loading: "lazy", width: "1568", height: "1234", alt: "appflow deploys screen" })))))));
 };
 const Live = () => {
   const { live, live__list } = state.pageData;
-  return (h("section", { id: "live" }, h(ResponsiveContainer, null, h("div", { class: "text" }, h(PrismicRichText, { richText: live, paragraphLevel: 2 }), h("ul", { class: "list" }, live__list.map(({ content }) => (h("li", { class: "list-item" }, checkmarkCircle({}, { width: 16, height: 16 }), h(Paragraph, null, content)))))), h("phone-animator", null))));
+  return (hAsync("section", { id: "live" }, hAsync(ResponsiveContainer, null, hAsync("div", { class: "text" }, hAsync(PrismicRichText, { richText: live, paragraphLevel: 2 }), hAsync("ul", { class: "list" }, live__list.map(({ content }) => (hAsync("li", { class: "list-item" }, checkmarkCircle({}, { width: 16, height: 16 }), hAsync(Paragraph, null, content)))))), hAsync("phone-animator", null))));
 };
 const Native = () => {
   const { native, native__subtext } = state.pageData;
-  return (h("section", { id: "native" }, h(ResponsiveContainer, null, h("div", null, h("div", { class: "heading-group" }, h(PrismicRichText, { richText: native, paragraphLevel: 2 })), h("div", { class: "subtext" }, cloudCircleIcon({}, { width: 48, height: 48 }), h(PrismicRichText, { richText: native__subtext, paragraphLevel: 4 }))), h("div", { class: "image" }, h("div", { class: "image__wrapper" }, h("img", { src: getAssetPath('assets/native@2x.png'), srcset: `${getAssetPath('assets/native.png')}, ${getAssetPath('assets/native@2x.png')} 2x`, loading: "lazy", width: "1805", height: "1177", alt: "cube with floating squares entering and exiting containing programming language names" }))))));
+  return (hAsync("section", { id: "native" }, hAsync(ResponsiveContainer, null, hAsync("div", null, hAsync("div", { class: "heading-group" }, hAsync(PrismicRichText, { richText: native, paragraphLevel: 2 })), hAsync("div", { class: "subtext" }, cloudCircleIcon({}, { width: 48, height: 48 }), hAsync(PrismicRichText, { richText: native__subtext, paragraphLevel: 4 }))), hAsync("div", { class: "image" }, hAsync("div", { class: "image__wrapper" }, hAsync("img", { src: getAssetPath('assets/native@2x.png'), srcset: `${getAssetPath('assets/native.png')}, ${getAssetPath('assets/native@2x.png')} 2x`, loading: "lazy", width: "1805", height: "1177", alt: "cube with floating squares entering and exiting containing programming language names" }))))));
 };
 const Automate = () => {
   const { automate, automate__subtext } = state.pageData;
-  return (h("section", { id: "automate" }, h(ResponsiveContainer, null, h(Grid, null, h(Col, { cols: 12, lg: 6 }, h("div", { class: "heading-group" }, h(PrismicRichText, { richText: automate, paragraphLevel: 2 })), h("div", { class: "subtext" }, h(PrismicRichText, { richText: automate__subtext, paragraphLevel: 3 }))), h(Col, { cols: 12, lg: 6 }, h("pipeline-animator", null))))));
+  return (hAsync("section", { id: "automate" }, hAsync(ResponsiveContainer, null, hAsync(Grid, null, hAsync(Col, { cols: 12, lg: 6 }, hAsync("div", { class: "heading-group" }, hAsync(PrismicRichText, { richText: automate, paragraphLevel: 2 })), hAsync("div", { class: "subtext" }, hAsync(PrismicRichText, { richText: automate__subtext, paragraphLevel: 3 }))), hAsync(Col, { cols: 12, lg: 6 }, hAsync("pipeline-animator", null))))));
 };
 const Managed = () => {
   const { managed } = state.pageData;
-  return (h("section", { id: "managed" }, h(ResponsiveContainer, null, h("div", { class: "text" }, h(PrismicRichText, { richText: managed, paragraphLevel: 2 })), h("div", { class: "image" }, h("div", { class: "image__wrapper" }, h("img", { src: getAssetPath('assets/managed@2x.png'), srcset: `${getAssetPath('assets/managed.png')} 1x,
+  return (hAsync("section", { id: "managed" }, hAsync(ResponsiveContainer, null, hAsync("div", { class: "text" }, hAsync(PrismicRichText, { richText: managed, paragraphLevel: 2 })), hAsync("div", { class: "image" }, hAsync("div", { class: "image__wrapper" }, hAsync("img", { src: getAssetPath('assets/managed@2x.png'), srcset: `${getAssetPath('assets/managed.png')} 1x,
                       ${getAssetPath('assets/managed@2x.png')} 2x`, loading: "lazy", width: "1704", height: "1511", alt: "floating phone with app icons surround central Appflow icon" }))))));
 };
 const Experience = () => {
   const { experience__title, experience__subtext, experience__cta, experience__list } = state.pageData;
-  return (h("section", { id: "experience" }, h(ResponsiveContainer, null, h(PrismicRichText, { class: "title", richText: experience__title }), h(Grid, null, h(Col, { class: "subtext", xs: 12, md: 5 }, h(PrismicRichText, { richText: experience__subtext, paragraphLevel: 2 }), h("a", { href: "/why-appflow", class: "cta button" }, experience__cta)), h(Col, { xs: 12, md: 7 }, h("div", { class: "list__wrapper" }, h("ul", { class: "list" }, experience__list.map(({ content }) => (h("li", { class: "list-item" }, checkmarkCircle({ main: '#8C93FF' }, { width: 16, height: 16 }), h(Paragraph, null, content)))))))))));
+  return (hAsync("section", { id: "experience" }, hAsync(ResponsiveContainer, null, hAsync(PrismicRichText, { class: "title", richText: experience__title }), hAsync(Grid, null, hAsync(Col, { class: "subtext", xs: 12, md: 5 }, hAsync(PrismicRichText, { richText: experience__subtext, paragraphLevel: 2 }), hAsync("a", { href: "/why-appflow", class: "cta button" }, experience__cta)), hAsync(Col, { xs: 12, md: 7 }, hAsync("div", { class: "list__wrapper" }, hAsync("ul", { class: "list" }, experience__list.map(({ content }) => (hAsync("li", { class: "list-item" }, checkmarkCircle({ main: '#8C93FF' }, { width: 16, height: 16 }), hAsync(Paragraph, null, content)))))))))));
 };
 
 function isNothing(subject) {
@@ -17541,11 +18494,11 @@ class MarkdownPage {
     }
     catch (e) {
       console.warn(e);
-      this.markup = h(Heading, null, "Page Not Found");
+      this.markup = hAsync(Heading, null, "Page Not Found");
     }
   }
   render() {
-    return (h(ResponsiveContainer, { innerHTML: this.markup }));
+    return (hAsync(ResponsiveContainer, { innerHTML: this.markup }));
   }
   static get cmpMeta() { return {
     "$flags$": 0,
@@ -17568,7 +18521,7 @@ class MoreButton {
     this.visible = false;
   }
   render() {
-    return (h(Host, { tabindex: "-1", class: {
+    return (hAsync(Host, { tabindex: "-1", class: {
         'site-backdrop--visible': this.visible
       } }));
   }
@@ -17585,289 +18538,171 @@ class MoreButton {
   }; }
 }
 
-var ResourceType;
+var ResourceType$1;
 (function (ResourceType) {
-    ResourceType["Article"] = "Article";
-    ResourceType["Blog"] = "Blog";
-    ResourceType["Book"] = "Book";
-    ResourceType["CaseStudy"] = "Case Study";
-    ResourceType["CustomerInterview"] = "Customer Interview";
-    ResourceType["Course"] = "Course";
-    ResourceType["Learning"] = "Learning";
-    ResourceType["Doc"] = "Doc";
-    ResourceType["Guide"] = "Guide";
-    ResourceType["Podcast"] = "Podcast";
-    ResourceType["Tutorial"] = "Tutorial";
-    ResourceType["Video"] = "Video";
-    ResourceType["Whitepaper"] = "Whitepaper";
-    ResourceType["Webinar"] = "Webinar";
-})(ResourceType || (ResourceType = {}));
-var ResourceSource;
+  ResourceType["Article"] = "Article";
+  ResourceType["Blog"] = "Blog";
+  ResourceType["Book"] = "Book";
+  ResourceType["CaseStudy"] = "Case Study";
+  ResourceType["CustomerInterview"] = "Customer Interview";
+  ResourceType["Course"] = "Course";
+  ResourceType["Learning"] = "Learning";
+  ResourceType["Doc"] = "Doc";
+  ResourceType["Guide"] = "Guide";
+  ResourceType["Podcast"] = "Podcast";
+  ResourceType["Tutorial"] = "Tutorial";
+  ResourceType["Video"] = "Video";
+  ResourceType["Whitepaper"] = "Whitepaper";
+  ResourceType["Webinar"] = "Webinar";
+})(ResourceType$1 || (ResourceType$1 = {}));
+var ResourceSource$1;
 (function (ResourceSource) {
-    ResourceSource["Prismic"] = "prismic";
-})(ResourceSource || (ResourceSource = {}));
+  ResourceSource["Prismic"] = "prismic";
+})(ResourceSource$1 || (ResourceSource$1 = {}));
 
-const Client = (endpoint, req = null) => Prismic.client(endpoint, createClientOptions(req, null));
-const createClientOptions = (req = null, prismicAccessToken = null) => {
-    const reqOption = req ? { req } : {};
-    const accessTokenOption = prismicAccessToken ? { accessToken: prismicAccessToken } : {};
-    return Object.assign(Object.assign({}, reqOption), accessTokenOption);
-};
-const prismicDocToResource = (doc) => {
-    return {
-        id: doc.uid,
-        title: doc.data.title || null,
-        description: doc.data.tagline || null,
-        tags: doc.tags || [],
-        publishDate: doc.first_publication_date || null,
-        updatedDate: doc.last_publication_date || null,
-        type: prismicTypeToResourceType(doc.type),
-        authors: getAuthorsForPrismicDoc(doc),
-        metaImage: getImage(doc.data.meta_image),
-        heroImage: getImage(doc.data.hero_image || doc.data.cover_image),
-        source: ResourceSource.Prismic,
-        doc,
-    };
-};
-const getImage = (imageObj) => (imageObj && imageObj.url ? imageObj.url : '');
-const getAuthorsForPrismicDoc = (doc) => {
+const prismicResourceToToc = (resource) => {
+  var _a, _b, _c;
+  let titles = [];
+  (_c = (_b = (_a = resource.doc) === null || _a === void 0 ? void 0 : _a.data) === null || _b === void 0 ? void 0 : _b.body) === null || _c === void 0 ? void 0 : _c.forEach((bodyItem) => {
     var _a, _b;
-    if (!doc.data.hosts && !doc.data.author) {
-        return [];
-    }
-    if (doc.type === 'webinar') {
-        return doc.data.hosts.map((h) => {
-            var _a, _b;
-            return ({
-                name: h.name || '',
-                title: h.title || '',
-                link: ((_a = h.profile_link) === null || _a === void 0 ? void 0 : _a.url) || '',
-                avatar: ((_b = h.photo) === null || _b === void 0 ? void 0 : _b.url) || '',
-            });
-        });
-    }
-    else if (doc.data.author && doc.data.author.length) {
-        return doc.data.author.map((a) => {
-            var _a, _b;
-            return ({
-                name: a.name || '',
-                title: a.title || '',
-                link: ((_a = a.author_url) === null || _a === void 0 ? void 0 : _a.url) || '',
-                avatar: ((_b = a.photo) === null || _b === void 0 ? void 0 : _b.url) || '',
-            });
-        });
-    }
-    else if (doc.data.author) {
-        return [
-            {
-                name: doc.data.author.name || '',
-                title: doc.data.author.title || '',
-                link: ((_a = doc.data.author.author_url) === null || _a === void 0 ? void 0 : _a.url) || '',
-                avatar: ((_b = doc.data.author.photo) === null || _b === void 0 ? void 0 : _b.url) || '',
-            },
-        ];
-    }
+    (_b = (_a = bodyItem.primary) === null || _a === void 0 ? void 0 : _a.content) === null || _b === void 0 ? void 0 : _b.forEach((content) => {
+      var _a;
+      if ((_a = content.type) === null || _a === void 0 ? void 0 : _a.includes('heading'))
+        titles.push(content.text);
+    });
+  });
+  return titles;
+};
+const prismicDocToResource$1 = (doc) => {
+  return {
+    id: doc.uid,
+    title: doc.data.title || null,
+    description: doc.data.tagline || null,
+    tags: doc.tags || [],
+    publishDate: doc.first_publication_date || null,
+    updatedDate: doc.last_publication_date || null,
+    type: prismicTypeToResourceType$1(doc.type),
+    authors: getAuthorsForPrismicDoc$1(doc),
+    metaImage: getImage$1(doc.data.meta_image),
+    heroImage: getImage$1(doc.data.hero_image || doc.data.cover_image),
+    source: ResourceSource$1.Prismic,
+    doc,
+  };
+};
+const getImage$1 = (imageObj) => (imageObj && imageObj.url ? imageObj.url : '');
+const getAuthorsForPrismicDoc$1 = (doc) => {
+  var _a;
+  if ((!doc.data.hosts || !doc.data.hosts.length) && (!doc.data.author || !doc.data.author.length)) {
     return [];
+  }
+  if (doc.type === 'webinar') {
+    return doc.data.hosts.map((h) => {
+      var _a;
+      return ({
+        name: h.name || '',
+        title: h.title || '',
+        link: ((_a = h.profile_link) === null || _a === void 0 ? void 0 : _a.url) || '',
+        avatar: h.photo || '',
+      });
+    });
+  }
+  else if (doc.data.author && doc.data.author.length) {
+    return doc.data.author.map((a) => {
+      var _a;
+      return ({
+        name: a.name || '',
+        title: a.title || '',
+        link: ((_a = a.author_url) === null || _a === void 0 ? void 0 : _a.url) || '',
+        avatar: a.photo || '',
+      });
+    });
+  }
+  else if (doc.data.author) {
+    return [
+      {
+        name: doc.data.author.name || '',
+        title: doc.data.author.title || '',
+        link: ((_a = doc.data.author.author_url) === null || _a === void 0 ? void 0 : _a.url) || '',
+        avatar: doc.data.author.photo || '',
+      },
+    ];
+  }
+  return [];
 };
-const prismicTypeToResourceType = (type) => ({
-    article: ResourceType.Article,
-    book: ResourceType.Book,
-    blog: ResourceType.Blog,
-    case_study: ResourceType.CaseStudy,
-    course: ResourceType.Course,
-    customer_story: ResourceType.CustomerInterview,
-    learning: ResourceType.Learning,
-    doc: ResourceType.Doc,
-    guide: ResourceType.Guide,
-    podcast: ResourceType.Podcast,
-    tutorial: ResourceType.Tutorial,
-    video: ResourceType.Video,
-    webinar: ResourceType.Webinar,
-    whitepaper: ResourceType.Whitepaper,
-}[type]);
-function linkResolver(doc) {
-    // Define the url depending on the document type
-    if (doc.type === 'article') {
-        return '/resources/articles/' + doc.uid;
-    }
-    else if (doc.type === 'case_study') {
-        return '/resources/case-studies/' + doc.uid;
-    }
-    else if (doc.type === 'customer_story') {
-        return '/resources/customer-interviews/' + doc.uid;
-    }
-    else if (doc.type === 'enterprise_blog_post') {
-        return '/enterprise/blog/' + doc.uid;
-    }
-    else if (doc.type === 'integration') {
-        return '/integrations/' + doc.uid;
-    }
-    else if (doc.type === 'podcast') {
-        return '/resources/podcasts/' + doc.uid;
-    }
-    else if (doc.type === 'thank_you') {
-        return '/thank-you/' + doc.uid;
-    }
-    else if (doc.type === 'video') {
-        return '/resources/videos/' + doc.uid;
-    }
-    else if (doc.type === 'webinar') {
-        return '/resources/webinars/' + doc.uid;
-    }
-    else if (doc.type === 'whitepaper') {
-        return '/resources/whitepapers/' + doc.uid;
-    }
-    // Default to homepage
-    return '/';
-}
-const resourceTypeToPath = (type) => ({
-    [ResourceType.Article]: 'articles',
-    [ResourceType.Blog]: 'blogs',
-    [ResourceType.Book]: 'blogs',
-    [ResourceType.CaseStudy]: 'case-studies',
-    [ResourceType.Course]: 'courses',
-    [ResourceType.CustomerInterview]: 'customer-interviews',
-    [ResourceType.Doc]: 'docs',
-    [ResourceType.Learning]: 'learning',
-    [ResourceType.Guide]: 'guides',
-    [ResourceType.Podcast]: 'podcasts',
-    [ResourceType.Tutorial]: 'tutorials',
-    [ResourceType.Video]: 'videos',
-    [ResourceType.Webinar]: 'webinars',
-    [ResourceType.Whitepaper]: 'whitepapers',
+const prismicTypeToResourceType$1 = (type) => ({
+  article: ResourceType$1.Article,
+  blog: ResourceType$1.Blog,
+  book: ResourceType$1.Book,
+  case_study: ResourceType$1.CaseStudy,
+  course: ResourceType$1.Course,
+  customer_story: ResourceType$1.CustomerInterview,
+  doc: ResourceType$1.Doc,
+  guide: ResourceType$1.Guide,
+  learning: ResourceType$1.Learning,
+  podcast: ResourceType$1.Podcast,
+  tutorial: ResourceType$1.Tutorial,
+  video: ResourceType$1.Video,
+  webinar: ResourceType$1.Webinar,
+  whitepaper: ResourceType$1.Whitepaper,
 }[type]);
 
-const ResourceAuthorItem = ({ author, byline, singleLine = false, className, key }) => {
-    return author ? (h("a", { href: author.link, target: "_blank", rel: "noopener", key: key, class: `
-        ${byline ? `resource-author-item--byline` : ''}
-        ${singleLine ? `resource-author-item--single-line` : ''}
-        ${className ? className : ''}
-        resource-author-item
-      `, "aria-label": `Author information - ${author.name}` },
-        h("div", { class: "resource-author" },
-            h("img", { loading: 'lazy', class: "author-avatar", src: author.avatar, alt: author.name }),
-            h("div", { class: "author-info" },
-                h("div", { class: "author-name" }, author.name),
-                author.title ? h("div", { class: "author-title" }, author.title) : null)))) : null;
+const apiEndpoint$1 = "https://ionicframeworkcom.prismic.io/api/v2" ;
+// Client method to query documents from the Prismic repo
+const Client$1 = (req = null) => Prismic.client(apiEndpoint$1, createClientOptions$1(req, null));
+const createClientOptions$1 = (req = null, prismicAccessToken = null) => {
+  const reqOption = req ? { req } : {};
+  const accessTokenOption = prismicAccessToken ? { accessToken: prismicAccessToken } : {};
+  return Object.assign(Object.assign({}, reqOption), accessTokenOption);
 };
 
-const IONICFRAMEWORK_URL = 'https://ionicframework.com';
-const getResourcesUrl = () => `/resources/`;
-/**
- * Get the path for the given resource type. For example ResourceType.Articles
- * will be at /articles
- * @param type
- */
-const getResourceTypeUrl = (type) => {
-    const pathType = resourceTypeToPath(type);
-    return `${IONICFRAMEWORK_URL}${getResourcesUrl()}${pathType}`;
-};
-/**
- * Get the full path to the given resource
- * @param record
- */
-const getResourceUrl = (resource) => {
-    const pr = resource;
-    // If the resource has an external content url, use that
-    if (pr.doc.data.content_url && pr.doc.data.content_url.url) {
-        return PrismicDom.Link.url(pr.doc.data.content_url, linkResolver);
-        //return pr.doc.data.content_url;
-    }
-    switch (resource.type) {
-        case ResourceType.Article:
-        case ResourceType.Webinar:
-        case ResourceType.CaseStudy:
-        case ResourceType.CustomerInterview:
-        case ResourceType.Whitepaper:
-            return `${getResourceTypeUrl(resource.type)}/${resource.id}`;
-        case ResourceType.Video:
-            return getVideoUrl(resource);
-        default:
-            return `${getResourceTypeUrl(resource.type)}/${resource.id}`;
-    }
-};
-const getVideoUrl = (resource) => {
-    const pr = resource;
-    if (pr.doc.data.wistia_id) {
-        return `https://ionicpro.wistia.com/medias/${pr.doc.data.wistia_id}`;
-    }
-    else if (pr.doc.data.youtube_id) {
-        return `https://www.youtube.com/watch?v=${pr.doc.data.youtube_id}`;
-    }
-    return '';
-};
-
-const ResourceMeta = ({ resource }) => {
-    var _a;
-    return (h("div", { class: "resource-meta" },
-        h("div", { class: "type" }, resource.type),
-        h("div", { class: "tags" }, (_a = resource.tags) === null || _a === void 0 ? void 0 : _a.map((t, i) => [h("span", null, t), i < resource.tags.length - 1 ? h(Sep, null) : null]))));
-};
-const Sep = () => h("span", { class: "sep" });
-
-const ResourceCard = (props) => {
-    if (props.hero) {
-        return h(StandardResourceCard, Object.assign({}, props));
-    }
-    switch (props.resource.type) {
-        case ResourceType.Whitepaper:
-            return h(WhitepaperResourceCard, Object.assign({}, props));
-        default:
-            return h(StandardResourceCard, Object.assign({}, props));
-    }
-};
-const StandardResourceCard = ({ resource, headingLevel = 3, showAuthor = true, showImage = true, showDescription = true, metaTop = false, key, }) => (h(Card, { embelish: false, class: `resource-card${metaTop ? ` resource-card--meta-top` : ''}`, key: key },
-    metaTop && h(ResourceMeta, { resource: resource }),
-    showImage && (h("a", { href: getResourceUrl(resource), class: "resource-card__image" },
-        h(HeroImage, { resource: resource }))),
-    !metaTop && h(ResourceMeta, { resource: resource }),
-    h("div", { class: "resource-card__content" },
-        h("a", { href: getResourceUrl(resource) },
-            h(Heading, { level: headingLevel }, resource.title)),
-        showDescription && h("p", null, resource.description)),
-    showAuthor && h(ResourceAuthorItem, { author: resource.authors[0] })));
-const WhitepaperResourceCard = (props) => {
-    const r = props.resource;
-    return (h(Card, { embelish: false, class: `resource-card resource-card--ad`, key: props.key },
-        h("a", { href: getResourceUrl(props.resource) },
-            h(Heading, { level: 3 }, r.doc.data.ad || r.title),
-            h(HeroImage, { resource: props.resource }))));
-};
-const HeroImage = ({ resource }) => (h("img", { loading: 'lazy', class: "resource-card__featured-image", src: resource.heroImage, alt: resource.title }));
-
-const moreResourcesCss = ".sc-more-resources-h{display:block}.resource-meta.sc-more-resources{display:flex;flex-direction:row;letter-spacing:var(--letter-spacing-5);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.resource-meta.sc-more-resources .type.sc-more-resources{font-weight:500;font-size:10px;color:var(--c-carbon-900);text-transform:uppercase;margin-right:24px}@media (max-width: 768px){.resource-meta.sc-more-resources .type.sc-more-resources{margin-right:0}}.resource-meta.sc-more-resources .tags.sc-more-resources{color:var(--c-indigo-600);font-size:10px;text-transform:uppercase}.resource-meta.sc-more-resources .tags.sc-more-resources span.sc-more-resources{display:inline-block}.resource-meta.sc-more-resources .tags.sc-more-resources .sep.sc-more-resources{display:inline-block;height:11px;width:1px;margin:0 6px -2px;background:var(--c-indigo-300)}@media (max-width: 768px){.resource-meta.sc-more-resources{flex-direction:column;gap:8px}}.resource-card.sc-more-resources{display:flex;flex-direction:column;height:100%}.resource-card.sc-more-resources a.sc-more-resources{color:var(--c-carbon-900)}.resource-card.sc-more-resources h1.sc-more-resources,.resource-card.sc-more-resources h2.sc-more-resources,.resource-card.sc-more-resources h3.sc-more-resources,.resource-card.sc-more-resources h4.sc-more-resources,.resource-card.sc-more-resources h5.sc-more-resources{margin-top:0}.resource-card.sc-more-resources p.sc-more-resources{color:var(--c-indigo-900);font-size:16px;line-height:160%}.resource-card.sc-more-resources .resource-meta.sc-more-resources{margin-bottom:12px}.resource-card__content.sc-more-resources{flex:1}.resource-card--meta-top.sc-more-resources .resource-meta.sc-more-resources{margin-bottom:24px}.resource-card__image.sc-more-resources{display:block;overflow:hidden;margin-bottom:24px;line-height:0}.resource-card__featured-image.sc-more-resources{max-width:100%;transition:200ms transform cubic-bezier(0.32, 0.72, 0, 1)}.resource-card__featured-image.sc-more-resources:hover{transform:scale(1.05)}.resource-card--ad.sc-more-resources{background:var(--c-indigo-200);padding:30px}.resource-author-item.sc-more-resources .resource-author.sc-more-resources{display:grid;grid-template-columns:32px 1fr;column-gap:8px}.resource-author-item.sc-more-resources .author-info.sc-more-resources{display:flex;flex-direction:column;justify-content:center}.resource-author-item.sc-more-resources .author-avatar.sc-more-resources{max-height:32px;border-radius:100%}.resource-author-item.sc-more-resources .author-name.sc-more-resources{font-size:14px;color:var(--c-carbon-900)}.resource-author-item.sc-more-resources .author-title.sc-more-resources{font-size:12px;color:var(--c-indigo-600)}.resource-author-item--single-line.sc-more-resources .author-info.sc-more-resources{display:block;line-height:32px}.resource-author-item--single-line.sc-more-resources .author-info.sc-more-resources .author-name.sc-more-resources{display:inline-block;vertical-align:middle;font-size:16px;color:var(--c-indigo-700)}.resource-author-item--single-line.sc-more-resources .author-info.sc-more-resources .author-name.sc-more-resources:after{content:\", \"}.resource-author-item--single-line.sc-more-resources .author-info.sc-more-resources .author-title.sc-more-resources{display:inline-block;vertical-align:middle;font-size:16px;margin-left:2px;color:var(--c-indigo-700)}";
+const moreResourcesCss = ".sc-more-resources-h{display:block}.ui-grid.size-2.sc-more-resources{column-gap:var(--space-6)}.ui-grid.size-2.sc-more-resources resource-card.sc-more-resources{--image-height:128px}";
 
 class MoreResources {
   constructor(hostRef) {
     registerInstance(this, hostRef);
-    this.showAuthor = false;
-    this.showDescription = true;
     this.prismicEndpoint = 'https://ionicframeworkcom.cdn.prismic.io/api/v2';
+    this.description = false;
   }
   async componentWillLoad() {
-    const client = Client(this.prismicEndpoint);
-    const requests = this.resources.map(r => client.getByUID(r.type, r.uid, null));
+    if (this.resources)
+      return this.prismicResources = this.resources;
+    const client = Client$1(this.prismicEndpoint);
+    const requests = this.resourceData.map(r => client.getByUID(r.type, r.uid, null));
     try {
-      this.docs = await (await Promise.all(requests)).map(d => prismicDocToResource(d));
+      this.prismicResources = await (await Promise.all(requests)).map(d => prismicDocToResource$1(d));
     }
     catch (e) {
       console.error('Unable to load more resources', e);
     }
   }
   render() {
-    const { showAuthor, showDescription } = this;
-    return (h(Host, null, h(Grid, null, this.docs.map(d => (h(Col, { md: 4, sm: 4, xs: 12, cols: 12, key: d.id }, h(ResourceCard, { resource: d, showDescription: showDescription, showAuthor: showAuthor })))))));
+    let props = {
+      xs: 12,
+      cols: 12,
+      md: undefined,
+      sm: undefined
+    };
+    switch (this.resources.length) {
+      case 2:
+        props = Object.assign(Object.assign({}, props), { md: 6, sm: 6 });
+        break;
+      case 3:
+        props = Object.assign(Object.assign({}, props), { md: 4, sm: 4 });
+        break;
+    }
+    return (hAsync(Grid, { class: `size-${this.resources.length}` }, this.prismicResources.map((d) => (hAsync(Col, Object.assign({}, props, { key: d.id }), hAsync("resource-card", { prismicData: d, description: this.description, routing: this.routing }))))));
   }
   static get style() { return moreResourcesCss; }
   static get cmpMeta() { return {
     "$flags$": 2,
     "$tagName$": "more-resources",
     "$members$": {
+      "resourceData": [16],
       "resources": [16],
-      "showAuthor": [4, "show-author"],
-      "showDescription": [4, "show-description"],
       "prismicEndpoint": [1, "prismic-endpoint"],
-      "docs": [32]
+      "description": [4],
+      "routing": [16],
+      "prismicResources": [32]
     },
     "$listeners$": undefined,
     "$lazyBundleId$": "-",
@@ -17926,9 +18761,9 @@ class NewsletterForm {
     };
   }
   render() {
-    return (h("div", null, !this.emailSuccess &&
-      h("form", { onSubmit: this.handleSubmit, class: "newsletter__form" }, h("input", { ref: e => this.emailInput = e, placeholder: "Your email" }), h("button", null, h("ion-icon", { name: "arrow-forward-outline" })), this.emailInvalid && h("div", { class: "error__message" }, "invalid email address")), this.emailSuccess &&
-      h("div", { class: "success__message" }, h("svg", { width: "42", height: "42", viewBox: "0 0 42 42", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, h("path", { d: "M21 42c11.598 0 21-9.402 21-21S32.598 0 21 0 0 9.402 0 21s9.402 21 21 21z", fill: "#D3F3DB" }), h("path", { d: "M13.87 20.97a1.75 1.75 0 00-2.54 2.408l2.54-2.407zm3.588 6.33l-1.27 1.204a1.75 1.75 0 002.54 0l-1.27-1.204zM30.67 15.904a1.75 1.75 0 00-2.54-2.408l2.54 2.408zm-19.34 7.474l4.858 5.126 2.54-2.408-4.858-5.125-2.54 2.407zm7.398 5.126l11.942-12.6-2.54-2.408-11.942 12.6 2.54 2.408z", fill: "#43C465" })), h("p", null, this.successMsg))));
+    return (hAsync("div", null, !this.emailSuccess &&
+      hAsync("form", { onSubmit: this.handleSubmit, class: "newsletter__form" }, hAsync("input", { ref: e => this.emailInput = e, placeholder: "Your email" }), hAsync("button", null, hAsync("ion-icon", { name: "arrow-forward-outline" })), this.emailInvalid && hAsync("div", { class: "error__message" }, "invalid email address")), this.emailSuccess &&
+      hAsync("div", { class: "success__message" }, hAsync("svg", { width: "42", height: "42", viewBox: "0 0 42 42", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, hAsync("path", { d: "M21 42c11.598 0 21-9.402 21-21S32.598 0 21 0 0 9.402 0 21s9.402 21 21 21z", fill: "#D3F3DB" }), hAsync("path", { d: "M13.87 20.97a1.75 1.75 0 00-2.54 2.408l2.54-2.407zm3.588 6.33l-1.27 1.204a1.75 1.75 0 002.54 0l-1.27-1.204zM30.67 15.904a1.75 1.75 0 00-2.54-2.408l2.54 2.408zm-19.34 7.474l4.858 5.126 2.54-2.408-4.858-5.125-2.54 2.407zm7.398 5.126l11.942-12.6-2.54-2.408-11.942 12.6 2.54 2.408z", fill: "#43C465" })), hAsync("p", null, this.successMsg))));
   }
   static get style() { return newsletterFormCss; }
   static get cmpMeta() { return {
@@ -18050,8 +18885,8 @@ class PhoneAnimator {
     this.setIntersectionHelper();
   }
   render() {
-    return (h(Host, null, h("svg", { class: "foreground screen", viewBox: "3.79372501373291 133.2659912109375 565.734130859375 307.3507995605469", xmlns: "http://www.w3.org/2000/svg" }, h("path", { ref: e => e ? this.foreground.push(e) : '', opacity: "0", d: "M552.914 174.599L399.797 134.422C385.537 131.271 366.436 134.941 357.561 140.85L7.68016 376.88C0.286579 384.11 3.75508 392.452 15.4273 395.512L185.396 439.568C197.068 442.628 209.539 438.655 219.917 432.017L560.777 194.124C575.541 183.414 570.759 179.455 552.914 174.599Z" }), h("path", { ref: e => e ? this.foreground.push(e) : '', d: "M552.914 174.599L399.797 134.422C385.537 131.271 366.436 134.941 357.561 140.85L7.68016 376.88C0.286579 384.11 3.75508 392.452 15.4273 395.512L185.396 439.568C197.068 442.628 209.539 438.655 219.917 432.017L560.777 194.124C575.541 183.414 570.759 179.455 552.914 174.599Z" }), h("path", { ref: e => e ? this.foreground.push(e) : '', d: "M552.914 174.599L399.797 134.422C385.537 131.271 366.436 134.941 357.561 140.85L7.68016 376.88C0.286579 384.11 3.75508 392.452 15.4273 395.512L185.396 439.568C197.068 442.628 209.539 438.655 219.917 432.017L560.777 194.124C575.541 183.414 570.759 179.455 552.914 174.599Z" }), h("path", { ref: e => e ? this.foreground.push(e) : '', d: "M552.914 174.599L399.797 134.422C385.537 131.271 366.436 134.941 357.561 140.85L7.68016 376.88C0.286579 384.11 3.75508 392.452 15.4273 395.512L185.396 439.568C197.068 442.628 209.539 438.655 219.917 432.017L560.777 194.124C575.541 183.414 570.759 179.455 552.914 174.599Z" })), h("div", { class: "iphone" }, h("svg", { class: "screen", viewBox: "3.79372501373291 133.2659912109375 565.734130859375 307.3507995605469", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, h("path", { ref: e => e ? this.screenEl = e : '', fill: "#5947FB", d: "M552.914 174.599L399.797 134.422C385.537 131.271 366.436 134.941 357.561 140.85L7.68016 376.88C0.286579 384.11 3.75508 392.452 15.4273 395.512L185.396 439.568C197.068 442.628 209.539 438.655 219.917 432.017L560.777 194.124C575.541 183.414 570.759 179.455 552.914 174.599Z" })), h("img", { src: getAssetPath('assets/phone.png'), srcset: `${getAssetPath('assets/phone.png')} 1x,
-                  ${getAssetPath('assets/phone@2x.png')} 2x`, loading: "lazy", width: "1780", height: "1541", alt: "floating iphone with blank screen" })), h("svg", { class: "background screen", viewBox: "3.79372501373291 133.2659912109375 565.734130859375 307.3507995605469", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, h("path", { ref: e => e ? this.background.push(e) : '', d: "M552.914 174.599L399.797 134.422C385.537 131.271 366.436 134.941 357.561 140.85L7.68016 376.88C0.286579 384.11 3.75508 392.452 15.4273 395.512L185.396 439.568C197.068 442.628 209.539 438.655 219.917 432.017L560.777 194.124C575.541 183.414 570.759 179.455 552.914 174.599Z" }), h("path", { ref: e => e ? this.background.push(e) : '', d: "M552.914 174.599L399.797 134.422C385.537 131.271 366.436 134.941 357.561 140.85L7.68016 376.88C0.286579 384.11 3.75508 392.452 15.4273 395.512L185.396 439.568C197.068 442.628 209.539 438.655 219.917 432.017L560.777 194.124C575.541 183.414 570.759 179.455 552.914 174.599Z" }), h("path", { ref: e => e ? this.background.push(e) : '', d: "M552.914 174.599L399.797 134.422C385.537 131.271 366.436 134.941 357.561 140.85L7.68016 376.88C0.286579 384.11 3.75508 392.452 15.4273 395.512L185.396 439.568C197.068 442.628 209.539 438.655 219.917 432.017L560.777 194.124C575.541 183.414 570.759 179.455 552.914 174.599Z" }))));
+    return (hAsync(Host, null, hAsync("svg", { class: "foreground screen", viewBox: "3.79372501373291 133.2659912109375 565.734130859375 307.3507995605469", xmlns: "http://www.w3.org/2000/svg" }, hAsync("path", { ref: e => e ? this.foreground.push(e) : '', opacity: "0", d: "M552.914 174.599L399.797 134.422C385.537 131.271 366.436 134.941 357.561 140.85L7.68016 376.88C0.286579 384.11 3.75508 392.452 15.4273 395.512L185.396 439.568C197.068 442.628 209.539 438.655 219.917 432.017L560.777 194.124C575.541 183.414 570.759 179.455 552.914 174.599Z" }), hAsync("path", { ref: e => e ? this.foreground.push(e) : '', d: "M552.914 174.599L399.797 134.422C385.537 131.271 366.436 134.941 357.561 140.85L7.68016 376.88C0.286579 384.11 3.75508 392.452 15.4273 395.512L185.396 439.568C197.068 442.628 209.539 438.655 219.917 432.017L560.777 194.124C575.541 183.414 570.759 179.455 552.914 174.599Z" }), hAsync("path", { ref: e => e ? this.foreground.push(e) : '', d: "M552.914 174.599L399.797 134.422C385.537 131.271 366.436 134.941 357.561 140.85L7.68016 376.88C0.286579 384.11 3.75508 392.452 15.4273 395.512L185.396 439.568C197.068 442.628 209.539 438.655 219.917 432.017L560.777 194.124C575.541 183.414 570.759 179.455 552.914 174.599Z" }), hAsync("path", { ref: e => e ? this.foreground.push(e) : '', d: "M552.914 174.599L399.797 134.422C385.537 131.271 366.436 134.941 357.561 140.85L7.68016 376.88C0.286579 384.11 3.75508 392.452 15.4273 395.512L185.396 439.568C197.068 442.628 209.539 438.655 219.917 432.017L560.777 194.124C575.541 183.414 570.759 179.455 552.914 174.599Z" })), hAsync("div", { class: "iphone" }, hAsync("svg", { class: "screen", viewBox: "3.79372501373291 133.2659912109375 565.734130859375 307.3507995605469", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, hAsync("path", { ref: e => e ? this.screenEl = e : '', fill: "#5947FB", d: "M552.914 174.599L399.797 134.422C385.537 131.271 366.436 134.941 357.561 140.85L7.68016 376.88C0.286579 384.11 3.75508 392.452 15.4273 395.512L185.396 439.568C197.068 442.628 209.539 438.655 219.917 432.017L560.777 194.124C575.541 183.414 570.759 179.455 552.914 174.599Z" })), hAsync("img", { src: getAssetPath('assets/phone.png'), srcset: `${getAssetPath('assets/phone.png')} 1x,
+                  ${getAssetPath('assets/phone@2x.png')} 2x`, loading: "lazy", width: "1780", height: "1541", alt: "floating iphone with blank screen" })), hAsync("svg", { class: "background screen", viewBox: "3.79372501373291 133.2659912109375 565.734130859375 307.3507995605469", fill: "none", xmlns: "http://www.w3.org/2000/svg" }, hAsync("path", { ref: e => e ? this.background.push(e) : '', d: "M552.914 174.599L399.797 134.422C385.537 131.271 366.436 134.941 357.561 140.85L7.68016 376.88C0.286579 384.11 3.75508 392.452 15.4273 395.512L185.396 439.568C197.068 442.628 209.539 438.655 219.917 432.017L560.777 194.124C575.541 183.414 570.759 179.455 552.914 174.599Z" }), hAsync("path", { ref: e => e ? this.background.push(e) : '', d: "M552.914 174.599L399.797 134.422C385.537 131.271 366.436 134.941 357.561 140.85L7.68016 376.88C0.286579 384.11 3.75508 392.452 15.4273 395.512L185.396 439.568C197.068 442.628 209.539 438.655 219.917 432.017L560.777 194.124C575.541 183.414 570.759 179.455 552.914 174.599Z" }), hAsync("path", { ref: e => e ? this.background.push(e) : '', d: "M552.914 174.599L399.797 134.422C385.537 131.271 366.436 134.941 357.561 140.85L7.68016 376.88C0.286579 384.11 3.75508 392.452 15.4273 395.512L185.396 439.568C197.068 442.628 209.539 438.655 219.917 432.017L560.777 194.124C575.541 183.414 570.759 179.455 552.914 174.599Z" }))));
   }
   static get assetsDirs() { return ["assets"]; }
   get el() { return getElement(this); }
@@ -18314,7 +19149,7 @@ class PipelineAnimator {
     });
   }
   render() {
-    return (h(Host, null, h("div", { class: "anim-automate" }, h("div", { class: "anim-automate_ui" }, h("div", { class: "master", ref: e => this.tiles.set('master', e) }, h("img", { src: getAssetPath('assets/master.png'), width: "200", height: "60", loading: "lazy", alt: "master branch icon" }), h(Paragraph, { level: 5 }, "Push code")), h("div", { class: "staging", ref: e => this.tiles.set('staging', e) }, h("img", { src: getAssetPath('assets/staging.png'), width: "220", height: "60", loading: "lazy", alt: "staging branch icon" }), h(Paragraph, { level: 5 }, "Push code")), h("div", { class: "qa", ref: e => this.tiles.set('qa', e) }, h("img", { src: getAssetPath('assets/qa.png'), width: "122", height: "60", loading: "lazy", alt: "qa branch icon" }), h(Paragraph, { level: 5 }, "Push code")), h("div", { class: "android", ref: e => this.tiles.set('android', e) }, h("img", { src: getAssetPath('assets/android.png'), width: "124", height: "124", loading: "lazy", alt: "green android circle icon" }), h(Paragraph, { level: 5 }, "Trigger Android build")), h("div", { class: "ios", ref: e => this.tiles.set('ios', e) }, h("img", { src: getAssetPath('assets/ios.png'), width: "124", height: "124", loading: "lazy", alt: "dark gray ios circle icon" }), h(Paragraph, { level: 5 }, "Trigger iOS build")), h("div", { class: "web", ref: e => this.tiles.set('web', e) }, h("img", { src: getAssetPath('assets/js.png'), width: "124", height: "124", loading: "lazy", alt: "yellow javascript circle icon" }), h(Paragraph, { level: 5 }, "Trigger Web build")), h("div", { class: "testflight", ref: e => this.tiles.set('testflight', e) }, h("img", { src: getAssetPath('assets/testflight.png'), width: "106", height: "106", loading: "lazy", alt: "blue testflight icon" }), h(Paragraph, { level: 5 }, "Deploy to TestFlight")), h("div", { class: "playstore", ref: e => this.tiles.set('playstore', e) }, h("img", { src: getAssetPath('assets/playstore.png'), width: "100", height: "110", loading: "lazy", alt: "Google play store icon" }), h(Paragraph, { level: 5 }, "Deploy to Google Play")), h("div", { class: "webhook", ref: e => this.tiles.set('webhook', e) }, h("img", { src: getAssetPath('assets/webhook.png'), width: "116", height: "108", loading: "lazy", alt: "Webhook icon" }), h(Paragraph, { level: 5 }, "Trigger webhook"))), h("svg", { width: "1346", height: "790", xmlns: "http://www.w3.org/2000/svg" }, h("g", { transform: "translate(-14 -14)" }, h("g", null, h("rect", { class: "threeC", ref: e => this.bottomLocations.set('threeC', e), fill: "#F5F7FD", transform: "rotate(135 1022.725 496.6375)", x: "919.725", y: "393.6375", width: "206", height: "206", rx: "34" }), h("rect", { class: "threeB", ref: e => this.bottomLocations.set('threeB', e), fill: "#F5F7FD", transform: "rotate(135 672 496.6375)", x: "569", y: "393.6375", width: "206", height: "206", rx: "34" }), h("rect", { class: "threeA", ref: e => this.bottomLocations.set('threeA', e), fill: "#F5F7FD", transform: "rotate(135 321.275 496.6375)", x: "218.275", y: "393.6375", width: "206", height: "206", rx: "34" }), h("rect", { class: "twoA", ref: e => this.bottomLocations.set('twoA', e), fill: "#F5F7FD", transform: "rotate(135 496.6375 321.275)", x: "393.6375", y: "218.275", width: "206", height: "206", rx: "34" }), h("rect", { class: "twoB", ref: e => this.bottomLocations.set('twoB', e), fill: "#F5F7FD", transform: "rotate(135 847.3625 321.275)", x: "744.3625", y: "218.275", width: "206", height: "206", rx: "34" }), h("rect", { class: "one", ref: e => this.bottomLocations.set('one', e), fill: "#DDE6F7", transform: "rotate(135 672 145.9126)", x: "569", y: "42.9126", width: "206", height: "206", rx: "34" })), h("path", { d: "M920.4007 393.1937l28.9914 28.9914", class: "connector", id: "twoB_R", ref: e => this.connectors.set('twoB_R', e), stroke: "#F2F6FF", "stroke-width": "5", "stroke-linecap": "square" }), h("path", { d: "M774.3242 394.6079l-28.9913 28.9914", class: "connector", id: "twoB_L", ref: e => this.connectors.set('twoB_L', e), stroke: "#F2F6FF", "stroke-width": "5", "stroke-linecap": "square" }), h("path", { d: "M568.9392 395.3445l28.9914 28.9914", class: "connector", id: "twoA_R", ref: e => this.connectors.set('twoA_R', e), stroke: "#F2F6FF", "stroke-width": "5", "stroke-linecap": "square" }), h("path", { d: "M422.9216 393.9303l-28.9913 28.9913", class: "connector", id: "twoA_L", ref: e => this.connectors.set('twoA_L', e), stroke: "#F2F6FF", "stroke-width": "5", "stroke-linecap": "square" }), h("path", { d: "M745.0088 219.2749l28.9914 28.9914", class: "connector", id: "one_R", ref: e => this.connectors.set('one_R', e), stroke: "#F2F6FF", "stroke-width": "5", "stroke-linecap": "square" }), h("path", { d: "M598.2841 218.5678l-28.9914 28.9914", class: "connector", id: "one_L", ref: e => this.connectors.set('one_L', e), stroke: "#F2F6FF", "stroke-width": "5", "stroke-linecap": "square" }), h("g", null, h("rect", { class: "four", fill: "#F5F7FD", transform: "rotate(135 1198.0874 672)", x: "1095.0874", y: "569", width: "206", height: "206", rx: "34" }), h("rect", { class: "four", fill: "#F5F7FD", transform: "rotate(135 145.9126 672)", x: "42.9126", y: "569", width: "206", height: "206", rx: "34" }), h("rect", { class: "four", fill: "#F5F7FD", transform: "rotate(135 496.6375 672)", x: "393.6375", y: "569", width: "206", height: "206", rx: "34" }), h("rect", { class: "four", fill: "#F5F7FD", transform: "rotate(135 847.3625 672)", x: "744.3625", y: "569", width: "206", height: "206", rx: "34" }), h("rect", { class: "threeC", ref: e => this.topLocations.set('threeC', e), fill: "#F5F7FD", transform: "rotate(135 1022.725 496.6375)", x: "919.725", y: "393.6375", width: "206", height: "206", rx: "34" }), h("rect", { class: "threeB", ref: e => this.topLocations.set('threeB', e), fill: "#F5F7FD", transform: "rotate(135 672 496.6375)", x: "569", y: "393.6375", width: "206", height: "206", rx: "34" }), h("rect", { class: "threeA", ref: e => this.topLocations.set('threeA', e), fill: "#F5F7FD", transform: "rotate(135 321.275 496.6375)", x: "218.275", y: "393.6375", width: "206", height: "206", rx: "34" }), h("rect", { class: "twoA", ref: e => this.topLocations.set('twoA', e), fill: "#F5F7FD", transform: "rotate(135 496.6375 321.275)", x: "393.6375", y: "218.275", width: "206", height: "206", rx: "34" }), h("rect", { class: "twoB", ref: e => this.topLocations.set('twoB', e), fill: "#F5F7FD", transform: "rotate(135 847.3625 321.275)", x: "744.3625", y: "218.275", width: "206", height: "206", rx: "34" }), h("rect", { class: "one", ref: e => this.topLocations.set('one', e), fill: "#DDE6F7", transform: "rotate(135 672 145.9126)", x: "569", y: "42.9126", width: "206", height: "206", rx: "34" })))))));
+    return (hAsync(Host, null, hAsync("div", { class: "anim-automate" }, hAsync("div", { class: "anim-automate_ui" }, hAsync("div", { class: "master", ref: e => this.tiles.set('master', e) }, hAsync("img", { src: getAssetPath('assets/master.png'), width: "200", height: "60", loading: "lazy", alt: "master branch icon" }), hAsync(Paragraph, { level: 5 }, "Push code")), hAsync("div", { class: "staging", ref: e => this.tiles.set('staging', e) }, hAsync("img", { src: getAssetPath('assets/staging.png'), width: "220", height: "60", loading: "lazy", alt: "staging branch icon" }), hAsync(Paragraph, { level: 5 }, "Push code")), hAsync("div", { class: "qa", ref: e => this.tiles.set('qa', e) }, hAsync("img", { src: getAssetPath('assets/qa.png'), width: "122", height: "60", loading: "lazy", alt: "qa branch icon" }), hAsync(Paragraph, { level: 5 }, "Push code")), hAsync("div", { class: "android", ref: e => this.tiles.set('android', e) }, hAsync("img", { src: getAssetPath('assets/android.png'), width: "124", height: "124", loading: "lazy", alt: "green android circle icon" }), hAsync(Paragraph, { level: 5 }, "Trigger Android build")), hAsync("div", { class: "ios", ref: e => this.tiles.set('ios', e) }, hAsync("img", { src: getAssetPath('assets/ios.png'), width: "124", height: "124", loading: "lazy", alt: "dark gray ios circle icon" }), hAsync(Paragraph, { level: 5 }, "Trigger iOS build")), hAsync("div", { class: "web", ref: e => this.tiles.set('web', e) }, hAsync("img", { src: getAssetPath('assets/js.png'), width: "124", height: "124", loading: "lazy", alt: "yellow javascript circle icon" }), hAsync(Paragraph, { level: 5 }, "Trigger Web build")), hAsync("div", { class: "testflight", ref: e => this.tiles.set('testflight', e) }, hAsync("img", { src: getAssetPath('assets/testflight.png'), width: "106", height: "106", loading: "lazy", alt: "blue testflight icon" }), hAsync(Paragraph, { level: 5 }, "Deploy to TestFlight")), hAsync("div", { class: "playstore", ref: e => this.tiles.set('playstore', e) }, hAsync("img", { src: getAssetPath('assets/playstore.png'), width: "100", height: "110", loading: "lazy", alt: "Google play store icon" }), hAsync(Paragraph, { level: 5 }, "Deploy to Google Play")), hAsync("div", { class: "webhook", ref: e => this.tiles.set('webhook', e) }, hAsync("img", { src: getAssetPath('assets/webhook.png'), width: "116", height: "108", loading: "lazy", alt: "Webhook icon" }), hAsync(Paragraph, { level: 5 }, "Trigger webhook"))), hAsync("svg", { width: "1346", height: "790", xmlns: "http://www.w3.org/2000/svg" }, hAsync("g", { transform: "translate(-14 -14)" }, hAsync("g", null, hAsync("rect", { class: "threeC", ref: e => this.bottomLocations.set('threeC', e), fill: "#F5F7FD", transform: "rotate(135 1022.725 496.6375)", x: "919.725", y: "393.6375", width: "206", height: "206", rx: "34" }), hAsync("rect", { class: "threeB", ref: e => this.bottomLocations.set('threeB', e), fill: "#F5F7FD", transform: "rotate(135 672 496.6375)", x: "569", y: "393.6375", width: "206", height: "206", rx: "34" }), hAsync("rect", { class: "threeA", ref: e => this.bottomLocations.set('threeA', e), fill: "#F5F7FD", transform: "rotate(135 321.275 496.6375)", x: "218.275", y: "393.6375", width: "206", height: "206", rx: "34" }), hAsync("rect", { class: "twoA", ref: e => this.bottomLocations.set('twoA', e), fill: "#F5F7FD", transform: "rotate(135 496.6375 321.275)", x: "393.6375", y: "218.275", width: "206", height: "206", rx: "34" }), hAsync("rect", { class: "twoB", ref: e => this.bottomLocations.set('twoB', e), fill: "#F5F7FD", transform: "rotate(135 847.3625 321.275)", x: "744.3625", y: "218.275", width: "206", height: "206", rx: "34" }), hAsync("rect", { class: "one", ref: e => this.bottomLocations.set('one', e), fill: "#DDE6F7", transform: "rotate(135 672 145.9126)", x: "569", y: "42.9126", width: "206", height: "206", rx: "34" })), hAsync("path", { d: "M920.4007 393.1937l28.9914 28.9914", class: "connector", id: "twoB_R", ref: e => this.connectors.set('twoB_R', e), stroke: "#F2F6FF", "stroke-width": "5", "stroke-linecap": "square" }), hAsync("path", { d: "M774.3242 394.6079l-28.9913 28.9914", class: "connector", id: "twoB_L", ref: e => this.connectors.set('twoB_L', e), stroke: "#F2F6FF", "stroke-width": "5", "stroke-linecap": "square" }), hAsync("path", { d: "M568.9392 395.3445l28.9914 28.9914", class: "connector", id: "twoA_R", ref: e => this.connectors.set('twoA_R', e), stroke: "#F2F6FF", "stroke-width": "5", "stroke-linecap": "square" }), hAsync("path", { d: "M422.9216 393.9303l-28.9913 28.9913", class: "connector", id: "twoA_L", ref: e => this.connectors.set('twoA_L', e), stroke: "#F2F6FF", "stroke-width": "5", "stroke-linecap": "square" }), hAsync("path", { d: "M745.0088 219.2749l28.9914 28.9914", class: "connector", id: "one_R", ref: e => this.connectors.set('one_R', e), stroke: "#F2F6FF", "stroke-width": "5", "stroke-linecap": "square" }), hAsync("path", { d: "M598.2841 218.5678l-28.9914 28.9914", class: "connector", id: "one_L", ref: e => this.connectors.set('one_L', e), stroke: "#F2F6FF", "stroke-width": "5", "stroke-linecap": "square" }), hAsync("g", null, hAsync("rect", { class: "four", fill: "#F5F7FD", transform: "rotate(135 1198.0874 672)", x: "1095.0874", y: "569", width: "206", height: "206", rx: "34" }), hAsync("rect", { class: "four", fill: "#F5F7FD", transform: "rotate(135 145.9126 672)", x: "42.9126", y: "569", width: "206", height: "206", rx: "34" }), hAsync("rect", { class: "four", fill: "#F5F7FD", transform: "rotate(135 496.6375 672)", x: "393.6375", y: "569", width: "206", height: "206", rx: "34" }), hAsync("rect", { class: "four", fill: "#F5F7FD", transform: "rotate(135 847.3625 672)", x: "744.3625", y: "569", width: "206", height: "206", rx: "34" }), hAsync("rect", { class: "threeC", ref: e => this.topLocations.set('threeC', e), fill: "#F5F7FD", transform: "rotate(135 1022.725 496.6375)", x: "919.725", y: "393.6375", width: "206", height: "206", rx: "34" }), hAsync("rect", { class: "threeB", ref: e => this.topLocations.set('threeB', e), fill: "#F5F7FD", transform: "rotate(135 672 496.6375)", x: "569", y: "393.6375", width: "206", height: "206", rx: "34" }), hAsync("rect", { class: "threeA", ref: e => this.topLocations.set('threeA', e), fill: "#F5F7FD", transform: "rotate(135 321.275 496.6375)", x: "218.275", y: "393.6375", width: "206", height: "206", rx: "34" }), hAsync("rect", { class: "twoA", ref: e => this.topLocations.set('twoA', e), fill: "#F5F7FD", transform: "rotate(135 496.6375 321.275)", x: "393.6375", y: "218.275", width: "206", height: "206", rx: "34" }), hAsync("rect", { class: "twoB", ref: e => this.topLocations.set('twoB', e), fill: "#F5F7FD", transform: "rotate(135 847.3625 321.275)", x: "744.3625", y: "218.275", width: "206", height: "206", rx: "34" }), hAsync("rect", { class: "one", ref: e => this.topLocations.set('one', e), fill: "#DDE6F7", transform: "rotate(135 672 145.9126)", x: "569", y: "42.9126", width: "206", height: "206", rx: "34" })))))));
   }
   static get assetsDirs() { return ["assets"]; }
   get el() { return getElement(this); }
@@ -18339,21 +19174,21 @@ class PlanPricing {
     this.planType = 'yearly';
   }
   render() {
-    return (h(Host, { style: {
+    return (hAsync(Host, { style: {
         '--checkmark-path': `url(${getAssetPath('assets/checkmark-rounded.svg')})`
-      } }, h("site-modal", { ref: e => this.contactModal = e }, h("div", { class: "heading-group" }, h(Heading, null, "Contact us"), h(Paragraph, null, "Send us a detailed message and an Ionic Sales Representative will get back to you soon.")), h("hubspot-form", { formId: "a6d856c5-39f4-4725-a78f-c356d8d64ac5" })), h("div", { class: "toggle" }, h("span", { class: { 'active': this.planType === 'monthly' }, onClick: () => this.planType = 'monthly' }, "Monthly"), h("span", { class: { 'active': this.planType === 'yearly' }, onClick: () => this.planType = 'yearly' }, "Yearly (15% off)")), h("div", { class: "plans annually-active" }, h("div", { id: "plan-hobby", class: "plan__card" }, h("h3", null, "Hobby"), h("span", { class: "plan__price" }, h("strong", null, "Free")), h("div", { class: "plan__description" }, "Perfect for proof of concepts, MVPs, and personal apps"), h("div", { class: "plan__feature__divider" }), h("ul", { class: "plan__feature__list" }, h("li", null, checkmarkRounded({}, { height: 12 }), h("span", null, "Manage app projects in the Appflow ", h("strong", null, "cloud dashboard"))), h("li", null, checkmarkRounded({}, { height: 12 }), h("span", null, "Deploy ", h("strong", null, "100 live updates"), " / mo")), h("li", null, checkmarkRounded({}, { height: 12 }), "Community support")), h("a", { href: "https://ionicframework.com/signup?source=appflow-site&product=appflow", class: "button light" }, "Start Free ", h("span", { class: "arrow", style: { 'letter-spacing': '0px' } }, "->"))), h("div", { id: "plan-launch", class: "plan__card plan__card" }, h("h3", null, "Launch"), h("span", { class: "plan__price" }, h("span", { class: {
+      } }, hAsync("site-modal", { ref: e => this.contactModal = e }, hAsync("div", { class: "heading-group" }, hAsync(Heading, null, "Contact us"), hAsync(Paragraph, null, "Send us a detailed message and an Ionic Sales Representative will get back to you soon.")), hAsync("hubspot-form", { formId: "a6d856c5-39f4-4725-a78f-c356d8d64ac5" })), hAsync("div", { class: "toggle" }, hAsync("span", { class: { 'active': this.planType === 'monthly' }, onClick: () => this.planType = 'monthly' }, "Monthly"), hAsync("span", { class: { 'active': this.planType === 'yearly' }, onClick: () => this.planType = 'yearly' }, "Yearly (15% off)")), hAsync("div", { class: "plans annually-active" }, hAsync("div", { id: "plan-hobby", class: "plan__card" }, hAsync("h3", null, "Hobby"), hAsync("span", { class: "plan__price" }, hAsync("strong", null, "Free")), hAsync("div", { class: "plan__description" }, "Perfect for proof of concepts, MVPs, and personal apps"), hAsync("div", { class: "plan__feature__divider" }), hAsync("ul", { class: "plan__feature__list" }, hAsync("li", null, checkmarkRounded({}, { height: 12 }), hAsync("span", null, "Manage app projects in the Appflow ", hAsync("strong", null, "cloud dashboard"))), hAsync("li", null, checkmarkRounded({}, { height: 12 }), hAsync("span", null, "Deploy ", hAsync("strong", null, "100 live updates"), " / mo")), hAsync("li", null, checkmarkRounded({}, { height: 12 }), "Community support")), hAsync("a", { href: "https://ionicframework.com/signup?source=appflow-site&product=appflow", class: "button light" }, "Start Free ", hAsync("span", { class: "arrow", style: { 'letter-spacing': '0px' } }, "->"))), hAsync("div", { id: "plan-launch", class: "plan__card plan__card" }, hAsync("h3", null, "Launch"), hAsync("span", { class: "plan__price" }, hAsync("span", { class: {
         'plan__price__monthly': true,
         'active': this.planType === 'monthly'
-      } }, h("sup", null, "$"), h("strong", null, "49"), h("small", null, "/mo")), h("span", { class: {
+      } }, hAsync("sup", null, "$"), hAsync("strong", null, "49"), hAsync("small", null, "/mo")), hAsync("span", { class: {
         'plan__price__yearly': true,
         'active': this.planType === 'yearly'
-      } }, h("sup", null, "$"), h("strong", null, "42"), h("small", null, "/mo"))), h("div", { class: "plan__description" }, "Recommended for indie and freelance developers"), h("div", { class: "plan__feature__divider" }), h("ul", { class: "plan__feature__list" }, h("li", { class: "plan__feature__highlight" }, checkmarkRounded({}, { height: 12 }), h("span", null, "All ", h("strong", null, "Hobby"), " plan features, plus:")), h("li", null, checkmarkRounded({}, { height: 12 }), h("span", null, "Deploy ", h("strong", null, "10K live updates"), " / mo")), h("li", null, checkmarkRounded({}, { height: 12 }), h("span", null, "Compile ", h("strong", null, "native app binaries"))), h("li", null, checkmarkRounded({}, { height: 12 }), "1 concurrency"), h("li", null, checkmarkRounded({}, { height: 12 }), "Email support")), h(GetStartedButton, null)), h("div", { id: "plan-growth", class: "plan__card" }, h("h3", null, "Growth"), h("span", { class: "plan__price" }, h("span", { class: {
+      } }, hAsync("sup", null, "$"), hAsync("strong", null, "42"), hAsync("small", null, "/mo"))), hAsync("div", { class: "plan__description" }, "Recommended for indie and freelance developers"), hAsync("div", { class: "plan__feature__divider" }), hAsync("ul", { class: "plan__feature__list" }, hAsync("li", { class: "plan__feature__highlight" }, checkmarkRounded({}, { height: 12 }), hAsync("span", null, "All ", hAsync("strong", null, "Hobby"), " plan features, plus:")), hAsync("li", null, checkmarkRounded({}, { height: 12 }), hAsync("span", null, "Deploy ", hAsync("strong", null, "10K live updates"), " / mo")), hAsync("li", null, checkmarkRounded({}, { height: 12 }), hAsync("span", null, "Compile ", hAsync("strong", null, "native app binaries"))), hAsync("li", null, checkmarkRounded({}, { height: 12 }), "1 concurrency"), hAsync("li", null, checkmarkRounded({}, { height: 12 }), "Email support")), hAsync(GetStartedButton, null)), hAsync("div", { id: "plan-growth", class: "plan__card" }, hAsync("h3", null, "Growth"), hAsync("span", { class: "plan__price" }, hAsync("span", { class: {
         'plan__price__monthly': true,
         'active': this.planType === 'monthly'
-      } }, h("sup", null, "$"), h("strong", null, "120"), h("small", null, "/mo")), h("span", { class: {
+      } }, hAsync("sup", null, "$"), hAsync("strong", null, "120"), hAsync("small", null, "/mo")), hAsync("span", { class: {
         'plan__price__yearly': true,
         'active': this.planType === 'yearly'
-      } }, h("sup", null, "$"), h("strong", null, "102"), h("small", null, "/mo"))), h("div", { class: "plan__description" }, "For lean dev teams and professional developers"), h("div", { class: "plan__feature__divider" }), h("ul", { class: "plan__feature__list" }, h("li", { class: "plan__feature__highlight" }, checkmarkRounded({}, { height: 12 }), h("span", null, "All ", h("strong", null, "Launch"), " plan features, plus:")), h("li", null, checkmarkRounded({}, { height: 12 }), h("span", null, h("strong", null, "Collaborate"), " with team members and clients")), h("li", null, checkmarkRounded({}, { height: 12 }), h("span", null, h("strong", null, "CI/CD automation"), " to ship continuously with mobile")), h("li", null, checkmarkRounded({}, { height: 12 }), h("span", null, "Deploy ", h("strong", null, "25K live updates"), " / mo")), h("li", null, checkmarkRounded({}, { height: 12 }), h("span", null, "2+ ", h("strong", null, "concurrent builds"))), h("li", null, checkmarkRounded({}, { height: 12 }), "Email support")), h(GetStartedButton, null)), h("div", { id: "plan-scale", class: "plan__card plan__card" }, h("h3", null, "Scale"), h("span", { class: "plan__price" }, h("strong", null, "Custom")), h("div", { class: "plan__description" }, "Tailored to businesses building mission-critical apps"), h("div", { class: "plan__feature__divider" }), h("ul", { class: "plan__feature__list" }, h("li", { class: "plan__feature__highlight" }, checkmarkRounded({}, { height: 12 }), h("span", null, "All ", h("strong", null, "Growth"), " plan features, plus:")), h("li", null, checkmarkRounded({}, { height: 12 }), h("span", null, h("strong", null, "Publish directly to app stores"), " from your cloud dashboard")), h("li", null, checkmarkRounded({}, { height: 12 }), h("span", null, "Scale to millions of users with ", h("strong", null, "custom Deploy limits"))), h("li", null, checkmarkRounded({}, { height: 12 }), h("span", null, "iOS ", h("strong", null, "Enterprise builds"))), h("li", null, checkmarkRounded({}, { height: 12 }), h("span", null, "Custom ", h("strong", null, "concurrent builds"))), h("li", null, checkmarkRounded({}, { height: 12 }), h("span", null, h("strong", null, "Role-Based"), " access control")), h("li", null, checkmarkRounded({}, { height: 12 }), h("span", null, h("strong", null, "SAML Single sign-on"))), h("li", null, checkmarkRounded({}, { height: 12 }), h("span", null, h("strong", null, "Live onboarding"), " & premium Appflow product support"))), h("a", { class: "button dark", onClick: () => this.contactModal.open = true }, "Contact sales")))));
+      } }, hAsync("sup", null, "$"), hAsync("strong", null, "102"), hAsync("small", null, "/mo"))), hAsync("div", { class: "plan__description" }, "For lean dev teams and professional developers"), hAsync("div", { class: "plan__feature__divider" }), hAsync("ul", { class: "plan__feature__list" }, hAsync("li", { class: "plan__feature__highlight" }, checkmarkRounded({}, { height: 12 }), hAsync("span", null, "All ", hAsync("strong", null, "Launch"), " plan features, plus:")), hAsync("li", null, checkmarkRounded({}, { height: 12 }), hAsync("span", null, hAsync("strong", null, "Collaborate"), " with team members and clients")), hAsync("li", null, checkmarkRounded({}, { height: 12 }), hAsync("span", null, hAsync("strong", null, "CI/CD automation"), " to ship continuously with mobile")), hAsync("li", null, checkmarkRounded({}, { height: 12 }), hAsync("span", null, "Deploy ", hAsync("strong", null, "25K live updates"), " / mo")), hAsync("li", null, checkmarkRounded({}, { height: 12 }), hAsync("span", null, "2+ ", hAsync("strong", null, "concurrent builds"))), hAsync("li", null, checkmarkRounded({}, { height: 12 }), "Email support")), hAsync(GetStartedButton, null)), hAsync("div", { id: "plan-scale", class: "plan__card plan__card" }, hAsync("h3", null, "Scale"), hAsync("span", { class: "plan__price" }, hAsync("strong", null, "Custom")), hAsync("div", { class: "plan__description" }, "Tailored to businesses building mission-critical apps"), hAsync("div", { class: "plan__feature__divider" }), hAsync("ul", { class: "plan__feature__list" }, hAsync("li", { class: "plan__feature__highlight" }, checkmarkRounded({}, { height: 12 }), hAsync("span", null, "All ", hAsync("strong", null, "Growth"), " plan features, plus:")), hAsync("li", null, checkmarkRounded({}, { height: 12 }), hAsync("span", null, hAsync("strong", null, "Publish directly to app stores"), " from your cloud dashboard")), hAsync("li", null, checkmarkRounded({}, { height: 12 }), hAsync("span", null, "Scale to millions of users with ", hAsync("strong", null, "custom Deploy limits"))), hAsync("li", null, checkmarkRounded({}, { height: 12 }), hAsync("span", null, "iOS ", hAsync("strong", null, "Enterprise builds"))), hAsync("li", null, checkmarkRounded({}, { height: 12 }), hAsync("span", null, "Custom ", hAsync("strong", null, "concurrent builds"))), hAsync("li", null, checkmarkRounded({}, { height: 12 }), hAsync("span", null, hAsync("strong", null, "Role-Based"), " access control")), hAsync("li", null, checkmarkRounded({}, { height: 12 }), hAsync("span", null, hAsync("strong", null, "SAML Single sign-on"))), hAsync("li", null, checkmarkRounded({}, { height: 12 }), hAsync("span", null, hAsync("strong", null, "Live onboarding"), " & premium Appflow product support"))), hAsync("a", { class: "button dark", onClick: () => this.contactModal.open = true }, "Contact sales")))));
   }
   static get assetsDirs() { return ["assets"]; }
   static get style() { return planPricingCss; }
@@ -18368,7 +19203,7 @@ class PlanPricing {
     "$attrsToReflect$": []
   }; }
 }
-const GetStartedButton = () => (h("a", { href: "https://ionicframework.com/signup?source=appflow-site&product=appflow", class: "button dark" }, "Get started"));
+const GetStartedButton = () => (hAsync("a", { href: "https://ionicframework.com/signup?source=appflow-site&product=appflow", class: "button dark" }, "Get started"));
 
 const platformBarCss = ".sc-site-platform-bar-h{display:block;background:var(--c-carbon-100);font-family:var(--f-family-text)}.nowrap.sc-site-platform-bar{display:inline-block;white-space:nowrap}.platform-bar__container.sc-site-platform-bar{display:flex;align-items:center;height:44px;justify-content:space-between}.platform-bar__logo.sc-site-platform-bar{margin-inline-end:var(--space-3)}.platform-bar__logo.sc-site-platform-bar svg.sc-site-platform-bar{height:24px;margin:10px 0;vertical-align:middle}.platform-bar__desc.sc-site-platform-bar{align-content:flex-end;color:#ccc;font-size:var(--f-size-2);line-height:160%;text-align:right;letter-spacing:var(--f-tracking-tight);margin:0 -3px 0 0}.platform-bar__desc.sc-site-platform-bar strong.sc-site-platform-bar{color:white;font-weight:400}.platform-bar__desc.sc-site-platform-bar a.sc-site-platform-bar{color:white;text-decoration:none;white-space:nowrap}.platform-bar__desc.sc-site-platform-bar ion-icon.sc-site-platform-bar{display:flex;align-items:center;margin-inline-start:var(--space-0)}";
 
@@ -18377,7 +19212,7 @@ class PlatformBar {
     registerInstance(this, hostRef);
   }
   render() {
-    return (h(Host, null, h(ResponsiveContainer, { class: "platform-bar__container" }, h("div", { class: "platform-bar__logo" }, h("a", { href: "https://ionic.io/" }, h("svg", { width: "70", height: "24", viewBox: "0 0 70 24", fill: "none", xmlns: "http://www.w3.org/2000/svg", role: "image", "aria-label": "Ionic Logo" }, h("path", { d: "M66.805 14.2224C66.4881 15.0748 65.6974 15.5478 64.7204 15.5478C63.2704 15.5478 62.095 14.3723 62.095 12.9223C62.095 11.4723 63.2704 10.2969 64.7204 10.2969C65.6975 10.2969 66.4638 10.7137 66.805 11.6224H69.4826C69.0392 9.29243 67.102 7.79688 64.7204 7.79688C61.8897 7.79688 59.595 10.0916 59.595 12.9223C59.595 15.753 61.8897 18.0478 64.7204 18.0478C67.102 18.0478 69.1606 16.3746 69.4826 14.2224H66.805Z", fill: "white" }), h("path", { d: "M55.778 8.05437H58.5659V17.8665H55.778V8.05437Z", fill: "white" }), h("path", { d: "M58.8464 5.68306C58.8464 6.61259 58.0928 7.36613 57.1633 7.36613C56.2338 7.36613 55.4802 6.61259 55.4802 5.68306C55.4802 4.75353 56.2338 4 57.1633 4C58.0928 4 58.8464 4.75353 58.8464 5.68306Z", fill: "white" }), h("path", { d: "M47.7925 9.25525C48.2599 8.41119 49.3224 7.83496 50.8523 7.83496C53.3258 7.83496 54.6347 9.40945 54.6347 11.7468V17.8663H51.8468V12.039C51.8468 10.8947 51.3368 10.1074 50.1044 10.1074C48.7529 10.1074 48.0049 10.9353 48.0049 12.2419V17.8581H45.217V8.05409H47.7925V9.25525Z", fill: "white" }), h("circle", { cx: "39.1897", cy: "12.9226", r: "3.87526", stroke: "white", "stroke-width": "2.5" }), h("path", { d: "M30.2975 8.05437H33.0854V17.8665H30.2975V8.05437Z", fill: "white" }), h("path", { d: "M33.3659 5.68306C33.3659 6.61259 32.6124 7.36613 31.6828 7.36613C30.7533 7.36613 29.9998 6.61259 29.9998 5.68306C29.9998 4.75353 30.7533 4 31.6828 4C32.6124 4 33.3659 4.75353 33.3659 5.68306Z", fill: "white" }), h("path", { d: "M12 17.1431C14.8336 17.1431 17.1428 14.8383 17.1428 12.0002C17.1428 9.16657 14.838 6.85735 12 6.85735C9.16192 6.85735 6.85711 9.16657 6.85711 12.0002C6.85711 14.8338 9.16633 17.1431 12 17.1431Z", fill: "white" }), h("path", { "fill-rule": "evenodd", "clip-rule": "evenodd", d: "M12 2.88C6.96316 2.88 2.88 6.96316 2.88 12C2.88 17.0368 6.96316 21.12 12 21.12C17.0368 21.12 21.12 17.0368 21.12 12C21.12 10.6394 20.823 9.35203 20.2916 8.196L22.9084 6.99318C23.6097 8.51886 24 10.2158 24 12C24 18.6274 18.6274 24 12 24C5.37258 24 0 18.6274 0 12C0 5.37258 5.37258 0 12 0C15.4654 0 18.5895 1.47078 20.7781 3.81796L18.6717 5.78204C17.005 3.9946 14.6338 2.88 12 2.88Z", fill: "url(#paint0_radial)" }), h("path", { opacity: "0.4", d: "M20.5 11C22.433 11 24 9.433 24 7.5C24 5.567 22.433 4 20.5 4C18.567 4 17 5.567 17 7.5C17 9.433 18.567 11 20.5 11Z", fill: "#03060B" }), h("path", { d: "M20.5714 9.42843C22.4649 9.42843 24 7.89341 24 5.99986C24 4.10631 22.4649 2.57129 20.5714 2.57129C18.6778 2.57129 17.1428 4.10631 17.1428 5.99986C17.1428 7.89341 18.6778 9.42843 20.5714 9.42843Z", fill: "#03060B" }), h("path", { d: "M19.7143 7.71415C21.1344 7.71415 22.2857 6.56288 22.2857 5.14272C22.2857 3.72256 21.1344 2.57129 19.7143 2.57129C18.2941 2.57129 17.1428 3.72256 17.1428 5.14272C17.1428 6.56288 18.2941 7.71415 19.7143 7.71415Z", fill: "white" }), h("defs", null, h("radialGradient", { id: "paint0_radial", cx: "0", cy: "0", r: "1", gradientUnits: "userSpaceOnUse", gradientTransform: "translate(23 8.5) rotate(162.35) scale(11.5434 5.28499)" }, h("stop", { "stop-color": "white", "stop-opacity": "0.7" }), h("stop", { offset: "1", "stop-color": "white" })))))), h(Breakpoint, { md: true, class: "platform-bar__desc" }, "See how ", h("strong", null, this.productName), " fits into the entire ", h("span", { class: "nowrap" }, h("a", { href: "https://ionic.io/" }, "Ionic Ecosystem"), " ", h("span", { style: { 'letter-spacing': '0' } }, "->"))), h(Breakpoint, { xs: true, md: false, class: "platform-bar__desc" }, h("strong", null, this.productName), " is part of the ", h("span", { class: "nowrap" }, h("a", { href: "https://ionic.io/" }, "Ionic Ecosystem"), " ", h("span", { style: { 'letter-spacing': '0' } }, "->"))))));
+    return (hAsync(Host, null, hAsync(ResponsiveContainer, { class: "platform-bar__container" }, hAsync("div", { class: "platform-bar__logo" }, hAsync("a", { href: "https://ionic.io/" }, hAsync("svg", { width: "70", height: "24", viewBox: "0 0 70 24", fill: "none", xmlns: "http://www.w3.org/2000/svg", role: "image", "aria-label": "Ionic Logo" }, hAsync("path", { d: "M66.805 14.2224C66.4881 15.0748 65.6974 15.5478 64.7204 15.5478C63.2704 15.5478 62.095 14.3723 62.095 12.9223C62.095 11.4723 63.2704 10.2969 64.7204 10.2969C65.6975 10.2969 66.4638 10.7137 66.805 11.6224H69.4826C69.0392 9.29243 67.102 7.79688 64.7204 7.79688C61.8897 7.79688 59.595 10.0916 59.595 12.9223C59.595 15.753 61.8897 18.0478 64.7204 18.0478C67.102 18.0478 69.1606 16.3746 69.4826 14.2224H66.805Z", fill: "white" }), hAsync("path", { d: "M55.778 8.05437H58.5659V17.8665H55.778V8.05437Z", fill: "white" }), hAsync("path", { d: "M58.8464 5.68306C58.8464 6.61259 58.0928 7.36613 57.1633 7.36613C56.2338 7.36613 55.4802 6.61259 55.4802 5.68306C55.4802 4.75353 56.2338 4 57.1633 4C58.0928 4 58.8464 4.75353 58.8464 5.68306Z", fill: "white" }), hAsync("path", { d: "M47.7925 9.25525C48.2599 8.41119 49.3224 7.83496 50.8523 7.83496C53.3258 7.83496 54.6347 9.40945 54.6347 11.7468V17.8663H51.8468V12.039C51.8468 10.8947 51.3368 10.1074 50.1044 10.1074C48.7529 10.1074 48.0049 10.9353 48.0049 12.2419V17.8581H45.217V8.05409H47.7925V9.25525Z", fill: "white" }), hAsync("circle", { cx: "39.1897", cy: "12.9226", r: "3.87526", stroke: "white", "stroke-width": "2.5" }), hAsync("path", { d: "M30.2975 8.05437H33.0854V17.8665H30.2975V8.05437Z", fill: "white" }), hAsync("path", { d: "M33.3659 5.68306C33.3659 6.61259 32.6124 7.36613 31.6828 7.36613C30.7533 7.36613 29.9998 6.61259 29.9998 5.68306C29.9998 4.75353 30.7533 4 31.6828 4C32.6124 4 33.3659 4.75353 33.3659 5.68306Z", fill: "white" }), hAsync("path", { d: "M12 17.1431C14.8336 17.1431 17.1428 14.8383 17.1428 12.0002C17.1428 9.16657 14.838 6.85735 12 6.85735C9.16192 6.85735 6.85711 9.16657 6.85711 12.0002C6.85711 14.8338 9.16633 17.1431 12 17.1431Z", fill: "white" }), hAsync("path", { "fill-rule": "evenodd", "clip-rule": "evenodd", d: "M12 2.88C6.96316 2.88 2.88 6.96316 2.88 12C2.88 17.0368 6.96316 21.12 12 21.12C17.0368 21.12 21.12 17.0368 21.12 12C21.12 10.6394 20.823 9.35203 20.2916 8.196L22.9084 6.99318C23.6097 8.51886 24 10.2158 24 12C24 18.6274 18.6274 24 12 24C5.37258 24 0 18.6274 0 12C0 5.37258 5.37258 0 12 0C15.4654 0 18.5895 1.47078 20.7781 3.81796L18.6717 5.78204C17.005 3.9946 14.6338 2.88 12 2.88Z", fill: "url(#paint0_radial)" }), hAsync("path", { opacity: "0.4", d: "M20.5 11C22.433 11 24 9.433 24 7.5C24 5.567 22.433 4 20.5 4C18.567 4 17 5.567 17 7.5C17 9.433 18.567 11 20.5 11Z", fill: "#03060B" }), hAsync("path", { d: "M20.5714 9.42843C22.4649 9.42843 24 7.89341 24 5.99986C24 4.10631 22.4649 2.57129 20.5714 2.57129C18.6778 2.57129 17.1428 4.10631 17.1428 5.99986C17.1428 7.89341 18.6778 9.42843 20.5714 9.42843Z", fill: "#03060B" }), hAsync("path", { d: "M19.7143 7.71415C21.1344 7.71415 22.2857 6.56288 22.2857 5.14272C22.2857 3.72256 21.1344 2.57129 19.7143 2.57129C18.2941 2.57129 17.1428 3.72256 17.1428 5.14272C17.1428 6.56288 18.2941 7.71415 19.7143 7.71415Z", fill: "white" }), hAsync("defs", null, hAsync("radialGradient", { id: "paint0_radial", cx: "0", cy: "0", r: "1", gradientUnits: "userSpaceOnUse", gradientTransform: "translate(23 8.5) rotate(162.35) scale(11.5434 5.28499)" }, hAsync("stop", { "stop-color": "white", "stop-opacity": "0.7" }), hAsync("stop", { offset: "1", "stop-color": "white" })))))), hAsync(Breakpoint, { md: true, class: "platform-bar__desc" }, "See how ", hAsync("strong", null, this.productName), " fits into the entire ", hAsync("span", { class: "nowrap" }, hAsync("a", { href: "https://ionic.io/" }, "Ionic Ecosystem"), " ", hAsync("span", { style: { 'letter-spacing': '0' } }, "->"))), hAsync(Breakpoint, { xs: true, md: false, class: "platform-bar__desc" }, hAsync("strong", null, this.productName), " is part of the ", hAsync("span", { class: "nowrap" }, hAsync("a", { href: "https://ionic.io/" }, "Ionic Ecosystem"), " ", hAsync("span", { style: { 'letter-spacing': '0' } }, "->"))))));
   }
   static get style() { return platformBarCss; }
   static get cmpMeta() { return {
@@ -18397,10 +19232,12 @@ const pricingPageCss = ".sc-pricing-page-h{--h1-color:var(--c-carbon-100);--h2-c
 class PricingPage {
   constructor(hostRef) {
     registerInstance(this, hostRef);
-    this.render = () => (h(Host, null, h(Top$1, null), h(Tiers, null), h(Companies$1, null), h("pricing-table", null), h(Faq, null)));
   }
   async componentWillLoad() {
     await getPage('appflow_pricing');
+  }
+  render() {
+    return (hAsync(Host, null, hAsync(Top$1, null), hAsync(Tiers, null), hAsync(Companies$1, null), hAsync("pricing-table", null), hAsync(Faq, null)));
   }
   static get assetsDirs() { return ["assets"]; }
   static get style() { return pricingPageCss; }
@@ -18415,16 +19252,16 @@ class PricingPage {
 }
 const Top$1 = () => {
   const { top } = state.pageData;
-  return (h(ResponsiveContainer, { id: "top", as: "section" }, h("div", { class: "heading-group" }, h(PrismicRichText, { richText: top, paragraphLevel: 2 }))));
+  return (hAsync(ResponsiveContainer, { id: "top", as: "section" }, hAsync("div", { class: "heading-group" }, hAsync(PrismicRichText, { richText: top, paragraphLevel: 2 }))));
 };
 const Tiers = () => {
-  return (h(ResponsiveContainer, { id: "tiers", as: "section" }, h("plan-pricing", null)));
+  return (hAsync(ResponsiveContainer, { id: "tiers", as: "section" }, hAsync("plan-pricing", null)));
 };
 const Companies$1 = () => {
-  return (h(ResponsiveContainer, { id: "companies", as: "section" }, h(Heading, { level: 6 }, "Trusted by the world\u2019s best teams"), h("div", { class: "logos" }, h("div", { class: "wrapper" }, aaaLogo({ main: 'var(--c-indigo-60)' }, { width: 50, height: 30 }), amtrakLogo({ main: 'var(--c-indigo-60)' }, { width: 63.78, height: 26.25 }), nasaLogo({ main: 'var(--c-indigo-60)' }, { width: 71.29, height: 18.75 }), ibmLogo({ main: 'var(--c-indigo-60)' }, { width: 52.53, height: 21.56 })), h("div", { class: "wrapper" }, burgerKingLogo({ main: 'var(--c-indigo-60)', second: 'var(--c-indigo-60)', third: 'var(--c-indigo-60)' }, { width: 30.32, height: 32 }), catLogo({ main: 'var(--c-indigo-60)', second: 'var(--c-indigo-60)' }, { width: 41.27, height: 24.38 }), targetLogo({ main: 'var(--c-indigo-60)' }, { width: 32, height: 32 })))));
+  return (hAsync(ResponsiveContainer, { id: "companies", as: "section" }, hAsync(Heading, { level: 6 }, "Trusted by the world\u2019s best teams"), hAsync("div", { class: "logos" }, hAsync("div", { class: "wrapper" }, aaaLogo({ main: 'var(--c-indigo-60)' }, { width: 50, height: 30 }), amtrakLogo({ main: 'var(--c-indigo-60)' }, { width: 63.78, height: 26.25 }), nasaLogo({ main: 'var(--c-indigo-60)' }, { width: 71.29, height: 18.75 }), ibmLogo({ main: 'var(--c-indigo-60)' }, { width: 52.53, height: 21.56 })), hAsync("div", { class: "wrapper" }, burgerKingLogo({ main: 'var(--c-indigo-60)', second: 'var(--c-indigo-60)', third: 'var(--c-indigo-60)' }, { width: 30.32, height: 32 }), catLogo({ main: 'var(--c-indigo-60)', second: 'var(--c-indigo-60)' }, { width: 41.27, height: 24.38 }), targetLogo({ main: 'var(--c-indigo-60)' }, { width: 32, height: 32 })))));
 };
 const Faq = () => {
-  return (h(ResponsiveContainer, { id: "faq", as: "section" }, h(Heading, { level: 2 }, "Have a Question?"), h(Grid, null, h(Col, { cols: 12, sm: 6 }, h("ul", { class: "list" }, h("li", { id: "faq-live-updates" }, h(Heading, null, "How do Live Update limits work?"), h(Paragraph, null, "Appflow allows you to push hot code updates directly to your users\u2019 devices, all from the Ionic cloud dashboard, without having to go through the app stores."), h(Paragraph, null, "A single Live Update is one code update to one device. If you send one update to 200 devices, that counts as 200 Live Updates. If you send two updates to 200 devices, that counts as 400 Live Updates."), h(Paragraph, null, "The number of Live Updates varies with each plan. The Launch plan includes 10,000 Live Updates per month. The Growth plan allows up to 25,000 Live Updates per month. The plan limits are refreshed each month. If you exceed your quota for a given month, you will have to upgrade to a higher plan, or wait until the next calendar month to send more updates."), h(Paragraph, null, "If you need more than 25,000 Live Updates, the Scale plan offers custom limits, based on annual usage. Appflow\u2019s Live Update service scales to millions of units, with pricing varying based on the number of Updates in your custom plan. ", h("a", { onClick: () => document.querySelector('site-modal').open = true }, "Contact our Sales"), " team to learn more about setting up a custom Scale plan.")), h("li", { id: "faq-ios" }, h(Heading, null, "Which plans offer iOS Enterprise builds?"), h(Paragraph, null, "A subscription to the Scale plan is required. The Apple Developer Enterprise Program allows large organizations to develop and deploy proprietary, internal-use apps to their employees. This program is for specific use cases that require private distribution directly to employees using secure internal systems or through a Mobile Device Management solution.")), h("li", { id: "faq-account" }, h(Heading, null, "What is Account & Billing Support?"), h(Paragraph, null, "Account & Billing Support is available to all plan holders, and includes access to help for issues related to account billing, refunds, cancellations and account re-activations, and password or account access related concerns.")))), h(Col, { cols: 12, sm: 6 }, h("ul", { class: "list" }, h("li", { id: "faq-concurrency" }, h(Heading, null, "What do Concurrency Limits refer to?"), h(Paragraph, null, "Concurrency Limits refers to the number of app builds that can occur at the same time. Once you have hit your limit, additional builds will be queued until the existing builds in process are completed. When you upgrade to the Scale plan, you\u2019ll be able to set a customized concurrency limit that matches your team\u2019s needs and goals.")), h("li", { id: "faq-git" }, h(Heading, null, "What are private git repos?"), h(Paragraph, null, "Private git repos are on-premises installations of a git service. All Ionic account plans offer a git-based workflow that works with cloud-based git services such as GitHub, BitBucket, and GitLab. For teams and businesses that wish to integrate with privately hosted git repos, we offer support for BitBucket servers as an add-on under the Scale plan. Contact our Sales team to learn more.")), h("li", { id: "faq-seats" }, h(Heading, null, "How many seats are with each plan?"), h(Paragraph, null, "The number of seats included varies by plan. Launch plans include one (1) seat. Growth plans include two (2) seats with the base subscription, with the ability to add up to five (5) team members at $99 per additional seat. Growth subscribers can add additional seats with the Developer Hub."), h(Paragraph, null, "The Scale plan offers flexible packages that scale to any number of team members. Please contact our Sales team to discuss a custom plan that accommodates the number of seats you\u2019d like to include. If you are a current customer and would like to add more seats to your existing Scale plan, please contact Support.")), h("li", { id: "faq-premium" }, h(Heading, null, "What is Premium Product Support?"), h(Paragraph, null, "Timely assistance with troubleshooting issues related to Appflow or the Cloud dashboard.")))))));
+  return (hAsync(ResponsiveContainer, { id: "faq", as: "section" }, hAsync(Heading, { level: 2 }, "Have a Question?"), hAsync(Grid, null, hAsync(Col, { cols: 12, sm: 6 }, hAsync("ul", { class: "list" }, hAsync("li", { id: "faq-live-updates" }, hAsync(Heading, null, "How do Live Update limits work?"), hAsync(Paragraph, null, "Appflow allows you to push hot code updates directly to your users\u2019 devices, all from the Ionic cloud dashboard, without having to go through the app stores."), hAsync(Paragraph, null, "A single Live Update is one code update to one device. If you send one update to 200 devices, that counts as 200 Live Updates. If you send two updates to 200 devices, that counts as 400 Live Updates."), hAsync(Paragraph, null, "The number of Live Updates varies with each plan. The Launch plan includes 10,000 Live Updates per month. The Growth plan allows up to 25,000 Live Updates per month. The plan limits are refreshed each month. If you exceed your quota for a given month, you will have to upgrade to a higher plan, or wait until the next calendar month to send more updates."), hAsync(Paragraph, null, "If you need more than 25,000 Live Updates, the Scale plan offers custom limits, based on annual usage. Appflow\u2019s Live Update service scales to millions of units, with pricing varying based on the number of Updates in your custom plan. ", hAsync("a", { onClick: () => document.querySelector('site-modal').open = true }, "Contact our Sales"), " team to learn more about setting up a custom Scale plan.")), hAsync("li", { id: "faq-ios" }, hAsync(Heading, null, "Which plans offer iOS Enterprise builds?"), hAsync(Paragraph, null, "A subscription to the Scale plan is required. The Apple Developer Enterprise Program allows large organizations to develop and deploy proprietary, internal-use apps to their employees. This program is for specific use cases that require private distribution directly to employees using secure internal systems or through a Mobile Device Management solution.")), hAsync("li", { id: "faq-account" }, hAsync(Heading, null, "What is Account & Billing Support?"), hAsync(Paragraph, null, "Account & Billing Support is available to all plan holders, and includes access to help for issues related to account billing, refunds, cancellations and account re-activations, and password or account access related concerns.")))), hAsync(Col, { cols: 12, sm: 6 }, hAsync("ul", { class: "list" }, hAsync("li", { id: "faq-concurrency" }, hAsync(Heading, null, "What do Concurrency Limits refer to?"), hAsync(Paragraph, null, "Concurrency Limits refers to the number of app builds that can occur at the same time. Once you have hit your limit, additional builds will be queued until the existing builds in process are completed. When you upgrade to the Scale plan, you\u2019ll be able to set a customized concurrency limit that matches your team\u2019s needs and goals.")), hAsync("li", { id: "faq-git" }, hAsync(Heading, null, "What are private git repos?"), hAsync(Paragraph, null, "Private git repos are on-premises installations of a git service. All Ionic account plans offer a git-based workflow that works with cloud-based git services such as GitHub, BitBucket, and GitLab. For teams and businesses that wish to integrate with privately hosted git repos, we offer support for BitBucket servers as an add-on under the Scale plan. Contact our Sales team to learn more.")), hAsync("li", { id: "faq-seats" }, hAsync(Heading, null, "How many seats are with each plan?"), hAsync(Paragraph, null, "The number of seats included varies by plan. Launch plans include one (1) seat. Growth plans include two (2) seats with the base subscription, with the ability to add up to five (5) team members at $99 per additional seat. Growth subscribers can add additional seats with the Developer Hub."), hAsync(Paragraph, null, "The Scale plan offers flexible packages that scale to any number of team members. Please contact our Sales team to discuss a custom plan that accommodates the number of seats you\u2019d like to include. If you are a current customer and would like to add more seats to your existing Scale plan, please contact Support.")), hAsync("li", { id: "faq-premium" }, hAsync(Heading, null, "What is Premium Product Support?"), hAsync(Paragraph, null, "Timely assistance with troubleshooting issues related to Appflow or the Cloud dashboard.")))))));
 };
 
 const pricingTableCss = "@charset \"UTF-8\";.help-circle.sc-pricing-table{color:#cccccc;width:20px;height:20px}table.sc-pricing-table,.table.sc-pricing-table{margin-bottom:0;min-width:800px}thead.sc-pricing-table th.sc-pricing-table,tbody.sc-pricing-table td.sc-pricing-table{width:20%}thead.sc-pricing-table th.sc-pricing-table,thead.sc-pricing-table td.sc-pricing-table{background:#fff;border-bottom:1px solid rgba(232, 235, 241, 0.6);vertical-align:bottom;padding:32px 44px 30px}thead.sc-pricing-table td.sc-pricing-table{padding-bottom:6px;padding-left:0}thead.sc-pricing-table h3.sc-pricing-table,thead.sc-pricing-table h4.sc-pricing-table{color:#020814}thead.sc-pricing-table h3.sc-pricing-table{font-size:32px;line-height:44px;letter-spacing:-0.01em}thead.sc-pricing-table h4.sc-pricing-table{font-size:24px;line-height:33px;letter-spacing:-0.03em;margin-bottom:0}thead.sc-pricing-table .price.sc-pricing-table{font-weight:600;font-size:12px;line-height:20px;color:#1A232F}thead.sc-pricing-table .price.sc-pricing-table strong.sc-pricing-table{font-size:16px;font-weight:600}thead.sc-pricing-table .btn.sc-pricing-table,thead.sc-pricing-table .btn.micro.sc-pricing-table{padding:4px 10px 3px;text-transform:none;letter-spacing:-0.01em;font-size:12px;font-weight:600;margin-top:7px;background:#EEF6FE;border-color:#EEF6FE;border-radius:4px;cursor:pointer;transition:all 0.3s ease-out}thead.sc-pricing-table .btn.sc-pricing-table:hover,thead.sc-pricing-table .btn.micro.sc-pricing-table:hover{background:#e0eefd;border-color:#e0eefd}thead.sc-pricing-table .btn--primary.sc-pricing-table,thead.sc-pricing-table .btn--primary.micro.sc-pricing-table{background:#3880FF;color:#fff}thead.sc-pricing-table .btn--primary.sc-pricing-table:hover,thead.sc-pricing-table .btn--primary.micro.sc-pricing-table:hover{background:#478aff}thead.sc-pricing-table .btn--dark.sc-pricing-table,thead.sc-pricing-table .btn--dark.micro.sc-pricing-table{background:#213049;color:#CDDFFF;border:0}thead.sc-pricing-table .btn--dark.sc-pricing-table:hover,thead.sc-pricing-table .btn--dark.micro.sc-pricing-table:hover{background:#31476c}thead.sc-pricing-table .plan-wrap.sc-pricing-table{display:inline-block;text-align:left;border:0}tbody.sc-pricing-table th.sc-pricing-table{text-align:start}tbody.sc-pricing-table th.sc-pricing-table,tbody.sc-pricing-table td.sc-pricing-table{padding:12px 15px}tbody.sc-pricing-table th.sc-pricing-table:first-child,tbody.sc-pricing-table td.sc-pricing-table:first-child{padding-left:0}tbody.sc-pricing-table tr.sc-pricing-table:first-child td.sc-pricing-table{padding-top:55px}tbody.sc-pricing-table .pill.sc-pricing-table{margin-top:-2px;margin-left:2px;background:none}tbody.sc-pricing-table .pill--blue.sc-pricing-table{margin-left:8px}tbody.sc-pricing-table th.sc-pricing-table{font-weight:400;vertical-align:middle;border:0;color:#5B708B;font-size:16px;line-height:22px;letter-spacing:-0.02em;white-space:nowrap}tbody.sc-pricing-table th.sc-pricing-table small.sc-pricing-table{font-size:14px;line-height:20px;margin-left:16px}tbody.sc-pricing-table th.sc-pricing-table strong.sc-pricing-table{font-size:18px;line-height:25px;letter-spacing:-0.02em;font-weight:600;display:block;color:#1A232F;margin-top:40px}tbody.sc-pricing-table th.sc-pricing-table strong.sc-pricing-table a.sc-pricing-table{transition:border 0.3s;display:inline-block;color:#171a20;border-bottom:1px solid rgba(23, 26, 32, 0.2);line-height:1}tbody.sc-pricing-table th.sc-pricing-table strong.sc-pricing-table a.sc-pricing-table:hover{border-bottom:1px solid rgba(23, 26, 32, 0.7)}tbody.sc-pricing-table th.sc-pricing-table span.sc-pricing-table{font-size:12px;font-weight:500;color:#999}tbody.sc-pricing-table td.sc-pricing-table,tbody.sc-pricing-table th.sc-pricing-table{background:#fff}tbody.sc-pricing-table td.sc-pricing-table{vertical-align:middle;text-align:center;font-weight:500;border:0;font-size:16px;line-height:22px;color:#1A232F;letter-spacing:-0.02em}tbody.sc-pricing-table td.sc-pricing-table small.sc-pricing-table{font-weight:400}tbody.sc-pricing-table .check.sc-pricing-table:before{font-family:\"Ionicons\";content:\"\";color:#1A232F;font-size:16px;line-height:1em}tfoot.sc-pricing-table .btn.sm.sc-pricing-table{padding:11px 13px 10px;font-weight:600;font-size:14px;line-height:15px;border-radius:8px;letter-spacing:-0.02em;border:1px solid #3880FF;box-shadow:0px 2px 4px rgba(0, 16, 46, 0.04);cursor:pointer;transition:all 0.3s ease-out}tfoot.sc-pricing-table .btn.sm.light.sc-pricing-table{border-color:#EEF6FE;background:#EEF6FE}tfoot.sc-pricing-table .btn.sm.light.sc-pricing-table:hover{border-color:#e0eefd;background:#e0eefd}tfoot.sc-pricing-table .btn.sm.dark.sc-pricing-table{background:#3880FF;color:#fff}tfoot.sc-pricing-table .btn.sm.dark.sc-pricing-table:hover{background:#4c8dff}tfoot.sc-pricing-table td.sc-pricing-table{text-align:center;padding-top:36px;padding-bottom:36px}.pinned.sc-pricing-table table.sc-pricing-table{padding-top:140px;display:block}.pinned.sc-pricing-table thead.sc-pricing-table{position:fixed;top:0;left:0;width:100%;z-index:1000}.pinned.sc-pricing-table thead.sc-pricing-table tr.sc-pricing-table{display:flex;width:100%;max-width:1110px;margin:0 auto;padding:0 15px;position:relative}.pinned.sc-pricing-table thead.sc-pricing-table td.sc-pricing-table{flex:1 0 auto;display:flex;flex-direction:column;justify-content:flex-end}.pinned.sc-pricing-table tbody.sc-pricing-table{display:block}.pinned.sc-pricing-table tbody.sc-pricing-table tr.sc-pricing-table{display:flex;width:100%}.pinned.sc-pricing-table tbody.sc-pricing-table th.sc-pricing-table{flex:1 0 auto}.pinned-at-point.sc-pricing-table thead.sc-pricing-table{position:absolute}.pinned-at-point.sc-pricing-table thead.sc-pricing-table tr.sc-pricing-table{padding:0}@media (max-width: 1023px){table.sc-pricing-table,.table.sc-pricing-table{min-width:100%}thead.sc-pricing-table th.sc-pricing-table,tbody.sc-pricing-table td.sc-pricing-table{width:auto;padding-right:0;padding-left:0}thead.sc-pricing-table td.sc-pricing-table{padding-right:48px}tbody.sc-pricing-table th.sc-pricing-table{width:128px;white-space:normal}}@media (max-width: 767px){tbody.sc-pricing-table th.sc-pricing-table:first-child{width:166px;word-wrap:break-word;padding-left:4px}}@media (max-width: 690px){.btn.sc-pricing-table{margin-right:2px;margin-left:2px}.table-wrap.sc-pricing-table{position:relative;width:100%;z-index:1;margin:auto;overflow:auto;height:90vh}thead.sc-pricing-table th.sc-pricing-table,thead.sc-pricing-table td.sc-pricing-table{padding-top:24px;padding-bottom:18px;position:-webkit-sticky;position:sticky;top:0}thead.sc-pricing-table th.sc-pricing-table{background:#fbfbfb}table.sc-pricing-table{width:100%;min-width:690px;margin:auto;border-collapse:separate;border-spacing:0}thead.sc-pricing-table td.sc-pricing-table,thead.sc-pricing-table th.sc-pricing-table{height:118px;padding-left:16px;padding-right:16px}thead.sc-pricing-table th.sc-pricing-table,tbody.sc-pricing-table td.sc-pricing-table{width:128px}tbody.sc-pricing-table td.sc-pricing-table{border:1px solid #f7f7f7;border-left:none;border-top:none}thead.sc-pricing-table td.sc-pricing-table,tbody.sc-pricing-table th.sc-pricing-table,tfoot.sc-pricing-table th.sc-pricing-table{width:166px;padding-right:16px;word-wrap:break-word;border-right:1px solid rgba(232, 235, 241, 0.6);position:-webkit-sticky;position:sticky;left:0;z-index:2}thead.sc-pricing-table td.sc-pricing-table:first-child,tfoot.sc-pricing-table th.sc-pricing-table:first-child{z-index:5;width:166px;background:white}tbody.sc-pricing-table tr.combined.sc-pricing-table th.sc-pricing-table,tbody.sc-pricing-table tr.combined.sc-pricing-table td.sc-pricing-table{padding-top:22px;padding-bottom:14px}tbody.sc-pricing-table tr.sc-pricing-table:last-child th.sc-pricing-table{height:110px}tfoot.sc-pricing-table,tfoot.sc-pricing-table th.sc-pricing-table,tfoot.sc-pricing-table td.sc-pricing-table{position:-webkit-sticky;position:sticky;bottom:0;z-index:4;padding-top:4px;padding-bottom:4px;background:#fbfbfb}}";
@@ -18434,13 +19271,381 @@ class PricingTable {
     registerInstance(this, hostRef);
   }
   render() {
-    return (h(ResponsiveContainer, { id: "pricing-table", class: "comparison" }, h(Heading, { level: 2 }, "Pick the plan that works best for you."), h("div", { id: "features", class: "box" }, h("div", { class: "table-wrap" }, h("table", null, h("thead", null, h("tr", null, h("td", null, h("h3", null, "Features")), h("th", null, h("div", { class: "plan-wrap" }, h("h4", null, "Hobby"), h("div", { class: "price" }, h("strong", null, "Free")), h("a", { href: "https://ionicframework.com/signup?source=appflow-site&product=appflow", class: "btn button micro", id: "btn-pricing-hobby" }, "Start free"))), h("th", null, h("div", { class: "plan-wrap" }, h("h4", null, "Launch"), h("div", { class: "price" }, h("strong", null, "$49"), "/mo"), h("a", { href: "https://ionicframework.com/signup?source=framework-products&product=appflow", class: "btn button micro btn--primary", id: "btn-pricing-starter" }, "Get started"))), h("th", null, h("div", { class: "plan-wrap" }, h("h4", null, "Growth"), h("div", { class: "price", "data-toggle": "billing-team" }, h("strong", null, "$120"), "/mo"), h("a", { href: "https://ionicframework.com/signup?source=framework-products&product=appflow", class: "button btn micro btn--primary", id: "btn-pricing-team" }, "Get started"))), h("th", null, h("div", { class: "plan-wrap" }, h("h4", null, "Scale"), h("div", { class: "price" }, h("strong", null, "Custom")), h("a", { class: "button btn micro btn--primary", onClick: () => document.querySelector('site-modal').open = true }, "Contact us"))))), h("tbody", null, h("tr", null, h("th", null, h("strong", null, "Appflow")), h("td", null, h("ion-icon", { name: "checkmark-sharp" })), h("td", null, h("ion-icon", { name: "checkmark-sharp" })), h("td", null, h("ion-icon", { name: "checkmark-sharp" })), h("td", null, h("ion-icon", { name: "checkmark-sharp" }))), h("tr", null, h("th", null, "Push to app store"), h("td", null), h("td", null, h("ion-icon", { name: "checkmark-sharp" })), h("td", null, h("ion-icon", { name: "checkmark-sharp" })), h("td", null, h("ion-icon", { name: "checkmark-sharp" }))), h("tr", null, h("th", null, "Live app updates", h("a", { class: "anchor", href: "#faq-live-updates" }, h("ion-icon", { class: "help-circle", name: "help-circle-outline" }))), h("td", null, "100 ", h("small", null, "/ mo")), h("td", null, "10,000 ", h("small", null, "/ mo")), h("td", null, "25,000 ", h("small", null, "/ mo")), h("td", null, "Custom limit")), h("tr", null, h("th", null, "Native app builds"), h("td", null), h("td", null, h("ion-icon", { name: "checkmark-sharp" })), h("td", null, h("ion-icon", { name: "checkmark-sharp" })), h("td", null, h("ion-icon", { name: "checkmark-sharp" }))), h("tr", null, h("th", null, "Concurrency limits", h("a", { class: "anchor", href: "#faq-concurrency" }, h("ion-icon", { class: "help-circle", name: "help-circle-outline" }))), h("td", null), h("td", null, "1"), h("td", null, "2"), h("td", null, "Custom limit")), h("tr", null, h("th", null, "CI/CD automation"), h("td", null), h("td", null), h("td", null, h("ion-icon", { name: "checkmark-sharp" })), h("td", null, h("ion-icon", { name: "checkmark-sharp" }))), h("tr", null, h("th", null, h("small", null, "Automations")), h("td", null), h("td", null), h("td", null, "4"), h("td", null, "Custom limit")), h("tr", null, h("th", null, h("small", null, "Environments")), h("td", null), h("td", null), h("td", null, "2"), h("td", null, "Custom limit")), h("tr", null, h("th", null, h("small", null, "Configurations")), h("td", null), h("td", null), h("td", null, "2"), h("td", null, "Custom limit")), h("tr", null, h("th", null, "iOS Enterprise builds", h("a", { class: "anchor", href: "#faq-ios" }, h("ion-icon", { class: "help-circle", name: "help-circle-outline" }))), h("td", null), h("td", null), h("td", null), h("td", null, h("ion-icon", { name: "checkmark-sharp" }))), h("tr", null, h("th", null, "Private git repos", h("a", { class: "anchor", href: "#faq-git" }, h("ion-icon", { class: "help-circle", name: "help-circle-outline" }))), h("td", null), h("td", null), h("td", null), h("td", null, h("ion-icon", { name: "checkmark-sharp" }))), h("tr", null, h("th", null, h("strong", null, "Premium Cloud Support")), h("td", { colSpan: 4 })), h("tr", null, h("th", null, "Account & Billing Support", h("a", { class: "anchor", href: "#faq-account" }, h("ion-icon", { class: "help-circle", name: "help-circle-outline" }))), h("td", null), h("td", null, h("ion-icon", { name: "checkmark-sharp" })), h("td", null, h("ion-icon", { name: "checkmark-sharp" })), h("td", null, h("ion-icon", { name: "checkmark-sharp" }))), h("tr", null, h("th", null, "Premium Product Support", h("a", { class: "anchor", href: "#faq-premium" }, h("ion-icon", { class: "help-circle", name: "help-circle-outline" }))), h("td", null), h("td", null), h("td", null), h("td", null, h("ion-icon", { name: "checkmark-sharp" }))), h("tr", null, h("th", null, "Live Onboarding"), h("td", null), h("td", null), h("td", null), h("td", null, h("ion-icon", { name: "checkmark-sharp" }))), h("tr", null, h("th", null, h("strong", null, "Admin & Security")), h("td", { colSpan: 4 })), h("tr", null, h("th", null, "Seats included", h("a", { class: "anchor", href: "#faq-seats" }, h("ion-icon", { class: "help-circle", name: "help-circle-outline" }))), h("td", null, "1"), h("td", null, "1"), h("td", null, "2"), h("td", null, "Custom limit")), h("tr", null, h("th", null, "Additional Seat Cost"), h("td", null), h("td", null), h("td", null, "$99/Seat"), h("td", null, "Contact Sales")), h("tr", null, h("th", null, "Seat Limit"), h("td", null), h("td", null), h("td", null, "5"), h("td", null, "Custom limit")), h("tr", null, h("th", null, "Single sign-on"), h("td", null), h("td", null), h("td", null), h("td", null, h("ion-icon", { name: "checkmark-sharp" }))), h("tr", null, h("th", null, "Role-based access"), h("td", null), h("td", null), h("td", null), h("td", null, h("ion-icon", { name: "checkmark-sharp" })))), h("tfoot", null, h("tr", null, h("th", null), h("td", null, h("a", { href: "https://ionicframework.com/signup?source=appflow-site&product=appflow", class: "button btn sm light", id: "btn-pricing-starter" }, "Start free")), h("td", null, h("a", { href: "https://ionicframework.com/signup?source=framework-products&product=appflow", class: "button btn sm dark", id: "btn-pricing-starter" }, "Get started")), h("td", null, h("a", { href: "https://ionicframework.com/signup?source=framework-products&product=appflow", class: "button btn sm dark", id: "btn-pricing-team" }, "Get started")), h("td", null, h("a", { onClick: () => document.querySelector('site-modal').open = true, class: "button btn sm dark" }, "Contact us")))))))));
+    return (hAsync(ResponsiveContainer, { id: "pricing-table", class: "comparison" }, hAsync(Heading, { level: 2 }, "Pick the plan that works best for you."), hAsync("div", { id: "features", class: "box" }, hAsync("div", { class: "table-wrap" }, hAsync("table", null, hAsync("thead", null, hAsync("tr", null, hAsync("td", null, hAsync("h3", null, "Features")), hAsync("th", null, hAsync("div", { class: "plan-wrap" }, hAsync("h4", null, "Hobby"), hAsync("div", { class: "price" }, hAsync("strong", null, "Free")), hAsync("a", { href: "https://ionicframework.com/signup?source=appflow-site&product=appflow", class: "btn button micro", id: "btn-pricing-hobby" }, "Start free"))), hAsync("th", null, hAsync("div", { class: "plan-wrap" }, hAsync("h4", null, "Launch"), hAsync("div", { class: "price" }, hAsync("strong", null, "$49"), "/mo"), hAsync("a", { href: "https://ionicframework.com/signup?source=framework-products&product=appflow", class: "btn button micro btn--primary", id: "btn-pricing-starter" }, "Get started"))), hAsync("th", null, hAsync("div", { class: "plan-wrap" }, hAsync("h4", null, "Growth"), hAsync("div", { class: "price", "data-toggle": "billing-team" }, hAsync("strong", null, "$120"), "/mo"), hAsync("a", { href: "https://ionicframework.com/signup?source=framework-products&product=appflow", class: "button btn micro btn--primary", id: "btn-pricing-team" }, "Get started"))), hAsync("th", null, hAsync("div", { class: "plan-wrap" }, hAsync("h4", null, "Scale"), hAsync("div", { class: "price" }, hAsync("strong", null, "Custom")), hAsync("a", { class: "button btn micro btn--primary", onClick: () => document.querySelector('site-modal').open = true }, "Contact us"))))), hAsync("tbody", null, hAsync("tr", null, hAsync("th", null, hAsync("strong", null, "Appflow")), hAsync("td", null, hAsync("ion-icon", { name: "checkmark-sharp" })), hAsync("td", null, hAsync("ion-icon", { name: "checkmark-sharp" })), hAsync("td", null, hAsync("ion-icon", { name: "checkmark-sharp" })), hAsync("td", null, hAsync("ion-icon", { name: "checkmark-sharp" }))), hAsync("tr", null, hAsync("th", null, "Push to app store"), hAsync("td", null), hAsync("td", null, hAsync("ion-icon", { name: "checkmark-sharp" })), hAsync("td", null, hAsync("ion-icon", { name: "checkmark-sharp" })), hAsync("td", null, hAsync("ion-icon", { name: "checkmark-sharp" }))), hAsync("tr", null, hAsync("th", null, "Live app updates", hAsync("a", { class: "anchor", href: "#faq-live-updates" }, hAsync("ion-icon", { class: "help-circle", name: "help-circle-outline" }))), hAsync("td", null, "100 ", hAsync("small", null, "/ mo")), hAsync("td", null, "10,000 ", hAsync("small", null, "/ mo")), hAsync("td", null, "25,000 ", hAsync("small", null, "/ mo")), hAsync("td", null, "Custom limit")), hAsync("tr", null, hAsync("th", null, "Native app builds"), hAsync("td", null), hAsync("td", null, hAsync("ion-icon", { name: "checkmark-sharp" })), hAsync("td", null, hAsync("ion-icon", { name: "checkmark-sharp" })), hAsync("td", null, hAsync("ion-icon", { name: "checkmark-sharp" }))), hAsync("tr", null, hAsync("th", null, "Concurrency limits", hAsync("a", { class: "anchor", href: "#faq-concurrency" }, hAsync("ion-icon", { class: "help-circle", name: "help-circle-outline" }))), hAsync("td", null), hAsync("td", null, "1"), hAsync("td", null, "2"), hAsync("td", null, "Custom limit")), hAsync("tr", null, hAsync("th", null, "CI/CD automation"), hAsync("td", null), hAsync("td", null), hAsync("td", null, hAsync("ion-icon", { name: "checkmark-sharp" })), hAsync("td", null, hAsync("ion-icon", { name: "checkmark-sharp" }))), hAsync("tr", null, hAsync("th", null, hAsync("small", null, "Automations")), hAsync("td", null), hAsync("td", null), hAsync("td", null, "4"), hAsync("td", null, "Custom limit")), hAsync("tr", null, hAsync("th", null, hAsync("small", null, "Environments")), hAsync("td", null), hAsync("td", null), hAsync("td", null, "2"), hAsync("td", null, "Custom limit")), hAsync("tr", null, hAsync("th", null, hAsync("small", null, "Configurations")), hAsync("td", null), hAsync("td", null), hAsync("td", null, "2"), hAsync("td", null, "Custom limit")), hAsync("tr", null, hAsync("th", null, "iOS Enterprise builds", hAsync("a", { class: "anchor", href: "#faq-ios" }, hAsync("ion-icon", { class: "help-circle", name: "help-circle-outline" }))), hAsync("td", null), hAsync("td", null), hAsync("td", null), hAsync("td", null, hAsync("ion-icon", { name: "checkmark-sharp" }))), hAsync("tr", null, hAsync("th", null, "Private git repos", hAsync("a", { class: "anchor", href: "#faq-git" }, hAsync("ion-icon", { class: "help-circle", name: "help-circle-outline" }))), hAsync("td", null), hAsync("td", null), hAsync("td", null), hAsync("td", null, hAsync("ion-icon", { name: "checkmark-sharp" }))), hAsync("tr", null, hAsync("th", null, hAsync("strong", null, "Premium Cloud Support")), hAsync("td", { colSpan: 4 })), hAsync("tr", null, hAsync("th", null, "Account & Billing Support", hAsync("a", { class: "anchor", href: "#faq-account" }, hAsync("ion-icon", { class: "help-circle", name: "help-circle-outline" }))), hAsync("td", null), hAsync("td", null, hAsync("ion-icon", { name: "checkmark-sharp" })), hAsync("td", null, hAsync("ion-icon", { name: "checkmark-sharp" })), hAsync("td", null, hAsync("ion-icon", { name: "checkmark-sharp" }))), hAsync("tr", null, hAsync("th", null, "Premium Product Support", hAsync("a", { class: "anchor", href: "#faq-premium" }, hAsync("ion-icon", { class: "help-circle", name: "help-circle-outline" }))), hAsync("td", null), hAsync("td", null), hAsync("td", null), hAsync("td", null, hAsync("ion-icon", { name: "checkmark-sharp" }))), hAsync("tr", null, hAsync("th", null, "Live Onboarding"), hAsync("td", null), hAsync("td", null), hAsync("td", null), hAsync("td", null, hAsync("ion-icon", { name: "checkmark-sharp" }))), hAsync("tr", null, hAsync("th", null, hAsync("strong", null, "Admin & Security")), hAsync("td", { colSpan: 4 })), hAsync("tr", null, hAsync("th", null, "Seats included", hAsync("a", { class: "anchor", href: "#faq-seats" }, hAsync("ion-icon", { class: "help-circle", name: "help-circle-outline" }))), hAsync("td", null, "1"), hAsync("td", null, "1"), hAsync("td", null, "2"), hAsync("td", null, "Custom limit")), hAsync("tr", null, hAsync("th", null, "Additional Seat Cost"), hAsync("td", null), hAsync("td", null), hAsync("td", null, "$99/Seat"), hAsync("td", null, "Contact Sales")), hAsync("tr", null, hAsync("th", null, "Seat Limit"), hAsync("td", null), hAsync("td", null), hAsync("td", null, "5"), hAsync("td", null, "Custom limit")), hAsync("tr", null, hAsync("th", null, "Single sign-on"), hAsync("td", null), hAsync("td", null), hAsync("td", null), hAsync("td", null, hAsync("ion-icon", { name: "checkmark-sharp" }))), hAsync("tr", null, hAsync("th", null, "Role-based access"), hAsync("td", null), hAsync("td", null), hAsync("td", null), hAsync("td", null, hAsync("ion-icon", { name: "checkmark-sharp" })))), hAsync("tfoot", null, hAsync("tr", null, hAsync("th", null), hAsync("td", null, hAsync("a", { href: "https://ionicframework.com/signup?source=appflow-site&product=appflow", class: "button btn sm light", id: "btn-pricing-starter" }, "Start free")), hAsync("td", null, hAsync("a", { href: "https://ionicframework.com/signup?source=framework-products&product=appflow", class: "button btn sm dark", id: "btn-pricing-starter" }, "Get started")), hAsync("td", null, hAsync("a", { href: "https://ionicframework.com/signup?source=framework-products&product=appflow", class: "button btn sm dark", id: "btn-pricing-team" }, "Get started")), hAsync("td", null, hAsync("a", { onClick: () => document.querySelector('site-modal').open = true, class: "button btn sm dark" }, "Contact us")))))))));
   }
   static get style() { return pricingTableCss; }
   static get cmpMeta() { return {
     "$flags$": 2,
     "$tagName$": "pricing-table",
     "$members$": undefined,
+    "$listeners$": undefined,
+    "$lazyBundleId$": "-",
+    "$attrsToReflect$": []
+  }; }
+}
+
+const resourceArticleCss = ".sc-resource-article-h{padding-bottom:76px}.heading-group.sc-resource-article img.sc-resource-article{max-width:100%;margin-block-end:var(--space-11)}.heading-group.sc-resource-article .ui-heading-1.sc-resource-article{margin-block-start:var(--space-10);margin-block-end:var(--space-5)}.heading-group.sc-resource-article .ui-paragraph.sc-resource-article{color:#73849A;margin-block-end:var(--space-6)}resource-toc.sc-resource-article{margin-block-start:var(--space-10)}resource-author-item.sc-resource-article{margin-block-start:var(--space-3);margin-block-end:var(--space-3)}resource-author-item.sc-resource-article:last-of-type{margin-block-end:73px}article.sc-resource-article .ui-heading-2.sc-resource-article{margin-block-start:var(--space-9);margin-block-end:var(--space-3)}article.sc-resource-article .ui-heading-3.sc-resource-article{margin-block-start:var(--space-8);margin-block-end:var(--space-3)}article.sc-resource-article .ui-heading-4.sc-resource-article{margin-block-start:var(--space-3);margin-block-end:var(--space-2)}article.sc-resource-article .ui-heading.sc-resource-article:first-child{margin-block-start:0}article.sc-resource-article p.sc-resource-article{font-size:16px;letter-spacing:-0.011em;line-height:1.75em;margin-bottom:1.8em;color:var(--c-indigo-80)}article.sc-resource-article ul.sc-resource-article li.sc-resource-article{list-style-type:none}article.sc-resource-article ul.sc-resource-article li.sc-resource-article::before{content:\"\";display:inline-block;width:6px;height:6px;background:#b2becd;position:absolute;top:12px;left:0;border-radius:8px}article.sc-resource-article ol.sc-resource-article li.sc-resource-article{list-style-type:counter-style}article.sc-resource-article ul.sc-resource-article,article.sc-resource-article ol.sc-resource-article{font-size:16px;letter-spacing:-0.011em;line-height:1.75em;margin-bottom:1.8em;color:var(--c-indigo-80)}article.sc-resource-article li.sc-resource-article{position:relative;padding-left:18px}article.sc-resource-article table.sc-resource-article{overflow-x:auto;margin-right:-15px;padding-right:15px;box-sizing:content-box;font-size:13px}article.sc-resource-article table.sc-resource-article td.sc-resource-article,article.sc-resource-article table.sc-resource-article th.sc-resource-article{min-width:120px;padding-right:12px}article.sc-resource-article table.sc-resource-article tbody.sc-resource-article tr.sc-resource-article td.sc-resource-article{border-top-color:#DEE3EA}article.sc-resource-article table.sc-resource-article>thead.sc-resource-article>tr.sc-resource-article>th.sc-resource-article{border-bottom-color:#E9EDF3;font-weight:600}";
+
+class ResourceArticle {
+  constructor(hostRef) {
+    registerInstance(this, hostRef);
+  }
+  render() {
+    const authors = getAuthorsForPrismicDoc$1(this.prismicData.doc);
+    const resource = this.prismicData;
+    return (hAsync(Host, null, hAsync("div", { class: "resource-article" }, hAsync(ThemeProvider, { type: "editorial" }, hAsync(ResponsiveContainer, null, hAsync(Grid, null, hAsync(Col, { md: 3, sm: 3 }, hAsync("resource-toc", { titleNames: prismicResourceToToc(this.prismicData) })), hAsync(Col, { md: 9, sm: 9, xs: 12, cols: 12 }, hAsync("div", { class: "resource-article-content" }, hAsync("div", { class: "heading-group" }, hAsync(Heading, { class: "ui-theme--editorial", level: 1, id: slugify(resource.title) }, resource.title), hAsync(Paragraph, { level: 2 }, resource.description), authors.map(author => (hAsync("resource-author-item", { author: author }))), hAsync(PrismicResponsiveImage, { image: resource.doc.data.hero_image, width: "800", height: "420" })), hAsync("article", null, hAsync(PrismicContent, { content: resource.doc.data.body }))))))))));
+  }
+  get el() { return getElement(this); }
+  static get style() { return resourceArticleCss; }
+  static get cmpMeta() { return {
+    "$flags$": 2,
+    "$tagName$": "resource-article",
+    "$members$": {
+      "prismicData": [16]
+    },
+    "$listeners$": undefined,
+    "$lazyBundleId$": "-",
+    "$attrsToReflect$": []
+  }; }
+}
+
+const resourceAuthorItemCss = ".sc-resource-author-item-h{display:block}.link-wrapper.sc-resource-author-item{display:flex}.image.sc-resource-author-item{display:inline-block;margin-inline-end:7px;width:28px;height:28px;border-radius:100%}.info.sc-resource-author-item{display:inline-flex;flex-direction:column;justify-content:space-between}.info.sc-resource-author-item .name.sc-resource-author-item{color:#010610}.info.sc-resource-author-item .title.sc-resource-author-item{color:#92A1B3}";
+
+class ResourceAuthorItem {
+  constructor(hostRef) {
+    registerInstance(this, hostRef);
+  }
+  render() {
+    if (!this.author)
+      return;
+    const { link, avatar, title, name } = this.author;
+    return (hAsync(Host, null, hAsync("a", { class: "link-wrapper", href: link, target: "_blank", rel: "noopener nofollow" }, hAsync(PrismicResponsiveImage, { class: "image", image: avatar, height: "28", width: "28" }), hAsync("div", { class: "info" }, hAsync(Paragraph, { level: 4, class: "name", leading: "none" }, name), hAsync(Paragraph, { level: 6, class: "title", leading: "none" }, title)))));
+  }
+  static get style() { return resourceAuthorItemCss; }
+  static get cmpMeta() { return {
+    "$flags$": 2,
+    "$tagName$": "resource-author-item",
+    "$members$": {
+      "author": [16]
+    },
+    "$listeners$": undefined,
+    "$lazyBundleId$": "-",
+    "$attrsToReflect$": []
+  }; }
+}
+
+const resourceTypeToPath = (type) => ({
+  [ResourceType$1.Article]: 'articles',
+  [ResourceType$1.Blog]: 'blogs',
+  [ResourceType$1.Book]: 'books',
+  [ResourceType$1.CaseStudy]: 'case-studies',
+  [ResourceType$1.Course]: 'courses',
+  [ResourceType$1.CustomerInterview]: 'customer-interviews',
+  [ResourceType$1.Doc]: 'docs',
+  [ResourceType$1.Guide]: 'guides',
+  [ResourceType$1.Learning]: 'learning',
+  [ResourceType$1.Podcast]: 'podcasts',
+  [ResourceType$1.Tutorial]: 'tutorials',
+  [ResourceType$1.Video]: 'videos',
+  [ResourceType$1.Webinar]: 'webinars',
+  [ResourceType$1.Whitepaper]: 'whitepapers',
+}[type]);
+
+const resourceCardCss = ".sc-resource-card-h{--image-height:176px;display:flex;row-gap:0;column-gap:0;flex-direction:column;height:100%}img.sc-resource-card{display:block}.row.sc-resource-card-h{display:grid}.row.sc-resource-card-h .image-wrapper.sc-resource-card{height:var(--image-height)}.row.sc-resource-card-h .image-wrapper.sc-resource-card img.sc-resource-card{height:100%}.row.sc-resource-card-h .content.sc-resource-card{margin-inline-start:var(--space-9)}.row.sc-resource-card-h .content.sc-resource-card .meta.sc-resource-card{margin-block-end:40px}.row.sc-resource-card-h .content.sc-resource-card .description.sc-resource-card{margin-block-start:var(--space-4)}@media screen and (max-width: 640px){.row.sc-resource-card-h{display:flex;flex-direction:column}.row.sc-resource-card-h .content.sc-resource-card{margin-inline-start:0}}a.image-wrapper.sc-resource-card{height:var(--image-height);overflow:hidden}a.image-wrapper.sc-resource-card:hover img.sc-resource-card,a.image-wrapper.sc-resource-card:active img.sc-resource-card,a.image-wrapper.sc-resource-card:focus img.sc-resource-card{transform:scale(1.05)}a.image-wrapper.sc-resource-card img.sc-resource-card{height:var(--image-height);object-fit:cover;transition:transform 200ms cubic-bezier(0.32, 0.72, 0, 1)}.content.sc-resource-card{display:flex;flex-grow:1;flex-direction:column}.content.sc-resource-card .meta.sc-resource-card{display:flex;margin-block-start:var(--space-5);margin-block-end:var(--space-3);overflow:hidden}.content.sc-resource-card .meta.sc-resource-card .type.sc-resource-card{margin-inline-end:var(--space-4)}.content.sc-resource-card .title.sc-resource-card{color:#010610}.content.sc-resource-card .description.sc-resource-card{color:var(--c-indigo-80);margin-block-start:var(--space-5)}.author.sc-resource-card{flex-grow:1;display:flex;align-items:flex-end}.author.sc-resource-card resource-author-item.sc-resource-card{margin-block-start:46px;justify-self:flex-end}";
+
+class ResourceCard {
+  constructor(hostRef) {
+    registerInstance(this, hostRef);
+    this.row = false;
+    this.headingLevel = 4;
+    this.description = true;
+  }
+  componentWillLoad() {
+    if (!this.routing.base)
+      this.routing.base = '';
+    if (this.routing.includeType === undefined)
+      this.routing.includeType = true;
+  }
+  getUrl(id) {
+    const { base, includeType } = this.routing;
+    const type = resourceTypeToPath(this.prismicData.type);
+    if (includeType) {
+      return `${base}/${type}/${id}`;
+    }
+    else {
+      return `${base}/${id}`;
+    }
+  }
+  render() {
+    var _a, _b;
+    const { title, description, type, tags, id } = this.prismicData;
+    const { hero_image, content_url } = this.prismicData.doc.data;
+    const authors = getAuthorsForPrismicDoc$1(this.prismicData.doc);
+    const isLocalLink = !(content_url === null || content_url === void 0 ? void 0 : content_url.url);
+    let url = this.getUrl(id);
+    if (content_url === null || content_url === void 0 ? void 0 : content_url.url)
+      url = content_url.url;
+    return (hAsync(Host, { class: {
+        'row': this.row,
+        'ui-grid': true
+      } }, hAsync(Col, { cols: 7 }, (((_a = this.routing) === null || _a === void 0 ? void 0 : _a.router) && isLocalLink)
+      ? hAsync("a", Object.assign({ class: "image-wrapper" }, href(url, this.routing.router)), hAsync(PrismicResponsiveImage, { image: hero_image }))
+      : hAsync("a", { class: "image-wrapper", href: url, target: "_blank", rel: "noopener nofollow" }, hAsync(PrismicResponsiveImage, { image: hero_image }))), hAsync(Col, { class: "content", cols: 5 }, hAsync("div", { class: "meta" }, hAsync(Heading, { class: "type | ui-theme--editorial", level: 6 }, type), tags
+      ? hAsync("resource-meta", { class: "ui-theme--editorial", tags: tags }) : ''), (((_b = this.routing) === null || _b === void 0 ? void 0 : _b.router) && isLocalLink)
+      ? hAsync("a", Object.assign({}, href(url, this.routing.router)), hAsync(Heading, { class: "title | ui-theme--editorial", level: this.headingLevel }, title))
+      : hAsync("a", { href: url, target: "_blank", rel: "noopener nofollow" }, hAsync(Heading, { class: "title | ui-theme--editorial", level: this.headingLevel }, title)), this.description
+      ? hAsync(Paragraph, { class: "description" }, description) : '', authors
+      ? hAsync("div", { class: "author" }, hAsync("resource-author-item", { author: authors[0] })) : '')));
+  }
+  static get style() { return resourceCardCss; }
+  static get cmpMeta() { return {
+    "$flags$": 2,
+    "$tagName$": "resource-card",
+    "$members$": {
+      "prismicData": [16],
+      "row": [4],
+      "headingLevel": [2, "heading-level"],
+      "description": [4],
+      "routing": [16]
+    },
+    "$listeners$": undefined,
+    "$lazyBundleId$": "-",
+    "$attrsToReflect$": []
+  }; }
+}
+
+const resourceCaseStudyCss = ".sc-resource-case-study-h{padding-bottom:76px}.heading-group.sc-resource-case-study img.sc-resource-case-study{max-width:100%;margin-block-end:var(--space-11)}.heading-group.sc-resource-case-study .ui-heading-1.sc-resource-case-study{margin-block-start:var(--space-10);margin-block-end:var(--space-5)}.heading-group.sc-resource-case-study .ui-paragraph.sc-resource-case-study{color:#73849A;margin-block-end:var(--space-6)}resource-toc.sc-resource-case-study{margin-block-start:var(--space-10)}resource-author-item.sc-resource-case-study{margin-block-start:var(--space-3);margin-block-end:var(--space-3)}resource-author-item.sc-resource-case-study:last-of-type{margin-block-end:73px}article.sc-resource-case-study .ui-heading-2.sc-resource-case-study{margin-block-start:var(--space-9);margin-block-end:var(--space-3)}article.sc-resource-case-study .ui-heading-3.sc-resource-case-study{margin-block-start:var(--space-8);margin-block-end:var(--space-3)}article.sc-resource-case-study .ui-heading-4.sc-resource-case-study{margin-block-start:var(--space-3);margin-block-end:var(--space-2)}article.sc-resource-case-study .ui-heading.sc-resource-case-study:first-child{margin-block-start:0}article.sc-resource-case-study p.sc-resource-case-study{font-size:16px;letter-spacing:-0.011em;line-height:1.75em;margin-bottom:1.8em;color:var(--c-indigo-80)}article.sc-resource-case-study ul.sc-resource-case-study li.sc-resource-case-study{list-style-type:none}article.sc-resource-case-study ul.sc-resource-case-study li.sc-resource-case-study::before{content:\"\";display:inline-block;width:6px;height:6px;background:#b2becd;position:absolute;top:12px;left:0;border-radius:8px}article.sc-resource-case-study ol.sc-resource-case-study li.sc-resource-case-study{list-style-type:counter-style}article.sc-resource-case-study ul.sc-resource-case-study,article.sc-resource-case-study ol.sc-resource-case-study{font-size:16px;letter-spacing:-0.011em;line-height:1.75em;margin-bottom:1.8em;color:var(--c-indigo-80)}article.sc-resource-case-study li.sc-resource-case-study{position:relative;padding-left:18px}article.sc-resource-case-study table.sc-resource-case-study{overflow-x:auto;margin-right:-15px;padding-right:15px;box-sizing:content-box;font-size:13px}article.sc-resource-case-study table.sc-resource-case-study td.sc-resource-case-study,article.sc-resource-case-study table.sc-resource-case-study th.sc-resource-case-study{min-width:120px;padding-right:12px}article.sc-resource-case-study table.sc-resource-case-study tbody.sc-resource-case-study tr.sc-resource-case-study td.sc-resource-case-study{border-top-color:#DEE3EA}article.sc-resource-case-study table.sc-resource-case-study>thead.sc-resource-case-study>tr.sc-resource-case-study>th.sc-resource-case-study{border-bottom-color:#E9EDF3;font-weight:600}";
+
+class ResourceCaseStudy {
+  constructor(hostRef) {
+    registerInstance(this, hostRef);
+  }
+  render() {
+    const resource = this.prismicData;
+    return [
+      // <ResourcesSubNav resourceItem={resource} />,
+      hAsync("div", { class: "resource-article resource-case-study" }, hAsync(ThemeProvider, { type: "editorial" }, hAsync(ResponsiveContainer, null, hAsync(Grid, null, hAsync(Col, { md: 3, sm: 3 }, hAsync("resource-toc", { titleNames: prismicResourceToToc(this.prismicData) })), hAsync(Col, { md: 9, sm: 9, xs: 12, cols: 12 }, hAsync("div", { class: "resource-article-content" }, hAsync("div", { class: "heading-group" }, hAsync(Heading, { level: 1, id: slugify(resource.title) }, resource.title), hAsync(Paragraph, { level: 2 }, resource.description), hAsync(PrismicResponsiveImage, { image: resource.doc.data.hero_image, width: "800", height: "420" })), hAsync("article", null, hAsync(PrismicContent, { content: resource.doc.data.body })))))))),
+    ];
+  }
+  get el() { return getElement(this); }
+  static get style() { return resourceCaseStudyCss; }
+  static get cmpMeta() { return {
+    "$flags$": 2,
+    "$tagName$": "resource-case-study",
+    "$members$": {
+      "prismicData": [16]
+    },
+    "$listeners$": undefined,
+    "$lazyBundleId$": "-",
+    "$attrsToReflect$": []
+  }; }
+}
+
+const resourceMetaCss = ".sc-resource-meta-h{--tag-color:#92A0B3;line-height:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#92A0B3}.tag.sc-resource-meta{display:inline;color:var(--tag-color);font-size:10px;text-transform:uppercase}.tag.sc-resource-meta+.tag.sc-resource-meta::before{content:\"|\";color:var(--tag-color);display:inline-block;height:11px;margin:0 6px -1px 6px}";
+
+class ResourceMeta {
+  constructor(hostRef) {
+    registerInstance(this, hostRef);
+  }
+  render() {
+    return (hAsync(Host, { class: "resource-meta" }, this.tags.map(tag => (hAsync("span", { class: "ui-heading ui-heading-6 | tag" }, tag)))));
+  }
+  static get style() { return resourceMetaCss; }
+  static get cmpMeta() { return {
+    "$flags$": 2,
+    "$tagName$": "resource-meta",
+    "$members$": {
+      "tags": [16]
+    },
+    "$listeners$": undefined,
+    "$lazyBundleId$": "-",
+    "$attrsToReflect$": []
+  }; }
+}
+
+const resourceTocCss = ".sc-resource-toc-h{display:block;position:sticky;top:96px}@media (max-width: 768px){.sc-resource-toc-h{display:none}}nav.sc-resource-toc{margin:0;padding:0}ul.sc-resource-toc{font-size:14px;list-style:none;line-height:1.4em;padding-bottom:16px}li.sc-resource-toc{color:var(--c-carbon-80);margin-block-start:var(--space-1);margin-block-end:var(--space-1);cursor:pointer;list-style:none;color:var(--c-carbon-80);display:block;transition:0.2s transform ease, 0.2s color}li.active.sc-resource-toc{transform:translateX(8px);color:#597EFF}.title.sc-resource-toc{color:var(--c-indigo-60)}.cta-button.sc-resource-toc{margin-block-start:var(--space-3);font-weight:600;border-radius:6px;letter-spacing:0;text-transform:none;padding:12px 19px 10px;font-size:14px;line-height:1em;background:#3880FF;color:#fff}.sharing.sc-resource-toc{margin:0;border-top:2px solid #f3f5f9;padding-top:26px}.sharing.sc-resource-toc li.sc-resource-toc{margin:0;margin-right:6px;display:inline-block}.sharing.sc-resource-toc a.sc-resource-toc{color:#CBD2DD;font-size:20px}.sharing.sc-resource-toc a.sc-resource-toc:hover{color:var(--c-ionic-brand)}.sharing.sc-resource-toc #web-share.sc-resource-toc{display:none}";
+
+class ResourceTOC {
+  constructor(hostRef) {
+    registerInstance(this, hostRef);
+    this.headings = new Map();
+  }
+  componentDidLoad() {
+    addListener(({ entries }) => {
+      entries.forEach(({ target, intersectionRatio }) => {
+        if (!this.headings.get(target.id))
+          return;
+        const heading = this.headings.get(target.id);
+        if (intersectionRatio === 0) {
+          heading.inView = false;
+        }
+        else {
+          heading.inView = true;
+        }
+      });
+      this.getFirstInView();
+    });
+    this.titleNames.map((title) => {
+      const id = `h-${slugify(title)}`;
+      const item = document.getElementById(id);
+      this.headings.set(id, Object.assign(Object.assign({}, this.headings.get(id)), { headingEl: item }));
+    });
+  }
+  getFirstInView() {
+    let gotFirst = false;
+    for (const val of this.headings.values()) {
+      if (!val.tocEl)
+        continue;
+      if (val.inView && !gotFirst) {
+        val.tocEl.classList.add('active');
+        gotFirst = true;
+      }
+      else {
+        val.tocEl.classList.remove('active');
+      }
+    }
+    if (!gotFirst) {
+      const { tocEl } = [...this.headings.values()].reduce((acc, cur, i) => {
+        var _a, _b;
+        const curTop = (_a = cur.headingEl) === null || _a === void 0 ? void 0 : _a.offsetTop;
+        const accTop = (_b = acc.headingEl) === null || _b === void 0 ? void 0 : _b.offsetTop;
+        if (i === 0 || !accTop)
+          return cur;
+        if (Math.abs(window.scrollY - curTop) < Math.abs(window.scrollY - accTop)) {
+          return cur;
+        }
+        else {
+          return acc;
+        }
+      });
+      tocEl === null || tocEl === void 0 ? void 0 : tocEl.classList.add('active');
+    }
+  }
+  handleTocClick(ev) {
+    var _a;
+    const target = ev.target;
+    if (!((_a = target === null || target === void 0 ? void 0 : target.dataset) === null || _a === void 0 ? void 0 : _a.id))
+      return;
+    const headingEl = this.headings.get(target.dataset.id).headingEl;
+    window.scrollTo({
+      top: headingEl.offsetTop - 100,
+      behavior: 'smooth'
+    });
+  }
+  render() {
+    return (hAsync("nav", null, hAsync("ul", null, this.titleNames.map(link => (hAsync("li", { class: "ui-paragraph-4", onClick: (ev) => this.handleTocClick(ev), "data-id": `h-${slugify(link)}`, ref: e => {
+        var _a;
+        const id = (_a = e === null || e === void 0 ? void 0 : e.dataset) === null || _a === void 0 ? void 0 : _a.id;
+        if (!id || !e)
+          return;
+        this.headings.set(id, Object.assign(Object.assign({}, this.headings.get(id)), { tocEl: e }));
+      } }, link))))));
+  }
+  static get style() { return resourceTocCss; }
+  static get cmpMeta() { return {
+    "$flags$": 2,
+    "$tagName$": "resource-toc",
+    "$members$": {
+      "titleNames": [16]
+    },
+    "$listeners$": undefined,
+    "$lazyBundleId$": "-",
+    "$attrsToReflect$": []
+  }; }
+}
+
+const resourceWebinarCss = ".sc-resource-webinar-h{display:block}.past.sc-resource-webinar-h .heading.sc-resource-webinar{text-align:center;margin-block-start:89px}.past.sc-resource-webinar-h .heading.sc-resource-webinar .meta.sc-resource-webinar{margin-block-end:var(--space-5)}.past.sc-resource-webinar-h .heading.sc-resource-webinar .ui-heading-1.sc-resource-webinar{margin-block-end:var(--space-5);color:#010610}.past.sc-resource-webinar-h .heading.sc-resource-webinar .hosts.sc-resource-webinar{display:flex;flex-direction:column;align-items:center;margin-block-end:var(--space-9)}.past.sc-resource-webinar-h .heading.sc-resource-webinar .hosts.sc-resource-webinar .host.sc-resource-webinar{display:flex}.past.sc-resource-webinar-h .heading.sc-resource-webinar .hosts.sc-resource-webinar .host.sc-resource-webinar+.host.sc-resource-webinar{margin-block-start:var(--space-3)}.past.sc-resource-webinar-h .heading.sc-resource-webinar .hosts.sc-resource-webinar .host.sc-resource-webinar .avatar.sc-resource-webinar{border-radius:var(--radius-4);margin-inline-end:11px;width:28px;height:28px}.past.sc-resource-webinar-h .heading.sc-resource-webinar .hosts.sc-resource-webinar .host.sc-resource-webinar .description.sc-resource-webinar{color:#73849A}.past.sc-resource-webinar-h .video.sc-resource-webinar{position:relative;display:flex;align-items:center;justify-content:center;margin-block-end:var(--space-11)}.past.sc-resource-webinar-h .video.blured.sc-resource-webinar wistia-video.sc-resource-webinar{filter:blur(16px)}.past.sc-resource-webinar-h .video.sc-resource-webinar .overlay-form.sc-resource-webinar{border-radius:var(--radius-2);text-align:center;position:absolute;z-index:1000;background:white;padding:48px}.past.sc-resource-webinar-h .video.sc-resource-webinar .overlay-form.sc-resource-webinar .heading-group.sc-resource-webinar .ui-heading.sc-resource-webinar{margin-block-end:var(--space-3)}.past.sc-resource-webinar-h .article.sc-resource-webinar{margin-block-end:var(--space-11);max-width:672px;margin-inline-start:auto;margin-inline-end:auto}.future.sc-resource-webinar-h .landing-image.sc-resource-webinar{background:var(--c-lavender-70);width:100%;height:100%;position:absolute;z-index:-1;object-fit:cover}.future.sc-resource-webinar-h .heading-group.sc-resource-webinar{padding-block-start:var(--space-11);padding-block-end:var(--space-11);position:relative;min-height:512px;display:flex;align-items:center}.future.sc-resource-webinar-h .heading-group.sc-resource-webinar .ui-heading-1.sc-resource-webinar{max-width:704px;color:white}.future.sc-resource-webinar-h .heading-group.sc-resource-webinar .when.sc-resource-webinar{margin-block-start:var(--space-5);color:white}.future.sc-resource-webinar-h .heading-group.sc-resource-webinar .meta.sc-resource-webinar{margin-block-end:var(--space-5)}.future.sc-resource-webinar-h .heading-group.sc-resource-webinar .meta.sc-resource-webinar .type.sc-resource-webinar{color:white}.future.sc-resource-webinar-h .heading-group.sc-resource-webinar .register-button.sc-resource-webinar{background:white;color:#5061F2;margin-block-start:64px}.future.sc-resource-webinar-h .wrapper.sc-resource-webinar{display:flex;margin-block-start:var(--space-11);margin-block-end:var(--space-11)}.future.sc-resource-webinar-h .wrapper.sc-resource-webinar>*.sc-resource-webinar{flex-grow:1}.future.sc-resource-webinar-h .wrapper.sc-resource-webinar .article.sc-resource-webinar{max-width:576px}.future.sc-resource-webinar-h .wrapper.sc-resource-webinar .article.sc-resource-webinar .register-button.sc-resource-webinar{margin-block-start:var(--space-6);background:#3880FF;color:white}@media screen and (max-width: 1023px){.future.sc-resource-webinar-h .wrapper.sc-resource-webinar{flex-direction:column}.future.sc-resource-webinar-h .wrapper.sc-resource-webinar .hosts.sc-resource-webinar{margin-block-start:var(--space-11);margin-inline-start:0}}.future.sc-resource-webinar-h .hosts.sc-resource-webinar{margin-inline-start:var(--space-11)}.future.sc-resource-webinar-h .hosts.sc-resource-webinar .ui-heading.sc-resource-webinar{margin-block-end:40px}.future.sc-resource-webinar-h .hosts.sc-resource-webinar resource-author-item.sc-resource-webinar+resource-author-item.sc-resource-webinar{margin-block-start:var(--space-3)}.future.sc-resource-webinar-h resource-meta.sc-resource-webinar{--tag-color:rgba(255, 255, 255, .8)}.meta.sc-resource-webinar{display:inline-flex}.meta.sc-resource-webinar .type.sc-resource-webinar{margin-inline-end:17px}.article.sc-resource-webinar .ui-heading-2.sc-resource-webinar{margin-block-end:var(--space-3)}.article.sc-resource-webinar p.sc-resource-webinar,.article.sc-resource-webinar li.sc-resource-webinar{color:#445B78}.article.sc-resource-webinar p.sc-resource-webinar+p.sc-resource-webinar,.article.sc-resource-webinar p.sc-resource-webinar+ul.sc-resource-webinar,.article.sc-resource-webinar ul.sc-resource-webinar+p.sc-resource-webinar,.article.sc-resource-webinar ul.sc-resource-webinar+ul.sc-resource-webinar{margin-block-start:var(--space-5)}.article.sc-resource-webinar ul.sc-resource-webinar{margin-inline-start:38px}.article.sc-resource-webinar li.sc-resource-webinar{position:relative}.article.sc-resource-webinar li.sc-resource-webinar+li.sc-resource-webinar{margin-block-start:var(--space-5)}.article.sc-resource-webinar li.sc-resource-webinar::before{left:-38px;top:4px;position:absolute;content:\"\";background:var(--checkmark-path);height:20px;width:20px}.register-button.sc-resource-webinar{padding:16px 20px;font-weight:bold;text-transform:uppercase;font-size:16px;line-height:19px;letter-spacing:0.1em;border-radius:8px}site-modal.sc-resource-webinar .title.sc-resource-webinar{text-align:center}site-modal.sc-resource-webinar .title.sc-resource-webinar .ui-heading.sc-resource-webinar{margin-block-end:var(--space-3)}";
+
+class ResourceWebinar {
+  constructor(hostRef) {
+    registerInstance(this, hostRef);
+    this.PastWebinar = () => {
+      const { OverlayForm } = this;
+      const data = this.prismicData;
+      const videoId = data.doc.data.wistia_id;
+      const pastGate = this.state.hubspotGatedPassed;
+      return (hAsync(ResponsiveContainer, null, hAsync(ThemeProvider, { type: "editorial" }, hAsync("section", { class: "heading" }, hAsync("div", { class: "meta" }, hAsync(Heading, { level: 6, class: "type" }, "Webinar"), hAsync("resource-meta", { tags: data.tags, class: "tags" })), hAsync(Heading, { level: 1 }, data.title), hAsync("div", { class: "hosts" }, this.hosts.map(host => (hAsync("div", { class: "host" }, hAsync(PrismicResponsiveImage, { class: "avatar", image: host.avatar }), hAsync(Paragraph, { class: "description | .ui-theme--base" }, host.name, ', ', host.title)))))), hAsync("section", { class: `video ${!pastGate ? 'blured' : ''}` }, !this.state.hubspotGatedPassed
+        ? hAsync(OverlayForm, { data: data }) : '', videoId
+        ? hAsync("wistia-video", { videoId: videoId }) : ''), hAsync("section", { class: "article" }, hAsync(PrismicRichText, { richText: data.doc.data.description, leading: "prose" })))));
+    };
+    this.FutureWebinar = () => {
+      const { RegisterButton } = this;
+      const data = this.prismicData;
+      const date = new Date(data.doc.data.when);
+      const image = data.doc.data.landing_image;
+      return (hAsync(ThemeProvider, { type: "editorial" }, hAsync("section", { class: "heading-group" }, image.url
+        ? hAsync(PrismicResponsiveImage, { class: "landing-image", image: image })
+        : hAsync("div", { class: "landing-image" }), hAsync(ResponsiveContainer, null, hAsync("div", { class: "heading" }, hAsync("div", { class: "meta" }, hAsync(Heading, { level: 6, class: "type" }, "Webinar"), hAsync("resource-meta", { tags: data.tags, class: "tags" })), hAsync(Heading, { level: 1 }, data.title), hAsync(Heading, { class: "when", level: 4 }, "Begins:", ' ', hAsync(DateTime, { date: date, format: { weekday: 'long', month: 'long', day: 'numeric' } }), ' @ ', hAsync(DateTime, { date: date, format: { hour: 'numeric', timeZoneName: 'short', timeZone: 'America/Chicago' } })), hAsync(RegisterButton, null)))), hAsync(ResponsiveContainer, null, hAsync("section", { class: "wrapper" }, hAsync("div", { class: "article" }, hAsync(PrismicRichText, { richText: data.doc.data.description, leading: "prose" }), hAsync(RegisterButton, null)), hAsync("div", { class: "hosts" }, hAsync(Heading, { level: 5 }, "Your speakers:"), this.hosts.map(host => (hAsync("resource-author-item", { author: host }))))))));
+    };
+    this.RegisterButton = () => (hAsync("button", { class: "register-button", onClick: () => {
+        this.state.showHubspotForm = true;
+      } }, "Register Now"));
+    this.OverlayForm = () => {
+      const data = this.prismicData;
+      const formId = data.doc.data.hubspot_form_id;
+      return (hAsync(ThemeProvider, { class: "overlay-form", type: "base" }, hAsync("div", { class: "heading-group" }, hAsync(Heading, { level: 3 }, "Stream ", data.title), hAsync(Paragraph, null, "You're just a few clicks away from our free Webinar")), hAsync("hubspot-form", { ajax: true, formId: formId, onFormSubmitted: () => {
+          this.state.hubspotGatedPassed = true;
+        } })));
+    };
+  }
+  componentWillLoad() {
+    this.state.hubspotGatedPassed = false;
+    this.hasHappened = new Date(this.prismicData.doc.data.when) < new Date();
+    this.hosts = getAuthorsForPrismicDoc$1(this.prismicData.doc);
+  }
+  render() {
+    const { PastWebinar, FutureWebinar } = this;
+    const formId = this.prismicData.doc.data.hubspot_form_id;
+    return (hAsync(Host, { style: {
+        '--checkmark-path': `url("${getAssetPath('assets/checkmark-circle.png')}")`
+      }, class: {
+        'past': this.hasHappened,
+        'future': !this.hasHappened
+      } }, this.hasHappened
+      ? hAsync(PastWebinar, null)
+      : [hAsync(FutureWebinar, null),
+        hAsync("site-modal", { open: this.state.showHubspotForm, modalClose: () => (this.state.showHubspotForm = false) }, hAsync("div", { class: "title" }, hAsync(Heading, null, "Register for ", this.prismicData.title), hAsync(Paragraph, null, "Enter your information below to join the Webinar list")), hAsync("hubspot-form", { formId: formId, ajax: false, onFormSubmitted: () => {
+            this.state.hubspotGatedPassed = true;
+          } }))]));
+  }
+  static get assetsDirs() { return ["assets"]; }
+  static get style() { return resourceWebinarCss; }
+  static get cmpMeta() { return {
+    "$flags$": 2,
+    "$tagName$": "resource-webinar",
+    "$members$": {
+      "prismicData": [16],
+      "state": [8]
+    },
+    "$listeners$": undefined,
+    "$lazyBundleId$": "-",
+    "$attrsToReflect$": []
+  }; }
+}
+
+const resourceWhitepaperCss = "@charset \"UTF-8\";.resource-whitepaper__cta.sc-resource-whitepaper{background:linear-gradient(to bottom, #fff, #f6f8fc);border-bottom:1px solid #e5e7eb;margin-top:-78px;padding-top:78px}.resource-whitepaper__hgroup.sc-resource-whitepaper{margin:auto;display:flex;flex-direction:column;align-items:center;text-align:center;padding-top:var(--space-9);padding-bottom:var(--space-9);max-width:840px;text-align:center}.resource-whitepaper__hgroup.sc-resource-whitepaper .ui-heading-6.sc-resource-whitepaper{margin-bottom:var(--space-2)}.resource-whitepaper__tagline.sc-resource-whitepaper{max-width:800px;color:var(--c-carbon-60);letter-spacing:-0.02em;font-weight:600;line-height:32px;font-size:18px}.resource-whitepaper__content.sc-resource-whitepaper{padding-top:96px}.resource-whitepaper__content.sc-resource-whitepaper img.sc-resource-whitepaper{max-width:100%}.resource-whitepaper__description.sc-resource-whitepaper p.sc-resource-whitepaper:first-child{color:#6e7f99;font-size:18px;line-height:28px}.resource-whitepaper__description.sc-resource-whitepaper ul.sc-resource-whitepaper{list-style-type:none;padding:0;margin:16px 0 32px;line-height:20px}.resource-whitepaper__description.sc-resource-whitepaper li.sc-resource-whitepaper{padding-left:20px;position:relative}.resource-whitepaper__description.sc-resource-whitepaper li.sc-resource-whitepaper:before{content:\"•\";margin-right:10px;opacity:0.8;position:absolute;left:0}";
+
+class ResourceWhitepaper {
+  constructor(hostRef) {
+    registerInstance(this, hostRef);
+  }
+  componentWillLoad() {
+    console.log('rendered whitepaper');
+  }
+  render() {
+    const resource = this.prismicData;
+    return [
+      // <ResourcesSubNav resourceItem={resource} />,
+      hAsync(ThemeProvider, { type: "editorial" }, hAsync("div", { class: "resource-whitepaper" }, hAsync("div", { class: "resource-whitepaper__cta" }, hAsync(ResponsiveContainer, null, hAsync("hgroup", { class: "resource-whitepaper__hgroup" }, hAsync(Heading, { level: 6 }, "Whitepaper"), hAsync(Heading, { level: 1 }, resource.title), hAsync("p", { class: "resource-whitepaper__tagline" }, resource.doc.data.tagline)))), hAsync(ResponsiveContainer, null, hAsync(Grid, { class: "resource-whitepaper__content" }, hAsync(Col, { cols: 12, xs: 12, sm: 6, md: 6 }, hAsync(PrismicResponsiveImage, { image: resource.doc.data.cover_image, class: "resource-whitepaper__illustration" }), hAsync(PrismicRichText, { richText: resource.doc.data.description, class: "resource-whitepaper__description" })), hAsync(Col, { cols: 12, xs: 12, sm: 6, md: 6 }, hAsync("hubspot-form", { formId: resource.doc.data.hubspot_form_id }))))))
+    ];
+  }
+  static get style() { return resourceWhitepaperCss; }
+  static get cmpMeta() { return {
+    "$flags$": 2,
+    "$tagName$": "resource-whitepaper",
+    "$members$": {
+      "prismicData": [16]
+    },
     "$listeners$": undefined,
     "$lazyBundleId$": "-",
     "$attrsToReflect$": []
@@ -18513,10 +19718,10 @@ class SiteFooter {
     return messageMatch ? messageMatch[1] : undefined;
   }
   render() {
-    return (h("footer", null, h(ResponsiveContainer, { class: "footer__content" }, h(Grid, { class: "main" }, h(Col, { cols: 12, md: 3 }, appflowLogoWithText({}, { width: 114, height: 24 })), h(Col, { cols: 6, xs: 3, md: 3 }, h("ul", null, h("li", { class: "title | ui-paragraph-5" }, "Product"), h("li", null, h("a", Object.assign({}, href('/why-appflow'), { class: "ui-paragraph-5" }), "Why Appflow")), h("li", null, h("a", Object.assign({}, href('/pricing'), { class: "ui-paragraph-5" }), "Pricing")), h("li", null, h("a", { href: "https://ionicframework.com/docs/appflow", class: "ui-paragraph-5", target: "_blank" }, "Docs")))), h(Col, { cols: 6, xs: 3, md: 2 }, h("ul", null, h("li", { class: "title | ui-paragraph-5" }, "Contact"), h("li", null, h("a", { href: "https://twitter.com/useappflow", class: "ui-paragraph-5" }, "Twitter")))), h(Col, { cols: 12, xs: 6, md: 4, class: "newsletter" }, h("div", { class: "wrapper" }, h("div", null, h(Paragraph, { class: "title", level: 5 }, "Sign up for our newsletter and stay up-to-date"), h("div", null, h("div", { class: "form" }, this.hasSubmitted
-      ? h("div", { class: "form-message" }, h("ion-icon", { name: "checkmark-circle" }), h(Paragraph, null, this.handleInlineMessage(this.inlineMessage)))
-      : h("form", { onSubmit: (e) => this.handleNewsletterSubmit(e) }, h("input", { name: "email", type: "email", value: this.email, onInput: () => this.handleEmailChange(event), disabled: this.isLoading, placeholder: "Email address", class: this.isValid ? '' : 'error', "aria-label": "Email", required: true }), h("button", { class: "button", type: "submit", disabled: this.isLoading || this.hasSubmitted }, "Send"), !this.isValid &&
-        h(Paragraph, { level: 5, class: "error-message" }, this.inlineMessage)))))))), h(Grid, { class: "bottom" }, h(Col, { class: "start", cols: 12, xs: 6 }, h("span", { class: "ui-paragraph-6" }, "\u00A9 ", (new Date).getFullYear(), " Appflow"), h("a", Object.assign({ class: "ui-paragraph-6" }, href('/tos')), "Terms"), h("a", Object.assign({ class: "ui-paragraph-6" }, href('/privacy-policy')), "Privacy")), h(Col, { class: "end", cols: 12, xs: 6 }, h("div", { class: "social-links" }, h("a", { class: "social", href: "https://www.linkedin.com/showcase/ionic-appflow/", rel: "noopener nofollow", target: "_blank" }, linkedInLogo({ main: 'var(--c-indigo-50)' }, { height: 12 })), h("a", { class: "social", href: "https://twitter.com/useappflow", rel: "noopener nofollow", target: "_blank" }, twitterLogo({ main: 'var(--c-indigo-50)' }, { height: 12 }))), h("span", { class: "ui-paragraph-6" }, "Part of the ", h("a", { href: "https://ionic.io/" }, "Ionic"), " ecosystem"))))));
+    return (hAsync("footer", null, hAsync(ResponsiveContainer, { class: "footer__content" }, hAsync(Grid, { class: "main" }, hAsync(Col, { cols: 12, md: 3 }, appflowLogoWithText({}, { width: 114, height: 24 })), hAsync(Col, { cols: 6, xs: 3, md: 3 }, hAsync("ul", null, hAsync("li", { class: "title | ui-paragraph-5" }, "Product"), hAsync("li", null, hAsync("a", Object.assign({}, href('/why-appflow'), { class: "ui-paragraph-5" }), "Why Appflow")), hAsync("li", null, hAsync("a", Object.assign({}, href('/pricing'), { class: "ui-paragraph-5" }), "Pricing")), hAsync("li", null, hAsync("a", { href: "https://ionicframework.com/docs/appflow", class: "ui-paragraph-5", target: "_blank" }, "Docs")))), hAsync(Col, { cols: 6, xs: 3, md: 2 }, hAsync("ul", null, hAsync("li", { class: "title | ui-paragraph-5" }, "Contact"), hAsync("li", null, hAsync("a", { href: "https://twitter.com/useappflow", class: "ui-paragraph-5" }, "Twitter")))), hAsync(Col, { cols: 12, xs: 6, md: 4, class: "newsletter" }, hAsync("div", { class: "wrapper" }, hAsync("div", null, hAsync(Paragraph, { class: "title", level: 5 }, "Sign up for our newsletter and stay up-to-date"), hAsync("div", null, hAsync("div", { class: "form" }, this.hasSubmitted
+      ? hAsync("div", { class: "form-message" }, hAsync("ion-icon", { name: "checkmark-circle" }), hAsync(Paragraph, null, this.handleInlineMessage(this.inlineMessage)))
+      : hAsync("form", { onSubmit: (e) => this.handleNewsletterSubmit(e) }, hAsync("input", { name: "email", type: "email", value: this.email, onInput: () => this.handleEmailChange(event), disabled: this.isLoading, placeholder: "Email address", class: this.isValid ? '' : 'error', "aria-label": "Email", required: true }), hAsync("button", { class: "button", type: "submit", disabled: this.isLoading || this.hasSubmitted }, "Send"), !this.isValid &&
+        hAsync(Paragraph, { level: 5, class: "error-message" }, this.inlineMessage)))))))), hAsync(Grid, { class: "bottom" }, hAsync(Col, { class: "start", cols: 12, xs: 6 }, hAsync("span", { class: "ui-paragraph-6" }, "\u00A9 ", (new Date).getFullYear(), " Appflow"), hAsync("a", Object.assign({ class: "ui-paragraph-6" }, href('/tos')), "Terms"), hAsync("a", Object.assign({ class: "ui-paragraph-6" }, href('/privacy-policy')), "Privacy")), hAsync(Col, { class: "end", cols: 12, xs: 6 }, hAsync("div", { class: "social-links" }, hAsync("a", { class: "social", href: "https://www.linkedin.com/showcase/ionic-appflow/", rel: "noopener nofollow", target: "_blank" }, linkedInLogo({ main: 'var(--c-indigo-50)' }, { height: 12 })), hAsync("a", { class: "social", href: "https://twitter.com/useappflow", rel: "noopener nofollow", target: "_blank" }, twitterLogo({ main: 'var(--c-indigo-50)' }, { height: 12 }))), hAsync("span", { class: "ui-paragraph-6" }, "Part of the ", hAsync("a", { href: "https://ionic.io/" }, "Ionic"), " ecosystem"))))));
   }
   static get style() { return appflowSiteFooterCss; }
   static get cmpMeta() { return {
@@ -18581,13 +19786,13 @@ class SiteHeader {
   }
   render() {
     const { expanded, toggleExpanded, handleActive } = this;
-    return (h(Host, { class: {
+    return (hAsync(Host, { class: {
         'sticky': state.stickyHeader,
         'expanded': expanded
-      } }, h("header", null, h("site-backdrop", { visible: expanded, onClick: () => toggleExpanded(false) }), h(ResponsiveContainer, { class: "site-header" }, h("a", Object.assign({}, href('/'), { class: "site-header__logo-link" }), appflowLogoWithText({}, { width: 114, height: 24 })), h("button", { onClick: () => toggleExpanded(false), class: "more-button" }, h("ion-icon", { icon: "ellipsis-vertical" })), h("div", { class: {
+      } }, hAsync("header", null, hAsync("site-backdrop", { visible: expanded, onClick: () => toggleExpanded(false) }), hAsync(ResponsiveContainer, { class: "site-header" }, hAsync("a", Object.assign({}, href('/'), { class: "site-header__logo-link" }), appflowLogoWithText({}, { width: 114, height: 24 })), hAsync("button", { onClick: () => toggleExpanded(false), class: "more-button" }, hAsync("ion-icon", { icon: "ellipsis-vertical" })), hAsync("div", { class: {
         'site-header-links': true,
         'site-header-links--expanded': expanded
-      } }, h("div", { class: "nav__wrapper" }, h("nav", { onClick: () => toggleExpanded(true) }, h("a", Object.assign({}, href('/'), { ref: (e) => handleActive(e) }), "Product"), h("a", Object.assign({}, href('/why-appflow'), { ref: e => handleActive(e) }), "Why Appflow"), h("a", Object.assign({}, href('/pricing'), { ref: e => handleActive(e) }), "Pricing"), h("a", { href: "https://ionicframework.com/docs/appflow", ref: e => handleActive(e), target: "_blank" }, "Docs"), h("a", Object.assign({}, href('/blog'), { ref: e => handleActive(e) }), "Blog"))), h("div", { class: "site-header-links__buttons" }, h("ul", null, h("li", null, h("a", { href: "https://ionicframework.com/login?source=appflow-site&product=appflow" }, "Log in")), h("li", null, h("a", { class: "button", href: "https://ionicframework.com/signup?source=appflow-site&product=appflow" }, "Get started ", h("span", { style: { 'letter-spacing': '0px' } }, "->"))))))))));
+      } }, hAsync("div", { class: "nav__wrapper" }, hAsync("nav", { onClick: () => toggleExpanded(true) }, hAsync("a", Object.assign({}, href('/'), { ref: (e) => handleActive(e) }), "Product"), hAsync("a", Object.assign({}, href('/why-appflow'), { ref: e => handleActive(e) }), "Why Appflow"), hAsync("a", Object.assign({}, href('/pricing'), { ref: e => handleActive(e) }), "Pricing"), hAsync("a", { href: "https://ionicframework.com/docs/appflow", ref: e => handleActive(e), target: "_blank" }, "Docs"), hAsync("a", Object.assign({}, href('/blog'), { ref: e => handleActive(e) }), "Blog"))), hAsync("div", { class: "site-header-links__buttons" }, hAsync("ul", null, hAsync("li", null, hAsync("a", { href: "https://ionicframework.com/login?source=appflow-site&product=appflow" }, "Log in")), hAsync("li", null, hAsync("a", { class: "button", href: "https://ionicframework.com/signup?source=appflow-site&product=appflow" }, "Get started ", hAsync("span", { style: { 'letter-spacing': '0px' } }, "->"))))))))));
   }
   get el() { return getElement(this); }
   static get style() { return appflowSiteHeaderCss; }
@@ -18598,45 +19803,6 @@ class SiteHeader {
       "expanded": [32],
       "forceHovered": [32],
       "hovered": [32]
-    },
-    "$listeners$": undefined,
-    "$lazyBundleId$": "-",
-    "$attrsToReflect$": []
-  }; }
-}
-
-const siteImgCss = "img{max-width:100%;height:auto}";
-
-// interface ImgProps {
-//   loading?: 'lazy';
-//   path: string;
-//   name: string;
-//   type: string;
-//   // Alternative text for image element
-//   alt: string;
-//   [key:string]: any;
-// }
-class SiteImg {
-  constructor(hostRef) {
-    registerInstance(this, hostRef);
-    this.loading = 'lazy';
-  }
-  render() {
-    return (h("img", { src: `${this.path}${this.name}@2x.${this.type}`, srcset: `${this.path}${this.name}.${this.type} 1x,
-                  ${this.path}${this.name}@2x.${this.type} 2x`, loading: this.loading, width: this.dimensions.split('x')[0], height: this.dimensions.split('x')[1], alt: this.alt }));
-  }
-  get el() { return getElement(this); }
-  static get style() { return siteImgCss; }
-  static get cmpMeta() { return {
-    "$flags$": 0,
-    "$tagName$": "site-img",
-    "$members$": {
-      "loading": [1],
-      "path": [1],
-      "name": [1],
-      "type": [1],
-      "alt": [1],
-      "dimensions": [1]
     },
     "$listeners$": undefined,
     "$lazyBundleId$": "-",
@@ -18711,9 +19877,9 @@ class SiteModal {
     });
   }
   render() {
-    return (h(Host, { style: {
+    return (hAsync(Host, { style: {
         display: this.open ? 'block' : 'none',
-      } }, h("div", { class: `modal__wrap${this.visible ? ` in` : ``}` }, h("div", { class: `modal__content` }, h(Button, { class: "modal__close-button", onClick: this.close }, h("ion-icon", { name: "close" })), h("div", { class: "modal__body" }, h("slot", null))))));
+      } }, hAsync("div", { class: `modal__wrap${this.visible ? ` in` : ``}` }, hAsync("div", { class: `modal__content` }, hAsync(Button, { class: "modal__close-button", onClick: this.close }, hAsync("ion-icon", { name: "close" })), hAsync("div", { class: "modal__body" }, hAsync("slot", null))))));
   }
   static get watchers() { return {
     "open": ["openChanged"]
@@ -18733,14 +19899,14 @@ class SiteModal {
   }; }
 }
 
-const siteRootCss = "@charset \"UTF-8\";@font-face{font-family:\"Eina\";font-display:swap;src:local(\"Eina Bold\"), url(\"/assets/fonts/eina/eina-01-bold.woff2\") format(\"woff2\"), url(\"/assets/fonts/eina/eina-01-bold.woff\") format(\"woff\"), url(\"/assets/fonts/eina/eina-01-bold.ttf\") format(\"ttf\"), url(\"/assets/fonts/eina/eina-01-bold.eot?#iefix\") format(\"eot\");font-weight:700;unicode-range:U+000-5FF}@font-face{font-family:\"Eina\";font-display:swap;src:local(\"Eina Semibold\"), url(\"/assets/fonts/eina/eina-01-semibold.woff2\") format(\"woff2\"), url(\"/assets/fonts/eina/eina-01-semibold.woff\") format(\"woff\"), url(\"/assets/fonts/eina/eina-01-semibold.ttf\") format(\"ttf\"), url(\"/assets/fonts/eina/eina-01-semibold.eot?#iefix\") format(\"eot\");font-weight:600;unicode-range:U+000-5FF}@font-face{font-family:\"Eina\";font-display:swap;src:local(\"Eina Regular\"), url(\"/assets/fonts/eina/eina-01-regular.woff2\") format(\"woff2\"), url(\"/assets/fonts/eina/eina-01-regular.woff\") format(\"woff\"), url(\"/assets/fonts/eina/eina-01-regular.ttf\") format(\"ttf\"), url(\"/assets/fonts/eina/eina-01-regular.eot?#iefix\") format(\"eot\");font-weight:400;unicode-range:U+000-5FF}@font-face{font-family:\"Inter\";font-display:swap;font-style:normal;font-weight:400;unicode-range:U+000-5FF;src:local(\"Inter Regular\"), url(\"/assets/fonts/inter/Inter-variable-ASCII-subset.woff2\") format(\"woff2-variations\"), url(\"/assets/fonts/inter/Inter-Regular.woff2\") format(\"woff2\"), url(\"/assets/fonts/inter/Inter-Regular.woff\") format(\"woff\")}@font-face{font-family:\"Inter\";font-display:swap;font-style:italic;font-weight:400;unicode-range:U+000-5FF;src:local(\"Inter Italic\"), url(\"/assets/fonts/inter/Inter-variable-ASCII-subset.woff2\") format(\"woff2-variations\"), url(\"/assets/fonts/inter/Inter-Italic.woff2\") format(\"woff2\"), url(\"/assets/fonts/inter/Inter-Italic.woff\") format(\"woff\")}@font-face{font-family:\"Inter\";font-display:swap;font-style:normal;font-weight:500;unicode-range:U+000-5FF;src:local(\"Inter Medium\"), url(\"/assets/fonts/inter/Inter-variable-ASCII-subset.woff2\") format(\"woff2-variations\"), url(\"/assets/fonts/inter/Inter-Medium.woff2\") format(\"woff2\"), url(\"/assets/fonts/inter/Inter-Medium.woff\") format(\"woff\")}@font-face{font-family:\"Inter\";font-display:swap;font-style:italic;font-weight:500;unicode-range:U+000-5FF;src:local(\"Inter Medium Italic\"), url(\"/assets/fonts/inter/Inter-variable-ASCII-subset.woff2\") format(\"woff2-variations\"), url(\"/assets/fonts/inter/Inter-MediumItalic.woff2\") format(\"woff2\"), url(\"/assets/fonts/inter/Inter-MediumItalic.woff\") format(\"woff\")}@font-face{font-family:\"Inter\";font-display:swap;font-style:normal;font-weight:600;unicode-range:U+000-5FF;src:local(\"Inter SemiBold\"), url(\"/assets/fonts/inter/Inter-variable-ASCII-subset.woff2\") format(\"woff2-variations\"), url(\"/assets/fonts/inter/Inter-SemiBold.woff2\") format(\"woff2\"), url(\"/assets/fonts/inter/Inter-SemiBold.woff\") format(\"woff\")}@font-face{font-family:\"Inter\";font-display:swap;font-style:italic;font-weight:600;unicode-range:U+000-5FF;src:local(\"Inter SemiBoldItalic\"), url(\"/assets/fonts/inter/Inter-variable-ASCII-subset.woff2\") format(\"woff2-variations\"), url(\"/assets/fonts/inter/Inter-SemiBoldItalic.woff2\") format(\"woff2\"), url(\"/assets/fonts/inter/Inter-SemiBoldItalic.woff\") format(\"woff\")}@font-face{font-family:\"Inter\";font-display:swap;font-style:normal;font-weight:700;unicode-range:U+000-5FF;src:local(\"Inter Bold\"), url(\"/assets/fonts/inter/Inter-variable-ASCII-subset.woff2\") format(\"woff2-variations\"), url(\"/assets/fonts/inter/Inter-Bold.woff2\") format(\"woff2\"), url(\"/assets/fonts/inter/Inter-Bold.woff\") format(\"woff\")}@font-face{font-family:\"Inter\";font-display:swap;font-style:italic;font-weight:700;unicode-range:U+000-5FF;src:local(\"Inter BoldItalic\"), url(\"/assets/fonts/inter/Inter-variable-ASCII-subset.woff2\") format(\"woff2-variations\"), url(\"/assets/fonts/inter/Inter-BoldItalic.woff2\") format(\"woff2\"), url(\"/assets/fonts/inter/Inter-BoldItalic.woff\") format(\"woff\")}@font-face{font-family:\"Inter\";font-display:swap;font-style:normal;font-weight:800;unicode-range:U+000-5FF;src:local(\"Inter ExtraBold\"), url(\"/assets/fonts/inter/Inter-variable-ASCII-subset.woff2\") format(\"woff2-variations\"), url(\"/assets/fonts/inter/Inter-ExtraBold.woff2\") format(\"woff2\"), url(\"/assets/fonts/inter/Inter-ExtraBold.woff\") format(\"woff\")}@font-face{font-family:\"Inter\";font-display:swap;font-style:italic;font-weight:800;unicode-range:U+000-5FF;src:local(\"Inter ExtraBoldItalic\"), url(\"/assets/fonts/inter/Inter-variable-ASCII-subset.woff2\") format(\"woff2-variations\"), url(\"/assets/fonts/inter/Inter-ExtraBoldItalic.woff2\") format(\"woff2\"), url(\"/assets/fonts/inter/Inter-ExtraBoldItalic.woff\") format(\"woff\")}@font-face{font-family:\"Inter\";font-display:swap;font-style:normal;font-weight:900;unicode-range:U+000-5FF;src:local(\"Inter Black\"), url(\"/assets/fonts/inter/Inter-variable-ASCII-subset.woff2\") format(\"woff2-variations\"), url(\"/assets/fonts/inter/Inter-Black.woff2\") format(\"woff2\"), url(\"/assets/fonts/inter/Inter-Black.woff\") format(\"woff\")}@font-face{font-family:\"Inter\";font-display:swap;font-style:italic;font-weight:900;unicode-range:U+000-5FF;src:local(\"Inter BlackItalic\"), url(\"/assets/fonts/inter/Inter-variable-ASCII-subset.woff2\") format(\"woff2-variations\"), url(\"/assets/fonts/inter/Inter-BlackItalic.woff2\") format(\"woff2\"), url(\"/assets/fonts/inter/Inter-BlackItalic.woff\") format(\"woff\")}@font-face{font-family:\"FreightTextPro\";font-display:swap;font-weight:400;unicode-range:U+000-5FF;src:url(\"/assets/fonts//29D26A_0_0.eot\");src:url(\"/assets/fonts//29D26A_0_0.eot?#iefix\") format(\"embedded-opentype\"), url(\"/assets/fonts//29D26A_0_0.woff\") format(\"woff\"), url(\"/assets/fonts/29D26A_0_0.ttf\") format(\"truetype\")}@font-face{font-family:\"FreightTextPro\";font-display:swap;font-weight:500;unicode-range:U+000-5FF;src:url(\"/assets/fonts/29D26A_1_0.eot\");src:url(\"/assets/fonts/29D26A_1_0.eot?#iefix\") format(\"embedded-opentype\"), url(\"/assets/fonts/29D26A_1_0.woff\") format(\"woff\"), url(\"/assets/fonts/29D26A_1_0.ttf\") format(\"truetype\")}:root{--f-family-display:Eina, \"Helvetica Neue\", Helvetica, sans-serif;--f-family-text:Inter, \"Inter UI\", Helvetica, Arial, sans-serif;--f-family-system:apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;--f-family-monospace:\"SF Mono\", \"Roboto Mono\", Menlo, monospace;--f-family-serif:\"Adobe Caslon\", Georgia, Times, \"Times New Roman\", serif;--f-weight-light:300;--f-weight-regular:400;--f-weight-medium:500;--f-weight-semibold:600;--f-weight-bold:700;--f-size-0:0.625rem;--f-size-1:0.6875rem;--f-size-2:0.75rem;--f-size-3:0.8125rem;--f-size-4:0.875rem;--f-size-5:1rem;--f-size-6:1.25rem;--f-size-7:1.5rem;--f-size-8:1.75rem;--f-size-9:2rem;--f-size-10:2.5rem;--f-size-11:3rem;--f-size-12:3.5rem;--f-size-13:4rem;--f-size-14:4.5rem;--f-size-15:5rem;--f-size-16:5.5rem;--f-size-17:6rem;--f-leading-solid:1;--f-leading-title:1.12;--f-leading-body:1.6;--f-leading-prose:1.8;--f-tracking-dense:-0.04em;--f-tracking-tight:-0.02em;--f-tracking-solid:0em;--f-tracking-wide:0.04em;--f-tracking-super:0.08em;--f-tracking-extra:0.16em;--space-0:0.25rem;--space-1:0.5rem;--space-2:0.75rem;--space-3:1rem;--space-4:1.25rem;--space-5:1.5rem;--space-6:2rem;--space-7:2.5rem;--space-8:3rem;--space-9:4rem;--space-10:5rem;--space-11:6rem;--space-12:8rem;--space-13:10rem;--space-14:12rem;--space-15:14rem;--space-16:16rem;--breakpoint-0:640px;--breakpoint-1:768px;--breakpoint-2:1024px;--breakpoint-3:1280px;--radius-0:0px;--radius-1:6px;--radius-2:8px;--radius-3:16px;--radius-4:1000px;--border-regular:1px solid;--border-dashed:1px dashed;--border-heavy:2px solid;--elevation-0:none;--elevation-1:0px 1px 2px rgba(2, 8, 20, 0.1), 0px 0px 1px rgba(2, 8, 20, 0.08);--elevation-2:0px 2px 4px rgba(2, 8, 20, 0.1), 0px 1px 2px rgba(2, 8, 20, 0.08);--elevation-3:0px 4px 8px rgba(2, 8, 20, 0.08), 0px 2px 4px rgba(2, 8, 20, 0.08);--elevation-4:0px 8px 16px rgba(2, 8, 20, 0.08), 0px 4px 8px rgba(2, 8, 20, 0.08);--elevation-5:0px 16px 32px rgba(2, 8, 20, 0.08), 0px 8px 16px rgba(2, 8, 20, 0.08);--elevation-6:0px 32px 64px rgba(2, 8, 20, 0.08), 0px 16px 32px rgba(2, 8, 20, 0.1);--duration-instantly:0s;--duration-quickly:0.15s;--c-black:#000000;--c-white:#ffffff;--c-blue-0:#f0f6ff;--c-blue-10:#e3edff;--c-blue-20:#cddfff;--c-blue-30:#b2ceff;--c-blue-40:#97bdff;--c-blue-50:#7cabff;--c-blue-60:#639bff;--c-blue-70:#4d8dff;--c-blue-80:#3880ff;--c-blue-90:#1b6dff;--c-blue-100:#0054e9;--c-gray-0:#f3f3f3;--c-gray-10:#e4e4e4;--c-gray-20:#c8c8c8;--c-gray-30:#aeaeae;--c-gray-40:#959595;--c-gray-50:#818181;--c-gray-60:#6d6d6d;--c-gray-70:#5f5f5f;--c-gray-80:#474747;--c-gray-90:#2f2f2f;--c-gray-100:#141414;--c-carbon-0:#eef1f3;--c-carbon-10:#d7dde2;--c-carbon-20:#b4bcc6;--c-carbon-30:#98a2ad;--c-carbon-40:#7d8894;--c-carbon-50:#677483;--c-carbon-60:#556170;--c-carbon-70:#434f5e;--c-carbon-80:#35404e;--c-carbon-90:#222d3a;--c-carbon-100:#03060b;--c-indigo-0:#fbfbfd;--c-indigo-10:#f6f8fb;--c-indigo-20:#e9edf3;--c-indigo-30:#dee3ea;--c-indigo-40:#ced6e0;--c-indigo-50:#b2becd;--c-indigo-60:#92a0b3;--c-indigo-70:#73849a;--c-indigo-80:#445b78;--c-indigo-90:#2d4665;--c-indigo-100:#001a3a;--c-green-0:#effff3;--c-green-10:#e7ffee;--c-green-20:#d0ffdd;--c-green-30:#b8ffcb;--c-green-40:#97ffb3;--c-green-50:#71f895;--c-green-60:#4ef27a;--c-green-70:#31e962;--c-green-80:#18dd4c;--c-green-90:#00d338;--c-green-100:#00b831;--c-lime-0:#f8fff0;--c-lime-10:#f2ffe1;--c-lime-20:#eeffd8;--c-lime-30:#e5ffc3;--c-lime-40:#d8ffa7;--c-lime-50:#c8ff83;--c-lime-60:#b7f964;--c-lime-70:#a7f544;--c-lime-80:#97ec2d;--c-lime-90:#87e017;--c-lime-100:#75d100;--c-lavender-0:#f6f8ff;--c-lavender-10:#e5ebff;--c-lavender-20:#ced9ff;--c-lavender-30:#b6c6ff;--c-lavender-40:#9fb5ff;--c-lavender-50:#8aa4ff;--c-lavender-60:#7493ff;--c-lavender-70:#597eff;--c-lavender-80:#3c67ff;--c-lavender-90:#194bfd;--c-lavender-100:#0033e8;--c-purple-0:#f4f4ff;--c-purple-10:#e9eaff;--c-purple-20:#d0d2ff;--c-purple-30:#b6b9f9;--c-purple-40:#9a99fc;--c-purple-50:#8482fb;--c-purple-60:#786df9;--c-purple-70:#6e5afd;--c-purple-80:#6030ff;--c-purple-90:#4712fb;--c-purple-100:#3400e5;--c-pink-0:#fff2fb;--c-pink-10:#ffe3f6;--c-pink-20:#ffd4f1;--c-pink-30:#ffc7ec;--c-pink-40:#ffb6e8;--c-pink-50:#ff9cdf;--c-pink-60:#fc82d5;--c-pink-70:#f567c8;--c-pink-80:#ef4cbb;--c-pink-90:#f02fb2;--c-pink-100:#e410a1;--c-red-0:#fff2f2;--c-red-10:#ffdddd;--c-red-20:#ffc8c7;--c-red-30:#ffb6b5;--c-red-40:#ff9e9c;--c-red-50:#ff8a88;--c-red-60:#ff7370;--c-red-70:#ff605b;--c-red-80:#ff4747;--c-red-90:#ff201a;--c-red-100:#e70700;--c-orange-0:#fff5f0;--c-orange-10:#ffede5;--c-orange-20:#ffdfd1;--c-orange-30:#ffd0bc;--c-orange-40:#ffc0a5;--c-orange-50:#ffaf8c;--c-orange-60:#ff9b70;--c-orange-70:#ff8753;--c-orange-80:#ff7336;--c-orange-90:#ff5b13;--c-orange-100:#eb4700;--c-yellow-0:#fffbef;--c-yellow-10:#fff8e3;--c-yellow-20:#fff6d8;--c-yellow-30:#fff3c9;--c-yellow-40:#ffedad;--c-yellow-50:#ffe78f;--c-yellow-60:#ffe072;--c-yellow-70:#ffd84d;--c-yellow-80:#ffd130;--c-yellow-90:#ffc805;--c-yellow-100:#f5bf00;--c-aqua-0:#f0fff9;--c-aqua-10:#e5fff6;--c-aqua-20:#d5ffef;--c-aqua-30:#c0ffe8;--c-aqua-40:#aaffe0;--c-aqua-50:#90fbd4;--c-aqua-60:#70f6c5;--c-aqua-70:#4deeb2;--c-aqua-80:#32e2a1;--c-aqua-90:#00db8a;--c-aqua-100:#00cc80;--c-teal-0:#eefeff;--c-teal-10:#dffdff;--c-teal-20:#d0fdff;--c-teal-30:#bbfcff;--c-teal-40:#a2fcff;--c-teal-50:#8bfbff;--c-teal-60:#73f6fb;--c-teal-70:#55ecf2;--c-teal-80:#35e2e9;--c-teal-90:#1bd2d9;--c-teal-100:#00b9c0;--c-cyan-0:#f3faff;--c-cyan-10:#e8f5ff;--c-cyan-20:#d3ecff;--c-cyan-30:#bfe4ff;--c-cyan-40:#a7daff;--c-cyan-50:#8dcfff;--c-cyan-60:#77c6ff;--c-cyan-70:#62bdff;--c-cyan-80:#46b1ff;--c-cyan-90:#24a3ff;--c-cyan-100:#0091fa}:root{--c-ionic-brand:var(--c-blue-80);--f-size-root:16px;--z-subnav:1000;--z-header-dropdown:1005}*{box-sizing:border-box}html,body{padding:0;margin:0;width:100%}body{-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;font-family:var(--f-family-text);font-size:var(--f-size-root);line-height:var(--f-leading-body);letter-spacing:var(--f-tracking-tight);color:var(--c-carbon-90);position:relative;overflow-x:hidden}body.no-scroll{overflow:hidden}a{text-decoration:none;color:var(--c-ionic-brand)}stencil-route-link a{color:inherit}ul{margin:0;padding:0}li{list-style:none}hr{border:none;height:1px;background:var(--c-indigo-30);margin:var(--space-6) 0}.ui-blockquote{background:#f2f5f8;border-radius:4px;position:relative;padding:64px 80px 68px 111px;color:#5e749a;font-family:\"Adobe Caslon\", Georgia, Times, \"Times New Roman\", serif;font-style:italic;border:none;margin:77px -16px 54px}.ui-blockquote:before{position:absolute;top:-6px;left:54px;font-size:180px;content:\"“\";color:#e3e7ec}.ui-breadcrumbs{display:flex;align-items:center}.ui-breadcrumbs li{display:inline-block}.ui-breadcrumbs li:last-child a{color:#010610}.ui-breadcrumbs li+li::before{content:\"/\";display:inline-block;font-size:16px;font-weight:400;color:rgba(65, 77, 92, 0.2);margin:0 6px}.ui-breadcrumbs a{color:var(--c-indigo-60)}.ui-breakpoint{display:none}@media (min-width: 1216px){.ui-breakpoint-xl{display:var(--display)}}@media (min-width: 1024px) and (max-width: 1215px){.ui-breakpoint-lg{display:var(--display)}}@media (min-width: 768px) and (max-width: 1023px){.ui-breakpoint-md{display:var(--display)}}@media (min-width: 640px) and (max-width: 767px){.ui-breakpoint-sm{display:var(--display)}}@media (max-width: 639px){.ui-breakpoint-xs{display:var(--display)}}.ui-button{cursor:pointer;display:inline-block;font-weight:500;border-radius:8px;line-height:1.4em;padding:16px 20px;transition:all 0.3s ease;font-size:16px;border:0px solid rgba(0, 0, 0, 0);color:#fff;background:var(--button-background, var(--c-ionic-brand));letter-spacing:0.01em}.ui-card--embelish{background-color:#fff;border-radius:6px;box-shadow:var(--elevation-4);border-radius:14px}.ui-card--embelish .ui-card-content{padding:32px}.ui-card[href]{cursor:pointer}.ui-container{padding-right:8px;padding-left:8px;margin-right:auto;margin-left:auto}@media (min-width: 768px){.ui-container{width:768px;padding-right:16px;padding-left:16px}}@media (min-width: 1024px){.ui-container{width:1024px}}@media (min-width: 1216px){.ui-container{width:1152px}}.ui-grid{display:grid;column-gap:56px;row-gap:96px;grid-template-columns:repeat(12, minmax(0, 1fr))}@media (max-width: 640px){.ui-grid{column-gap:0;row-gap:48px}}@media (max-width: 768px){.ui-grid{column-gap:0;row-gap:24px}}.ui-grid .ui-col-1{grid-column-end:span 1}.ui-grid .ui-col-2{grid-column-end:span 2}.ui-grid .ui-col-3{grid-column-end:span 3}.ui-grid .ui-col-4{grid-column-end:span 4}.ui-grid .ui-col-5{grid-column-end:span 5}.ui-grid .ui-col-6{grid-column-end:span 6}.ui-grid .ui-col-7{grid-column-end:span 7}.ui-grid .ui-col-8{grid-column-end:span 8}.ui-grid .ui-col-9{grid-column-end:span 9}.ui-grid .ui-col-10{grid-column-end:span 10}.ui-grid .ui-col-11{grid-column-end:span 11}.ui-grid .ui-col-12{grid-column-end:span 12}@media (min-width: 640px){.ui-grid .ui-col-xs-1{grid-column-end:span 1}.ui-grid .ui-col-xs-2{grid-column-end:span 2}.ui-grid .ui-col-xs-3{grid-column-end:span 3}.ui-grid .ui-col-xs-4{grid-column-end:span 4}.ui-grid .ui-col-xs-5{grid-column-end:span 5}.ui-grid .ui-col-xs-6{grid-column-end:span 6}.ui-grid .ui-col-xs-7{grid-column-end:span 7}.ui-grid .ui-col-xs-8{grid-column-end:span 8}.ui-grid .ui-col-xs-9{grid-column-end:span 9}.ui-grid .ui-col-xs-10{grid-column-end:span 10}.ui-grid .ui-col-xs-11{grid-column-end:span 11}.ui-grid .ui-col-xs-12{grid-column-end:span 12}}@media (min-width: 768px){.ui-grid .ui-col-sm-1{grid-column-end:span 1}.ui-grid .ui-col-sm-2{grid-column-end:span 2}.ui-grid .ui-col-sm-3{grid-column-end:span 3}.ui-grid .ui-col-sm-4{grid-column-end:span 4}.ui-grid .ui-col-sm-5{grid-column-end:span 5}.ui-grid .ui-col-sm-6{grid-column-end:span 6}.ui-grid .ui-col-sm-7{grid-column-end:span 7}.ui-grid .ui-col-sm-8{grid-column-end:span 8}.ui-grid .ui-col-sm-9{grid-column-end:span 9}.ui-grid .ui-col-sm-10{grid-column-end:span 10}.ui-grid .ui-col-sm-11{grid-column-end:span 11}.ui-grid .ui-col-sm-12{grid-column-end:span 12}}@media (min-width: 1024px){.ui-grid .ui-col-md-1{grid-column-end:span 1}.ui-grid .ui-col-md-2{grid-column-end:span 2}.ui-grid .ui-col-md-3{grid-column-end:span 3}.ui-grid .ui-col-md-4{grid-column-end:span 4}.ui-grid .ui-col-md-5{grid-column-end:span 5}.ui-grid .ui-col-md-6{grid-column-end:span 6}.ui-grid .ui-col-md-7{grid-column-end:span 7}.ui-grid .ui-col-md-8{grid-column-end:span 8}.ui-grid .ui-col-md-9{grid-column-end:span 9}.ui-grid .ui-col-md-10{grid-column-end:span 10}.ui-grid .ui-col-md-11{grid-column-end:span 11}.ui-grid .ui-col-md-12{grid-column-end:span 12}}@media (min-width: 1216px){.ui-grid .ui-col-lg-1{grid-column-end:span 1}.ui-grid .ui-col-lg-2{grid-column-end:span 2}.ui-grid .ui-col-lg-3{grid-column-end:span 3}.ui-grid .ui-col-lg-4{grid-column-end:span 4}.ui-grid .ui-col-lg-5{grid-column-end:span 5}.ui-grid .ui-col-lg-6{grid-column-end:span 6}.ui-grid .ui-col-lg-7{grid-column-end:span 7}.ui-grid .ui-col-lg-8{grid-column-end:span 8}.ui-grid .ui-col-lg-9{grid-column-end:span 9}.ui-grid .ui-col-lg-10{grid-column-end:span 10}.ui-grid .ui-col-lg-11{grid-column-end:span 11}.ui-grid .ui-col-lg-12{grid-column-end:span 12}}:root{--h1-color:var(--c-carbon-90);--h2-color:var(--c-carbon-90);--h3-color:var(--c-carbon-90);--h4-color:var(--c-carbon-90);--h5-color:var(--c-carbon-90);--h6-color:var(--c-indigo-70);--h1-size:var(--f-size-13);--h2-size:var(--f-size-11);--h3-size:var(--f-size-8);--h4-size:var(--f-size-6);--h5-size:var(--f-size-5);--h6-size:var(--f-size-2);--h1-leading:var(--f-leading-solid);--h2-leading:var(--f-leading-title);--h3-leading:var(--f-leading-title);--h4-leading:var(--f-leading-title);--h5-leading:var(--f-leading-title);--h6-leading:var(--f-leading-title);--h1-tracking:var(--f-tracking-dense);--h2-tracking:var(--f-tracking-dense);--h3-tracking:var(--f-tracking-tight);--h4-tracking:var(--f-tracking-tight);--h5-tracking:var(--f-tracking-tight);--h6-tracking:var(--f-tracking-extra);--h1-font:var(--f-family-display);--h2-font:var(--f-family-display);--h3-font:var(--f-family-display);--h4-font:var(--f-family-text);--h5-font:var(--f-family-text);--h6-font:var(--f-family-monospace);--h1-weight:var(--f-weight-bold);--h2-weight:var(--f-weight-bold);--h3-weight:var(--f-weight-semibold);--h4-weight:var(--f-weight-medium);--h5-weight:var(--f-weight-semibold);--h6-weight:var(--f-weight-bold);--h1-transform:none;--h2-transform:none;--h3-transform:none;--h4-transform:none;--h5-transform:none;--h6-transform:uppercase;--poster1-color:var(--c-carbon-90);--poster2-color:var(--c-carbon-90);--poster3-color:var(--c-carbon-90);--poster4-color:var(--c-carbon-90);--poster1-size:var(--f-size-17);--poster2-size:var(--f-size-16);--poster3-size:var(--f-size-15);--poster4-size:var(--f-size-14);--poster1-leading:var(--f-leading-solid);--poster2-leading:var(--f-leading-solid);--poster3-leading:var(--f-leading-solid);--poster4-leading:var(--f-leading-solid);--poster1-tracking:var(--f-tracking-dense);--poster2-tracking:var(--f-tracking-dense);--poster3-tracking:var(--f-tracking-dense);--poster4-tracking:var(--f-tracking-dense);--poster1-font:var(--f-family-display);--poster2-font:var(--f-family-display);--poster3-font:var(--f-family-display);--poster4-font:var(--f-family-text);--poster1-weight:var(--f-weight-bold);--poster2-weight:var(--f-weight-semibold);--poster3-weight:var(--f-weight-bold);--poster4-weight:var(--f-weight-semibold);--poster1-transform:none;--poster2-transform:none;--poster3-transform:none;--poster4-transform:none}.ui-heading{margin:0}.ui-theme--editorial .ui-heading,.ui-heading.ui-theme--editorial{--h6-color:var(--c-carbon-90);--h1-size:var(--f-size-10);--h2-size:var(--f-size-9);--h3-size:var(--f-size-7);--h6-size:var(--f-size-0);--h1-leading:var(--f-leading-title);--h1-font:var(--f-family-text);--h2-font:var(--f-family-text);--h3-font:var(--f-family-text);--h6-font:var(--f-family-text);--h1-tracking:var(--f-tracking-tight);--h2-tracking:var(--f-tracking-tight);--h3-tracking:var(--f-tracking-solid);--h4-tracking:var(--f-tracking-solid);--h6-tracking:var(--f-tracking-super);--h1-leading:var(--f-leading-title);--h1-weight:var(--f-weight-semibold);--h2-weight:var(--f-weight-semibold);--h4-weight:var(--f-weight-semibold);--h5-weight:var(--f-weight-medium);--h6-weight:var(--f-weight-medium)}.ui-heading-1{font-family:var(--h1-font);font-size:var(--h1-size);line-height:var(--h1-leading);letter-spacing:var(--h1-tracking);font-weight:var(--h1-weight);color:var(--h1-color);text-transform:var(--h1-transform)}.ui-heading-2{font-family:var(--h2-font);font-size:var(--h2-size);line-height:var(--h2-leading);letter-spacing:var(--h2-tracking);font-weight:var(--h2-weight);color:var(--h2-color);text-transform:var(--h2-transform)}.ui-heading-3{font-family:var(--h3-font);font-size:var(--h3-size);line-height:var(--h3-leading);letter-spacing:var(--h3-tracking);font-weight:var(--h3-weight);color:var(--h3-color);text-transform:var(--h3-transform)}.ui-heading-4{font-family:var(--h4-font);font-size:var(--h4-size);line-height:var(--h4-leading);letter-spacing:var(--h4-tracking);font-weight:var(--h4-weight);color:var(--h4-color);text-transform:var(--h4-transform)}.ui-heading-5{font-family:var(--h5-font);font-size:var(--h5-size);line-height:var(--h5-leading);letter-spacing:var(--h5-tracking);font-weight:var(--h5-weight);color:var(--h5-color);text-transform:var(--h5-transform)}.ui-heading-6{font-family:var(--h6-font);font-size:var(--h6-size);line-height:var(--h6-leading);letter-spacing:var(--h6-tracking);font-weight:var(--h6-weight);color:var(--h6-color);text-transform:var(--h6-transform)}.ui-poster-1{font-family:var(--poster1-font);font-size:var(--poster1-size);line-height:var(--poster1-leading);letter-spacing:var(--poster1-tracking);font-weight:var(--poster1-weight);color:var(--poster1-color);text-transform:var(--poster1-transform)}.ui-poster-2{font-family:var(--poster2-font);font-size:var(--poster2-size);line-height:var(--poster2-leading);letter-spacing:var(--poster2-tracking);font-weight:var(--poster2-weight);color:var(--poster2-color);text-transform:var(--poster2-transform)}.ui-poster-3{font-family:var(--poster3-font);font-size:var(--poster3-size);line-height:var(--poster3-leading);letter-spacing:var(--poster3-tracking);font-weight:var(--poster3-weight);color:var(--poster3-color);text-transform:var(--poster3-transform)}.ui-poster-4{font-family:var(--poster4-font);font-size:var(--poster4-size);line-height:var(--poster4-leading);letter-spacing:var(--poster4-tracking);font-weight:var(--poster4-weight);color:var(--poster4-color);text-transform:var(--poster4-transform)}:root{--p1-color:var(--c-indigo-90);--p2-color:var(--c-indigo-90);--p3-color:var(--c-indigo-90);--p4-color:var(--c-indigo-90);--p5-color:var(--c-indigo-90);--p6-color:var(--c-indigo-90);--p1-size:var(--f-size-7);--p2-size:var(--f-size-6);--p3-size:var(--f-size-5);--p4-size:var(--f-size-4);--p5-size:var(--f-size-3);--p6-size:var(--f-size-2);--p1-leading:var(--f-leading-body);--p2-leading:var(--f-leading-body);--p3-leading:var(--f-leading-body);--p4-leading:var(--f-leading-body);--p5-leading:var(--f-leading-body);--p6-leading:var(--f-leading-body);--p1-tracking:var(--f-tracking-tight);--p2-tracking:var(--f-tracking-tight);--p3-tracking:var(--f-tracking-tight);--p4-tracking:var(--f-tracking-solid);--p5-tracking:var(--f-tracking-solid);--p6-tracking:var(--f-tracking-solid);--p1-weight:var(--f-weight-regular);--p2-weight:var(--f-weight-regular);--p3-weight:var(--f-weight-regular);--p4-weight:var(--f-weight-regular);--p5-weight:var(--f-weight-regular);--p6-weight:var(--f-weight-regular);--p1-transform:none;--p2-transform:none;--p3-transform:none;--p4-transform:none;--p5-transform:none;--p6-transform:none}.ui-paragraph{margin:0}.ui-paragraph--base{--p1-leading:var(--f-leading-body);--p2-leading:var(--f-leading-body);--p3-leading:var(--f-leading-body);--p4-leading:var(--f-leading-body);--p5-leading:var(--f-leading-body);--p6-leading:var(--f-leading-body)}.ui-paragraph--prose{--p1-leading:var(--f-leading-prose);--p2-leading:var(--f-leading-prose);--p3-leading:var(--f-leading-prose);--p4-leading:var(--f-leading-prose);--p5-leading:var(--f-leading-prose);--p6-leading:var(--f-leading-prose)}.ui-paragraph--none{--p1-leading:100%;--p2-leading:100%;--p3-leading:100%;--p4-leading:100%;--p5-leading:100%;--p6-leading:100%}.ui-paragraph-1{font-family:var(--p1-font);font-size:var(--p1-size);line-height:var(--p1-leading);letter-spacing:var(--p1-tracking);font-weight:var(--p1-weight);color:var(--p1-color);text-transform:var(--p1-transform)}.ui-paragraph-2{font-family:var(--p2-font);font-size:var(--p2-size);line-height:var(--p2-leading);letter-spacing:var(--p2-tracking);font-weight:var(--p2-weight);color:var(--p2-color);text-transform:var(--p2-transform)}.ui-paragraph-3{font-family:var(--p3-font);font-size:var(--p3-size);line-height:var(--p3-leading);letter-spacing:var(--p3-tracking);font-weight:var(--p3-weight);color:var(--p3-color);text-transform:var(--p3-transform)}.ui-paragraph-4{font-family:var(--p4-font);font-size:var(--p4-size);line-height:var(--p4-leading);letter-spacing:var(--p4-tracking);font-weight:var(--p4-weight);color:var(--p4-color);text-transform:var(--p4-transform)}.ui-paragraph-5{font-family:var(--p5-font);font-size:var(--p5-size);line-height:var(--p5-leading);letter-spacing:var(--p5-tracking);font-weight:var(--p5-weight);color:var(--p5-color);text-transform:var(--p5-transform)}.ui-paragraph-6{font-family:var(--p6-font);font-size:var(--p6-size);line-height:var(--p6-leading);letter-spacing:var(--p6-tracking);font-weight:var(--p6-weight);color:var(--p6-color);text-transform:var(--p6-transform)}.ui-skeleton{display:block;width:100%;height:inherit;margin-top:4px;margin-bottom:4px;background:#EEEEEE;line-height:10px;user-select:none;pointer-events:none}.ui-skeleton--animated{position:relative;background:linear-gradient(to right, rgba(0, 0, 0, 0.065) 8%, rgba(0, 0, 0, 0.135) 18%, rgba(0, 0, 0, 0.065) 33%);background-size:800px 104px;animation-duration:1s;animation-fill-mode:forwards;animation-iteration-count:infinite;animation-name:shimmer;animation-timing-function:linear}@keyframes shimmer{0%{background-position:-468px 0}100%{background-position:468px 0}}.ui-skeleton span{display:inline-block}.prismic-raw-html{width:100%;overflow:auto}.prismic-raw-html table{overflow-x:auto;margin-right:-15px;padding-right:15px;box-sizing:content-box;font-size:13px;border-collapse:collapse;border-spacing:0;margin-bottom:48px}.prismic-raw-html table td,.prismic-raw-html table th{text-align:left;min-width:120px;padding-right:12px;padding-top:12px;padding-bottom:12px}.prismic-raw-html table td:last-child,.prismic-raw-html table th:last-child{padding-right:0}.prismic-raw-html table th,.prismic-raw-html table b{font-weight:600}.prismic-raw-html table tbody tr td{border-top:1px solid #DEE3EA}.prismic-raw-html table tbody tr:first-child td{border-top:none}.prismic-raw-html table>thead>tr>th{border-bottom:1px solid #E9EDF3;font-weight:600}site-root{display:block;width:100%}";
+const siteRootCss = "@charset \"UTF-8\";@font-face{font-family:\"Eina\";font-display:swap;src:local(\"Eina Bold\"), url(\"/assets/fonts/eina/eina-01-bold.woff2\") format(\"woff2\"), url(\"/assets/fonts/eina/eina-01-bold.woff\") format(\"woff\"), url(\"/assets/fonts/eina/eina-01-bold.ttf\") format(\"ttf\"), url(\"/assets/fonts/eina/eina-01-bold.eot?#iefix\") format(\"eot\");font-weight:700;unicode-range:U+000-5FF}@font-face{font-family:\"Eina\";font-display:swap;src:local(\"Eina Semibold\"), url(\"/assets/fonts/eina/eina-01-semibold.woff2\") format(\"woff2\"), url(\"/assets/fonts/eina/eina-01-semibold.woff\") format(\"woff\"), url(\"/assets/fonts/eina/eina-01-semibold.ttf\") format(\"ttf\"), url(\"/assets/fonts/eina/eina-01-semibold.eot?#iefix\") format(\"eot\");font-weight:600;unicode-range:U+000-5FF}@font-face{font-family:\"Eina\";font-display:swap;src:local(\"Eina Regular\"), url(\"/assets/fonts/eina/eina-01-regular.woff2\") format(\"woff2\"), url(\"/assets/fonts/eina/eina-01-regular.woff\") format(\"woff\"), url(\"/assets/fonts/eina/eina-01-regular.ttf\") format(\"ttf\"), url(\"/assets/fonts/eina/eina-01-regular.eot?#iefix\") format(\"eot\");font-weight:400;unicode-range:U+000-5FF}@font-face{font-family:\"Inter\";font-display:swap;font-style:normal;font-weight:400;unicode-range:U+000-5FF;src:local(\"Inter Regular\"), url(\"/assets/fonts/inter/Inter-variable-ASCII-subset.woff2\") format(\"woff2-variations\"), url(\"/assets/fonts/inter/Inter-Regular.woff2\") format(\"woff2\"), url(\"/assets/fonts/inter/Inter-Regular.woff\") format(\"woff\")}@font-face{font-family:\"Inter\";font-display:swap;font-style:italic;font-weight:400;unicode-range:U+000-5FF;src:local(\"Inter Italic\"), url(\"/assets/fonts/inter/Inter-variable-ASCII-subset.woff2\") format(\"woff2-variations\"), url(\"/assets/fonts/inter/Inter-Italic.woff2\") format(\"woff2\"), url(\"/assets/fonts/inter/Inter-Italic.woff\") format(\"woff\")}@font-face{font-family:\"Inter\";font-display:swap;font-style:normal;font-weight:500;unicode-range:U+000-5FF;src:local(\"Inter Medium\"), url(\"/assets/fonts/inter/Inter-variable-ASCII-subset.woff2\") format(\"woff2-variations\"), url(\"/assets/fonts/inter/Inter-Medium.woff2\") format(\"woff2\"), url(\"/assets/fonts/inter/Inter-Medium.woff\") format(\"woff\")}@font-face{font-family:\"Inter\";font-display:swap;font-style:italic;font-weight:500;unicode-range:U+000-5FF;src:local(\"Inter Medium Italic\"), url(\"/assets/fonts/inter/Inter-variable-ASCII-subset.woff2\") format(\"woff2-variations\"), url(\"/assets/fonts/inter/Inter-MediumItalic.woff2\") format(\"woff2\"), url(\"/assets/fonts/inter/Inter-MediumItalic.woff\") format(\"woff\")}@font-face{font-family:\"Inter\";font-display:swap;font-style:normal;font-weight:600;unicode-range:U+000-5FF;src:local(\"Inter SemiBold\"), url(\"/assets/fonts/inter/Inter-variable-ASCII-subset.woff2\") format(\"woff2-variations\"), url(\"/assets/fonts/inter/Inter-SemiBold.woff2\") format(\"woff2\"), url(\"/assets/fonts/inter/Inter-SemiBold.woff\") format(\"woff\")}@font-face{font-family:\"Inter\";font-display:swap;font-style:italic;font-weight:600;unicode-range:U+000-5FF;src:local(\"Inter SemiBoldItalic\"), url(\"/assets/fonts/inter/Inter-variable-ASCII-subset.woff2\") format(\"woff2-variations\"), url(\"/assets/fonts/inter/Inter-SemiBoldItalic.woff2\") format(\"woff2\"), url(\"/assets/fonts/inter/Inter-SemiBoldItalic.woff\") format(\"woff\")}@font-face{font-family:\"Inter\";font-display:swap;font-style:normal;font-weight:700;unicode-range:U+000-5FF;src:local(\"Inter Bold\"), url(\"/assets/fonts/inter/Inter-variable-ASCII-subset.woff2\") format(\"woff2-variations\"), url(\"/assets/fonts/inter/Inter-Bold.woff2\") format(\"woff2\"), url(\"/assets/fonts/inter/Inter-Bold.woff\") format(\"woff\")}@font-face{font-family:\"Inter\";font-display:swap;font-style:italic;font-weight:700;unicode-range:U+000-5FF;src:local(\"Inter BoldItalic\"), url(\"/assets/fonts/inter/Inter-variable-ASCII-subset.woff2\") format(\"woff2-variations\"), url(\"/assets/fonts/inter/Inter-BoldItalic.woff2\") format(\"woff2\"), url(\"/assets/fonts/inter/Inter-BoldItalic.woff\") format(\"woff\")}@font-face{font-family:\"Inter\";font-display:swap;font-style:normal;font-weight:800;unicode-range:U+000-5FF;src:local(\"Inter ExtraBold\"), url(\"/assets/fonts/inter/Inter-variable-ASCII-subset.woff2\") format(\"woff2-variations\"), url(\"/assets/fonts/inter/Inter-ExtraBold.woff2\") format(\"woff2\"), url(\"/assets/fonts/inter/Inter-ExtraBold.woff\") format(\"woff\")}@font-face{font-family:\"Inter\";font-display:swap;font-style:italic;font-weight:800;unicode-range:U+000-5FF;src:local(\"Inter ExtraBoldItalic\"), url(\"/assets/fonts/inter/Inter-variable-ASCII-subset.woff2\") format(\"woff2-variations\"), url(\"/assets/fonts/inter/Inter-ExtraBoldItalic.woff2\") format(\"woff2\"), url(\"/assets/fonts/inter/Inter-ExtraBoldItalic.woff\") format(\"woff\")}@font-face{font-family:\"Inter\";font-display:swap;font-style:normal;font-weight:900;unicode-range:U+000-5FF;src:local(\"Inter Black\"), url(\"/assets/fonts/inter/Inter-variable-ASCII-subset.woff2\") format(\"woff2-variations\"), url(\"/assets/fonts/inter/Inter-Black.woff2\") format(\"woff2\"), url(\"/assets/fonts/inter/Inter-Black.woff\") format(\"woff\")}@font-face{font-family:\"Inter\";font-display:swap;font-style:italic;font-weight:900;unicode-range:U+000-5FF;src:local(\"Inter BlackItalic\"), url(\"/assets/fonts/inter/Inter-variable-ASCII-subset.woff2\") format(\"woff2-variations\"), url(\"/assets/fonts/inter/Inter-BlackItalic.woff2\") format(\"woff2\"), url(\"/assets/fonts/inter/Inter-BlackItalic.woff\") format(\"woff\")}@font-face{font-family:\"FreightTextPro\";font-display:swap;font-weight:400;unicode-range:U+000-5FF;src:url(\"/assets/fonts//29D26A_0_0.eot\");src:url(\"/assets/fonts//29D26A_0_0.eot?#iefix\") format(\"embedded-opentype\"), url(\"/assets/fonts//29D26A_0_0.woff\") format(\"woff\"), url(\"/assets/fonts/29D26A_0_0.ttf\") format(\"truetype\")}@font-face{font-family:\"FreightTextPro\";font-display:swap;font-weight:500;unicode-range:U+000-5FF;src:url(\"/assets/fonts/29D26A_1_0.eot\");src:url(\"/assets/fonts/29D26A_1_0.eot?#iefix\") format(\"embedded-opentype\"), url(\"/assets/fonts/29D26A_1_0.woff\") format(\"woff\"), url(\"/assets/fonts/29D26A_1_0.ttf\") format(\"truetype\")}:root{--f-family-display:Eina, \"Helvetica Neue\", Helvetica, sans-serif;--f-family-text:Inter, \"Inter UI\", Helvetica, Arial, sans-serif;--f-family-system:apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;--f-family-monospace:\"SF Mono\", \"Roboto Mono\", Menlo, monospace;--f-family-serif:\"Adobe Caslon\", Georgia, Times, \"Times New Roman\", serif;--f-weight-light:300;--f-weight-regular:400;--f-weight-medium:500;--f-weight-semibold:600;--f-weight-bold:700;--f-size-0:0.625rem;--f-size-1:0.6875rem;--f-size-2:0.75rem;--f-size-3:0.8125rem;--f-size-4:0.875rem;--f-size-5:1rem;--f-size-6:1.25rem;--f-size-7:1.5rem;--f-size-8:1.75rem;--f-size-9:2rem;--f-size-10:2.5rem;--f-size-11:3rem;--f-size-12:3.5rem;--f-size-13:4rem;--f-size-14:4.5rem;--f-size-15:5rem;--f-size-16:5.5rem;--f-size-17:6rem;--f-leading-solid:1;--f-leading-title:1.12;--f-leading-body:1.6;--f-leading-prose:1.8;--f-tracking-dense:-0.04em;--f-tracking-tight:-0.02em;--f-tracking-solid:0em;--f-tracking-wide:0.04em;--f-tracking-super:0.08em;--f-tracking-extra:0.16em;--space-0:0.25rem;--space-1:0.5rem;--space-2:0.75rem;--space-3:1rem;--space-4:1.25rem;--space-5:1.5rem;--space-6:2rem;--space-7:2.5rem;--space-8:3rem;--space-9:4rem;--space-10:5rem;--space-11:6rem;--space-12:8rem;--space-13:10rem;--space-14:12rem;--space-15:14rem;--space-16:16rem;--breakpoint-0:640px;--breakpoint-1:768px;--breakpoint-2:1024px;--breakpoint-3:1280px;--radius-0:0px;--radius-1:6px;--radius-2:8px;--radius-3:16px;--radius-4:1000px;--border-regular:1px solid;--border-dashed:1px dashed;--border-heavy:2px solid;--elevation-0:none;--elevation-1:0px 1px 2px rgba(2, 8, 20, 0.1), 0px 0px 1px rgba(2, 8, 20, 0.08);--elevation-2:0px 2px 4px rgba(2, 8, 20, 0.1), 0px 1px 2px rgba(2, 8, 20, 0.08);--elevation-3:0px 4px 8px rgba(2, 8, 20, 0.08), 0px 2px 4px rgba(2, 8, 20, 0.08);--elevation-4:0px 8px 16px rgba(2, 8, 20, 0.08), 0px 4px 8px rgba(2, 8, 20, 0.08);--elevation-5:0px 16px 32px rgba(2, 8, 20, 0.08), 0px 8px 16px rgba(2, 8, 20, 0.08);--elevation-6:0px 32px 64px rgba(2, 8, 20, 0.08), 0px 16px 32px rgba(2, 8, 20, 0.1);--duration-instantly:0s;--duration-quickly:0.15s;--c-black:#000000;--c-white:#ffffff;--c-blue-0:#f0f6ff;--c-blue-10:#e3edff;--c-blue-20:#cddfff;--c-blue-30:#b2ceff;--c-blue-40:#97bdff;--c-blue-50:#7cabff;--c-blue-60:#639bff;--c-blue-70:#4d8dff;--c-blue-80:#3880ff;--c-blue-90:#1b6dff;--c-blue-100:#0054e9;--c-gray-0:#f3f3f3;--c-gray-10:#e4e4e4;--c-gray-20:#c8c8c8;--c-gray-30:#aeaeae;--c-gray-40:#959595;--c-gray-50:#818181;--c-gray-60:#6d6d6d;--c-gray-70:#5f5f5f;--c-gray-80:#474747;--c-gray-90:#2f2f2f;--c-gray-100:#141414;--c-carbon-0:#eef1f3;--c-carbon-10:#d7dde2;--c-carbon-20:#b4bcc6;--c-carbon-30:#98a2ad;--c-carbon-40:#7d8894;--c-carbon-50:#677483;--c-carbon-60:#556170;--c-carbon-70:#434f5e;--c-carbon-80:#35404e;--c-carbon-90:#222d3a;--c-carbon-100:#03060b;--c-indigo-0:#fbfbfd;--c-indigo-10:#f6f8fb;--c-indigo-20:#e9edf3;--c-indigo-30:#dee3ea;--c-indigo-40:#ced6e0;--c-indigo-50:#b2becd;--c-indigo-60:#92a0b3;--c-indigo-70:#73849a;--c-indigo-80:#445b78;--c-indigo-90:#2d4665;--c-indigo-100:#001a3a;--c-green-0:#effff3;--c-green-10:#e7ffee;--c-green-20:#d0ffdd;--c-green-30:#b8ffcb;--c-green-40:#97ffb3;--c-green-50:#71f895;--c-green-60:#4ef27a;--c-green-70:#31e962;--c-green-80:#18dd4c;--c-green-90:#00d338;--c-green-100:#00b831;--c-lime-0:#f8fff0;--c-lime-10:#f2ffe1;--c-lime-20:#eeffd8;--c-lime-30:#e5ffc3;--c-lime-40:#d8ffa7;--c-lime-50:#c8ff83;--c-lime-60:#b7f964;--c-lime-70:#a7f544;--c-lime-80:#97ec2d;--c-lime-90:#87e017;--c-lime-100:#75d100;--c-lavender-0:#f6f8ff;--c-lavender-10:#e5ebff;--c-lavender-20:#ced9ff;--c-lavender-30:#b6c6ff;--c-lavender-40:#9fb5ff;--c-lavender-50:#8aa4ff;--c-lavender-60:#7493ff;--c-lavender-70:#597eff;--c-lavender-80:#3c67ff;--c-lavender-90:#194bfd;--c-lavender-100:#0033e8;--c-purple-0:#f4f4ff;--c-purple-10:#e9eaff;--c-purple-20:#d0d2ff;--c-purple-30:#b6b9f9;--c-purple-40:#9a99fc;--c-purple-50:#8482fb;--c-purple-60:#786df9;--c-purple-70:#6e5afd;--c-purple-80:#6030ff;--c-purple-90:#4712fb;--c-purple-100:#3400e5;--c-pink-0:#fff2fb;--c-pink-10:#ffe3f6;--c-pink-20:#ffd4f1;--c-pink-30:#ffc7ec;--c-pink-40:#ffb6e8;--c-pink-50:#ff9cdf;--c-pink-60:#fc82d5;--c-pink-70:#f567c8;--c-pink-80:#ef4cbb;--c-pink-90:#f02fb2;--c-pink-100:#e410a1;--c-red-0:#fff2f2;--c-red-10:#ffdddd;--c-red-20:#ffc8c7;--c-red-30:#ffb6b5;--c-red-40:#ff9e9c;--c-red-50:#ff8a88;--c-red-60:#ff7370;--c-red-70:#ff605b;--c-red-80:#ff4747;--c-red-90:#ff201a;--c-red-100:#e70700;--c-orange-0:#fff5f0;--c-orange-10:#ffede5;--c-orange-20:#ffdfd1;--c-orange-30:#ffd0bc;--c-orange-40:#ffc0a5;--c-orange-50:#ffaf8c;--c-orange-60:#ff9b70;--c-orange-70:#ff8753;--c-orange-80:#ff7336;--c-orange-90:#ff5b13;--c-orange-100:#eb4700;--c-yellow-0:#fffbef;--c-yellow-10:#fff8e3;--c-yellow-20:#fff6d8;--c-yellow-30:#fff3c9;--c-yellow-40:#ffedad;--c-yellow-50:#ffe78f;--c-yellow-60:#ffe072;--c-yellow-70:#ffd84d;--c-yellow-80:#ffd130;--c-yellow-90:#ffc805;--c-yellow-100:#f5bf00;--c-aqua-0:#f0fff9;--c-aqua-10:#e5fff6;--c-aqua-20:#d5ffef;--c-aqua-30:#c0ffe8;--c-aqua-40:#aaffe0;--c-aqua-50:#90fbd4;--c-aqua-60:#70f6c5;--c-aqua-70:#4deeb2;--c-aqua-80:#32e2a1;--c-aqua-90:#00db8a;--c-aqua-100:#00cc80;--c-teal-0:#eefeff;--c-teal-10:#dffdff;--c-teal-20:#d0fdff;--c-teal-30:#bbfcff;--c-teal-40:#a2fcff;--c-teal-50:#8bfbff;--c-teal-60:#73f6fb;--c-teal-70:#55ecf2;--c-teal-80:#35e2e9;--c-teal-90:#1bd2d9;--c-teal-100:#00b9c0;--c-cyan-0:#f3faff;--c-cyan-10:#e8f5ff;--c-cyan-20:#d3ecff;--c-cyan-30:#bfe4ff;--c-cyan-40:#a7daff;--c-cyan-50:#8dcfff;--c-cyan-60:#77c6ff;--c-cyan-70:#62bdff;--c-cyan-80:#46b1ff;--c-cyan-90:#24a3ff;--c-cyan-100:#0091fa}:root{--c-ionic-brand:var(--c-blue-80);--f-size-root:16px;--z-subnav:1000;--z-header-dropdown:1005}*{box-sizing:border-box}html,body{padding:0;margin:0;width:100%}body{-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;font-family:var(--f-family-text);font-size:var(--f-size-root);line-height:var(--f-leading-body);letter-spacing:var(--f-tracking-tight);color:var(--c-carbon-90);position:relative;overflow-x:hidden}body.no-scroll{overflow:hidden}a{text-decoration:none;color:var(--c-ionic-brand)}stencil-route-link a{color:inherit}ul{margin:0;padding:0}li{list-style:none}hr{border:none;height:1px;background:var(--c-indigo-30);margin:var(--space-6) 0}.ui-blockquote{background:#f2f5f8;border-radius:4px;position:relative;padding:64px 80px 68px 111px;color:#5e749a;font-family:\"Adobe Caslon\", Georgia, Times, \"Times New Roman\", serif;font-style:italic;border:none;margin:77px -16px 54px}.ui-blockquote:before{position:absolute;top:-6px;left:54px;font-size:180px;content:\"“\";color:#e3e7ec}.ui-blockquote>*{position:relative;z-index:1}.ui-breadcrumbs{display:flex;align-items:center}.ui-breadcrumbs li{display:inline-block}.ui-breadcrumbs li:last-child a{color:#010610}.ui-breadcrumbs li+li::before{content:\"/\";display:inline-block;font-size:16px;font-weight:400;color:rgba(65, 77, 92, 0.2);margin:0 6px}.ui-breadcrumbs a{color:var(--c-indigo-60)}.ui-breakpoint{display:none}@media (min-width: 1216px){.ui-breakpoint-xl{display:var(--display)}}@media (min-width: 1024px) and (max-width: 1215px){.ui-breakpoint-lg{display:var(--display)}}@media (min-width: 768px) and (max-width: 1023px){.ui-breakpoint-md{display:var(--display)}}@media (min-width: 640px) and (max-width: 767px){.ui-breakpoint-sm{display:var(--display)}}@media (max-width: 639px){.ui-breakpoint-xs{display:var(--display)}}.ui-button{cursor:pointer;display:inline-block;font-weight:500;border-radius:8px;line-height:1.4em;padding:16px 20px;transition:all 0.3s ease;font-size:16px;border:0px solid rgba(0, 0, 0, 0);color:#fff;background:var(--button-background, var(--c-ionic-brand));letter-spacing:0.01em}.ui-card--embelish{background-color:#fff;border-radius:6px;box-shadow:var(--elevation-4);border-radius:14px}.ui-card--embelish .ui-card-content{padding:32px}.ui-card[href]{cursor:pointer}.ui-container{padding-right:8px;padding-left:8px;margin-right:auto;margin-left:auto}@media (min-width: 768px){.ui-container{width:768px;padding-right:16px;padding-left:16px}}@media (min-width: 1024px){.ui-container{width:1024px}}@media (min-width: 1216px){.ui-container{width:1152px}}.ui-grid{display:grid;column-gap:56px;row-gap:96px;grid-template-columns:repeat(12, minmax(0, 1fr))}@media (max-width: 640px){.ui-grid{column-gap:0;row-gap:48px}}@media (max-width: 768px){.ui-grid{column-gap:0;row-gap:24px}}.ui-grid .ui-col-1{grid-column-end:span 1}.ui-grid .ui-col-2{grid-column-end:span 2}.ui-grid .ui-col-3{grid-column-end:span 3}.ui-grid .ui-col-4{grid-column-end:span 4}.ui-grid .ui-col-5{grid-column-end:span 5}.ui-grid .ui-col-6{grid-column-end:span 6}.ui-grid .ui-col-7{grid-column-end:span 7}.ui-grid .ui-col-8{grid-column-end:span 8}.ui-grid .ui-col-9{grid-column-end:span 9}.ui-grid .ui-col-10{grid-column-end:span 10}.ui-grid .ui-col-11{grid-column-end:span 11}.ui-grid .ui-col-12{grid-column-end:span 12}@media (min-width: 640px){.ui-grid .ui-col-xs-1{grid-column-end:span 1}.ui-grid .ui-col-xs-2{grid-column-end:span 2}.ui-grid .ui-col-xs-3{grid-column-end:span 3}.ui-grid .ui-col-xs-4{grid-column-end:span 4}.ui-grid .ui-col-xs-5{grid-column-end:span 5}.ui-grid .ui-col-xs-6{grid-column-end:span 6}.ui-grid .ui-col-xs-7{grid-column-end:span 7}.ui-grid .ui-col-xs-8{grid-column-end:span 8}.ui-grid .ui-col-xs-9{grid-column-end:span 9}.ui-grid .ui-col-xs-10{grid-column-end:span 10}.ui-grid .ui-col-xs-11{grid-column-end:span 11}.ui-grid .ui-col-xs-12{grid-column-end:span 12}}@media (min-width: 768px){.ui-grid .ui-col-sm-1{grid-column-end:span 1}.ui-grid .ui-col-sm-2{grid-column-end:span 2}.ui-grid .ui-col-sm-3{grid-column-end:span 3}.ui-grid .ui-col-sm-4{grid-column-end:span 4}.ui-grid .ui-col-sm-5{grid-column-end:span 5}.ui-grid .ui-col-sm-6{grid-column-end:span 6}.ui-grid .ui-col-sm-7{grid-column-end:span 7}.ui-grid .ui-col-sm-8{grid-column-end:span 8}.ui-grid .ui-col-sm-9{grid-column-end:span 9}.ui-grid .ui-col-sm-10{grid-column-end:span 10}.ui-grid .ui-col-sm-11{grid-column-end:span 11}.ui-grid .ui-col-sm-12{grid-column-end:span 12}}@media (min-width: 1024px){.ui-grid .ui-col-md-1{grid-column-end:span 1}.ui-grid .ui-col-md-2{grid-column-end:span 2}.ui-grid .ui-col-md-3{grid-column-end:span 3}.ui-grid .ui-col-md-4{grid-column-end:span 4}.ui-grid .ui-col-md-5{grid-column-end:span 5}.ui-grid .ui-col-md-6{grid-column-end:span 6}.ui-grid .ui-col-md-7{grid-column-end:span 7}.ui-grid .ui-col-md-8{grid-column-end:span 8}.ui-grid .ui-col-md-9{grid-column-end:span 9}.ui-grid .ui-col-md-10{grid-column-end:span 10}.ui-grid .ui-col-md-11{grid-column-end:span 11}.ui-grid .ui-col-md-12{grid-column-end:span 12}}@media (min-width: 1216px){.ui-grid .ui-col-lg-1{grid-column-end:span 1}.ui-grid .ui-col-lg-2{grid-column-end:span 2}.ui-grid .ui-col-lg-3{grid-column-end:span 3}.ui-grid .ui-col-lg-4{grid-column-end:span 4}.ui-grid .ui-col-lg-5{grid-column-end:span 5}.ui-grid .ui-col-lg-6{grid-column-end:span 6}.ui-grid .ui-col-lg-7{grid-column-end:span 7}.ui-grid .ui-col-lg-8{grid-column-end:span 8}.ui-grid .ui-col-lg-9{grid-column-end:span 9}.ui-grid .ui-col-lg-10{grid-column-end:span 10}.ui-grid .ui-col-lg-11{grid-column-end:span 11}.ui-grid .ui-col-lg-12{grid-column-end:span 12}}:root{--h1-color:var(--c-carbon-90);--h2-color:var(--c-carbon-90);--h3-color:var(--c-carbon-90);--h4-color:var(--c-carbon-90);--h5-color:var(--c-carbon-90);--h6-color:var(--c-indigo-70);--h1-size:var(--f-size-13);--h2-size:var(--f-size-11);--h3-size:var(--f-size-8);--h4-size:var(--f-size-6);--h5-size:var(--f-size-5);--h6-size:var(--f-size-2);--h1-leading:var(--f-leading-solid);--h2-leading:var(--f-leading-title);--h3-leading:var(--f-leading-title);--h4-leading:var(--f-leading-title);--h5-leading:var(--f-leading-title);--h6-leading:var(--f-leading-title);--h1-tracking:var(--f-tracking-dense);--h2-tracking:var(--f-tracking-dense);--h3-tracking:var(--f-tracking-tight);--h4-tracking:var(--f-tracking-tight);--h5-tracking:var(--f-tracking-tight);--h6-tracking:var(--f-tracking-extra);--h1-font:var(--f-family-display);--h2-font:var(--f-family-display);--h3-font:var(--f-family-display);--h4-font:var(--f-family-text);--h5-font:var(--f-family-text);--h6-font:var(--f-family-monospace);--h1-weight:var(--f-weight-bold);--h2-weight:var(--f-weight-bold);--h3-weight:var(--f-weight-semibold);--h4-weight:var(--f-weight-medium);--h5-weight:var(--f-weight-semibold);--h6-weight:var(--f-weight-bold);--h1-transform:none;--h2-transform:none;--h3-transform:none;--h4-transform:none;--h5-transform:none;--h6-transform:uppercase;--poster1-color:var(--c-carbon-90);--poster2-color:var(--c-carbon-90);--poster3-color:var(--c-carbon-90);--poster4-color:var(--c-carbon-90);--poster1-size:var(--f-size-17);--poster2-size:var(--f-size-16);--poster3-size:var(--f-size-15);--poster4-size:var(--f-size-14);--poster1-leading:var(--f-leading-solid);--poster2-leading:var(--f-leading-solid);--poster3-leading:var(--f-leading-solid);--poster4-leading:var(--f-leading-solid);--poster1-tracking:var(--f-tracking-dense);--poster2-tracking:var(--f-tracking-dense);--poster3-tracking:var(--f-tracking-dense);--poster4-tracking:var(--f-tracking-dense);--poster1-font:var(--f-family-display);--poster2-font:var(--f-family-display);--poster3-font:var(--f-family-display);--poster4-font:var(--f-family-text);--poster1-weight:var(--f-weight-bold);--poster2-weight:var(--f-weight-semibold);--poster3-weight:var(--f-weight-bold);--poster4-weight:var(--f-weight-semibold);--poster1-transform:none;--poster2-transform:none;--poster3-transform:none;--poster4-transform:none}.ui-heading{margin:0}.ui-theme--editorial .ui-heading,.ui-heading.ui-theme--editorial{--h6-color:var(--c-carbon-90);--h1-size:var(--f-size-10);--h2-size:var(--f-size-9);--h3-size:var(--f-size-7);--h6-size:var(--f-size-0);--h1-leading:var(--f-leading-title);--h1-font:var(--f-family-text);--h2-font:var(--f-family-text);--h3-font:var(--f-family-text);--h6-font:var(--f-family-text);--h1-tracking:var(--f-tracking-tight);--h2-tracking:var(--f-tracking-tight);--h3-tracking:var(--f-tracking-solid);--h4-tracking:var(--f-tracking-solid);--h6-tracking:var(--f-tracking-super);--h1-leading:var(--f-leading-title);--h1-weight:var(--f-weight-semibold);--h2-weight:var(--f-weight-semibold);--h4-weight:var(--f-weight-semibold);--h5-weight:var(--f-weight-medium);--h6-weight:var(--f-weight-medium)}.ui-heading-1{font-family:var(--h1-font);font-size:var(--h1-size);line-height:var(--h1-leading);letter-spacing:var(--h1-tracking);font-weight:var(--h1-weight);color:var(--h1-color);text-transform:var(--h1-transform)}.ui-heading-2{font-family:var(--h2-font);font-size:var(--h2-size);line-height:var(--h2-leading);letter-spacing:var(--h2-tracking);font-weight:var(--h2-weight);color:var(--h2-color);text-transform:var(--h2-transform)}.ui-heading-3{font-family:var(--h3-font);font-size:var(--h3-size);line-height:var(--h3-leading);letter-spacing:var(--h3-tracking);font-weight:var(--h3-weight);color:var(--h3-color);text-transform:var(--h3-transform)}.ui-heading-4{font-family:var(--h4-font);font-size:var(--h4-size);line-height:var(--h4-leading);letter-spacing:var(--h4-tracking);font-weight:var(--h4-weight);color:var(--h4-color);text-transform:var(--h4-transform)}.ui-heading-5{font-family:var(--h5-font);font-size:var(--h5-size);line-height:var(--h5-leading);letter-spacing:var(--h5-tracking);font-weight:var(--h5-weight);color:var(--h5-color);text-transform:var(--h5-transform)}.ui-heading-6{font-family:var(--h6-font);font-size:var(--h6-size);line-height:var(--h6-leading);letter-spacing:var(--h6-tracking);font-weight:var(--h6-weight);color:var(--h6-color);text-transform:var(--h6-transform)}.ui-poster-1{font-family:var(--poster1-font);font-size:var(--poster1-size);line-height:var(--poster1-leading);letter-spacing:var(--poster1-tracking);font-weight:var(--poster1-weight);color:var(--poster1-color);text-transform:var(--poster1-transform)}.ui-poster-2{font-family:var(--poster2-font);font-size:var(--poster2-size);line-height:var(--poster2-leading);letter-spacing:var(--poster2-tracking);font-weight:var(--poster2-weight);color:var(--poster2-color);text-transform:var(--poster2-transform)}.ui-poster-3{font-family:var(--poster3-font);font-size:var(--poster3-size);line-height:var(--poster3-leading);letter-spacing:var(--poster3-tracking);font-weight:var(--poster3-weight);color:var(--poster3-color);text-transform:var(--poster3-transform)}.ui-poster-4{font-family:var(--poster4-font);font-size:var(--poster4-size);line-height:var(--poster4-leading);letter-spacing:var(--poster4-tracking);font-weight:var(--poster4-weight);color:var(--poster4-color);text-transform:var(--poster4-transform)}:root{--p1-color:var(--c-indigo-90);--p2-color:var(--c-indigo-90);--p3-color:var(--c-indigo-90);--p4-color:var(--c-indigo-90);--p5-color:var(--c-indigo-90);--p6-color:var(--c-indigo-90);--p1-size:var(--f-size-7);--p2-size:var(--f-size-6);--p3-size:var(--f-size-5);--p4-size:var(--f-size-4);--p5-size:var(--f-size-3);--p6-size:var(--f-size-2);--p1-leading:var(--f-leading-body);--p2-leading:var(--f-leading-body);--p3-leading:var(--f-leading-body);--p4-leading:var(--f-leading-body);--p5-leading:var(--f-leading-body);--p6-leading:var(--f-leading-body);--p1-tracking:var(--f-tracking-tight);--p2-tracking:var(--f-tracking-tight);--p3-tracking:var(--f-tracking-tight);--p4-tracking:var(--f-tracking-solid);--p5-tracking:var(--f-tracking-solid);--p6-tracking:var(--f-tracking-solid);--p1-weight:var(--f-weight-regular);--p2-weight:var(--f-weight-regular);--p3-weight:var(--f-weight-regular);--p4-weight:var(--f-weight-regular);--p5-weight:var(--f-weight-regular);--p6-weight:var(--f-weight-regular);--p1-transform:none;--p2-transform:none;--p3-transform:none;--p4-transform:none;--p5-transform:none;--p6-transform:none}.ui-paragraph{margin-bottom:1.6em}.ui-paragraph--base{--p1-leading:var(--f-leading-body);--p2-leading:var(--f-leading-body);--p3-leading:var(--f-leading-body);--p4-leading:var(--f-leading-body);--p5-leading:var(--f-leading-body);--p6-leading:var(--f-leading-body)}.ui-paragraph--prose{--p1-leading:var(--f-leading-prose);--p2-leading:var(--f-leading-prose);--p3-leading:var(--f-leading-prose);--p4-leading:var(--f-leading-prose);--p5-leading:var(--f-leading-prose);--p6-leading:var(--f-leading-prose)}.ui-paragraph--none{--p1-leading:100%;--p2-leading:100%;--p3-leading:100%;--p4-leading:100%;--p5-leading:100%;--p6-leading:100%}.ui-paragraph-1{font-family:var(--p1-font);font-size:var(--p1-size);line-height:var(--p1-leading);letter-spacing:var(--p1-tracking);font-weight:var(--p1-weight);color:var(--p1-color);text-transform:var(--p1-transform)}.ui-paragraph-2{font-family:var(--p2-font);font-size:var(--p2-size);line-height:var(--p2-leading);letter-spacing:var(--p2-tracking);font-weight:var(--p2-weight);color:var(--p2-color);text-transform:var(--p2-transform)}.ui-paragraph-3{font-family:var(--p3-font);font-size:var(--p3-size);line-height:var(--p3-leading);letter-spacing:var(--p3-tracking);font-weight:var(--p3-weight);color:var(--p3-color);text-transform:var(--p3-transform)}.ui-paragraph-4{font-family:var(--p4-font);font-size:var(--p4-size);line-height:var(--p4-leading);letter-spacing:var(--p4-tracking);font-weight:var(--p4-weight);color:var(--p4-color);text-transform:var(--p4-transform)}.ui-paragraph-5{font-family:var(--p5-font);font-size:var(--p5-size);line-height:var(--p5-leading);letter-spacing:var(--p5-tracking);font-weight:var(--p5-weight);color:var(--p5-color);text-transform:var(--p5-transform)}.ui-paragraph-6{font-family:var(--p6-font);font-size:var(--p6-size);line-height:var(--p6-leading);letter-spacing:var(--p6-tracking);font-weight:var(--p6-weight);color:var(--p6-color);text-transform:var(--p6-transform)}.ui-skeleton{display:block;width:100%;height:inherit;margin-top:4px;margin-bottom:4px;background:#EEEEEE;line-height:10px;user-select:none;pointer-events:none}.ui-skeleton--animated{position:relative;background:linear-gradient(to right, rgba(0, 0, 0, 0.065) 8%, rgba(0, 0, 0, 0.135) 18%, rgba(0, 0, 0, 0.065) 33%);background-size:800px 104px;animation-duration:1s;animation-fill-mode:forwards;animation-iteration-count:infinite;animation-name:shimmer;animation-timing-function:linear}@keyframes shimmer{0%{background-position:-468px 0}100%{background-position:468px 0}}.ui-skeleton span{display:inline-block}.prismic-raw-html{width:100%;overflow:auto}.prismic-raw-html table{overflow-x:auto;margin-right:-15px;padding-right:15px;box-sizing:content-box;font-size:13px;border-collapse:collapse;border-spacing:0;margin-bottom:48px}.prismic-raw-html table td,.prismic-raw-html table th{text-align:left;min-width:120px;padding-right:12px;padding-top:12px;padding-bottom:12px}.prismic-raw-html table td:last-child,.prismic-raw-html table th:last-child{padding-right:0}.prismic-raw-html table th,.prismic-raw-html table b{font-weight:600}.prismic-raw-html table tbody tr td{border-top:1px solid #DEE3EA}.prismic-raw-html table tbody tr:first-child td{border-top:none}.prismic-raw-html table>thead>tr>th{border-bottom:1px solid #E9EDF3;font-weight:600}.prismic-ad{display:block;margin:var(--space-9) 0 var(--space-10)}.prismic-ad a{display:flex;flex-direction:column;justify-content:center;padding:var(--space-6) 368px var(--space-6) var(--space-6);border:var(--border-regular);border-color:var(--c-indigo-30);border-radius:var(--radius-2);overflow:hidden;position:relative;min-height:225px;transition:0.2s box-shadow ease-out}.prismic-ad a .ui-paragraph{margin-bottom:0}.prismic-ad a .prismic-ad__image{position:absolute;right:0;top:0;bottom:0;width:100%;max-width:337px;object-fit:cover;z-index:-1}.prismic-ad a:hover{box-shadow:var(--elevation-3)}.prismic-ad .ui-heading{color:var(--c-indigo-100);margin-bottom:var(--space-2)}@media (max-width: 1023px){.prismic-ad a{padding-right:var(--space-6)}.prismic-ad a .prismic-ad__image{opacity:0.25}}site-root{display:block;width:100%}";
 
 class SiteRoot {
   constructor(hostRef) {
     registerInstance(this, hostRef);
   }
   render() {
-    return (h(Host, null, h("slot", null)));
+    return (hAsync(Host, null, hAsync("slot", null)));
   }
   static get style() { return siteRootCss; }
   static get cmpMeta() { return {
@@ -18758,7 +19924,7 @@ class UIBlockquote {
     registerInstance(this, hostRef);
   }
   render() {
-    return (h(Blockquote, null, h("slot", null)));
+    return (hAsync(Blockquote, null, hAsync("slot", null)));
   }
   static get cmpMeta() { return {
     "$flags$": 4,
@@ -18775,7 +19941,7 @@ class UIBox {
     registerInstance(this, hostRef);
   }
   render() {
-    return (h(Box, null, h("slot", null)));
+    return (hAsync(Box, null, hAsync("slot", null)));
   }
   static get cmpMeta() { return {
     "$flags$": 4,
@@ -18792,7 +19958,7 @@ class UIBreadcrumbs {
     registerInstance(this, hostRef);
   }
   render() {
-    return (h(Breadcrumbs, null, h("slot", null)));
+    return (hAsync(Breadcrumbs, null, hAsync("slot", null)));
   }
   static get cmpMeta() { return {
     "$flags$": 4,
@@ -18805,16 +19971,16 @@ class UIBreadcrumbs {
 }
 
 const getProps = (propList, ctx) => {
-    // set context
-    if (!ctx)
-        ctx = undefined;
-    const propObj = {};
-    propList.forEach(prop => {
-        if (ctx[prop] !== undefined) {
-            propObj[prop] = ctx[prop];
-        }
-    });
-    return propObj;
+  // set context
+  if (!ctx)
+    ctx = undefined;
+  const propObj = {};
+  propList.forEach(prop => {
+    if (ctx[prop] !== undefined) {
+      propObj[prop] = ctx[prop];
+    }
+  });
+  return propObj;
 };
 
 class UIBreakpoint {
@@ -18823,7 +19989,7 @@ class UIBreakpoint {
     this.display = 'block';
   }
   render() {
-    return (h(Breakpoint, Object.assign({}, getProps(['xs', 'sm', 'md', 'lg', 'xl', 'display'], this)), h("slot", null)));
+    return (hAsync(Breakpoint, Object.assign({}, getProps(['xs', 'sm', 'md', 'lg', 'xl', 'display'], this)), hAsync("slot", null)));
   }
   static get style() { return "breakpoint.scss"; }
   static get cmpMeta() { return {
@@ -18848,7 +20014,7 @@ class UIButton {
     registerInstance(this, hostRef);
   }
   render() {
-    return (h(Button, null, h("slot", null)));
+    return (hAsync(Button, null, hAsync("slot", null)));
   }
   static get style() { return "button.scss"; }
   static get cmpMeta() { return {
@@ -18866,7 +20032,7 @@ class UICard {
     registerInstance(this, hostRef);
   }
   render() {
-    return (h(Card, Object.assign({}, getProps(['embelish'], this)), h("slot", null)));
+    return (hAsync(Card, Object.assign({}, getProps(['embelish'], this)), hAsync("slot", null)));
   }
   static get cmpMeta() { return {
     "$flags$": 4,
@@ -18891,7 +20057,7 @@ class UIDateTime {
     };
   }
   render() {
-    return (h(DateTime, Object.assign({ date: this.date }, getProps(['format'], this)), h("slot", null)));
+    return (hAsync(DateTime, Object.assign({ date: this.date }, getProps(['format'], this)), hAsync("slot", null)));
   }
   static get cmpMeta() { return {
     "$flags$": 4,
@@ -18912,7 +20078,7 @@ class UIDropdown {
     this.open = false;
   }
   render() {
-    return (h(Dropdown, Object.assign({}, this), h("slot", null)));
+    return (hAsync(Dropdown, Object.assign({}, this), hAsync("slot", null)));
   }
   static get cmpMeta() { return {
     "$flags$": 4,
@@ -18931,7 +20097,7 @@ class UIGrid {
     registerInstance(this, hostRef);
   }
   render() {
-    return (h(Grid, null, h("slot", null)));
+    return (hAsync(Grid, null, hAsync("slot", null)));
   }
   static get cmpMeta() { return {
     "$flags$": 4,
@@ -18959,7 +20125,7 @@ class UIHeading {
     this.poster = false;
   }
   render() {
-    return (h(Heading, Object.assign({}, getProps(['level', 'poster', 'as'], this)), h("slot", null)));
+    return (hAsync(Heading, Object.assign({}, getProps(['level', 'poster', 'as'], this)), hAsync("slot", null)));
   }
   static get cmpMeta() { return {
     "$flags$": 4,
@@ -18986,7 +20152,7 @@ class UIParagraph {
     this.leading = 'body';
   }
   render() {
-    return (h(Paragraph, Object.assign({}, getProps(['level', 'heading'], this)), h("slot", null)));
+    return (hAsync(Paragraph, Object.assign({}, getProps(['level', 'heading'], this)), hAsync("slot", null)));
   }
   static get cmpMeta() { return {
     "$flags$": 4,
@@ -19007,7 +20173,7 @@ class UIResponsiveContainer {
     this.as = 'div';
   }
   render() {
-    return (h(ResponsiveContainer, { as: this.as }, h("slot", null)));
+    return (hAsync(ResponsiveContainer, { as: this.as }, hAsync("slot", null)));
   }
   static get cmpMeta() { return {
     "$flags$": 4,
@@ -19026,7 +20192,7 @@ class UISkeleton {
     registerInstance(this, hostRef);
   }
   render() {
-    return (h(Skeleton, null, h("slot", null)));
+    return (hAsync(Skeleton, null, hAsync("slot", null)));
   }
   static get cmpMeta() { return {
     "$flags$": 4,
@@ -19043,7 +20209,7 @@ class UIText {
     registerInstance(this, hostRef);
   }
   render() {
-    return (h(Text, null, h("slot", null)));
+    return (hAsync(Text, null, hAsync("slot", null)));
   }
   static get cmpMeta() { return {
     "$flags$": 4,
@@ -19061,7 +20227,7 @@ class UIThemeProvider {
     this.type = 'base';
   }
   render() {
-    return (h(ThemeProvider, Object.assign({}, this), h("slot", null)));
+    return (hAsync(ThemeProvider, Object.assign({}, this), hAsync("slot", null)));
   }
   static get cmpMeta() { return {
     "$flags$": 4,
@@ -19080,10 +20246,12 @@ const whyAppflowCss = ".sc-why-appflow-h{--p2-color:var(--c-indigo-80);--p3-colo
 class WhyAppflow {
   constructor(hostRef) {
     registerInstance(this, hostRef);
-    this.render = () => (h(Host, null, h(Top$2, null), h(Companies$2, null), h(Benefits, null), h(Integrated, null), h(Problems, null), h(Different, null), h("get-started-section", null)));
   }
   async componentWillLoad() {
     await getPage('appflow_why_appflow');
+  }
+  render() {
+    return (hAsync(Host, null, hAsync(Top$2, null), hAsync(Companies$2, null), hAsync(Benefits, null), hAsync(Integrated, null), hAsync(Problems, null), hAsync(Different, null), hAsync("get-started-section", null)));
   }
   static get assetsDirs() { return ["assets"]; }
   static get style() { return whyAppflowCss; }
@@ -19098,7 +20266,7 @@ class WhyAppflow {
 }
 const Top$2 = () => {
   const { top, top__cta } = state.pageData;
-  return (h("section", { id: "top" }, h(ResponsiveContainer, null, h(Grid, null, h(Col, { class: "heading-group", cols: 12, sm: 6 }, h(PrismicRichText, { richText: top, paragraphLevel: 2 }), h("a", { class: "cta button", href: "https://ionicframework.com/signup?source=framework-products&product=appflow" }, top__cta)), h(Col, { class: "image", cols: 12, sm: 6 }, h("img", { src: getAssetPath('assets/top@2x.png'), srcset: `${getAssetPath('assets/top@2x.png')} 2x,
+  return (hAsync("section", { id: "top" }, hAsync(ResponsiveContainer, null, hAsync(Grid, null, hAsync(Col, { class: "heading-group", cols: 12, sm: 6 }, hAsync(PrismicRichText, { richText: top, paragraphLevel: 2 }), hAsync("a", { class: "cta button", href: "https://ionicframework.com/signup?source=framework-products&product=appflow" }, top__cta)), hAsync(Col, { class: "image", cols: 12, sm: 6 }, hAsync("img", { src: getAssetPath('assets/top@2x.png'), srcset: `${getAssetPath('assets/top@2x.png')} 2x,
                       ${getAssetPath('assets/top.png')} 1x`, loading: "eager", width: "1024", height: "1328", alt: "tiple stack of icons with appflow in the middle" }))))));
 };
 const Companies$2 = () => {
@@ -19112,13 +20280,13 @@ const Companies$2 = () => {
     ['caterpillar', 138, 22],
     ['norfolk-southern', 96, 24]
   ];
-  const iconFactory = (item) => (h("img", { src: getAssetPath(`./assets/logo-${item[0]}@2x.png`), srcset: `${getAssetPath(`./assets/logo-${item[0]}.png`)} 1x,
+  const iconFactory = (item) => (hAsync("img", { src: getAssetPath(`./assets/logo-${item[0]}@2x.png`), srcset: `${getAssetPath(`./assets/logo-${item[0]}.png`)} 1x,
               ${getAssetPath(`./assets/logo-${item[0]}@2x.png`)} 2x`, loading: "lazy", width: item[1], height: item[2], alt: `${item[0]} logo` }));
-  return (h(ResponsiveContainer, { id: "companies", as: "section" }, h(Grid, null, icons.map(icon => (h(Col, { class: "wrapper", cols: 6, xs: 3 }, iconFactory(icon)))))));
+  return (hAsync(ResponsiveContainer, { id: "companies", as: "section" }, hAsync(Grid, null, icons.map(icon => (hAsync(Col, { class: "wrapper", cols: 6, xs: 3 }, iconFactory(icon)))))));
 };
 const Benefits = () => {
   const { benefits, benefits__subtext, benefits__list } = state.pageData;
-  return (h("section", { id: "benefits" }, h(ResponsiveContainer, null, h("div", { class: "heading-group" }, h(PrismicRichText, { richText: benefits, paragraphLevel: 2 })), h("div", { class: "subtext" }, h(PrismicRichText, { richText: benefits__subtext })), h(Grid, { class: "list" }, benefits__list.map(({ content }) => (h(Col, { class: "list-item", cols: 12, sm: 4 }, h(PrismicRichText, { richText: content }))))))));
+  return (hAsync("section", { id: "benefits" }, hAsync(ResponsiveContainer, null, hAsync("div", { class: "heading-group" }, hAsync(PrismicRichText, { richText: benefits, paragraphLevel: 2 })), hAsync("div", { class: "subtext" }, hAsync(PrismicRichText, { richText: benefits__subtext })), hAsync(Grid, { class: "list" }, benefits__list.map(({ content }) => (hAsync(Col, { class: "list-item", cols: 12, sm: 4 }, hAsync(PrismicRichText, { richText: content }))))))));
 };
 const Integrated = () => {
   const { integrated, integrated__list } = state.pageData;
@@ -19132,8 +20300,8 @@ const Integrated = () => {
     ['two-way-arrow', 96, 96],
     ['signal-bars', 96, 96]
   ];
-  return (h(ResponsiveContainer, { id: "integrated", as: "section" }, h("div", { class: "heading-group" }, h(PrismicRichText, { richText: integrated })), h(Grid, { class: "list" }, integrated__list.map(({ content }, i) => (h(Col, { class: "list-item", xs: 6, sm: 6, md: 4, lg: 3 }, h("img", { src: getAssetPath(`./assets/icon-${icons[i][0]}@2x.png`), srcset: `${getAssetPath(`./assets/icon-${icons[i][0]}.png`)} 1x,
-                      ${getAssetPath(`./assets/icon-${icons[i][0]}@2x.png`)} 2x`, loading: "lazy", width: icons[i][1], height: icons[i][2], alt: `${icons[0]} icon` }), h(PrismicRichText, { richText: content, paragraphLevel: 4 })))))));
+  return (hAsync(ResponsiveContainer, { id: "integrated", as: "section" }, hAsync("div", { class: "heading-group" }, hAsync(PrismicRichText, { richText: integrated })), hAsync(Grid, { class: "list" }, integrated__list.map(({ content }, i) => (hAsync(Col, { class: "list-item", xs: 6, sm: 6, md: 4, lg: 3 }, hAsync("img", { src: getAssetPath(`./assets/icon-${icons[i][0]}@2x.png`), srcset: `${getAssetPath(`./assets/icon-${icons[i][0]}.png`)} 1x,
+                      ${getAssetPath(`./assets/icon-${icons[i][0]}@2x.png`)} 2x`, loading: "lazy", width: icons[i][1], height: icons[i][2], alt: `${icons[0]} icon` }), hAsync(PrismicRichText, { richText: content, paragraphLevel: 4 })))))));
 };
 const Problems = () => {
   const { problems, problems__list } = state.pageData;
@@ -19144,8 +20312,8 @@ const Problems = () => {
     ['pipeline', 128, 128],
     ['lightning', 128, 128],
   ];
-  return (h("section", { id: "problems" }, h(ResponsiveContainer, null, h("div", { class: "heading-group" }, h(PrismicRichText, { richText: problems })), h("ul", { class: "list" }, problems__list.map(({ content }, i) => (h("li", { class: "list-item" }, h(Grid, null, h(Col, { xs: 12, md: 1 }, h("img", { src: getAssetPath(`./assets/icon-${icons[i][0]}@2x.png`), srcset: `${getAssetPath(`./assets/icon-${icons[i][0]}.png`)} 1x,
-                            ${getAssetPath(`./assets/icon-${icons[i][0]}@2x.png`)} 2x`, loading: "lazy", width: icons[i][1], height: icons[i][2], alt: `${icons[0]} icon` })), h(Col, { xs: 6, md: 4 }, h(Heading, { level: content[0].type.slice(-1) }, content[0].text)), h(Col, { xs: 12, md: 7, class: "paragraphs" }, h(PrismicRichText, { richText: content.slice(1) }))))))))));
+  return (hAsync("section", { id: "problems" }, hAsync(ResponsiveContainer, null, hAsync("div", { class: "heading-group" }, hAsync(PrismicRichText, { richText: problems })), hAsync("ul", { class: "list" }, problems__list.map(({ content }, i) => (hAsync("li", { class: "list-item" }, hAsync(Grid, null, hAsync(Col, { xs: 12, md: 1 }, hAsync("img", { src: getAssetPath(`./assets/icon-${icons[i][0]}@2x.png`), srcset: `${getAssetPath(`./assets/icon-${icons[i][0]}.png`)} 1x,
+                            ${getAssetPath(`./assets/icon-${icons[i][0]}@2x.png`)} 2x`, loading: "lazy", width: icons[i][1], height: icons[i][2], alt: `${icons[0]} icon` })), hAsync(Col, { xs: 6, md: 4 }, hAsync(Heading, { level: content[0].type.slice(-1) }, content[0].text)), hAsync(Col, { xs: 12, md: 7, class: "paragraphs" }, hAsync(PrismicRichText, { richText: content.slice(1) }))))))))));
 };
 const Different = () => {
   const { different, different__list } = state.pageData;
@@ -19154,9 +20322,60 @@ const Different = () => {
     ['square-target', 325, 324],
     ['infinity-circle', 432, 321],
   ];
-  return (h("section", { id: "different" }, h(ResponsiveContainer, null, h("div", { class: "heading-group" }, h(PrismicRichText, { richText: different })), h(Grid, { class: "list" }, different__list.map(({ content }, i) => (h(Col, { class: "list-item", cols: 12, sm: 6, md: 4 }, h("img", { src: getAssetPath(`./assets/icon-${icons[i][0]}@2x.png`), srcset: `${getAssetPath(`./assets/icon-${icons[i][0]}.png`)} 1x,
-                      ${getAssetPath(`./assets/icon-${icons[i][0]}@2x.png`)} 2x`, loading: "lazy", width: icons[i][1], height: icons[i][2], alt: `${icons[0]} icon` }), h(PrismicRichText, { richText: content }))))))));
+  return (hAsync("section", { id: "different" }, hAsync(ResponsiveContainer, null, hAsync("div", { class: "heading-group" }, hAsync(PrismicRichText, { richText: different })), hAsync(Grid, { class: "list" }, different__list.map(({ content }, i) => (hAsync(Col, { class: "list-item", cols: 12, sm: 6, md: 4 }, hAsync("img", { src: getAssetPath(`./assets/icon-${icons[i][0]}@2x.png`), srcset: `${getAssetPath(`./assets/icon-${icons[i][0]}.png`)} 1x,
+                      ${getAssetPath(`./assets/icon-${icons[i][0]}@2x.png`)} 2x`, loading: "lazy", width: icons[i][1], height: icons[i][2], alt: `${icons[0]} icon` }), hAsync(PrismicRichText, { richText: content }))))))));
 };
+
+const wistiaVideoCss = ".sc-wistia-video-h{display:block}.sc-wistia-video-h .wistia_embed.sc-wistia-video{margin:auto}";
+
+class WistiaVideo {
+  constructor(hostRef) {
+    registerInstance(this, hostRef);
+    this.width = 720;
+    this.height = 520;
+  }
+  handleWindowResize() {
+    window.requestAnimationFrame(() => this.resizeVideo());
+  }
+  componentDidLoad() {
+    window.requestAnimationFrame(() => this.resizeVideo());
+  }
+  resizeVideo() {
+    if (this.el) {
+      const parent = this.el.parentElement;
+      const width = parent === null || parent === void 0 ? void 0 : parent.offsetWidth;
+      if (!width) {
+        return;
+      }
+      this.width = width;
+      this.height = width * (10 / 16);
+    }
+  }
+  render() {
+    const { videoId } = this;
+    if (!videoId) {
+      return null;
+    }
+    return (hAsync(Host, null, hAsync("script", { src: "//fast.wistia.com/assets/external/E-v1.js", async: true }), hAsync("div", { class: `wistia_embed wistia_async_${videoId}`, style: {
+        width: `${this.width}px`,
+        height: `${this.height}px`,
+      } }, "\u00A0")));
+  }
+  get el() { return getElement(this); }
+  static get style() { return wistiaVideoCss; }
+  static get cmpMeta() { return {
+    "$flags$": 2,
+    "$tagName$": "wistia-video",
+    "$members$": {
+      "videoId": [1, "video-id"],
+      "width": [32],
+      "height": [32]
+    },
+    "$listeners$": [[9, "resize", "handleWindowResize"]],
+    "$lazyBundleId$": "-",
+    "$attrsToReflect$": []
+  }; }
+}
 
 registerComponents([
   App,
@@ -19193,9 +20412,16 @@ registerComponents([
   PlatformBar,
   PricingPage,
   PricingTable,
+  ResourceArticle,
+  ResourceAuthorItem,
+  ResourceCard,
+  ResourceCaseStudy,
+  ResourceMeta,
+  ResourceTOC,
+  ResourceWebinar,
+  ResourceWhitepaper,
   SiteFooter,
   SiteHeader,
-  SiteImg,
   SiteModal,
   SiteRoot,
   UIBlockquote,
@@ -19214,6 +20440,7 @@ registerComponents([
   UIText,
   UIThemeProvider,
   WhyAppflow,
+  WistiaVideo,
 ]);
 
 exports.hydrateApp = hydrateApp;
@@ -19356,34 +20583,36 @@ function getRootNode(e) {
 function renderToString(e, t) {
  const r = normalizeHydrateOptions(t);
  return r.serializeToHtml = !0, new Promise(t => {
-  const s = generateHydrateResults(r);
-  if (hasError(s.diagnostics)) t(s); else if ("string" == typeof e) try {
-   r.destroyWindow = !0, r.destroyDocument = !0, render(new MockWindow(e), r, s, t);
+  let s;
+  const n = generateHydrateResults(r);
+  if (hasError(n.diagnostics)) t(n); else if ("string" == typeof e) try {
+   r.destroyWindow = !0, r.destroyDocument = !0, s = new MockWindow(e), render(s, r, n, t);
   } catch (e) {
-   renderCatchError(s, e), t(s);
+   s && s.close && s.close(), s = null, renderCatchError(n, e), t(n);
   } else if (isValidDocument(e)) try {
-   r.destroyDocument = !1, render(patchDomImplementation(e, r), r, s, t);
+   r.destroyDocument = !1, s = patchDomImplementation(e, r), render(s, r, n, t);
   } catch (e) {
-   renderCatchError(s, e), t(s);
-  } else renderBuildError(s, 'Invalid html or document. Must be either a valid "html" string, or DOM "document".'), 
-  t(s);
+   s && s.close && s.close(), s = null, renderCatchError(n, e), t(n);
+  } else renderBuildError(n, 'Invalid html or document. Must be either a valid "html" string, or DOM "document".'), 
+  t(n);
  });
 }
 
 function hydrateDocument(e, t) {
  const r = normalizeHydrateOptions(t);
  return r.serializeToHtml = !1, new Promise(t => {
-  const s = generateHydrateResults(r);
-  if (hasError(s.diagnostics)) t(s); else if ("string" == typeof e) try {
-   r.destroyWindow = !0, r.destroyDocument = !0, render(new MockWindow(e), r, s, t);
+  let s;
+  const n = generateHydrateResults(r);
+  if (hasError(n.diagnostics)) t(n); else if ("string" == typeof e) try {
+   r.destroyWindow = !0, r.destroyDocument = !0, s = new MockWindow(e), render(s, r, n, t);
   } catch (e) {
-   renderCatchError(s, e), t(s);
+   s && s.close && s.close(), s = null, renderCatchError(n, e), t(n);
   } else if (isValidDocument(e)) try {
-   r.destroyDocument = !1, render(patchDomImplementation(e, r), r, s, t);
+   r.destroyDocument = !1, s = patchDomImplementation(e, r), render(s, r, n, t);
   } catch (e) {
-   renderCatchError(s, e), t(s);
-  } else renderBuildError(s, 'Invalid html or document. Must be either a valid "html" string, or DOM "document".'), 
-  t(s);
+   s && s.close && s.close(), s = null, renderCatchError(n, e), t(n);
+  } else renderBuildError(n, 'Invalid html or document. Must be either a valid "html" string, or DOM "document".'), 
+  t(n);
  });
 }
 
@@ -19560,7 +20789,7 @@ function finalizeHydrate(e, t, r, s, n) {
   renderCatchError(s, e);
  }
  if (r.destroyWindow) try {
-  r.destroyDocument || (e.document = null, t.defaultView = null), e.close();
+  r.destroyDocument || (e.document = null, t.defaultView = null), e.close && e.close();
  } catch (e) {
   renderCatchError(s, e);
  }

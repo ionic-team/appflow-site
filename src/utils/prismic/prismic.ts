@@ -1,5 +1,5 @@
 import Prismic from 'prismic-javascript';
-import { Document as PrismicDocument } from 'prismic-javascript/types/documents';
+import { Document as PrismicDocument } from 'prismic-javascript/d.ts/documents';
 import { PrismicDoc, PrismicResource, ResourceType, ResourceSource, ResourceAuthor } from '../../models/prismic';
 import state, { defaults } from '../../store';
 

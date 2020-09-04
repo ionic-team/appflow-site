@@ -19,15 +19,16 @@ export class PricingPage {
     await getPage('appflow_pricing');
   }
 
-  render = () => (
-    <Host>
-      <Top />
-      <Tiers />
-      <Companies />
-      <pricing-table />
-      <Faq />
-    </Host>
-  )
+  render() {
+    return (
+      <Host>
+        <Top />
+        <Tiers />
+        <Companies />
+        <pricing-table />
+        <Faq />
+      </Host> 
+  )}
 }
 
 const Top = () => {

@@ -32,10 +32,11 @@
     "hubspot": "^2.3.13",
     "ionicons": "^5.0.1",
     "prismic-dom": "^2.1.1",
-    "prismic-javascript": "^3.0.2",
+    "prismic-javascript": "^2.7.1",
     "prismjs": "^1.21.0",
     "rollup-plugin-dotenv": "^0.3.0",
-    "stencil-router-v2": "^0.5.0"
+    "stencil-router-v2": "^0.5.0",
+    "typescript": "^4.0.2"
   },
   "prettier": "@ionic/prettier-config",
   "author": "Ionic Team",

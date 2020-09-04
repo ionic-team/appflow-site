@@ -8907,7 +8907,7 @@ class ComponentList {
 }
 const listSection = (title, components) => (hAsync("div", { class: "demo-container" }, hAsync(Heading, null, title), hAsync("ul", { class: "component-list" }, Object.keys(components).map(name => (hAsync("li", null, hAsync("a", Object.assign({}, href(`/overview/${components[name].default.title}`)), components[name].default.title)))))));
 
-const timestamp = "2020-09-04T17:19:33";
+const timestamp = "2020-09-04T17:59:04";
 const compiler = {
 	name: "@stencil/core",
 	version: "2.0.2",

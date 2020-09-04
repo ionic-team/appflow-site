@@ -4,7 +4,7 @@ import { ResponsiveContainer, Paragraph, PrismicRichText, Heading, Grid, Col, Br
 import { aaaLogo, amtrakLogo, nasaLogo, burgerKingLogo, catLogo, targetLogo, ibmLogo, triplePhoneIcon, tripleLayerIcon,
          buildingBlocksIcon, publishingIcon, appleCloudIcon, appleStoreCheckedIcon, testflightLogo,
          googleStoreCheckedIcon, checkmarkCircle, cloudCircleIcon } from '../../svgs';
-import { getPage } from '../../prismic';
+import { getPage } from '../../global/utils/prismic/prismic';
 import state from '../../store';
 
 
@@ -164,7 +164,7 @@ const Ship = () => {
       </div>
 
       <Grid class="list">
-        {ship__list.map(({ content }, i) => (
+        {ship__list.map(({ content }: { content: any }, i: number) => (
           <Col class="list-item" xs={12} sm={4}>
             {icons[i]}
             <PrismicRichText richText={content}/>
@@ -193,7 +193,7 @@ const Push = () => {
                 <PrismicRichText richText={push} paragraphLevel={2} />
               </div>
               <ul class="list">
-                {push__list.map(({ content }, i) => (
+                {push__list.map(({ content }: { content: any }, i: number) => (
                   <li class="list-item">
                     {icons[i]}
                     <PrismicRichText richText={content} paragraphLevel={4}/>
@@ -232,7 +232,7 @@ const Live = () => {
         <div class="text">
           <PrismicRichText richText={live} paragraphLevel={2} />
           <ul class="list">
-            {live__list.map(({ content }) => (
+            {live__list.map(({ content }: { content: any }) => (
               <li class="list-item">
                 {checkmarkCircle({}, { width: 16, height: 16})}
                 <Paragraph>{content}</Paragraph>
@@ -346,7 +346,7 @@ const Experience = () => {
           <Col xs={12} md={7}>
             <div class="list__wrapper">
               <ul class="list">
-                {experience__list.map(({ content }) => (
+                {experience__list.map(({ content } : { content: any}) => (
                   <li class="list-item">
                     {checkmarkCircle({ main: '#8C93FF' }, { width: 16, height: 16 })}
                     <Paragraph>{content}</Paragraph>

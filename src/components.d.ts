@@ -5,10 +5,8 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
+import { RenderedBlog } from "@ionic-internal/markdown-blog/src/models";
 export namespace Components {
-    interface AnchorLink {
-        "to": string;
-    }
     interface AppBurger {
     }
     interface AppIcon {
@@ -24,10 +22,31 @@ export namespace Components {
     }
     interface AppflowSiteRoutes {
     }
+    interface BlogNewsletter {
+    }
     interface BlogPage {
+        "slug"?: string;
+        "viewMode": 'detail' | 'previews';
+    }
+    interface BlogPagination {
+        "linkText": [string, string];
+        "rssIcon": boolean;
     }
     interface BlogPost {
-        "slug": string;
+        "post"?: RenderedBlog;
+        "preview": boolean;
+        "slug"?: string;
+    }
+    interface BlogSearch {
+    }
+    interface BlogSocialActions {
+        "column": boolean;
+        "post"?: RenderedBlog;
+    }
+    interface BlogSubnav {
+        "breadcrumbs": [string, string][];
+        "pagination": boolean;
+        "socialActions": boolean;
     }
     interface CodeSnippet {
         "code": string;
@@ -55,24 +74,10 @@ export namespace Components {
     interface SiteBackdrop {
         "visible": boolean;
     }
-    interface SiteImg {
-        "alt": string;
-        "dimensions": string;
-        "loading"?: 'lazy' | 'eager';
-        "name": string;
-        "path": string;
-        "type": string;
-    }
     interface WhyAppflow {
     }
 }
 declare global {
-    interface HTMLAnchorLinkElement extends Components.AnchorLink, HTMLStencilElement {
-    }
-    var HTMLAnchorLinkElement: {
-        prototype: HTMLAnchorLinkElement;
-        new (): HTMLAnchorLinkElement;
-    };
     interface HTMLAppBurgerElement extends Components.AppBurger, HTMLStencilElement {
     }
     var HTMLAppBurgerElement: {
@@ -115,17 +120,47 @@ declare global {
         prototype: HTMLAppflowSiteRoutesElement;
         new (): HTMLAppflowSiteRoutesElement;
     };
+    interface HTMLBlogNewsletterElement extends Components.BlogNewsletter, HTMLStencilElement {
+    }
+    var HTMLBlogNewsletterElement: {
+        prototype: HTMLBlogNewsletterElement;
+        new (): HTMLBlogNewsletterElement;
+    };
     interface HTMLBlogPageElement extends Components.BlogPage, HTMLStencilElement {
     }
     var HTMLBlogPageElement: {
         prototype: HTMLBlogPageElement;
         new (): HTMLBlogPageElement;
     };
+    interface HTMLBlogPaginationElement extends Components.BlogPagination, HTMLStencilElement {
+    }
+    var HTMLBlogPaginationElement: {
+        prototype: HTMLBlogPaginationElement;
+        new (): HTMLBlogPaginationElement;
+    };
     interface HTMLBlogPostElement extends Components.BlogPost, HTMLStencilElement {
     }
     var HTMLBlogPostElement: {
         prototype: HTMLBlogPostElement;
         new (): HTMLBlogPostElement;
+    };
+    interface HTMLBlogSearchElement extends Components.BlogSearch, HTMLStencilElement {
+    }
+    var HTMLBlogSearchElement: {
+        prototype: HTMLBlogSearchElement;
+        new (): HTMLBlogSearchElement;
+    };
+    interface HTMLBlogSocialActionsElement extends Components.BlogSocialActions, HTMLStencilElement {
+    }
+    var HTMLBlogSocialActionsElement: {
+        prototype: HTMLBlogSocialActionsElement;
+        new (): HTMLBlogSocialActionsElement;
+    };
+    interface HTMLBlogSubnavElement extends Components.BlogSubnav, HTMLStencilElement {
+    }
+    var HTMLBlogSubnavElement: {
+        prototype: HTMLBlogSubnavElement;
+        new (): HTMLBlogSubnavElement;
     };
     interface HTMLCodeSnippetElement extends Components.CodeSnippet, HTMLStencilElement {
     }
@@ -193,12 +228,6 @@ declare global {
         prototype: HTMLSiteBackdropElement;
         new (): HTMLSiteBackdropElement;
     };
-    interface HTMLSiteImgElement extends Components.SiteImg, HTMLStencilElement {
-    }
-    var HTMLSiteImgElement: {
-        prototype: HTMLSiteImgElement;
-        new (): HTMLSiteImgElement;
-    };
     interface HTMLWhyAppflowElement extends Components.WhyAppflow, HTMLStencilElement {
     }
     var HTMLWhyAppflowElement: {
@@ -206,7 +235,6 @@ declare global {
         new (): HTMLWhyAppflowElement;
     };
     interface HTMLElementTagNameMap {
-        "anchor-link": HTMLAnchorLinkElement;
         "app-burger": HTMLAppBurgerElement;
         "app-icon": HTMLAppIconElement;
         "appflow-activator": HTMLAppflowActivatorElement;
@@ -214,8 +242,13 @@ declare global {
         "appflow-site-footer": HTMLAppflowSiteFooterElement;
         "appflow-site-header": HTMLAppflowSiteHeaderElement;
         "appflow-site-routes": HTMLAppflowSiteRoutesElement;
+        "blog-newsletter": HTMLBlogNewsletterElement;
         "blog-page": HTMLBlogPageElement;
+        "blog-pagination": HTMLBlogPaginationElement;
         "blog-post": HTMLBlogPostElement;
+        "blog-search": HTMLBlogSearchElement;
+        "blog-social-actions": HTMLBlogSocialActionsElement;
+        "blog-subnav": HTMLBlogSubnavElement;
         "code-snippet": HTMLCodeSnippetElement;
         "get-started-section": HTMLGetStartedSectionElement;
         "landing-page": HTMLLandingPageElement;
@@ -227,19 +260,15 @@ declare global {
         "pricing-page": HTMLPricingPageElement;
         "pricing-table": HTMLPricingTableElement;
         "site-backdrop": HTMLSiteBackdropElement;
-        "site-img": HTMLSiteImgElement;
         "why-appflow": HTMLWhyAppflowElement;
     }
 }
 declare namespace LocalJSX {
-    interface AnchorLink {
-        "to"?: string;
-    }
     interface AppBurger {
         "onBurgerClick"?: (event: CustomEvent<any>) => void;
     }
     interface AppIcon {
-        "name"?: string;
+        "name": string;
     }
     interface AppflowActivator {
     }
@@ -251,21 +280,42 @@ declare namespace LocalJSX {
     }
     interface AppflowSiteRoutes {
     }
+    interface BlogNewsletter {
+    }
     interface BlogPage {
+        "slug"?: string;
+        "viewMode"?: 'detail' | 'previews';
+    }
+    interface BlogPagination {
+        "linkText"?: [string, string];
+        "rssIcon"?: boolean;
     }
     interface BlogPost {
+        "post"?: RenderedBlog;
+        "preview"?: boolean;
         "slug"?: string;
     }
+    interface BlogSearch {
+    }
+    interface BlogSocialActions {
+        "column"?: boolean;
+        "post"?: RenderedBlog;
+    }
+    interface BlogSubnav {
+        "breadcrumbs"?: [string, string][];
+        "pagination"?: boolean;
+        "socialActions"?: boolean;
+    }
     interface CodeSnippet {
-        "code"?: string;
-        "language"?: string;
+        "code": string;
+        "language": string;
     }
     interface GetStartedSection {
     }
     interface LandingPage {
     }
     interface MarkdownPage {
-        "file"?: string;
+        "file": string;
     }
     interface NewsletterForm {
     }
@@ -282,18 +332,9 @@ declare namespace LocalJSX {
     interface SiteBackdrop {
         "visible"?: boolean;
     }
-    interface SiteImg {
-        "alt"?: string;
-        "dimensions"?: string;
-        "loading"?: 'lazy' | 'eager';
-        "name"?: string;
-        "path"?: string;
-        "type"?: string;
-    }
     interface WhyAppflow {
     }
     interface IntrinsicElements {
-        "anchor-link": AnchorLink;
         "app-burger": AppBurger;
         "app-icon": AppIcon;
         "appflow-activator": AppflowActivator;
@@ -301,8 +342,13 @@ declare namespace LocalJSX {
         "appflow-site-footer": AppflowSiteFooter;
         "appflow-site-header": AppflowSiteHeader;
         "appflow-site-routes": AppflowSiteRoutes;
+        "blog-newsletter": BlogNewsletter;
         "blog-page": BlogPage;
+        "blog-pagination": BlogPagination;
         "blog-post": BlogPost;
+        "blog-search": BlogSearch;
+        "blog-social-actions": BlogSocialActions;
+        "blog-subnav": BlogSubnav;
         "code-snippet": CodeSnippet;
         "get-started-section": GetStartedSection;
         "landing-page": LandingPage;
@@ -314,7 +360,6 @@ declare namespace LocalJSX {
         "pricing-page": PricingPage;
         "pricing-table": PricingTable;
         "site-backdrop": SiteBackdrop;
-        "site-img": SiteImg;
         "why-appflow": WhyAppflow;
     }
 }
@@ -322,7 +367,6 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
-            "anchor-link": LocalJSX.AnchorLink & JSXBase.HTMLAttributes<HTMLAnchorLinkElement>;
             "app-burger": LocalJSX.AppBurger & JSXBase.HTMLAttributes<HTMLAppBurgerElement>;
             "app-icon": LocalJSX.AppIcon & JSXBase.HTMLAttributes<HTMLAppIconElement>;
             "appflow-activator": LocalJSX.AppflowActivator & JSXBase.HTMLAttributes<HTMLAppflowActivatorElement>;
@@ -330,8 +374,13 @@ declare module "@stencil/core" {
             "appflow-site-footer": LocalJSX.AppflowSiteFooter & JSXBase.HTMLAttributes<HTMLAppflowSiteFooterElement>;
             "appflow-site-header": LocalJSX.AppflowSiteHeader & JSXBase.HTMLAttributes<HTMLAppflowSiteHeaderElement>;
             "appflow-site-routes": LocalJSX.AppflowSiteRoutes & JSXBase.HTMLAttributes<HTMLAppflowSiteRoutesElement>;
+            "blog-newsletter": LocalJSX.BlogNewsletter & JSXBase.HTMLAttributes<HTMLBlogNewsletterElement>;
             "blog-page": LocalJSX.BlogPage & JSXBase.HTMLAttributes<HTMLBlogPageElement>;
+            "blog-pagination": LocalJSX.BlogPagination & JSXBase.HTMLAttributes<HTMLBlogPaginationElement>;
             "blog-post": LocalJSX.BlogPost & JSXBase.HTMLAttributes<HTMLBlogPostElement>;
+            "blog-search": LocalJSX.BlogSearch & JSXBase.HTMLAttributes<HTMLBlogSearchElement>;
+            "blog-social-actions": LocalJSX.BlogSocialActions & JSXBase.HTMLAttributes<HTMLBlogSocialActionsElement>;
+            "blog-subnav": LocalJSX.BlogSubnav & JSXBase.HTMLAttributes<HTMLBlogSubnavElement>;
             "code-snippet": LocalJSX.CodeSnippet & JSXBase.HTMLAttributes<HTMLCodeSnippetElement>;
             "get-started-section": LocalJSX.GetStartedSection & JSXBase.HTMLAttributes<HTMLGetStartedSectionElement>;
             "landing-page": LocalJSX.LandingPage & JSXBase.HTMLAttributes<HTMLLandingPageElement>;
@@ -343,7 +392,6 @@ declare module "@stencil/core" {
             "pricing-page": LocalJSX.PricingPage & JSXBase.HTMLAttributes<HTMLPricingPageElement>;
             "pricing-table": LocalJSX.PricingTable & JSXBase.HTMLAttributes<HTMLPricingTableElement>;
             "site-backdrop": LocalJSX.SiteBackdrop & JSXBase.HTMLAttributes<HTMLSiteBackdropElement>;
-            "site-img": LocalJSX.SiteImg & JSXBase.HTMLAttributes<HTMLSiteImgElement>;
             "why-appflow": LocalJSX.WhyAppflow & JSXBase.HTMLAttributes<HTMLWhyAppflowElement>;
         }
     }

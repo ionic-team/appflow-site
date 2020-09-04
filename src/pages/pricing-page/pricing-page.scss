@@ -1,8 +1,3 @@
-// #region ------------------------------ IMPORTS -------------------------------------------------------
-@use '../../global/vars' as var;
-@use '../../global/utils' as util;
-//#endregion --------------------------------------------------------------------------------------------------
-
 // #region ------------------------------ VARIABLES/THEME ------------------------------------------------
 :host {
   --h1-color: var(--c-carbon-100);
@@ -25,31 +20,31 @@ a {
 }
 
 .ui-heading-2 {
-@include util.box($mbe:var(--space-5))
+@include box($mbe:var(--space-5))
 }
 .ui-heading-4 {
-@include util.box($mbe:var(--space-3))
+@include box($mbe:var(--space-3))
 }
 .ui-heading-5 {
-@include util.box($mbe:var(--space-3))
+@include box($mbe:var(--space-3))
 }
 .ui-heading-6 {
-@include util.box($mbe:var(--space-6))
+@include box($mbe:var(--space-6))
 }
 .ui-paragraph-2 {
-@include util.box($mbs:var(--space-5));
+@include box($mbs:var(--space-5));
 }
 //#endregion --------------------------------------------------------------------------------------------------
 
 // #region ------------------------------ PAGE STYLES ----------------------------------------------------
 #top {
-@include util.box($mbs:80px, $mbe:58px);
+@include box($mbs:80px, $mbe:58px);
 
   .heading-group {
-  @include util.box($mxw:544px, $mis:auto, $mie:auto);
+  @include box($mxw:544px, $mis:auto, $mie:auto);
 
     & > * {
-    @include util.box($ta:center);
+    @include box($ta:center);
     }
   }
 }
@@ -59,25 +54,25 @@ a {
 }
 
 #companies {
-@include util.box($pbs:160px, $pbe:160px);
+@include box($pbs:160px, $pbe:160px);
 
   --h6-color: var(--c-indigo-70);
 
   .ui-heading-6 {
-  @include util.box($ta:center);
+  @include box($ta:center);
   }
 
   .logos {
-  @include util.box($d:flex, $mxw:1200px, $mis:auto, $mie:auto, $ai:center, $jc:space-between, $fg:1,
+  @include box($d:flex, $mxw:1200px, $mis:auto, $mie:auto, $ai:center, $jc:space-between, $fg:1,
                     $fw:wrap, $mbe:calc(-1 * var(--space-6)));
 
     .wrapper {
-    @include util.box($d: inline-grid, $ji:center, $ai:center, $fg:1, $mnw:400px, $mbe:var(--space-6),
+    @include box($d: inline-grid, $ji:center, $ai:center, $fg:1, $mnw:400px, $mbe:var(--space-6),
                       $gtc:repeat(auto-fit, minmax(64px, 1fr)), $rg:var(--space-6));
-    @include util.media($val:var.$screen-sm-max, $fb:400px, $mnw: auto);
+    @include media($val:$screen-sm-max, $fb:400px, $mnw: auto);
 
       &:first-of-type {
-      @include util.box($fg:4 / 3)
+      @include box($fg:4 / 3)
       }
       
     }
@@ -85,24 +80,24 @@ a {
 }
 
 #faq {
-@include util.box($pbs:160px, $pbe:160px);
+@include box($pbs:160px, $pbe:160px);
 
   .ui-heading-2 {
-  @include util.box($ta:center, $mbe:var(--space-9));
+  @include box($ta:center, $mbe:var(--space-9));
   }
 
   .ui-heading-3 {
-  @include util.box($mbe:var(--space-3));
+  @include box($mbe:var(--space-3));
   }
 
   .ui-paragraph + .ui-paragraph {
-  @include util.box($mbs:var(--space-3));
+  @include box($mbs:var(--space-3));
   }
 
   .list {
     
     li + li {
-    @include util.box($mbs:var(--space-9))
+    @include box($mbs:var(--space-9))
     }
   }
 }

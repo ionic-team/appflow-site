@@ -51,7 +51,7 @@ A Mobile CI/CD solution will need a powerful certificate management system that 
 
 Developers of hybrid apps, such as those built with Ionic Framework, Capacitor, Cordova, and React Native, expect to be able to update the web code of their apps remotely and in realtime. That means being able to push fixes and updates without needing to resubmit to the app stores.
 
-A proper Mobile CI/CD solution for these teams will come with remote deploy features to give these developers the agility they expect.
+A proper Mobile CI/CD solution for these teams will come with remove deploy features to give these developers the agility they expect.
 
 ## Step 7: Set up infrastructure to manage development, beta, and production channels
 

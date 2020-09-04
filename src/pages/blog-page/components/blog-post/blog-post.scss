@@ -1,0 +1,123 @@
+.sc-blog-post {
+  display: block;
+  --h1-color: var(--c-carbon-100);
+
+
+  .post {
+    padding-block-end: var(--space-11);
+    border-bottom: 2px solid var(--c-indigo-20);
+
+    .ui-heading-1 {
+      margin-block-end: var(--space-5);
+
+      a {
+        color: inherit;
+      }
+    }
+
+    .author {
+      display: flex;
+      align-items: center;
+      margin-block-end: var(--space-6);
+
+      img {
+        margin-inline-end: var(--space-3);
+        width: 32px;
+        height: 32px;
+      }
+      
+      .ui-paragraph {
+        color: #92A1B3;
+        margin: 0;
+      }
+    }
+
+    .featured-image-wrapper, .default-image-wrapper {  
+      margin-inline-start: -32px;
+      margin-inline-end: -32px;     
+      margin-block-end: var(--space-8);
+      overflow: hidden;
+
+      img {
+        max-height: 400px; 
+        object-fit: cover;
+
+        transition: transform .2s cubic-bezier(0.32, 0.72, 0, 1);
+      }
+    }
+
+    .post-content {
+      p {
+        margin: 0;
+      }
+      p, li {
+        color: var(--c-indigo-100);
+        letter-spacing: var(--p2-tracking);
+        line-height: var(--f-leading-prose);
+        font-size: var(--p2-size);
+        font-weight: var(--p2-weight);
+      }
+
+      ul {
+        margin-block-start: var(--space-6);
+        margin-block-end: var(--space-6);
+      }
+
+      li {
+        list-style: disc;
+        margin-inline-start: var(--space-9);
+
+        & + li {
+          padding-block-start: var(--space-3);
+        }
+      }
+
+      p + p {
+        margin-block-start: var(--space-6);
+      }
+
+      p + h2 {
+        margin-block-start: var(--space-9);
+      }
+    }
+    
+
+    .continue-reading {
+      margin-block-start: 30px;
+      color: var(--c-lavender-70);
+    }
+  }
+}
+
+.sc-blog-post.preview {
+  .post-content {
+    & > * {
+      display: none;
+    }
+
+    :first-child {
+      display: block;
+
+      &::after {
+        content: '..';
+      }
+    }
+  }
+
+  .featured-image-wrapper, .default-image-wrapper {
+    max-height: 368px; 
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+
+    img {
+      max-height: 368px; 
+    }
+
+    a:hover, a:focus, a:active {
+      img {
+        transform: scale(1.05, 1.05);
+      }
+    }
+  }
+
+}

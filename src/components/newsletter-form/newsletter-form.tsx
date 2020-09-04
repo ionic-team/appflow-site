@@ -8,34 +8,34 @@ import { Component, h, State } from '@stencil/core';
 export class NewsletterForm {
   @State() emailInvalid: boolean = false;
   @State() emailSuccess: boolean = false;
-  private emailInput: HTMLInputElement;
-  private successMsg: string;
+  private emailInput: HTMLInputElement | undefined;
+  private successMsg: string = 'Success. You will now receive the Ionic Newsletter!';
   
-  handleSubmit = async (e: UIEvent) => {
+  handleSubmit = async (e: Event) => {
     e.preventDefault();
-    const url: string = "https://api.hsforms.com/submissions/v3/integration/submit/3776657/76e5f69f-85fd-4579-afce-a1892d48bb32"
+    const url: string = 'https://api.hsforms.com/submissions/v3/integration/submit/3776657/76e5f69f-85fd-4579-afce-a1892d48bb32'
     const cookie =  document.cookie.match(/(hubspotutk=).*?(?=;)/g);
     const fields = [
       {
-        "name": "email",
-        "value": this.emailInput.value
+        'name': 'email',
+        'value': this.emailInput?.value
       },
       {
-        "name": "first_campaign_conversion",
-        "value": "Ionic Newsletter"
+        'name': 'first_campaign_conversion',
+        'value': 'Ionic Newsletter'
       }
     ]
 
     const context: { pageUri: string, pageName: string, hutk?: string} = {
-      "pageUri": "https://ionic.io",
-      "pageName": "Ionic.io Home"
+      'pageUri': 'https://ionic.io',
+      'pageName': 'Ionic.io Home'
     }
-    cookie ? context.hutk = cookie[0].split("hubspotutk=")[1] : '';
+    cookie ? context.hutk = cookie[0].split('hubspotutk=')[1] : '';
 
     const data = {
-      "submittedAt": Date.now(),
-      "fields": fields,
-      "context": context
+      'submittedAt': Date.now(),
+      'fields': fields,
+      'context': context
     }
   
     const response = await fetch(url, {
@@ -49,7 +49,6 @@ export class NewsletterForm {
     });
 
     if (response.status == 200){
-      this.successMsg = "Success. You will now receive the Ionic Newsletter!";
       this.emailSuccess = true;
     } else {
       this.emailInvalid = true;

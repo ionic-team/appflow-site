@@ -55,16 +55,21 @@ export class PricingTable {
                     <div class="price"><strong>Custom</strong></div>
                     <a
                       class="button btn micro btn--primary"
-                      onClick={() => document.querySelector('site-modal').open = true}>Contact us</a>
+                      onClick={() => document.querySelector('site-modal')!.open = true}>Contact us</a>
                   </div>
                 </th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <th>
-                  Push to app store
-                </th>
+                <th><strong>Appflow</strong></th>
+                <td><ion-icon name="checkmark-sharp"></ion-icon></td>
+                <td><ion-icon name="checkmark-sharp"></ion-icon></td>
+                <td><ion-icon name="checkmark-sharp"></ion-icon></td>
+                <td><ion-icon name="checkmark-sharp"></ion-icon></td>
+              </tr>
+              <tr>
+                <th>Push to app store</th>
                 <td></td>
                 <td><ion-icon name="checkmark-sharp"></ion-icon></td>
                 <td><ion-icon name="checkmark-sharp"></ion-icon></td>
@@ -257,7 +262,7 @@ export class PricingTable {
                 </td>
                 <td>
                   <a
-                    onClick={() => document.querySelector('site-modal').open = true}
+                    onClick={() => document.querySelector('site-modal')!.open = true}
                     class="button btn sm dark"
                   >Contact us</a>
                 </td>

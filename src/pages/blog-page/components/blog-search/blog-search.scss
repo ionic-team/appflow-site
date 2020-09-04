@@ -1,0 +1,23 @@
+:host {
+  display: inline-block;
+  height: 32px;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search {
+  position: absolute;
+  left: 12.75px;
+  color: var(--c-indigo-50);
+}
+input {
+  border: 1px solid var(--c-indigo-20);
+  border-radius: var(--radius-4);
+  padding: 6px 30px 6px 33px;
+  max-width: 192px;
+
+  &::placeholder {
+    color: var(--c-indigo-60);
+  }
+}

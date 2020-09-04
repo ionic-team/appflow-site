@@ -5,8 +5,8 @@ import { Component, Event, EventEmitter, h } from '@stencil/core';
   styleUrl: 'app-burger.scss'
 })
 export class AppBurger {
+  @Event() burgerClick!: EventEmitter;
 
-  @Event() burgerClick: EventEmitter;
 
   handleBurgerClicked() {
     this.burgerClick.emit();

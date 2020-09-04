@@ -1,10 +1,9 @@
-@use '../../../../global/vars' as var;
-
 :host {
   display: inline-block;
   position:relative;
+  height: 876px;
 
-  @media (max-width: var.$screen-md-max)  {  
+  @media (max-width: $screen-md-max)  {  
     position:relative;
     height:500px;
     left: calc((100% - 590px) / 2);
@@ -45,12 +44,12 @@
     transform: translateY(50px);
   }
 
-  @media (max-width: var.$screen-md-max)  {  
+  @media (max-width: $screen-md-max)  {  
     position:relative;
     transform: scale(0.8);
     top: -120px;
   }
-  @media (max-width: var.$screen-sm-max)  {
+  @media (max-width: $screen-sm-max)  {
     transform: scale(0.7);
   }
 }

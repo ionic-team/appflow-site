@@ -20,6 +20,7 @@ export class AppflowSiteRoutes {
     Router.onChange('url', (newValue: InternalRouterState['url'], _oldValue: InternalRouterState['url']) => {
       (window as any).gtag('config', 'UA-44023830-42', { 'page_path': newValue.pathname + newValue.search });
       state.pageTheme = 'light';
+      state.stickyHeader = true;
     });
   }
 
@@ -33,16 +34,13 @@ export class AppflowSiteRoutes {
           
           <Route
             path={match('/blog', { exact: true })}
-            render={() => {
-              return <blog-page />;
-            }}
-          />
+          >
+            <blog-page viewMode="previews"/>
+          </Route>
 
           <Route
             path={match('/blog/:slug')}
-            render={({ slug }) => {
-              return <blog-post slug={slug} />;
-            }}
+            render={({ slug }) => <blog-page slug={slug} viewMode="detail" />}
           />
 
           <Route path="/why-appflow">

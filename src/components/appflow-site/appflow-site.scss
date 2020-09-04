@@ -1,12 +1,11 @@
 @use '~prismjs/themes/prism';
 
-@use '../../global/vars';
-
-@use '../../global/shared/utils';
-
-
+:root {
+  --site-header-height: 64px;
+}
 * {
   box-sizing: border-box;
+  
 }
 
 .page-theme--dark {

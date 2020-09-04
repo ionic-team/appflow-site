@@ -1,0 +1,19 @@
+:host {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .link {
+    display: flex;
+    align-items: center;
+    color: var(--c-lavender-70);
+
+    &.back {
+      margin-inline-end: var(--space-1);
+    }
+    &.forward {
+      margin-inline-start: var(--space-1);
+    }
+  }
+
+}

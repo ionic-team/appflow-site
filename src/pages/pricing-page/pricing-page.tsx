@@ -1,7 +1,7 @@
 import { Component, Host, h } from '@stencil/core';
 
 import { ResponsiveContainer, PrismicRichText, Heading, Grid, Col, Paragraph } from '@ionic-internal/ionic-ds';
-import { getPage } from '../../prismic';
+import { getPage } from '../../global/utils/prismic/prismic';
 import state from '../../store';
 import { aaaLogo, amtrakLogo, nasaLogo, ibmLogo, burgerKingLogo, catLogo, targetLogo } from '../../svgs';
 
@@ -19,15 +19,16 @@ export class PricingPage {
     await getPage('appflow_pricing');
   }
 
-  render = () => (
-    <Host>
-      <Top />
-      <Tiers />
-      <Companies />
-      <pricing-table />
-      <Faq />
-    </Host>
-  )
+  render() {
+    return (
+      <Host>
+        <Top />
+        <Tiers />
+        <Companies />
+        <pricing-table />
+        <Faq />
+      </Host> 
+  )}
 }
 
 const Top = () => {
@@ -83,7 +84,7 @@ const Faq = () => {
               <Paragraph>Appflow allows you to push hot code updates directly to your users’ devices, all from the Ionic cloud dashboard, without having to go through the app stores.</Paragraph>
               <Paragraph>A single Live Update is one code update to one device. If you send one update to 200 devices, that counts as 200 Live Updates. If you send two updates to 200 devices, that counts as 400 Live Updates.</Paragraph>
               <Paragraph>The number of Live Updates varies with each plan. The Launch plan includes 10,000 Live Updates per month. The Growth plan allows up to 25,000 Live Updates per month. The plan limits are refreshed each month. If you exceed your quota for a given month, you will have to upgrade to a higher plan, or wait until the next calendar month to send more updates.</Paragraph>
-              <Paragraph>If you need more than 25,000 Live Updates, the Scale plan offers custom limits, based on annual usage. Appflow’s Live Update service scales to millions of units, with pricing varying based on the number of Updates in your custom plan. <a onClick={() => document.querySelector('site-modal').open = true}>Contact our Sales</a> team to learn more about setting up a custom Scale plan.</Paragraph>
+              <Paragraph>If you need more than 25,000 Live Updates, the Scale plan offers custom limits, based on annual usage. Appflow’s Live Update service scales to millions of units, with pricing varying based on the number of Updates in your custom plan. <a onClick={() => document.querySelector('site-modal')!.open = true}>Contact our Sales</a> team to learn more about setting up a custom Scale plan.</Paragraph>
             </li>
             <li id="faq-ios">
               <Heading>Which plans offer iOS Enterprise builds?</Heading>

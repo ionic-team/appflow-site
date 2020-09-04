@@ -1,9 +1,3 @@
-// #region ------------------------------ IMPORTS -------------------------------------------------------
-@use '../../global/vars' as var;
-@use '../../global/utils' as util;
-@use '../../global/animations' as ani;
-//#endregion --------------------------------------------------------------------------------------------------
-
 // #region ------------------------------ VARIABLES/THEME ------------------------------------------------
 $section-space: 160px;
 
@@ -36,74 +30,76 @@ a {
 }
 
 .ui-heading-2 {
-@include util.box($mbe:var(--space-5))
+@include box($mbe:var(--space-5))
 }
 .ui-heading-4 {
-@include util.box($mbe:var(--space-3))
+@include box($mbe:var(--space-3))
 }
 .ui-heading-5 {
-@include util.box($mbe:var(--space-3))
+@include box($mbe:var(--space-3))
 }
 .ui-heading-6 {
-@include util.box($mbe:var(--space-6))
+@include box($mbe:var(--space-6))
 }
 
 //#endregion --------------------------------------------------------------------------------------------------
 
 // #region ------------------------------ PAGE STYLES ----------------------------------------------------
 #top {
-@include util.box($contain:content);
+@include box($contain:content, $mnh:100vh);
+@include media($val:$screen-sm-max, $mnh:830px);
+@include fadeInUp();
 
   .background {
-  @include util.box($pos:absolute, $z:-1, $w:max(1800px, 100%), $l:min(calc((100% - 1800px) / 2), 0px));
+  @include box($pos:absolute, $z:-1, $w:max(1800px, 100%), $l:min(calc((100% - 1800px) / 2), 0px));
   }
 
   .heading-group {
-  @include util.box($pbs:var(--space-11), $pbe:74px, $mnh:326px, $mxw:800px, $ta:center, $mis:auto, $mie:auto);
+  @include box($pbs:var(--space-11), $pbe:74px, $mnh:326px, $mxw:800px, $ta:center, $mis:auto, $mie:auto);
 
     .ui-heading {
-    @include util.box($a: 1s fadeInUp .2s forwards, $o:0);
+    @include box($a: 1s fadeInUp .2s forwards, $o:0);
     }
 
     .ui-paragraph {
-    @include util.box($color:#fff, $mbs:var(--space-5), $mbe:var(--space-6), $o:0, $a: 1s fadeInUp .4s forwards);
+    @include box($color:#fff, $mbs:var(--space-5), $mbe:var(--space-6), $o:0, $a: 1s fadeInUp .4s forwards);
     }
 
     .cta {
-    @include util.box($d:inline-flex, $ai:center, $jc:center, $back:#fff, $p: 15px 16px, $br:var(--radius-4),
+    @include box($d:inline-flex, $ai:center, $jc:center, $back:#fff, $p: 15px 16px, $br:var(--radius-4),
                       $a: 1s fadeInUp .6s forwards, $o:0);
-    @include util.font($fs:14px, $lh:112%, $fw:600, $ls:-0.02em);
+    @include font($fs:14px, $lh:112%, $fw:600, $ls:-0.02em);
 
       &::after {
-      @include util.box($c:' ->');
-      @include util.font($ws:pre, $ls:0, $fs: 18px);
+      @include box($c:' ->');
+      @include font($ws:pre, $ls:0, $fs: 18px);
       }
     }
   }
 
   .activator {
-  @include util.box($o:0, $a: 1s fadeInUp .8s forwards);
+  @include box($o:0, $a: 1s fadeInUp .8s forwards);
   }
 }
 
 #companies {
-@include util.box($mbs:$section-space);
+@include box($mbs:$section-space);
 
   .ui-heading {
-  @include util.box($color:var(--c-indigo-70), $ta:center, $mbe:var(--space-8));
+  @include box($color:var(--c-indigo-70), $ta:center, $mbe:var(--space-8));
   }
 
   .logos {
-  @include util.box($d:flex, $mxw:1019px, $mis:auto, $mie:auto, $ai:center, $jc:space-between, $fg:1,
+  @include box($d:flex, $mxw:1019px, $mis:auto, $mie:auto, $ai:center, $jc:space-between, $fg:1,
                     $fw:wrap, $mbe:calc(-1 * var(--space-6)));
 
     .wrapper {
-    @include util.box($d: inline-grid, $ji:center, $ai:center, $fg:1, $mnw:400px, $mbe:var(--space-6),
+    @include box($d: inline-grid, $ji:center, $ai:center, $fg:1, $mnw:400px, $mbe:var(--space-6),
                       $gtc:repeat(auto-fit, minmax(64px, 1fr)), $rg:var(--space-6));
-    @include util.media($val:var.$screen-sm-max, $fb:400px, $mnw: auto);
+    @include media($val:$screen-sm-max, $fb:400px, $mnw: auto);
 
       &:first-of-type {
-      @include util.box($fg:4 / 3)
+      @include box($fg:4 / 3)
       }
       
     }
@@ -111,14 +107,14 @@ a {
 }
 
 #ship {
-@include util.box($mbs:$section-space, $mbe:$section-space);
+@include box($mbs:$section-space, $mbe:$section-space);
 
   .ui-grid {
-  @include util.box($rg:var(--space-9));
+  @include box($rg:var(--space-9));
   }
 
   .heading-group {
-  @include util.box($mxw:736px, $ta:center, $mis:auto, $mie:auto, $mbe:var(--space-11));
+  @include box($mxw:736px, $ta:center, $mis:auto, $mie:auto, $mbe:var(--space-11));
   }
 
   .list {
@@ -126,90 +122,90 @@ a {
 
     .list-item {
       svg {
-      @include util.box($mbe:var(--space-6))
+      @include box($mbe:var(--space-6))
       }
     }
   }
 }
 
 #push {
-@include util.box($pbs:$section-space, $back:var(--c-indigo-10), $contain:content);
-@include util.media($val:var.$screen-sm-max, $pbe:$section-space);
-@include util.media($val:var.$screen-xs-max, $pbe:0);
+@include box($pbs:$section-space, $back:var(--c-indigo-10), $contain:content);
+@include media($val:$screen-sm-max, $pbe:$section-space);
+@include media($val:$screen-xs-max, $pbe:0);
 
   .ui-container {
-  @include util.box($d:flex);
+  @include box($d:flex);
   }
 
   .ui-grid {
-  @include util.box($rg:var(--space-11))
+  @include box($rg:var(--space-11))
   }
 
   .text {
-  @include util.box($mxw:448px);
+  @include box($mxw:448px);
 
     .heading-group {
-    @include util.box($mbe:72px);
+    @include box($mbe:72px);
     }
   }
 
   .list {  
-  @include util.box($d:grid, $gtc:repeat(auto-fit, minmax(0px, 192px)), $cg:var(--space-9), $rg:var(--space-6));
+  @include box($d:grid, $gtc:repeat(auto-fit, minmax(0px, 192px)), $cg:var(--space-9), $rg:var(--space-6));
 
     .list-item {
       svg {
-      @include util.box($mbe:var(--space-5));
+      @include box($mbe:var(--space-5));
       }
     
     }
   }  
 
   .image {
-  @include util.box($fg:1, $d:flex, $fd:column, $pos:relative, $l:var(--space-5));
-  @include util.media($val:var.$screen-md-max, $l:0);
+  @include box($fg:1, $d:flex, $fd:column, $pos:relative, $l:var(--space-5));
+  @include media($val:$screen-md-max, $l:0);
 
     .icons {
-    @include util.box($mbe:var(--space-6));
+    @include box($mbe:var(--space-6));
 
       svg + svg {
-      @include util.box($mis:var(--space-5));
+      @include box($mis:var(--space-5));
       }
     }
     
     img {
-    @include util.box($w:1092px, $h:585px);
+    @include box($w:1092px, $h:585px);
     }
   }
 }
 
 #live {
-@include util.box($pbs:$section-space, $pbe:$section-space, $contain:content, $of:hidden);
+@include box($pbs:$section-space, $pbe:$section-space, $contain:content, $of:hidden);
 
   .ui-container {
-  @include util.box($d:flex, $pos:relative);
+  @include box($d:flex, $pos:relative);
   }
 
   .text {
     .ui-heading {
-    @include util.box($mxw:400px);
+    @include box($mxw:400px);
     }
     .ui-paragraph {
-    @include util.box($mxw:448px);
+    @include box($mxw:448px);
     }
   }
 
   .list {    
-  @include util.box($mbs:var(--space-8));
+  @include box($mbs:var(--space-8));
 
     .list-item {
-    @include util.box($d:flex, $ai:center);
+    @include box($d:flex, $ai:center);
 
       svg {
-      @include util.box($mie:var(--space-3));
+      @include box($mie:var(--space-3));
       }
 
       & + .list-item {
-      @include util.box($mbs:var(--space-2));
+      @include box($mbs:var(--space-2));
       }
 
       
@@ -217,153 +213,153 @@ a {
   }  
 
   phone-animator {
-  @include util.box($fg:1);
-  @include util.media($val:var.$screen-sm-max, $pos:absolute, $w:100%, $h:100%, $z:-1, $o:.07);
+  @include box($fg:1);
+  @include media($val:$screen-sm-max, $pos:absolute, $w:100%, $h:100%, $z:-1, $o:.07);
   }
 }
 
 #native {
-@include util.box($pbs:$section-space, $pbe:237px, $back:var(--c-indigo-10));
-@include util.media($val:var.$screen-sm-max, $pbe:$section-space);
+@include box($pbs:$section-space, $pbe:237px, $back:var(--c-indigo-10));
+@include media($val:$screen-sm-max, $pbe:$section-space);
 
   .ui-container {
-  @include util.box($d:flex);
+  @include box($d:flex);
   }
 
   .heading-group {
-  @include util.box($mbe:72px);
+  @include box($mbe:72px);
 
     .ui-heading {
-    @include util.box($mxw:576px);
+    @include box($mxw:576px);
     }
 
     .ui-paragraph {
-    @include util.box($mxw:448px);
+    @include box($mxw:448px);
     }
   }
 
   .subtext {
-  @include util.box($mxw:256px);
+  @include box($mxw:256px);
 
     svg{
-    @include util.box($mbe:var(--space-5));
+    @include box($mbe:var(--space-5));
     }
   }
 
   .image {
-  @include util.box($pos:relative, $fg:1, $d:flex, $jc:center);
-  @include util.media($val:var.$screen-xs-max, $d:none);
+  @include box($pos:relative, $fg:1, $d:flex, $jc:center);
+  @include media($val:$screen-xs-max, $d:none);
 
     &__wrapper {
-    @include util.box($pos:absolute, $w:auto, $l:-250px, $t:calc(50% + 150px), $tf:translateY(-50%), $r: -150px);
+    @include box($pos:absolute, $w:auto, $l:-250px, $t:calc(50% + 150px), $tf:translateY(-50%), $r: -150px);
       
       img {
-      @include util.box($mxw:857px)
+      @include box($mxw:857px)
       }
     }  
   }
 }
 
 #automate {
-@include util.box($pbs:$section-space, $pbe:302px, $contain:content);
-@include util.media($val:var.$screen-sm-max, $pbe:0);
+@include box($pbs:$section-space, $pbe:302px, $contain:content);
+@include media($val:$screen-sm-max, $pbe:0);
 
   .ui-container {
-  @include util.box($d:flex);
+  @include box($d:flex);
   }
 
   .ui-grid {
-  @include util.box($rg:var(--space-5));
+  @include box($rg:var(--space-5));
 
     .ui-col:last-of-type {
-    @include util.box($mbe:-245px);
+    @include box($mbe:-245px);
     }
   }
 
   .heading-group {
     .ui-heading {
-    @include util.box($mxw:480px);
+    @include box($mxw:480px);
     }
     .ui-paragraph {
-    @include util.box($mxw:448px);
+    @include box($mxw:448px);
     }
   }
 
   .subtext {
-  @include util.box($pos:relative, $mxw:430px, $mbs:var(--space-8), $mis:var(--space-3));
+  @include box($pos:relative, $mxw:430px, $mbs:var(--space-8), $mis:var(--space-3));
 
     &::before {
-    @include util.box($c:' ', $pos:absolute, $l:-16px, $h:64px, $w:2px,
+    @include box($c:' ', $pos:absolute, $l:-16px, $h:64px, $w:2px,
                       $back:var(--c-lavender-70), $t:50%, $tf:translateY(-50%));
     }
 
     strong {
-    @include util.font($fw:500, $color:var(--c-indigo-100));
+    @include font($fw:500, $color:var(--c-indigo-100));
     }
   }
 
   pipeline-animator {
-  @include util.box($fg:1);
+  @include box($fg:1);
   }
 }
 
 #managed {
-@include util.box($pbs:256px, $pbe:260px, $pos:relative, $back:var(--c-indigo-10));
+@include box($pbs:256px, $pbe:260px, $pos:relative, $back:var(--c-indigo-10));
 
   .ui-container {
-  @include util.box($d:flex);
+  @include box($d:flex);
   }
 
   .text {
-  @include util.box($mxw:448px);
+  @include box($mxw:448px);
   }
 
   .image {
-  @include util.box($pos:relative, $fg:1, $d:flex, $jc:center);
-  @include util.media($val:var.$screen-xs-max, $d:none);
+  @include box($pos:relative, $fg:1, $d:flex, $jc:center);
+  @include media($val:$screen-xs-max, $d:none);
 
     &__wrapper {
-    @include util.box($pos:absolute, $w:auto, $l:-150px, $t:50%, $tf:translateY(-50%), $r: -200px);
-    @include util.media($val:var.$screen-md-max, $l:-90px);
+    @include box($pos:absolute, $w:auto, $l:-150px, $t:50%, $tf:translateY(-50%), $r: -200px);
+    @include media($val:$screen-md-max, $l:-90px);
     }  
   }
 }
 
 #experience {
-@include util.box($back:var(--c-purple-60), $pbs:$section-space, $pbe:$section-space);
+@include box($back:var(--c-purple-60), $pbs:$section-space, $pbe:$section-space);
 
   .ui-grid {
-  @include util.box($rg:var(--space-9));
+  @include box($rg:var(--space-9));
   }
 
   .title {
-  @include util.box($mxw:740px, $mbe:var(--space-9));
+  @include box($mxw:740px, $mbe:var(--space-9));
   }
 
   .subtext {
-  @include util.box();
+  @include box();
 
     .ui-heading {
-    @include util.box($mbe:var(--space-2));
+    @include box($mbe:var(--space-2));
     }
 
     .ui-paragraph {
-    @include util.box($color:var(--c-lavender-10), $mbe:var(--space-6));
+    @include box($color:var(--c-lavender-10), $mbe:var(--space-6));
     }
   }
 
   .ui-heading {
-  @include util.box($color:#fff);
+  @include box($color:#fff);
   }
 
   .cta {
-  @include util.box($d:inline-flex, $ai:center, $jc:center, $back:#8C93FF,
+  @include box($d:inline-flex, $ai:center, $jc:center, $back:#8C93FF,
                     $color:#fff, $p: 14px 16px, $br:var(--radius-4));
-  @include util.font($fs:14px, $lh:112%, $fw:600, $ls:-0.02em);
+  @include font($fs:14px, $lh:112%, $fw:600, $ls:-0.02em);
 
     &::after {
-    @include util.box($c:' ->');
-    @include util.font($ws:pre, $ls:0);
+    @include box($c:' ->');
+    @include font($ws:pre, $ls:0);
     }
   }
 
@@ -374,46 +370,46 @@ a {
   }
 
   .list__wrapper {
-  @include util.box($d:flex, $fd:column, $ai:flex-end);
-  @include util.media($val:var.$screen-sm-max, $ai:flex-start);
+  @include box($d:flex, $fd:column, $ai:flex-end);
+  @include media($val:$screen-sm-max, $ai:flex-start);
   }
 
   .list-item {
-  @include util.box($d:flex, $ai:center);
+  @include box($d:flex, $ai:center);
 
     & + .list-item {
-    @include util.box($mbs:14px)
+    @include box($mbs:14px)
     }
 
     svg {
-    @include util.box($mie:var(--space-3), $mnw:16px, $mnh:16px);
+    @include box($mie:var(--space-3), $mnw:16px, $mnh:16px);
     }
 
     .ui-paragraph {
-    @include util.box($color:var(--c-lavender-0))
+    @include box($color:var(--c-lavender-0))
     }
   }
 }
 
 #get-started {
-@include util.box($back:#212752, $pbs:120px, $pbe:119px);
+@include box($back:#212752, $pbs:120px, $pbe:119px);
 
   .ui-heading {
-  @include util.box($color:#fff, $mbe:7px);
+  @include box($color:#fff, $mbe:7px);
   }
 
   .ui-paragraph {
-  @include util.box($color:var(--c-lavender-50));
+  @include box($color:var(--c-lavender-50));
   }
 
   .cta {
-  @include util.box($d:inline-flex, $ai:center, $jc:center, $back:var(--c-lavender-60),
+  @include box($d:inline-flex, $ai:center, $jc:center, $back:var(--c-lavender-60),
                     $color:#fff, $p: 14px 16px, $br:var(--radius-4));
-  @include util.font($fs:16px, $lh:112%, $fw:600, $ls:-0.02em);
+  @include font($fs:16px, $lh:112%, $fw:600, $ls:-0.02em);
 
     &::after {
-    @include util.box($c:' ->');
-    @include util.font($ws:pre, $ls:0);
+    @include box($c:' ->');
+    @include font($ws:pre, $ls:0);
     }
   }
 }

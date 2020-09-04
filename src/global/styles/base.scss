@@ -1,0 +1,29 @@
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font: inherit;
+}  
+
+span, svg, img, a {
+  display: inline-block;
+}
+
+a {
+  cursor: pointer;
+}
+
+img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.arrow {
+  letter-spacing: 0;
+  white-space: pre;
+}
+
+.ui-paragraph {
+  margin: 0;
+}

@@ -1,6 +1,7 @@
 import { Component, Element, State, h, Host } from '@stencil/core';
 import { ResponsiveContainer } from '@ionic-internal/ionic-ds';
 import { href } from 'stencil-router-v2';
+import state from '../../store';
 
 import { appflowLogoWithText } from '../../svgs';
 
@@ -13,11 +14,9 @@ import Router from '../../router';
   scoped: true
 })
 export class SiteHeader {
-  @Element() el: HTMLElement;
+  @Element() el!: HTMLElement;
 
   @State() expanded = false;
-
-  @State() sticky = false;
 
   // Hovered nav items
   @State() forceHovered: string | null = null;
@@ -42,14 +41,21 @@ export class SiteHeader {
   toggleExpanded = (top: boolean) => {
     this.expanded = !this.expanded;
     if (top) window.scrollTo(0, 0);
+    //TODO P3 lock in scroll when mobile menu is expanded
+    // this.expanded ? document.body.style.overflowY = 'hidden' : document.body.style.overflowY = 'visible'
   }
 
-  handleActive = (e: HTMLAnchorElement) => {
-    if (!e.href) return;
+  handleActive = (e: HTMLAnchorElement | undefined) => {
+    if (!e) return;
+    
+    const hrefParts = e.href.split('/');
+    if (hrefParts.length < 4) return;    
 
     const { hash, href } = Router.url;
+    const urlParts = href.replace(hash, '').split('/');
+    if (urlParts.length < 4) return;  
 
-    if (href === e.href || href.replace(hash, '') === e.href) {
+    if (hrefParts[3] === urlParts[3]) {
       return e.classList.add('active');
     }
 
@@ -57,11 +63,11 @@ export class SiteHeader {
   }
 
   render() {
-    const { expanded, sticky, toggleExpanded, handleActive } = this;
+    const { expanded, toggleExpanded, handleActive } = this;
 
     return (
       <Host class={{
-        'sticky': sticky,
+        'sticky': state.stickyHeader,
         'expanded': expanded
       }}>
         <header>
@@ -86,7 +92,7 @@ export class SiteHeader {
                 <nav onClick={() => toggleExpanded(true)}>
                   <a
                     {...href('/')}
-                    ref={e => handleActive(e)}
+                    ref={(e) => handleActive(e)}
                   >
                     Product
                   </a>

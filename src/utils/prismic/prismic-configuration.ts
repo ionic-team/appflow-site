@@ -1,6 +1,6 @@
 import Prismic from 'prismic-javascript';
 
-export const apiEndpoint = process.env.PRISMIC_ENDPOINT || null;
+export const apiEndpoint = process.env.PRISMIC_ENDPOINT || 'https://ionicframeworkcom.cdn.prismic.io/api/v2';
 
 // Client method to query documents from the Prismic repo
 

@@ -1,6 +1,6 @@
 import Prismic from 'prismic-javascript';
 import { Document as PrismicDocument } from 'prismic-javascript/d.ts/documents';
-import state, { defaults } from './store';
+import state, { defaults } from '../../store';
 
 const apiURL = 'https://ionicframeworkcom.prismic.io/api/v2';
 

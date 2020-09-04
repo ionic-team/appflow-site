@@ -5,6 +5,7 @@ import { RenderedBlog } from '@ionic-internal/markdown-blog/src/models';
 import posts from './components/blog-post/assets/blog.json';
 import state from '../../store';
 import { BlogSubnav } from './components/blog-subnav/blog-subnav';
+import { Client } from '../../utils/prismic/prismic-configuration';
 
 @Component({
   tag: 'blog-page',
@@ -50,6 +51,36 @@ export class BlogPage {
     this.breadcrumbs.detail = ([...this.breadcrumbs.base, [`${this.post!.title}`, `/blog/${this.post!.slug}`]]);
   }  
 
+  getRelatedResources() {
+    if (!this.post) return;
+    
+    const { related1, related2, related3 } = this.post;
+    const client = Client();
+    const docs = PrismicDoc[];
+
+    const getTypeAndUid = (item: string) => {
+      const typeMatch = item.match(/\/resources\/(.*?)\/(.*?)/);      
+      return {
+        type: typeMatch ? typeMatch[1] : undefined,
+        uid: typeMatch ? typeMatch[3] : undefined,
+      }
+    }
+
+    if (related1) {
+      const { type, uid } = getTypeAndUid(related1);
+      const doc = client.getByUID(type!, uid!, {});
+      prismicDocToResource
+    }
+    if (related2) {
+      const { type, uid } = getTypeAndUid(related2);
+      const doc = client.getByUID(type!, uid!, {});
+    }
+    if (related3) {
+      const { type, uid } = getTypeAndUid(related3);
+      const doc = client.getByUID(type!, uid!, {});
+    }
+  }
+
   render() {
     const { DetailView, ListView } = this;
     return (
@@ -94,6 +125,7 @@ export class BlogPage {
       <blog-post post={post} />,
       <blog-social-actions post={post} class="bottom" />,
       <PostAuthor post={post} />,
+      // <more-resources resources={this.getRelatedResources()}/>
       // <disqus-comments url={`https://useappflow.com/blog/${post.slug}`} siteId="ionic"/>
     ]
   }

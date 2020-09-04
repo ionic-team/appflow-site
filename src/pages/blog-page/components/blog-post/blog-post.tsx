@@ -23,7 +23,6 @@ export class BlogPost {
   @Element() el!: HTMLElement;
 
   async componentWillLoad() {
-    console.log(this.post);
     if (this.post) return this.slug = this.post.slug;
     if (this.slug) this.post = (posts as RenderedBlog[]).find(p => p.slug === this.slug)
   }

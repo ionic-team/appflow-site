@@ -1,7 +1,7 @@
 import { Component, State, Host, Prop, h, Watch, Element, getAssetPath, FunctionalComponent } from '@stencil/core';
 import { ResponsiveContainer, Heading, Paragraph, Breakpoint } from '@ionic-internal/ionic-ds';
 import { RenderedBlog } from '@ionic-internal/markdown-blog/src/models';
-import { PrismicResource } from '../../models/prismic'
+import { PrismicResource } from '../../global/models/prismic'
 
 import posts from './components/blog-post/assets/blog.json';
 import state from '../../store';

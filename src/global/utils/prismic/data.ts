@@ -1,4 +1,4 @@
-import { ResourceType, ResourceSource, Resource, LandingData } from '../../global/models/prismic';
+import { ResourceType, ResourceSource, Resource, LandingData } from '../../models/prismic';
 
 import { slugify } from '../slugify';
 import { Client } from './prismic-configuration';

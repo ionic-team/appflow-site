@@ -2,7 +2,7 @@ import { Component, State, Element, Host, Listen, h, getAssetPath } from '@stenc
 import { publishIcon, updatesIcon, buildsIcon, automationsIcon } from './assets/icons'
 import { ResponsiveContainer, Heading, Paragraph, IntersectionHelper } from '@ionic-internal/ionic-ds';
 
-import { importGsap } from '../../../../utils/gsap';
+import { importGsap } from '../../../../global/utils/gsap';
 
 interface ScreenProps {
   name: string,

@@ -6,9 +6,9 @@ import { PrismicResource } from '../../global/models/prismic'
 import posts from './components/blog-post/assets/blog.json';
 import state from '../../store';
 import { BlogSubnav } from './components/blog-subnav/blog-subnav';
-import { Client } from '../../utils/prismic/prismic-configuration';
-import { prismicDocToResource, resourceTypeToPrismicType } from '../../utils/prismic/prismic';
-import { getResourceTypeForParam } from '../../utils/prismic/data';
+import { Client } from '../../global/utils/prismic/prismic-configuration';
+import { prismicDocToResource, resourceTypeToPrismicType } from '../../global/utils/prismic/prismic';
+import { getResourceTypeForParam } from '../../global/utils/prismic/data';
 
 @Component({
   tag: 'blog-page',

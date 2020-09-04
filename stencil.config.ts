@@ -8,7 +8,7 @@ export const config: Config = {
   devServer: {
     openBrowser: false,
   },
-  globalStyle: 'src/global/base.scss',
+  globalStyle: 'src/global/styles/base.scss',
   namespace: 'site',
   outputTargets: [
     {
@@ -24,9 +24,9 @@ export const config: Config = {
   plugins: [
     sass({
       injectGlobalPaths: [
-        ['src/global/vars', '*'],
-        ['src/global/utils', '*'],
-        ['src/global/animations', '*']
+        ['src/global/styles/vars', '*'],
+        ['src/global/styles/utils', '*'],
+        ['src/global/styles/animations', '*']
       ]
     }),
     dotenvPlugin(),

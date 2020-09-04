@@ -1,4 +1,4 @@
-import Router from '../router';
+import Router from '../../router';
 
 export const handleRoutableLinkClick = (e: MouseEvent) => {
   if (e.metaKey || e.ctrlKey) {

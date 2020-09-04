@@ -1,7 +1,7 @@
 import { Component, State, Element, h, Host, getAssetPath } from '@stencil/core';
 import { Paragraph, IntersectionHelper } from '@ionic-internal/ionic-ds';
 
-import { importGsap } from '../../../../utils/gsap';
+import { importGsap } from '../../../../global/utils/gsap';
 
 interface TileConfigProps {
   [key: string]: {

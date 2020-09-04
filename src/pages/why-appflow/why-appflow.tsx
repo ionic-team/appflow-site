@@ -1,7 +1,7 @@
 import { Component, Host, h, getAssetPath} from '@stencil/core';
 
 import { ResponsiveContainer, PrismicRichText, Grid, Col, Heading } from '@ionic-internal/ionic-ds';
-import { getPage } from '../../utils/prismic/prismic';
+import { getPage } from '../../global/utils/prismic/prismic';
 import state from '../../store';
 
 

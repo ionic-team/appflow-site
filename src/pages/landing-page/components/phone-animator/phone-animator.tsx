@@ -1,7 +1,7 @@
 import { Component, State, Element, Host, h, getAssetPath} from '@stencil/core';
 import { IntersectionHelper } from '@ionic-internal/ionic-ds'
 
-import { importGsap } from '../../../../utils/gsap';
+import { importGsap } from '../../../../global/utils/gsap';
 
 
 @Component({

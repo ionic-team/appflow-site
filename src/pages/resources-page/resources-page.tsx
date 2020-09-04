@@ -1,5 +1,5 @@
 import { Component, Host, h, Prop, Watch, State } from '@stencil/core';
-import { ResourceLink, PrismicDoc, PrismicResource, ResourceType } from '../../models/prismic'
+import { ResourceLink, PrismicResource, ResourceType } from '../../models/prismic'
 
 import { prismicDocToResource } from '../../utils/prismic/prismic';
 import { Client } from '../../utils/prismic/prismic-configuration'
@@ -118,7 +118,7 @@ export class ResourcesPage {
       case ResourceType.CaseStudy:
         return <resource-case-study prismicData={this.currentResource.resource} />;
       case ResourceType.Webinar:
-        return <resource-webinar prismicData={this.currentResource.resource} />;
+        return <resource-webinar prismicData={this.currentResource.resource} state={state}/>;
       case ResourceType.CustomerInterview:
         return <resource-custom-interview prismicData={this.currentResource.resource} />;
       case ResourceType.Whitepaper:
@@ -159,6 +159,7 @@ const Feature = ({ prismicData }: { prismicData: PrismicResource }) => {
         prismicData={prismicData}        
         routing={{
           base: '/resources',
+          includeType: false,
           router
         }}
       />
@@ -171,15 +172,16 @@ const Latest = ({ prismicData }: { prismicData: PrismicResource[] }) => {
     <ResponsiveContainer id="latest" as="section">
       <Heading class="ui-theme--editorial" level={5}>Latest Resources</Heading>
       <hr class="top"/>
-      <Grid>
+      <Grid class="card-grid">
         {prismicData.map((data) => (
-        <Col cols={4}>
+        <Col xs={6} sm={6} md={4} cols={12}>
           <resource-card
             style={{
               '--image-height': '128px'
             }}
             routing={{
               base: '/resources',
+              includeType: false,
               router
             }}
             prismicData={data}
@@ -195,15 +197,16 @@ const Latest = ({ prismicData }: { prismicData: PrismicResource[] }) => {
 const Mid = ({ prismicData }: { prismicData: PrismicResource[] }) => {
   return (
     <ResponsiveContainer id="mid" as="section">
-      <Grid>
+      <Grid class="card-grid">
         {prismicData.map((data) => (
-        <Col cols={6}>
+        <Col xs={6} cols={12}>
           <resource-card
             style={{
               '--image-height': '224px'
             }}
             routing={{
               base: '/resources',
+              includeType: false,
               router
             }}
             headingLevel={3}
@@ -218,14 +221,15 @@ const Mid = ({ prismicData }: { prismicData: PrismicResource[] }) => {
 const Bottom = ({ prismicData }: { prismicData: PrismicResource[] }) => {
   return (
     <ResponsiveContainer id="bottom" as="section">
-      <Grid>
+      <Grid class="card-grid">
         {prismicData.map((data) => (
-        <Col cols={4}>
+        <Col xs={6} sm={6} md={4} cols={12}>
           {data.type === 'Whitepaper'
           ? <WhitepaperCard prismicData={data}/>
           : <resource-card
               routing={{
                 base: '/resources',
+                includeType: false,
                 router
               }}
               prismicData={data}
@@ -239,14 +243,15 @@ const Bottom = ({ prismicData }: { prismicData: PrismicResource[] }) => {
 const Trench = ({ prismicData }: { prismicData: PrismicResource[] }) => {
   return (
     <ResponsiveContainer id="trench" as="section">
-      <Grid>
+      <Grid class="card-grid">
         {prismicData.map((data) => (
-        <Col cols={4}>
+        <Col xs={6} sm={6} md={4} cols={12}>
           {data.type === 'Whitepaper'
           ? <WhitepaperCard prismicData={data}/>
           : <resource-card
               routing={{
                 base: '/resources',
+                includeType: false,
                 router
               }}
               prismicData={data}
@@ -261,14 +266,15 @@ const Chasm = ({ prismicData }: { prismicData: PrismicResource[] }) => {
   console.log(prismicData);
   return (
     <ResponsiveContainer id="trench" as="section">
-      <Grid>
+      <Grid class="card-grid">
         {prismicData.map((data) => (
-        <Col cols={4}>
+        <Col xs={6} sm={6} md={4} cols={12}>
           {data.type === 'Whitepaper'
           ? <WhitepaperCard prismicData={data}/>
           : <resource-card
               routing={{
                 base: '/resources',
+                includeType: false,
                 router
               }}
               prismicData={data}

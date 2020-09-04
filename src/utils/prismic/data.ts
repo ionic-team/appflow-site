@@ -2,7 +2,7 @@ import { ResourceType, ResourceSource, Resource, LandingData } from '../../model
 
 import { slugify } from '../slugify';
 import { Client } from './prismic-configuration';
-import { Document as PrismicDocument } from 'prismic-javascript/d.ts/documents';
+import { Document as PrismicDocument } from 'prismic-javascript/types/documents';
 import { prismicDocToResource, resourceTypeToPrismicType, prismicTypeToResourceType } from './prismic';
 import Prismic from 'prismic-javascript';
 

@@ -33,27 +33,48 @@
   hr.top {
   @include box($mbs: var(--space-3));
   }  
+
+  .card-grid {
+  @include box($rg:var(--space-11));
+  @include media($val:$screen-xs-max, $cg: var(--space-3));
+  }
 }
 
 #mid {
 @include box($mbs: var(--space-11));
 
-  .ui-grid {
-  @include box($cg:var(--space-9));
+  .card-grid {
+  @include box($rg:var(--space-11));
+  @include media($val:$screen-xs-max, $cg: var(--space-3));
   }
 }
 
 #bottom {
 @include box($mbs: var(--space-11));
 
+  .card-grid {
+  @include box($rg:var(--space-11));
+  @include media($val:$screen-xs-max, $cg: var(--space-3));
+  }
+
 }
 
 #trench {
 @include box($mbs: var(--space-11), $mbe: var(--space-11));
 
+  .card-grid {
+  @include box($rg:var(--space-11));
+  @include media($val:$screen-xs-max, $cg: var(--space-3));
+  }
+
 }
 
 #chasm {
 @include box($mbs: var(--space-11), $mbe: var(--space-11));
+
+  .card-grid {
+  @include box($rg:var(--space-11));
+  @include media($val:$screen-xs-max, $cg: var(--space-3));
+  }
 
 }

@@ -7,7 +7,6 @@ import parseISO from 'date-fns/parseISO';
 import { href } from 'stencil-router-v2';
 import Router from '../../../../router';
 import Img from '../../../../components/Img/Img';
-import { slugify } from '../../../../utils/slugify'
 
 @Component({
   tag: 'blog-post',

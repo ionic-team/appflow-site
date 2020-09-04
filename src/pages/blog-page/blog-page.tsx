@@ -1,11 +1,14 @@
-import { Component, State, Host, Prop, h, Watch, Element, getAssetPath } from '@stencil/core';
+import { Component, State, Host, Prop, h, Watch, Element, getAssetPath, FunctionalComponent } from '@stencil/core';
 import { ResponsiveContainer, Heading, Paragraph, Breakpoint } from '@ionic-internal/ionic-ds';
 import { RenderedBlog } from '@ionic-internal/markdown-blog/src/models';
+import { PrismicResource } from '../../models/prismic'
 
 import posts from './components/blog-post/assets/blog.json';
 import state from '../../store';
 import { BlogSubnav } from './components/blog-subnav/blog-subnav';
 import { Client } from '../../utils/prismic/prismic-configuration';
+import { prismicDocToResource, resourceTypeToPrismicType } from '../../utils/prismic/prismic';
+import { getResourceTypeForParam } from '../../utils/prismic/data';
 
 @Component({
   tag: 'blog-page',
@@ -17,6 +20,7 @@ export class BlogPage {
   @Prop() slug?: string;
   @State() posts?: RenderedBlog[];
   @State() post?: RenderedBlog;
+  @State() relatedResources: PrismicResource[] = [];
   @Prop() viewMode: 'detail' | 'previews' = 'previews';
   @State() breadcrumbs: { base: BlogSubnav['breadcrumbs'], detail?: BlogSubnav['breadcrumbs'] } = {
     base: [
@@ -24,14 +28,10 @@ export class BlogPage {
     ]
   };
 
-  async componentWillLoad() {
+  componentWillLoad() {
     state.stickyHeader = false;
     this.posts = (posts as RenderedBlog[]).slice(0, 10); 
     this.checkViewMode(this.viewMode);
-  }
-
-  componentDidLoad() {
-    this.el.classList.add()
   }
 
   componentWillUpdate() {
@@ -49,36 +49,37 @@ export class BlogPage {
     
     this.getPost();
     this.breadcrumbs.detail = ([...this.breadcrumbs.base, [`${this.post!.title}`, `/blog/${this.post!.slug}`]]);
+    this.getRelatedResources();
   }  
 
-  getRelatedResources() {
+  async getRelatedResources() {    
     if (!this.post) return;
     
-    const { related1, related2, related3 } = this.post;
+    const { related1, related2 } = this.post;
+
     const client = Client();
-    const docs = PrismicDoc[];
 
     const getTypeAndUid = (item: string) => {
-      const typeMatch = item.match(/\/resources\/(.*?)\/(.*?)/);      
+      const typeMatch = item.match(/\/resources\/(.*?)\/(.*?)$/);      
       return {
-        type: typeMatch ? typeMatch[1] : undefined,
-        uid: typeMatch ? typeMatch[3] : undefined,
+        type: typeMatch ? getResourceTypeForParam(typeMatch[1]) : undefined,
+        uid: typeMatch ? typeMatch[2] : undefined,
       }
     }
+    
+    let resources: PrismicResource[] = []
 
-    if (related1) {
-      const { type, uid } = getTypeAndUid(related1);
-      const doc = client.getByUID(type!, uid!, {});
-      prismicDocToResource
-    }
-    if (related2) {
-      const { type, uid } = getTypeAndUid(related2);
-      const doc = client.getByUID(type!, uid!, {});
-    }
-    if (related3) {
-      const { type, uid } = getTypeAndUid(related3);
-      const doc = client.getByUID(type!, uid!, {});
-    }
+    await Promise.all([related1, related2].map(async (related) => {
+      if (!related) return;
+
+      const { type, uid } = getTypeAndUid(related);
+      const prismicType = resourceTypeToPrismicType(type!);
+
+      const doc = await client.getByUID(prismicType, uid!, {});
+      resources.push(prismicDocToResource(doc));
+    }));
+
+    this.relatedResources = [...resources];
   }
 
   render() {
@@ -91,8 +92,8 @@ export class BlogPage {
         <ResponsiveContainer id="posts" as="section">
           <div class="container-sm">
             {this.viewMode === 'detail'
-            ? <DetailView post={this.post}/>
-            : <ListView posts={this.posts} />}          
+            ? <DetailView />
+            : <ListView />}          
           </div>
         </ResponsiveContainer>        
       </Host> )
@@ -114,30 +115,38 @@ export class BlogPage {
     )
   }
 
-  DetailView = ({ post }:{ post: BlogPage['post'] }) => {
+  DetailView = (): FunctionalComponent | null => {
+    const { post, PostAuthor } = this;
     if (!post) return null;
-    const { PostAuthor } = this;
   
-    return [
-      <Breakpoint md={true} class="sticky-wrapper">
-        <blog-social-actions post={post} column class="top" />
-      </Breakpoint>,
-      <blog-post post={post} />,
-      <blog-social-actions post={post} class="bottom" />,
-      <PostAuthor post={post} />,
-      // <more-resources resources={this.getRelatedResources()}/>
-      // <disqus-comments url={`https://useappflow.com/blog/${post.slug}`} siteId="ionic"/>
-    ]
+    return (
+      <div class="detail-view">
+        <Breakpoint md={true} class="sticky-wrapper">
+          <blog-social-actions post={post} column class="top" />
+        </Breakpoint>
+        <blog-post post={post} />
+        <blog-social-actions post={post} class="bottom" />
+        <PostAuthor post={post} />
+        {this.relatedResources.length > 0
+          ? [<Heading level={4} class="more-resources__title | ui-theme--editorial">You might also like...</Heading>,
+            <more-resources resources={this.relatedResources} routing={{ base: 'https://ionicframework.com/resources' }}/>]
+          : null }
+        {/* <disqus-comments url={`https://useappflow.com/blog/${post.slug}`} siteId="ionic"/> */}
+      </div>
+    )
   }
 
-  ListView = ({ posts }: { posts: BlogPage['posts'] }) => {
+  ListView = (): FunctionalComponent | null => {
+    const { posts } = this;
     if (!posts) return null;
   
-    return [ 
-      ...posts.map(p => <blog-post slug={p.slug} post={p} preview/>),
-      // <blog-pagination rssIcon />,
-      <blog-newsletter />
-    ]
+    return (
+      <div class="list-view">
+        {posts.map(p => <blog-post slug={p.slug} post={p} preview/>)}
+        {/* <blog-pagination rssIcon /> */}
+        <blog-newsletter />
+      </div>
+    )
   }
 }
 

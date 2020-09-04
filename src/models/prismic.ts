@@ -1,8 +1,8 @@
-import { Document as PrismicDocument } from 'prismic-javascript/d.ts/documents';
-import ApiSearchResponse from 'prismic-javascript/d.ts/ApiSearchResponse';
+import { Document } from 'prismic-javascript/types/documents';
+import ApiSearchResponse from 'prismic-javascript/types/ApiSearchResponse';
 
 export interface PrismicDocsResponse {
-  docs: PrismicDocument[];
+  docs: Document[];
   _prismic: ApiSearchResponse;
 }
 
@@ -35,10 +35,21 @@ export interface ResourceAuthor {
   avatar: string;
 }
 
+export interface ResourceLink {
+  id: string,
+  isBroken: boolean,
+  lang: string,
+  link_type: string,
+  slug: string,
+  tags: string[],
+  type: ResourceType,
+  uid: string,
+}
+
 export enum ResourceType {
   Article = 'Article',
   Blog = 'Blog',
-  Book = "Book",
+  Book = 'Book',
   CaseStudy = 'Case Study',
   CustomerInterview = 'Customer Interview',
   Course = 'Course',

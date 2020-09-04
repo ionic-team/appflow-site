@@ -1,5 +1,5 @@
 import { Component, h, Element, State, Host, Prop } from '@stencil/core';
-import { ResponsiveContainer, IntersectionHelper, Breadcrumbs, Breakpoint } from '@ionic-internal/ionic-ds';
+import { ResponsiveContainer, IntersectionHelper, Breadcrumbs } from '@ionic-internal/ionic-ds';
 
 import { href } from 'stencil-router-v2';
 import Router from '../../../../router';

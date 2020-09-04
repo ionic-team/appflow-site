@@ -33,6 +33,7 @@ export const typeToResourceType = (type: string) =>
     video: ResourceType.Video,
   } as any)[type]);
 
+  
 export const resourceTypeToPath = (type: ResourceType) =>
   ({
     [ResourceType.Article]: 'articles',

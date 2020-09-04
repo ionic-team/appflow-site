@@ -16,10 +16,19 @@
     }
 
     .author {
+      display: flex;
+      align-items: center;
       margin-block-end: var(--space-6);
+
+      img {
+        margin-inline-end: var(--space-3);
+        width: 32px;
+        height: 32px;
+      }
       
       .ui-paragraph {
         color: #92A1B3;
+        margin: 0;
       }
     }
 

@@ -25,7 +25,8 @@
     &:last-of-type {    
       overflow: hidden;
       a {
-        display: inline;
+        padding-block-start: 2px;
+        padding-block-end: 2px;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;

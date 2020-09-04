@@ -1,7 +1,7 @@
 import { Component, Host, h } from '@stencil/core';
 
 import { ResponsiveContainer, PrismicRichText, Heading, Grid, Col, Paragraph } from '@ionic-internal/ionic-ds';
-import { getPage } from '../../utils/prismic/prismic';
+import { getPage } from '../../global/utils/prismic/prismic';
 import state from '../../store';
 import { aaaLogo, amtrakLogo, nasaLogo, ibmLogo, burgerKingLogo, catLogo, targetLogo } from '../../svgs';
 
@@ -19,15 +19,16 @@ export class PricingPage {
     await getPage('appflow_pricing');
   }
 
-  render = () => (
-    <Host>
-      <Top />
-      <Tiers />
-      <Companies />
-      <pricing-table />
-      <Faq />
-    </Host>
-  )
+  render() {
+    return (
+      <Host>
+        <Top />
+        <Tiers />
+        <Companies />
+        <pricing-table />
+        <Faq />
+      </Host> 
+  )}
 }
 
 const Top = () => {

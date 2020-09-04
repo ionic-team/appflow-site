@@ -1,7 +1,7 @@
 import { Component, Host, h, getAssetPath} from '@stencil/core';
 
 import { ResponsiveContainer, PrismicRichText, Grid, Col, Heading } from '@ionic-internal/ionic-ds';
-import { getPage } from '../../utils/prismic/prismic';
+import { getPage } from '../../global/utils/prismic/prismic';
 import state from '../../store';
 
 
@@ -18,17 +18,19 @@ export class WhyAppflow {
     await getPage('appflow_why_appflow');
   }
 
-  render = () => (
-    <Host>
-      <Top />
-      <Companies />
-      <Benefits />
-      <Integrated />
-      <Problems />
-      <Different />
-      <get-started-section />
-    </Host>
-  )
+  render() {
+    return (
+      <Host>
+        <Top />
+        <Companies />
+        <Benefits />
+        <Integrated />
+        <Problems />
+        <Different />
+        <get-started-section />
+      </Host>
+    )
+  }
 }
 
 const Top = () => {

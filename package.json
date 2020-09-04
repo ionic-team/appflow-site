@@ -11,13 +11,13 @@
     "generate": "stencil generate",
     "serve": "stencil build --dev --watch",
     "dev": "stencil build --dev --watch --serve",
-    "blog": "blog src/pages/blog-page/assets/md src/pages/blog-page/assets/blog.json"
+    "blog": "blog src/pages/blog-page/components/blog-post/assets/md src/pages/blog-page/components/blog-post/assets/blog.json"
   },
   "devDependencies": {
-    "@ionic-internal/ionic-ds": "^3.0.0-6",
-    "@ionic-internal/markdown-blog": "^1.0.7",
+    "@ionic-internal/ionic-ds": "3.0.0-6",
+    "@ionic-internal/markdown-blog": "^1.0.9",
     "@ionic/prettier-config": "^1.0.0",
-    "@stencil/core": "2.0.3",
+    "@stencil/core": "^2.0.3",
     "@stencil/helmet": "^0.3.2",
     "@stencil/sass": "^1.4.0-0",
     "@stencil/store": "^1.3.0",
@@ -36,7 +36,8 @@
     "prismic-javascript": "^2.7.1",
     "prismjs": "^1.21.0",
     "rollup-plugin-dotenv": "^0.3.0",
-    "stencil-router-v2": "^0.5.0"
+    "stencil-router-v2": "^0.5.0",
+    "typescript": "^4.0.2"
   },
   "prettier": "@ionic/prettier-config",
   "author": "Ionic Team",

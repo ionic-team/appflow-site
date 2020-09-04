@@ -5,6 +5,7 @@ slug: how-to-build-your-mobile-ci-cd-solution-on-jenkins-circleci-azure-devops
 date: 2020-08-18 15:00:00
 author: Max Lynch <max@ionic.io>
 authorUrl: https://twitter.com/maxlynch
+authorImageName: max-lynch.jpg
 ---
 
 Enterprise teams building mobile apps are looking to add Mobile CI/CD capabilities to their existing CI/CD workflows in use for their backend and frontend web apps.

@@ -1,13 +1,13 @@
 import { Component, Host, h, Prop, Watch, State } from '@stencil/core';
-import { ResourceLink, PrismicResource, ResourceType } from '../../models/prismic'
+import { ResourceLink, PrismicResource, ResourceType } from '../../global/models/prismic'
 
-import { prismicDocToResource } from '../../utils/prismic/prismic';
-import { Client } from '../../utils/prismic/prismic-configuration'
-import { getPage } from '../../utils/prismic/prismic';
+import { prismicDocToResource } from '../../global/utils/prismic/prismic';
+import { Client } from '../../global/utils/prismic/prismic-configuration'
+import { getPage } from '../../global/utils/prismic/prismic';
 import { ResponsiveContainer, Col, Heading, Grid, PrismicResponsiveImage } from '@ionic-internal/ionic-ds';
 import state from '../../store';
 import router from '../../router';
-import { typeToResourceType } from 'src/utils/prismic/data';
+import { typeToResourceType } from 'src/global/utils/prismic/data';
 import { href } from 'stencil-router-v2';
 
 

@@ -1,5 +1,5 @@
 import { Component, h, Element, State, Host, Prop } from '@stencil/core';
-import { ResponsiveContainer, IntersectionHelper, Breadcrumbs, Breakpoint } from '@ionic-internal/ionic-ds';
+import { ResponsiveContainer, IntersectionHelper, Breadcrumbs } from '@ionic-internal/ionic-ds';
 
 import { href } from 'stencil-router-v2';
 import Router from '../../../../router';
@@ -50,10 +50,10 @@ export class BlogSubnav {
             ))}          
           </Breadcrumbs>     
           <div class="blog-search-wrapper">
-            <Breakpoint md={true}>
+            {/* <Breakpoint md={true}>
               <blog-search />
-            </Breakpoint>
-            <Breakpoint class="mobile" xs={true} md={false} display="flex">
+            </Breakpoint> */}
+            {/* <Breakpoint class="mobile" xs={true} md={false} display="flex">
               {this.open
               ? <ion-icon
                   onClick={() => this.open = false}
@@ -67,9 +67,9 @@ export class BlogSubnav {
                   role="button" aria-label="open drawer"
                   name="chevron-down-outline"
                 ></ion-icon> }
-            </Breakpoint>
+            </Breakpoint> */}
           </div>
-          <div
+          {/* <div
             class={{
               'subnav-dropdown': true,
               'open': this.open
@@ -82,7 +82,7 @@ export class BlogSubnav {
               {this.pagination
               ? <blog-pagination linkText={['Older', 'Newer']}/> : ''}
             </ResponsiveContainer>
-          </div>
+          </div> */}
         </ResponsiveContainer>
       </div>
     </Host>

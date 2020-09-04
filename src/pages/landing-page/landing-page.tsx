@@ -4,7 +4,7 @@ import { ResponsiveContainer, Paragraph, PrismicRichText, Heading, Grid, Col, Br
 import { aaaLogo, amtrakLogo, nasaLogo, burgerKingLogo, catLogo, targetLogo, ibmLogo, triplePhoneIcon, tripleLayerIcon,
          buildingBlocksIcon, publishingIcon, appleCloudIcon, appleStoreCheckedIcon, testflightLogo,
          googleStoreCheckedIcon, checkmarkCircle, cloudCircleIcon } from '../../svgs';
-import { getPage } from '../../utils/prismic/prismic';
+import { getPage } from '../../global/utils/prismic/prismic';
 import state from '../../store';
 
 

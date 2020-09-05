@@ -99,7 +99,7 @@ export class BlogPage {
       return {...await this.getResourceType(uidMatch[1]), routing};
     }
 
-    const routing = { base: 'https://ionicframework.com/resources' };
+    const routing = { base: 'https://ionicframework.com/resources', includeType: true };
 
     return {
       type: typeMatch ? getResourceTypeForParam(typeMatch[1]) : null,

@@ -200,6 +200,10 @@ a {
     .list-item {
     @include box($d:flex, $ai:center);
 
+      .ui-paragraph {
+      @include box($m:0);
+      }
+
       svg {
       @include box($mie:var(--space-3));
       }
@@ -207,8 +211,6 @@ a {
       & + .list-item {
       @include box($mbs:var(--space-2));
       }
-
-      
     }
   }  
 
@@ -386,7 +388,7 @@ a {
     }
 
     .ui-paragraph {
-    @include box($color:var(--c-lavender-0))
+    @include box($color:var(--c-lavender-0), $m:0);
     }
   }
 }

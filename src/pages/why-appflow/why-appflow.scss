@@ -170,7 +170,7 @@ a {
     }
 
     .paragraphs {
-    @include box($d:flex, $fd:column);
+    @include box($d:flex, $fd:column, $m:0);
 
       .ui-paragraph + .ui-paragraph {
       @include box($mbs:var(--space-5));

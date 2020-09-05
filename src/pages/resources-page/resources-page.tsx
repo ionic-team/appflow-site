@@ -66,8 +66,6 @@ export class ResourcesPage {
       }
     })
 
-    console.log(this.currentResource.resource);
-
     this.detailView = true;
   }
 
@@ -168,6 +166,8 @@ const Feature = ({ prismicData }: { prismicData: PrismicResource }) => {
 }
 
 const Latest = ({ prismicData }: { prismicData: PrismicResource[] }) => {
+  if (!prismicData) return;
+
   return (
     <ResponsiveContainer id="latest" as="section">
       <Heading class="ui-theme--editorial" level={5}>Latest Resources</Heading>
@@ -195,6 +195,8 @@ const Latest = ({ prismicData }: { prismicData: PrismicResource[] }) => {
 }
 
 const Mid = ({ prismicData }: { prismicData: PrismicResource[] }) => {
+  if (!prismicData) return;
+
   return (
     <ResponsiveContainer id="mid" as="section">
       <Grid class="card-grid">
@@ -219,6 +221,8 @@ const Mid = ({ prismicData }: { prismicData: PrismicResource[] }) => {
 }
     
 const Bottom = ({ prismicData }: { prismicData: PrismicResource[] }) => {
+  if (!prismicData) return;
+
   return (
     <ResponsiveContainer id="bottom" as="section">
       <Grid class="card-grid">
@@ -241,6 +245,8 @@ const Bottom = ({ prismicData }: { prismicData: PrismicResource[] }) => {
 }
 
 const Trench = ({ prismicData }: { prismicData: PrismicResource[] }) => {
+  if (!prismicData) return;
+
   return (
     <ResponsiveContainer id="trench" as="section">
       <Grid class="card-grid">
@@ -263,7 +269,8 @@ const Trench = ({ prismicData }: { prismicData: PrismicResource[] }) => {
 }
 
 const Chasm = ({ prismicData }: { prismicData: PrismicResource[] }) => {
-  console.log(prismicData);
+  if (!prismicData) return;
+
   return (
     <ResponsiveContainer id="trench" as="section">
       <Grid class="card-grid">
@@ -286,6 +293,7 @@ const Chasm = ({ prismicData }: { prismicData: PrismicResource[] }) => {
 }
 
 const WhitepaperCard = ({ prismicData }: { prismicData: PrismicResource }) => {
+  if (!prismicData) return;
   const externalUrl = prismicData.doc.data.content_url.url
   
   if (externalUrl) {  

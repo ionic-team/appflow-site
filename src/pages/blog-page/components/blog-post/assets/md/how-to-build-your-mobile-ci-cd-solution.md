@@ -6,6 +6,9 @@ date: 2020-08-18 15:00:00
 author: Max Lynch <max@ionic.io>
 authorUrl: https://twitter.com/maxlynch
 authorImageName: max-lynch.jpg
+related:
+  - https://ionicframework.com/resources/webinars/hybrid-app-development-redefined
+  - https://useappflow.com/resources/solving-mobile-cicd-with-appflow
 ---
 
 Enterprise teams building mobile apps are looking to add Mobile CI/CD capabilities to their existing CI/CD workflows in use for their backend and frontend web apps.

@@ -1,15 +1,19 @@
-import { Component, State, Host, Prop, h, Watch, Element, getAssetPath, FunctionalComponent } from '@stencil/core';
+import { Component, State, Host, Prop, h, Watch, Element, getAssetPath} from '@stencil/core';
 import { ResponsiveContainer, Heading, Paragraph, Breakpoint } from '@ionic-internal/ionic-ds';
 import { RenderedBlog } from '@ionic-internal/markdown-blog/src/models';
-import { PrismicResource } from '../../global/models/prismic'
+import { PrismicResource, ResourceType } from '../../global/models/prismic'
 
 import posts from './components/blog-post/assets/blog.json';
 import state from '../../store';
 import { BlogSubnav } from './components/blog-subnav/blog-subnav';
 import { Client } from '../../global/utils/prismic/prismic-configuration';
-import { prismicDocToResource, resourceTypeToPrismicType } from '../../global/utils/prismic/prismic';
-import { getResourceTypeForParam } from '../../global/utils/prismic/data';
-
+import { prismicDocToResource, resourceTypeToPrismicType, getPage } from '../../global/utils/prismic/prismic';
+import { getResourceTypeForParam, typeToResourceType   } from '../../global/utils/prismic/data';
+import { ResourceLink } from '../../global/models/prismic';
+import { Components } from '@ionic-internal/ionic-ds/dist/types/components'
+import Router from '../../router'
+import { RoutingProps } from '@ionic-internal/ionic-ds/dist/types/web/components/more-resources/more-resources';
+ 
 @Component({
   tag: 'blog-page',
   styleUrl: 'blog-page.scss',
@@ -20,7 +24,10 @@ export class BlogPage {
   @Prop() slug?: string;
   @State() posts?: RenderedBlog[];
   @State() post?: RenderedBlog;
-  @State() relatedResources: PrismicResource[] = [];
+  @State() moreResources: {
+    resources: Components.MoreResources['resources'],
+    routing?: RoutingProps[]
+  } = { resources: [], routing: [] };
   @Prop() viewMode: 'detail' | 'previews' = 'previews';
   @State() breadcrumbs: { base: BlogSubnav['breadcrumbs'], detail?: BlogSubnav['breadcrumbs'] } = {
     base: [
@@ -53,33 +60,72 @@ export class BlogPage {
   }  
 
   async getRelatedResources() {    
-    if (!this.post) return;
+    if (!this.post?.related) return;
     
-    const { related1, related2 } = this.post;
+    const { related } = this.post;
 
     const client = Client();
-
-    const getTypeAndUid = (item: string) => {
-      const typeMatch = item.match(/\/resources\/(.*?)\/(.*?)$/);      
-      return {
-        type: typeMatch ? getResourceTypeForParam(typeMatch[1]) : undefined,
-        uid: typeMatch ? typeMatch[2] : undefined,
-      }
-    }
     
-    let resources: PrismicResource[] = []
+    let resources: BlogPage['moreResources']['resources'] = []
+    let routing: BlogPage['moreResources']['routing'] = []
 
-    await Promise.all([related1, related2].map(async (related) => {
+    await Promise.all(related.map(async (related) => {
       if (!related) return;
 
-      const { type, uid } = getTypeAndUid(related);
-      const prismicType = resourceTypeToPrismicType(type!);
+      const info = await this.getTypeAndUid(related);
+      if (!info || !info.type || !info.uid) return console.error('Couldnt get type or uid of related resources');
 
-      const doc = await client.getByUID(prismicType, uid!, {});
-      resources.push(prismicDocToResource(doc));
+      const prismicType = resourceTypeToPrismicType(info.type);
+
+      const doc = await client.getByUID(prismicType, info.uid, {});
+      resources?.push(prismicDocToResource(doc));
+      routing?.push(info.routing);
     }));
 
-    this.relatedResources = [...resources];
+    this.moreResources = {
+      resources,
+      routing
+    };
+  }
+
+  getTypeAndUid = async (item: string) => {
+    const typeMatch = item.match(/\/resources\/(.*?)\/(.*?)$/);   
+    if (!typeMatch){
+
+      const routing = { base: '/resources', includeType: false, router: Router };
+      const uidMatch = item.match(/\/resources\/(.*?)$/);
+      
+      if (!uidMatch) return console.error('Cant get Prismic resource without type.');
+      return {...await this.getResourceType(uidMatch[1]), routing};
+    }
+
+    const routing = { base: 'https://ionicframework.com/resources' };
+
+    return {
+      type: typeMatch ? getResourceTypeForParam(typeMatch[1]) : null,
+      uid: typeMatch ? typeMatch[2] : null,
+      routing
+    }
+  }
+
+  async getResourceType(uid: string) {
+    await getPage('appflow_resources');
+
+    let data: { type?: ResourceType, uid: string } = {
+      uid
+    }
+    // get ids of all linked resources
+    Object.values<ResourceLink>(state.pageData).some((link) => {
+      if (link.uid === uid) {
+        data = {
+          uid,
+          type: typeToResourceType(link.type)       
+        }
+        return true;
+      }
+    })
+
+    return data
   }
 
   render() {
@@ -115,7 +161,7 @@ export class BlogPage {
     )
   }
 
-  DetailView = (): FunctionalComponent | null => {
+  DetailView = () => {
     const { post, PostAuthor } = this;
     if (!post) return null;
   
@@ -127,16 +173,16 @@ export class BlogPage {
         <blog-post post={post} />
         <blog-social-actions post={post} class="bottom" />
         <PostAuthor post={post} />
-        {this.relatedResources.length > 0
+        {this.moreResources?.resources && this.moreResources?.resources.length > 0
           ? [<Heading level={4} class="more-resources__title | ui-theme--editorial">You might also like...</Heading>,
-            <more-resources resources={this.relatedResources} routing={{ base: 'https://ionicframework.com/resources' }}/>]
+            <more-resources {...this.moreResources}/>]
           : null }
         {/* <disqus-comments url={`https://useappflow.com/blog/${post.slug}`} siteId="ionic"/> */}
       </div>
     )
   }
 
-  ListView = (): FunctionalComponent | null => {
+  ListView = () => {
     const { posts } = this;
     if (!posts) return null;
   

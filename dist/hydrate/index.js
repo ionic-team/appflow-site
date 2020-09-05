@@ -6949,11 +6949,7 @@ class AppflowSiteRoutes {
     });
   }
   render() {
-<<<<<<< HEAD
     return (hAsync(Host, null, hAsync(Router.Switch, null, hAsync(Route, { path: match('/', { exact: true }) }, hAsync("landing-page", null)), hAsync(Route, { path: match('/blog', { exact: true }) }, hAsync("blog-page", { viewMode: "previews" })), hAsync(Route, { path: match('/blog/:slug'), render: ({ slug }) => hAsync("blog-page", { slug: slug, viewMode: "detail" }) }), hAsync(Route, { path: "/why-appflow" }, hAsync("why-appflow", null)), hAsync(Route, { path: "/resources" }, hAsync("resources-page", null)), hAsync(Route, { path: match('/resources/:id'), render: ({ id }) => hAsync("resources-page", { prismicUid: id }) }), hAsync(Route, { path: "/pricing" }, hAsync("pricing-page", null)), hAsync(Route, { path: "/privacy-policy" }, hAsync("markdown-page", { file: "privacy-policy" })), hAsync(Route, { path: "/tos" }, hAsync("markdown-page", { file: "tos" })))));
-=======
-    return (hAsync(Host, null, hAsync(Router.Switch, null, hAsync(Route, { path: match('/', { exact: true }) }, hAsync("landing-page", null)), hAsync(Route, { path: match('/blog', { exact: true }) }, hAsync("blog-page", { viewMode: "previews" })), hAsync(Route, { path: match('/blog/:slug'), render: ({ slug }) => hAsync("blog-page", { slug: slug, viewMode: "detail" }) }), hAsync(Route, { path: "/why-appflow" }, hAsync("why-appflow", null)), hAsync(Route, { path: "/pricing" }, hAsync("pricing-page", null)), hAsync(Route, { path: "/privacy-policy" }, hAsync("markdown-page", { file: "privacy-policy" })), hAsync(Route, { path: "/tos" }, hAsync("markdown-page", { file: "tos" })))));
->>>>>>> 8305d0132654222ac06d00fb033d876b58d79e38
   }
   static get style() { return appflowSiteRoutesCss; }
   static get cmpMeta() { return {
@@ -7127,33 +7123,8 @@ var posts = [
 
 (function(self) {
 
-<<<<<<< HEAD
-class BlogPage {
-  constructor(hostRef) {
-    registerInstance(this, hostRef);
-    this.viewMode = 'previews';
-    this.breadcrumbs = {
-      base: [
-        ['Blog', '/blog']
-      ]
-    };
-    this.render = () => (hAsync(Host, { class: "sc-blog-page" }, this.viewMode === 'detail'
-      ? hAsync("blog-subnav", { socialActions: true, breadcrumbs: this.breadcrumbs.detail })
-      : hAsync("blog-subnav", { pagination: true, breadcrumbs: this.breadcrumbs.detail }), hAsync(ResponsiveContainer, { id: "posts", as: "section" }, hAsync("div", { class: "container-sm" }, this.viewMode === 'detail'
-      ? hAsync(DetailView, { post: this.post })
-      : hAsync(ListView, { posts: this.posts })))));
-  }
-  async componentWillLoad() {
-    state.stickyHeader = false;
-    this.posts = posts.slice(0, 10);
-    this.checkViewMode(this.viewMode);
-  }
-  componentDidLoad() {
-    this.el.classList.add();
-=======
   if (self.fetch) {
     return
->>>>>>> 8305d0132654222ac06d00fb033d876b58d79e38
   }
 
   var support = {
@@ -7209,182 +7180,6 @@ class BlogPage {
     }
     return value
   }
-<<<<<<< HEAD
-  get el() { return getElement(this); }
-  static get watchers() { return {
-    "viewMode": ["checkViewMode"]
-  }; }
-  static get style() { return blogPageCss; }
-  static get cmpMeta() { return {
-    "$flags$": 2,
-    "$tagName$": "blog-page",
-    "$members$": {
-      "slug": [1],
-      "viewMode": [1, "view-mode"],
-      "posts": [32],
-      "post": [32],
-      "breadcrumbs": [32]
-    },
-    "$listeners$": undefined,
-    "$lazyBundleId$": "-",
-    "$attrsToReflect$": []
-  }; }
-}
-const DetailView = ({ post }) => {
-  if (!post)
-    return null;
-  return [
-    hAsync(Breakpoint, { md: true, class: "sticky-wrapper" }, hAsync("blog-social-actions", { post: post, column: true, class: "top" })),
-    hAsync("blog-post", { post: post }),
-    hAsync("blog-social-actions", { post: post, class: "bottom" }),
-    hAsync(PostAuthor, { post: post }),
-    hAsync("disqus-comments", { url: `https://useappflow.com/blog/${post.slug}`, siteId: "ionic" })
-  ];
-};
-const ListView = ({ posts }) => {
-  if (!posts)
-    return null;
-  return [
-    ...posts.map(p => hAsync("blog-post", { slug: p.slug, post: p, preview: true })),
-    hAsync("blog-pagination", { rssIcon: true }),
-    hAsync("blog-newsletter", null)
-  ];
-};
-const PostAuthor = ({ post }) => (hAsync("section", { class: "post-author" }, hAsync(Heading, { level: 5 }, post.authorName), hAsync(Paragraph, { level: 4 }, post.authorEmail)));
-
-const aaaLogo = ({ main = '#E21827' } = {}, props) => (hAsync("svg", Object.assign({ viewBox: "0 0 49.71 30" }, props),
-  hAsync("path", { fill: main, d: "M49.48 1.17C48.02-1.32 40.37.3 30.83 4.68c.1.07-.1-.07 0 0-3.03-2.38-7.9-4-13.53-4C7.76.68 0 5.5 0 11.38c0 3.56 2.8 6.72 7.09 8.67L7 20.02c-4.14 3.83-6.25 7.08-5.28 8.8 1.19 2 6.3 1.35 13.15-1.18l-.05-.11c-5.5 1.89-9.54 2.27-10.5.65-.81-1.46.9-4.2 4.34-7.5 2.54.92 5.52 1.5 8.66 1.5 9.6 0 17.34-4.86 17.34-10.8 0-2-.9-3.87-2.45-5.48 7.31-3.12 12.96-4.08 14.14-2.03 1.35 2.32-3.99 8.1-12.56 13.83l.11.1C44.36 11 51.1 3.99 49.48 1.18zM26.63 14.24H23l1.78-6.53 1.84 6.53zm-8.41 0H14.6l1.77-6.53 1.84 6.53zM16.55 1.6L13.1 14.24 9.8 3.06c2-.86 4.32-1.35 6.75-1.46zm-6.8 12.64H6.2l1.78-6.53 1.78 6.53zm-6.73-2.86c0-2.76 1.67-5.24 4.36-7.03L4.31 15.48a7.4 7.4 0 01-1.3-4.1zm8.4 8.97a14.48 14.48 0 01-5.98-3.46l.38-1.35h4.31l1.3 4.75v.06zm5.88.86c-1.56 0-3.07-.16-4.47-.49l1.4-5.18h4.36l1.51 5.45c-.91.17-1.83.22-2.8.22zm.54-19.61c2.42.05 4.74.54 6.79 1.35l-3.13 11.3L17.84 1.6zm5.44 18.7l-1.02-3.36.37-1.4H27l.7 2.6a14.1 14.1 0 01-4.42 2.15zm7-4.76l-3.33-11.4c2.9 1.83 4.69 4.37 4.69 7.24 0 1.51-.49 2.92-1.35 4.16z" })));
-const amtrakLogo = ({ main = '#1E8DB5' } = {}, props) => (hAsync("svg", Object.assign({ viewBox: "0 0 63.78 26.25" }, props),
-  hAsync("path", { fill: main, d: "M29.93 4.77l-.64-2.5-1.52 2.5h-1.79l-1.52-2.5-.63 2.5H21.9l1.24-3.9h2.11l1.64 2.67L28.5.87h2.1l1.24 3.9h-1.91zM15.98.88L13.2 4.73h1.87l.44-.68h2.91l.44.68h2.08L18.13.87h-2.15zm0 2.47l1-1.54 1 1.54h-2zM51.47.88l-2.8 3.86h1.88l.44-.68h2.91l.44.68h2.07L53.62.87h-2.15zm0 2.47l1-1.54 1 1.54h-2zM61.99 4.77L59.7 2.94v1.83H57.8V.87h1.91V2.6L62 .87h2.3l-2.58 1.88 2.79 2.02h-2.51zM45.42 4.77h2.2l-1.44-1.5c.8-.18 1.11-.63 1.11-1.12 0-.6-.44-.9-1.07-1.09-.68-.15-1.56-.19-2.4-.19h-2.95v3.87h1.92V3.57h1.63l1 1.2zm-2.63-3.1h1.2c.99 0 1.39.18 1.39.55 0 .3-.28.53-.6.57-.24.03-.48.07-.84.07H42.8v-1.2zM36.9 1.77v3h-1.96v-3h-2.47l.2-.9h6.74l-.2.9H36.9zM27.23 23.08c3.95 1.56 8 3 11.53 4.05 4.17-8.1 11.75-14.53 25.74-20.44v-.31c-17.94 4.77-29.16 8.2-37.27 16.7zM34.57 7.3C30.62 7.08 9.9 6.49.7 10.86c2.46 1.65 5.13 3.3 8.33 5.2 9.19-4.73 20.94-6.38 31.83-7.09v-.35c-2.14-.24-4.48-.71-6.3-1.3z" }),
-  hAsync("path", { fill: main, d: "M44.63 8.81C36.41 9.66 22 12 13.77 17.06c2.99 1.49 6.09 2.97 9.3 4.34 8.53-7.3 20.07-10.58 31.71-12.8V8.3c-2.88.31-7.37.52-10.15.52z" })));
-const appflowLogoWithText = ({ main = '#639CFF', second = '#4F68FF', third = '#001A3A' } = {}, props) => (hAsync("svg", Object.assign({ viewBox: "0 0 114 24" }, props),
-  hAsync("path", { fill: third, d: "M43.882 6.392v11.781h-2.994v-1.439c-.754 1.08-2.102 1.709-3.793 1.709-3.474 0-5.508-2.743-5.508-6.16 0-3.418 2.034-6.16 5.508-6.16 1.69 0 3.039.629 3.793 1.708V6.392h2.994zm-6.102 2.54c-1.805 0-2.948 1.44-2.948 3.35 0 1.912 1.143 3.35 2.948 3.35 1.806 0 2.948-1.438 2.948-3.35 0-1.91-1.142-3.35-2.948-3.35zM48.446 22.528H45.2V6.392h2.993v1.44c.755-1.08 2.103-1.71 3.794-1.71 3.474 0 5.507 2.743 5.507 6.16 0 3.418-2.033 6.16-5.507 6.16-1.691 0-2.925-.718-3.542-1.528v5.614zm2.856-6.895c1.806 0 2.948-1.44 2.948-3.35 0-1.911-1.142-3.35-2.948-3.35-1.805 0-2.947 1.439-2.947 3.35 0 1.91 1.142 3.35 2.947 3.35zM61.759 22.528h-3.245V6.392h2.993v1.44c.755-1.08 2.103-1.71 3.794-1.71 3.474 0 5.507 2.743 5.507 6.16 0 3.418-2.034 6.16-5.507 6.16-1.691 0-2.925-.718-3.542-1.528v5.614zm2.856-6.895c1.806 0 2.948-1.44 2.948-3.35 0-1.911-1.142-3.35-2.948-3.35-1.805 0-2.947 1.439-2.947 3.35 0 1.91 1.142 3.35 2.947 3.35zM81.363 1.472h-3.245v16.701h3.245V1.472zM75.02 5.541c0-.99.584-1.304 1.361-1.304.366 0 .748.023.748.023V1.517s-.715-.045-1.287-.045c-2.422 0-4.067 1.304-4.067 4.136v12.565h3.245V8.91h2.177V6.392H75.02v-.851zM82.305 12.283c0-3.35 2.445-6.16 6.285-6.16 3.839 0 6.284 2.81 6.284 6.16s-2.445 6.16-6.284 6.16c-3.84 0-6.285-2.81-6.285-6.16zm6.285 3.35c1.713 0 3.039-1.237 3.039-3.35 0-2.114-1.326-3.35-3.04-3.35-1.713 0-3.039 1.236-3.039 3.35 0 2.113 1.326 3.35 3.04 3.35zM103.816 10.889h-.045l-2.445 7.284h-3.04l-4.182-11.78h3.36l2.4 7.756 2.467-7.757h2.925l2.491 7.802 2.422-7.802h3.291l-4.182 11.781h-3.039l-2.423-7.284z" }),
-  hAsync("ellipse", { cx: "13.764", cy: "16.755", rx: "2.99", ry: "2.943", fill: second }),
-  hAsync("path", { d: "M26.988 24L16.823 0h-6.099L20.89 24h6.099z", fill: second }),
-  hAsync("path", { opacity: ".2", d: "M14.854 9.75L16.824 0h-6.1l2.541 6 1.271 3 .159.375.159.375z", fill: "#000" }),
-  hAsync("path", { d: "M.54 24L10.705 0h6.098L6.64 24H.54z", fill: main })));
-const appleStoreCheckedIcon = ({ main = '#30cdfb', second = '#1d70f1', third = '#597EFF', fourth = '#fff' } = {}, props) => (hAsync("svg", Object.assign({ viewBox: "0 0 52 52" }, props),
-  hAsync("rect", { fill: "url(#app_store_checked_icon_gradient_0)", y: "4", width: "48", height: "48", rx: "15.2852" }),
-  hAsync("circle", { fill: fourth, cx: "43.9999", cy: "7.99991", r: "5.99991" }),
-  hAsync("path", { fill: third, d: "M43.9999 0C39.5888 0 36 3.74553 36 8.34927C36 12.953 39.5888 16.6985 43.9999 16.6985C48.411 16.6985 51.9998 12.953 51.9998 8.34927C51.9998 3.74553 48.411 0 43.9999 0ZM48.1633 5.55106L42.9941 11.9736C42.9374 12.0441 42.8669 12.101 42.7872 12.1406C42.7076 12.1801 42.6208 12.2013 42.5326 12.2028H42.5222C42.436 12.2027 42.3507 12.1838 42.2719 12.1471C42.1931 12.1105 42.1226 12.057 42.0649 11.99L39.8496 9.42103C39.7933 9.35875 39.7495 9.28536 39.7208 9.20517C39.6921 9.12499 39.6791 9.03963 39.6824 8.9541C39.6858 8.86858 39.7055 8.78462 39.7404 8.70716C39.7753 8.6297 39.8247 8.5603 39.8857 8.50304C39.9466 8.44578 40.0179 8.40182 40.0954 8.37374C40.1729 8.34566 40.255 8.33402 40.3368 8.33951C40.4187 8.34501 40.4986 8.36752 40.572 8.40573C40.6454 8.44394 40.7107 8.49708 40.7642 8.56202L42.5061 10.5819L47.221 4.72496C47.3267 4.59735 47.4764 4.5183 47.6375 4.50489C47.7987 4.49149 47.9584 4.54481 48.0822 4.65334C48.206 4.76186 48.2839 4.91687 48.2991 5.08486C48.3142 5.25284 48.2655 5.42031 48.1633 5.55106Z" }),
-  hAsync("path", { fill: fourth, d: "M 19.6 31.8 C 20.202 31.629 21.15 31.7 21.8 31.7 C 21.8 31.7 25.2 31.7 25.2 31.7 C 25.946 31.701 26.758 31.783 27.4 32.197 C 28.175 32.696 28.665 33.58 28.696 34.5 C 28.706 34.813 28.673 35.585 28.357 35.743 C 28.214 35.814 27.866 35.8 27.7 35.8 C 27.7 35.8 9.9 35.8 9.9 35.8 C 9.191 35.799 8.376 35.709 7.804 35.247 C 6.823 34.455 6.897 32.9 7.902 32.164 C 8.466 31.75 9.414 31.701 10.1 31.7 C 10.1 31.7 13.8 31.7 13.8 31.7 C 14.047 31.7 14.369 31.72 14.59 31.598 C 14.953 31.397 15.73 29.851 16 29.4 C 16 29.4 20.339 21.9 20.339 21.9 C 20.339 21.9 21.251 20.3 21.251 20.3 C 21.415 20.004 21.587 19.75 21.491 19.4 C 21.43 19.182 21.073 18.625 20.94 18.4 C 20.94 18.4 20.28 17.2 20.28 17.2 C 19.687 16.195 19.266 15.813 19.302 14.6 C 19.315 14.128 19.42 13.797 19.753 13.447 C 20.712 12.435 22.231 12.715 22.991 13.801 C 23.178 14.07 23.697 15.196 24 15.196 C 24.33 15.196 24.83 14.107 25.011 13.829 C 25.814 12.599 27.64 12.405 28.466 13.704 C 29.159 14.796 28.533 15.835 27.985 16.8 C 27.985 16.8 26.78 18.9 26.78 18.9 C 26.78 18.9 25.358 21.4 25.358 21.4 C 25.358 21.4 21.472 28.1 21.472 28.1 C 21.472 28.1 20.14 30.4 20.14 30.4 C 19.863 30.872 19.576 31.238 19.6 31.8 Z M 27.1 21 C 27.1 21 29.231 24.6 29.231 24.6 C 29.231 24.6 30.699 27.1 30.699 27.1 C 30.699 27.1 31.84 29.1 31.84 29.1 C 31.84 29.1 32.77 30.7 32.77 30.7 C 32.928 30.989 33.126 31.431 33.418 31.598 C 33.633 31.72 33.957 31.7 34.2 31.7 C 34.2 31.7 38.1 31.7 38.1 31.7 C 38.61 31.706 39.461 31.786 39.9 32.036 C 41.229 32.795 41.255 34.699 39.9 35.444 C 38.968 35.957 36.902 35.8 35.8 35.8 C 35.976 36.357 37.07 38.17 37.428 38.8 C 37.696 39.272 38.014 39.749 38.082 40.3 C 38.239 41.576 37.331 42.681 36 42.567 C 34.841 42.468 34.5 41.833 33.956 40.925 C 33.956 40.925 32.057 37.628 32.057 37.628 C 32.057 37.628 28.119 30.8 28.119 30.8 C 27.517 29.768 26.23 27.753 25.93 26.7 C 25.77 26.141 25.581 25.275 25.604 24.7 C 25.654 23.422 26.192 21.914 27.1 21 Z M 12.3 36.843 C 13.244 36.726 14.085 36.855 14.9 37.371 C 15.119 37.509 15.482 37.746 15.559 38.004 C 15.664 38.357 15.071 39.176 14.885 39.5 C 14.181 40.727 13.619 42.429 12 42.567 C 10.739 42.675 9.72 41.536 9.933 40.3 C 10.056 39.585 10.577 38.82 10.939 38.2 C 11.401 37.408 11.357 37.01 12.3 36.843 Z" }),
-  hAsync("defs", null,
-    hAsync("linearGradient", { id: "app_store_checked_icon_gradient_0", gradientTransform: "rotate(90)" },
-      hAsync("stop", { offset: "0", "stop-color": main }),
-      hAsync("stop", { offset: "1", "stop-color": second })))));
-const appleCloudIcon = ({ main = '#597EFF', second = '#BFE4FF', third = '#F0F6FF' } = {}, props) => (hAsync("svg", Object.assign({ viewBox: "0 0 48 48" }, props),
-  hAsync("rect", { fill: second, width: "48", height: "48", rx: "24" }),
-  hAsync("path", { fill: main, d: "M34.4 36H15.1c-2.71 0-5.23-.93-7.1-2.62a9.1 9.1 0 01-3-6.83c0-2.7 1-5.04 2.87-6.74a10.92 10.92 0 015.14-2.5 1.19 1.19 0 00.84-.68c.71-1.6 1.78-3.01 3.12-4.14a11.43 11.43 0 0114.98.68 12.95 12.95 0 013.65 6.8 1.18 1.18 0 00.9.9c3.38.76 6.5 3.2 6.5 7.45 0 2.46-.9 4.49-2.63 5.85A9.51 9.51 0 0134.4 36z" }),
-  hAsync("path", { fill: third, d: "M26.91 20.28c-1.26 0-1.79.6-2.67.6-.9 0-1.58-.6-2.68-.6-1.07 0-2.2.65-2.93 1.76-1.02 1.57-.84 4.52.8 7.04.6.9 1.38 1.9 2.41 1.92h.02c.9 0 1.16-.59 2.4-.6h.01c1.22 0 1.46.6 2.36.6h.01c1.04-.01 1.86-1.13 2.45-2.03.43-.64.58-.97.91-1.7-2.38-.9-2.76-4.28-.4-5.57a3.56 3.56 0 00-2.69-1.42z" }),
-  hAsync("path", { fill: third, d: "M26.64 17a3.3 3.3 0 00-2.14 1.15c-.47.57-.85 1.4-.7 2.22h.06c.8 0 1.62-.48 2.1-1.1.45-.59.8-1.42.68-2.27z" })));
-const buildingBlocksIcon = ({ main = '#3C67FF', second = '#597EFF', third = '#7CABFF', fourth = '#8DCFFF' } = {}, props) => (hAsync("svg", Object.assign({ width: "64", height: "64" }, props),
-  hAsync("rect", { y: "54", width: "64", height: "10", rx: "2", fill: main }),
-  hAsync("rect", { x: "48", y: "36", width: "16", height: "16", rx: "2", fill: second }),
-  hAsync("rect", { x: "48", y: "18", width: "16", height: "16", rx: "2", fill: third }),
-  hAsync("rect", { x: "48", width: "16", height: "16", rx: "2", fill: fourth }),
-  hAsync("rect", { x: "30", y: "36", width: "16", height: "16", rx: "2", fill: second }),
-  hAsync("rect", { x: "30", y: "18", width: "16", height: "16", rx: "2", fill: third }),
-  hAsync("rect", { x: "12", y: "36", width: "16", height: "16", rx: "2", fill: second })));
-const burgerKingLogo = ({ main = '#EE1D23', second = '#185494', third = '#FAAF18' } = {}, props) => (hAsync("svg", Object.assign({ viewBox: "0 0 30.32 32" }, props),
-  hAsync("path", { fill: third, d: "M23.85 4.5c.08-.18-.07-.36-.07-.36s-1.18-2.01-5.32-2.47c-2.23-.24-5.25.22-7.37 1.38C7.23 5.15 6.65 8.6 6.65 8.6c-.02.09-.05.35.04.46.08.1.21.1.37.05 1.36-.46 5.4-1.82 7.95-2.5a95.24 95.24 0 018.52-1.9c.15-.03.27-.08.32-.2z" }),
-  hAsync("path", { fill: second, d: "M28 20.8c-2.18 4.94-6.34 8.38-11.81 8.46a14.09 14.09 0 01-10.03-3.74l-1.53.67v-2.41A14.15 14.15 0 012 15.33C1.99 6.93 8.34.3 17.2.3c1.45 0 2.75.23 3.74.46A15.05 15.05 0 0016.23 0C6.72 0 .32 7.81.32 15.87.32 24.65 7.12 32 16.04 32c8.52 0 13.11-6.09 14.6-9.75L28 20.79z" }),
-  hAsync("path", { fill: main, d: "M25.8 19.06a4.31 4.31 0 002.58-1.13c.43-.43.54-1.02.54-1.46.02-.65 0-2.7 0-2.7l-3.31.73v.78c.01.52.26.8.8.7.16-.02.42-.1.42-.1v.64c0-.02.05.36-.78.52-1.1.17-1.59-.5-1.6-1.71.02-1.3.74-2.03 1.62-2.24.98-.22 1.54.01 1.86.06 1.1.16 1.4-1.5.41-1.89-.74-.3-1.7-.36-2.6-.17a4.42 4.42 0 00-3.62 4.63c-.01 2.67 1.93 3.53 3.67 3.34z" }),
-  hAsync("path", { fill: main, d: "M15.03 21.91l1.1-.38c.82-.28 1.12-.78 1.12-1.62-.02-.93-.02-2.73-.02-2.73l2.37 2.76c.39.4.87.43 1.3.3.46-.13.84-.55.85-1.15v-6.84s-.6.13-1.11.27c-.58.16-1.03.54-1.03 1.54v2.37s-1.35-1.7-2.21-2.58c-.46-.46-1.24-.18-1.24-.18l-1.13.34v7.9z" }),
-  hAsync("path", { fill: main, d: "M14.31 14.19s-.7.2-1.28.42c-.75.27-1.2.72-1.2 1.87v6.56s.66-.23 1.28-.47c.87-.33 1.2-.79 1.2-1.71v-6.67z" }),
-  hAsync("path", { fill: main, d: "M10.79 15.75c-.65-.3-1.21.03-1.45.4l-2 3.46v-2.79l-2.38 1v7.87l1.66-.7s.33-.1.53-.42c.18-.3.17-.77.17-.77v-2.5l1.86 2.01c.4.44 1.16.65 1.82.11.6-.49.5-1.32.17-1.7l-1.69-1.73 1.74-2.78c.32-.54.16-1.19-.43-1.46z" }),
-  hAsync("path", { fill: third, d: "M9.86 25.01c-.09.21.11.42.11.42.86 1.1 4.68 2.48 8.84 1.46 6.34-1.55 7.68-6.1 7.83-6.74.03-.13.05-.33-.07-.46-.1-.11-.24-.11-.44-.07a117.41 117.41 0 00-15.95 5.16c-.18.07-.26.1-.32.23z" }),
-  hAsync("path", { fill: main, d: "M6.1 14.69c-.01-.44-.34-.68-.91-.38v1.4l.32-.15c.34-.17.6-.45.59-.87zm-.92-1.27l.26-.12a.9.9 0 00.54-.81c0-.43-.34-.54-.8-.3v1.23zm2.44 1.06c.02 1.1-.76 1.7-1.79 2.12l-2.09.9v-5.74s1.32-.54 1.75-.7c1.22-.46 1.94.1 1.94.92 0 .55-.24 1.02-.74 1.43.49.08.92.5.93 1.07z" }),
-  hAsync("path", { fill: main, d: "M11.58 9.64c0-.48-.33-.6-.73-.5l-.7.24v3.57c0 .36-.05.8-.49.91-.33.09-.49-.14-.49-.5v-2.91c0-.5-.33-.63-.73-.5-.45.15-.7.26-.7.26v3.53c-.01 1.19.8 1.78 2.02 1.41 1.08-.32 1.81-.94 1.82-2.51v-3z" }),
-  hAsync("path", { fill: main, d: "M23.21 11.12c.31-.07.5-.3.5-.68v-.62l-1.69.38V9.19l1.06-.23c.3-.07.44-.23.44-.56V7.8l-1.5.33v-.8l1.2-.26c.33-.06.44-.29.44-.6v-.61c-.75.13-2.17.42-3.06.63l-.01 5.23 2.62-.61z" }),
-  hAsync("path", { fill: main, d: "M13.4 10.9s.84-.44.84-1.14c-.01-.6-.55-.46-.83-.36v1.5zm.01.82v1.4c0 .39-.26.66-.58.79 0 0 0-.01 0 0l-.84.29V8.8s1.19-.41 1.88-.58c1.07-.26 1.84.24 1.83 1.13a2.21 2.21 0 01-.89 1.71l.93.9c.27.28.3.77-.02 1.08-.19.18-.7.37-1.08-.04l-1.23-1.28zM25.42 8s.82-.3.81-.98c-.01-.57-.56-.47-.82-.4V8zm-1.4 2.96V5.79s1.5-.27 1.88-.31c1.07-.14 1.79.46 1.76 1.31a1.8 1.8 0 01-.86 1.48l.92 1.05c.26.3.24.8-.14 1.05a.73.73 0 01-.98-.13l-1.18-1.43v1.26c0 .38-.23.66-.61.73l-.79.16z" }),
-  hAsync("path", { fill: main, d: "M20.25 8.79l-2.1.48v.6c0 .28.19.46.47.4l.3-.06v.6c0 .23-.34.38-.7.37-.51-.02-.8-.42-.8-1.18 0-1 .48-1.58 1.11-1.75.31-.08.6-.04.83 0 .54.08.85-.18.86-.64.01-.48-.42-.79-1.33-.75-1.99.06-3 1.51-3 3.24 0 1.77 1.14 2.55 2.53 2.3a2.9 2.9 0 001.45-.66c.27-.24.38-.6.38-.91V8.79z" }),
-  hAsync("path", { fill: "#fff", d: "M11.93 3C9.6 4.05 8.03 6.53 7.94 7.57c-.03.41.51.48.57.03C9 5.7 10.5 3.9 11.93 3zM19.66 4.78c1.25-.31 1.94-.35 1.95-.93.03-.95-2.65-2.06-5.11-1.85 2.5.17 4 1.15 4 1.82.01.43-.36.81-.84.96zM20.43 25.83a8.7 8.7 0 004.7-4.34c.29-.62-.55-.94-.78-.2a8.97 8.97 0 01-3.92 4.54z" })));
-const checkmarkCircle = ({ main = '#597EFF', second = '#EEFEFF' } = {}, props) => (hAsync("svg", Object.assign({ viewBox: "0 0 16 16" }, props),
-  hAsync("circle", { cx: "8", cy: "8", r: "8", fill: main }),
-  hAsync("path", { d: "M11 5l-4.2 6L5 8.75", fill: "none", stroke: second, "stroke-linecap": "round", "stroke-linejoin": "round" })));
-const checkmarkRounded = ({ main = '#5B708B' } = {}, props) => (hAsync("svg", Object.assign({ viewBox: "0 0 12 12" }, props),
-  hAsync("path", { d: "M1 7.11L4.89 11 11 1", stroke: main, fill: "none", "stroke-width": "2", "stroke-linecap": "round", "stroke-linejoin": "round" })));
-const cloudCircleIcon = ({ main = '#BFE4FF', second = '#3C67FF', third = '#194BFD' } = {}, props) => (hAsync("svg", Object.assign({ viewBox: "0 0 48 48" }, props),
-  hAsync("rect", { fill: main, width: "48", height: "48", rx: "24" }),
-  hAsync("path", { fill: second, opacity: "0.6", d: "M29.75 35H13.5C11.2225 35 9.1025 34.2144 7.53063 32.7869C5.89875 31.305 5 29.25 5 27C5 24.7138 5.83688 22.7425 7.42 21.2988C8.55188 20.2657 10.0588 19.5332 11.7438 19.1819C11.8991 19.1498 12.0445 19.0812 12.1681 18.9817C12.2916 18.8823 12.3898 18.7549 12.4544 18.6101C13.0543 17.2596 13.9529 16.0629 15.0825 15.1101C16.735 13.7307 18.7812 13.0001 21 13.0001C23.4958 12.9892 25.8977 13.951 27.6963 15.6813C29.2419 17.1694 30.29 19.1363 30.77 21.4313C30.8085 21.6195 30.9005 21.7926 31.0348 21.9299C31.1691 22.0673 31.3402 22.163 31.5275 22.2057C34.375 22.8388 37 24.9019 37 28.5C37 30.5869 36.235 32.2988 34.7869 33.4519C33.5144 34.4644 31.7731 35 29.75 35Z" }),
-  hAsync("path", { fill: third, opacity: "0.3", d: "M38.4688 28H28.3125C26.8891 28 25.5641 27.5001 24.5816 26.5917C23.5617 25.6486 23 24.3409 23 22.9091C23 21.4542 23.523 20.1998 24.5125 19.2811C25.2199 18.6236 26.1617 18.1575 27.2148 17.934C27.3119 17.9135 27.4028 17.8698 27.48 17.8066C27.5573 17.7433 27.6186 17.6622 27.659 17.57C28.0339 16.7106 28.5956 15.9491 29.3016 15.3428C30.3344 14.465 31.6133 14.0001 33 14.0001C34.5599 13.9931 36.061 14.6052 37.1852 15.7063C38.1512 16.6533 38.8063 17.9049 39.1063 19.3654C39.1303 19.4851 39.1878 19.5953 39.2718 19.6827C39.3557 19.7701 39.4626 19.831 39.5797 19.8582C41.3594 20.2611 43 21.5739 43 23.8637C43 25.1917 42.5219 26.281 41.6168 27.0148C40.8215 27.6592 39.7332 28 38.4688 28Z" })));
-const catLogo = ({ main = '#03060B', second = '#FFC409' } = {}, props) => (hAsync("svg", Object.assign({ viewBox: "0 0 41.27 24.38" }, props),
-  hAsync("path", { fill: second, d: "M22.25 15.2L9.65 25.2h25.2l-12.6-9.98z" }),
-  hAsync("path", { fill: main, d: "M37.24 25.19l-4.52-3.55V6.04h-3.6v-4.5H41.9v4.5h-3.58V25.2h-1.08zM25.97 1.54h-7.53l-4.08 17.98 7.75-6.15.14-.11 7.83 6.23-4.11-17.95zM22.08 12.4h-1.46l1.46-6.5v.02l1.46 6.5h-1.46v-.02zM12.49 20.93l-5.16 4.12c-.16 0-.33.03-.47.03-4.77-.03-6.23-1.93-6.23-6V6.8C.63 2.74 2.1.81 6.9.81c4.93 0 6.4 1.93 6.4 6v4.14H8.4V5.94c0-.76-.58-1.14-1.38-1.14-.66 0-1.38.38-1.38 1.14v14.04c0 .79.72 1.3 1.38 1.3.66 0 1.38-.4 1.38-1.3v-4.77h4.88v3.88c0 .48-.25 1.4-.8 1.84z" })));
-const facebookRoundedLogo = ({ main = 'gray' } = {}, props) => (hAsync("svg", Object.assign({ viewBox: "0 0 20 20" }, props),
-  hAsync("path", { fill: main, "fill-rule": "evenodd", "clip-rule": "evenodd", d: "M20 10.06C20 4.5 15.52 0 10 0S0 4.5 0 10.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H5.9v-2.91h2.54V7.84c0-2.52 1.5-3.91 3.77-3.91 1.1 0 2.24.2 2.24.2V6.6H13.2c-1.24 0-1.63.78-1.63 1.57v1.9h2.78l-.45 2.9h-2.33V20A10.04 10.04 0 0020 10.06z" })));
-const googleStoreCheckedIcon = ({ main = '#00C1F3', second = '#00DA68', third = '#F93245', fourth = '#FFC803', fifth = '#597EFF' } = {}, props) => (hAsync("svg", Object.assign({ viewBox: "0 0 45 54.27" }, props),
-  hAsync("path", { fill: main, d: "M0 7.25v43.94c0 .1.03.2.08.27.05.08.12.14.2.18a.45.45 0 00.52-.1l22.13-22.32L.8 6.91a.46.46 0 00-.51-.1.47.47 0 00-.21.17.5.5 0 00-.08.27z" }),
-  hAsync("path", { fill: second, d: "M32.21 20.05L4.46 4.25l-.02-.01c-.48-.27-.93.4-.54.79l21.76 21.5 6.55-6.48z" }),
-  hAsync("path", { fill: third, d: "M3.9 53.42c-.4.39.06 1.06.54.79l.02-.01 27.75-15.8-6.55-6.49L3.9 53.42z" }),
-  hAsync("path", { fill: fourth, d: "M43.42 26.43L35.67 22l-7.29 7.21 7.29 7.2 7.75-4.4a3.26 3.26 0 000-5.6z" }),
-  hAsync("circle", { fill: "#fff", cx: "37", cy: "8", r: "6" }),
-  hAsync("path", { fill: fifth, d: "M37 0c-4.41 0-8 3.75-8 8.35s3.59 8.35 8 8.35 8-3.75 8-8.35S41.41 0 37 0zm4.16 5.55L36 11.97a.62.62 0 01-.46.23.6.6 0 01-.47-.21l-2.21-2.57a.65.65 0 01-.17-.47.67.67 0 01.2-.45.6.6 0 01.46-.16.6.6 0 01.42.22l1.75 2.02 4.71-5.86a.6.6 0 01.86-.07.66.66 0 01.08.9z" })));
-const ibmLogo = ({ main = '#1F70C1' } = {}, props) => (hAsync("svg", Object.assign({ viewBox: "0 0 52.53 21.56" }, props),
-  hAsync("path", { fill: main, d: "M53.32 1.75h-8.75l.56-1.53h8.19v1.53zM30 .22h8.12l.5 1.53H30V.22zM23.55.22a5.6 5.6 0 013.47 1.53H12.28V.22h11.27zM10.99.22H.79v1.53h10.2V.22zM53.32 4.6h-9.76l.5-1.54h9.2V4.6h.06zM39.7 4.6H30V3.12h9.13l.56 1.48zM28.2 3.12c.17.51.45.91.45 1.54H12.34V3.12H28.2zM10.99 3.12H.79v1.54h10.2V3.12zM42.6 7.5l.51-1.54h7.35V7.5H42.6zM40.14 5.96l.56 1.54h-7.79V5.96h7.23zM28.76 5.96c0 .52-.06 1.09-.22 1.54h-4.49V5.96h4.71zM8.02 5.96H3.65V7.5h4.37V5.96zM19.68 5.96H15.3V7.5h4.37V5.96zM37.23 9.15v1.14H32.9V8.75h8.24l.5 1.43.51-1.43h8.3v1.54h-4.32V9.15l-.4 1.14h-8.12l-.4-1.14zM15.3 8.81h12.62a6.43 6.43 0 01-1.23 1.54H15.36c-.05-.06-.05-1.54-.05-1.54zM8.02 8.81H3.65v1.54h4.37V8.8zM50.46 11.65h-4.32v1.54h4.32v-1.54zM37.23 11.65H32.9v1.54h4.32v-1.54zM45.3 11.65l-.5 1.54h-6.12l-.56-1.54h7.18zM15.3 11.65h11.33c.5.46 1.01.97 1.35 1.54H15.3v-1.54zM8.02 13.19v-1.54H3.65v1.54h4.37zM50.46 14.56h-4.32v1.53h4.32v-1.53zM37.23 14.56H32.9v1.53h4.32v-1.53zM43.73 16.1s.5-1.54.56-1.54h-5.21l.56 1.53h4.09zM15.3 16.04V14.5h4.44v1.54H15.3zM28.6 14.56c.22.45.22 1.02.27 1.53h-4.7v-1.53h4.42zM8.02 14.56H3.65v1.53h4.37v-1.53zM53.32 17.34h-7.18v1.54h7.18v-1.54zM37.17 17.34h-7.18v1.54h7.18v-1.54zM42.78 18.88h-2.19l-.56-1.54h3.25l-.5 1.54zM.79 17.34v1.54h10.2v-1.54H.79zM28.7 17.34c-.1.52-.22 1.14-.56 1.54h-15.8v-1.54H28.7zM41.77 21.72h-.17l-.56-1.47h1.29l-.56 1.47zM53.32 20.25h-7.18v1.53h7.18v-1.53zM12.34 21.72V20.2h14.8a5.75 5.75 0 01-3.82 1.53H12.34zM37.17 20.25h-7.18v1.53h7.18v-1.53zM10.99 20.25v1.53H.79v-1.53h10.2z" })));
-const linkedInLogo = ({ main = '#0072b1' } = {}, props) => (hAsync("svg", Object.assign({ viewBox: "0 0 12 12" }, props),
-  hAsync("path", { fill: main, d: "M11.04 0H1.03C.48 0 0 .4 0 .93v10.04C0 11.52.48 12 1.03 12h10c.56 0 .97-.49.97-1.03V.93c0-.54-.41-.93-.96-.93zM3.72 10H2V4.66h1.72V10zm-.8-6.16h-.01c-.55 0-.9-.4-.9-.92S2.36 2 2.92 2s.9.4.92.92c0 .52-.36.92-.93.92zM10 10H8.28V7.08c0-.7-.25-1.18-.87-1.18-.47 0-.76.32-.88.64-.05.1-.06.26-.06.42V10H4.75V4.66h1.72v.74c.25-.35.64-.87 1.55-.87 1.13 0 1.98.75 1.98 2.35V10z" })));
-const nasaLogo = ({ main = '#E72031' } = {}, props) => (hAsync("svg", Object.assign({ viewBox: "0 0 71.29 18.75" }, props),
-  hAsync("path", { fill: main, d: "M14.55 19.38a4.99 4.99 0 01-4.83-3.43L6.45 5.06a.97.97 0 00-.93-.66c-.54 0-.98.4-.98.91v13.6H.5V5.31C.5 2.71 2.74.62 5.5.62c2.25 0 4.23 1.4 4.83 3.42l3.27 10.89c.12.39.5.66.94.66.54 0 .98-.4.98-.91V1.09h4.04v13.6c0 2.58-2.25 4.69-5.01 4.69zM47.41 18.91H36.53v-3.77H47.4c.96 0 1.74-.73 1.74-1.63 0-.9-.78-1.63-1.74-1.63h-5.04c-3.18 0-5.78-2.42-5.78-5.4 0-2.97 2.6-5.4 5.78-5.4h9.84v3.78h-9.84c-.96 0-1.74.73-1.74 1.62 0 .9.78 1.63 1.74 1.63h5.04c3.19 0 5.78 2.42 5.78 5.4 0 2.98-2.59 5.4-5.78 5.4z" }),
-  hAsync("path", { fill: main, d: "M66.57 3.86A4.99 4.99 0 0061.79.63c-2.19 0-4.1 1.3-4.78 3.23L51.77 18.9h4.25l4.83-13.87c.1-.32.44-.64.93-.64.5 0 .83.32.94.64l4.82 13.87h4.25L66.57 3.86zM33.36 3.86A4.99 4.99 0 0028.6.63c-2.19 0-4.1 1.3-4.78 3.23L18.57 18.9h4.25l4.82-13.87c.11-.32.45-.64.94-.64.5 0 .83.32.94.64l4.83 13.88h4.25L33.36 3.86z" })));
-const publishingIcon = ({ main = '#597EFF', second = '#8DCFFF', third = '#D3ECFF', fourth = '#fff', fifth = '#7493FF' } = {}, props) => (hAsync("svg", Object.assign({ viewBox: "0 0 48 48" }, props),
-  hAsync("rect", { fill: third, width: "48", height: "48", rx: "24" }),
-  hAsync("rect", { fill: second, opacity: ".5", x: "9", y: "9", width: "30", height: "30", rx: "15" }),
-  hAsync("path", { stroke: fifth, fill: "none", d: "M7 13v4.05a8 8 0 008 8h18a8 8 0 018 8V35", "stroke-width": "2" }),
-  hAsync("circle", { fill: main, cx: "41", cy: "41", r: "7" }),
-  hAsync("path", { stroke: fourth, fill: "none", d: "M38 41.75L40 44l4-6", "stroke-linecap": "round", "stroke-linejoin": "round" }),
-  hAsync("circle", { fill: main, stroke: "#B0DEFF", cx: "24", cy: "24", r: "8", "stroke-width": "2" }),
-  hAsync("path", { fill: fourth, d: "M22.96 28a.32.32 0 01-.24-.1.3.3 0 01-.07-.26l.48-2.57h-1.86a.28.28 0 01-.24-.15.26.26 0 01.03-.29l3.74-4.51c.04-.06.1-.1.16-.11a.32.32 0 01.36.14.3.3 0 01.04.2v.01l-.49 2.57h1.86a.28.28 0 01.24.16.26.26 0 01-.03.28l-3.74 4.51a.31.31 0 01-.24.12z" }),
-  hAsync("circle", { fill: main, cx: "7", cy: "7", r: "7" }),
-  hAsync("circle", { fill: fourth, cx: "7", cy: "7", r: "2" })));
-const rssIcon = ({ main = '#E3EDFF', second = '#597EFF' } = {}, props) => (hAsync("svg", Object.assign({ viewBox: "0 0 32 32" }, props),
-  hAsync("circle", { fill: main, cx: "16", cy: "16", r: "16" }),
-  hAsync("path", { fill: second, d: "M11.139 18.861a2 2 0 00-1.996 1.993c0 1.1.896 1.986 1.996 1.986a1.99 1.99 0 001.996-1.986 1.997 1.997 0 00-1.996-1.993z" }),
-  hAsync("path", { fill: second, d: "M9.143 13.714v2.854c1.714 0 3.36.507 4.571 1.718 1.21 1.21 1.714 2.853 1.714 4.571h2.857c0-4.996-4.142-9.143-9.142-9.143z" }),
-  hAsync("path", { fill: second, d: "M9.143 9.143v2.853c6.107 0 10.853 4.75 10.853 10.861h2.86c0-7.56-6.142-13.714-13.713-13.714z" })));
-const targetLogo = ({ main = '#C00' } = {}, props) => (hAsync("svg", Object.assign({ viewBox: "0 0 33 32" }, props),
-  hAsync("path", { fill: main, d: "M.9 16a15.99 15.99 0 1132 0c0 8.84-7.15 16-16 16-8.84.05-16-7.16-16-16zm16 10.68c5.92 0 10.69-4.77 10.69-10.68S22.82 5.32 16.9 5.32A10.67 10.67 0 006.22 16c0 5.91 4.77 10.68 10.68 10.68zM22.22 16a5.32 5.32 0 11-10.65-.01 5.32 5.32 0 0110.65.01z" })));
-const testflightLogo = ({ main = '#30cdfb', second = '#1d70f1', third = '#fff', fourth = '#597EFF' } = {}, props) => (hAsync("svg", Object.assign({ viewBox: "0 0 52 52" }, props),
-  hAsync("rect", { y: "4", width: "48", height: "48", rx: "15.29", fill: "url(#app_store_checked_icon_gradient_0)" }),
-  hAsync("circle", { cx: "44", cy: "8", r: "6", fill: third }),
-  hAsync("path", { fill: fourth, d: "M44 0c-4.41 0-8 3.75-8 8.35s3.59 8.35 8 8.35 8-3.75 8-8.35S48.41 0 44 0zm4.16 5.55L43 11.97a.62.62 0 01-.46.23.6.6 0 01-.47-.21l-2.21-2.57a.65.65 0 01-.17-.47.67.67 0 01.2-.45.6.6 0 01.46-.16.6.6 0 01.42.22l1.75 2.02 4.71-5.86a.6.6 0 01.86-.07.66.66 0 01.08.9z" }),
-  hAsync("path", { fill: third, d: "M23.1 9.25c.58-.09 2-.16 2.45.22.6.48.51 1.17.56 1.83l.09 1v3.2l-.1 1.7-.12 2.3-.3 2.9-.1 1.3c.04.39.42.47.72.66.38.23.78.6 1.07.94.42.52.74 1.23.81 1.9.04.38-.07 1.07.18 1.36.15.18.8.45 1.04.56l1.5.6 1.3.6 5.2 2.65c.85.47 2.15 1.15 2.9 1.75 1.09.88.62 1.58.08 2.58-.25.44-.46.9-.98 1.04-.63.19-1.16-.11-1.7-.38l-2-1.06-5.7-3.54-2-1.43c-.24-.18-.86-.68-1.1-.76-.39-.13-1.02.34-1.4.48-.5.2-1.07.16-1.6.15-.51 0-.83-.08-1.3-.29-.3-.14-.65-.43-1-.34-.27.06-.84.54-1.1.73l-2.3 1.64a62.96 62.96 0 01-5.4 3.35l-2.7 1.4c-1.22.44-1.67-.37-2.2-1.29-.3-.52-.56-1.11-.26-1.7.33-.63 2.18-1.67 2.86-2.02l1.3-.75 5.4-2.64 2.1-.87c.2-.1.7-.31.83-.47.17-.21.07-.58.09-.85.03-.45.19-1.19.37-1.6.24-.57.63-1.05 1.11-1.43.25-.2.83-.53.93-.8.1-.2.01-.54 0-.77l-.21-1.7-.32-4.4-.1-1.1v-4.2c0-.97 0-2.13 1.1-2.45zm2.2 2.45h-1.8c-.2 0-.46-.01-.6.16-.12.16-.1.54-.1.74 0 2.5.07 5 .32 7.5l.34 2.7c.03.25.02.74.21.9.18.14.8.1 1.03.1l.27-2.3.23-3.3.1-1.5v-5zM24 24.93c-.67.11-1.39.38-1.87.89a2.88 2.88 0 001.97 4.86c1.88.14 3.33-1.68 2.95-3.48a2.87 2.87 0 00-1.85-2.08 2.4 2.4 0 00-1.2-.2zm-3.61 4.64c-.38.05-2.35.9-2.79 1.1l-1.6.7-2.6 1.33-.9.43-1.1.64c-.3.16-1.36.73-1.57.92-.41.4.35 1.33.58 1.7.13.2.23.43.5.44.25 0 .67-.27.89-.39l1.6-.9 5.8-3.77c.3-.2 1.48-1.04 1.64-1.25.28-.36-.1-.84-.45-.95zM38.9 34.8l-1.5-.87-2.7-1.43-2.8-1.37-3.6-1.53c-.52-.13-.82.42-.8.7.03.24.32.4.5.54l1.2.88a59.99 59.99 0 005.6 3.67l2 1.14c.22.13.6.39.86.3.2-.06.35-.36.46-.53.27-.46.62-1 .78-1.5z" }),
-  hAsync("circle", { cx: "24.2", cy: "27.9", r: "18.7", stroke: third, opacity: ".3", fill: "transparent" }),
-  hAsync("path", { fill: third, opacity: ".3", d: "M24.7 27.78s-.03.02 0 .06l.66.65c.13.19 0 .55-.37.43l-.66-.65c-.03-.04-.1-.04-.13 0l-.64.69c-.28.12-.53-.06-.45-.39l.69-.7c.02-.02 0-.06 0-.06l-.74-.74c-.07-.28.15-.51.44-.41l.7.7c.05.05.08.04.12-.01l.68-.7c.25-.12.53.14.4.4l-.7.73z" }),
-  hAsync("defs", null,
-    hAsync("linearGradient", { id: "app_store_checked_icon_gradient_0", gradientTransform: "rotate(90)" },
-      hAsync("stop", { offset: "0", "stop-color": main }),
-      hAsync("stop", { offset: "1", "stop-color": second })))));
-const tripleLayerIcon = ({ main = '#BFE4FF', second = '#97BDFF', third = '#597EFF', fourth = '#fff' } = {}, props) => (hAsync("svg", Object.assign({ viewBox: "0 0 64 64" }, props),
-  hAsync("path", { fill: main, d: "M32 32c-2.07 0-4.14.37-5.76 1.1L3.47 43.5C2.43 43.96 0 45.35 0 47.96c0 2.62 2.43 4 3.47 4.48l22.97 10.48a14.76 14.76 0 0011.1 0l22.99-10.48c1.04-.47 3.47-1.86 3.47-4.48s-2.43-4-3.47-4.48L37.76 33.1A14.29 14.29 0 0032 32z" }),
-  hAsync("path", { fill: second, d: "M32 16c-2.07 0-4.14.37-5.76 1.1L3.47 27.5C2.43 27.96 0 29.35 0 31.96c0 2.62 2.43 4 3.47 4.48l22.97 10.48a14.76 14.76 0 0011.1 0l22.99-10.48c1.04-.47 3.47-1.86 3.47-4.48s-2.43-4-3.47-4.48L37.76 17.1A14.29 14.29 0 0032 16z" }),
-  hAsync("path", { fill: third, d: "M32 0c-2.07 0-4.14.37-5.76 1.1L3.47 11.5C2.43 11.96 0 13.35 0 15.96c0 2.62 2.43 4 3.47 4.48l22.97 10.48a14.76 14.76 0 0011.1 0l22.99-10.48c1.04-.47 3.47-1.86 3.47-4.48s-2.43-4-3.47-4.48L37.76 1.1A14.29 14.29 0 0032 0z" }),
-  hAsync("path", { fill: "url(#figure_8_gradient_1)", d: "M 47.375 12.3593 C 46.8125 15.5675 41.8544 17.1769 37.0625 16.6563 C 37.0625 16.6563 26.6875 15.3593 26.6875 15.3593 C 23.5781 14.9293 21.7263 16.3282 21.7081 17.4013 C 21.7081 17.4013 16.6563 16.9532 16.6563 16.9532 C 17 14.1093 21.4375 11.8907 26.4063 12.3907 C 26.4063 12.3907 34.6875 13.4218 34.6875 13.4218 C 37.0113 13.6718 38.5681 14.0012 39.6819 13.7063 C 41.8756 13.3362 42.3181 12.24 42.4063 11.6398 C 42.4063 11.64 47.375 12.3593 47.375 12.3591 Z" }),
-  hAsync("path", { fill: "url(#figure_8_gradient_0)", d: "M 16.656 16.95 C 16.4431 18.9332 18.6263 22.0131 24.75 22.8282 C 31.5625 23.3593 34.3438 20.5157 34.2813 18.8593 C 34.2813 18.8593 34.8438 10.4843 34.8438 10.4843 C 35.1075 9.5532 36.8975 9.0357 39.0113 9.2063 C 42.4775 9.8424 42.4063 11.6399 42.4063 11.6399 C 42.4063 11.6399 47.3738 12.3605 47.3738 12.3605 C 47.7656 10.125 45.3125 6.7188 38.0862 6.2106 C 34.3362 6.1274 29.7119 7.4337 29.7656 10.6875 C 29.7656 10.6875 29.75 10.7657 29.2188 18.6718 C 28.7287 19.8756 25.7294 20.255 24.2919 19.7138 C 22.1694 19.1363 21.7856 18.1062 21.7081 17.4012 Z" }),
-  hAsync("defs", null,
-    hAsync("linearGradient", { id: "figure_8_gradient_0" },
-      hAsync("stop", { offset: "0", "stop-color": second }),
-      hAsync("stop", { offset: ".1", "stop-color": second }),
-      hAsync("stop", { offset: ".5", "stop-color": fourth }),
-      hAsync("stop", { offset: ".9", "stop-color": second }),
-      hAsync("stop", { offset: "1", "stop-color": second })),
-    hAsync("linearGradient", { id: "figure_8_gradient_1" },
-      hAsync("stop", { offset: "0", "stop-color": second }),
-      hAsync("stop", { offset: ".3", "stop-color": second }),
-      hAsync("stop", { offset: ".5", "stop-color": third }),
-      hAsync("stop", { offset: ".7", "stop-color": second }),
-      hAsync("stop", { offset: "1", "stop-color": second })))));
-const triplePhoneIcon = ({ main = '#BFE4FF', second = '#97BDFF', third = '#597EFF' } = {}, props) => (hAsync("svg", Object.assign({ width: "64", height: "64" }, props),
-  hAsync("rect", { x: "38", width: "26", height: "48", rx: "6", fill: main }),
-  hAsync("rect", { x: "19", y: "8", width: "26", height: "48", rx: "6", fill: second }),
-  hAsync("rect", { y: "16", width: "26", height: "48", rx: "6", fill: third }),
-  hAsync("circle", { opacity: ".8", cx: "13", cy: "58", r: "2", fill: "#fff" }),
-  hAsync("circle", { opacity: ".7", cx: "32", cy: "50", r: "2", fill: "#fff" }),
-  hAsync("circle", { opacity: ".7", cx: "51", cy: "42", r: "2", fill: "#fff" })));
-const twitterLogo = ({ main = '#1DA1F2' } = {}, props) => (hAsync("svg", Object.assign({ viewBox: "0.630000114440918 -0.003784056520089507 14.744999885559082 12.00379753112793" }, props),
-  hAsync("path", { fill: main, d: "M15.375 1.422a6.116 6.116 0 01-1.738.478A3.036 3.036 0 0014.97.225c-.585.347-1.232.6-1.922.734A3.026 3.026 0 007.89 3.72 8.574 8.574 0 011.653.553a3.029 3.029 0 00.94 4.044c-.5-.013-.968-.15-1.374-.378v.037a3.028 3.028 0 002.428 2.969 3.045 3.045 0 01-.797.106c-.194 0-.384-.019-.569-.056A3.03 3.03 0 005.11 9.378a6.066 6.066 0 01-4.48 1.253A8.457 8.457 0 005.258 12c5.572 0 8.616-4.616 8.616-8.619 0-.131-.003-.262-.01-.39a6.158 6.158 0 001.51-1.57z" })));
-=======
->>>>>>> 8305d0132654222ac06d00fb033d876b58d79e38
 
   // Build a destructive iterator for the value list
   function iteratorFor(items) {
@@ -7395,35 +7190,11 @@ const twitterLogo = ({ main = '#1DA1F2' } = {}, props) => (hAsync("svg", Object.
       }
     };
 
-<<<<<<< HEAD
-class BlogPagination {
-  constructor(hostRef) {
-    registerInstance(this, hostRef);
-    this.linkText = ['Older posts', 'Newer posts'];
-    this.rssIcon = false;
-    this.render = () => (hAsync(Host, null, hAsync("a", { href: "#", class: "link back ui-paragraph-3" }, hAsync("ion-icon", { name: "chevron-back-outline" }), this.linkText[0]), this.rssIcon
-      ? rssIcon({}, { height: 32, width: 32 }) : '', hAsync("a", { href: "#", class: "link forward ui-paragraph-3" }, this.linkText[1], hAsync("ion-icon", { name: "chevron-forward-outline" }))));
-  }
-  static get style() { return blogPaginationCss; }
-  static get cmpMeta() { return {
-    "$flags$": 2,
-    "$tagName$": "blog-pagination",
-    "$members$": {
-      "linkText": [16],
-      "rssIcon": [4, "rss-icon"]
-    },
-    "$listeners$": undefined,
-    "$lazyBundleId$": "-",
-    "$attrsToReflect$": []
-  }; }
-}
-=======
     if (support.iterable) {
       iterator[Symbol.iterator] = function() {
         return iterator
       };
     }
->>>>>>> 8305d0132654222ac06d00fb033d876b58d79e38
 
     return iterator
   }
@@ -7750,33 +7521,11 @@ class BlogPagination {
     })
   };
 
-<<<<<<< HEAD
-var __rest$b = (undefined && undefined.__rest) || function (s, e) {
-  var t = {};
-  for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-    t[p] = s[p];
-  if (s != null && typeof Object.getOwnPropertySymbols === "function")
-    for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-      if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-        t[p[i]] = s[p[i]];
-    }
-  return t;
-};
-const Img = (_a) => {
-  var { path, name, type = 'png', alt, dimensions, fallback } = _a, props = __rest$b(_a, ["path", "name", "type", "alt", "dimensions", "fallback"]);
-  !props.loading ? props.loading = 'lazy' : '';
-  return (hAsync("img", Object.assign({}, props, { src: `${path}${name}@2x.${type}`, srcset: `${path}${name}.${type} 1x,
-              ${path}${name}@2x.${type} 2x`, width: dimensions.split('x')[0], height: dimensions.split('x')[1] })));
-};
-
-const blogPostCss = ".sc-blog-post{display:block;--h1-color:var(--c-carbon-100)}.sc-blog-post .post{padding-block-end:var(--space-11);border-bottom:2px solid var(--c-indigo-20)}.sc-blog-post .post .ui-heading-1{margin-block-end:var(--space-5)}.sc-blog-post .post .ui-heading-1 a{color:inherit}.sc-blog-post .post .author{margin-block-end:var(--space-6)}.sc-blog-post .post .author .ui-paragraph{color:#92A1B3}.sc-blog-post .post .featured-image-wrapper,.sc-blog-post .post .default-image-wrapper{margin-inline-start:-32px;margin-inline-end:-32px;margin-block-end:var(--space-8);overflow:hidden}.sc-blog-post .post .featured-image-wrapper img,.sc-blog-post .post .default-image-wrapper img{max-height:400px;object-fit:cover;transition:transform 0.2s cubic-bezier(0.32, 0.72, 0, 1)}.sc-blog-post .post .post-content p{margin:0}.sc-blog-post .post .post-content p,.sc-blog-post .post .post-content li{color:var(--c-indigo-100);letter-spacing:var(--p2-tracking);line-height:var(--f-leading-prose);font-size:var(--p2-size);font-weight:var(--p2-weight)}.sc-blog-post .post .post-content ul{margin-block-start:var(--space-6);margin-block-end:var(--space-6)}.sc-blog-post .post .post-content li{list-style:disc;margin-inline-start:var(--space-9)}.sc-blog-post .post .post-content li+li{padding-block-start:var(--space-3)}.sc-blog-post .post .post-content p+p{margin-block-start:var(--space-6)}.sc-blog-post .post .post-content p+h2{margin-block-start:var(--space-9)}.sc-blog-post .post .continue-reading{margin-block-start:30px;color:var(--c-lavender-70)}.sc-blog-post.preview .post-content>*{display:none}.sc-blog-post.preview .post-content :first-child{display:block}.sc-blog-post.preview .post-content :first-child::after{content:\"..\"}.sc-blog-post.preview .featured-image-wrapper,.sc-blog-post.preview .default-image-wrapper{max-height:368px;margin-inline-start:0px;margin-inline-end:0px}.sc-blog-post.preview .featured-image-wrapper img,.sc-blog-post.preview .default-image-wrapper img{max-height:368px}.sc-blog-post.preview .featured-image-wrapper a:hover img,.sc-blog-post.preview .featured-image-wrapper a:focus img,.sc-blog-post.preview .featured-image-wrapper a:active img,.sc-blog-post.preview .default-image-wrapper a:hover img,.sc-blog-post.preview .default-image-wrapper a:focus img,.sc-blog-post.preview .default-image-wrapper a:active img{transform:scale(1.05, 1.05)}";
-=======
   Response.error = function() {
     var response = new Response(null, {status: 0, statusText: ''});
     response.type = 'error';
     return response
   };
->>>>>>> 8305d0132654222ac06d00fb033d876b58d79e38
 
   var redirectStatuses = [301, 302, 303, 307, 308];
 
@@ -7848,7 +7597,7 @@ var prismicJavascript_min = createCommonjsModule(function (module, exports) {
 
 var Prismic = /*@__PURE__*/getDefaultExportFromCjs(prismicJavascript_min);
 
-const apiEndpoint = "https://ionicframeworkcom.prismic.io/api/v2" ;
+const apiEndpoint = 'https://ionicframeworkcom.prismic.io/api/v2';
 // Client method to query documents from the Prismic repo
 const Client = (req = null) => Prismic.client(apiEndpoint, createClientOptions(req, null));
 const createClientOptions = (req = null, prismicAccessToken = null) => {
@@ -7894,17 +7643,8 @@ const getPage = async (prismicId) => {
       state[prop] = response.data[prop] ? response.data[prop] : defaults[prop];
     });
   }
-<<<<<<< HEAD
-  async componentWillLoad() {
-    console.log(this.post);
-    if (this.post)
-      return this.slug = this.post.slug;
-    if (this.slug)
-      this.post = posts.find(p => p.slug === this.slug);
-=======
   catch (e) {
     console.warn(e);
->>>>>>> 8305d0132654222ac06d00fb033d876b58d79e38
   }
 };
 const prismicDocToResource = (doc) => {
@@ -7940,65 +7680,6 @@ const getAuthorsForPrismicDoc = (doc) => {
       });
     });
   }
-<<<<<<< HEAD
-  render() {
-    if (!this.post)
-      return null;
-    const { slug, post, preview, keepScrollLinks } = this;
-    const content = preview ? post.preview : post.html;
-    return (hAsync(Host, { class: {
-        'sc-blog-post': true,
-        'preview': preview
-      } }, hAsync(Helmet, null, hAsync("title", null, this.post.title, " - Capacitor Blog - Cross-platform native runtime for web apps"), hAsync("meta", { name: "description", content: this.post.description }), hAsync("meta", { name: "twitter:description", content: `${this.post.description} - Capacitor Blog` }), hAsync("meta", { property: "og:image", content: this.post.featuredImage || 'https://capacitorjs.com/assets/img/og.png' })), hAsync("article", { class: "post" }, hAsync(ThemeProvider, { type: "editorial" }, hAsync(Heading, { level: 1, onClick: () => window.scrollTo(0, 0) }, preview
-      ? hAsync("a", Object.assign({}, href(`/blog/${slug}`, Router)), post.title)
-      : post.title)), hAsync(PostAuthor$1, { authorName: post.authorName, authorUrl: post.authorUrl, dateString: post.date }), hAsync(PostFeaturedImage, { preview: preview, post: post }), hAsync("div", { class: "post-content", innerHTML: content }), this.preview
-      ? hAsync("a", Object.assign({ class: "continue-reading ui-paragraph-2", ref: e => keepScrollLinks.push(e) }, href(`/blog/${slug}`, Router)), "Continue reading ", hAsync("span", { class: "arrow" }, "->")) : '')));
-  }
-  static get assetsDirs() { return ["assets"]; }
-  get el() { return getElement(this); }
-  static get style() { return blogPostCss; }
-  static get cmpMeta() { return {
-    "$flags$": 0,
-    "$tagName$": "blog-post",
-    "$members$": {
-      "slug": [1],
-      "post": [16],
-      "preview": [4]
-    },
-    "$listeners$": undefined,
-    "$lazyBundleId$": "-",
-    "$attrsToReflect$": []
-  }; }
-}
-const PostFeaturedImage = ({ post, preview }) => (hAsync("div", { class: "featured-image-wrapper" }, preview
-  ? hAsync("a", Object.assign({}, href(`/blog/${post.slug}`, Router)), hAsync(Img
-  // fallback={PostDefaultImage}
-  , {
-    // fallback={PostDefaultImage}
-    onClick: () => window.scrollTo(0, 0), class: "featured-image", dimensions: "1600x840", name: post.slug, alt: post.slug.split('-').join(' '), path: getAssetPath(`assets/img/`)
-  }))
-  : hAsync(Img
-  // fallback={PostDefaultImage}
-  , {
-    // fallback={PostDefaultImage}
-    onClick: () => window.scrollTo(0, 0), class: "featured-image", dimensions: "1600x840", name: post.slug, alt: post.slug.split('-').join(' '), path: getAssetPath(`assets/img/`)
-  })));
-// const PostDefaultImage = () => (
-//   <Img
-//     onClick={() => window.scrollTo(0, 0)}
-//     class="featured-image"
-//     dimensions="2400x1280"
-//     name="default" type="jpg"
-//     alt="default appflow image"
-//     path={getAssetPath(`assets/img/`)}
-//   />
-// );
-const PostAuthor$1 = ({ authorName, authorUrl, dateString }) => {
-  const date = parseISO(dateString);
-  return (hAsync("div", { class: "author" }, hAsync(Paragraph, null, "By ", authorUrl ?
-    hAsync("a", { href: authorUrl, target: "_blank" }, authorName) :
-    authorName, " on ", hAsync(DateTime, { date: date }))));
-=======
   else if (doc.data.author && doc.data.author.length) {
     return doc.data.author.map((a) => {
       var _a;
@@ -8021,7 +7702,6 @@ const PostAuthor$1 = ({ authorName, authorUrl, dateString }) => {
     ];
   }
   return [];
->>>>>>> 8305d0132654222ac06d00fb033d876b58d79e38
 };
 const prismicTypeToResourceType = (type) => ({
   article: ResourceType.Article,
@@ -8071,51 +7751,20 @@ const getResourceTypeForParam = (param) => ({
   webinars: ResourceType.Webinar,
   whitepapers: ResourceType.Whitepaper,
 }[param]);
+const typeToResourceType = (type) => ({
+  article: ResourceType.Article,
+  case_study: ResourceType.CaseStudy,
+  webinar: ResourceType.Webinar,
+  whitepaper: ResourceType.Whitepaper,
+  podcast: ResourceType.Podcast,
+  video: ResourceType.Video,
+}[type]);
 
 const blogPageCss = ".sc-blog-page-h{--blog-subnav-height:56px;display:block}blog-post.sc-blog-page+blog-post.sc-blog-page{margin-block-start:82px}.container-sm.sc-blog-page{margin-inline-start:auto;margin-inline-end:auto;position:relative;max-width:736px}.ui-container.sc-blog-page{margin-block-start:var(--space-9)}.detail-view.sc-blog-page more-resources.sc-blog-page{margin-block-end:121px}.detail-view.sc-blog-page .more-resources__title.sc-blog-page{margin-block-end:var(--space-5)}.detail-view.sc-blog-page disqus-comments.sc-blog-page{margin-block-end:160px}.detail-view.sc-blog-page blog-social-actions.bottom.sc-blog-page{padding-inline-start:31px;padding-inline-end:31px;background:white;position:absolute;left:50%;transform:translate(-50%, -50%)}.list-view.sc-blog-page blog-newsletter.sc-blog-page{margin-block-end:106px}.list-view.sc-blog-page blog-pagination.sc-blog-page{margin-block-start:var(--space-6);margin-block-end:var(--space-6)}.sticky-wrapper.sc-blog-page{position:absolute;height:100%;left:-96px;top:5px}.sticky-wrapper.sc-blog-page blog-social-actions.top.sc-blog-page{position:sticky;top:calc(var(--blog-subnav-height) + var(--space-6))}.post-author.sc-blog-page{display:flex;margin-block-start:var(--space-6);margin-block-end:120px}.post-author.sc-blog-page img.sc-blog-page{width:56px;height:56px;margin-inline-end:var(--space-4)}.post-author__info.sc-blog-page{display:flex;flex-direction:column;justify-content:center}.post-author__info.sc-blog-page .ui-heading.sc-blog-page{color:#010610}.post-author__info.sc-blog-page .ui-paragraph.sc-blog-page{margin-block-start:4px;color:#92A1B3}";
 
 class BlogPage {
   constructor(hostRef) {
     registerInstance(this, hostRef);
-<<<<<<< HEAD
-    this.render = () => (hAsync(Host, null, hAsync("ion-icon", { class: "search", name: "search-outline" }), hAsync("input", { class: "ui-paragraph-6", type: "text", placeholder: "Search the blog..." })));
-  }
-  static get style() { return blogSearchCss; }
-  static get cmpMeta() { return {
-    "$flags$": 2,
-    "$tagName$": "blog-search",
-    "$members$": undefined,
-    "$listeners$": undefined,
-    "$lazyBundleId$": "-",
-    "$attrsToReflect$": []
-  }; }
-}
-
-const blogSocialActionsCss = ".sc-blog-social-actions-h{display:inline-flex}.sc-blog-social-actions-h .twitter.sc-blog-social-actions,.sc-blog-social-actions-h .facebook.sc-blog-social-actions,.sc-blog-social-actions-h .linked-in.sc-blog-social-actions{opacity:0;transition:opacity 0.3s ease-out}.sc-blog-social-actions-h .twitter.sc-blog-social-actions path.sc-blog-social-actions,.sc-blog-social-actions-h .facebook.sc-blog-social-actions path.sc-blog-social-actions,.sc-blog-social-actions-h .linked-in.sc-blog-social-actions path.sc-blog-social-actions{transition:fill 0.18s ease-out}.column.sc-blog-social-actions-h{align-items:center;flex-direction:column}.column.sc-blog-social-actions-h a.sc-blog-social-actions+a.sc-blog-social-actions{margin-inline-start:0;margin-block-start:var(--space-5)}.loaded.sc-blog-social-actions-h .twitter.sc-blog-social-actions{opacity:1;transition-delay:0.3s}.loaded.sc-blog-social-actions-h .twitter.sc-blog-social-actions:hover path.sc-blog-social-actions,.loaded.sc-blog-social-actions-h .twitter.sc-blog-social-actions:active path.sc-blog-social-actions,.loaded.sc-blog-social-actions-h .twitter.sc-blog-social-actions:focus path.sc-blog-social-actions{fill:#1DA1F2}.loaded.sc-blog-social-actions-h .facebook.sc-blog-social-actions{opacity:1;transition-delay:0.4s}.loaded.sc-blog-social-actions-h .facebook.sc-blog-social-actions:hover path.sc-blog-social-actions,.loaded.sc-blog-social-actions-h .facebook.sc-blog-social-actions:active path.sc-blog-social-actions,.loaded.sc-blog-social-actions-h .facebook.sc-blog-social-actions:focus path.sc-blog-social-actions{fill:#4267B2}.loaded.sc-blog-social-actions-h .linked-in.sc-blog-social-actions{opacity:1;transition-delay:0.5s}.loaded.sc-blog-social-actions-h .linked-in.sc-blog-social-actions:hover path.sc-blog-social-actions,.loaded.sc-blog-social-actions-h .linked-in.sc-blog-social-actions:active path.sc-blog-social-actions,.loaded.sc-blog-social-actions-h .linked-in.sc-blog-social-actions:focus path.sc-blog-social-actions{fill:#2867B2}a.sc-blog-social-actions{display:flex;align-items:center}a.sc-blog-social-actions+a.sc-blog-social-actions{margin-inline-start:var(--space-5)}";
-
-class BlogSocialActions {
-  constructor(hostRef) {
-    registerInstance(this, hostRef);
-    this.twitterUrl = [
-      'http://twitter.com/intent/tweet?',
-      `url=${encodeURIComponent(Router.url.toString())}`
-    ];
-    this.facebookUrl = [
-      'https://www.facebook.com/sharer/sharer.php?',
-      `u=${encodeURIComponent(Router.url.toString())}`
-    ];
-    this.linkedInUrl = [
-      'https://www.linkedin.com/sharing/share-offsite',
-      `?url=${encodeURIComponent(Router.url.toString())}`
-    ];
-    this.column = false;
-    this.loaded = false;
-    this.render = () => (hAsync(Host, { class: {
-        'social-links': true,
-        'column': this.column,
-        'loaded': this.loaded
-      } }, hAsync("a", { href: this.twitterUrl.join(''), target: "_blank", rel: "noopener nofollow" }, twitterLogo({ main: '#CED6E0' }, { width: 20, height: 16, class: 'twitter' })), hAsync("a", { href: this.facebookUrl.join(''), target: "_blank", rel: "noopener nofollow" }, facebookRoundedLogo({ main: '#CED6E0' }, { width: 20, height: 20, class: 'facebook' })), hAsync("a", { href: this.linkedInUrl.join(''), target: "_blank", rel: "noopener nofollow" }, linkedInLogo({ main: '#CED6E0' }, { width: 20, height: 20, class: 'linked-in' }))));
-=======
     this.relatedResources = [];
     this.viewMode = 'previews';
     this.breadcrumbs = {
@@ -8150,7 +7799,6 @@ class BlogSocialActions {
     state.stickyHeader = false;
     this.posts = posts.slice(0, 10);
     this.checkViewMode(this.viewMode);
->>>>>>> 8305d0132654222ac06d00fb033d876b58d79e38
   }
   componentWillUpdate() {
     state.stickyHeader = false;
@@ -8357,43 +8005,10 @@ const blogPaginationCss = ".sc-blog-pagination-h{display:flex;justify-content:sp
 class BlogPagination {
   constructor(hostRef) {
     registerInstance(this, hostRef);
-<<<<<<< HEAD
-    this.sticky = false;
-    this.open = false;
-    this.breadcrumbs = [];
-    this.socialActions = false;
-    this.pagination = false;
-    this.render = () => (hAsync(Host, { class: {
-        'sticky': this.sticky,
-      } }, hAsync("div", { class: "subnav-wrapper" }, hAsync(ResponsiveContainer, { class: "content" }, hAsync(Breadcrumbs, { onClick: () => window.scrollTo(0, 0) }, this.breadcrumbs.map(crumb => (hAsync("li", null, hAsync("a", Object.assign({ class: "ui-heading-5" }, href(`${crumb[1]}`, Router)), crumb[0]))))), hAsync("div", { class: "blog-search-wrapper" }, hAsync(Breakpoint, { md: true }, hAsync("blog-search", null)), hAsync(Breakpoint, { class: "mobile", xs: true, md: false, display: "flex" }, this.open
-      ? hAsync("ion-icon", { onClick: () => this.open = false, class: "drawer-button", role: "button", "aria-label": "close drawer", name: "chevron-up-outline" })
-      : hAsync("ion-icon", { onClick: () => this.open = true, class: "drawer-button", role: "button", "aria-label": "open drawer", name: "chevron-down-outline" }))), hAsync("div", { class: {
-        'subnav-dropdown': true,
-        'open': this.open
-      } }, hAsync(ResponsiveContainer, null, hAsync("blog-search", null), this.socialActions
-      ? hAsync("blog-social-actions", null) : '', this.pagination
-      ? hAsync("blog-pagination", { linkText: ['Older', 'Newer'] }) : ''))))));
-  }
-  componentDidLoad() {
-    addListener(({ entries }) => {
-      const e = entries.find((e) => e.target === this.el);
-      if (!e) {
-        return;
-      }
-      if (e.intersectionRatio < 1) {
-        this.sticky = true;
-      }
-      else {
-        this.sticky = false;
-      }
-    });
-    observe(this.el);
-=======
     this.linkText = ['Older posts', 'Newer posts'];
     this.rssIcon = false;
     this.render = () => (hAsync(Host, null, hAsync("a", { href: "#", class: "link back ui-paragraph-3" }, hAsync("ion-icon", { name: "chevron-back-outline" }), this.linkText[0]), this.rssIcon
       ? rssIcon({}, { height: 32, width: 32 }) : '', hAsync("a", { href: "#", class: "link forward ui-paragraph-3" }, this.linkText[1], hAsync("ion-icon", { name: "chevron-forward-outline" }))));
->>>>>>> 8305d0132654222ac06d00fb033d876b58d79e38
   }
   static get style() { return blogPaginationCss; }
   static get cmpMeta() { return {
@@ -8419,10 +8034,6 @@ function toInteger(dirtyNumber) {
   if (isNaN(number)) {
     return number;
   }
-<<<<<<< HEAD
-  render() {
-    return (hAsync(Host, null, hAsync("pre", null, hAsync("code", { class: `language-${this.language}`, ref: e => this.codeRef = e }, this.code.trim()))));
-=======
 
   return number < 0 ? Math.ceil(number) : Math.floor(number);
 }
@@ -8430,17 +8041,9 @@ function toInteger(dirtyNumber) {
 function requiredArgs(required, args) {
   if (args.length < required) {
     throw new TypeError(required + ' argument' + (required > 1 ? 's' : '') + ' required, but only ' + args.length + ' present');
->>>>>>> 8305d0132654222ac06d00fb033d876b58d79e38
   }
 }
 
-<<<<<<< HEAD
-var Blockquote_examples = {
-  title: 'Blockquote',
-  cols: 1
-};
-const example = () => hAsync(Blockquote, null, "With Ionic Enterprise, we have peace of mind with access to Ionic\u2019s stellar Customer Success team, additional help from Ionic experts whenever we need it, and we\u2019re able to rely on Ionic\u2019s secure native solutions to ensure an optimal login experience. Put simply, it provides peace of mind and reduces the effort on maintaining native code.");
-=======
 var MILLISECONDS_IN_HOUR = 3600000;
 var MILLISECONDS_IN_MINUTE = 60000;
 var DEFAULT_ADDITIONAL_DIGITS = 2;
@@ -8509,33 +8112,12 @@ var timezoneRegex = /^([+-])(\d{2})(?::?(\d{2}))?$/;
  * var result = parseISO('+02014101', { additionalDigits: 1 })
  * //=> Fri Apr 11 2014 00:00:00
  */
->>>>>>> 8305d0132654222ac06d00fb033d876b58d79e38
 
 function parseISO(argument, dirtyOptions) {
   requiredArgs(1, arguments);
   var options = dirtyOptions || {};
   var additionalDigits = options.additionalDigits == null ? DEFAULT_ADDITIONAL_DIGITS : toInteger(options.additionalDigits);
 
-<<<<<<< HEAD
-var __rest$c = (undefined && undefined.__rest) || function (s, e) {
-  var t = {};
-  for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-    t[p] = s[p];
-  if (s != null && typeof Object.getOwnPropertySymbols === "function")
-    for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-      if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
-        t[p[i]] = s[p[i]];
-    }
-  return t;
-};
-const Box = (_a, children) => {
-  var props = __rest$c(_a, []);
-  return hAsync("div", Object.assign({}, applyProps(props, { class: `ui-box` })), children);
-};
-
-var Box_examples = { title: 'Box' };
-const example$1 = () => hAsync(Box, null, "This is a box");
-=======
   if (additionalDigits !== 2 && additionalDigits !== 1 && additionalDigits !== 0) {
     throw new RangeError('additionalDigits must be 0, 1 or 2');
   }
@@ -8543,64 +8125,34 @@ const example$1 = () => hAsync(Box, null, "This is a box");
   if (!(typeof argument === 'string' || Object.prototype.toString.call(argument) === '[object String]')) {
     return new Date(NaN);
   }
->>>>>>> 8305d0132654222ac06d00fb033d876b58d79e38
 
   var dateStrings = splitDateString(argument);
   var date;
 
-<<<<<<< HEAD
-var Breadcrumbs_examples = { title: 'Breadcrumbs' };
-const example$2 = () => (hAsync(Breadcrumbs, { class: "jumanjii" },
-  hAsync("li", null,
-    hAsync("a", { href: "#" }, "Native")),
-  hAsync("li", { class: "nav-sep" }, "/"),
-  hAsync("li", null,
-    hAsync("a", { href: "#" }, "Offline Storage"))));
-=======
   if (dateStrings.date) {
     var parseYearResult = parseYear(dateStrings.date, additionalDigits);
     date = parseDate(parseYearResult.restDateString, parseYearResult.year);
   }
->>>>>>> 8305d0132654222ac06d00fb033d876b58d79e38
 
   if (isNaN(date) || !date) {
     return new Date(NaN);
   }
 
-<<<<<<< HEAD
-var Breakpoint_examples = { title: 'Breakpoint' };
-const xsOnly = () => hAsync(Breakpoint, { xs: true, sm: false }, "This item shows when screen size is under 480px");
-const mdOnly = () => hAsync(Breakpoint, { sm: false, md: true, lg: false }, "This item shows when screen size is between 768px and 992px");
-const lgOnly = () => hAsync(Breakpoint, { md: false, lg: true }, "This item shows when screen size is above 992px");
-const notXs = () => hAsync(Breakpoint, { xs: false, sm: true }, "This item shows when screen size is above 480px");
-const notMd = () => hAsync(Breakpoint, { xs: true, sm: true, md: false, lg: true }, "This item shows when screen size is smaller than 768px or greater than 992px");
-=======
   var timestamp = date.getTime();
   var time = 0;
   var offset;
->>>>>>> 8305d0132654222ac06d00fb033d876b58d79e38
 
   if (dateStrings.time) {
     time = parseTime(dateStrings.time);
 
-<<<<<<< HEAD
-var Button_examples = { title: 'Button' };
-const example$3 = () => hAsync(Button, null, "Button");
-=======
     if (isNaN(time) || time === null) {
       return new Date(NaN);
     }
   }
->>>>>>> 8305d0132654222ac06d00fb033d876b58d79e38
 
   if (dateStrings.timezone) {
     offset = parseTimezone(dateStrings.timezone);
 
-<<<<<<< HEAD
-var Card_examples = { title: 'Card' };
-const card = () => hAsync(Card, null, "This is a card");
-const cardEmbelished = () => hAsync(Card, { embelish: true, style: "height: 100px" }, "This is an embelished card");
-=======
     if (isNaN(offset)) {
       return new Date(NaN);
     }
@@ -8610,34 +8162,20 @@ const cardEmbelished = () => hAsync(Card, { embelish: true, style: "height: 100p
     // so we use utc values to build date in our timezone.
     // Year values from 0 to 99 map to the years 1900 to 1999
     // so set year explicitly with setFullYear.
->>>>>>> 8305d0132654222ac06d00fb033d876b58d79e38
 
     var result = new Date(dirtyDate.getUTCFullYear(), dirtyDate.getUTCMonth(), dirtyDate.getUTCDate(), dirtyDate.getUTCHours(), dirtyDate.getUTCMinutes(), dirtyDate.getUTCSeconds(), dirtyDate.getUTCMilliseconds());
     result.setFullYear(dirtyDate.getUTCFullYear());
     return result;
   }
 
-<<<<<<< HEAD
-var DateTime_examples = { title: 'DateTime' };
-const example$4 = () => hAsync(DateTime, { date: new Date() });
-=======
   return new Date(timestamp + time + offset);
 }
->>>>>>> 8305d0132654222ac06d00fb033d876b58d79e38
 
 function splitDateString(dateString) {
   var dateStrings = {};
   var array = dateString.split(patterns.dateTimeDelimiter);
   var timeString;
 
-<<<<<<< HEAD
-const Dropdown = ({ open = false }, children) => {
-  return open ? hAsync("ul", { class: `ui-dropdown${open ? ' ui-dropdown--open' : ''}` }, children) : null;
-};
-
-var Dropdown_examples = { title: 'Dropdown' };
-const example$5 = () => hAsync(Dropdown, { open: true }, "This is a dropdown");
-=======
   if (/:/.test(array[0])) {
     dateStrings.date = null;
     timeString = array[0];
@@ -8650,18 +8188,10 @@ const example$5 = () => hAsync(Dropdown, { open: true }, "This is a dropdown");
       timeString = dateString.substr(dateStrings.date.length, dateString.length);
     }
   }
->>>>>>> 8305d0132654222ac06d00fb033d876b58d79e38
 
   if (timeString) {
     var token = patterns.timezone.exec(timeString);
 
-<<<<<<< HEAD
-var Grid_examples = {
-  title: 'Grid',
-  cols: 1
-};
-const example$6 = () => hAsync(Grid, null, "This is a Grid");
-=======
     if (token) {
       dateStrings.time = timeString.replace(token[1], '');
       dateStrings.timezone = token[1];
@@ -8669,29 +8199,13 @@ const example$6 = () => hAsync(Grid, null, "This is a Grid");
       dateStrings.time = timeString;
     }
   }
->>>>>>> 8305d0132654222ac06d00fb033d876b58d79e38
 
   return dateStrings;
 }
 
-<<<<<<< HEAD
-var Heading_examples = { title: 'Heading' };
-const level1 = () => hAsync(Heading, { level: 1 }, "Level 1");
-const level2 = () => hAsync(Heading, { level: 2 }, "Level 2");
-const level3 = () => hAsync(Heading, { level: 3 }, "Level 3");
-const level4 = () => hAsync(Heading, { level: 4 }, "Level 4");
-const level5 = () => hAsync(Heading, { level: 5 }, "Level 5");
-const level6 = () => hAsync(Heading, { level: 6 }, "Level 6");
-const posterLevel1 = () => hAsync(Heading, { poster: true, level: 1 }, "Poster Level 1");
-const posterLevel2 = () => hAsync(Heading, { poster: true, level: 2 }, "Poster Level 2");
-const posterLevel3 = () => hAsync(Heading, { poster: true, level: 3 }, "Poster Level 3");
-const posterLevel4 = () => hAsync(Heading, { poster: true, level: 4 }, "Poster Level 4");
-const level4as2 = () => hAsync(Heading, { poster: true, level: 4, as: 'h2' }, "Poster Level 4 as h2");
-=======
 function parseYear(dateString, additionalDigits) {
   var regex = new RegExp('^(?:(\\d{4}|[+-]\\d{' + (4 + additionalDigits) + '})|(\\d{2}|[+-]\\d{' + (2 + additionalDigits) + '})$)');
   var captures = dateString.match(regex); // Invalid ISO-formatted year
->>>>>>> 8305d0132654222ac06d00fb033d876b58d79e38
 
   if (!captures) return {
     year: null
@@ -8704,20 +8218,10 @@ function parseYear(dateString, additionalDigits) {
   };
 }
 
-<<<<<<< HEAD
-var Paragraph_examples = { title: 'Paragraph' };
-const level1$1 = () => hAsync(Paragraph, { level: 1 }, "Ionic Framework is an open source mobile UI toolkit for building high quality, cross-platform native and web app experiences. Move faster with a single codebase, running everywhere.");
-const level2$1 = () => hAsync(Paragraph, { level: 2 }, "Ionic Framework is an open source mobile UI toolkit for building high quality, cross-platform native and web app experiences. Move faster with a single codebase, running everywhere.");
-const level3$1 = () => hAsync(Paragraph, { level: 3 }, "Ionic Framework is an open source mobile UI toolkit for building high quality, cross-platform native and web app experiences. Move faster with a single codebase, running everywhere.");
-const level4$1 = () => hAsync(Paragraph, { level: 4 }, "Ionic Framework is an open source mobile UI toolkit for building high quality, cross-platform native and web app experiences. Move faster with a single codebase, running everywhere.");
-const level5$1 = () => hAsync(Paragraph, { level: 5 }, "Ionic Framework is an open source mobile UI toolkit for building high quality, cross-platform native and web app experiences. Move faster with a single codebase, running everywhere.");
-const level6$1 = () => hAsync(Paragraph, { level: 6 }, "Ionic Framework is an open source mobile UI toolkit for building high quality, cross-platform native and web app experiences. Move faster with a single codebase, running everywhere.");
-=======
 function parseDate(dateString, year) {
   // Invalid ISO-formatted year
   if (year === null) return null;
   var captures = dateString.match(dateRegex); // Invalid ISO-formatted string
->>>>>>> 8305d0132654222ac06d00fb033d876b58d79e38
 
   if (!captures) return null;
   var isWeekDate = !!captures[4];
@@ -8727,108 +8231,47 @@ function parseDate(dateString, year) {
   var week = parseDateUnit(captures[4]);
   var dayOfWeek = parseDateUnit(captures[5]) - 1;
 
-<<<<<<< HEAD
-var ResponsiveContainer_examples = { title: 'ResponsiveContainer' };
-const example$7 = () => hAsync(ResponsiveContainer, null,
-  hAsync("div", null, "blah blah blah responsive container"));
-=======
   if (isWeekDate) {
     if (!validateWeekDate(year, week, dayOfWeek)) {
       return new Date(NaN);
     }
->>>>>>> 8305d0132654222ac06d00fb033d876b58d79e38
 
     return dayOfISOWeekYear(year, week, dayOfWeek);
   } else {
     var date = new Date(0);
 
-<<<<<<< HEAD
-var SiteModal_examples = { title: 'SiteModal' };
-const example$8 = () => hAsync("site-modal", null, "This is a box");
-=======
     if (!validateDate(year, month, day) || !validateDayOfYearDate(year, dayOfYear)) {
       return new Date(NaN);
     }
->>>>>>> 8305d0132654222ac06d00fb033d876b58d79e38
 
     date.setUTCFullYear(year, month, Math.max(dayOfYear, day));
     return date;
   }
 }
 
-<<<<<<< HEAD
-var Skeleton_examples = { title: 'Skeleton' };
-const example$9 = () => (hAsync("div", null,
-  hAsync(Skeleton, { style: { "height": "200px" } }),
-  hAsync(Skeleton, { style: {
-      "width": "100px",
-      "height": "16px"
-    } }),
-  hAsync(Skeleton, { style: { "height": "16px" } }),
-  hAsync(Skeleton, { style: { "height": "16px" } }),
-  hAsync(Skeleton, { style: { "height": "16px" } }),
-  hAsync(Skeleton, { style: { "height": "16px" } })));
-=======
 function parseDateUnit(value) {
   return value ? parseInt(value) : 1;
 }
->>>>>>> 8305d0132654222ac06d00fb033d876b58d79e38
 
 function parseTime(timeString) {
   var captures = timeString.match(timeRegex);
   if (!captures) return null; // Invalid ISO-formatted time
 
-<<<<<<< HEAD
-var Text_examples = { title: 'Text' };
-const example$a = () => hAsync(Text, null, "This is a box");
-=======
   var hours = parseTimeUnit(captures[1]);
   var minutes = parseTimeUnit(captures[2]);
   var seconds = parseTimeUnit(captures[3]);
->>>>>>> 8305d0132654222ac06d00fb033d876b58d79e38
 
   if (!validateTime(hours, minutes, seconds)) {
     return NaN;
   }
 
-<<<<<<< HEAD
-var ThemeProvider_examples = { title: 'ThemeProvider' };
-const example$b = () => hAsync(ThemeProvider, null, "This is a box");
-=======
   return hours * MILLISECONDS_IN_HOUR + minutes * MILLISECONDS_IN_MINUTE + seconds * 1000;
 }
->>>>>>> 8305d0132654222ac06d00fb033d876b58d79e38
 
 function parseTimeUnit(value) {
   return value && parseFloat(value.replace(',', '.')) || 0;
 }
 
-<<<<<<< HEAD
-var coreExamples = {
-  blockquoteExamples,
-  boxExamples,
-  breadcrumbsExamples,
-  breakpointExamples,
-  buttonExamples,
-  cardExamples,
-  dateTimeExamples,
-  dropdownExamples,
-  gridExamples,
-  headingExamples,
-  paragraphExamples,
-  responsiveContainerExamples,
-  siteModalExamples,
-  skeletonExamples,
-  textExamples,
-  themeProviderExamples
-};
-
-var disqusComments_example = {
-  title: 'disqus-comments',
-  cols: 1
-};
-const frameworkBlogPost = () => hAsync("disqus-comments", { url: 'https://ds.ionic.io/overview/disqus-comments', "site-id": 'drifty' });
-=======
 function parseTimezone(timezoneString) {
   if (timezoneString === 'Z') return 0;
   var captures = timezoneString.match(timezoneRegex);
@@ -8840,18 +8283,10 @@ function parseTimezone(timezoneString) {
   if (!validateTimezone(hours, minutes)) {
     return NaN;
   }
->>>>>>> 8305d0132654222ac06d00fb033d876b58d79e38
 
   return sign * (hours * MILLISECONDS_IN_HOUR + minutes * MILLISECONDS_IN_MINUTE);
 }
 
-<<<<<<< HEAD
-var hubspotForm_example = {
-  title: 'hubspot-form',
-  cols: 1
-};
-const frameworkBlogPost$1 = () => hAsync("hubspot-form", { formId: '9151dc0b-42d9-479f-b7b8-649e0e7bd1bc', ajax: true, onFormSubmitted: () => alert('message recieved!') });
-=======
 function dayOfISOWeekYear(isoWeekYear, week, day) {
   var date = new Date(0);
   date.setUTCFullYear(isoWeekYear, 0, 4);
@@ -8861,37 +8296,16 @@ function dayOfISOWeekYear(isoWeekYear, week, day) {
   return date;
 } // Validation functions
 // February is null to handle the leap year (using ||)
->>>>>>> 8305d0132654222ac06d00fb033d876b58d79e38
 
 
 var daysInMonths = [31, null, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
-<<<<<<< HEAD
-function transformMethodName(str) {
-  str = str.charAt(0).toUpperCase() + str.slice(1);
-  return (str
-    // Look for long acronyms and filter out the last letter
-    .replace(/([A-Z]+)([A-Z][a-z])/g, ' $1 $2')
-    // Look for lower-case letters followed by upper-case letters
-    .replace(/([a-z\d])([A-Z])/g, '$1 $2')
-    // Look for lower-case letters followed by numbers
-    .replace(/([a-zA-Z])(\d)/g, '$1 $2')
-    .replace(/^./, function (str) {
-    return str.toUpperCase();
-  })
-    // Remove any white space left around the word
-    .trim());
-}
-function dashToCamel(str) {
-  return str.replace(/-([a-z])/g, function (g) { return g[1].toUpperCase(); });
-=======
 function isLeapYearIndex(year) {
   return year % 400 === 0 || year % 4 === 0 && year % 100;
 }
 
 function validateDate(year, month, date) {
   return month >= 0 && month <= 11 && date >= 1 && date <= (daysInMonths[month] || (isLeapYearIndex(year) ? 29 : 28));
->>>>>>> 8305d0132654222ac06d00fb033d876b58d79e38
 }
 
 function validateDayOfYearDate(year, dayOfYear) {
@@ -8932,7 +8346,7 @@ const Img = (_a) => {
               ${path}${name}@2x.${type} 2x`, width: dimensions.split('x')[0], height: dimensions.split('x')[1] })));
 };
 
-const blogPostCss = ".sc-blog-post{display:block;--h1-color:var(--c-carbon-100)}.sc-blog-post .post{padding-block-end:var(--space-11);border-bottom:2px solid var(--c-indigo-20)}.sc-blog-post .post .ui-heading-1{margin-block-end:var(--space-5)}.sc-blog-post .post .ui-heading-1 a{color:inherit}.sc-blog-post .post .author{display:flex;align-items:center;margin-block-end:var(--space-6)}.sc-blog-post .post .author img{margin-inline-end:var(--space-3);width:32px;height:32px}.sc-blog-post .post .author .ui-paragraph{color:#92A1B3}.sc-blog-post .post .featured-image-wrapper,.sc-blog-post .post .default-image-wrapper{margin-inline-start:-32px;margin-inline-end:-32px;margin-block-end:var(--space-8);overflow:hidden}.sc-blog-post .post .featured-image-wrapper img,.sc-blog-post .post .default-image-wrapper img{max-height:400px;object-fit:cover;transition:transform 0.2s cubic-bezier(0.32, 0.72, 0, 1)}.sc-blog-post .post .post-content p{margin:0}.sc-blog-post .post .post-content p,.sc-blog-post .post .post-content li{color:var(--c-indigo-100);letter-spacing:var(--p2-tracking);line-height:var(--f-leading-prose);font-size:var(--p2-size);font-weight:var(--p2-weight)}.sc-blog-post .post .post-content ul{margin-block-start:var(--space-6);margin-block-end:var(--space-6)}.sc-blog-post .post .post-content li{list-style:disc;margin-inline-start:var(--space-9)}.sc-blog-post .post .post-content li+li{padding-block-start:var(--space-3)}.sc-blog-post .post .post-content p+p{margin-block-start:var(--space-6)}.sc-blog-post .post .post-content p+h2{margin-block-start:var(--space-9)}.sc-blog-post .post .continue-reading{margin-block-start:30px;color:var(--c-lavender-70)}.sc-blog-post.preview .post-content>*{display:none}.sc-blog-post.preview .post-content :first-child{display:block}.sc-blog-post.preview .post-content :first-child::after{content:\"..\"}.sc-blog-post.preview .featured-image-wrapper,.sc-blog-post.preview .default-image-wrapper{max-height:368px;margin-inline-start:0px;margin-inline-end:0px}.sc-blog-post.preview .featured-image-wrapper img,.sc-blog-post.preview .default-image-wrapper img{max-height:368px}.sc-blog-post.preview .featured-image-wrapper a:hover img,.sc-blog-post.preview .featured-image-wrapper a:focus img,.sc-blog-post.preview .featured-image-wrapper a:active img,.sc-blog-post.preview .default-image-wrapper a:hover img,.sc-blog-post.preview .default-image-wrapper a:focus img,.sc-blog-post.preview .default-image-wrapper a:active img{transform:scale(1.05, 1.05)}";
+const blogPostCss = ".sc-blog-post{display:block;--h1-color:var(--c-carbon-100)}.sc-blog-post .post{padding-block-end:var(--space-11);border-bottom:2px solid var(--c-indigo-20)}.sc-blog-post .post .ui-heading-1{margin-block-end:var(--space-5)}.sc-blog-post .post .ui-heading-1 a{color:inherit}.sc-blog-post .post .author{display:flex;align-items:center;margin-block-end:var(--space-6)}.sc-blog-post .post .author img{margin-inline-end:var(--space-3);width:32px;height:32px}.sc-blog-post .post .author .ui-paragraph{color:#92A1B3;margin:0}.sc-blog-post .post .featured-image-wrapper,.sc-blog-post .post .default-image-wrapper{margin-inline-start:-32px;margin-inline-end:-32px;margin-block-end:var(--space-8);overflow:hidden}.sc-blog-post .post .featured-image-wrapper img,.sc-blog-post .post .default-image-wrapper img{max-height:400px;object-fit:cover;transition:transform 0.2s cubic-bezier(0.32, 0.72, 0, 1)}.sc-blog-post .post .post-content p{margin:0}.sc-blog-post .post .post-content p,.sc-blog-post .post .post-content li{color:var(--c-indigo-100);letter-spacing:var(--p2-tracking);line-height:var(--f-leading-prose);font-size:var(--p2-size);font-weight:var(--p2-weight)}.sc-blog-post .post .post-content ul{margin-block-start:var(--space-6);margin-block-end:var(--space-6)}.sc-blog-post .post .post-content li{list-style:disc;margin-inline-start:var(--space-9)}.sc-blog-post .post .post-content li+li{padding-block-start:var(--space-3)}.sc-blog-post .post .post-content p+p{margin-block-start:var(--space-6)}.sc-blog-post .post .post-content p+h2{margin-block-start:var(--space-9)}.sc-blog-post .post .continue-reading{margin-block-start:30px;color:var(--c-lavender-70)}.sc-blog-post.preview .post-content>*{display:none}.sc-blog-post.preview .post-content :first-child{display:block}.sc-blog-post.preview .post-content :first-child::after{content:\"..\"}.sc-blog-post.preview .featured-image-wrapper,.sc-blog-post.preview .default-image-wrapper{max-height:368px;margin-inline-start:0px;margin-inline-end:0px}.sc-blog-post.preview .featured-image-wrapper img,.sc-blog-post.preview .default-image-wrapper img{max-height:368px}.sc-blog-post.preview .featured-image-wrapper a:hover img,.sc-blog-post.preview .featured-image-wrapper a:focus img,.sc-blog-post.preview .featured-image-wrapper a:active img,.sc-blog-post.preview .default-image-wrapper a:hover img,.sc-blog-post.preview .default-image-wrapper a:focus img,.sc-blog-post.preview .default-image-wrapper a:active img{transform:scale(1.05, 1.05)}";
 
 class BlogPost {
   constructor(hostRef) {
@@ -8963,24 +8377,6 @@ class BlogPost {
     });
   }
   render() {
-<<<<<<< HEAD
-    // return <Heading>ComponentDetail: {this.component}</Heading>
-    const exampleList = Object.assign(Object.assign({}, coreExamples), webExamples);
-    const examples = exampleList[`${dashToCamel(this.component)}Examples`];
-    let example = null;
-    for (let key in examples) {
-      if (key.toLowerCase() === this.example) {
-        example = key;
-      }
-    }
-    return [
-      hAsync("a", Object.assign({ class: "back-link" }, href(`/overview/${examples.default.title}`)), "\u2190 Back to ", examples.default.title, " List"),
-      hAsync(Heading, null, examples.default.title, " / ", transformMethodName(example)),
-      hAsync("code", { class: "example-code" }, hAsync("pre", null, examples[example].toString())),
-      hAsync("hr", null),
-      hAsync("div", { class: "demo-container" }, examples[example] && examples[example]())
-    ];
-=======
     const { PostAuthor } = this;
     if (!this.post)
       return null;
@@ -8993,7 +8389,6 @@ class BlogPost {
       ? hAsync("a", Object.assign({}, href(`/blog/${slug}`, Router)), post.title)
       : post.title)), hAsync(PostAuthor, { post: post }), hAsync(PostFeaturedImage, { preview: preview, post: post }), hAsync("div", { class: "post-content", innerHTML: content }), this.preview
       ? hAsync("a", Object.assign({ class: "continue-reading ui-paragraph-2", ref: e => keepScrollLinks.push(e) }, href(`/blog/${slug}`, Router)), "Continue reading ", hAsync("span", { class: "arrow" }, "->")) : '')));
->>>>>>> 8305d0132654222ac06d00fb033d876b58d79e38
   }
   static get assetsDirs() { return ["assets"]; }
   get el() { return getElement(this); }
@@ -9087,15 +8482,6 @@ class BlogSocialActions {
     "$attrsToReflect$": []
   }; }
 }
-<<<<<<< HEAD
-const listSection = (title, components) => (hAsync("div", { class: "demo-container" }, hAsync(Heading, null, title), hAsync("ul", { class: "component-list" }, Object.keys(components).map(name => (hAsync("li", null, hAsync("a", Object.assign({}, href(`/overview/${components[name].default.title}`)), components[name].default.title)))))));
-
-const timestamp = "2020-09-04T17:59:04";
-const compiler = {
-	name: "@stencil/core",
-	version: "2.0.2",
-	typescriptVersion: "4.0.2"
-=======
 
 const blogSubnavCss = ".sc-blog-subnav-h{display:block;background:white;position:sticky;height:var(--blog-subnav-height);top:0;z-index:100}.subnav-wrapper.sc-blog-subnav{position:relative;height:100%}.ui-breadcrumbs.sc-blog-subnav{min-width:0;margin-inline-end:var(--space-3)}.ui-breadcrumbs.sc-blog-subnav li.sc-blog-subnav{display:flex;align-items:center;white-space:nowrap}.ui-breadcrumbs.sc-blog-subnav li.sc-blog-subnav:last-of-type{overflow:hidden}.ui-breadcrumbs.sc-blog-subnav li.sc-blog-subnav:last-of-type a.sc-blog-subnav{padding-block-start:2px;padding-block-end:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.blog-search-wrapper.sc-blog-subnav{flex-grow:1;display:flex;justify-content:flex-end}.blog-search-wrapper.sc-blog-subnav .mobile.sc-blog-subnav{align-items:center}.blog-search-wrapper.sc-blog-subnav .mobile.sc-blog-subnav ion-icon.sc-blog-subnav{margin-inline-end:var(--space-1);font-size:20px}.content.sc-blog-subnav{position:relative;display:flex;justify-content:space-between;padding-block-start:var(--space-2);padding-block-end:var(--space-2);height:100%}.subnav-dropdown.sc-blog-subnav{background:white;left:0;right:0;position:absolute;top:0;display:none;transition:transform 2s ease}.subnav-dropdown.open.sc-blog-subnav{transform:translateY(100%);display:block}.subnav-dropdown.sc-blog-subnav .ui-container.sc-blog-subnav{display:flex;align-items:center;justify-content:space-between;padding-block-start:var(--space-2);padding-block-end:var(--space-2)}";
 
@@ -9187,7 +8573,6 @@ class CodeSnippet {
 var Blockquote_examples = {
   title: 'Blockquote',
   cols: 1
->>>>>>> 8305d0132654222ac06d00fb033d876b58d79e38
 };
 const example = () => hAsync(Blockquote, null, "With Ionic Enterprise, we have peace of mind with access to Ionic\u2019s stellar Customer Success team, additional help from Ionic experts whenever we need it, and we\u2019re able to rely on Ionic\u2019s secure native solutions to ensure an optimal login experience. Put simply, it provides peace of mind and reduces the effort on maintaining native code.");
 
@@ -9532,10 +8917,10 @@ class ComponentList {
 }
 const listSection = (title, components) => (hAsync("div", { class: "demo-container" }, hAsync(Heading, null, title), hAsync("ul", { class: "component-list" }, Object.keys(components).map(name => (hAsync("li", null, hAsync("a", Object.assign({}, href(`/overview/${components[name].default.title}`)), components[name].default.title)))))));
 
-const timestamp = "2020-09-04T17:59:04";
+const timestamp = "2020-09-04T20:59:52";
 const compiler = {
 	name: "@stencil/core",
-	version: "2.0.2",
+	version: "2.0.3",
 	typescriptVersion: "4.0.2"
 };
 const components = [
@@ -10231,7 +9616,6 @@ const components = [
 		encapsulation: "scoped",
 		tag: "resource-author-item",
 		readme: "# resource-author\n\n\n",
-<<<<<<< HEAD
 		docs: "",
 		docsTags: [
 		],
@@ -10283,565 +9667,6 @@ const components = [
 			],
 			"resource-webinar": [
 				"resource-author-item"
-			]
-		}
-	},
-	{
-		filePath: "./src/resource-center/resource-card/resource-card.tsx",
-		encapsulation: "scoped",
-		tag: "resource-card",
-		readme: "# resource-card\n\n\n",
-		docs: "",
-		docsTags: [
-		],
-		usage: {
-		},
-		props: [
-			{
-				name: "description",
-				type: "boolean",
-				mutable: false,
-				attr: "description",
-				reflectToAttr: false,
-				docs: "",
-				docsTags: [
-				],
-				"default": "true",
-				values: [
-					{
-						type: "boolean"
-					}
-				],
-				optional: false,
-				required: false
-			},
-			{
-				name: "headingLevel",
-				type: "1 | 2 | 3 | 4 | 5 | 6",
-				mutable: false,
-				attr: "heading-level",
-				reflectToAttr: false,
-				docs: "",
-				docsTags: [
-				],
-				"default": "4",
-				values: [
-					{
-						value: "1",
-						type: "number"
-					},
-					{
-						value: "2",
-						type: "number"
-					},
-					{
-						value: "3",
-						type: "number"
-					},
-					{
-						value: "4",
-						type: "number"
-					},
-					{
-						value: "5",
-						type: "number"
-					},
-					{
-						value: "6",
-						type: "number"
-					}
-				],
-				optional: false,
-				required: false
-			},
-			{
-				name: "prismicData",
-				type: "PrismicResource",
-				mutable: false,
-				reflectToAttr: false,
-				docs: "",
-				docsTags: [
-				],
-				values: [
-					{
-						type: "PrismicResource"
-					}
-				],
-				optional: false,
-				required: true
-			},
-			{
-				name: "routing",
-				type: "{ base?: string; includeType?: boolean; router?: Router; }",
-				mutable: false,
-				reflectToAttr: false,
-				docs: "",
-				docsTags: [
-				],
-				values: [
-					{
-						type: "{ base?: string; includeType?: boolean; router?: Router; }"
-					}
-				],
-				optional: false,
-				required: false
-			},
-			{
-				name: "row",
-				type: "boolean",
-				mutable: false,
-				attr: "row",
-				reflectToAttr: false,
-				docs: "",
-				docsTags: [
-				],
-				"default": "false",
-				values: [
-					{
-						type: "boolean"
-					}
-				],
-				optional: false,
-				required: false
-			}
-		],
-		methods: [
-		],
-		events: [
-		],
-		listeners: [
-		],
-		styles: [
-		],
-		slots: [
-		],
-		parts: [
-		],
-		dependents: [
-			"more-resources"
-		],
-		dependencies: [
-			"resource-meta",
-			"resource-author-item"
-		],
-		dependencyGraph: {
-			"resource-card": [
-				"resource-meta",
-				"resource-author-item"
-			],
-			"more-resources": [
-				"resource-card"
-			]
-		}
-	},
-	{
-		filePath: "./src/resource-center/types/resource-case-study/resource-case-study.tsx",
-		encapsulation: "scoped",
-		tag: "resource-case-study",
-		readme: "# resource-case-study\n\n\n",
-		docs: "",
-		docsTags: [
-		],
-		usage: {
-		},
-		props: [
-			{
-				name: "prismicData",
-				type: "PrismicResource",
-				mutable: false,
-				reflectToAttr: false,
-				docs: "",
-				docsTags: [
-				],
-				values: [
-					{
-						type: "PrismicResource"
-					}
-				],
-				optional: false,
-				required: true
-			}
-		],
-		methods: [
-		],
-		events: [
-		],
-		listeners: [
-		],
-		styles: [
-		],
-		slots: [
-		],
-		parts: [
-		],
-		dependents: [
-		],
-		dependencies: [
-			"resource-toc"
-		],
-		dependencyGraph: {
-			"resource-case-study": [
-				"resource-toc"
-			]
-		}
-	},
-	{
-		filePath: "./src/resource-center/resource-meta/resource-meta.tsx",
-		encapsulation: "scoped",
-		tag: "resource-meta",
-		readme: "# resource-meta\n\n\n",
-		docs: "",
-		docsTags: [
-		],
-		usage: {
-		},
-		props: [
-			{
-				name: "tags",
-				type: "string[]",
-				mutable: false,
-				reflectToAttr: false,
-				docs: "",
-				docsTags: [
-				],
-				values: [
-					{
-						type: "string[]"
-					}
-				],
-				optional: false,
-				required: true
-			}
-		],
-		methods: [
-		],
-		events: [
-		],
-		listeners: [
-		],
-		styles: [
-		],
-		slots: [
-		],
-		parts: [
-		],
-		dependents: [
-			"resource-card",
-			"resource-webinar"
-		],
-		dependencies: [
-		],
-		dependencyGraph: {
-			"resource-card": [
-				"resource-meta"
-			],
-			"resource-webinar": [
-				"resource-meta"
-			]
-		}
-	},
-	{
-		filePath: "./src/resource-center/resource-toc/resource-toc.tsx",
-		encapsulation: "scoped",
-		tag: "resource-toc",
-		readme: "# resource-toc\n\n\n",
-		docs: "",
-		docsTags: [
-		],
-		usage: {
-		},
-		props: [
-			{
-				name: "titleNames",
-				type: "string[]",
-				mutable: false,
-				reflectToAttr: false,
-				docs: "",
-				docsTags: [
-				],
-				values: [
-					{
-						type: "string[]"
-					}
-				],
-				optional: false,
-				required: true
-			}
-		],
-		methods: [
-		],
-		events: [
-		],
-		listeners: [
-		],
-		styles: [
-		],
-		slots: [
-		],
-		parts: [
-		],
-		dependents: [
-			"resource-article",
-			"resource-case-study"
-		],
-		dependencies: [
-		],
-		dependencyGraph: {
-			"resource-article": [
-				"resource-toc"
-			],
-			"resource-case-study": [
-				"resource-toc"
-			]
-		}
-	},
-	{
-		filePath: "./src/resource-center/types/resource-webinar/resource-webinar.tsx",
-		encapsulation: "scoped",
-		tag: "resource-webinar",
-		readme: "# resource-webinar\n\n\n",
-		docs: "",
-		docsTags: [
-		],
-		usage: {
-		},
-		props: [
-			{
-				name: "prismicData",
-				type: "PrismicResource",
-				mutable: false,
-				reflectToAttr: false,
-				docs: "",
-				docsTags: [
-				],
-				values: [
-					{
-						type: "PrismicResource"
-					}
-				],
-				optional: false,
-				required: true
-			},
-			{
-				name: "state",
-				type: "any",
-				mutable: false,
-				attr: "state",
-				reflectToAttr: false,
-				docs: "",
-				docsTags: [
-				],
-				values: [
-					{
-						type: "any"
-					}
-				],
-				optional: false,
-				required: true
-			}
-		],
-		methods: [
-		],
-		events: [
-		],
-		listeners: [
-		],
-		styles: [
-		],
-		slots: [
-		],
-		parts: [
-		],
-		dependents: [
-		],
-		dependencies: [
-			"resource-meta",
-			"wistia-video",
-			"resource-author-item",
-			"hubspot-form",
-			"site-modal"
-		],
-		dependencyGraph: {
-			"resource-webinar": [
-				"resource-meta",
-				"wistia-video",
-				"resource-author-item",
-				"hubspot-form",
-				"site-modal"
-			]
-		}
-	},
-	{
-		filePath: "./src/resource-center/types/resource-whitepaper/resource-whitepaper.tsx",
-		encapsulation: "scoped",
-		tag: "resource-whitepaper",
-		readme: "# resource-whitepaper\n\n\n",
-		docs: "",
-		docsTags: [
-		],
-		usage: {
-		},
-		props: [
-			{
-				name: "prismicData",
-				type: "PrismicResource",
-				mutable: false,
-				reflectToAttr: false,
-				docs: "",
-				docsTags: [
-				],
-				values: [
-					{
-						type: "PrismicResource"
-					}
-				],
-				optional: false,
-				required: true
-			}
-		],
-		methods: [
-		],
-		events: [
-		],
-		listeners: [
-		],
-		styles: [
-		],
-		slots: [
-		],
-		parts: [
-		],
-		dependents: [
-		],
-		dependencies: [
-			"hubspot-form"
-		],
-		dependencyGraph: {
-			"resource-whitepaper": [
-				"hubspot-form"
-			]
-		}
-	},
-	{
-		filePath: "./src/docs/demo/demo.tsx",
-		encapsulation: "none",
-		tag: "shared-demo",
-		readme: "# shared-demo\n\n\n",
-		docs: "",
-		docsTags: [
-		],
-		usage: {
-		},
-		props: [
-		],
-		methods: [
-		],
-		events: [
-		],
-		listeners: [
-		],
-		styles: [
-		],
-		slots: [
-		],
-		parts: [
-		],
-		dependents: [
-			"docs-root"
-		],
-		dependencies: [
-			"site-platform-bar",
-			"more-resources"
-		],
-		dependencyGraph: {
-			"shared-demo": [
-				"site-platform-bar",
-				"more-resources"
-			],
-			"more-resources": [
-				"resource-card"
-			],
-			"resource-card": [
-				"resource-meta",
-				"resource-author-item"
-			],
-			"docs-root": [
-				"shared-demo"
-			]
-		}
-	},
-	{
-		filePath: "./src/core/components/site-modal/site-modal.tsx",
-		encapsulation: "none",
-		tag: "site-modal",
-		readme: "# site-modal\n\n\n",
-=======
->>>>>>> 8305d0132654222ac06d00fb033d876b58d79e38
-		docs: "",
-		docsTags: [
-		],
-		usage: {
-		},
-		props: [
-			{
-				name: "author",
-				type: "ResourceAuthor",
-				mutable: false,
-				reflectToAttr: false,
-				docs: "",
-				docsTags: [
-				],
-				values: [
-					{
-						type: "ResourceAuthor"
-					}
-				],
-				optional: false,
-				required: true
-			}
-		],
-		methods: [
-		],
-		events: [
-		],
-		listeners: [
-		],
-		styles: [
-		],
-		slots: [
-		],
-		parts: [
-		],
-		dependents: [
-<<<<<<< HEAD
-			"component-detail",
-			"component-list",
-			"component-overview",
-=======
-			"resource-article",
-			"resource-card",
->>>>>>> 8305d0132654222ac06d00fb033d876b58d79e38
-			"resource-webinar"
-		],
-		dependencies: [
-		],
-		dependencyGraph: {
-			"resource-article": [
-				"resource-author-item"
-			],
-			"resource-card": [
-				"resource-author-item"
-			],
-<<<<<<< HEAD
-			"component-overview": [
-				"site-modal"
-			],
-			"resource-webinar": [
-				"site-modal"
-=======
-			"resource-webinar": [
-				"resource-author-item"
->>>>>>> 8305d0132654222ac06d00fb033d876b58d79e38
 			]
 		}
 	},
@@ -12102,8 +10927,6 @@ const components = [
 		}
 	},
 	{
-<<<<<<< HEAD
-=======
 		filePath: "./src/core/components/Paragraph/ui-paragraph.tsx",
 		encapsulation: "none",
 		tag: "ui-paragraph",
@@ -12383,7 +11206,6 @@ const components = [
 		}
 	},
 	{
->>>>>>> 8305d0132654222ac06d00fb033d876b58d79e38
 		filePath: "./src/web/components/wistia-video/wistia-video.tsx",
 		encapsulation: "scoped",
 		tag: "wistia-video",
@@ -12447,831 +11269,6 @@ var docsData = {
 	compiler: compiler,
 	components: components
 };
-<<<<<<< HEAD
-
-var marked = createCommonjsModule(function (module, exports) {
-/**
- * marked - a markdown parser
- * Copyright (c) 2011-2020, Christopher Jeffrey. (MIT Licensed)
- * https://github.com/markedjs/marked
- */
-
-/**
- * DO NOT EDIT THIS FILE
- * The code in this file is generated from files in ./src/
- */
-
-(function (global, factory) {
-   module.exports = factory() ;
-}(commonjsGlobal, (function () {
-  function _defineProperties(target, props) {
-    for (var i = 0; i < props.length; i++) {
-      var descriptor = props[i];
-      descriptor.enumerable = descriptor.enumerable || false;
-      descriptor.configurable = true;
-      if ("value" in descriptor) descriptor.writable = true;
-      Object.defineProperty(target, descriptor.key, descriptor);
-    }
-  }
-
-  function _createClass(Constructor, protoProps, staticProps) {
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties(Constructor, staticProps);
-    return Constructor;
-  }
-
-  function _unsupportedIterableToArray(o, minLen) {
-    if (!o) return;
-    if (typeof o === "string") return _arrayLikeToArray(o, minLen);
-    var n = Object.prototype.toString.call(o).slice(8, -1);
-    if (n === "Object" && o.constructor) n = o.constructor.name;
-    if (n === "Map" || n === "Set") return Array.from(o);
-    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
-  }
-
-  function _arrayLikeToArray(arr, len) {
-    if (len == null || len > arr.length) len = arr.length;
-
-    for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
-
-    return arr2;
-  }
-
-  function _createForOfIteratorHelperLoose(o, allowArrayLike) {
-    var it;
-
-    if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) {
-      if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") {
-        if (it) o = it;
-        var i = 0;
-        return function () {
-          if (i >= o.length) return {
-            done: true
-          };
-          return {
-            done: false,
-            value: o[i++]
-          };
-        };
-      }
-
-      throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-    }
-
-    it = o[Symbol.iterator]();
-    return it.next.bind(it);
-  }
-
-  function createCommonjsModule(fn, module) {
-  	return module = { exports: {} }, fn(module, module.exports), module.exports;
-  }
-
-  var defaults = createCommonjsModule(function (module) {
-    function getDefaults() {
-      return {
-        baseUrl: null,
-        breaks: false,
-        gfm: true,
-        headerIds: true,
-        headerPrefix: '',
-        highlight: null,
-        langPrefix: 'language-',
-        mangle: true,
-        pedantic: false,
-        renderer: null,
-        sanitize: false,
-        sanitizer: null,
-        silent: false,
-        smartLists: false,
-        smartypants: false,
-        tokenizer: null,
-        walkTokens: null,
-        xhtml: false
-      };
-    }
-
-    function changeDefaults(newDefaults) {
-      module.exports.defaults = newDefaults;
-    }
-
-    module.exports = {
-      defaults: getDefaults(),
-      getDefaults: getDefaults,
-      changeDefaults: changeDefaults
-    };
-  });
-
-  /**
-   * Helpers
-   */
-  var escapeTest = /[&<>"']/;
-  var escapeReplace = /[&<>"']/g;
-  var escapeTestNoEncode = /[<>"']|&(?!#?\w+;)/;
-  var escapeReplaceNoEncode = /[<>"']|&(?!#?\w+;)/g;
-  var escapeReplacements = {
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    "'": '&#39;'
-  };
-
-  var getEscapeReplacement = function getEscapeReplacement(ch) {
-    return escapeReplacements[ch];
-  };
-
-  function escape(html, encode) {
-    if (encode) {
-      if (escapeTest.test(html)) {
-        return html.replace(escapeReplace, getEscapeReplacement);
-      }
-    } else {
-      if (escapeTestNoEncode.test(html)) {
-        return html.replace(escapeReplaceNoEncode, getEscapeReplacement);
-      }
-    }
-
-    return html;
-  }
-
-  var unescapeTest = /&(#(?:\d+)|(?:#x[0-9A-Fa-f]+)|(?:\w+));?/ig;
-
-  function unescape(html) {
-    // explicitly match decimal, hex, and named HTML entities
-    return html.replace(unescapeTest, function (_, n) {
-      n = n.toLowerCase();
-      if (n === 'colon') return ':';
-
-      if (n.charAt(0) === '#') {
-        return n.charAt(1) === 'x' ? String.fromCharCode(parseInt(n.substring(2), 16)) : String.fromCharCode(+n.substring(1));
-      }
-
-      return '';
-    });
-  }
-
-  var caret = /(^|[^\[])\^/g;
-
-  function edit(regex, opt) {
-    regex = regex.source || regex;
-    opt = opt || '';
-    var obj = {
-      replace: function replace(name, val) {
-        val = val.source || val;
-        val = val.replace(caret, '$1');
-        regex = regex.replace(name, val);
-        return obj;
-      },
-      getRegex: function getRegex() {
-        return new RegExp(regex, opt);
-      }
-    };
-    return obj;
-  }
-
-  var nonWordAndColonTest = /[^\w:]/g;
-  var originIndependentUrl = /^$|^[a-z][a-z0-9+.-]*:|^[?#]/i;
-
-  function cleanUrl(sanitize, base, href) {
-    if (sanitize) {
-      var prot;
-
-      try {
-        prot = decodeURIComponent(unescape(href)).replace(nonWordAndColonTest, '').toLowerCase();
-      } catch (e) {
-        return null;
-      }
-
-      if (prot.indexOf('javascript:') === 0 || prot.indexOf('vbscript:') === 0 || prot.indexOf('data:') === 0) {
-        return null;
-      }
-    }
-
-    if (base && !originIndependentUrl.test(href)) {
-      href = resolveUrl(base, href);
-    }
-
-    try {
-      href = encodeURI(href).replace(/%25/g, '%');
-    } catch (e) {
-      return null;
-    }
-
-    return href;
-  }
-
-  var baseUrls = {};
-  var justDomain = /^[^:]+:\/*[^/]*$/;
-  var protocol = /^([^:]+:)[\s\S]*$/;
-  var domain = /^([^:]+:\/*[^/]*)[\s\S]*$/;
-
-  function resolveUrl(base, href) {
-    if (!baseUrls[' ' + base]) {
-      // we can ignore everything in base after the last slash of its path component,
-      // but we might need to add _that_
-      // https://tools.ietf.org/html/rfc3986#section-3
-      if (justDomain.test(base)) {
-        baseUrls[' ' + base] = base + '/';
-      } else {
-        baseUrls[' ' + base] = rtrim(base, '/', true);
-      }
-    }
-
-    base = baseUrls[' ' + base];
-    var relativeBase = base.indexOf(':') === -1;
-
-    if (href.substring(0, 2) === '//') {
-      if (relativeBase) {
-        return href;
-      }
-
-      return base.replace(protocol, '$1') + href;
-    } else if (href.charAt(0) === '/') {
-      if (relativeBase) {
-        return href;
-      }
-
-      return base.replace(domain, '$1') + href;
-    } else {
-      return base + href;
-    }
-  }
-
-  var noopTest = {
-    exec: function noopTest() {}
-  };
-
-  function merge(obj) {
-    var i = 1,
-        target,
-        key;
-
-    for (; i < arguments.length; i++) {
-      target = arguments[i];
-
-      for (key in target) {
-        if (Object.prototype.hasOwnProperty.call(target, key)) {
-          obj[key] = target[key];
-        }
-      }
-    }
-
-    return obj;
-  }
-
-  function splitCells(tableRow, count) {
-    // ensure that every cell-delimiting pipe has a space
-    // before it to distinguish it from an escaped pipe
-    var row = tableRow.replace(/\|/g, function (match, offset, str) {
-      var escaped = false,
-          curr = offset;
-
-      while (--curr >= 0 && str[curr] === '\\') {
-        escaped = !escaped;
-      }
-
-      if (escaped) {
-        // odd number of slashes means | is escaped
-        // so we leave it alone
-        return '|';
-      } else {
-        // add space before unescaped |
-        return ' |';
-      }
-    }),
-        cells = row.split(/ \|/);
-    var i = 0;
-
-    if (cells.length > count) {
-      cells.splice(count);
-    } else {
-      while (cells.length < count) {
-        cells.push('');
-      }
-    }
-
-    for (; i < cells.length; i++) {
-      // leading or trailing whitespace is ignored per the gfm spec
-      cells[i] = cells[i].trim().replace(/\\\|/g, '|');
-    }
-
-    return cells;
-  } // Remove trailing 'c's. Equivalent to str.replace(/c*$/, '').
-  // /c*$/ is vulnerable to REDOS.
-  // invert: Remove suffix of non-c chars instead. Default falsey.
-
-
-  function rtrim(str, c, invert) {
-    var l = str.length;
-
-    if (l === 0) {
-      return '';
-    } // Length of suffix matching the invert condition.
-
-
-    var suffLen = 0; // Step left until we fail to match the invert condition.
-
-    while (suffLen < l) {
-      var currChar = str.charAt(l - suffLen - 1);
-
-      if (currChar === c && !invert) {
-        suffLen++;
-      } else if (currChar !== c && invert) {
-        suffLen++;
-      } else {
-        break;
-      }
-    }
-
-    return str.substr(0, l - suffLen);
-  }
-
-  function findClosingBracket(str, b) {
-    if (str.indexOf(b[1]) === -1) {
-      return -1;
-    }
-
-    var l = str.length;
-    var level = 0,
-        i = 0;
-
-    for (; i < l; i++) {
-      if (str[i] === '\\') {
-        i++;
-      } else if (str[i] === b[0]) {
-        level++;
-      } else if (str[i] === b[1]) {
-        level--;
-
-        if (level < 0) {
-          return i;
-        }
-      }
-    }
-
-    return -1;
-  }
-
-  function checkSanitizeDeprecation(opt) {
-    if (opt && opt.sanitize && !opt.silent) {
-      console.warn('marked(): sanitize and sanitizer parameters are deprecated since version 0.7.0, should not be used and will be removed in the future. Read more here: https://marked.js.org/#/USING_ADVANCED.md#options');
-    }
-  }
-
-  var helpers = {
-    escape: escape,
-    unescape: unescape,
-    edit: edit,
-    cleanUrl: cleanUrl,
-    resolveUrl: resolveUrl,
-    noopTest: noopTest,
-    merge: merge,
-    splitCells: splitCells,
-    rtrim: rtrim,
-    findClosingBracket: findClosingBracket,
-    checkSanitizeDeprecation: checkSanitizeDeprecation
-  };
-
-  var defaults$1 = defaults.defaults;
-  var rtrim$1 = helpers.rtrim,
-      splitCells$1 = helpers.splitCells,
-      _escape = helpers.escape,
-      findClosingBracket$1 = helpers.findClosingBracket;
-
-  function outputLink(cap, link, raw) {
-    var href = link.href;
-    var title = link.title ? _escape(link.title) : null;
-    var text = cap[1].replace(/\\([\[\]])/g, '$1');
-
-    if (cap[0].charAt(0) !== '!') {
-      return {
-        type: 'link',
-        raw: raw,
-        href: href,
-        title: title,
-        text: text
-      };
-    } else {
-      return {
-        type: 'image',
-        raw: raw,
-        href: href,
-        title: title,
-        text: _escape(text)
-      };
-    }
-  }
-
-  function indentCodeCompensation(raw, text) {
-    var matchIndentToCode = raw.match(/^(\s+)(?:```)/);
-
-    if (matchIndentToCode === null) {
-      return text;
-    }
-
-    var indentToCode = matchIndentToCode[1];
-    return text.split('\n').map(function (node) {
-      var matchIndentInNode = node.match(/^\s+/);
-
-      if (matchIndentInNode === null) {
-        return node;
-      }
-
-      var indentInNode = matchIndentInNode[0];
-
-      if (indentInNode.length >= indentToCode.length) {
-        return node.slice(indentToCode.length);
-      }
-
-      return node;
-    }).join('\n');
-  }
-  /**
-   * Tokenizer
-   */
-
-
-  var Tokenizer_1 = /*#__PURE__*/function () {
-    function Tokenizer(options) {
-      this.options = options || defaults$1;
-    }
-
-    var _proto = Tokenizer.prototype;
-
-    _proto.space = function space(src) {
-      var cap = this.rules.block.newline.exec(src);
-
-      if (cap) {
-        if (cap[0].length > 1) {
-          return {
-            type: 'space',
-            raw: cap[0]
-          };
-        }
-
-        return {
-          raw: '\n'
-        };
-      }
-    };
-
-    _proto.code = function code(src, tokens) {
-      var cap = this.rules.block.code.exec(src);
-
-      if (cap) {
-        var lastToken = tokens[tokens.length - 1]; // An indented code block cannot interrupt a paragraph.
-
-        if (lastToken && lastToken.type === 'paragraph') {
-          return {
-            raw: cap[0],
-            text: cap[0].trimRight()
-          };
-        }
-
-        var text = cap[0].replace(/^ {4}/gm, '');
-        return {
-          type: 'code',
-          raw: cap[0],
-          codeBlockStyle: 'indented',
-          text: !this.options.pedantic ? rtrim$1(text, '\n') : text
-        };
-      }
-    };
-
-    _proto.fences = function fences(src) {
-      var cap = this.rules.block.fences.exec(src);
-
-      if (cap) {
-        var raw = cap[0];
-        var text = indentCodeCompensation(raw, cap[3] || '');
-        return {
-          type: 'code',
-          raw: raw,
-          lang: cap[2] ? cap[2].trim() : cap[2],
-          text: text
-        };
-      }
-    };
-
-    _proto.heading = function heading(src) {
-      var cap = this.rules.block.heading.exec(src);
-
-      if (cap) {
-        return {
-          type: 'heading',
-          raw: cap[0],
-          depth: cap[1].length,
-          text: cap[2]
-        };
-      }
-    };
-
-    _proto.nptable = function nptable(src) {
-      var cap = this.rules.block.nptable.exec(src);
-
-      if (cap) {
-        var item = {
-          type: 'table',
-          header: splitCells$1(cap[1].replace(/^ *| *\| *$/g, '')),
-          align: cap[2].replace(/^ *|\| *$/g, '').split(/ *\| */),
-          cells: cap[3] ? cap[3].replace(/\n$/, '').split('\n') : [],
-          raw: cap[0]
-        };
-
-        if (item.header.length === item.align.length) {
-          var l = item.align.length;
-          var i;
-
-          for (i = 0; i < l; i++) {
-            if (/^ *-+: *$/.test(item.align[i])) {
-              item.align[i] = 'right';
-            } else if (/^ *:-+: *$/.test(item.align[i])) {
-              item.align[i] = 'center';
-            } else if (/^ *:-+ *$/.test(item.align[i])) {
-              item.align[i] = 'left';
-            } else {
-              item.align[i] = null;
-            }
-          }
-
-          l = item.cells.length;
-
-          for (i = 0; i < l; i++) {
-            item.cells[i] = splitCells$1(item.cells[i], item.header.length);
-          }
-
-          return item;
-        }
-      }
-    };
-
-    _proto.hr = function hr(src) {
-      var cap = this.rules.block.hr.exec(src);
-
-      if (cap) {
-        return {
-          type: 'hr',
-          raw: cap[0]
-        };
-      }
-    };
-
-    _proto.blockquote = function blockquote(src) {
-      var cap = this.rules.block.blockquote.exec(src);
-
-      if (cap) {
-        var text = cap[0].replace(/^ *> ?/gm, '');
-        return {
-          type: 'blockquote',
-          raw: cap[0],
-          text: text
-        };
-      }
-    };
-
-    _proto.list = function list(src) {
-      var cap = this.rules.block.list.exec(src);
-
-      if (cap) {
-        var raw = cap[0];
-        var bull = cap[2];
-        var isordered = bull.length > 1;
-        var isparen = bull[bull.length - 1] === ')';
-        var list = {
-          type: 'list',
-          raw: raw,
-          ordered: isordered,
-          start: isordered ? +bull.slice(0, -1) : '',
-          loose: false,
-          items: []
-        }; // Get each top-level item.
-
-        var itemMatch = cap[0].match(this.rules.block.item);
-        var next = false,
-            item,
-            space,
-            b,
-            addBack,
-            loose,
-            istask,
-            ischecked;
-        var l = itemMatch.length;
-
-        for (var i = 0; i < l; i++) {
-          item = itemMatch[i];
-          raw = item; // Remove the list item's bullet
-          // so it is seen as the next token.
-
-          space = item.length;
-          item = item.replace(/^ *([*+-]|\d+[.)]) */, ''); // Outdent whatever the
-          // list item contains. Hacky.
-
-          if (~item.indexOf('\n ')) {
-            space -= item.length;
-            item = !this.options.pedantic ? item.replace(new RegExp('^ {1,' + space + '}', 'gm'), '') : item.replace(/^ {1,4}/gm, '');
-          } // Determine whether the next list item belongs here.
-          // Backpedal if it does not belong in this list.
-
-
-          if (i !== l - 1) {
-            b = this.rules.block.bullet.exec(itemMatch[i + 1])[0];
-
-            if (isordered ? b.length === 1 || !isparen && b[b.length - 1] === ')' : b.length > 1 || this.options.smartLists && b !== bull) {
-              addBack = itemMatch.slice(i + 1).join('\n');
-              list.raw = list.raw.substring(0, list.raw.length - addBack.length);
-              i = l - 1;
-            }
-          } // Determine whether item is loose or not.
-          // Use: /(^|\n)(?! )[^\n]+\n\n(?!\s*$)/
-          // for discount behavior.
-
-
-          loose = next || /\n\n(?!\s*$)/.test(item);
-
-          if (i !== l - 1) {
-            next = item.charAt(item.length - 1) === '\n';
-            if (!loose) loose = next;
-          }
-
-          if (loose) {
-            list.loose = true;
-          } // Check for task list items
-
-
-          istask = /^\[[ xX]\] /.test(item);
-          ischecked = undefined;
-
-          if (istask) {
-            ischecked = item[1] !== ' ';
-            item = item.replace(/^\[[ xX]\] +/, '');
-          }
-
-          list.items.push({
-            type: 'list_item',
-            raw: raw,
-            task: istask,
-            checked: ischecked,
-            loose: loose,
-            text: item
-          });
-        }
-
-        return list;
-      }
-    };
-
-    _proto.html = function html(src) {
-      var cap = this.rules.block.html.exec(src);
-
-      if (cap) {
-        return {
-          type: this.options.sanitize ? 'paragraph' : 'html',
-          raw: cap[0],
-          pre: !this.options.sanitizer && (cap[1] === 'pre' || cap[1] === 'script' || cap[1] === 'style'),
-          text: this.options.sanitize ? this.options.sanitizer ? this.options.sanitizer(cap[0]) : _escape(cap[0]) : cap[0]
-        };
-      }
-    };
-
-    _proto.def = function def(src) {
-      var cap = this.rules.block.def.exec(src);
-
-      if (cap) {
-        if (cap[3]) cap[3] = cap[3].substring(1, cap[3].length - 1);
-        var tag = cap[1].toLowerCase().replace(/\s+/g, ' ');
-        return {
-          tag: tag,
-          raw: cap[0],
-          href: cap[2],
-          title: cap[3]
-        };
-      }
-    };
-
-    _proto.table = function table(src) {
-      var cap = this.rules.block.table.exec(src);
-
-      if (cap) {
-        var item = {
-          type: 'table',
-          header: splitCells$1(cap[1].replace(/^ *| *\| *$/g, '')),
-          align: cap[2].replace(/^ *|\| *$/g, '').split(/ *\| */),
-          cells: cap[3] ? cap[3].replace(/\n$/, '').split('\n') : []
-        };
-
-        if (item.header.length === item.align.length) {
-          item.raw = cap[0];
-          var l = item.align.length;
-          var i;
-
-          for (i = 0; i < l; i++) {
-            if (/^ *-+: *$/.test(item.align[i])) {
-              item.align[i] = 'right';
-            } else if (/^ *:-+: *$/.test(item.align[i])) {
-              item.align[i] = 'center';
-            } else if (/^ *:-+ *$/.test(item.align[i])) {
-              item.align[i] = 'left';
-            } else {
-              item.align[i] = null;
-            }
-          }
-
-          l = item.cells.length;
-
-          for (i = 0; i < l; i++) {
-            item.cells[i] = splitCells$1(item.cells[i].replace(/^ *\| *| *\| *$/g, ''), item.header.length);
-          }
-
-          return item;
-        }
-      }
-    };
-
-    _proto.lheading = function lheading(src) {
-      var cap = this.rules.block.lheading.exec(src);
-
-      if (cap) {
-        return {
-          type: 'heading',
-          raw: cap[0],
-          depth: cap[2].charAt(0) === '=' ? 1 : 2,
-          text: cap[1]
-        };
-      }
-    };
-
-    _proto.paragraph = function paragraph(src) {
-      var cap = this.rules.block.paragraph.exec(src);
-
-      if (cap) {
-        return {
-          type: 'paragraph',
-          raw: cap[0],
-          text: cap[1].charAt(cap[1].length - 1) === '\n' ? cap[1].slice(0, -1) : cap[1]
-        };
-      }
-    };
-
-    _proto.text = function text(src, tokens) {
-      var cap = this.rules.block.text.exec(src);
-
-      if (cap) {
-        var lastToken = tokens[tokens.length - 1];
-
-        if (lastToken && lastToken.type === 'text') {
-          return {
-            raw: cap[0],
-            text: cap[0]
-          };
-        }
-
-        return {
-          type: 'text',
-          raw: cap[0],
-          text: cap[0]
-        };
-      }
-    };
-
-    _proto.escape = function escape(src) {
-      var cap = this.rules.inline.escape.exec(src);
-
-      if (cap) {
-        return {
-          type: 'escape',
-          raw: cap[0],
-          text: _escape(cap[1])
-        };
-      }
-    };
-
-    _proto.tag = function tag(src, inLink, inRawBlock) {
-      var cap = this.rules.inline.tag.exec(src);
-
-      if (cap) {
-        if (!inLink && /^<a /i.test(cap[0])) {
-          inLink = true;
-        } else if (inLink && /^<\/a>/i.test(cap[0])) {
-          inLink = false;
-        }
-
-        if (!inRawBlock && /^<(pre|code|kbd|script)(\s|>)/i.test(cap[0])) {
-          inRawBlock = true;
-        } else if (inRawBlock && /^<\/(pre|code|kbd|script)(\s|>)/i.test(cap[0])) {
-          inRawBlock = false;
-        }
-
-        return {
-          type: this.options.sanitize ? 'text' : 'html',
-          raw: cap[0],
-          inLink: inLink,
-          inRawBlock: inRawBlock,
-          text: this.options.sanitize ? this.options.sanitizer ? this.options.sanitizer(cap[0]) : _escape(cap[0]) : cap[0]
-        };
-      }
-    };
-=======
->>>>>>> 8305d0132654222ac06d00fb033d876b58d79e38
 
 var marked = createCommonjsModule(function (module, exports) {
 /**
@@ -15427,89 +13424,6 @@ var marked = createCommonjsModule(function (module, exports) {
               l2 = token.items.length;
               body = '';
 
-<<<<<<< HEAD
-// import { Heading } from '../../core';
-const getReadme = (componentName, isFunctionalComponent = false) => {
-  if (isFunctionalComponent) {
-    componentName = `ui-${componentName.toLowerCase()}`;
-  }
-  let component = null;
-  for (let entry in docsData.components) {
-    if (docsData.components[entry].tag === componentName) {
-      component = docsData.components[entry];
-    }
-  }
-  if (!component)
-    return;
-  return [
-    getHeader(component),
-    renderCustomProps(component.props)
-  ];
-};
-const getHeader = (component) => {
-  const functionalTag = capitalizeFirstLetter(component.tag.replace('ui-', ''));
-  const newHeader = `# \`<${component.tag}>\`, \`<${functionalTag}>\``;
-  const markdownHeader = component.readme.replace(`# ${component.tag}`, newHeader);
-  return hAsync("div", { innerHTML: marked(markdownHeader) });
-};
-const renderCustomProps = (customProps = []) => {
-  if (customProps.length === 0) {
-    return null;
-  }
-  return (hAsync("section", null,
-    hAsync("table", null,
-      hAsync("thead", null,
-        hAsync("tr", null,
-          hAsync("th", null, "Property"),
-          hAsync("th", null, "Description"))),
-      hAsync("tbody", null, customProps.map(prop => (hAsync("tr", null,
-        hAsync("td", null,
-          hAsync("code", null,
-            prop.name,
-            prop.optional && '?',
-            prop.type && `: ${prop.type}`,
-            prop.default && ` = ${prop.default}`)),
-        hAsync("td", { innerHTML: marked(prop.docs) }))))))));
-};
-const capitalizeFirstLetter = string => {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-};
-
-class ComponentOverview {
-  constructor(hostRef) {
-    registerInstance(this, hostRef);
-  }
-  render() {
-    const exampleList = Object.assign(Object.assign({}, coreExamples), webExamples);
-    const example = exampleList[`${dashToCamel(this.component)}Examples`];
-    const readme = getReadme(this.component, this.component.indexOf('-') === -1);
-    let columns = [
-      { xs: 12 },
-      { xs: 12, sm: 6 },
-      { xs: 12, sm: 6, md: 4 } // 3 columns
-    ];
-    return [
-      hAsync("a", Object.assign({ class: "back-link" }, href('/')), "\u2190 Back to Example List"),
-      hAsync("div", { class: "readme" }, readme),
-      hAsync(Heading, { class: "examples-title" }, "Examples"),
-      hAsync(Grid, null, example && Object.keys(example)
-        .filter(methodName => methodName !== 'default')
-        .map(methodName => (hAsync(Col, Object.assign({ class: "example" }, columns[(example.default.cols || 3) - 1]), hAsync(Card, Object.assign({}, href(`/detail/${this.component}/${methodName}`)), hAsync(CardContent, null, hAsync("div", { class: "example-body" }, example[methodName]())))))))
-    ];
-  }
-  static get style() { return "table {\n      padding: var(--space-6) 0 var(--space-10);\n    }\n    th {\n      background: var(--c-indigo-20);\n    }\n    .examples-title {\n      margin-bottom: var(--space-6);\n      background: var(--c-indigo-20);\n    }\n    .readme img {\n      border: 2px solid var(--c-carbon-90);\n      max-width: 100%;\n    }"; }
-  static get cmpMeta() { return {
-    "$flags$": 0,
-    "$tagName$": "component-overview",
-    "$members$": {
-      "component": [1]
-    },
-    "$listeners$": undefined,
-    "$lazyBundleId$": "-",
-    "$attrsToReflect$": []
-  }; }
-}
-=======
               for (j = 0; j < l2; j++) {
                 item = token.items[j];
                 checked = item.checked;
@@ -15518,7 +13432,6 @@ class ComponentOverview {
 
                 if (item.task) {
                   checkbox = this.renderer.checkbox(checked);
->>>>>>> 8305d0132654222ac06d00fb033d876b58d79e38
 
                   if (loose) {
                     if (item.tokens.length > 0 && item.tokens[0].type === 'text') {
@@ -16468,11 +14381,7 @@ const cacheLife = 20 * 60 * 1000; // 20 mins
 let ads;
 let lastFetch = null;
 const getLatest = async () => {
-<<<<<<< HEAD
-  const api = await Prismic.getApi(apiURL);
-=======
   const api = await Prismic.getApi(apiURL$1);
->>>>>>> 8305d0132654222ac06d00fb033d876b58d79e38
   const response = await api.query(Prismic.Predicates.at('document.type', 'docs_ad'), {});
   ads = response.results;
   lastFetch = Date.now();
@@ -16592,123 +14501,6 @@ class InternalAd {
   }; }
 }
 
-<<<<<<< HEAD
-var ResourceType;
-(function (ResourceType) {
-  ResourceType["Article"] = "Article";
-  ResourceType["Blog"] = "Blog";
-  ResourceType["Book"] = "Book";
-  ResourceType["CaseStudy"] = "Case Study";
-  ResourceType["CustomerInterview"] = "Customer Interview";
-  ResourceType["Course"] = "Course";
-  ResourceType["Doc"] = "Doc";
-  ResourceType["Guide"] = "Guide";
-  ResourceType["Learning"] = "Learning";
-  ResourceType["Podcast"] = "Podcast";
-  ResourceType["Tutorial"] = "Tutorial";
-  ResourceType["Video"] = "Video";
-  ResourceType["Whitepaper"] = "Whitepaper";
-  ResourceType["Webinar"] = "Webinar";
-})(ResourceType || (ResourceType = {}));
-var ResourceSource;
-(function (ResourceSource) {
-  ResourceSource["Prismic"] = "prismic";
-})(ResourceSource || (ResourceSource = {}));
-
-const apiURL$1 = 'https://ionicframeworkcom.prismic.io/api/v2';
-const getPage = async (prismicId) => {
-  if (!prismicId)
-    return;
-  try {
-    const api = await Prismic.getApi(apiURL$1);
-    const response = await api.getSingle(prismicId);
-    console.log(response);
-    state.pageData = response.data;
-    // if the page has meta data, set it, otherwise use the default
-    // note, if you're hard coding meta data, do it after calling getPage()
-    ['title', 'description', 'meta_image'].forEach(prop => {
-      state[prop] = response.data[prop] ? response.data[prop] : defaults[prop];
-    });
-  }
-  catch (e) {
-    console.warn(e);
-  }
-};
-const prismicDocToResource = (doc) => {
-  return {
-    id: doc.uid,
-    title: doc.data.title || null,
-    description: doc.data.tagline || null,
-    tags: doc.tags || [],
-    publishDate: doc.first_publication_date || null,
-    updatedDate: doc.last_publication_date || null,
-    type: prismicTypeToResourceType(doc.type),
-    authors: getAuthorsForPrismicDoc(doc),
-    metaImage: getImage(doc.data.meta_image),
-    heroImage: getImage(doc.data.hero_image || doc.data.cover_image),
-    source: ResourceSource.Prismic,
-    doc,
-  };
-};
-const getImage = (imageObj) => (imageObj && imageObj.url ? imageObj.url : '');
-const getAuthorsForPrismicDoc = (doc) => {
-  var _a;
-  if ((!doc.data.hosts || !doc.data.hosts.length) && (!doc.data.author || !doc.data.author.length)) {
-    return [];
-  }
-  if (doc.type === 'webinar') {
-    return doc.data.hosts.map((h) => {
-      var _a;
-      return ({
-        name: h.name || '',
-        title: h.title || '',
-        link: ((_a = h.profile_link) === null || _a === void 0 ? void 0 : _a.url) || '',
-        avatar: h.photo || '',
-      });
-    });
-  }
-  else if (doc.data.author && doc.data.author.length) {
-    return doc.data.author.map((a) => {
-      var _a;
-      return ({
-        name: a.name || '',
-        title: a.title || '',
-        link: ((_a = a.author_url) === null || _a === void 0 ? void 0 : _a.url) || '',
-        avatar: a.photo || '',
-      });
-    });
-  }
-  else if (doc.data.author) {
-    return [
-      {
-        name: doc.data.author.name || '',
-        title: doc.data.author.title || '',
-        link: ((_a = doc.data.author.author_url) === null || _a === void 0 ? void 0 : _a.url) || '',
-        avatar: doc.data.author.photo || '',
-      },
-    ];
-  }
-  return [];
-};
-const prismicTypeToResourceType = (type) => ({
-  article: ResourceType.Article,
-  blog: ResourceType.Blog,
-  book: ResourceType.Book,
-  case_study: ResourceType.CaseStudy,
-  course: ResourceType.Course,
-  customer_story: ResourceType.CustomerInterview,
-  doc: ResourceType.Doc,
-  guide: ResourceType.Guide,
-  learning: ResourceType.Learning,
-  podcast: ResourceType.Podcast,
-  tutorial: ResourceType.Tutorial,
-  video: ResourceType.Video,
-  webinar: ResourceType.Webinar,
-  whitepaper: ResourceType.Whitepaper,
-}[type]);
-
-=======
->>>>>>> 8305d0132654222ac06d00fb033d876b58d79e38
 const landingPageCss = ".sc-landing-page-h{--p2-color:var(--c-indigo-80);--p3-color:var(--c-indigo-80);--p4-color:var(--c-indigo-80);--poster1-color:#fff;--h1-color:#fff;--h2-color:var(--c-carbon-100);--h4-color:var(--c-carbon-100);--h5-color:var(--c-carbon-100);--h6-color:var(--c-lavender-70);--p2-color:var(--c-indigo-80);--p3-color:var(--c-indigo-80);--p4-color:var(--c-indigo-80)}a.sc-landing-page{color:var(--c-lavender-80)}.ui-heading-2.sc-landing-page{margin-block-end:var(--space-5)}.ui-heading-4.sc-landing-page{margin-block-end:var(--space-3)}.ui-heading-5.sc-landing-page{margin-block-end:var(--space-3)}.ui-heading-6.sc-landing-page{margin-block-end:var(--space-6)}#top.sc-landing-page{min-height:100vh;contain:content}@media screen and (max-width: 1023px){#top.sc-landing-page{min-height:830px}}@keyframes fadeInUp{0%{opacity:0;transform:translateY(20px)}50%{opacity:1}100%{opacity:1;transform:translateY(0)}}#top.sc-landing-page .background.sc-landing-page{width:max(1800px, 100%);position:absolute;left:min(calc((100% - 1800px) / 2), 0px);z-index:-1}#top.sc-landing-page .heading-group.sc-landing-page{margin-inline-start:auto;margin-inline-end:auto;max-width:800px;min-height:326px;padding-block-start:var(--space-11);padding-block-end:74px;text-align:center}#top.sc-landing-page .heading-group.sc-landing-page .ui-heading.sc-landing-page{opacity:0;animation:1s fadeInUp 0.2s forwards}#top.sc-landing-page .heading-group.sc-landing-page .ui-paragraph.sc-landing-page{margin-block-start:var(--space-5);margin-block-end:var(--space-6);color:#fff;opacity:0;animation:1s fadeInUp 0.4s forwards}#top.sc-landing-page .heading-group.sc-landing-page .cta.sc-landing-page{display:inline-flex;padding:15px 16px;background:#fff;border-radius:var(--radius-4);justify-content:center;align-items:center;opacity:0;animation:1s fadeInUp 0.6s forwards;font-weight:600;font-size:14px;line-height:112%;letter-spacing:-0.02em}#top.sc-landing-page .heading-group.sc-landing-page .cta.sc-landing-page::after{content:\" ->\";font-size:18px;letter-spacing:0;white-space:pre}#top.sc-landing-page .activator.sc-landing-page{opacity:0;animation:1s fadeInUp 0.8s forwards}#companies.sc-landing-page{margin-block-start:160px}#companies.sc-landing-page .ui-heading.sc-landing-page{margin-block-end:var(--space-8);color:var(--c-indigo-70);text-align:center}#companies.sc-landing-page .logos.sc-landing-page{display:flex;margin-inline-start:auto;margin-inline-end:auto;margin-block-end:calc(-1 * var(--space-6));flex-grow:1;max-width:1019px;justify-content:space-between;align-items:center;flex-wrap:wrap}#companies.sc-landing-page .logos.sc-landing-page .wrapper.sc-landing-page{display:inline-grid;margin-block-end:var(--space-6);flex-grow:1;min-width:400px;grid-template-columns:repeat(auto-fit, minmax(64px, 1fr));row-gap:var(--space-6);justify-items:center;align-items:center}@media screen and (max-width: 1023px){#companies.sc-landing-page .logos.sc-landing-page .wrapper.sc-landing-page{flex-basis:400px;min-width:auto}}#companies.sc-landing-page .logos.sc-landing-page .wrapper.sc-landing-page:first-of-type{flex-grow:1.3333333333}#ship.sc-landing-page{margin-block-start:160px;margin-block-end:160px}#ship.sc-landing-page .ui-grid.sc-landing-page{row-gap:var(--space-9)}#ship.sc-landing-page .heading-group.sc-landing-page{margin-inline-start:auto;margin-inline-end:auto;margin-block-end:var(--space-11);max-width:736px;text-align:center}#ship.sc-landing-page .list.sc-landing-page .list-item.sc-landing-page svg.sc-landing-page{margin-block-end:var(--space-6)}#push.sc-landing-page{background:var(--c-indigo-10);padding-block-start:160px;contain:content}@media screen and (max-width: 1023px){#push.sc-landing-page{padding-block-end:160px}}@media screen and (max-width: 767px){#push.sc-landing-page{padding-block-end:0}}#push.sc-landing-page .ui-container.sc-landing-page{display:flex}#push.sc-landing-page .ui-grid.sc-landing-page{row-gap:var(--space-11)}#push.sc-landing-page .text.sc-landing-page{max-width:448px}#push.sc-landing-page .text.sc-landing-page .heading-group.sc-landing-page{margin-block-end:72px}#push.sc-landing-page .list.sc-landing-page{display:grid;grid-template-columns:repeat(auto-fit, minmax(0px, 192px));column-gap:var(--space-9);row-gap:var(--space-6)}#push.sc-landing-page .list.sc-landing-page .list-item.sc-landing-page svg.sc-landing-page{margin-block-end:var(--space-5)}#push.sc-landing-page .image.sc-landing-page{display:flex;flex-grow:1;position:relative;left:var(--space-5);flex-direction:column}@media screen and (max-width: 1215px){#push.sc-landing-page .image.sc-landing-page{left:0}}#push.sc-landing-page .image.sc-landing-page .icons.sc-landing-page{margin-block-end:var(--space-6)}#push.sc-landing-page .image.sc-landing-page .icons.sc-landing-page svg.sc-landing-page+svg.sc-landing-page{margin-inline-start:var(--space-5)}#push.sc-landing-page .image.sc-landing-page img.sc-landing-page{width:1092px;height:585px}#live.sc-landing-page{padding-block-start:160px;padding-block-end:160px;overflow:hidden;contain:content}#live.sc-landing-page .ui-container.sc-landing-page{display:flex;position:relative}#live.sc-landing-page .text.sc-landing-page .ui-heading.sc-landing-page{max-width:400px}#live.sc-landing-page .text.sc-landing-page .ui-paragraph.sc-landing-page{max-width:448px}#live.sc-landing-page .list.sc-landing-page{margin-block-start:var(--space-8)}#live.sc-landing-page .list.sc-landing-page .list-item.sc-landing-page{display:flex;align-items:center}#live.sc-landing-page .list.sc-landing-page .list-item.sc-landing-page svg.sc-landing-page{margin-inline-end:var(--space-3)}#live.sc-landing-page .list.sc-landing-page .list-item.sc-landing-page+.list-item.sc-landing-page{margin-block-start:var(--space-2)}#live.sc-landing-page phone-animator.sc-landing-page{flex-grow:1}@media screen and (max-width: 1023px){#live.sc-landing-page phone-animator.sc-landing-page{width:100%;height:100%;position:absolute;z-index:-1;opacity:0.07}}#native.sc-landing-page{background:var(--c-indigo-10);padding-block-start:160px;padding-block-end:237px}@media screen and (max-width: 1023px){#native.sc-landing-page{padding-block-end:160px}}#native.sc-landing-page .ui-container.sc-landing-page{display:flex}#native.sc-landing-page .heading-group.sc-landing-page{margin-block-end:72px}#native.sc-landing-page .heading-group.sc-landing-page .ui-heading.sc-landing-page{max-width:576px}#native.sc-landing-page .heading-group.sc-landing-page .ui-paragraph.sc-landing-page{max-width:448px}#native.sc-landing-page .subtext.sc-landing-page{max-width:256px}#native.sc-landing-page .subtext.sc-landing-page svg.sc-landing-page{margin-block-end:var(--space-5)}#native.sc-landing-page .image.sc-landing-page{display:flex;flex-grow:1;position:relative;justify-content:center}@media screen and (max-width: 767px){#native.sc-landing-page .image.sc-landing-page{display:none}}#native.sc-landing-page .image__wrapper.sc-landing-page{width:auto;position:absolute;top:calc(50% + 150px);right:-150px;left:-250px;transform:translateY(-50%)}#native.sc-landing-page .image__wrapper.sc-landing-page img.sc-landing-page{max-width:857px}#automate.sc-landing-page{padding-block-start:160px;padding-block-end:302px;contain:content}@media screen and (max-width: 1023px){#automate.sc-landing-page{padding-block-end:0}}#automate.sc-landing-page .ui-container.sc-landing-page{display:flex}#automate.sc-landing-page .ui-grid.sc-landing-page{row-gap:var(--space-5)}#automate.sc-landing-page .ui-grid.sc-landing-page .ui-col.sc-landing-page:last-of-type{margin-block-end:-245px}#automate.sc-landing-page .heading-group.sc-landing-page .ui-heading.sc-landing-page{max-width:480px}#automate.sc-landing-page .heading-group.sc-landing-page .ui-paragraph.sc-landing-page{max-width:448px}#automate.sc-landing-page .subtext.sc-landing-page{margin-inline-start:var(--space-3);margin-block-start:var(--space-8);max-width:430px;position:relative}#automate.sc-landing-page .subtext.sc-landing-page::before{content:\" \";background:var(--c-lavender-70);width:2px;height:64px;position:absolute;top:50%;left:-16px;transform:translateY(-50%)}#automate.sc-landing-page .subtext.sc-landing-page strong.sc-landing-page{font-weight:500;color:var(--c-indigo-100)}#automate.sc-landing-page pipeline-animator.sc-landing-page{flex-grow:1}#managed.sc-landing-page{background:var(--c-indigo-10);position:relative;padding-block-start:256px;padding-block-end:260px}#managed.sc-landing-page .ui-container.sc-landing-page{display:flex}#managed.sc-landing-page .text.sc-landing-page{max-width:448px}#managed.sc-landing-page .image.sc-landing-page{display:flex;flex-grow:1;position:relative;justify-content:center}@media screen and (max-width: 767px){#managed.sc-landing-page .image.sc-landing-page{display:none}}#managed.sc-landing-page .image__wrapper.sc-landing-page{width:auto;position:absolute;top:50%;right:-200px;left:-150px;transform:translateY(-50%)}@media screen and (max-width: 1215px){#managed.sc-landing-page .image__wrapper.sc-landing-page{left:-90px}}#experience.sc-landing-page{background:var(--c-purple-60);padding-block-start:160px;padding-block-end:160px}#experience.sc-landing-page .ui-grid.sc-landing-page{row-gap:var(--space-9)}#experience.sc-landing-page .title.sc-landing-page{margin-block-end:var(--space-9);max-width:740px}#experience.sc-landing-page .subtext.sc-landing-page .ui-heading.sc-landing-page{margin-block-end:var(--space-2)}#experience.sc-landing-page .subtext.sc-landing-page .ui-paragraph.sc-landing-page{margin-block-end:var(--space-6);color:var(--c-lavender-10)}#experience.sc-landing-page .ui-heading.sc-landing-page{color:#fff}#experience.sc-landing-page .cta.sc-landing-page{display:inline-flex;padding:14px 16px;background:#8C93FF;color:#fff;border-radius:var(--radius-4);justify-content:center;align-items:center;font-weight:600;font-size:14px;line-height:112%;letter-spacing:-0.02em}#experience.sc-landing-page .cta.sc-landing-page::after{content:\" ->\";letter-spacing:0;white-space:pre}#experience.sc-landing-page .button.sc-landing-page:hover,#experience.sc-landing-page .button.sc-landing-page:active,#experience.sc-landing-page .button.sc-landing-page:focus,#experience.sc-landing-page .button.sc-landing-page:focus-within{background:#969dff}#experience.sc-landing-page .list__wrapper.sc-landing-page{display:flex;align-items:flex-end;flex-direction:column}@media screen and (max-width: 1023px){#experience.sc-landing-page .list__wrapper.sc-landing-page{align-items:flex-start}}#experience.sc-landing-page .list-item.sc-landing-page{display:flex;align-items:center}#experience.sc-landing-page .list-item.sc-landing-page+.list-item.sc-landing-page{margin-block-start:14px}#experience.sc-landing-page .list-item.sc-landing-page svg.sc-landing-page{margin-inline-end:var(--space-3);min-width:16px;min-height:16px}#experience.sc-landing-page .list-item.sc-landing-page .ui-paragraph.sc-landing-page{color:var(--c-lavender-0)}#get-started.sc-landing-page{background:#212752;padding-block-start:120px;padding-block-end:119px}#get-started.sc-landing-page .ui-heading.sc-landing-page{margin-block-end:7px;color:#fff}#get-started.sc-landing-page .ui-paragraph.sc-landing-page{color:var(--c-lavender-50)}#get-started.sc-landing-page .cta.sc-landing-page{display:inline-flex;padding:14px 16px;background:var(--c-lavender-60);color:#fff;border-radius:var(--radius-4);justify-content:center;align-items:center;font-weight:600;font-size:16px;line-height:112%;letter-spacing:-0.02em}#get-started.sc-landing-page .cta.sc-landing-page::after{content:\" ->\";letter-spacing:0;white-space:pre}";
 
 class LandingPage {
@@ -20864,17 +18656,10 @@ const prismicTypeToResourceType$1 = (type) => ({
   whitepaper: ResourceType$1.Whitepaper,
 }[type]);
 
-<<<<<<< HEAD
-const apiEndpoint = 'https://ionicframeworkcom.prismic.io/api/v2';
-// Client method to query documents from the Prismic repo
-const Client = (req = null) => Prismic.client(apiEndpoint, createClientOptions(req, null));
-const createClientOptions = (req = null, prismicAccessToken = null) => {
-=======
-const apiEndpoint$1 = "https://ionicframeworkcom.prismic.io/api/v2" ;
+const apiEndpoint$1 = 'https://ionicframeworkcom.prismic.io/api/v2';
 // Client method to query documents from the Prismic repo
 const Client$1 = (req = null) => Prismic.client(apiEndpoint$1, createClientOptions$1(req, null));
 const createClientOptions$1 = (req = null, prismicAccessToken = null) => {
->>>>>>> 8305d0132654222ac06d00fb033d876b58d79e38
   const reqOption = req ? { req } : {};
   const accessTokenOption = prismicAccessToken ? { accessToken: prismicAccessToken } : {};
   return Object.assign(Object.assign({}, reqOption), accessTokenOption);
@@ -20891,11 +18676,7 @@ class MoreResources {
   async componentWillLoad() {
     if (this.resources)
       return this.prismicResources = this.resources;
-<<<<<<< HEAD
-    const client = Client(this.prismicEndpoint);
-=======
     const client = Client$1(this.prismicEndpoint);
->>>>>>> 8305d0132654222ac06d00fb033d876b58d79e38
     const requests = this.resourceData.map(r => client.getByUID(r.type, r.uid, null));
     try {
       this.prismicResources = await (await Promise.all(requests)).map(d => prismicDocToResource$1(d));
@@ -20919,7 +18700,7 @@ class MoreResources {
         props = Object.assign(Object.assign({}, props), { md: 4, sm: 4 });
         break;
     }
-    return (hAsync(Grid, { class: `size-${this.resources.length}` }, this.prismicResources.map((d) => (hAsync(Col, Object.assign({}, props, { key: d.id }), hAsync("resource-card", { prismicData: d, description: this.description, routing: this.routing }))))));
+    return (hAsync(Grid, { class: `size-${this.resources.length}` }, this.prismicResources.map((d) => (hAsync(Col, Object.assign({}, props, { key: d.id }), hAsync("resource-card", { prismicData: d, description: this.description, routing: this.routing, key: d.id }))))));
   }
   static get style() { return moreResourcesCss; }
   static get cmpMeta() { return {
@@ -21461,10 +19242,12 @@ const pricingPageCss = ".sc-pricing-page-h{--h1-color:var(--c-carbon-100);--h2-c
 class PricingPage {
   constructor(hostRef) {
     registerInstance(this, hostRef);
-    this.render = () => (hAsync(Host, null, hAsync(Top$1, null), hAsync(Tiers, null), hAsync(Companies$1, null), hAsync("pricing-table", null), hAsync(Faq, null)));
   }
   async componentWillLoad() {
     await getPage('appflow_pricing');
+  }
+  render() {
+    return (hAsync(Host, null, hAsync(Top$1, null), hAsync(Tiers, null), hAsync(Companies$1, null), hAsync("pricing-table", null), hAsync(Faq, null)));
   }
   static get assetsDirs() { return ["assets"]; }
   static get style() { return pricingPageCss; }
@@ -21536,7 +19319,7 @@ class ResourceArticle {
   }; }
 }
 
-const resourceAuthorItemCss = ".sc-resource-author-item-h{display:block}.link-wrapper.sc-resource-author-item{display:flex}.image.sc-resource-author-item{display:inline-block;margin-inline-end:7px;width:28px;height:28px;border-radius:100%}.info.sc-resource-author-item{display:inline-flex;flex-direction:column;justify-content:space-between}.info.sc-resource-author-item .name.sc-resource-author-item{color:#010610}.info.sc-resource-author-item .title.sc-resource-author-item{color:#92A1B3}";
+const resourceAuthorItemCss = ".sc-resource-author-item-h{display:block}.ui-paragraph.sc-resource-author-item{margin:0}.link-wrapper.sc-resource-author-item{display:flex}.image.sc-resource-author-item{display:inline-block;margin-inline-end:7px;width:28px;height:28px;border-radius:100%}.info.sc-resource-author-item{display:inline-flex;flex-direction:column;justify-content:space-between}.info.sc-resource-author-item .name.sc-resource-author-item{color:#010610}.info.sc-resource-author-item .title.sc-resource-author-item{color:#92A1B3}";
 
 class ResourceAuthorItem {
   constructor(hostRef) {
@@ -21578,7 +19361,7 @@ const resourceTypeToPath = (type) => ({
   [ResourceType$1.Whitepaper]: 'whitepapers',
 }[type]);
 
-const resourceCardCss = ".sc-resource-card-h{--image-height:176px;display:flex;row-gap:0;column-gap:0;flex-direction:column;height:100%}img.sc-resource-card{display:block}.row.sc-resource-card-h{display:grid}.row.sc-resource-card-h .image-wrapper.sc-resource-card{height:var(--image-height)}.row.sc-resource-card-h .image-wrapper.sc-resource-card img.sc-resource-card{height:100%}.row.sc-resource-card-h .content.sc-resource-card{margin-inline-start:var(--space-9)}.row.sc-resource-card-h .content.sc-resource-card .meta.sc-resource-card{margin-block-end:40px}.row.sc-resource-card-h .content.sc-resource-card .description.sc-resource-card{margin-block-start:var(--space-4)}@media screen and (max-width: 640px){.row.sc-resource-card-h{display:flex;flex-direction:column}.row.sc-resource-card-h .content.sc-resource-card{margin-inline-start:0}}a.image-wrapper.sc-resource-card{height:var(--image-height);overflow:hidden}a.image-wrapper.sc-resource-card:hover img.sc-resource-card,a.image-wrapper.sc-resource-card:active img.sc-resource-card,a.image-wrapper.sc-resource-card:focus img.sc-resource-card{transform:scale(1.05)}a.image-wrapper.sc-resource-card img.sc-resource-card{height:var(--image-height);object-fit:cover;transition:transform 200ms cubic-bezier(0.32, 0.72, 0, 1)}.content.sc-resource-card{display:flex;flex-grow:1;flex-direction:column}.content.sc-resource-card .meta.sc-resource-card{display:flex;margin-block-start:var(--space-5);margin-block-end:var(--space-3);overflow:hidden}.content.sc-resource-card .meta.sc-resource-card .type.sc-resource-card{margin-inline-end:var(--space-4)}.content.sc-resource-card .title.sc-resource-card{color:#010610}.content.sc-resource-card .description.sc-resource-card{color:var(--c-indigo-80);margin-block-start:var(--space-5)}.author.sc-resource-card{flex-grow:1;display:flex;align-items:flex-end}.author.sc-resource-card resource-author-item.sc-resource-card{margin-block-start:46px;justify-self:flex-end}";
+const resourceCardCss = ".sc-resource-card-h{display:flex;flex-direction:column;--image-height:176px;height:100%}.row.sc-resource-card-h{display:flex;flex-direction:row}.row.sc-resource-card-h .image-wrapper.sc-resource-card{flex-basis:60%;height:var(--image-height)}.row.sc-resource-card-h .image-wrapper.sc-resource-card img.sc-resource-card{height:100%}.row.sc-resource-card-h .content.sc-resource-card{flex-basis:40%;margin-inline-start:var(--space-9)}.row.sc-resource-card-h .content.sc-resource-card .meta.sc-resource-card{margin-block-start:0;margin-block-end:40px}.row.sc-resource-card-h .content.sc-resource-card .description.sc-resource-card{margin-block-start:var(--space-4)}@media screen and (max-width: 767px){.row.sc-resource-card-h{flex-direction:column}.row.sc-resource-card-h .content.sc-resource-card{margin-inline-start:0}.row.sc-resource-card-h .content.sc-resource-card .meta.sc-resource-card{display:flex;margin-block-start:var(--space-5);margin-block-end:var(--space-3);overflow:hidden}.row.sc-resource-card-h .content.sc-resource-card .meta.sc-resource-card .type.sc-resource-card{margin-inline-end:var(--space-4)}}img.sc-resource-card{display:block}a.image-wrapper.sc-resource-card{height:var(--image-height);overflow:hidden}a.image-wrapper.sc-resource-card:hover img.sc-resource-card,a.image-wrapper.sc-resource-card:active img.sc-resource-card,a.image-wrapper.sc-resource-card:focus img.sc-resource-card{transform:scale(1.05)}a.image-wrapper.sc-resource-card img.sc-resource-card{height:var(--image-height);object-fit:cover;transition:transform 200ms cubic-bezier(0.32, 0.72, 0, 1)}.content.sc-resource-card{display:flex;flex-grow:1;flex-direction:column}.content.sc-resource-card .meta.sc-resource-card{display:flex;margin-block-start:var(--space-5);margin-block-end:var(--space-3);overflow:hidden}.content.sc-resource-card .meta.sc-resource-card .type.sc-resource-card{margin-inline-end:var(--space-4)}.content.sc-resource-card .title.sc-resource-card{color:#010610}.content.sc-resource-card .description.sc-resource-card{color:var(--c-indigo-80);margin-block-start:var(--space-5)}.author.sc-resource-card{flex-grow:1;display:flex;align-items:flex-end}.author.sc-resource-card resource-author-item.sc-resource-card{margin-block-start:46px;justify-self:flex-end}";
 
 class ResourceCard {
   constructor(hostRef) {
@@ -21616,10 +19399,9 @@ class ResourceCard {
       url = content_url.url;
     return (hAsync(Host, { class: {
         'row': this.row,
-        'ui-grid': true
-      } }, hAsync(Col, { cols: 7 }, (((_a = this.routing) === null || _a === void 0 ? void 0 : _a.router) && isLocalLink)
+      } }, hAsync("div", null, (((_a = this.routing) === null || _a === void 0 ? void 0 : _a.router) && isLocalLink)
       ? hAsync("a", Object.assign({ class: "image-wrapper" }, href(url, this.routing.router)), hAsync(PrismicResponsiveImage, { image: hero_image }))
-      : hAsync("a", { class: "image-wrapper", href: url, target: "_blank", rel: "noopener nofollow" }, hAsync(PrismicResponsiveImage, { image: hero_image }))), hAsync(Col, { class: "content", cols: 5 }, hAsync("div", { class: "meta" }, hAsync(Heading, { class: "type | ui-theme--editorial", level: 6 }, type), tags
+      : hAsync("a", { class: "image-wrapper", href: url, target: "_blank", rel: "noopener nofollow" }, hAsync(PrismicResponsiveImage, { image: hero_image }))), hAsync("div", { class: "content" }, hAsync("div", { class: "meta" }, hAsync(Heading, { class: "type | ui-theme--editorial", level: 6 }, type), tags
       ? hAsync("resource-meta", { class: "ui-theme--editorial", tags: tags }) : ''), (((_b = this.routing) === null || _b === void 0 ? void 0 : _b.router) && isLocalLink)
       ? hAsync("a", Object.assign({}, href(url, this.routing.router)), hAsync(Heading, { class: "title | ui-theme--editorial", level: this.headingLevel }, title))
       : hAsync("a", { href: url, target: "_blank", rel: "noopener nofollow" }, hAsync(Heading, { class: "title | ui-theme--editorial", level: this.headingLevel }, title)), this.description
@@ -21650,15 +19432,11 @@ class ResourceCaseStudy {
     registerInstance(this, hostRef);
   }
   render() {
-<<<<<<< HEAD
     const resource = this.prismicData;
     return [
       // <ResourcesSubNav resourceItem={resource} />,
       hAsync("div", { class: "resource-article resource-case-study" }, hAsync(ThemeProvider, { type: "editorial" }, hAsync(ResponsiveContainer, null, hAsync(Grid, null, hAsync(Col, { md: 3, sm: 3 }, hAsync("resource-toc", { titleNames: prismicResourceToToc(this.prismicData) })), hAsync(Col, { md: 9, sm: 9, xs: 12, cols: 12 }, hAsync("div", { class: "resource-article-content" }, hAsync("div", { class: "heading-group" }, hAsync(Heading, { level: 1, id: slugify(resource.title) }, resource.title), hAsync(Paragraph, { level: 2 }, resource.description), hAsync(PrismicResponsiveImage, { image: resource.doc.data.hero_image, width: "800", height: "420" })), hAsync("article", null, hAsync(PrismicContent, { content: resource.doc.data.body })))))))),
     ];
-=======
-    return (hAsync(Host, null, hAsync("div", { class: "anim-automate" }, hAsync("div", { class: "anim-automate_ui" }, hAsync("div", { class: "master", ref: e => this.tiles.set('master', e) }, hAsync("img", { src: getAssetPath('assets/master.png'), width: "200", height: "60", loading: "lazy", alt: "master branch icon" }), hAsync(Paragraph, { level: 5 }, "Push code")), hAsync("div", { class: "staging", ref: e => this.tiles.set('staging', e) }, hAsync("img", { src: getAssetPath('assets/staging.png'), width: "220", height: "60", loading: "lazy", alt: "staging branch icon" }), hAsync(Paragraph, { level: 5 }, "Push code")), hAsync("div", { class: "qa", ref: e => this.tiles.set('qa', e) }, hAsync("img", { src: getAssetPath('assets/qa.png'), width: "122", height: "60", loading: "lazy", alt: "qa branch icon" }), hAsync(Paragraph, { level: 5 }, "Push code")), hAsync("div", { class: "android", ref: e => this.tiles.set('android', e) }, hAsync("img", { src: getAssetPath('assets/android.png'), width: "124", height: "124", loading: "lazy", alt: "green android circle icon" }), hAsync(Paragraph, { level: 5 }, "Trigger Android build")), hAsync("div", { class: "ios", ref: e => this.tiles.set('ios', e) }, hAsync("img", { src: getAssetPath('assets/ios.png'), width: "124", height: "124", loading: "lazy", alt: "dark gray ios circle icon" }), hAsync(Paragraph, { level: 5 }, "Trigger iOS build")), hAsync("div", { class: "web", ref: e => this.tiles.set('web', e) }, hAsync("img", { src: getAssetPath('assets/js.png'), width: "124", height: "124", loading: "lazy", alt: "yellow javascript circle icon" }), hAsync(Paragraph, { level: 5 }, "Trigger Web build")), hAsync("div", { class: "testflight", ref: e => this.tiles.set('testflight', e) }, hAsync("img", { src: getAssetPath('assets/testflight.png'), width: "106", height: "106", loading: "lazy", alt: "blue testflight icon" }), hAsync(Paragraph, { level: 5 }, "Deploy to TestFlight")), hAsync("div", { class: "playstore", ref: e => this.tiles.set('playstore', e) }, hAsync("img", { src: getAssetPath('assets/playstore.png'), width: "100", height: "110", loading: "lazy", alt: "Google play store icon" }), hAsync(Paragraph, { level: 5 }, "Deploy to Google Play")), hAsync("div", { class: "webhook", ref: e => this.tiles.set('webhook', e) }, hAsync("img", { src: getAssetPath('assets/webhook.png'), width: "116", height: "108", loading: "lazy", alt: "Webhook icon" }), hAsync(Paragraph, { level: 5 }, "Trigger webhook"))), hAsync("svg", { width: "1346", height: "790", xmlns: "http://www.w3.org/2000/svg" }, hAsync("g", { transform: "translate(-14 -14)" }, hAsync("g", null, hAsync("rect", { class: "threeC", ref: e => this.bottomLocations.set('threeC', e), fill: "#F5F7FD", transform: "rotate(135 1022.725 496.6375)", x: "919.725", y: "393.6375", width: "206", height: "206", rx: "34" }), hAsync("rect", { class: "threeB", ref: e => this.bottomLocations.set('threeB', e), fill: "#F5F7FD", transform: "rotate(135 672 496.6375)", x: "569", y: "393.6375", width: "206", height: "206", rx: "34" }), hAsync("rect", { class: "threeA", ref: e => this.bottomLocations.set('threeA', e), fill: "#F5F7FD", transform: "rotate(135 321.275 496.6375)", x: "218.275", y: "393.6375", width: "206", height: "206", rx: "34" }), hAsync("rect", { class: "twoA", ref: e => this.bottomLocations.set('twoA', e), fill: "#F5F7FD", transform: "rotate(135 496.6375 321.275)", x: "393.6375", y: "218.275", width: "206", height: "206", rx: "34" }), hAsync("rect", { class: "twoB", ref: e => this.bottomLocations.set('twoB', e), fill: "#F5F7FD", transform: "rotate(135 847.3625 321.275)", x: "744.3625", y: "218.275", width: "206", height: "206", rx: "34" }), hAsync("rect", { class: "one", ref: e => this.bottomLocations.set('one', e), fill: "#DDE6F7", transform: "rotate(135 672 145.9126)", x: "569", y: "42.9126", width: "206", height: "206", rx: "34" })), hAsync("path", { d: "M920.4007 393.1937l28.9914 28.9914", class: "connector", id: "twoB_R", ref: e => this.connectors.set('twoB_R', e), stroke: "#F2F6FF", "stroke-width": "5", "stroke-linecap": "square" }), hAsync("path", { d: "M774.3242 394.6079l-28.9913 28.9914", class: "connector", id: "twoB_L", ref: e => this.connectors.set('twoB_L', e), stroke: "#F2F6FF", "stroke-width": "5", "stroke-linecap": "square" }), hAsync("path", { d: "M568.9392 395.3445l28.9914 28.9914", class: "connector", id: "twoA_R", ref: e => this.connectors.set('twoA_R', e), stroke: "#F2F6FF", "stroke-width": "5", "stroke-linecap": "square" }), hAsync("path", { d: "M422.9216 393.9303l-28.9913 28.9913", class: "connector", id: "twoA_L", ref: e => this.connectors.set('twoA_L', e), stroke: "#F2F6FF", "stroke-width": "5", "stroke-linecap": "square" }), hAsync("path", { d: "M745.0088 219.2749l28.9914 28.9914", class: "connector", id: "one_R", ref: e => this.connectors.set('one_R', e), stroke: "#F2F6FF", "stroke-width": "5", "stroke-linecap": "square" }), hAsync("path", { d: "M598.2841 218.5678l-28.9914 28.9914", class: "connector", id: "one_L", ref: e => this.connectors.set('one_L', e), stroke: "#F2F6FF", "stroke-width": "5", "stroke-linecap": "square" }), hAsync("g", null, hAsync("rect", { class: "four", fill: "#F5F7FD", transform: "rotate(135 1198.0874 672)", x: "1095.0874", y: "569", width: "206", height: "206", rx: "34" }), hAsync("rect", { class: "four", fill: "#F5F7FD", transform: "rotate(135 145.9126 672)", x: "42.9126", y: "569", width: "206", height: "206", rx: "34" }), hAsync("rect", { class: "four", fill: "#F5F7FD", transform: "rotate(135 496.6375 672)", x: "393.6375", y: "569", width: "206", height: "206", rx: "34" }), hAsync("rect", { class: "four", fill: "#F5F7FD", transform: "rotate(135 847.3625 672)", x: "744.3625", y: "569", width: "206", height: "206", rx: "34" }), hAsync("rect", { class: "threeC", ref: e => this.topLocations.set('threeC', e), fill: "#F5F7FD", transform: "rotate(135 1022.725 496.6375)", x: "919.725", y: "393.6375", width: "206", height: "206", rx: "34" }), hAsync("rect", { class: "threeB", ref: e => this.topLocations.set('threeB', e), fill: "#F5F7FD", transform: "rotate(135 672 496.6375)", x: "569", y: "393.6375", width: "206", height: "206", rx: "34" }), hAsync("rect", { class: "threeA", ref: e => this.topLocations.set('threeA', e), fill: "#F5F7FD", transform: "rotate(135 321.275 496.6375)", x: "218.275", y: "393.6375", width: "206", height: "206", rx: "34" }), hAsync("rect", { class: "twoA", ref: e => this.topLocations.set('twoA', e), fill: "#F5F7FD", transform: "rotate(135 496.6375 321.275)", x: "393.6375", y: "218.275", width: "206", height: "206", rx: "34" }), hAsync("rect", { class: "twoB", ref: e => this.topLocations.set('twoB', e), fill: "#F5F7FD", transform: "rotate(135 847.3625 321.275)", x: "744.3625", y: "218.275", width: "206", height: "206", rx: "34" }), hAsync("rect", { class: "one", ref: e => this.topLocations.set('one', e), fill: "#DDE6F7", transform: "rotate(135 672 145.9126)", x: "569", y: "42.9126", width: "206", height: "206", rx: "34" })))))));
->>>>>>> 8305d0132654222ac06d00fb033d876b58d79e38
   }
   get el() { return getElement(this); }
   static get style() { return resourceCaseStudyCss; }
@@ -21681,25 +19459,7 @@ class ResourceMeta {
     registerInstance(this, hostRef);
   }
   render() {
-<<<<<<< HEAD
     return (hAsync(Host, { class: "resource-meta" }, this.tags.map(tag => (hAsync("span", { class: "ui-heading ui-heading-6 | tag" }, tag)))));
-=======
-    return (hAsync(Host, { style: {
-        '--checkmark-path': `url(${getAssetPath('assets/checkmark-rounded.svg')})`
-      } }, hAsync("site-modal", { ref: e => this.contactModal = e }, hAsync("div", { class: "heading-group" }, hAsync(Heading, null, "Contact us"), hAsync(Paragraph, null, "Send us a detailed message and an Ionic Sales Representative will get back to you soon.")), hAsync("hubspot-form", { formId: "a6d856c5-39f4-4725-a78f-c356d8d64ac5" })), hAsync("div", { class: "toggle" }, hAsync("span", { class: { 'active': this.planType === 'monthly' }, onClick: () => this.planType = 'monthly' }, "Monthly"), hAsync("span", { class: { 'active': this.planType === 'yearly' }, onClick: () => this.planType = 'yearly' }, "Yearly (15% off)")), hAsync("div", { class: "plans annually-active" }, hAsync("div", { id: "plan-hobby", class: "plan__card" }, hAsync("h3", null, "Hobby"), hAsync("span", { class: "plan__price" }, hAsync("strong", null, "Free")), hAsync("div", { class: "plan__description" }, "Perfect for proof of concepts, MVPs, and personal apps"), hAsync("div", { class: "plan__feature__divider" }), hAsync("ul", { class: "plan__feature__list" }, hAsync("li", null, checkmarkRounded({}, { height: 12 }), hAsync("span", null, "Manage app projects in the Appflow ", hAsync("strong", null, "cloud dashboard"))), hAsync("li", null, checkmarkRounded({}, { height: 12 }), hAsync("span", null, "Deploy ", hAsync("strong", null, "100 live updates"), " / mo")), hAsync("li", null, checkmarkRounded({}, { height: 12 }), "Community support")), hAsync("a", { href: "https://ionicframework.com/signup?source=appflow-site&product=appflow", class: "button light" }, "Start Free ", hAsync("span", { class: "arrow", style: { 'letter-spacing': '0px' } }, "->"))), hAsync("div", { id: "plan-launch", class: "plan__card plan__card" }, hAsync("h3", null, "Launch"), hAsync("span", { class: "plan__price" }, hAsync("span", { class: {
-        'plan__price__monthly': true,
-        'active': this.planType === 'monthly'
-      } }, hAsync("sup", null, "$"), hAsync("strong", null, "49"), hAsync("small", null, "/mo")), hAsync("span", { class: {
-        'plan__price__yearly': true,
-        'active': this.planType === 'yearly'
-      } }, hAsync("sup", null, "$"), hAsync("strong", null, "42"), hAsync("small", null, "/mo"))), hAsync("div", { class: "plan__description" }, "Recommended for indie and freelance developers"), hAsync("div", { class: "plan__feature__divider" }), hAsync("ul", { class: "plan__feature__list" }, hAsync("li", { class: "plan__feature__highlight" }, checkmarkRounded({}, { height: 12 }), hAsync("span", null, "All ", hAsync("strong", null, "Hobby"), " plan features, plus:")), hAsync("li", null, checkmarkRounded({}, { height: 12 }), hAsync("span", null, "Deploy ", hAsync("strong", null, "10K live updates"), " / mo")), hAsync("li", null, checkmarkRounded({}, { height: 12 }), hAsync("span", null, "Compile ", hAsync("strong", null, "native app binaries"))), hAsync("li", null, checkmarkRounded({}, { height: 12 }), "1 concurrency"), hAsync("li", null, checkmarkRounded({}, { height: 12 }), "Email support")), hAsync(GetStartedButton, null)), hAsync("div", { id: "plan-growth", class: "plan__card" }, hAsync("h3", null, "Growth"), hAsync("span", { class: "plan__price" }, hAsync("span", { class: {
-        'plan__price__monthly': true,
-        'active': this.planType === 'monthly'
-      } }, hAsync("sup", null, "$"), hAsync("strong", null, "120"), hAsync("small", null, "/mo")), hAsync("span", { class: {
-        'plan__price__yearly': true,
-        'active': this.planType === 'yearly'
-      } }, hAsync("sup", null, "$"), hAsync("strong", null, "102"), hAsync("small", null, "/mo"))), hAsync("div", { class: "plan__description" }, "For lean dev teams and professional developers"), hAsync("div", { class: "plan__feature__divider" }), hAsync("ul", { class: "plan__feature__list" }, hAsync("li", { class: "plan__feature__highlight" }, checkmarkRounded({}, { height: 12 }), hAsync("span", null, "All ", hAsync("strong", null, "Launch"), " plan features, plus:")), hAsync("li", null, checkmarkRounded({}, { height: 12 }), hAsync("span", null, hAsync("strong", null, "Collaborate"), " with team members and clients")), hAsync("li", null, checkmarkRounded({}, { height: 12 }), hAsync("span", null, hAsync("strong", null, "CI/CD automation"), " to ship continuously with mobile")), hAsync("li", null, checkmarkRounded({}, { height: 12 }), hAsync("span", null, "Deploy ", hAsync("strong", null, "25K live updates"), " / mo")), hAsync("li", null, checkmarkRounded({}, { height: 12 }), hAsync("span", null, "2+ ", hAsync("strong", null, "concurrent builds"))), hAsync("li", null, checkmarkRounded({}, { height: 12 }), "Email support")), hAsync(GetStartedButton, null)), hAsync("div", { id: "plan-scale", class: "plan__card plan__card" }, hAsync("h3", null, "Scale"), hAsync("span", { class: "plan__price" }, hAsync("strong", null, "Custom")), hAsync("div", { class: "plan__description" }, "Tailored to businesses building mission-critical apps"), hAsync("div", { class: "plan__feature__divider" }), hAsync("ul", { class: "plan__feature__list" }, hAsync("li", { class: "plan__feature__highlight" }, checkmarkRounded({}, { height: 12 }), hAsync("span", null, "All ", hAsync("strong", null, "Growth"), " plan features, plus:")), hAsync("li", null, checkmarkRounded({}, { height: 12 }), hAsync("span", null, hAsync("strong", null, "Publish directly to app stores"), " from your cloud dashboard")), hAsync("li", null, checkmarkRounded({}, { height: 12 }), hAsync("span", null, "Scale to millions of users with ", hAsync("strong", null, "custom Deploy limits"))), hAsync("li", null, checkmarkRounded({}, { height: 12 }), hAsync("span", null, "iOS ", hAsync("strong", null, "Enterprise builds"))), hAsync("li", null, checkmarkRounded({}, { height: 12 }), hAsync("span", null, "Custom ", hAsync("strong", null, "concurrent builds"))), hAsync("li", null, checkmarkRounded({}, { height: 12 }), hAsync("span", null, hAsync("strong", null, "Role-Based"), " access control")), hAsync("li", null, checkmarkRounded({}, { height: 12 }), hAsync("span", null, hAsync("strong", null, "SAML Single sign-on"))), hAsync("li", null, checkmarkRounded({}, { height: 12 }), hAsync("span", null, hAsync("strong", null, "Live onboarding"), " & premium Appflow product support"))), hAsync("a", { class: "button dark", onClick: () => this.contactModal.open = true }, "Contact sales")))));
->>>>>>> 8305d0132654222ac06d00fb033d876b58d79e38
   }
   static get style() { return resourceMetaCss; }
   static get cmpMeta() { return {
@@ -21713,10 +19473,6 @@ class ResourceMeta {
     "$attrsToReflect$": []
   }; }
 }
-<<<<<<< HEAD
-=======
-const GetStartedButton = () => (hAsync("a", { href: "https://ionicframework.com/signup?source=appflow-site&product=appflow", class: "button dark" }, "Get started"));
->>>>>>> 8305d0132654222ac06d00fb033d876b58d79e38
 
 const resourceTocCss = ".sc-resource-toc-h{display:block;position:sticky;top:96px}@media (max-width: 768px){.sc-resource-toc-h{display:none}}nav.sc-resource-toc{margin:0;padding:0}ul.sc-resource-toc{font-size:14px;list-style:none;line-height:1.4em;padding-bottom:16px}li.sc-resource-toc{color:var(--c-carbon-80);margin-block-start:var(--space-1);margin-block-end:var(--space-1);cursor:pointer;list-style:none;color:var(--c-carbon-80);display:block;transition:0.2s transform ease, 0.2s color}li.active.sc-resource-toc{transform:translateX(8px);color:#597EFF}.title.sc-resource-toc{color:var(--c-indigo-60)}.cta-button.sc-resource-toc{margin-block-start:var(--space-3);font-weight:600;border-radius:6px;letter-spacing:0;text-transform:none;padding:12px 19px 10px;font-size:14px;line-height:1em;background:#3880FF;color:#fff}.sharing.sc-resource-toc{margin:0;border-top:2px solid #f3f5f9;padding-top:26px}.sharing.sc-resource-toc li.sc-resource-toc{margin:0;margin-right:6px;display:inline-block}.sharing.sc-resource-toc a.sc-resource-toc{color:#CBD2DD;font-size:20px}.sharing.sc-resource-toc a.sc-resource-toc:hover{color:var(--c-ionic-brand)}.sharing.sc-resource-toc #web-share.sc-resource-toc{display:none}";
 
@@ -21788,7 +19544,6 @@ class ResourceTOC {
     });
   }
   render() {
-<<<<<<< HEAD
     return (hAsync("nav", null, hAsync("ul", null, this.titleNames.map(link => (hAsync("li", { class: "ui-paragraph-4", onClick: (ev) => this.handleTocClick(ev), "data-id": `h-${slugify(link)}`, ref: e => {
         var _a;
         const id = (_a = e === null || e === void 0 ? void 0 : e.dataset) === null || _a === void 0 ? void 0 : _a.id;
@@ -21796,9 +19551,6 @@ class ResourceTOC {
           return;
         this.headings.set(id, Object.assign(Object.assign({}, this.headings.get(id)), { tocEl: e }));
       } }, link))))));
-=======
-    return (hAsync(Host, null, hAsync(ResponsiveContainer, { class: "platform-bar__container" }, hAsync("div", { class: "platform-bar__logo" }, hAsync("a", { href: "https://ionic.io/" }, hAsync("svg", { width: "70", height: "24", viewBox: "0 0 70 24", fill: "none", xmlns: "http://www.w3.org/2000/svg", role: "image", "aria-label": "Ionic Logo" }, hAsync("path", { d: "M66.805 14.2224C66.4881 15.0748 65.6974 15.5478 64.7204 15.5478C63.2704 15.5478 62.095 14.3723 62.095 12.9223C62.095 11.4723 63.2704 10.2969 64.7204 10.2969C65.6975 10.2969 66.4638 10.7137 66.805 11.6224H69.4826C69.0392 9.29243 67.102 7.79688 64.7204 7.79688C61.8897 7.79688 59.595 10.0916 59.595 12.9223C59.595 15.753 61.8897 18.0478 64.7204 18.0478C67.102 18.0478 69.1606 16.3746 69.4826 14.2224H66.805Z", fill: "white" }), hAsync("path", { d: "M55.778 8.05437H58.5659V17.8665H55.778V8.05437Z", fill: "white" }), hAsync("path", { d: "M58.8464 5.68306C58.8464 6.61259 58.0928 7.36613 57.1633 7.36613C56.2338 7.36613 55.4802 6.61259 55.4802 5.68306C55.4802 4.75353 56.2338 4 57.1633 4C58.0928 4 58.8464 4.75353 58.8464 5.68306Z", fill: "white" }), hAsync("path", { d: "M47.7925 9.25525C48.2599 8.41119 49.3224 7.83496 50.8523 7.83496C53.3258 7.83496 54.6347 9.40945 54.6347 11.7468V17.8663H51.8468V12.039C51.8468 10.8947 51.3368 10.1074 50.1044 10.1074C48.7529 10.1074 48.0049 10.9353 48.0049 12.2419V17.8581H45.217V8.05409H47.7925V9.25525Z", fill: "white" }), hAsync("circle", { cx: "39.1897", cy: "12.9226", r: "3.87526", stroke: "white", "stroke-width": "2.5" }), hAsync("path", { d: "M30.2975 8.05437H33.0854V17.8665H30.2975V8.05437Z", fill: "white" }), hAsync("path", { d: "M33.3659 5.68306C33.3659 6.61259 32.6124 7.36613 31.6828 7.36613C30.7533 7.36613 29.9998 6.61259 29.9998 5.68306C29.9998 4.75353 30.7533 4 31.6828 4C32.6124 4 33.3659 4.75353 33.3659 5.68306Z", fill: "white" }), hAsync("path", { d: "M12 17.1431C14.8336 17.1431 17.1428 14.8383 17.1428 12.0002C17.1428 9.16657 14.838 6.85735 12 6.85735C9.16192 6.85735 6.85711 9.16657 6.85711 12.0002C6.85711 14.8338 9.16633 17.1431 12 17.1431Z", fill: "white" }), hAsync("path", { "fill-rule": "evenodd", "clip-rule": "evenodd", d: "M12 2.88C6.96316 2.88 2.88 6.96316 2.88 12C2.88 17.0368 6.96316 21.12 12 21.12C17.0368 21.12 21.12 17.0368 21.12 12C21.12 10.6394 20.823 9.35203 20.2916 8.196L22.9084 6.99318C23.6097 8.51886 24 10.2158 24 12C24 18.6274 18.6274 24 12 24C5.37258 24 0 18.6274 0 12C0 5.37258 5.37258 0 12 0C15.4654 0 18.5895 1.47078 20.7781 3.81796L18.6717 5.78204C17.005 3.9946 14.6338 2.88 12 2.88Z", fill: "url(#paint0_radial)" }), hAsync("path", { opacity: "0.4", d: "M20.5 11C22.433 11 24 9.433 24 7.5C24 5.567 22.433 4 20.5 4C18.567 4 17 5.567 17 7.5C17 9.433 18.567 11 20.5 11Z", fill: "#03060B" }), hAsync("path", { d: "M20.5714 9.42843C22.4649 9.42843 24 7.89341 24 5.99986C24 4.10631 22.4649 2.57129 20.5714 2.57129C18.6778 2.57129 17.1428 4.10631 17.1428 5.99986C17.1428 7.89341 18.6778 9.42843 20.5714 9.42843Z", fill: "#03060B" }), hAsync("path", { d: "M19.7143 7.71415C21.1344 7.71415 22.2857 6.56288 22.2857 5.14272C22.2857 3.72256 21.1344 2.57129 19.7143 2.57129C18.2941 2.57129 17.1428 3.72256 17.1428 5.14272C17.1428 6.56288 18.2941 7.71415 19.7143 7.71415Z", fill: "white" }), hAsync("defs", null, hAsync("radialGradient", { id: "paint0_radial", cx: "0", cy: "0", r: "1", gradientUnits: "userSpaceOnUse", gradientTransform: "translate(23 8.5) rotate(162.35) scale(11.5434 5.28499)" }, hAsync("stop", { "stop-color": "white", "stop-opacity": "0.7" }), hAsync("stop", { offset: "1", "stop-color": "white" })))))), hAsync(Breakpoint, { md: true, class: "platform-bar__desc" }, "See how ", hAsync("strong", null, this.productName), " fits into the entire ", hAsync("span", { class: "nowrap" }, hAsync("a", { href: "https://ionic.io/" }, "Ionic Ecosystem"), " ", hAsync("span", { style: { 'letter-spacing': '0' } }, "->"))), hAsync(Breakpoint, { xs: true, md: false, class: "platform-bar__desc" }, hAsync("strong", null, this.productName), " is part of the ", hAsync("span", { class: "nowrap" }, hAsync("a", { href: "https://ionic.io/" }, "Ionic Ecosystem"), " ", hAsync("span", { style: { 'letter-spacing': '0' } }, "->"))))));
->>>>>>> 8305d0132654222ac06d00fb033d876b58d79e38
   }
   static get style() { return resourceTocCss; }
   static get cmpMeta() { return {
@@ -21818,7 +19570,6 @@ const resourceWebinarCss = ".sc-resource-webinar-h{display:block}.past.sc-resour
 class ResourceWebinar {
   constructor(hostRef) {
     registerInstance(this, hostRef);
-<<<<<<< HEAD
     this.PastWebinar = () => {
       const { OverlayForm } = this;
       const data = this.prismicData;
@@ -21847,8 +19598,6 @@ class ResourceWebinar {
           this.state.hubspotGatedPassed = true;
         } })));
     };
-=======
->>>>>>> 8305d0132654222ac06d00fb033d876b58d79e38
   }
   componentWillLoad() {
     this.state.hubspotGatedPassed = false;
@@ -21870,9 +19619,6 @@ class ResourceWebinar {
             this.state.hubspotGatedPassed = true;
           } }))]));
   }
-  render() {
-    return (hAsync(Host, null, hAsync(Top$1, null), hAsync(Tiers, null), hAsync(Companies$1, null), hAsync("pricing-table", null), hAsync(Faq, null)));
-  }
   static get assetsDirs() { return ["assets"]; }
   static get style() { return resourceWebinarCss; }
   static get cmpMeta() { return {
@@ -21887,7 +19633,6 @@ class ResourceWebinar {
     "$attrsToReflect$": []
   }; }
 }
-<<<<<<< HEAD
 
 const resourceWhitepaperCss = "@charset \"UTF-8\";.resource-whitepaper__cta.sc-resource-whitepaper{background:linear-gradient(to bottom, #fff, #f6f8fc);border-bottom:1px solid #e5e7eb;margin-top:-78px;padding-top:78px}.resource-whitepaper__hgroup.sc-resource-whitepaper{margin:auto;display:flex;flex-direction:column;align-items:center;text-align:center;padding-top:var(--space-9);padding-bottom:var(--space-9);max-width:840px;text-align:center}.resource-whitepaper__hgroup.sc-resource-whitepaper .ui-heading-6.sc-resource-whitepaper{margin-bottom:var(--space-2)}.resource-whitepaper__tagline.sc-resource-whitepaper{max-width:800px;color:var(--c-carbon-60);letter-spacing:-0.02em;font-weight:600;line-height:32px;font-size:18px}.resource-whitepaper__content.sc-resource-whitepaper{padding-top:96px}.resource-whitepaper__content.sc-resource-whitepaper img.sc-resource-whitepaper{max-width:100%}.resource-whitepaper__description.sc-resource-whitepaper p.sc-resource-whitepaper:first-child{color:#6e7f99;font-size:18px;line-height:28px}.resource-whitepaper__description.sc-resource-whitepaper ul.sc-resource-whitepaper{list-style-type:none;padding:0;margin:16px 0 32px;line-height:20px}.resource-whitepaper__description.sc-resource-whitepaper li.sc-resource-whitepaper{padding-left:20px;position:relative}.resource-whitepaper__description.sc-resource-whitepaper li.sc-resource-whitepaper:before{content:\"•\";margin-right:10px;opacity:0.8;position:absolute;left:0}";
 
@@ -21919,44 +19664,12 @@ class ResourceWhitepaper {
   }; }
 }
 
-const apiEndpoint$1 = "https://ionicframeworkcom.prismic.io/api/v2" ;
-// Client method to query documents from the Prismic repo
-const Client$1 = (req = null) => Prismic.client(apiEndpoint$1, createClientOptions$1(req, null));
-const createClientOptions$1 = (req = null, prismicAccessToken = null) => {
-  const reqOption = req ? { req } : {};
-  const accessTokenOption = prismicAccessToken ? { accessToken: prismicAccessToken } : {};
-  return Object.assign(Object.assign({}, reqOption), accessTokenOption);
-=======
-const Top$1 = () => {
-  const { top } = state.pageData;
-  return (hAsync(ResponsiveContainer, { id: "top", as: "section" }, hAsync("div", { class: "heading-group" }, hAsync(PrismicRichText, { richText: top, paragraphLevel: 2 }))));
-};
-const Tiers = () => {
-  return (hAsync(ResponsiveContainer, { id: "tiers", as: "section" }, hAsync("plan-pricing", null)));
-};
-const Companies$1 = () => {
-  return (hAsync(ResponsiveContainer, { id: "companies", as: "section" }, hAsync(Heading, { level: 6 }, "Trusted by the world\u2019s best teams"), hAsync("div", { class: "logos" }, hAsync("div", { class: "wrapper" }, aaaLogo({ main: 'var(--c-indigo-60)' }, { width: 50, height: 30 }), amtrakLogo({ main: 'var(--c-indigo-60)' }, { width: 63.78, height: 26.25 }), nasaLogo({ main: 'var(--c-indigo-60)' }, { width: 71.29, height: 18.75 }), ibmLogo({ main: 'var(--c-indigo-60)' }, { width: 52.53, height: 21.56 })), hAsync("div", { class: "wrapper" }, burgerKingLogo({ main: 'var(--c-indigo-60)', second: 'var(--c-indigo-60)', third: 'var(--c-indigo-60)' }, { width: 30.32, height: 32 }), catLogo({ main: 'var(--c-indigo-60)', second: 'var(--c-indigo-60)' }, { width: 41.27, height: 24.38 }), targetLogo({ main: 'var(--c-indigo-60)' }, { width: 32, height: 32 })))));
-};
-const Faq = () => {
-  return (hAsync(ResponsiveContainer, { id: "faq", as: "section" }, hAsync(Heading, { level: 2 }, "Have a Question?"), hAsync(Grid, null, hAsync(Col, { cols: 12, sm: 6 }, hAsync("ul", { class: "list" }, hAsync("li", { id: "faq-live-updates" }, hAsync(Heading, null, "How do Live Update limits work?"), hAsync(Paragraph, null, "Appflow allows you to push hot code updates directly to your users\u2019 devices, all from the Ionic cloud dashboard, without having to go through the app stores."), hAsync(Paragraph, null, "A single Live Update is one code update to one device. If you send one update to 200 devices, that counts as 200 Live Updates. If you send two updates to 200 devices, that counts as 400 Live Updates."), hAsync(Paragraph, null, "The number of Live Updates varies with each plan. The Launch plan includes 10,000 Live Updates per month. The Growth plan allows up to 25,000 Live Updates per month. The plan limits are refreshed each month. If you exceed your quota for a given month, you will have to upgrade to a higher plan, or wait until the next calendar month to send more updates."), hAsync(Paragraph, null, "If you need more than 25,000 Live Updates, the Scale plan offers custom limits, based on annual usage. Appflow\u2019s Live Update service scales to millions of units, with pricing varying based on the number of Updates in your custom plan. ", hAsync("a", { onClick: () => document.querySelector('site-modal').open = true }, "Contact our Sales"), " team to learn more about setting up a custom Scale plan.")), hAsync("li", { id: "faq-ios" }, hAsync(Heading, null, "Which plans offer iOS Enterprise builds?"), hAsync(Paragraph, null, "A subscription to the Scale plan is required. The Apple Developer Enterprise Program allows large organizations to develop and deploy proprietary, internal-use apps to their employees. This program is for specific use cases that require private distribution directly to employees using secure internal systems or through a Mobile Device Management solution.")), hAsync("li", { id: "faq-account" }, hAsync(Heading, null, "What is Account & Billing Support?"), hAsync(Paragraph, null, "Account & Billing Support is available to all plan holders, and includes access to help for issues related to account billing, refunds, cancellations and account re-activations, and password or account access related concerns.")))), hAsync(Col, { cols: 12, sm: 6 }, hAsync("ul", { class: "list" }, hAsync("li", { id: "faq-concurrency" }, hAsync(Heading, null, "What do Concurrency Limits refer to?"), hAsync(Paragraph, null, "Concurrency Limits refers to the number of app builds that can occur at the same time. Once you have hit your limit, additional builds will be queued until the existing builds in process are completed. When you upgrade to the Scale plan, you\u2019ll be able to set a customized concurrency limit that matches your team\u2019s needs and goals.")), hAsync("li", { id: "faq-git" }, hAsync(Heading, null, "What are private git repos?"), hAsync(Paragraph, null, "Private git repos are on-premises installations of a git service. All Ionic account plans offer a git-based workflow that works with cloud-based git services such as GitHub, BitBucket, and GitLab. For teams and businesses that wish to integrate with privately hosted git repos, we offer support for BitBucket servers as an add-on under the Scale plan. Contact our Sales team to learn more.")), hAsync("li", { id: "faq-seats" }, hAsync(Heading, null, "How many seats are with each plan?"), hAsync(Paragraph, null, "The number of seats included varies by plan. Launch plans include one (1) seat. Growth plans include two (2) seats with the base subscription, with the ability to add up to five (5) team members at $99 per additional seat. Growth subscribers can add additional seats with the Developer Hub."), hAsync(Paragraph, null, "The Scale plan offers flexible packages that scale to any number of team members. Please contact our Sales team to discuss a custom plan that accommodates the number of seats you\u2019d like to include. If you are a current customer and would like to add more seats to your existing Scale plan, please contact Support.")), hAsync("li", { id: "faq-premium" }, hAsync(Heading, null, "What is Premium Product Support?"), hAsync(Paragraph, null, "Timely assistance with troubleshooting issues related to Appflow or the Cloud dashboard.")))))));
->>>>>>> 8305d0132654222ac06d00fb033d876b58d79e38
-};
-
-const typeToResourceType = (type) => ({
-  article: ResourceType.Article,
-  case_study: ResourceType.CaseStudy,
-  webinar: ResourceType.Webinar,
-  whitepaper: ResourceType.Whitepaper,
-  podcast: ResourceType.Podcast,
-  video: ResourceType.Video,
-}[type]);
-
 const resourcesPageCss = ".sc-resources-page-h{display:block}.whitepaper-card.sc-resources-page{height:100%;background:#E9EDF3;padding:29px}.whitepaper-card.sc-resources-page .ui-heading.sc-resources-page{margin-block-end:var(--space-4)}.whitepaper-card.sc-resources-page img.sc-resources-page{border-radius:var(--radius-1);transition:transform 200ms cubic-bezier(0.32, 0.72, 0, 1)}.whitepaper-card.sc-resources-page:hover img.sc-resources-page,.whitepaper-card.sc-resources-page:active img.sc-resources-page,.whitepaper-card.sc-resources-page:focus img.sc-resources-page{transform:scale(1.05)}#feature.sc-resources-page{margin-block-start:var(--space-11);margin-block-end:var(--space-11)}#latest.sc-resources-page hr.top.sc-resources-page{margin-block-start:var(--space-3)}#latest.sc-resources-page .card-grid.sc-resources-page{row-gap:var(--space-11)}@media screen and (max-width: 767px){#latest.sc-resources-page .card-grid.sc-resources-page{column-gap:var(--space-3)}}#mid.sc-resources-page{margin-block-start:var(--space-11)}#mid.sc-resources-page .card-grid.sc-resources-page{row-gap:var(--space-11)}@media screen and (max-width: 767px){#mid.sc-resources-page .card-grid.sc-resources-page{column-gap:var(--space-3)}}#bottom.sc-resources-page{margin-block-start:var(--space-11)}#bottom.sc-resources-page .card-grid.sc-resources-page{row-gap:var(--space-11)}@media screen and (max-width: 767px){#bottom.sc-resources-page .card-grid.sc-resources-page{column-gap:var(--space-3)}}#trench.sc-resources-page{margin-block-start:var(--space-11);margin-block-end:var(--space-11)}#trench.sc-resources-page .card-grid.sc-resources-page{row-gap:var(--space-11)}@media screen and (max-width: 767px){#trench.sc-resources-page .card-grid.sc-resources-page{column-gap:var(--space-3)}}#chasm.sc-resources-page{margin-block-start:var(--space-11);margin-block-end:var(--space-11)}#chasm.sc-resources-page .card-grid.sc-resources-page{row-gap:var(--space-11)}@media screen and (max-width: 767px){#chasm.sc-resources-page .card-grid.sc-resources-page{column-gap:var(--space-3)}}";
 
 class ResourcesPage {
   constructor(hostRef) {
     registerInstance(this, hostRef);
-    this.prismicClient = Client$1();
+    this.prismicClient = Client();
     this.currentResource = {};
     this.havePrismicData = false;
     this.detailView = false;
@@ -22039,14 +19752,10 @@ class ResourcesPage {
     };
   }
   render() {
-<<<<<<< HEAD
     if (this.detailView) {
       return this.renderResource();
     }
     return (hAsync(Host, null, hAsync(Feature, { prismicData: this.prismicPreviews.feature }), hAsync(Latest, { prismicData: this.prismicPreviews.latestAnnouncements }), hAsync(Mid, { prismicData: this.prismicPreviews.midFeatures }), hAsync(Bottom, { prismicData: this.prismicPreviews.bottomFeatures }), hAsync(Trench, { prismicData: this.prismicPreviews.trenchFeatures }), hAsync(Chasm, { prismicData: this.prismicPreviews.chasmFeatures })));
-=======
-    return (hAsync(ResponsiveContainer, { id: "pricing-table", class: "comparison" }, hAsync(Heading, { level: 2 }, "Pick the plan that works best for you."), hAsync("div", { id: "features", class: "box" }, hAsync("div", { class: "table-wrap" }, hAsync("table", null, hAsync("thead", null, hAsync("tr", null, hAsync("td", null, hAsync("h3", null, "Features")), hAsync("th", null, hAsync("div", { class: "plan-wrap" }, hAsync("h4", null, "Hobby"), hAsync("div", { class: "price" }, hAsync("strong", null, "Free")), hAsync("a", { href: "https://ionicframework.com/signup?source=appflow-site&product=appflow", class: "btn button micro", id: "btn-pricing-hobby" }, "Start free"))), hAsync("th", null, hAsync("div", { class: "plan-wrap" }, hAsync("h4", null, "Launch"), hAsync("div", { class: "price" }, hAsync("strong", null, "$49"), "/mo"), hAsync("a", { href: "https://ionicframework.com/signup?source=framework-products&product=appflow", class: "btn button micro btn--primary", id: "btn-pricing-starter" }, "Get started"))), hAsync("th", null, hAsync("div", { class: "plan-wrap" }, hAsync("h4", null, "Growth"), hAsync("div", { class: "price", "data-toggle": "billing-team" }, hAsync("strong", null, "$120"), "/mo"), hAsync("a", { href: "https://ionicframework.com/signup?source=framework-products&product=appflow", class: "button btn micro btn--primary", id: "btn-pricing-team" }, "Get started"))), hAsync("th", null, hAsync("div", { class: "plan-wrap" }, hAsync("h4", null, "Scale"), hAsync("div", { class: "price" }, hAsync("strong", null, "Custom")), hAsync("a", { class: "button btn micro btn--primary", onClick: () => document.querySelector('site-modal').open = true }, "Contact us"))))), hAsync("tbody", null, hAsync("tr", null, hAsync("th", null, hAsync("strong", null, "Appflow")), hAsync("td", null, hAsync("ion-icon", { name: "checkmark-sharp" })), hAsync("td", null, hAsync("ion-icon", { name: "checkmark-sharp" })), hAsync("td", null, hAsync("ion-icon", { name: "checkmark-sharp" })), hAsync("td", null, hAsync("ion-icon", { name: "checkmark-sharp" }))), hAsync("tr", null, hAsync("th", null, "Push to app store"), hAsync("td", null), hAsync("td", null, hAsync("ion-icon", { name: "checkmark-sharp" })), hAsync("td", null, hAsync("ion-icon", { name: "checkmark-sharp" })), hAsync("td", null, hAsync("ion-icon", { name: "checkmark-sharp" }))), hAsync("tr", null, hAsync("th", null, "Live app updates", hAsync("a", { class: "anchor", href: "#faq-live-updates" }, hAsync("ion-icon", { class: "help-circle", name: "help-circle-outline" }))), hAsync("td", null, "100 ", hAsync("small", null, "/ mo")), hAsync("td", null, "10,000 ", hAsync("small", null, "/ mo")), hAsync("td", null, "25,000 ", hAsync("small", null, "/ mo")), hAsync("td", null, "Custom limit")), hAsync("tr", null, hAsync("th", null, "Native app builds"), hAsync("td", null), hAsync("td", null, hAsync("ion-icon", { name: "checkmark-sharp" })), hAsync("td", null, hAsync("ion-icon", { name: "checkmark-sharp" })), hAsync("td", null, hAsync("ion-icon", { name: "checkmark-sharp" }))), hAsync("tr", null, hAsync("th", null, "Concurrency limits", hAsync("a", { class: "anchor", href: "#faq-concurrency" }, hAsync("ion-icon", { class: "help-circle", name: "help-circle-outline" }))), hAsync("td", null), hAsync("td", null, "1"), hAsync("td", null, "2"), hAsync("td", null, "Custom limit")), hAsync("tr", null, hAsync("th", null, "CI/CD automation"), hAsync("td", null), hAsync("td", null), hAsync("td", null, hAsync("ion-icon", { name: "checkmark-sharp" })), hAsync("td", null, hAsync("ion-icon", { name: "checkmark-sharp" }))), hAsync("tr", null, hAsync("th", null, hAsync("small", null, "Automations")), hAsync("td", null), hAsync("td", null), hAsync("td", null, "4"), hAsync("td", null, "Custom limit")), hAsync("tr", null, hAsync("th", null, hAsync("small", null, "Environments")), hAsync("td", null), hAsync("td", null), hAsync("td", null, "2"), hAsync("td", null, "Custom limit")), hAsync("tr", null, hAsync("th", null, hAsync("small", null, "Configurations")), hAsync("td", null), hAsync("td", null), hAsync("td", null, "2"), hAsync("td", null, "Custom limit")), hAsync("tr", null, hAsync("th", null, "iOS Enterprise builds", hAsync("a", { class: "anchor", href: "#faq-ios" }, hAsync("ion-icon", { class: "help-circle", name: "help-circle-outline" }))), hAsync("td", null), hAsync("td", null), hAsync("td", null), hAsync("td", null, hAsync("ion-icon", { name: "checkmark-sharp" }))), hAsync("tr", null, hAsync("th", null, "Private git repos", hAsync("a", { class: "anchor", href: "#faq-git" }, hAsync("ion-icon", { class: "help-circle", name: "help-circle-outline" }))), hAsync("td", null), hAsync("td", null), hAsync("td", null), hAsync("td", null, hAsync("ion-icon", { name: "checkmark-sharp" }))), hAsync("tr", null, hAsync("th", null, hAsync("strong", null, "Premium Cloud Support")), hAsync("td", { colSpan: 4 })), hAsync("tr", null, hAsync("th", null, "Account & Billing Support", hAsync("a", { class: "anchor", href: "#faq-account" }, hAsync("ion-icon", { class: "help-circle", name: "help-circle-outline" }))), hAsync("td", null), hAsync("td", null, hAsync("ion-icon", { name: "checkmark-sharp" })), hAsync("td", null, hAsync("ion-icon", { name: "checkmark-sharp" })), hAsync("td", null, hAsync("ion-icon", { name: "checkmark-sharp" }))), hAsync("tr", null, hAsync("th", null, "Premium Product Support", hAsync("a", { class: "anchor", href: "#faq-premium" }, hAsync("ion-icon", { class: "help-circle", name: "help-circle-outline" }))), hAsync("td", null), hAsync("td", null), hAsync("td", null), hAsync("td", null, hAsync("ion-icon", { name: "checkmark-sharp" }))), hAsync("tr", null, hAsync("th", null, "Live Onboarding"), hAsync("td", null), hAsync("td", null), hAsync("td", null), hAsync("td", null, hAsync("ion-icon", { name: "checkmark-sharp" }))), hAsync("tr", null, hAsync("th", null, hAsync("strong", null, "Admin & Security")), hAsync("td", { colSpan: 4 })), hAsync("tr", null, hAsync("th", null, "Seats included", hAsync("a", { class: "anchor", href: "#faq-seats" }, hAsync("ion-icon", { class: "help-circle", name: "help-circle-outline" }))), hAsync("td", null, "1"), hAsync("td", null, "1"), hAsync("td", null, "2"), hAsync("td", null, "Custom limit")), hAsync("tr", null, hAsync("th", null, "Additional Seat Cost"), hAsync("td", null), hAsync("td", null), hAsync("td", null, "$99/Seat"), hAsync("td", null, "Contact Sales")), hAsync("tr", null, hAsync("th", null, "Seat Limit"), hAsync("td", null), hAsync("td", null), hAsync("td", null, "5"), hAsync("td", null, "Custom limit")), hAsync("tr", null, hAsync("th", null, "Single sign-on"), hAsync("td", null), hAsync("td", null), hAsync("td", null), hAsync("td", null, hAsync("ion-icon", { name: "checkmark-sharp" }))), hAsync("tr", null, hAsync("th", null, "Role-based access"), hAsync("td", null), hAsync("td", null), hAsync("td", null), hAsync("td", null, hAsync("ion-icon", { name: "checkmark-sharp" })))), hAsync("tfoot", null, hAsync("tr", null, hAsync("th", null), hAsync("td", null, hAsync("a", { href: "https://ionicframework.com/signup?source=appflow-site&product=appflow", class: "button btn sm light", id: "btn-pricing-starter" }, "Start free")), hAsync("td", null, hAsync("a", { href: "https://ionicframework.com/signup?source=framework-products&product=appflow", class: "button btn sm dark", id: "btn-pricing-starter" }, "Get started")), hAsync("td", null, hAsync("a", { href: "https://ionicframework.com/signup?source=framework-products&product=appflow", class: "button btn sm dark", id: "btn-pricing-team" }, "Get started")), hAsync("td", null, hAsync("a", { onClick: () => document.querySelector('site-modal').open = true, class: "button btn sm dark" }, "Contact us")))))))));
->>>>>>> 8305d0132654222ac06d00fb033d876b58d79e38
   }
   static get assetsDirs() { return ["assets"]; }
   static get watchers() { return {
@@ -22129,377 +19838,6 @@ const WhitepaperCard = ({ prismicData }) => {
   }
   return (hAsync("a", Object.assign({}, href(`/resources/${prismicData.id}`), { class: "whitepaper-card" }), hAsync(Heading, { class: "ui-theme--editorial", level: 4 }, prismicData.title), hAsync(PrismicResponsiveImage, { image: prismicData.doc.data.cover_image })));
 };
-
-const resourceArticleCss = ".sc-resource-article-h{padding-bottom:76px}.heading-group.sc-resource-article img.sc-resource-article{max-width:100%;margin-block-end:var(--space-11)}.heading-group.sc-resource-article .ui-heading-1.sc-resource-article{margin-block-start:var(--space-10);margin-block-end:var(--space-5)}.heading-group.sc-resource-article .ui-paragraph.sc-resource-article{color:#73849A;margin-block-end:var(--space-6)}resource-toc.sc-resource-article{margin-block-start:var(--space-10)}resource-author-item.sc-resource-article{margin-block-start:var(--space-3);margin-block-end:var(--space-3)}resource-author-item.sc-resource-article:last-of-type{margin-block-end:73px}article.sc-resource-article .ui-heading-2.sc-resource-article{margin-block-start:var(--space-9);margin-block-end:var(--space-3)}article.sc-resource-article .ui-heading-3.sc-resource-article{margin-block-start:var(--space-8);margin-block-end:var(--space-3)}article.sc-resource-article .ui-heading-4.sc-resource-article{margin-block-start:var(--space-3);margin-block-end:var(--space-2)}article.sc-resource-article .ui-heading.sc-resource-article:first-child{margin-block-start:0}article.sc-resource-article p.sc-resource-article{font-size:16px;letter-spacing:-0.011em;line-height:1.75em;margin-bottom:1.8em;color:var(--c-indigo-80)}article.sc-resource-article ul.sc-resource-article li.sc-resource-article{list-style-type:none}article.sc-resource-article ul.sc-resource-article li.sc-resource-article::before{content:\"\";display:inline-block;width:6px;height:6px;background:#b2becd;position:absolute;top:12px;left:0;border-radius:8px}article.sc-resource-article ol.sc-resource-article li.sc-resource-article{list-style-type:counter-style}article.sc-resource-article ul.sc-resource-article,article.sc-resource-article ol.sc-resource-article{font-size:16px;letter-spacing:-0.011em;line-height:1.75em;margin-bottom:1.8em;color:var(--c-indigo-80)}article.sc-resource-article li.sc-resource-article{position:relative;padding-left:18px}article.sc-resource-article table.sc-resource-article{overflow-x:auto;margin-right:-15px;padding-right:15px;box-sizing:content-box;font-size:13px}article.sc-resource-article table.sc-resource-article td.sc-resource-article,article.sc-resource-article table.sc-resource-article th.sc-resource-article{min-width:120px;padding-right:12px}article.sc-resource-article table.sc-resource-article tbody.sc-resource-article tr.sc-resource-article td.sc-resource-article{border-top-color:#DEE3EA}article.sc-resource-article table.sc-resource-article>thead.sc-resource-article>tr.sc-resource-article>th.sc-resource-article{border-bottom-color:#E9EDF3;font-weight:600}";
-
-class ResourceArticle {
-  constructor(hostRef) {
-    registerInstance(this, hostRef);
-  }
-  render() {
-    const authors = getAuthorsForPrismicDoc$1(this.prismicData.doc);
-    const resource = this.prismicData;
-    return (hAsync(Host, null, hAsync("div", { class: "resource-article" }, hAsync(ThemeProvider, { type: "editorial" }, hAsync(ResponsiveContainer, null, hAsync(Grid, null, hAsync(Col, { md: 3, sm: 3 }, hAsync("resource-toc", { titleNames: prismicResourceToToc(this.prismicData) })), hAsync(Col, { md: 9, sm: 9, xs: 12, cols: 12 }, hAsync("div", { class: "resource-article-content" }, hAsync("div", { class: "heading-group" }, hAsync(Heading, { class: "ui-theme--editorial", level: 1, id: slugify(resource.title) }, resource.title), hAsync(Paragraph, { level: 2 }, resource.description), authors.map(author => (hAsync("resource-author-item", { author: author }))), hAsync(PrismicResponsiveImage, { image: resource.doc.data.hero_image, width: "800", height: "420" })), hAsync("article", null, hAsync(PrismicContent, { content: resource.doc.data.body }))))))))));
-  }
-  get el() { return getElement(this); }
-  static get style() { return resourceArticleCss; }
-  static get cmpMeta() { return {
-    "$flags$": 2,
-    "$tagName$": "resource-article",
-    "$members$": {
-      "prismicData": [16]
-    },
-    "$listeners$": undefined,
-    "$lazyBundleId$": "-",
-    "$attrsToReflect$": []
-  }; }
-}
-
-const resourceAuthorItemCss = ".sc-resource-author-item-h{display:block}.link-wrapper.sc-resource-author-item{display:flex}.image.sc-resource-author-item{display:inline-block;margin-inline-end:7px;width:28px;height:28px;border-radius:100%}.info.sc-resource-author-item{display:inline-flex;flex-direction:column;justify-content:space-between}.info.sc-resource-author-item .name.sc-resource-author-item{color:#010610}.info.sc-resource-author-item .title.sc-resource-author-item{color:#92A1B3}";
-
-class ResourceAuthorItem {
-  constructor(hostRef) {
-    registerInstance(this, hostRef);
-  }
-  render() {
-    if (!this.author)
-      return;
-    const { link, avatar, title, name } = this.author;
-    return (hAsync(Host, null, hAsync("a", { class: "link-wrapper", href: link, target: "_blank", rel: "noopener nofollow" }, hAsync(PrismicResponsiveImage, { class: "image", image: avatar, height: "28", width: "28" }), hAsync("div", { class: "info" }, hAsync(Paragraph, { level: 4, class: "name", leading: "none" }, name), hAsync(Paragraph, { level: 6, class: "title", leading: "none" }, title)))));
-  }
-  static get style() { return resourceAuthorItemCss; }
-  static get cmpMeta() { return {
-    "$flags$": 2,
-    "$tagName$": "resource-author-item",
-    "$members$": {
-      "author": [16]
-    },
-    "$listeners$": undefined,
-    "$lazyBundleId$": "-",
-    "$attrsToReflect$": []
-  }; }
-}
-
-const resourceTypeToPath = (type) => ({
-  [ResourceType$1.Article]: 'articles',
-  [ResourceType$1.Blog]: 'blogs',
-  [ResourceType$1.Book]: 'books',
-  [ResourceType$1.CaseStudy]: 'case-studies',
-  [ResourceType$1.Course]: 'courses',
-  [ResourceType$1.CustomerInterview]: 'customer-interviews',
-  [ResourceType$1.Doc]: 'docs',
-  [ResourceType$1.Guide]: 'guides',
-  [ResourceType$1.Learning]: 'learning',
-  [ResourceType$1.Podcast]: 'podcasts',
-  [ResourceType$1.Tutorial]: 'tutorials',
-  [ResourceType$1.Video]: 'videos',
-  [ResourceType$1.Webinar]: 'webinars',
-  [ResourceType$1.Whitepaper]: 'whitepapers',
-}[type]);
-
-const resourceCardCss = ".sc-resource-card-h{--image-height:176px;display:flex;row-gap:0;column-gap:0;flex-direction:column;height:100%}img.sc-resource-card{display:block}.row.sc-resource-card-h{display:grid}.row.sc-resource-card-h .image-wrapper.sc-resource-card{height:var(--image-height)}.row.sc-resource-card-h .image-wrapper.sc-resource-card img.sc-resource-card{height:100%}.row.sc-resource-card-h .content.sc-resource-card{margin-inline-start:var(--space-9)}.row.sc-resource-card-h .content.sc-resource-card .meta.sc-resource-card{margin-block-end:40px}.row.sc-resource-card-h .content.sc-resource-card .description.sc-resource-card{margin-block-start:var(--space-4)}@media screen and (max-width: 640px){.row.sc-resource-card-h{display:flex;flex-direction:column}.row.sc-resource-card-h .content.sc-resource-card{margin-inline-start:0}}a.image-wrapper.sc-resource-card{height:var(--image-height);overflow:hidden}a.image-wrapper.sc-resource-card:hover img.sc-resource-card,a.image-wrapper.sc-resource-card:active img.sc-resource-card,a.image-wrapper.sc-resource-card:focus img.sc-resource-card{transform:scale(1.05)}a.image-wrapper.sc-resource-card img.sc-resource-card{height:var(--image-height);object-fit:cover;transition:transform 200ms cubic-bezier(0.32, 0.72, 0, 1)}.content.sc-resource-card{display:flex;flex-grow:1;flex-direction:column}.content.sc-resource-card .meta.sc-resource-card{display:flex;margin-block-start:var(--space-5);margin-block-end:var(--space-3);overflow:hidden}.content.sc-resource-card .meta.sc-resource-card .type.sc-resource-card{margin-inline-end:var(--space-4)}.content.sc-resource-card .title.sc-resource-card{color:#010610}.content.sc-resource-card .description.sc-resource-card{color:var(--c-indigo-80);margin-block-start:var(--space-5)}.author.sc-resource-card{flex-grow:1;display:flex;align-items:flex-end}.author.sc-resource-card resource-author-item.sc-resource-card{margin-block-start:46px;justify-self:flex-end}";
-
-class ResourceCard {
-  constructor(hostRef) {
-    registerInstance(this, hostRef);
-    this.row = false;
-    this.headingLevel = 4;
-    this.description = true;
-  }
-  componentWillLoad() {
-    if (!this.routing.base)
-      this.routing.base = '';
-    if (this.routing.includeType === undefined)
-      this.routing.includeType = true;
-  }
-  getUrl(id) {
-    const { base, includeType } = this.routing;
-    const type = resourceTypeToPath(this.prismicData.type);
-    if (includeType) {
-      return `${base}/${type}/${id}`;
-    }
-    else {
-      return `${base}/${id}`;
-    }
-  }
-  render() {
-    var _a, _b;
-    if (!this.prismicData)
-      return;
-    const { title, description, type, tags, id } = this.prismicData;
-    const { hero_image, content_url } = this.prismicData.doc.data;
-    const authors = getAuthorsForPrismicDoc$1(this.prismicData.doc);
-    const isLocalLink = !(content_url === null || content_url === void 0 ? void 0 : content_url.url);
-    let url = this.getUrl(id);
-    if (content_url === null || content_url === void 0 ? void 0 : content_url.url)
-      url = content_url.url;
-    return (hAsync(Host, { class: {
-        'row': this.row,
-        'ui-grid': true
-      } }, hAsync(Col, { cols: 7 }, (((_a = this.routing) === null || _a === void 0 ? void 0 : _a.router) && isLocalLink)
-      ? hAsync("a", Object.assign({ class: "image-wrapper" }, href(url, this.routing.router)), hAsync(PrismicResponsiveImage, { image: hero_image }))
-      : hAsync("a", { class: "image-wrapper", href: url, target: "_blank", rel: "noopener nofollow" }, hAsync(PrismicResponsiveImage, { image: hero_image }))), hAsync(Col, { class: "content", cols: 5 }, hAsync("div", { class: "meta" }, hAsync(Heading, { class: "type | ui-theme--editorial", level: 6 }, type), tags
-      ? hAsync("resource-meta", { class: "ui-theme--editorial", tags: tags }) : ''), (((_b = this.routing) === null || _b === void 0 ? void 0 : _b.router) && isLocalLink)
-      ? hAsync("a", Object.assign({}, href(url, this.routing.router)), hAsync(Heading, { class: "title | ui-theme--editorial", level: this.headingLevel }, title))
-      : hAsync("a", { href: url, target: "_blank", rel: "noopener nofollow" }, hAsync(Heading, { class: "title | ui-theme--editorial", level: this.headingLevel }, title)), this.description
-      ? hAsync(Paragraph, { class: "description" }, description) : '', authors
-      ? hAsync("div", { class: "author" }, hAsync("resource-author-item", { author: authors[0] })) : '')));
-  }
-  static get style() { return resourceCardCss; }
-  static get cmpMeta() { return {
-    "$flags$": 2,
-    "$tagName$": "resource-card",
-    "$members$": {
-      "prismicData": [16],
-      "row": [4],
-      "headingLevel": [2, "heading-level"],
-      "description": [4],
-      "routing": [16]
-    },
-    "$listeners$": undefined,
-    "$lazyBundleId$": "-",
-    "$attrsToReflect$": []
-  }; }
-}
-
-const resourceCaseStudyCss = ".sc-resource-case-study-h{padding-bottom:76px}.heading-group.sc-resource-case-study img.sc-resource-case-study{max-width:100%;margin-block-end:var(--space-11)}.heading-group.sc-resource-case-study .ui-heading-1.sc-resource-case-study{margin-block-start:var(--space-10);margin-block-end:var(--space-5)}.heading-group.sc-resource-case-study .ui-paragraph.sc-resource-case-study{color:#73849A;margin-block-end:var(--space-6)}resource-toc.sc-resource-case-study{margin-block-start:var(--space-10)}resource-author-item.sc-resource-case-study{margin-block-start:var(--space-3);margin-block-end:var(--space-3)}resource-author-item.sc-resource-case-study:last-of-type{margin-block-end:73px}article.sc-resource-case-study .ui-heading-2.sc-resource-case-study{margin-block-start:var(--space-9);margin-block-end:var(--space-3)}article.sc-resource-case-study .ui-heading-3.sc-resource-case-study{margin-block-start:var(--space-8);margin-block-end:var(--space-3)}article.sc-resource-case-study .ui-heading-4.sc-resource-case-study{margin-block-start:var(--space-3);margin-block-end:var(--space-2)}article.sc-resource-case-study .ui-heading.sc-resource-case-study:first-child{margin-block-start:0}article.sc-resource-case-study p.sc-resource-case-study{font-size:16px;letter-spacing:-0.011em;line-height:1.75em;margin-bottom:1.8em;color:var(--c-indigo-80)}article.sc-resource-case-study ul.sc-resource-case-study li.sc-resource-case-study{list-style-type:none}article.sc-resource-case-study ul.sc-resource-case-study li.sc-resource-case-study::before{content:\"\";display:inline-block;width:6px;height:6px;background:#b2becd;position:absolute;top:12px;left:0;border-radius:8px}article.sc-resource-case-study ol.sc-resource-case-study li.sc-resource-case-study{list-style-type:counter-style}article.sc-resource-case-study ul.sc-resource-case-study,article.sc-resource-case-study ol.sc-resource-case-study{font-size:16px;letter-spacing:-0.011em;line-height:1.75em;margin-bottom:1.8em;color:var(--c-indigo-80)}article.sc-resource-case-study li.sc-resource-case-study{position:relative;padding-left:18px}article.sc-resource-case-study table.sc-resource-case-study{overflow-x:auto;margin-right:-15px;padding-right:15px;box-sizing:content-box;font-size:13px}article.sc-resource-case-study table.sc-resource-case-study td.sc-resource-case-study,article.sc-resource-case-study table.sc-resource-case-study th.sc-resource-case-study{min-width:120px;padding-right:12px}article.sc-resource-case-study table.sc-resource-case-study tbody.sc-resource-case-study tr.sc-resource-case-study td.sc-resource-case-study{border-top-color:#DEE3EA}article.sc-resource-case-study table.sc-resource-case-study>thead.sc-resource-case-study>tr.sc-resource-case-study>th.sc-resource-case-study{border-bottom-color:#E9EDF3;font-weight:600}";
-
-class ResourceCaseStudy {
-  constructor(hostRef) {
-    registerInstance(this, hostRef);
-  }
-  render() {
-    const resource = this.prismicData;
-    return [
-      // <ResourcesSubNav resourceItem={resource} />,
-      hAsync("div", { class: "resource-article resource-case-study" }, hAsync(ThemeProvider, { type: "editorial" }, hAsync(ResponsiveContainer, null, hAsync(Grid, null, hAsync(Col, { md: 3, sm: 3 }, hAsync("resource-toc", { titleNames: prismicResourceToToc(this.prismicData) })), hAsync(Col, { md: 9, sm: 9, xs: 12, cols: 12 }, hAsync("div", { class: "resource-article-content" }, hAsync("div", { class: "heading-group" }, hAsync(Heading, { level: 1, id: slugify(resource.title) }, resource.title), hAsync(Paragraph, { level: 2 }, resource.description), hAsync(PrismicResponsiveImage, { image: resource.doc.data.hero_image, width: "800", height: "420" })), hAsync("article", null, hAsync(PrismicContent, { content: resource.doc.data.body })))))))),
-    ];
-  }
-  get el() { return getElement(this); }
-  static get style() { return resourceCaseStudyCss; }
-  static get cmpMeta() { return {
-    "$flags$": 2,
-    "$tagName$": "resource-case-study",
-    "$members$": {
-      "prismicData": [16]
-    },
-    "$listeners$": undefined,
-    "$lazyBundleId$": "-",
-    "$attrsToReflect$": []
-  }; }
-}
-
-const resourceMetaCss = ".sc-resource-meta-h{--tag-color:#92A0B3;line-height:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#92A0B3}.tag.sc-resource-meta{display:inline;color:var(--tag-color);font-size:10px;text-transform:uppercase}.tag.sc-resource-meta+.tag.sc-resource-meta::before{content:\"|\";color:var(--tag-color);display:inline-block;height:11px;margin:0 6px -1px 6px}";
-
-class ResourceMeta {
-  constructor(hostRef) {
-    registerInstance(this, hostRef);
-  }
-  render() {
-    return (hAsync(Host, { class: "resource-meta" }, this.tags.map(tag => (hAsync("span", { class: "ui-heading ui-heading-6 | tag" }, tag)))));
-  }
-  static get style() { return resourceMetaCss; }
-  static get cmpMeta() { return {
-    "$flags$": 2,
-    "$tagName$": "resource-meta",
-    "$members$": {
-      "tags": [16]
-    },
-    "$listeners$": undefined,
-    "$lazyBundleId$": "-",
-    "$attrsToReflect$": []
-  }; }
-}
-
-const resourceTocCss = ".sc-resource-toc-h{display:block;position:sticky;top:96px}@media (max-width: 768px){.sc-resource-toc-h{display:none}}nav.sc-resource-toc{margin:0;padding:0}ul.sc-resource-toc{font-size:14px;list-style:none;line-height:1.4em;padding-bottom:16px}li.sc-resource-toc{color:var(--c-carbon-80);margin-block-start:var(--space-1);margin-block-end:var(--space-1);cursor:pointer;list-style:none;color:var(--c-carbon-80);display:block;transition:0.2s transform ease, 0.2s color}li.active.sc-resource-toc{transform:translateX(8px);color:#597EFF}.title.sc-resource-toc{color:var(--c-indigo-60)}.cta-button.sc-resource-toc{margin-block-start:var(--space-3);font-weight:600;border-radius:6px;letter-spacing:0;text-transform:none;padding:12px 19px 10px;font-size:14px;line-height:1em;background:#3880FF;color:#fff}.sharing.sc-resource-toc{margin:0;border-top:2px solid #f3f5f9;padding-top:26px}.sharing.sc-resource-toc li.sc-resource-toc{margin:0;margin-right:6px;display:inline-block}.sharing.sc-resource-toc a.sc-resource-toc{color:#CBD2DD;font-size:20px}.sharing.sc-resource-toc a.sc-resource-toc:hover{color:var(--c-ionic-brand)}.sharing.sc-resource-toc #web-share.sc-resource-toc{display:none}";
-
-class ResourceTOC {
-  constructor(hostRef) {
-    registerInstance(this, hostRef);
-    this.headings = new Map();
-  }
-  componentDidLoad() {
-    addListener(({ entries }) => {
-      entries.forEach(({ target, intersectionRatio }) => {
-        if (!this.headings.get(target.id))
-          return;
-        const heading = this.headings.get(target.id);
-        if (intersectionRatio === 0) {
-          heading.inView = false;
-        }
-        else {
-          heading.inView = true;
-        }
-      });
-      this.getFirstInView();
-    });
-    this.titleNames.map((title) => {
-      const id = `h-${slugify(title)}`;
-      const item = document.getElementById(id);
-      this.headings.set(id, Object.assign(Object.assign({}, this.headings.get(id)), { headingEl: item }));
-    });
-  }
-  getFirstInView() {
-    let gotFirst = false;
-    for (const val of this.headings.values()) {
-      if (!val.tocEl)
-        continue;
-      if (val.inView && !gotFirst) {
-        val.tocEl.classList.add('active');
-        gotFirst = true;
-      }
-      else {
-        val.tocEl.classList.remove('active');
-      }
-    }
-    if (!gotFirst) {
-      const { tocEl } = [...this.headings.values()].reduce((acc, cur, i) => {
-        var _a, _b;
-        const curTop = (_a = cur.headingEl) === null || _a === void 0 ? void 0 : _a.offsetTop;
-        const accTop = (_b = acc.headingEl) === null || _b === void 0 ? void 0 : _b.offsetTop;
-        if (i === 0 || !accTop)
-          return cur;
-        if (Math.abs(window.scrollY - curTop) < Math.abs(window.scrollY - accTop)) {
-          return cur;
-        }
-        else {
-          return acc;
-        }
-      });
-      tocEl === null || tocEl === void 0 ? void 0 : tocEl.classList.add('active');
-    }
-  }
-  handleTocClick(ev) {
-    var _a;
-    const target = ev.target;
-    if (!((_a = target === null || target === void 0 ? void 0 : target.dataset) === null || _a === void 0 ? void 0 : _a.id))
-      return;
-    const headingEl = this.headings.get(target.dataset.id).headingEl;
-    window.scrollTo({
-      top: headingEl.offsetTop - 100,
-      behavior: 'smooth'
-    });
-  }
-  render() {
-    return (hAsync("nav", null, hAsync("ul", null, this.titleNames.map(link => (hAsync("li", { class: "ui-paragraph-4", onClick: (ev) => this.handleTocClick(ev), "data-id": `h-${slugify(link)}`, ref: e => {
-        var _a;
-        const id = (_a = e === null || e === void 0 ? void 0 : e.dataset) === null || _a === void 0 ? void 0 : _a.id;
-        if (!id || !e)
-          return;
-        this.headings.set(id, Object.assign(Object.assign({}, this.headings.get(id)), { tocEl: e }));
-      } }, link))))));
-  }
-  static get style() { return resourceTocCss; }
-  static get cmpMeta() { return {
-    "$flags$": 2,
-    "$tagName$": "resource-toc",
-    "$members$": {
-      "titleNames": [16]
-    },
-    "$listeners$": undefined,
-    "$lazyBundleId$": "-",
-    "$attrsToReflect$": []
-  }; }
-}
-
-const resourceWebinarCss = ".sc-resource-webinar-h{display:block}.past.sc-resource-webinar-h .heading.sc-resource-webinar{text-align:center;margin-block-start:89px}.past.sc-resource-webinar-h .heading.sc-resource-webinar .meta.sc-resource-webinar{margin-block-end:var(--space-5)}.past.sc-resource-webinar-h .heading.sc-resource-webinar .ui-heading-1.sc-resource-webinar{margin-block-end:var(--space-5);color:#010610}.past.sc-resource-webinar-h .heading.sc-resource-webinar .hosts.sc-resource-webinar{display:flex;flex-direction:column;align-items:center;margin-block-end:var(--space-9)}.past.sc-resource-webinar-h .heading.sc-resource-webinar .hosts.sc-resource-webinar .host.sc-resource-webinar{display:flex}.past.sc-resource-webinar-h .heading.sc-resource-webinar .hosts.sc-resource-webinar .host.sc-resource-webinar+.host.sc-resource-webinar{margin-block-start:var(--space-3)}.past.sc-resource-webinar-h .heading.sc-resource-webinar .hosts.sc-resource-webinar .host.sc-resource-webinar .avatar.sc-resource-webinar{border-radius:var(--radius-4);margin-inline-end:11px;width:28px;height:28px}.past.sc-resource-webinar-h .heading.sc-resource-webinar .hosts.sc-resource-webinar .host.sc-resource-webinar .description.sc-resource-webinar{color:#73849A}.past.sc-resource-webinar-h .video.sc-resource-webinar{position:relative;display:flex;align-items:center;justify-content:center;margin-block-end:var(--space-11)}.past.sc-resource-webinar-h .video.blured.sc-resource-webinar wistia-video.sc-resource-webinar{filter:blur(16px)}.past.sc-resource-webinar-h .video.sc-resource-webinar .overlay-form.sc-resource-webinar{border-radius:var(--radius-2);text-align:center;position:absolute;z-index:1000;background:white;padding:48px}.past.sc-resource-webinar-h .video.sc-resource-webinar .overlay-form.sc-resource-webinar .heading-group.sc-resource-webinar .ui-heading.sc-resource-webinar{margin-block-end:var(--space-3)}.past.sc-resource-webinar-h .article.sc-resource-webinar{margin-block-end:var(--space-11);max-width:672px;margin-inline-start:auto;margin-inline-end:auto}.future.sc-resource-webinar-h .landing-image.sc-resource-webinar{background:var(--c-lavender-70);width:100%;height:100%;position:absolute;z-index:-1;object-fit:cover}.future.sc-resource-webinar-h .heading-group.sc-resource-webinar{padding-block-start:var(--space-11);padding-block-end:var(--space-11);position:relative;min-height:512px;display:flex;align-items:center}.future.sc-resource-webinar-h .heading-group.sc-resource-webinar .ui-heading-1.sc-resource-webinar{max-width:704px;color:white}.future.sc-resource-webinar-h .heading-group.sc-resource-webinar .when.sc-resource-webinar{margin-block-start:var(--space-5);color:white}.future.sc-resource-webinar-h .heading-group.sc-resource-webinar .meta.sc-resource-webinar{margin-block-end:var(--space-5)}.future.sc-resource-webinar-h .heading-group.sc-resource-webinar .meta.sc-resource-webinar .type.sc-resource-webinar{color:white}.future.sc-resource-webinar-h .heading-group.sc-resource-webinar .register-button.sc-resource-webinar{background:white;color:#5061F2;margin-block-start:64px}.future.sc-resource-webinar-h .wrapper.sc-resource-webinar{display:flex;margin-block-start:var(--space-11);margin-block-end:var(--space-11)}.future.sc-resource-webinar-h .wrapper.sc-resource-webinar>*.sc-resource-webinar{flex-grow:1}.future.sc-resource-webinar-h .wrapper.sc-resource-webinar .article.sc-resource-webinar{max-width:576px}.future.sc-resource-webinar-h .wrapper.sc-resource-webinar .article.sc-resource-webinar .register-button.sc-resource-webinar{margin-block-start:var(--space-6);background:#3880FF;color:white}@media screen and (max-width: 1023px){.future.sc-resource-webinar-h .wrapper.sc-resource-webinar{flex-direction:column}.future.sc-resource-webinar-h .wrapper.sc-resource-webinar .hosts.sc-resource-webinar{margin-block-start:var(--space-11);margin-inline-start:0}}.future.sc-resource-webinar-h .hosts.sc-resource-webinar{margin-inline-start:var(--space-11)}.future.sc-resource-webinar-h .hosts.sc-resource-webinar .ui-heading.sc-resource-webinar{margin-block-end:40px}.future.sc-resource-webinar-h .hosts.sc-resource-webinar resource-author-item.sc-resource-webinar+resource-author-item.sc-resource-webinar{margin-block-start:var(--space-3)}.future.sc-resource-webinar-h resource-meta.sc-resource-webinar{--tag-color:rgba(255, 255, 255, .8)}.meta.sc-resource-webinar{display:inline-flex}.meta.sc-resource-webinar .type.sc-resource-webinar{margin-inline-end:17px}.article.sc-resource-webinar .ui-heading-2.sc-resource-webinar{margin-block-end:var(--space-3)}.article.sc-resource-webinar p.sc-resource-webinar,.article.sc-resource-webinar li.sc-resource-webinar{color:#445B78}.article.sc-resource-webinar p.sc-resource-webinar+p.sc-resource-webinar,.article.sc-resource-webinar p.sc-resource-webinar+ul.sc-resource-webinar,.article.sc-resource-webinar ul.sc-resource-webinar+p.sc-resource-webinar,.article.sc-resource-webinar ul.sc-resource-webinar+ul.sc-resource-webinar{margin-block-start:var(--space-5)}.article.sc-resource-webinar ul.sc-resource-webinar{margin-inline-start:38px}.article.sc-resource-webinar li.sc-resource-webinar{position:relative}.article.sc-resource-webinar li.sc-resource-webinar+li.sc-resource-webinar{margin-block-start:var(--space-5)}.article.sc-resource-webinar li.sc-resource-webinar::before{left:-38px;top:4px;position:absolute;content:\"\";background:var(--checkmark-path);height:20px;width:20px}.register-button.sc-resource-webinar{padding:16px 20px;font-weight:bold;text-transform:uppercase;font-size:16px;line-height:19px;letter-spacing:0.1em;border-radius:8px}site-modal.sc-resource-webinar .title.sc-resource-webinar{text-align:center}site-modal.sc-resource-webinar .title.sc-resource-webinar .ui-heading.sc-resource-webinar{margin-block-end:var(--space-3)}";
-
-class ResourceWebinar {
-  constructor(hostRef) {
-    registerInstance(this, hostRef);
-    this.PastWebinar = () => {
-      const { OverlayForm } = this;
-      const data = this.prismicData;
-      const videoId = data.doc.data.wistia_id;
-      const pastGate = this.state.hubspotGatedPassed;
-      return (hAsync(ResponsiveContainer, null, hAsync(ThemeProvider, { type: "editorial" }, hAsync("section", { class: "heading" }, hAsync("div", { class: "meta" }, hAsync(Heading, { level: 6, class: "type" }, "Webinar"), hAsync("resource-meta", { tags: data.tags, class: "tags" })), hAsync(Heading, { level: 1 }, data.title), hAsync("div", { class: "hosts" }, this.hosts.map(host => (hAsync("div", { class: "host" }, hAsync(PrismicResponsiveImage, { class: "avatar", image: host.avatar }), hAsync(Paragraph, { class: "description | .ui-theme--base" }, host.name, ', ', host.title)))))), hAsync("section", { class: `video ${!pastGate ? 'blured' : ''}` }, !this.state.hubspotGatedPassed
-        ? hAsync(OverlayForm, { data: data }) : '', videoId
-        ? hAsync("wistia-video", { videoId: videoId }) : ''), hAsync("section", { class: "article" }, hAsync(PrismicRichText, { richText: data.doc.data.description, leading: "prose" })))));
-    };
-    this.FutureWebinar = () => {
-      const { RegisterButton } = this;
-      const data = this.prismicData;
-      const date = new Date(data.doc.data.when);
-      const image = data.doc.data.landing_image;
-      return (hAsync(ThemeProvider, { type: "editorial" }, hAsync("section", { class: "heading-group" }, image.url
-        ? hAsync(PrismicResponsiveImage, { class: "landing-image", image: image })
-        : hAsync("div", { class: "landing-image" }), hAsync(ResponsiveContainer, null, hAsync("div", { class: "heading" }, hAsync("div", { class: "meta" }, hAsync(Heading, { level: 6, class: "type" }, "Webinar"), hAsync("resource-meta", { tags: data.tags, class: "tags" })), hAsync(Heading, { level: 1 }, data.title), hAsync(Heading, { class: "when", level: 4 }, "Begins:", ' ', hAsync(DateTime, { date: date, format: { weekday: 'long', month: 'long', day: 'numeric' } }), ' @ ', hAsync(DateTime, { date: date, format: { hour: 'numeric', timeZoneName: 'short', timeZone: 'America/Chicago' } })), hAsync(RegisterButton, null)))), hAsync(ResponsiveContainer, null, hAsync("section", { class: "wrapper" }, hAsync("div", { class: "article" }, hAsync(PrismicRichText, { richText: data.doc.data.description, leading: "prose" }), hAsync(RegisterButton, null)), hAsync("div", { class: "hosts" }, hAsync(Heading, { level: 5 }, "Your speakers:"), this.hosts.map(host => (hAsync("resource-author-item", { author: host }))))))));
-    };
-    this.RegisterButton = () => (hAsync("button", { class: "register-button", onClick: () => {
-        this.state.showHubspotForm = true;
-      } }, "Register Now"));
-    this.OverlayForm = () => {
-      const data = this.prismicData;
-      const formId = data.doc.data.hubspot_form_id;
-      return (hAsync(ThemeProvider, { class: "overlay-form", type: "base" }, hAsync("div", { class: "heading-group" }, hAsync(Heading, { level: 3 }, "Stream ", data.title), hAsync(Paragraph, null, "You're just a few clicks away from our free Webinar")), hAsync("hubspot-form", { ajax: true, formId: formId, onFormSubmitted: () => {
-          this.state.hubspotGatedPassed = true;
-        } })));
-    };
-  }
-  componentWillLoad() {
-    this.state.hubspotGatedPassed = false;
-    this.hasHappened = new Date(this.prismicData.doc.data.when) < new Date();
-    this.hosts = getAuthorsForPrismicDoc$1(this.prismicData.doc);
-  }
-  render() {
-    const { PastWebinar, FutureWebinar } = this;
-    const formId = this.prismicData.doc.data.hubspot_form_id;
-    return (hAsync(Host, { style: {
-        '--checkmark-path': `url("${getAssetPath('assets/checkmark-circle.png')}")`
-      }, class: {
-        'past': this.hasHappened,
-        'future': !this.hasHappened
-      } }, this.hasHappened
-      ? hAsync(PastWebinar, null)
-      : [hAsync(FutureWebinar, null),
-        hAsync("site-modal", { open: this.state.showHubspotForm, modalClose: () => (this.state.showHubspotForm = false) }, hAsync("div", { class: "title" }, hAsync(Heading, null, "Register for ", this.prismicData.title), hAsync(Paragraph, null, "Enter your information below to join the Webinar list")), hAsync("hubspot-form", { formId: formId, ajax: false, onFormSubmitted: () => {
-            this.state.hubspotGatedPassed = true;
-          } }))]));
-  }
-  static get assetsDirs() { return ["assets"]; }
-  static get style() { return resourceWebinarCss; }
-  static get cmpMeta() { return {
-    "$flags$": 2,
-    "$tagName$": "resource-webinar",
-    "$members$": {
-      "prismicData": [16],
-      "state": [8]
-    },
-    "$listeners$": undefined,
-    "$lazyBundleId$": "-",
-    "$attrsToReflect$": []
-  }; }
-}
-
-const resourceWhitepaperCss = "@charset \"UTF-8\";.resource-whitepaper__cta.sc-resource-whitepaper{background:linear-gradient(to bottom, #fff, #f6f8fc);border-bottom:1px solid #e5e7eb;margin-top:-78px;padding-top:78px}.resource-whitepaper__hgroup.sc-resource-whitepaper{margin:auto;display:flex;flex-direction:column;align-items:center;text-align:center;padding-top:var(--space-9);padding-bottom:var(--space-9);max-width:840px;text-align:center}.resource-whitepaper__hgroup.sc-resource-whitepaper .ui-heading-6.sc-resource-whitepaper{margin-bottom:var(--space-2)}.resource-whitepaper__tagline.sc-resource-whitepaper{max-width:800px;color:var(--c-carbon-60);letter-spacing:-0.02em;font-weight:600;line-height:32px;font-size:18px}.resource-whitepaper__content.sc-resource-whitepaper{padding-top:96px}.resource-whitepaper__content.sc-resource-whitepaper img.sc-resource-whitepaper{max-width:100%}.resource-whitepaper__description.sc-resource-whitepaper p.sc-resource-whitepaper:first-child{color:#6e7f99;font-size:18px;line-height:28px}.resource-whitepaper__description.sc-resource-whitepaper ul.sc-resource-whitepaper{list-style-type:none;padding:0;margin:16px 0 32px;line-height:20px}.resource-whitepaper__description.sc-resource-whitepaper li.sc-resource-whitepaper{padding-left:20px;position:relative}.resource-whitepaper__description.sc-resource-whitepaper li.sc-resource-whitepaper:before{content:\"•\";margin-right:10px;opacity:0.8;position:absolute;left:0}";
-
-class ResourceWhitepaper {
-  constructor(hostRef) {
-    registerInstance(this, hostRef);
-  }
-  componentWillLoad() {
-    console.log('rendered whitepaper');
-  }
-  render() {
-    if (!this.prismicData)
-      return;
-    const resource = this.prismicData;
-    return [
-      hAsync(ThemeProvider, { type: "editorial" }, hAsync("div", { class: "resource-whitepaper" }, hAsync("div", { class: "resource-whitepaper__cta" }, hAsync(ResponsiveContainer, null, hAsync("hgroup", { class: "resource-whitepaper__hgroup" }, hAsync(Heading, { level: 6 }, "Whitepaper"), hAsync(Heading, { level: 1 }, resource.title), hAsync("p", { class: "resource-whitepaper__tagline" }, resource.doc.data.tagline)))), hAsync(ResponsiveContainer, null, hAsync(Grid, { class: "resource-whitepaper__content" }, hAsync(Col, { cols: 12, xs: 12, sm: 6, md: 6 }, hAsync(PrismicResponsiveImage, { image: resource.doc.data.cover_image, class: "resource-whitepaper__illustration" }), hAsync(PrismicRichText, { richText: resource.doc.data.description, class: "resource-whitepaper__description" })), hAsync(Col, { cols: 12, xs: 12, sm: 6, md: 6 }, hAsync("hubspot-form", { formId: resource.doc.data.hubspot_form_id }))))))
-    ];
-  }
-  static get style() { return resourceWhitepaperCss; }
-  static get cmpMeta() { return {
-    "$flags$": 2,
-    "$tagName$": "resource-whitepaper",
-    "$members$": {
-      "prismicData": [16]
-    },
-    "$listeners$": undefined,
-    "$lazyBundleId$": "-",
-    "$attrsToReflect$": []
-  }; }
-}
 
 const appflowSiteFooterCss = ".sc-appflow-site-footer-h{display:block;padding-block-start:var(--space-9);padding-block-end:var(--space-9);box-shadow:inset 0px 1px 0px rgba(0, 26, 58, 0.1)}.ui-grid.sc-appflow-site-footer{row-gap:var(--space-6)}.footer__content.sc-appflow-site-footer a.sc-appflow-site-footer:not(.social){transition:opacity 0.2s ease-out;color:var(--c-indigo-80)}.footer__content.sc-appflow-site-footer a.sc-appflow-site-footer:not(.social):hover,.footer__content.sc-appflow-site-footer a.sc-appflow-site-footer:not(.social):active,.footer__content.sc-appflow-site-footer a.sc-appflow-site-footer:not(.social):focus,.footer__content.sc-appflow-site-footer a.sc-appflow-site-footer:not(.social):focus-within{opacity:0.6}.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer .wrapper.sc-appflow-site-footer{display:flex;flex-direction:column;align-items:flex-end}@media screen and (max-width: 640px){.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer .wrapper.sc-appflow-site-footer{align-items:flex-start}}.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer .title.sc-appflow-site-footer{font-weight:500;color:var(--c-indigo-100);margin-block-end:13px}.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer form.sc-appflow-site-footer{display:flex;position:relative}.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer form.sc-appflow-site-footer input.sc-appflow-site-footer{flex-grow:1;flex-basis:256px;background:#FFFFFF;border:1px solid var(--c-indigo-40);box-sizing:border-box;border-radius:var(--radius-4);padding:7px 14px;margin-inline-end:var(--space-1)}.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer form.sc-appflow-site-footer input.sc-appflow-site-footer:required{border:1px solid var(--c-indigo-40)}.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer form.sc-appflow-site-footer input.sc-appflow-site-footer::placeholder{color:var(--c-indigo-60)}.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer form.sc-appflow-site-footer button.sc-appflow-site-footer{font-size:13px;font-weight:600;background:var(--c-lavender-70);border-radius:var(--radius-4);line-height:112%;color:#fff;padding:7.5px 12px 8.5px 12px}.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer form.sc-appflow-site-footer .button.sc-appflow-site-footer:hover,.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer form.sc-appflow-site-footer .button.sc-appflow-site-footer:active,.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer form.sc-appflow-site-footer .button.sc-appflow-site-footer:focus,.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer form.sc-appflow-site-footer .button.sc-appflow-site-footer:focus-within{background:#6789f0}.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer form.sc-appflow-site-footer .error-message.sc-appflow-site-footer{position:absolute;top:100%;color:var(--c-red-80)}.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer .form-message.sc-appflow-site-footer{display:flex;align-items:center}.main.sc-appflow-site-footer .newsletter.sc-appflow-site-footer .form-message.sc-appflow-site-footer ion-icon.sc-appflow-site-footer{width:32px;height:32px;margin-inline-end:var(--space-1);color:var(--c-purple-60)}.main.sc-appflow-site-footer li.title.sc-appflow-site-footer{font-weight:500;color:var(--c-indigo-100)}.bottom.sc-appflow-site-footer{margin-block-start:40px;row-gap:var(--space-1)}.bottom.sc-appflow-site-footer *.sc-appflow-site-footer{color:var(--c-indigo-60)}.bottom.sc-appflow-site-footer .start.sc-appflow-site-footer{display:flex;align-items:center}.bottom.sc-appflow-site-footer .start.sc-appflow-site-footer a.sc-appflow-site-footer{margin-inline-start:var(--space-3)}.bottom.sc-appflow-site-footer .end.sc-appflow-site-footer{display:flex;align-items:center;justify-content:flex-end;flex-grow:1;text-align:end}.bottom.sc-appflow-site-footer .end.sc-appflow-site-footer svg.sc-appflow-site-footer{margin-inline-end:var(--space-4)}.bottom.sc-appflow-site-footer .end.sc-appflow-site-footer .social-links.sc-appflow-site-footer svg.sc-appflow-site-footer path.sc-appflow-site-footer{transition:fill 0.2s ease-out}.bottom.sc-appflow-site-footer .end.sc-appflow-site-footer .social-links.sc-appflow-site-footer svg.sc-appflow-site-footer:hover path.sc-appflow-site-footer,.bottom.sc-appflow-site-footer .end.sc-appflow-site-footer .social-links.sc-appflow-site-footer svg.sc-appflow-site-footer:active path.sc-appflow-site-footer,.bottom.sc-appflow-site-footer .end.sc-appflow-site-footer .social-links.sc-appflow-site-footer svg.sc-appflow-site-footer:focus path.sc-appflow-site-footer,.bottom.sc-appflow-site-footer .end.sc-appflow-site-footer .social-links.sc-appflow-site-footer svg.sc-appflow-site-footer:focus-within path.sc-appflow-site-footer{fill:var(--c-indigo-80)}@media screen and (max-width: 640px){.bottom.sc-appflow-site-footer .end.sc-appflow-site-footer{justify-content:flex-start}}";
 
@@ -22641,11 +19979,7 @@ class SiteHeader {
       } }, hAsync("header", null, hAsync("site-backdrop", { visible: expanded, onClick: () => toggleExpanded(false) }), hAsync(ResponsiveContainer, { class: "site-header" }, hAsync("a", Object.assign({}, href('/'), { class: "site-header__logo-link" }), appflowLogoWithText({}, { width: 114, height: 24 })), hAsync("button", { onClick: () => toggleExpanded(false), class: "more-button" }, hAsync("ion-icon", { icon: "ellipsis-vertical" })), hAsync("div", { class: {
         'site-header-links': true,
         'site-header-links--expanded': expanded
-<<<<<<< HEAD
       } }, hAsync("div", { class: "nav__wrapper" }, hAsync("nav", { onClick: () => toggleExpanded(true) }, hAsync("a", Object.assign({}, href('/'), { ref: (e) => handleActive(e) }), "Product"), hAsync("a", Object.assign({}, href('/why-appflow'), { ref: e => handleActive(e) }), "Why Appflow"), hAsync("a", Object.assign({}, href('/resources'), { ref: e => handleActive(e) }), "Resources"), hAsync("a", Object.assign({}, href('/pricing'), { ref: e => handleActive(e) }), "Pricing"), hAsync("a", { href: "https://ionicframework.com/docs/appflow", ref: e => handleActive(e), target: "_blank" }, "Docs"), hAsync("a", Object.assign({}, href('/blog'), { ref: e => handleActive(e) }), "Blog"))), hAsync("div", { class: "site-header-links__buttons" }, hAsync("ul", null, hAsync("li", null, hAsync("a", { href: "https://ionicframework.com/login?source=appflow-site&product=appflow" }, "Log in")), hAsync("li", null, hAsync("a", { class: "button", href: "https://ionicframework.com/signup?source=appflow-site&product=appflow" }, "Get started ", hAsync("span", { style: { 'letter-spacing': '0px' } }, "->"))))))))));
-=======
-      } }, hAsync("div", { class: "nav__wrapper" }, hAsync("nav", { onClick: () => toggleExpanded(true) }, hAsync("a", Object.assign({}, href('/'), { ref: (e) => handleActive(e) }), "Product"), hAsync("a", Object.assign({}, href('/why-appflow'), { ref: e => handleActive(e) }), "Why Appflow"), hAsync("a", Object.assign({}, href('/pricing'), { ref: e => handleActive(e) }), "Pricing"), hAsync("a", { href: "https://ionicframework.com/docs/appflow", ref: e => handleActive(e), target: "_blank" }, "Docs"), hAsync("a", Object.assign({}, href('/blog'), { ref: e => handleActive(e) }), "Blog"))), hAsync("div", { class: "site-header-links__buttons" }, hAsync("ul", null, hAsync("li", null, hAsync("a", { href: "https://ionicframework.com/login?source=appflow-site&product=appflow" }, "Log in")), hAsync("li", null, hAsync("a", { class: "button", href: "https://ionicframework.com/signup?source=appflow-site&product=appflow" }, "Get started ", hAsync("span", { style: { 'letter-spacing': '0px' } }, "->"))))))))));
->>>>>>> 8305d0132654222ac06d00fb033d876b58d79e38
   }
   get el() { return getElement(this); }
   static get style() { return appflowSiteHeaderCss; }
@@ -23099,10 +20433,6 @@ const whyAppflowCss = ".sc-why-appflow-h{--p2-color:var(--c-indigo-80);--p3-colo
 class WhyAppflow {
   constructor(hostRef) {
     registerInstance(this, hostRef);
-<<<<<<< HEAD
-    this.render = () => (hAsync(Host, null, hAsync(Top$2, null), hAsync(Companies$2, null), hAsync(Benefits, null), hAsync(Integrated, null), hAsync(Problems, null), hAsync(Different, null), hAsync("get-started-section", null)));
-=======
->>>>>>> 8305d0132654222ac06d00fb033d876b58d79e38
   }
   async componentWillLoad() {
     await getPage('appflow_why_appflow');
@@ -23277,10 +20607,7 @@ registerComponents([
   ResourceTOC,
   ResourceWebinar,
   ResourceWhitepaper,
-<<<<<<< HEAD
   ResourcesPage,
-=======
->>>>>>> 8305d0132654222ac06d00fb033d876b58d79e38
   SiteFooter,
   SiteHeader,
   SiteModal,

@@ -108,7 +108,6 @@ export class PipelineAnimator {
       if (!e) {
         return;
       }
-      console.log(e.intersectionRatio);
       if (e.intersectionRatio === 0) {
         this.timeline.pause();
       } else {

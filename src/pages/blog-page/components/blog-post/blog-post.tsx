@@ -4,7 +4,7 @@ import { Components as DS } from '@ionic-internal/ionic-ds/dist/types/components
 import Helmet from '@stencil/helmet';
 
 import { RenderedBlog } from '@ionic-internal/markdown-blog/src/models';
-import { PrismicResource, ResourceLink } from '../../../../global/models/prismic';
+import { ResourceLink } from '../../../../global/models/prismic';
 import { prismicDocToResource, resourceTypeToPrismicType } from '../../../../global/utils/prismic/prismic';
 import { getResourceTypeForParam, typeToResourceType   } from '../../../../global/utils/prismic/data';
 import { Client } from '../../../../global/utils/prismic/prismic-configuration';
@@ -15,6 +15,7 @@ import Router from '../../../../router';
 import posts from './assets/blog.json';
 import Img from 'src/components/Img/Img';
 import parseISO from 'date-fns/parseISO';
+import { ResourceCard } from '@ionic-internal/ionic-ds/dist/types/resource-center/resource-card/resource-card';
 
 @Component({
   tag: 'blog-post',
@@ -28,7 +29,10 @@ export class BlogPost {
   @Prop() slug!: string;  
   @Prop() preview: boolean = false;
 
-  @State() moreResources: DS.MoreResources = { resources: [], routing: [] };
+  @State() moreResources: DS.MoreResources = {
+    resources: [],
+    routing: []
+  };
 
   @Element() el!: HTMLElement;
 
@@ -45,21 +49,15 @@ export class BlogPost {
     const { related } = this.post!; 
     if (!related) return;   
 
-    let moreResources = {
-      resource: [],
-      routing: []
-    }
 
     await Promise.all(related.map(async (resource) => {
       const info = await this.getRelatedDetails(resource);
       if (!info || !info.type || !info.uid) throw new Error('Couldnt get type or uid of related resources');
 
       const doc = await this.client.getByUID(resourceTypeToPrismicType(info.type), info.uid, {});
-      resources.push(prismicDocToResource(doc));
-      routing?.push(info.routing);
+      this.moreResources.resources?.push(prismicDocToResource(doc));
+      (this.moreResources.routing as ResourceCard['routing'][]).push(info.routing);
     }));
-
-    this.moreResources = { resources, routing };
   }
 
   getRelatedDetails = async (url: string) => {

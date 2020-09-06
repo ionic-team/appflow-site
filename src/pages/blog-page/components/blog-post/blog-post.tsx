@@ -15,7 +15,6 @@ import Router from '../../../../router';
 import posts from './assets/blog.json';
 import Img from 'src/components/Img/Img';
 import parseISO from 'date-fns/parseISO';
-import { ResourceCard } from '@ionic-internal/ionic-ds/dist/types/resource-center/resource-card/resource-card';
 
 @Component({
   tag: 'blog-post',
@@ -37,18 +36,17 @@ export class BlogPost {
   @Element() el!: HTMLElement;
 
   componentWillLoad() {
-    const { slug, getRelatedResources } = this;
+    const { slug, getRelatedResources, preview } = this;
 
     this.post = (posts as RenderedBlog[]).find(p => p.slug === slug);
     if (!this.post) throw new Error('Could not find blog post by slug.');  
       
-    getRelatedResources();
+    if (!preview) getRelatedResources();
   }
 
   getRelatedResources = async () => {   
     const { related } = this.post!; 
-    if (!related) return;   
-
+    if (!related) return;
 
     await Promise.all(related.map(async (resource) => {
       const info = await this.getRelatedDetails(resource);
@@ -56,8 +54,13 @@ export class BlogPost {
 
       const doc = await this.client.getByUID(resourceTypeToPrismicType(info.type), info.uid, {});
       this.moreResources.resources?.push(prismicDocToResource(doc));
-      (this.moreResources.routing as ResourceCard['routing'][]).push(info.routing);
+      (this.moreResources.routing as DS.ResourceCard['routing'][]).push(info.routing);
     }));
+
+    this.moreResources = {
+      resources: [...this.moreResources.resources!],
+      routing: [...this.moreResources.routing! as DS.ResourceCard['routing'][]]
+    }
   }
 
   getRelatedDetails = async (url: string) => {
@@ -155,7 +158,7 @@ export class BlogPost {
         <Heading class="ui-theme--editorial" level={1}>
           <a {...href(`/blog/${slug}`, Router)}>{post!.title}</a>           
         </Heading>
-        <PostAuthor post={post!}/>
+        <PostAuthor />
         <PostFeaturedImage preview={preview} post={post!} />
 
         <div class="post-content" innerHTML={post!.preview} />
@@ -168,7 +171,8 @@ export class BlogPost {
   };
   
 
-  PostAuthor = ({ post: { authorName, authorUrl, authorImageName, date }}: { post: RenderedBlog }) => {
+  PostAuthor = () => {
+    const { date, authorImageName, authorName, authorUrl } = this.post!;
     const dateString = parseISO(date);
 
     return (
@@ -183,7 +187,8 @@ export class BlogPost {
     )
   }
 
-  PostAuthorLarge = ({ post: { authorName, authorUrl, authorImageName, authorDescription }}: { post: RenderedBlog }) => {
+  PostAuthorLarge = () => {
+    const { authorImageName, authorName, authorUrl, authorDescription } = this.post!;
     if (!authorImageName) return null;
 
     return (
@@ -199,10 +204,15 @@ export class BlogPost {
     )
   }
 
-  MoreResources = () => [
+  MoreResources = () => {
+    console.log('got here')
+    return (
+    <div>
     <Heading level={4} class="more-resources__title | ui-theme--editorial">You might also like...</Heading>,
     <more-resources {...this.moreResources}/>
-  ]
+    </div>
+    )
+  }
 
   PostFeaturedImage = () => {
     const { preview, post } = this;

@@ -71,29 +71,6 @@ blog-post + blog-post {
 
 
 
-.post-author {
-  display: flex;  
-  margin-block-start: var(--space-6);
-  margin-block-end: 120px;
 
-  img {
-    width: 56px;
-    height: 56px;
-    margin-inline-end: var(--space-4);
-  }
-
-  &__info {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    .ui-heading {
-      color: #010610;
-    }
-    .ui-paragraph {
-      margin-block-start: 4px;
-      color: #92A1B3;
-    }
-  }  
-}
 
 

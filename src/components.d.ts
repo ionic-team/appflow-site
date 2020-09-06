@@ -25,17 +25,14 @@ export namespace Components {
     interface BlogNewsletter {
     }
     interface BlogPage {
-        "slug"?: string;
-        "viewMode": 'detail' | 'previews';
     }
     interface BlogPagination {
         "linkText": [string, string];
         "rssIcon": boolean;
     }
     interface BlogPost {
-        "post"?: RenderedBlog;
         "preview": boolean;
-        "slug"?: string;
+        "slug": string;
     }
     interface BlogSearch {
     }
@@ -293,17 +290,14 @@ declare namespace LocalJSX {
     interface BlogNewsletter {
     }
     interface BlogPage {
-        "slug"?: string;
-        "viewMode"?: 'detail' | 'previews';
     }
     interface BlogPagination {
         "linkText"?: [string, string];
         "rssIcon"?: boolean;
     }
     interface BlogPost {
-        "post"?: RenderedBlog;
         "preview"?: boolean;
-        "slug"?: string;
+        "slug": string;
     }
     interface BlogSearch {
     }

@@ -1,7 +1,7 @@
 import { Component, h, Host, Prop, State } from '@stencil/core';
 import { RenderedBlog } from '@ionic-internal/markdown-blog/src/models';
-import { twitterLogo, facebookRoundedLogo, linkedInLogo } from '../../../../svgs';
-import Router from '../../../../router';
+import { twitterLogo, facebookRoundedLogo, linkedInLogo } from '../../../../../../svgs';
+import Router from '../../../../../../router';
 
 
 @Component({

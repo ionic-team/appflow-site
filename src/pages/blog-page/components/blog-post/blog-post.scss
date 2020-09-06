@@ -4,6 +4,9 @@
 
 
   .post {
+    max-width: 736px;
+    margin-inline-start: auto;
+    margin-inline-end: auto;
     padding-block-end: var(--space-11);
     border-bottom: 2px solid var(--c-indigo-20);
 
@@ -120,4 +123,28 @@
     }
   }
 
+  .post-author {
+    display: flex;  
+    margin-block-start: var(--space-6);
+    margin-block-end: 120px;
+  
+    img {
+      width: 56px;
+      height: 56px;
+      margin-inline-end: var(--space-4);
+    }
+  
+    &__info {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      .ui-heading {
+        color: #010610;
+      }
+      .ui-paragraph {
+        margin-block-start: 4px;
+        color: #92A1B3;
+      }
+    }  
+  }
 }

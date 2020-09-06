@@ -205,7 +205,6 @@ export class BlogPost {
   }
 
   MoreResources = () => {
-    console.log('got here')
     return (
     <div>
     <Heading level={4} class="more-resources__title | ui-theme--editorial">You might also like...</Heading>,

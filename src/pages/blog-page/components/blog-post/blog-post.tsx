@@ -11,6 +11,7 @@ import { Client } from '../../../../global/utils/prismic/prismic-configuration';
 
 import { href } from 'stencil-router-v2';
 import Router from '../../../../router';
+import state from '../../../../store';
 
 import posts from './assets/blog.json';
 import Img from 'src/components/Img/Img';
@@ -26,7 +27,7 @@ export class BlogPost {
   private client = Client();
 
   @Prop() slug!: string;  
-  @Prop() preview: boolean = false;
+  @Prop() preview?: boolean = false;
 
   @State() moreResources: DS.MoreResources = {
     resources: [],
@@ -36,6 +37,7 @@ export class BlogPost {
   @Element() el!: HTMLElement;
 
   componentWillLoad() {
+    state.stickyHeader = false; 
     const { slug, getRelatedResources, preview } = this;
 
     this.post = (posts as RenderedBlog[]).find(p => p.slug === slug);
@@ -61,6 +63,7 @@ export class BlogPost {
       resources: [...this.moreResources.resources!],
       routing: [...this.moreResources.routing! as DS.ResourceCard['routing'][]]
     }
+    // this.moreResources = {...this.moreResources)};
   }
 
   getRelatedDetails = async (url: string) => {
@@ -99,7 +102,7 @@ export class BlogPost {
       <Host
         class={{
           'sc-blog-post': true,
-          'preview': preview
+          'preview': preview!
         }}
       >
         {preview 

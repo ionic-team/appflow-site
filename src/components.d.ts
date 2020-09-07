@@ -31,7 +31,7 @@ export namespace Components {
         "rssIcon": boolean;
     }
     interface BlogPost {
-        "preview": boolean;
+        "preview"?: boolean;
         "slug": string;
     }
     interface BlogSearch {

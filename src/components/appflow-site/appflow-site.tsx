@@ -34,8 +34,8 @@ const MetaHead = () => {
         content={state.description}
       />
       <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:site" content="@ionicframework" />
-      <meta name="twitter:creator" content="ionicframework" />
+      <meta name="twitter:site" content="@useappflow" />
+      <meta name="twitter:creator" content="appflow" />
       <meta name="twitter:title" content={state.title} />
       <meta name="twitter:description" content={state.description} />
 
@@ -48,7 +48,7 @@ const MetaHead = () => {
 
       <meta property="og:image" content={state.meta_image} />
       <meta property="og:description" content={state.description} />
-      <meta property="og:site_name" content="Ionic" />
+      <meta property="og:site_name" content="Appflow" />
       <meta property="article:publisher" content="https://www.facebook.com/ionicframework" />
       <meta property="og:locale" content="en_US" />
     </Helmet>

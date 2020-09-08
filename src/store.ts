@@ -12,7 +12,7 @@ export interface State {
 }
 
 export const defaults = {
-  title: 'Appflow - Continuous Mobile DevOps',
+  title: 'Continuous Mobile DevOps',
   description: 'Move even faster with cloud native builds, live app deploys, and CI/CD automation for Ionic, Capacitor, and Cordova app delivery.',
   meta_image: '/assets/img/appflow-og-img.jpg'
 }

@@ -51,7 +51,7 @@ export class BlogPost {
         }}
       >
         <Helmet>
-          <title>{this.post.title} - Appflow Blog - Continuous Mobile DevOps</title>
+          <title>Appflow Blog - {this.post.title}</title>
           <meta
             name="description"
             content={this.post.description}

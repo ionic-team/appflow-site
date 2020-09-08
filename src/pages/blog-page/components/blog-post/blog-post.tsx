@@ -27,8 +27,8 @@ export class BlogPost {
     if (this.slug) this.post = (posts as RenderedBlog[]).find(p => p.slug === this.slug)
 
     this.ogAssetPath = this.post?.featuredImage
-    ? router.url.origin + getAssetPath(`assets/img/hero/${this.post?.featuredImage}`)
-    : router.url.origin + '/assets/img/appflow-og-img';
+    ? router.url.origin + getAssetPath(`./assets/img/hero/${this.post?.featuredImage}`)
+    : router.url.origin + '/build/assets/img/appflow-og-img';
   }
 
   componentDidLoad() {

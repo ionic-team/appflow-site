@@ -29,7 +29,6 @@ export class App {
 const MetaHead = () => {
   return (
     <Helmet>
-      {console.log(state)}
       <title>{state.title}</title>
       <meta
         name="description"

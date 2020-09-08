@@ -1,7 +1,9 @@
 ---
 title: What is Mobile CI/CD?
-slug: what-is-mobile-ci-cd
 description: Exploring what Mobile CI/CD is and how it differs from traditional CI/CD, and how Appflow is a leading Mobile CI/CD service.
+slug: what-is-mobile-ci-cd
+featuredImage: what-is-mobile-ci-cd.png
+featuredImageAlt: figure 8 with phone in the middle on raised background
 date: 2020-08-18 08:00:00
 author: Max Lynch <max@ionic.io>
 authorUrl: https://twitter.com/maxlynch

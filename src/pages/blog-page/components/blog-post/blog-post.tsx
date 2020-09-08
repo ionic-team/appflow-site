@@ -57,7 +57,7 @@ export class BlogPost {
             content={this.post.description}
           />
           <meta name="twitter:description" content={`${this.post.description} - Appflow Blog`} />
-          <meta property="og:image" content={this.post.featuredImage || '/assets/img/appflow-og-img.jpg'} />
+          <meta property="og:image" content={getAssetPath(`assets/img/hero/${post.featuredImage}`)} />
         </Helmet>
 
         <article class="post">
@@ -90,11 +90,18 @@ export class BlogPost {
 
   PostAuthor = ({ post: { authorName, authorUrl, authorImageName, date }}: { post: RenderedBlog }) => {
     const dateString = parseISO(date);
+    const imageParts = authorImageName?.split('.');
+    if (!imageParts || !imageParts[0] || !imageParts[1]) throw new Error('Markdown Blog author image name not formatted correctly.  It should look like: max-lynch.png');
+
+    const data = {
+      name: imageParts[0],
+      type: imageParts[1]
+    }
 
     return (
       <div class="author">
         {authorImageName
-          ? <img src={getAssetPath(`assets/img/author/${authorImageName}`)} alt={authorName} width="56" height="56"/>
+          ? <Img path={getAssetPath(`assets/img/author/`)} {...data} alt={authorName} dimensions="56x56"/>
           : null}
         <Paragraph>By {authorUrl ?
           <a href={authorUrl} target="_blank">{authorName}</a> :
@@ -104,29 +111,34 @@ export class BlogPost {
   }
 }
 
-const PostFeaturedImage = ({ post, preview }: { post: RenderedBlog, preview: boolean}) => (
-  <div class="featured-image-wrapper">
-    {preview 
-    ? <a {...href(`/blog/${post.slug}`, Router)}>
-        <Img
-          // fallback={PostDefaultImage}
-          onClick={() => window.scrollTo(0, 0)}
+const PostFeaturedImage = ({ post: { slug, featuredImage, featuredImageAlt}, preview}: { post: RenderedBlog, preview: boolean}) => {
+  
+  const imageParts = featuredImage?.split('.');
+  if (!imageParts || !imageParts[0] || !imageParts[1]) throw new Error('Markdown Blog featured image name not formatted correctly.  It should look like: what-is-mobile-ci-cd.png');
+
+  const data = {
+    name: imageParts[0],
+    type: imageParts[1],
+    alt: featuredImageAlt
+  }
+
+  return (
+    <div class="featured-image-wrapper">
+      {preview 
+      ? <a {...href(`/blog/${slug}`, Router)}>
+          <Img
+            {...data}
+            class="featured-image"
+            dimensions="1600x840"
+            path={getAssetPath(`assets/img/hero/`)}
+          />
+        </a>
+      : <Img
+          {...data}
           class="featured-image"
           dimensions="1600x840"
-          name={post.slug}
-          alt={post.slug.split('-').join(' ')}
           path={getAssetPath(`assets/img/hero/`)}
-        />
-      </a>
-    : <Img
-        // fallback={PostDefaultImage}
-        onClick={() => window.scrollTo(0, 0)}
-        class="featured-image"
-        dimensions="1600x840"
-        name={post.slug}
-        alt={post.slug.split('-').join(' ')}
-        path={getAssetPath(`assets/img/hero/`)}
-      /> }
-  </div>
-);
+        /> }
+    </div> )
+}
 

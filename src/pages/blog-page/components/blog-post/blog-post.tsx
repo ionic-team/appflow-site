@@ -51,13 +51,13 @@ export class BlogPost {
         }}
       >
         <Helmet>
-          <title>{this.post.title} - Capacitor Blog - Cross-platform native runtime for web apps</title>
+          <title>{this.post.title} - Appflow Blog - Continuous Mobile DevOps</title>
           <meta
             name="description"
             content={this.post.description}
           />
-          <meta name="twitter:description" content={`${this.post.description} - Capacitor Blog`} />
-          <meta property="og:image" content={this.post.featuredImage || 'https://capacitorjs.com/assets/img/og.png'} />
+          <meta name="twitter:description" content={`${this.post.description} - Appflow Blog`} />
+          <meta property="og:image" content={this.post.featuredImage || '/assets/img/appflow-og-img.jpg'} />
         </Helmet>
 
         <article class="post">

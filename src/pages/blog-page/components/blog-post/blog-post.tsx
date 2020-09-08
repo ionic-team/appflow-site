@@ -1,4 +1,4 @@
-import { Component, Prop, h, Host, Element, getAssetPath } from '@stencil/core';
+import { Component, Prop, h, Host, Element, getAssetPath, State } from '@stencil/core';
 import { RenderedBlog } from '@ionic-internal/markdown-blog/src/models';
 import posts from './assets/blog.json';
 import Helmet from '@stencil/helmet';
@@ -15,7 +15,7 @@ import Img from '../../../../components/Img/Img';
 })
 export class BlogPost {
   private keepScrollLinks: HTMLAnchorElement[] = [];
-  private ogAssetPath!: string;
+  @State() ogAssetPath!: string;
   @Prop() slug?: string;
 
   @Prop() post?: RenderedBlog;

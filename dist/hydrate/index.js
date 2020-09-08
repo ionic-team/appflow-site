@@ -6080,7 +6080,7 @@ class App {
   }; }
 }
 const MetaHead = () => {
-  return (hAsync(Helmet, null, console.log(state), hAsync("title", null, state.title), hAsync("meta", { name: "description", content: state.description }), hAsync("meta", { name: "twitter:card", content: "summary_large_image" }), hAsync("meta", { name: "twitter:site", content: "@useappflow" }), hAsync("meta", { name: "twitter:creator", content: "appflow" }), hAsync("meta", { name: "twitter:title", content: state.title }), hAsync("meta", { name: "twitter:description", content: state.description }), hAsync("meta", { name: "twitter:image", content: state.meta_image }), hAsync("meta", { property: "fb:page_id", content: "1321836767955949" }), hAsync("meta", { property: "og:title", content: state.title }), hAsync("meta", { property: "og:image", content: Router.url.origin + state.meta_image }), hAsync("meta", { property: "og:description", content: state.description }), hAsync("meta", { property: "og:site_name", content: "Appflow" }), hAsync("meta", { property: "article:publisher", content: "https://www.facebook.com/ionicframework" }), hAsync("meta", { property: "og:locale", content: "en_US" })));
+  return (hAsync(Helmet, null, hAsync("title", null, state.title), hAsync("meta", { name: "description", content: state.description }), hAsync("meta", { name: "twitter:card", content: "summary_large_image" }), hAsync("meta", { name: "twitter:site", content: "@useappflow" }), hAsync("meta", { name: "twitter:creator", content: "appflow" }), hAsync("meta", { name: "twitter:title", content: state.title }), hAsync("meta", { name: "twitter:description", content: state.description }), hAsync("meta", { name: "twitter:image", content: state.meta_image }), hAsync("meta", { property: "fb:page_id", content: "1321836767955949" }), hAsync("meta", { property: "og:title", content: state.title }), hAsync("meta", { property: "og:image", content: Router.url.origin + state.meta_image }), hAsync("meta", { property: "og:description", content: state.description }), hAsync("meta", { property: "og:site_name", content: "Appflow" }), hAsync("meta", { property: "article:publisher", content: "https://www.facebook.com/ionicframework" }), hAsync("meta", { property: "og:locale", content: "en_US" })));
 };
 
 const appBurgerCss = "app-burger{display:none;position:fixed;top:0px;left:0px;z-index:999}app-burger>div{padding:18px;display:flex;align-items:flex-start;justify-content:center}app-burger>div:hover app-icon{opacity:1}app-burger .icon-menu{display:block}app-burger .icon-close{display:none}app-burger app-icon{transition:opacity 0.3s;opacity:0.7;cursor:pointer}app-burger.left-sidebar-in>div{height:100vh;padding-right:50px}app-burger.left-sidebar-in .icon-menu{display:none}app-burger.left-sidebar-in .icon-close{display:block}@media screen and (max-width: 1023px){app-burger{display:block}}";
@@ -8992,7 +8992,7 @@ class BlogPost {
     if (this.slug)
       this.post = posts.find(p => p.slug === this.slug);
     this.ogAssetPath = ((_a = this.post) === null || _a === void 0 ? void 0 : _a.featuredImage) ? Router.url.origin + getAssetPath(`./assets/img/hero/${(_b = this.post) === null || _b === void 0 ? void 0 : _b.featuredImage}`)
-      : Router.url.origin + '/assets/img/appflow-og-img';
+      : Router.url.origin + '/build/assets/img/appflow-og-img';
   }
   componentDidLoad() {
     console.log(this.post);

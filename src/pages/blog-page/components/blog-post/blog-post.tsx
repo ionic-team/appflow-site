@@ -15,6 +15,7 @@ import Img from '../../../../components/Img/Img';
 })
 export class BlogPost {
   private keepScrollLinks: HTMLAnchorElement[] = [];
+  private ogAssetPath!: string;
   @Prop() slug?: string;
 
   @Prop() post?: RenderedBlog;
@@ -22,8 +23,12 @@ export class BlogPost {
   @Element() el!: HTMLElement;
 
   async componentWillLoad() {
-    if (this.post) return this.slug = this.post.slug;
+    if (this.post) this.slug = this.post.slug;
     if (this.slug) this.post = (posts as RenderedBlog[]).find(p => p.slug === this.slug)
+
+    this.ogAssetPath = this.post?.featuredImage
+    ? router.url.origin + getAssetPath(`assets/img/hero/${this.post?.featuredImage}`)
+    : router.url.origin + '/assets/img/appflow-og-img';
   }
 
   componentDidLoad() {
@@ -51,15 +56,14 @@ export class BlogPost {
         }}
       >
         <Helmet>
-          {console.log(router, getAssetPath(`assets/img/hero/${post.featuredImage}`))}
           <title>Appflow Blog - {this.post.title}</title>
           <meta
             name="description"
             content={this.post.description}
           />
           <meta name="twitter:description" content={`${this.post.description} - Appflow Blog`} />
-          <meta name="twitter:image" content={router.url.origin + getAssetPath(`assets/img/hero/${post.featuredImage}`)} />
-          <meta property="og:image" content={router.url.origin + getAssetPath(`assets/img/hero/${post.featuredImage}`)} />
+          <meta name="twitter:image" content={this.ogAssetPath} />
+          <meta property="og:image" content={this.ogAssetPath} />
         </Helmet>
 
         <article class="post">

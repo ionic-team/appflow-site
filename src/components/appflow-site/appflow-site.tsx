@@ -29,6 +29,7 @@ export class App {
 const MetaHead = () => {
   return (
     <Helmet>
+      {console.log(state)}
       <title>{state.title}</title>
       <meta
         name="description"
@@ -47,7 +48,7 @@ const MetaHead = () => {
       {/* <meta property="og:type" content="article" /> */}
       <meta property="og:title" content={state.title} />
 
-      <meta property="og:image" content={router.url.host + state.meta_image} />
+      <meta property="og:image" content={router.url.origin + state.meta_image} />
       <meta property="og:description" content={state.description} />
       <meta property="og:site_name" content="Appflow" />
       <meta property="article:publisher" content="https://www.facebook.com/ionicframework" />

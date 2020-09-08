@@ -5,7 +5,7 @@ import Helmet from '@stencil/helmet';
 import { ThemeProvider, Heading, Paragraph, DateTime } from '@ionic-internal/ionic-ds';
 import parseISO from 'date-fns/parseISO';
 import { href } from 'stencil-router-v2';
-import Router from '../../../../router';
+import router from '../../../../router';
 import Img from '../../../../components/Img/Img';
 
 @Component({
@@ -57,15 +57,15 @@ export class BlogPost {
             content={this.post.description}
           />
           <meta name="twitter:description" content={`${this.post.description} - Appflow Blog`} />
-          <meta name="twitter:image" content={Router.url.host + getAssetPath(`assets/img/hero/${post.featuredImage}`)} />
-          <meta property="og:image" content={Router.url.host + getAssetPath(`assets/img/hero/${post.featuredImage}`)} />
+          <meta name="twitter:image" content={router.url.origin + getAssetPath(`assets/img/hero/${post.featuredImage}`)} />
+          <meta property="og:image" content={router.url.origin + getAssetPath(`assets/img/hero/${post.featuredImage}`)} />
         </Helmet>
 
         <article class="post">
           <ThemeProvider type="editorial">
             <Heading level={1} onClick={() => window.scrollTo(0,0)}>
               {preview 
-              ? <a {...href(`/blog/${slug}`, Router)}>{post.title}</a>
+              ? <a {...href(`/blog/${slug}`, router)}>{post.title}</a>
               : post.title}                
             </Heading>
           </ThemeProvider>
@@ -81,7 +81,7 @@ export class BlogPost {
           </div>
 
           {this.preview
-          ? <a class="continue-reading ui-paragraph-2" ref={e => keepScrollLinks.push(e!)} {...href(`/blog/${slug}`, Router)}>
+          ? <a class="continue-reading ui-paragraph-2" ref={e => keepScrollLinks.push(e!)} {...href(`/blog/${slug}`, router)}>
               Continue reading <span class="arrow">-&gt;</span>
             </a> : ''}
         </article>
@@ -126,7 +126,7 @@ const PostFeaturedImage = ({ post: { slug, featuredImage, featuredImageAlt}, pre
   return (
     <div class="featured-image-wrapper">
       {preview 
-      ? <a {...href(`/blog/${slug}`, Router)}>
+      ? <a {...href(`/blog/${slug}`, router)}>
           <Img
             {...data}
             class="featured-image"

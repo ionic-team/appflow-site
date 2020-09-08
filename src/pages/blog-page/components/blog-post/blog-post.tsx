@@ -57,7 +57,8 @@ export class BlogPost {
             content={this.post.description}
           />
           <meta name="twitter:description" content={`${this.post.description} - Appflow Blog`} />
-          <meta property="og:image" content={Router.url.origin + getAssetPath(`assets/img/hero/${post.featuredImage}`)} />
+          <meta name="twitter:image" content={Router.url.host + getAssetPath(`assets/img/hero/${post.featuredImage}`)} />
+          <meta property="og:image" content={Router.url.host + getAssetPath(`assets/img/hero/${post.featuredImage}`)} />
         </Helmet>
 
         <article class="post">

@@ -208,12 +208,10 @@ export class BlogPost {
   }
 
   MoreResources = () => {
-    return (
-    <div>
-    <Heading level={4} class="more-resources__title | ui-theme--editorial">You might also like...</Heading>,
-    <more-resources {...this.moreResources}/>
-    </div>
-    )
+    return [
+        <Heading level={4} class="more-resources__title | ui-theme--editorial">You might also like...</Heading>,
+        <more-resources {...this.moreResources}/>
+    ]
   }
 
   PostFeaturedImage = () => {

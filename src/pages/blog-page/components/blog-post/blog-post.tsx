@@ -51,6 +51,7 @@ export class BlogPost {
         }}
       >
         <Helmet>
+          {console.log(router, getAssetPath(`assets/img/hero/${post.featuredImage}`))}
           <title>Appflow Blog - {this.post.title}</title>
           <meta
             name="description"

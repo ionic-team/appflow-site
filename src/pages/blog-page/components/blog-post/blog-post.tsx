@@ -176,7 +176,7 @@ export class BlogPost {
         <div class="post-content" innerHTML={post!.preview} />
 
         <a class="continue-reading ui-paragraph-2" {...href(`/blog/${slug}`, Router)}>
-          Continue reading <span class="arrow">-&gt;</span>
+          <span onClick={() => window.scrollTo(0, 0)}>Continue reading <span class="arrow">-&gt;</span></span>
         </a>
       </article>
     )

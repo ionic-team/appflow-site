@@ -29,8 +29,8 @@ export class BlogPage {
     if (!this.posts) throw new Error('No posts received from markdown blog');
 
     return (
-      <Host>    
-        <blog-subnav />
+      <Host class="ui-container">    
+        <blog-subnav breadcrumbs={[['Blog', '/blog']]}/>
         {this.posts.map(p => (
           <article>
             <blog-post slug={p.slug} preview />

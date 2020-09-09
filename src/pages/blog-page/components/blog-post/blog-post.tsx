@@ -52,7 +52,7 @@ export class BlogPost {
 
     await Promise.all(related.map(async (resource) => {
       const info = await this.getRelatedDetails(resource);
-      if (!info || !info.type || !info.uid) throw new Error('Couldnt get type or uid of related resources');
+      if (!info || !info.type || !info.uid) return console.error('Couldnt get type or uid of related resources');
 
       const doc = await this.client.getByUID(resourceTypeToPrismicType(info.type), info.uid, {});
       this.moreResources.resources?.push(prismicDocToResource(doc));
@@ -68,7 +68,7 @@ export class BlogPost {
 
   getRelatedDetails = async (url: string) => {
     const matchResults = url.match(/\/resources\/(.*?)$/);   
-    if (!matchResults || !matchResults[1]) throw new Error('Invalid url for markdown blog related resources');
+    if (!matchResults || !matchResults[1]) return console.error('Invalid url for markdown blog related resources');
 
     const relatedInfo = matchResults[1].split('\/');
     const uid = relatedInfo.pop();
@@ -88,7 +88,7 @@ export class BlogPost {
     const { data } = await this.client.getSingle('appflow_resources', {});
 
     const { type } = Object.values(data).find((link: any) => link.hasOwnProperty('uid') && link.uid === uid) as ResourceLink;
-    if (!type) throw new Error('Markdown Blog related resource link not found in appflow resource center')
+    if (!type) console.error('Markdown Blog related resource link not found in appflow resource center')
 
     return typeToResourceType(type);
   }
@@ -102,7 +102,8 @@ export class BlogPost {
       <Host
         class={{
           'sc-blog-post': true,
-          'preview': preview!
+          'preview': preview!,
+          'detail': !preview
         }}
       >
         {preview 
@@ -127,12 +128,12 @@ export class BlogPost {
   PostDetail = () => {
     const { PostAuthor, PostAuthorLarge, MoreResources, PostHelmet, PostFeaturedImage, post, preview } = this;
 
-    return (
+    return [
+      <blog-subnav breadcrumbs={[['Blog', '/blog'], [this.post?.title!, `/${this.slug}`]]}/>,
       <ResponsiveContainer>
         <article class="post">        
             <PostHelmet />
 
-            <blog-subnav />
             <Breakpoint md={true} class="sticky-wrapper">
               <blog-social-actions post={post} column class="top" />
             </Breakpoint>  
@@ -150,8 +151,9 @@ export class BlogPost {
             <MoreResources />
             {/* <disqus-comments url={`https://useappflow.com/blog/${post.slug}`} siteId="ionic"/> */}
         </article>
-      </ResponsiveContainer>)
-  };
+      </ResponsiveContainer>
+    ];
+  }
 
   PostPreview = () => {
     const { PostAuthor, PostFeaturedImage, slug, preview, post } = this;
@@ -179,7 +181,7 @@ export class BlogPost {
     const dateString = parseISO(date);
 
     return (
-      <div class="author">
+      <div class="author-date">
         {authorImageName
           ? <img src={getAssetPath(`assets/img/author/${authorImageName}`)} alt={authorName} width="56" height="56"/>
           : null}
@@ -195,9 +197,9 @@ export class BlogPost {
     if (!authorImageName) return null;
 
     return (
-      <a href={authorUrl} target="_blank" class="post-author">
+      <a href={authorUrl} target="_blank" class="author-info">
         <img src={getAssetPath(`assets/img/author/${authorImageName}`)} alt={authorName} width="56" height="56"/>
-        <div class="post-author__info">
+        <div class="description">
           <Heading level={5}>{authorName}</Heading>
           {authorDescription
             ? <Paragraph level={4}>{authorDescription}</Paragraph>

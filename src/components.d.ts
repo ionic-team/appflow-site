@@ -51,7 +51,7 @@ export namespace Components {
     }
     interface GetStartedSection {
     }
-    interface LandingPage {
+    interface HomePage {
     }
     interface MarkdownPage {
         "file": string;
@@ -174,11 +174,11 @@ declare global {
         prototype: HTMLGetStartedSectionElement;
         new (): HTMLGetStartedSectionElement;
     };
-    interface HTMLLandingPageElement extends Components.LandingPage, HTMLStencilElement {
+    interface HTMLHomePageElement extends Components.HomePage, HTMLStencilElement {
     }
-    var HTMLLandingPageElement: {
-        prototype: HTMLLandingPageElement;
-        new (): HTMLLandingPageElement;
+    var HTMLHomePageElement: {
+        prototype: HTMLHomePageElement;
+        new (): HTMLHomePageElement;
     };
     interface HTMLMarkdownPageElement extends Components.MarkdownPage, HTMLStencilElement {
     }
@@ -257,7 +257,7 @@ declare global {
         "blog-subnav": HTMLBlogSubnavElement;
         "code-snippet": HTMLCodeSnippetElement;
         "get-started-section": HTMLGetStartedSectionElement;
-        "landing-page": HTMLLandingPageElement;
+        "home-page": HTMLHomePageElement;
         "markdown-page": HTMLMarkdownPageElement;
         "newsletter-form": HTMLNewsletterFormElement;
         "phone-animator": HTMLPhoneAnimatorElement;
@@ -316,7 +316,7 @@ declare namespace LocalJSX {
     }
     interface GetStartedSection {
     }
-    interface LandingPage {
+    interface HomePage {
     }
     interface MarkdownPage {
         "file": string;
@@ -358,7 +358,7 @@ declare namespace LocalJSX {
         "blog-subnav": BlogSubnav;
         "code-snippet": CodeSnippet;
         "get-started-section": GetStartedSection;
-        "landing-page": LandingPage;
+        "home-page": HomePage;
         "markdown-page": MarkdownPage;
         "newsletter-form": NewsletterForm;
         "phone-animator": PhoneAnimator;
@@ -391,7 +391,7 @@ declare module "@stencil/core" {
             "blog-subnav": LocalJSX.BlogSubnav & JSXBase.HTMLAttributes<HTMLBlogSubnavElement>;
             "code-snippet": LocalJSX.CodeSnippet & JSXBase.HTMLAttributes<HTMLCodeSnippetElement>;
             "get-started-section": LocalJSX.GetStartedSection & JSXBase.HTMLAttributes<HTMLGetStartedSectionElement>;
-            "landing-page": LocalJSX.LandingPage & JSXBase.HTMLAttributes<HTMLLandingPageElement>;
+            "home-page": LocalJSX.HomePage & JSXBase.HTMLAttributes<HTMLHomePageElement>;
             "markdown-page": LocalJSX.MarkdownPage & JSXBase.HTMLAttributes<HTMLMarkdownPageElement>;
             "newsletter-form": LocalJSX.NewsletterForm & JSXBase.HTMLAttributes<HTMLNewsletterFormElement>;
             "phone-animator": LocalJSX.PhoneAnimator & JSXBase.HTMLAttributes<HTMLPhoneAnimatorElement>;

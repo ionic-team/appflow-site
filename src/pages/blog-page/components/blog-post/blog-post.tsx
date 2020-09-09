@@ -16,6 +16,7 @@ import state from '../../../../store';
 import posts from './assets/blog.json';
 import Img from 'src/components/Img/Img';
 import parseISO from 'date-fns/parseISO';
+import router from '../../../../router';
 
 @Component({
   tag: 'blog-post',
@@ -29,6 +30,7 @@ export class BlogPost {
   @Prop() slug!: string;  
   @Prop() preview?: boolean = false;
 
+  @State() ogAssetPath!: string;
   @State() moreResources: DS.MoreResources = {
     resources: [],
     routing: []
@@ -42,6 +44,10 @@ export class BlogPost {
 
     this.post = (posts as RenderedBlog[]).find(p => p.slug === slug);
     if (!this.post) throw new Error('Could not find blog post by slug.');  
+
+    this.ogAssetPath = this.post?.featuredImage
+    ? router.url.origin + getAssetPath(`./assets/img/hero/${this.post?.featuredImage}`)
+    : router.url.origin + '/assets/img/appflow-og-img';
       
     if (!preview) getRelatedResources();
   }
@@ -115,13 +121,14 @@ export class BlogPost {
 
   PostHelmet = () => (
     <Helmet>
-      <title>{this.post!.title} - Capacitor Blog - Cross-platform native runtime for web apps</title>
+      <title>Appflow Blog - {this.post!.title}</title>
       <meta
         name="description"
         content={this.post!.description}
       />
-      <meta name="twitter:description" content={`${this.post!.description} - Capacitor Blog`} />
-      <meta property="og:image" content={this.post!.featuredImage || '/assets/img/appflow-og-img.jpg'} />
+      <meta name="twitter:description" content={`${this.post!.description} - Appflow Blog`} />
+      <meta name="twitter:image" content={this.ogAssetPath} />
+      <meta property="og:image" content={this.ogAssetPath} />
     </Helmet>
   );
 
@@ -142,7 +149,7 @@ export class BlogPost {
               {post!.title}                
             </Heading>
             <PostAuthor post={post!}/>
-            <PostFeaturedImage preview={preview} post={post!} />
+            <PostFeaturedImage preview={preview!} post={post!} />
 
             <div class="post-content" innerHTML={post!.html} />
 
@@ -164,7 +171,7 @@ export class BlogPost {
           <a {...href(`/blog/${slug}`, Router)}>{post!.title}</a>           
         </Heading>
         <PostAuthor />
-        <PostFeaturedImage preview={preview} post={post!} />
+        <PostFeaturedImage preview={preview!} post={post!} />
 
         <div class="post-content" innerHTML={post!.preview} />
 
@@ -179,12 +186,24 @@ export class BlogPost {
   PostAuthor = () => {
     const { date, authorImageName, authorName, authorUrl } = this.post!;
     const dateString = parseISO(date);
+    const imageParts = authorImageName?.split('.');
+    if (!imageParts || !imageParts[0] || !imageParts[1]) return console.error('Markdown Blog author image name not formatted correctly.  It should look like: max-lynch.png');
+
+    const data = {
+      name: imageParts[0],
+      type: imageParts[1]
+    }
 
     return (
       <div class="author-date">
         {authorImageName
-          ? <img src={getAssetPath(`assets/img/author/${authorImageName}`)} alt={authorName} width="56" height="56"/>
-          : null}
+        ? <Img 
+            {...data}
+            path={getAssetPath(`assets/img/author/`)}            
+            dimensions="56x56"
+            alt={authorName}
+          />
+        : null}
         <Paragraph>By {authorUrl ?
           <a href={authorUrl} target="_blank">{authorName}</a> :
           authorName} on <DateTime date={dateString} /></Paragraph>
@@ -211,40 +230,40 @@ export class BlogPost {
 
   MoreResources = () => {
     return [
-        <Heading level={4} class="more-resources__title | ui-theme--editorial">You might also like...</Heading>,
-        <more-resources {...this.moreResources}/>
+      <Heading level={4} class="more-resources__title | ui-theme--editorial">You might also like...</Heading>,
+      <more-resources {...this.moreResources}/>
     ]
   }
 
-  PostFeaturedImage = () => {
-    const { preview, post } = this;
+  PostFeaturedImage = ({ post: { slug, featuredImage, featuredImageAlt}, preview}: { post: RenderedBlog, preview: boolean}) => {
+    
+    const imageParts = featuredImage?.split('.');
+    if (!imageParts || !imageParts[0] || !imageParts[1]) return console.error('Markdown Blog featured image name not formatted correctly.  It should look like: what-is-mobile-ci-cd.png');
+
+    const data = {
+      name: imageParts[0],
+      type: imageParts[1],
+      alt: featuredImageAlt
+    }
 
     return (
-    <div class="featured-image-wrapper">
-      {preview 
-      ? <a {...href(`/blog/${post!.slug}`, Router)}>
-          <Img
-            // fallback={PostDefaultImage}
-            onClick={() => window.scrollTo(0, 0)}
+      <div class="featured-image-wrapper">
+        {preview 
+        ? <a {...href(`/blog/${slug}`, router)}>
+            <Img
+              {...data}
+              class="featured-image"
+              dimensions="1600x840"
+              path={getAssetPath(`assets/img/hero/`)}
+            />
+          </a>
+        : <Img
+            {...data}
             class="featured-image"
             dimensions="1600x840"
-            name={post!.slug}
-            alt={post!.slug.split('-').join(' ')}
             path={getAssetPath(`assets/img/hero/`)}
-          />
-        </a>
-      : <Img
-          // fallback={PostDefaultImage}
-          onClick={() => window.scrollTo(0, 0)}
-          class="featured-image"
-          dimensions="1600x840"
-          name={post!.slug}
-          alt={post!.slug.split('-').join(' ')}
-          path={getAssetPath(`assets/img/hero/`)}
-        /> }
-    </div>
-  )};
+          /> }
+      </div> )
+  }
 }
-
-
 

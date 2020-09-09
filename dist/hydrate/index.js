@@ -5552,7 +5552,7 @@ const createStore = (defaultState, shouldUpdate) => {
 };
 
 const defaults = {
-  title: 'Appflow - Continuous Mobile DevOps',
+  title: 'Continuous Mobile DevOps',
   description: 'Move even faster with cloud native builds, live app deploys, and CI/CD automation for Ionic, Capacitor, and Cordova app delivery.',
   meta_image: '/assets/img/appflow-og-img.jpg'
 };
@@ -5680,6 +5680,386 @@ const Helmet = (_props, children, utils) => {
     return null;
 };
 
+let defaultRouter;
+const createRouter = (opts) => {
+    var _a;
+    const win = window;
+    const url = new URL(win.location.href);
+    const parseURL = (_a = opts === null || opts === void 0 ? void 0 : opts.parseURL) !== null && _a !== void 0 ? _a : DEFAULT_PARSE_URL;
+    const { state, onChange, dispose } = createStore({
+        url,
+        activePath: parseURL(url)
+    }, (newV, oldV, prop) => {
+        if (prop === 'url') {
+            return newV.href !== oldV.href;
+        }
+        return newV !== oldV;
+    });
+    const push = (href) => {
+        history.pushState(null, null, href);
+        const url = new URL(href, document.baseURI);
+        state.url = url;
+        state.activePath = parseURL(url);
+    };
+    const match = (routes) => {
+        const { activePath } = state;
+        for (let route of routes) {
+            const params = matchPath(activePath, route.path);
+            if (params) {
+                if (route.to != null) {
+                    push(route.to);
+                    return match(routes);
+                }
+                else {
+                    return { params, route };
+                }
+            }
+        }
+        return undefined;
+    };
+    const navigationChanged = () => {
+        const url = new URL(win.location.href);
+        state.url = url;
+        state.activePath = parseURL(url);
+    };
+    const Switch = (_, childrenRoutes) => {
+        const result = match(childrenRoutes);
+        if (result) {
+            if (typeof result.route.jsx === 'function') {
+                return result.route.jsx(result.params);
+            }
+            else {
+                return result.route.jsx;
+            }
+        }
+    };
+    const disposeRouter = () => {
+        defaultRouter = undefined;
+        win.removeEventListener('popstate', navigationChanged);
+        dispose();
+    };
+    const router = defaultRouter = {
+        Switch,
+        get url() {
+            return state.url;
+        },
+        get activePath() {
+            return state.activePath;
+        },
+        push,
+        onChange: onChange,
+        dispose: disposeRouter,
+    };
+    // Initial update
+    navigationChanged();
+    // Listen URL changes
+    win.addEventListener('popstate', navigationChanged);
+    return router;
+};
+const Route = (props, children) => {
+    var _a;
+    if ('to' in props) {
+        return {
+            path: props.path,
+            to: props.to,
+        };
+    }
+    return {
+        path: props.path,
+        id: props.id,
+        jsx: (_a = props.render) !== null && _a !== void 0 ? _a : children,
+    };
+};
+const href = (href, router = defaultRouter) => {
+    return {
+        href,
+        onClick: (ev) => {
+            ev.preventDefault();
+            router.push(href);
+        },
+    };
+};
+const matchPath = (pathname, path) => {
+    if (typeof path === 'string') {
+        if (path === pathname) {
+            return {};
+        }
+    }
+    else if (typeof path === 'function') {
+        const params = path(pathname);
+        if (params) {
+            return params === true
+                ? {}
+                : { ...params };
+        }
+    }
+    else {
+        const results = path.exec(pathname);
+        if (results) {
+            path.lastIndex = 0;
+            return { ...results };
+        }
+    }
+    return undefined;
+};
+const DEFAULT_PARSE_URL = (url) => {
+    return url.pathname.toLowerCase();
+};
+
+/**
+ * TS adaption of https://github.com/pillarjs/path-to-regexp/blob/master/index.js
+ */
+/**
+ * Default configs.
+ */
+const DEFAULT_DELIMITER = '/';
+const DEFAULT_DELIMITERS = './';
+/**
+ * The main path matching regexp utility.
+ */
+const PATH_REGEXP = new RegExp([
+    // Match escaped characters that would otherwise appear in future matches.
+    // This allows the user to escape special characters that won't transform.
+    '(\\\\.)',
+    // Match Express-style parameters and un-named parameters with a prefix
+    // and optional suffixes. Matches appear as:
+    //
+    // "/:test(\\d+)?" => ["/", "test", "\d+", undefined, "?"]
+    // "/route(\\d+)"  => [undefined, undefined, undefined, "\d+", undefined]
+    '(?:\\:(\\w+)(?:\\(((?:\\\\.|[^\\\\()])+)\\))?|\\(((?:\\\\.|[^\\\\()])+)\\))([+*?])?'
+].join('|'), 'g');
+/**
+ * Parse a string for the raw tokens.
+ */
+const parse = (str, options) => {
+    var tokens = [];
+    var key = 0;
+    var index = 0;
+    var path = '';
+    var defaultDelimiter = (options && options.delimiter) || DEFAULT_DELIMITER;
+    var delimiters = (options && options.delimiters) || DEFAULT_DELIMITERS;
+    var pathEscaped = false;
+    var res;
+    while ((res = PATH_REGEXP.exec(str)) !== null) {
+        var m = res[0];
+        var escaped = res[1];
+        var offset = res.index;
+        path += str.slice(index, offset);
+        index = offset + m.length;
+        // Ignore already escaped sequences.
+        if (escaped) {
+            path += escaped[1];
+            pathEscaped = true;
+            continue;
+        }
+        var prev = '';
+        var next = str[index];
+        var name = res[2];
+        var capture = res[3];
+        var group = res[4];
+        var modifier = res[5];
+        if (!pathEscaped && path.length) {
+            var k = path.length - 1;
+            if (delimiters.indexOf(path[k]) > -1) {
+                prev = path[k];
+                path = path.slice(0, k);
+            }
+        }
+        // Push the current path onto the tokens.
+        if (path) {
+            tokens.push(path);
+            path = '';
+            pathEscaped = false;
+        }
+        var partial = prev !== '' && next !== undefined && next !== prev;
+        var repeat = modifier === '+' || modifier === '*';
+        var optional = modifier === '?' || modifier === '*';
+        var delimiter = prev || defaultDelimiter;
+        var pattern = capture || group;
+        tokens.push({
+            name: name || key++,
+            prefix: prev,
+            delimiter: delimiter,
+            optional: optional,
+            repeat: repeat,
+            partial: partial,
+            pattern: pattern ? escapeGroup(pattern) : '[^' + escapeString(delimiter) + ']+?'
+        });
+    }
+    // Push any remaining characters.
+    if (path || index < str.length) {
+        tokens.push(path + str.substr(index));
+    }
+    return tokens;
+};
+/**
+ * Escape a regular expression string.
+ */
+const escapeString = (str) => {
+    return str.replace(/([.+*?=^!:${}()[\]|/\\])/g, '\\$1');
+};
+/**
+ * Escape the capturing group by escaping special characters and meaning.
+ */
+const escapeGroup = (group) => {
+    return group.replace(/([=!:$/()])/g, '\\$1');
+};
+/**
+ * Get the flags for a regexp from the options.
+ */
+const flags = (options) => {
+    return options && options.sensitive ? '' : 'i';
+};
+/**
+ * Pull out keys from a regexp.
+ */
+const regexpToRegexp = (path, keys) => {
+    if (!keys)
+        return path;
+    // Use a negative lookahead to match only capturing groups.
+    var groups = path.source.match(/\((?!\?)/g);
+    if (groups) {
+        for (var i = 0; i < groups.length; i++) {
+            keys.push({
+                name: i,
+                prefix: null,
+                delimiter: null,
+                optional: false,
+                repeat: false,
+                partial: false,
+                pattern: null
+            });
+        }
+    }
+    return path;
+};
+/**
+ * Transform an array into a regexp.
+ */
+const arrayToRegexp = (path, keys, options) => {
+    var parts = [];
+    for (var i = 0; i < path.length; i++) {
+        parts.push(pathToRegexp(path[i], keys, options).source);
+    }
+    return new RegExp('(?:' + parts.join('|') + ')', flags(options));
+};
+/**
+ * Create a path regexp from string input.
+ */
+const stringToRegexp = (path, keys, options) => {
+    return tokensToRegExp(parse(path, options), keys, options);
+};
+/**
+ * Expose a function for taking tokens and returning a RegExp.
+ */
+const tokensToRegExp = (tokens, keys, options) => {
+    options = options || {};
+    var strict = options.strict;
+    var end = options.end !== false;
+    var delimiter = escapeString(options.delimiter || DEFAULT_DELIMITER);
+    var delimiters = options.delimiters || DEFAULT_DELIMITERS;
+    var endsWith = [].concat(options.endsWith || []).map(escapeString).concat('$').join('|');
+    var route = '';
+    var isEndDelimited = false;
+    // Iterate over the tokens and create our regexp string.
+    for (var i = 0; i < tokens.length; i++) {
+        var token = tokens[i];
+        if (typeof token === 'string') {
+            route += escapeString(token);
+            isEndDelimited = i === tokens.length - 1 && delimiters.indexOf(token[token.length - 1]) > -1;
+        }
+        else {
+            var prefix = escapeString(token.prefix || '');
+            var capture = token.repeat
+                ? '(?:' + token.pattern + ')(?:' + prefix + '(?:' + token.pattern + '))*'
+                : token.pattern;
+            if (keys)
+                keys.push(token);
+            if (token.optional) {
+                if (token.partial) {
+                    route += prefix + '(' + capture + ')?';
+                }
+                else {
+                    route += '(?:' + prefix + '(' + capture + '))?';
+                }
+            }
+            else {
+                route += prefix + '(' + capture + ')';
+            }
+        }
+    }
+    if (end) {
+        if (!strict)
+            route += '(?:' + delimiter + ')?';
+        route += endsWith === '$' ? '$' : '(?=' + endsWith + ')';
+    }
+    else {
+        if (!strict)
+            route += '(?:' + delimiter + '(?=' + endsWith + '))?';
+        if (!isEndDelimited)
+            route += '(?=' + delimiter + '|' + endsWith + ')';
+    }
+    return new RegExp('^' + route, flags(options));
+};
+/**
+ * Normalize the given path string, returning a regular expression.
+ *
+ * An empty array can be passed in for the keys, which will hold the
+ * placeholder key descriptions. For example, using `/user/:id`, `keys` will
+ * contain `[{ name: 'id', delimiter: '/', optional: false, repeat: false }]`.
+ */
+const pathToRegexp = (path, keys, options) => {
+    if (path instanceof RegExp) {
+        return regexpToRegexp(path, keys);
+    }
+    if (Array.isArray(path)) {
+        return arrayToRegexp(path, keys, options);
+    }
+    return stringToRegexp(path, keys, options);
+};
+
+let cacheCount = 0;
+const patternCache = {};
+const cacheLimit = 10000;
+// Memoized function for creating the path match regex
+const compilePath = (pattern, options) => {
+    const cacheKey = `${options.end}${options.strict}`;
+    const cache = patternCache[cacheKey] || (patternCache[cacheKey] = {});
+    const cachePattern = JSON.stringify(pattern);
+    if (cache[cachePattern]) {
+        return cache[cachePattern];
+    }
+    const keys = [];
+    const re = pathToRegexp(pattern, keys, options);
+    const compiledPattern = { re, keys };
+    if (cacheCount < cacheLimit) {
+        cache[cachePattern] = compiledPattern;
+        cacheCount += 1;
+    }
+    return compiledPattern;
+};
+const match = (pathname, options = {}) => {
+    const { exact = false, strict = false } = options;
+    const { re, keys } = compilePath(pathname, { end: exact, strict });
+    return (path) => {
+        const match = re.exec(path);
+        if (!match) {
+            return undefined;
+        }
+        const [url, ...values] = match;
+        const isExact = path === url;
+        if (exact && !isExact) {
+            return undefined;
+        }
+        return keys.reduce((memo, key, index) => {
+            memo[key.name] = values[index];
+            return memo;
+        }, {});
+    };
+};
+
+const Router = createRouter();
+
 const appflowSiteCss = "code[class*=language-],pre[class*=language-]{color:black;background:none;text-shadow:0 1px white;font-family:Consolas, Monaco, \"Andale Mono\", \"Ubuntu Mono\", monospace;font-size:1em;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]::-moz-selection,pre[class*=language-] ::-moz-selection,code[class*=language-]::-moz-selection,code[class*=language-] ::-moz-selection{text-shadow:none;background:#b3d4fc}pre[class*=language-]::selection,pre[class*=language-] ::selection,code[class*=language-]::selection,code[class*=language-] ::selection{text-shadow:none;background:#b3d4fc}@media print{code[class*=language-],pre[class*=language-]{text-shadow:none}}pre[class*=language-]{padding:1em;margin:0.5em 0;overflow:auto}:not(pre)>code[class*=language-],pre[class*=language-]{background:#f5f2f0}:not(pre)>code[class*=language-]{padding:0.1em;border-radius:0.3em;white-space:normal}.token.comment,.token.prolog,.token.doctype,.token.cdata{color:slategray}.token.punctuation{color:#999}.token.namespace{opacity:0.7}.token.property,.token.tag,.token.boolean,.token.number,.token.constant,.token.symbol,.token.deleted{color:#905}.token.selector,.token.attr-name,.token.string,.token.char,.token.builtin,.token.inserted{color:#690}.token.operator,.token.entity,.token.url,.language-css .token.string,.style .token.string{color:#9a6e3a;background:hsla(0, 0%, 100%, 0.5)}.token.atrule,.token.attr-value,.token.keyword{color:#07a}.token.function,.token.class-name{color:#DD4A68}.token.regex,.token.important,.token.variable{color:#e90}.token.important,.token.bold{font-weight:bold}.token.italic{font-style:italic}.token.entity{cursor:help}:root{--site-header-height:64px;--blog-subnav-height:56px}*{box-sizing:border-box}.page-theme--dark{background:var(--c-carbon-100);color:var(--c-indigo-10)}.page-theme--dark .ui-heading,.page-theme--dark h1,.page-theme--dark h2,.page-theme--dark h3,.page-theme--dark h4,.page-theme--dark h5{color:var(--c-indigo-10)}.page-theme--dark p{color:var(--c-indigo-10)}appflow-site site-root{display:flex;flex-direction:column;min-height:100vh}appflow-site main{flex:1}";
 
 class App {
@@ -5700,7 +6080,7 @@ class App {
   }; }
 }
 const MetaHead = () => {
-  return (hAsync(Helmet, null, hAsync("title", null, state.title), hAsync("meta", { name: "description", content: state.description }), hAsync("meta", { name: "twitter:card", content: "summary_large_image" }), hAsync("meta", { name: "twitter:site", content: "@useappflow" }), hAsync("meta", { name: "twitter:creator", content: "appflow" }), hAsync("meta", { name: "twitter:title", content: state.title }), hAsync("meta", { name: "twitter:description", content: state.description }), hAsync("meta", { name: "twitter:image", content: state.meta_image }), hAsync("meta", { property: "fb:page_id", content: "1321836767955949" }), hAsync("meta", { property: "og:title", content: state.title }), hAsync("meta", { property: "og:image", content: state.meta_image }), hAsync("meta", { property: "og:description", content: state.description }), hAsync("meta", { property: "og:site_name", content: "Appflow" }), hAsync("meta", { property: "article:publisher", content: "https://www.facebook.com/ionicframework" }), hAsync("meta", { property: "og:locale", content: "en_US" })));
+  return (hAsync(Helmet, null, hAsync("title", null, state.title), hAsync("meta", { name: "description", content: state.description }), hAsync("meta", { name: "twitter:card", content: "summary_large_image" }), hAsync("meta", { name: "twitter:site", content: "@useappflow" }), hAsync("meta", { name: "twitter:creator", content: "appflow" }), hAsync("meta", { name: "twitter:title", content: state.title }), hAsync("meta", { name: "twitter:description", content: state.description }), hAsync("meta", { name: "twitter:image", content: state.meta_image }), hAsync("meta", { property: "fb:page_id", content: "1321836767955949" }), hAsync("meta", { property: "og:title", content: state.title }), hAsync("meta", { property: "og:image", content: Router.url.origin + state.meta_image }), hAsync("meta", { property: "og:description", content: state.description }), hAsync("meta", { property: "og:site_name", content: "Appflow" }), hAsync("meta", { property: "article:publisher", content: "https://www.facebook.com/ionicframework" }), hAsync("meta", { property: "og:locale", content: "en_US" })));
 };
 
 const appBurgerCss = "app-burger{display:none;position:fixed;top:0px;left:0px;z-index:999}app-burger>div{padding:18px;display:flex;align-items:flex-start;justify-content:center}app-burger>div:hover app-icon{opacity:1}app-burger .icon-menu{display:block}app-burger .icon-close{display:none}app-burger app-icon{transition:opacity 0.3s;opacity:0.7;cursor:pointer}app-burger.left-sidebar-in>div{height:100vh;padding-right:50px}app-burger.left-sidebar-in .icon-menu{display:none}app-burger.left-sidebar-in .icon-close{display:block}@media screen and (max-width: 1023px){app-burger{display:block}}";
@@ -6116,384 +6496,6 @@ var prismicHelpers_min = createCommonjsModule(function (module, exports) {
 });
 
 var PrismicHelpers = /*@__PURE__*/getDefaultExportFromCjs(prismicHelpers_min);
-
-let defaultRouter;
-const createRouter = (opts) => {
-    var _a;
-    const win = window;
-    const url = new URL(win.location.href);
-    const parseURL = (_a = opts === null || opts === void 0 ? void 0 : opts.parseURL) !== null && _a !== void 0 ? _a : DEFAULT_PARSE_URL;
-    const { state, onChange, dispose } = createStore({
-        url,
-        activePath: parseURL(url)
-    }, (newV, oldV, prop) => {
-        if (prop === 'url') {
-            return newV.href !== oldV.href;
-        }
-        return newV !== oldV;
-    });
-    const push = (href) => {
-        history.pushState(null, null, href);
-        const url = new URL(href, document.baseURI);
-        state.url = url;
-        state.activePath = parseURL(url);
-    };
-    const match = (routes) => {
-        const { activePath } = state;
-        for (let route of routes) {
-            const params = matchPath(activePath, route.path);
-            if (params) {
-                if (route.to != null) {
-                    push(route.to);
-                    return match(routes);
-                }
-                else {
-                    return { params, route };
-                }
-            }
-        }
-        return undefined;
-    };
-    const navigationChanged = () => {
-        const url = new URL(win.location.href);
-        state.url = url;
-        state.activePath = parseURL(url);
-    };
-    const Switch = (_, childrenRoutes) => {
-        const result = match(childrenRoutes);
-        if (result) {
-            if (typeof result.route.jsx === 'function') {
-                return result.route.jsx(result.params);
-            }
-            else {
-                return result.route.jsx;
-            }
-        }
-    };
-    const disposeRouter = () => {
-        defaultRouter = undefined;
-        win.removeEventListener('popstate', navigationChanged);
-        dispose();
-    };
-    const router = defaultRouter = {
-        Switch,
-        get url() {
-            return state.url;
-        },
-        get activePath() {
-            return state.activePath;
-        },
-        push,
-        onChange: onChange,
-        dispose: disposeRouter,
-    };
-    // Initial update
-    navigationChanged();
-    // Listen URL changes
-    win.addEventListener('popstate', navigationChanged);
-    return router;
-};
-const Route = (props, children) => {
-    var _a;
-    if ('to' in props) {
-        return {
-            path: props.path,
-            to: props.to,
-        };
-    }
-    return {
-        path: props.path,
-        id: props.id,
-        jsx: (_a = props.render) !== null && _a !== void 0 ? _a : children,
-    };
-};
-const href = (href, router = defaultRouter) => {
-    return {
-        href,
-        onClick: (ev) => {
-            ev.preventDefault();
-            router.push(href);
-        },
-    };
-};
-const matchPath = (pathname, path) => {
-    if (typeof path === 'string') {
-        if (path === pathname) {
-            return {};
-        }
-    }
-    else if (typeof path === 'function') {
-        const params = path(pathname);
-        if (params) {
-            return params === true
-                ? {}
-                : { ...params };
-        }
-    }
-    else {
-        const results = path.exec(pathname);
-        if (results) {
-            path.lastIndex = 0;
-            return { ...results };
-        }
-    }
-    return undefined;
-};
-const DEFAULT_PARSE_URL = (url) => {
-    return url.pathname.toLowerCase();
-};
-
-/**
- * TS adaption of https://github.com/pillarjs/path-to-regexp/blob/master/index.js
- */
-/**
- * Default configs.
- */
-const DEFAULT_DELIMITER = '/';
-const DEFAULT_DELIMITERS = './';
-/**
- * The main path matching regexp utility.
- */
-const PATH_REGEXP = new RegExp([
-    // Match escaped characters that would otherwise appear in future matches.
-    // This allows the user to escape special characters that won't transform.
-    '(\\\\.)',
-    // Match Express-style parameters and un-named parameters with a prefix
-    // and optional suffixes. Matches appear as:
-    //
-    // "/:test(\\d+)?" => ["/", "test", "\d+", undefined, "?"]
-    // "/route(\\d+)"  => [undefined, undefined, undefined, "\d+", undefined]
-    '(?:\\:(\\w+)(?:\\(((?:\\\\.|[^\\\\()])+)\\))?|\\(((?:\\\\.|[^\\\\()])+)\\))([+*?])?'
-].join('|'), 'g');
-/**
- * Parse a string for the raw tokens.
- */
-const parse = (str, options) => {
-    var tokens = [];
-    var key = 0;
-    var index = 0;
-    var path = '';
-    var defaultDelimiter = (options && options.delimiter) || DEFAULT_DELIMITER;
-    var delimiters = (options && options.delimiters) || DEFAULT_DELIMITERS;
-    var pathEscaped = false;
-    var res;
-    while ((res = PATH_REGEXP.exec(str)) !== null) {
-        var m = res[0];
-        var escaped = res[1];
-        var offset = res.index;
-        path += str.slice(index, offset);
-        index = offset + m.length;
-        // Ignore already escaped sequences.
-        if (escaped) {
-            path += escaped[1];
-            pathEscaped = true;
-            continue;
-        }
-        var prev = '';
-        var next = str[index];
-        var name = res[2];
-        var capture = res[3];
-        var group = res[4];
-        var modifier = res[5];
-        if (!pathEscaped && path.length) {
-            var k = path.length - 1;
-            if (delimiters.indexOf(path[k]) > -1) {
-                prev = path[k];
-                path = path.slice(0, k);
-            }
-        }
-        // Push the current path onto the tokens.
-        if (path) {
-            tokens.push(path);
-            path = '';
-            pathEscaped = false;
-        }
-        var partial = prev !== '' && next !== undefined && next !== prev;
-        var repeat = modifier === '+' || modifier === '*';
-        var optional = modifier === '?' || modifier === '*';
-        var delimiter = prev || defaultDelimiter;
-        var pattern = capture || group;
-        tokens.push({
-            name: name || key++,
-            prefix: prev,
-            delimiter: delimiter,
-            optional: optional,
-            repeat: repeat,
-            partial: partial,
-            pattern: pattern ? escapeGroup(pattern) : '[^' + escapeString(delimiter) + ']+?'
-        });
-    }
-    // Push any remaining characters.
-    if (path || index < str.length) {
-        tokens.push(path + str.substr(index));
-    }
-    return tokens;
-};
-/**
- * Escape a regular expression string.
- */
-const escapeString = (str) => {
-    return str.replace(/([.+*?=^!:${}()[\]|/\\])/g, '\\$1');
-};
-/**
- * Escape the capturing group by escaping special characters and meaning.
- */
-const escapeGroup = (group) => {
-    return group.replace(/([=!:$/()])/g, '\\$1');
-};
-/**
- * Get the flags for a regexp from the options.
- */
-const flags = (options) => {
-    return options && options.sensitive ? '' : 'i';
-};
-/**
- * Pull out keys from a regexp.
- */
-const regexpToRegexp = (path, keys) => {
-    if (!keys)
-        return path;
-    // Use a negative lookahead to match only capturing groups.
-    var groups = path.source.match(/\((?!\?)/g);
-    if (groups) {
-        for (var i = 0; i < groups.length; i++) {
-            keys.push({
-                name: i,
-                prefix: null,
-                delimiter: null,
-                optional: false,
-                repeat: false,
-                partial: false,
-                pattern: null
-            });
-        }
-    }
-    return path;
-};
-/**
- * Transform an array into a regexp.
- */
-const arrayToRegexp = (path, keys, options) => {
-    var parts = [];
-    for (var i = 0; i < path.length; i++) {
-        parts.push(pathToRegexp(path[i], keys, options).source);
-    }
-    return new RegExp('(?:' + parts.join('|') + ')', flags(options));
-};
-/**
- * Create a path regexp from string input.
- */
-const stringToRegexp = (path, keys, options) => {
-    return tokensToRegExp(parse(path, options), keys, options);
-};
-/**
- * Expose a function for taking tokens and returning a RegExp.
- */
-const tokensToRegExp = (tokens, keys, options) => {
-    options = options || {};
-    var strict = options.strict;
-    var end = options.end !== false;
-    var delimiter = escapeString(options.delimiter || DEFAULT_DELIMITER);
-    var delimiters = options.delimiters || DEFAULT_DELIMITERS;
-    var endsWith = [].concat(options.endsWith || []).map(escapeString).concat('$').join('|');
-    var route = '';
-    var isEndDelimited = false;
-    // Iterate over the tokens and create our regexp string.
-    for (var i = 0; i < tokens.length; i++) {
-        var token = tokens[i];
-        if (typeof token === 'string') {
-            route += escapeString(token);
-            isEndDelimited = i === tokens.length - 1 && delimiters.indexOf(token[token.length - 1]) > -1;
-        }
-        else {
-            var prefix = escapeString(token.prefix || '');
-            var capture = token.repeat
-                ? '(?:' + token.pattern + ')(?:' + prefix + '(?:' + token.pattern + '))*'
-                : token.pattern;
-            if (keys)
-                keys.push(token);
-            if (token.optional) {
-                if (token.partial) {
-                    route += prefix + '(' + capture + ')?';
-                }
-                else {
-                    route += '(?:' + prefix + '(' + capture + '))?';
-                }
-            }
-            else {
-                route += prefix + '(' + capture + ')';
-            }
-        }
-    }
-    if (end) {
-        if (!strict)
-            route += '(?:' + delimiter + ')?';
-        route += endsWith === '$' ? '$' : '(?=' + endsWith + ')';
-    }
-    else {
-        if (!strict)
-            route += '(?:' + delimiter + '(?=' + endsWith + '))?';
-        if (!isEndDelimited)
-            route += '(?=' + delimiter + '|' + endsWith + ')';
-    }
-    return new RegExp('^' + route, flags(options));
-};
-/**
- * Normalize the given path string, returning a regular expression.
- *
- * An empty array can be passed in for the keys, which will hold the
- * placeholder key descriptions. For example, using `/user/:id`, `keys` will
- * contain `[{ name: 'id', delimiter: '/', optional: false, repeat: false }]`.
- */
-const pathToRegexp = (path, keys, options) => {
-    if (path instanceof RegExp) {
-        return regexpToRegexp(path, keys);
-    }
-    if (Array.isArray(path)) {
-        return arrayToRegexp(path, keys, options);
-    }
-    return stringToRegexp(path, keys, options);
-};
-
-let cacheCount = 0;
-const patternCache = {};
-const cacheLimit = 10000;
-// Memoized function for creating the path match regex
-const compilePath = (pattern, options) => {
-    const cacheKey = `${options.end}${options.strict}`;
-    const cache = patternCache[cacheKey] || (patternCache[cacheKey] = {});
-    const cachePattern = JSON.stringify(pattern);
-    if (cache[cachePattern]) {
-        return cache[cachePattern];
-    }
-    const keys = [];
-    const re = pathToRegexp(pattern, keys, options);
-    const compiledPattern = { re, keys };
-    if (cacheCount < cacheLimit) {
-        cache[cachePattern] = compiledPattern;
-        cacheCount += 1;
-    }
-    return compiledPattern;
-};
-const match = (pathname, options = {}) => {
-    const { exact = false, strict = false } = options;
-    const { re, keys } = compilePath(pathname, { end: exact, strict });
-    return (path) => {
-        const match = re.exec(path);
-        if (!match) {
-            return undefined;
-        }
-        const [url, ...values] = match;
-        const isExact = path === url;
-        if (exact && !isExact) {
-            return undefined;
-        }
-        return keys.reduce((memo, key, index) => {
-            memo[key.name] = values[index];
-            return memo;
-        }, {});
-    };
-};
 
 function createScript({ property, src, id }) {
   if (!window) {
@@ -6955,8 +6957,6 @@ class AppflowActivator {
   }; }
 }
 
-const Router = createRouter();
-
 const appflowSiteRoutesCss = ":host{display:block}";
 
 class AppflowSiteRoutes {
@@ -7080,13 +7080,15 @@ var posts = [
 		authorImageName: "max-lynch.jpg",
 		slug: "how-to-build-your-mobile-ci-cd-solution-on-jenkins-circleci-azure-devops",
 		date: "2020-08-18T15:00:00.000Z",
-		contents: "---\ntitle: Building a robust Mobile CI/CD pipeline on Jenkins/Circle CI/Azure/etc.\ndescription: What does it take to build a scalable, robust Mobile CI/CD pipeline on popular services such as Jenkins, Circle CI, or Azure DevOps?\nslug: how-to-build-your-mobile-ci-cd-solution-on-jenkins-circleci-azure-devops\ndate: 2020-08-18 15:00:00\nauthor: Max Lynch <max@ionic.io>\nauthorUrl: https://twitter.com/maxlynch\nauthorImageName: max-lynch.jpg\nrelated:\n  - https://ionicframework.com/resources/webinars/hybrid-app-development-redefined\n  - https://useappflow.com/resources/solving-mobile-cicd-with-appflow\n---\n\nEnterprise teams building mobile apps are looking to add Mobile CI/CD capabilities to their existing CI/CD workflows in use for their backend and frontend web apps.\n\nTeams running or using Jenkins, Circle CI, Azure or AWS CI/CD solutions, and more, often ask how they can start to continuously build, test, and deploy their mobile apps utilizing their existing CI/CD investments.\n\nWhile it’s possible to do so, it’s important to understand the aspects that make Mobile CI/CD uniquely challenging, and why there’s a good chance your team should buy rather than build their own solution for mobile builds.\n\nBefore jumping in, if you’re new to Mobile CI/CD, take a look at our introduction to Mobile CI/CD to understand what tasks are required to build, test, and deploy mobile apps in a continuous fashion.\n\nWith that in mind, what would a team need to build in order to add Mobile CI/CD capabilities to their existing CI/CD service and workflows?\n\n<!--more-->\n\n## Step 1: Integration with Git provider\n\nA source code repository is the central point for any app, so a Mobile CI/CD workflow will need to connect and integrate with your source repository host.\n\nDepending on your provider, this could mean integrating with GitHub Enterprise, GitLab Enterprise, BitBucket, Azure/AWS code hosting, or another popular provider.\n\n## Step 2: Trigger builds on commits\n\nOnce a connection has been made to your source code repository, a system needs to be set up to trigger builds on each commit, across all branches in your project. That means integrating with the API for the given provider, handling web hooks on commits, and then processing the updated code to perform builds.\n\n## Step 3: Run iOS and Android Build Infrastructure\n\nTo perform builds, specialized infrastructure needs to be set up to enable iOS and Android builds at the very least, and possibly builds for web if building Progressive Web Apps or hybrid apps (Ionic/Capacitor, Cordova, React Native, etc).\n\nFor iOS, this means running genuine, legal Mac hardware with updated versions of macOS. Running Mac servers is not straightforward as it’s not as easily or legally virtualized as Linux. Teams will need to run physical mac hardware (such as Mac minis or Macbook Pros) which means data center colocation.\n\nThese servers then need to be orchestrated, routinely patched for security issues, kept up to date with yearly mobile OS and SDK updates.\n\n## Step 4: Make that infrastructure scalable and flexible\n\nOf course, running the server infrastructure for mobile builds is just one piece of the infrastructure puzzle. Mobile builds are resource-intensive, so teams will need to invest in making server resources elastic and scale to meet build demand. This will keep engineers productive and help them avoid wasting valuable time waiting for someone else’s build to finish.\n\n## Step 5: Manage certificates\n\nMobile build tooling requires extensive code signing, which means managing extremely sensitive signing credentials and certificates.\n\nA Mobile CI/CD solution will need a powerful certificate management system that keeps certificates encrypted and secure until needed for code signing.\n\n## Step 6: For Hybrid apps, enable remote deploys\n\nDevelopers of hybrid apps, such as those built with Ionic Framework, Capacitor, Cordova, and React Native, expect to be able to update the web code of their apps remotely and in realtime. That means being able to push fixes and updates without needing to resubmit to the app stores.\n\nA proper Mobile CI/CD solution for these teams will come with remove deploy features to give these developers the agility they expect.\n\n## Step 7: Set up infrastructure to manage development, beta, and production channels\n\nMobile app teams need to deploy different versions of their app to different people, whether those are beta testers, coworkers, stakeholders, or customers.\n\nFor beta testing, teams will need to submit those apps to testing tools such as Testflight.\n\nMany mobile teams utilize homegrown versioning to build beta, testing, and production versions of their app. A Mobile CI/CD solution will need a way to support this use case.\n\n## Step 8: Automatically deploy apps to Apple App Store and Google Play Store\n\nOne of the most time consuming and frustration inducing aspects of mobile development is uploading and publishing apps to the Apple App Store and Google Play Store.\n\nThankfully, these steps can be automated with sufficiently advanced tooling. Mobile CI/CD solutions will likely offer the way to automatically upload builds to the app stores to avoid this tedious process.\n\n## Step 9: Support multiple “build stacks” for different app OS/SDK version requirements\n\nMany apps have different mobile OS and tooling version requirements. Those apps will need to have some control over which version of tools like Xcode, macOS, etc they build on.\n\nA proper Mobile CI/CD solution will enable some control over the build stack for an app.\n\n## Step 10: Set up process to upgrade and security patch operating systems, servers, tooling, and more\n\nA cornerstone of mobile is the (at least!) yearly OS and device refresh and launch cycle.\n\nMobile tooling changes rapidly, far more so than typical backend or frontend environments. New versions of iOS and Android are released, along with new device features, and corresponding API, build tooling, and OS upgrade requirements.\n\nThis means teams need to frequently upgrade servers, operating systems, and build environments.\n\nThis is in addition to the typical work of patching operating systems and tooling for security issues which is a full time job.\n\nMobile CI/CD platforms will upgrade their build environments frequently, and patch security flaws on a constant basis.\n\n## Step 11: Provide a nice UI for the above features\n\nBeyond infrastructure, many of the above processes require UI for users to setup, configure, and monitor their builds. \n\nIt’s likely this UI will need to be built as general purpose CI/CD tooling does not typically have the above features for mobile builds.\n\n## Hiring to build Mobile CI/CD infrastructure\n\nOne thing you’ll note about the above steps is they require a different type of engineering skill than the mobile team has, so your team will need to find a way to hire backend engineers, server administrators, data center administrators, and DevOps engineers.\n\nFor running iOS build infrastructure, teams will also need unique macOS server administrators which is a pretty rare skill as macOS is very rarely used as server infrastructure.\n\n## What about an off-the-shelf solution?\n\nMany mobile teams, when faced with the requirements needed to build scalable, reliable, and secure Mobile CI/CD infrastructure for their mobile apps, realize they would be better served buying an off-the-shelf solution instead of building their own.\n\nThe Mobile CI/CD market has a number of companies providing their solution to the challenges of Mobile CI/CD.\n\nOne of the leaders is [Appflow](https://useappflow.com/), created by the [team](https://ionic.io/) behind [Ionic Framework](https://ionicframework.com/). Appflow is used by thousands of companies and a significant portion of the Fortune 1000, helping teams like Burger King, AAA, and Shipt ensure mobile app quality and ship at the speed of development.\n\nThe Appflow team features some of the leading experts in mobile and backend build infrastructure, and hires for unique experience that mobile teams likely do not have (or need!), so your team does not. The team has spent years building solutions to the above problems and is focused exclusively on providing a Mobile CI/CD solution to teams and enterprise users.\n\n## Conclusion\n\nMobile CI/CD is considerably more complex than traditional CI/CD, and requires specialized skills, server infrastructure, and features. While it’s possible for mobile teams to build their own Mobile CI/CD on top of general purpose CI/CD tooling such as Jenkins or Circle CI, doing so requires a massive investment and hiring for rare engineering skills.\n\nGenerally, teams will want to purchase an off-the-shelf, Mobile-specific solution such as [Appflow](https://useappflow.com/) so they can focus on what they do best: building a great mobile experience.\n\n",
+		contents: "---\ntitle: Building a robust Mobile CI/CD pipeline on Jenkins/Circle CI/Azure/etc.\ndescription: What does it take to build a scalable, robust Mobile CI/CD pipeline on popular services such as Jenkins, Circle CI, or Azure DevOps?\nslug: how-to-build-your-mobile-ci-cd-solution-on-jenkins-circleci-azure-devops\nfeaturedImage: how-to-build-your-mobile-ci-cd-solution-on-jenkins-circleci-azure-devops.png\nfeaturedImageAlt: flow chart showing pipeline to apple app store and google play store\ndate: 2020-08-18 15:00:00\nauthor: Max Lynch <max@ionic.io>\nauthorUrl: https://twitter.com/maxlynch\nauthorImageName: max-lynch.jpg\nrelated:\n  - https://ionicframework.com/resources/webinars/hybrid-app-development-redefined\n  - https://useappflow.com/resources/solving-mobile-cicd-with-appflow\n---\n\nEnterprise teams building mobile apps are looking to add Mobile CI/CD capabilities to their existing CI/CD workflows in use for their backend and frontend web apps.\n\nTeams running or using Jenkins, Circle CI, Azure or AWS CI/CD solutions, and more, often ask how they can start to continuously build, test, and deploy their mobile apps utilizing their existing CI/CD investments.\n\nWhile it’s possible to do so, it’s important to understand the aspects that make Mobile CI/CD uniquely challenging, and why there’s a good chance your team should buy rather than build their own solution for mobile builds.\n\nBefore jumping in, if you’re new to Mobile CI/CD, take a look at our introduction to Mobile CI/CD to understand what tasks are required to build, test, and deploy mobile apps in a continuous fashion.\n\nWith that in mind, what would a team need to build in order to add Mobile CI/CD capabilities to their existing CI/CD service and workflows?\n\n<!--more-->\n\n## Step 1: Integration with Git provider\n\nA source code repository is the central point for any app, so a Mobile CI/CD workflow will need to connect and integrate with your source repository host.\n\nDepending on your provider, this could mean integrating with GitHub Enterprise, GitLab Enterprise, BitBucket, Azure/AWS code hosting, or another popular provider.\n\n## Step 2: Trigger builds on commits\n\nOnce a connection has been made to your source code repository, a system needs to be set up to trigger builds on each commit, across all branches in your project. That means integrating with the API for the given provider, handling web hooks on commits, and then processing the updated code to perform builds.\n\n## Step 3: Run iOS and Android Build Infrastructure\n\nTo perform builds, specialized infrastructure needs to be set up to enable iOS and Android builds at the very least, and possibly builds for web if building Progressive Web Apps or hybrid apps (Ionic/Capacitor, Cordova, React Native, etc).\n\nFor iOS, this means running genuine, legal Mac hardware with updated versions of macOS. Running Mac servers is not straightforward as it’s not as easily or legally virtualized as Linux. Teams will need to run physical mac hardware (such as Mac minis or Macbook Pros) which means data center colocation.\n\nThese servers then need to be orchestrated, routinely patched for security issues, kept up to date with yearly mobile OS and SDK updates.\n\n## Step 4: Make that infrastructure scalable and flexible\n\nOf course, running the server infrastructure for mobile builds is just one piece of the infrastructure puzzle. Mobile builds are resource-intensive, so teams will need to invest in making server resources elastic and scale to meet build demand. This will keep engineers productive and help them avoid wasting valuable time waiting for someone else’s build to finish.\n\n## Step 5: Manage certificates\n\nMobile build tooling requires extensive code signing, which means managing extremely sensitive signing credentials and certificates.\n\nA Mobile CI/CD solution will need a powerful certificate management system that keeps certificates encrypted and secure until needed for code signing.\n\n## Step 6: For Hybrid apps, enable remote deploys\n\nDevelopers of hybrid apps, such as those built with Ionic Framework, Capacitor, Cordova, and React Native, expect to be able to update the web code of their apps remotely and in realtime. That means being able to push fixes and updates without needing to resubmit to the app stores.\n\nA proper Mobile CI/CD solution for these teams will come with remove deploy features to give these developers the agility they expect.\n\n## Step 7: Set up infrastructure to manage development, beta, and production channels\n\nMobile app teams need to deploy different versions of their app to different people, whether those are beta testers, coworkers, stakeholders, or customers.\n\nFor beta testing, teams will need to submit those apps to testing tools such as Testflight.\n\nMany mobile teams utilize homegrown versioning to build beta, testing, and production versions of their app. A Mobile CI/CD solution will need a way to support this use case.\n\n## Step 8: Automatically deploy apps to Apple App Store and Google Play Store\n\nOne of the most time consuming and frustration inducing aspects of mobile development is uploading and publishing apps to the Apple App Store and Google Play Store.\n\nThankfully, these steps can be automated with sufficiently advanced tooling. Mobile CI/CD solutions will likely offer the way to automatically upload builds to the app stores to avoid this tedious process.\n\n## Step 9: Support multiple “build stacks” for different app OS/SDK version requirements\n\nMany apps have different mobile OS and tooling version requirements. Those apps will need to have some control over which version of tools like Xcode, macOS, etc they build on.\n\nA proper Mobile CI/CD solution will enable some control over the build stack for an app.\n\n## Step 10: Set up process to upgrade and security patch operating systems, servers, tooling, and more\n\nA cornerstone of mobile is the (at least!) yearly OS and device refresh and launch cycle.\n\nMobile tooling changes rapidly, far more so than typical backend or frontend environments. New versions of iOS and Android are released, along with new device features, and corresponding API, build tooling, and OS upgrade requirements.\n\nThis means teams need to frequently upgrade servers, operating systems, and build environments.\n\nThis is in addition to the typical work of patching operating systems and tooling for security issues which is a full time job.\n\nMobile CI/CD platforms will upgrade their build environments frequently, and patch security flaws on a constant basis.\n\n## Step 11: Provide a nice UI for the above features\n\nBeyond infrastructure, many of the above processes require UI for users to setup, configure, and monitor their builds. \n\nIt’s likely this UI will need to be built as general purpose CI/CD tooling does not typically have the above features for mobile builds.\n\n## Hiring to build Mobile CI/CD infrastructure\n\nOne thing you’ll note about the above steps is they require a different type of engineering skill than the mobile team has, so your team will need to find a way to hire backend engineers, server administrators, data center administrators, and DevOps engineers.\n\nFor running iOS build infrastructure, teams will also need unique macOS server administrators which is a pretty rare skill as macOS is very rarely used as server infrastructure.\n\n## What about an off-the-shelf solution?\n\nMany mobile teams, when faced with the requirements needed to build scalable, reliable, and secure Mobile CI/CD infrastructure for their mobile apps, realize they would be better served buying an off-the-shelf solution instead of building their own.\n\nThe Mobile CI/CD market has a number of companies providing their solution to the challenges of Mobile CI/CD.\n\nOne of the leaders is [Appflow](https://useappflow.com/), created by the [team](https://ionic.io/) behind [Ionic Framework](https://ionicframework.com/). Appflow is used by thousands of companies and a significant portion of the Fortune 1000, helping teams like Burger King, AAA, and Shipt ensure mobile app quality and ship at the speed of development.\n\nThe Appflow team features some of the leading experts in mobile and backend build infrastructure, and hires for unique experience that mobile teams likely do not have (or need!), so your team does not. The team has spent years building solutions to the above problems and is focused exclusively on providing a Mobile CI/CD solution to teams and enterprise users.\n\n## Conclusion\n\nMobile CI/CD is considerably more complex than traditional CI/CD, and requires specialized skills, server infrastructure, and features. While it’s possible for mobile teams to build their own Mobile CI/CD on top of general purpose CI/CD tooling such as Jenkins or Circle CI, doing so requires a massive investment and hiring for rare engineering skills.\n\nGenerally, teams will want to purchase an off-the-shelf, Mobile-specific solution such as [Appflow](https://useappflow.com/) so they can focus on what they do best: building a great mobile experience.\n\n",
 		preview: "<p>Enterprise teams building mobile apps are looking to add Mobile CI/CD capabilities to their existing CI/CD workflows in use for their backend and frontend web apps.</p>\n<p>Teams running or using Jenkins, Circle CI, Azure or AWS CI/CD solutions, and more, often ask how they can start to continuously build, test, and deploy their mobile apps utilizing their existing CI/CD investments.</p>\n<p>While it’s possible to do so, it’s important to understand the aspects that make Mobile CI/CD uniquely challenging, and why there’s a good chance your team should buy rather than build their own solution for mobile builds.</p>\n<p>Before jumping in, if you’re new to Mobile CI/CD, take a look at our introduction to Mobile CI/CD to understand what tasks are required to build, test, and deploy mobile apps in a continuous fashion.</p>\n<p>With that in mind, what would a team need to build in order to add Mobile CI/CD capabilities to their existing CI/CD service and workflows?</p>\n",
 		html: "<p>Enterprise teams building mobile apps are looking to add Mobile CI/CD capabilities to their existing CI/CD workflows in use for their backend and frontend web apps.</p>\n<p>Teams running or using Jenkins, Circle CI, Azure or AWS CI/CD solutions, and more, often ask how they can start to continuously build, test, and deploy their mobile apps utilizing their existing CI/CD investments.</p>\n<p>While it’s possible to do so, it’s important to understand the aspects that make Mobile CI/CD uniquely challenging, and why there’s a good chance your team should buy rather than build their own solution for mobile builds.</p>\n<p>Before jumping in, if you’re new to Mobile CI/CD, take a look at our introduction to Mobile CI/CD to understand what tasks are required to build, test, and deploy mobile apps in a continuous fashion.</p>\n<p>With that in mind, what would a team need to build in order to add Mobile CI/CD capabilities to their existing CI/CD service and workflows?</p>\n<!--more-->\n\n<h2 id=\"step-1-integration-with-git-provider\">Step 1: Integration with Git provider</h2>\n<p>A source code repository is the central point for any app, so a Mobile CI/CD workflow will need to connect and integrate with your source repository host.</p>\n<p>Depending on your provider, this could mean integrating with GitHub Enterprise, GitLab Enterprise, BitBucket, Azure/AWS code hosting, or another popular provider.</p>\n<h2 id=\"step-2-trigger-builds-on-commits\">Step 2: Trigger builds on commits</h2>\n<p>Once a connection has been made to your source code repository, a system needs to be set up to trigger builds on each commit, across all branches in your project. That means integrating with the API for the given provider, handling web hooks on commits, and then processing the updated code to perform builds.</p>\n<h2 id=\"step-3-run-ios-and-android-build-infrastructure\">Step 3: Run iOS and Android Build Infrastructure</h2>\n<p>To perform builds, specialized infrastructure needs to be set up to enable iOS and Android builds at the very least, and possibly builds for web if building Progressive Web Apps or hybrid apps (Ionic/Capacitor, Cordova, React Native, etc).</p>\n<p>For iOS, this means running genuine, legal Mac hardware with updated versions of macOS. Running Mac servers is not straightforward as it’s not as easily or legally virtualized as Linux. Teams will need to run physical mac hardware (such as Mac minis or Macbook Pros) which means data center colocation.</p>\n<p>These servers then need to be orchestrated, routinely patched for security issues, kept up to date with yearly mobile OS and SDK updates.</p>\n<h2 id=\"step-4-make-that-infrastructure-scalable-and-flexible\">Step 4: Make that infrastructure scalable and flexible</h2>\n<p>Of course, running the server infrastructure for mobile builds is just one piece of the infrastructure puzzle. Mobile builds are resource-intensive, so teams will need to invest in making server resources elastic and scale to meet build demand. This will keep engineers productive and help them avoid wasting valuable time waiting for someone else’s build to finish.</p>\n<h2 id=\"step-5-manage-certificates\">Step 5: Manage certificates</h2>\n<p>Mobile build tooling requires extensive code signing, which means managing extremely sensitive signing credentials and certificates.</p>\n<p>A Mobile CI/CD solution will need a powerful certificate management system that keeps certificates encrypted and secure until needed for code signing.</p>\n<h2 id=\"step-6-for-hybrid-apps-enable-remote-deploys\">Step 6: For Hybrid apps, enable remote deploys</h2>\n<p>Developers of hybrid apps, such as those built with Ionic Framework, Capacitor, Cordova, and React Native, expect to be able to update the web code of their apps remotely and in realtime. That means being able to push fixes and updates without needing to resubmit to the app stores.</p>\n<p>A proper Mobile CI/CD solution for these teams will come with remove deploy features to give these developers the agility they expect.</p>\n<h2 id=\"step-7-set-up-infrastructure-to-manage-development-beta-and-production-channels\">Step 7: Set up infrastructure to manage development, beta, and production channels</h2>\n<p>Mobile app teams need to deploy different versions of their app to different people, whether those are beta testers, coworkers, stakeholders, or customers.</p>\n<p>For beta testing, teams will need to submit those apps to testing tools such as Testflight.</p>\n<p>Many mobile teams utilize homegrown versioning to build beta, testing, and production versions of their app. A Mobile CI/CD solution will need a way to support this use case.</p>\n<h2 id=\"step-8-automatically-deploy-apps-to-apple-app-store-and-google-play-store\">Step 8: Automatically deploy apps to Apple App Store and Google Play Store</h2>\n<p>One of the most time consuming and frustration inducing aspects of mobile development is uploading and publishing apps to the Apple App Store and Google Play Store.</p>\n<p>Thankfully, these steps can be automated with sufficiently advanced tooling. Mobile CI/CD solutions will likely offer the way to automatically upload builds to the app stores to avoid this tedious process.</p>\n<h2 id=\"step-9-support-multiple-build-stacks-for-different-app-ossdk-version-requirements\">Step 9: Support multiple “build stacks” for different app OS/SDK version requirements</h2>\n<p>Many apps have different mobile OS and tooling version requirements. Those apps will need to have some control over which version of tools like Xcode, macOS, etc they build on.</p>\n<p>A proper Mobile CI/CD solution will enable some control over the build stack for an app.</p>\n<h2 id=\"step-10-set-up-process-to-upgrade-and-security-patch-operating-systems-servers-tooling-and-more\">Step 10: Set up process to upgrade and security patch operating systems, servers, tooling, and more</h2>\n<p>A cornerstone of mobile is the (at least!) yearly OS and device refresh and launch cycle.</p>\n<p>Mobile tooling changes rapidly, far more so than typical backend or frontend environments. New versions of iOS and Android are released, along with new device features, and corresponding API, build tooling, and OS upgrade requirements.</p>\n<p>This means teams need to frequently upgrade servers, operating systems, and build environments.</p>\n<p>This is in addition to the typical work of patching operating systems and tooling for security issues which is a full time job.</p>\n<p>Mobile CI/CD platforms will upgrade their build environments frequently, and patch security flaws on a constant basis.</p>\n<h2 id=\"step-11-provide-a-nice-ui-for-the-above-features\">Step 11: Provide a nice UI for the above features</h2>\n<p>Beyond infrastructure, many of the above processes require UI for users to setup, configure, and monitor their builds. </p>\n<p>It’s likely this UI will need to be built as general purpose CI/CD tooling does not typically have the above features for mobile builds.</p>\n<h2 id=\"hiring-to-build-mobile-cicd-infrastructure\">Hiring to build Mobile CI/CD infrastructure</h2>\n<p>One thing you’ll note about the above steps is they require a different type of engineering skill than the mobile team has, so your team will need to find a way to hire backend engineers, server administrators, data center administrators, and DevOps engineers.</p>\n<p>For running iOS build infrastructure, teams will also need unique macOS server administrators which is a pretty rare skill as macOS is very rarely used as server infrastructure.</p>\n<h2 id=\"what-about-an-off-the-shelf-solution\">What about an off-the-shelf solution?</h2>\n<p>Many mobile teams, when faced with the requirements needed to build scalable, reliable, and secure Mobile CI/CD infrastructure for their mobile apps, realize they would be better served buying an off-the-shelf solution instead of building their own.</p>\n<p>The Mobile CI/CD market has a number of companies providing their solution to the challenges of Mobile CI/CD.</p>\n<p>One of the leaders is <a href=\"https://useappflow.com/\">Appflow</a>, created by the <a href=\"https://ionic.io/\">team</a> behind <a href=\"https://ionicframework.com/\">Ionic Framework</a>. Appflow is used by thousands of companies and a significant portion of the Fortune 1000, helping teams like Burger King, AAA, and Shipt ensure mobile app quality and ship at the speed of development.</p>\n<p>The Appflow team features some of the leading experts in mobile and backend build infrastructure, and hires for unique experience that mobile teams likely do not have (or need!), so your team does not. The team has spent years building solutions to the above problems and is focused exclusively on providing a Mobile CI/CD solution to teams and enterprise users.</p>\n<h2 id=\"conclusion\">Conclusion</h2>\n<p>Mobile CI/CD is considerably more complex than traditional CI/CD, and requires specialized skills, server infrastructure, and features. While it’s possible for mobile teams to build their own Mobile CI/CD on top of general purpose CI/CD tooling such as Jenkins or Circle CI, doing so requires a massive investment and hiring for rare engineering skills.</p>\n<p>Generally, teams will want to purchase an off-the-shelf, Mobile-specific solution such as <a href=\"https://useappflow.com/\">Appflow</a> so they can focus on what they do best: building a great mobile experience.</p>\n",
 		meta: {
 			title: "Building a robust Mobile CI/CD pipeline on Jenkins/Circle CI/Azure/etc.",
 			description: "What does it take to build a scalable, robust Mobile CI/CD pipeline on popular services such as Jenkins, Circle CI, or Azure DevOps?",
 			slug: "how-to-build-your-mobile-ci-cd-solution-on-jenkins-circleci-azure-devops",
+			featuredImage: "how-to-build-your-mobile-ci-cd-solution-on-jenkins-circleci-azure-devops.png",
+			featuredImageAlt: "flow chart showing pipeline to apple app store and google play store",
 			date: "2020-08-18T15:00:00.000Z",
 			author: "Max Lynch <max@ionic.io>",
 			authorUrl: "https://twitter.com/maxlynch",
@@ -7096,6 +7098,8 @@ var posts = [
 				"https://useappflow.com/resources/solving-mobile-cicd-with-appflow"
 			]
 		},
+		featuredImage: "how-to-build-your-mobile-ci-cd-solution-on-jenkins-circleci-azure-devops.png",
+		featuredImageAlt: "flow chart showing pipeline to apple app store and google play store",
 		related: [
 			"https://ionicframework.com/resources/webinars/hybrid-app-development-redefined",
 			"https://useappflow.com/resources/solving-mobile-cicd-with-appflow"
@@ -7110,13 +7114,15 @@ var posts = [
 		authorImageName: "max-lynch.jpg",
 		slug: "how-often-should-your-mobile-team-be-shipping",
 		date: "2020-08-18T12:00:00.000Z",
-		contents: "---\ntitle: How Often Should your Mobile Team Ship?\ndescription: How the best mobile engineering teams work to ship frequently and drive growth\nslug: how-often-should-your-mobile-team-be-shipping\ndate: 2020-08-18 12:00:00\nauthor: Max Lynch <max@ionic.io>\nauthorUrl: https://twitter.com/maxlynch\nauthorImageName: max-lynch.jpg\nrelated:\n  - https://ionicframework.com/resources/webinars/hybrid-app-development-redefined\n  - https://useappflow.com/resources/solving-mobile-cicd-with-appflow\n---\n\nA feature of highly productive engineering teams is their ability to ship new features and updates frequently.\n\nFor backend and frontend web teams, shipping is straightforward: push a commit to a git repo, trigger a build in CI/CD, and deploy a new version of the code on backend infrastructure or a static hosting service.\n\nBut for Mobile, shipping is a completely different beast, requiring a complex chain of events that culminate in an app store publishing and approval process that goes far beyond anything in the backend and frontend worlds.\n\nEven with this considerable complexity, highly productive mobile teams are shipping frequently, with some shipping multiple times per day!\n\nHow do they do it, and how frequently should your mobile teams be shipping? Let’s take a look at some highly productive mobile teams to find out:\n\n<!--more-->\n\n## How 86 400 ships weekly\n\n[86 400](https://www.86400.com.au/), Australia’s first smartbank, knew they had to meet customers where they are: on mobile. So they built the first mobile banking solution for Australia, providing fast access to savings accounts and their whole financial picture. The other thing customers expect? Frequent updates, features, and bug fixes. To do that, 86 400 reached for [Appflow](https://useappflow.com/), the leading Mobile CI/CD platform from the team behind popular open source project Ionic Framework.\n\n86 400 uses Appflow to ship updates weekly, and has used Appflow’s deploy feature to fix bugs in realtime without the delay of republishing to the app stores.\n\nThe team at 86 400 ships at least after each two week sprint, and sometimes more frequently!\n\n## How Napa Group helps Acker meet bi-weekly deadlines\n\nAcker, the world’s largest auction house for wine, engaged app consultancy Napa Group to build a development process that would help meet the need to run bi-weekly auctions on their mobile app.\n\nWith Appflow, Napa Group found a platform that enabled them to ship at the speed of development, pushing app updates daily and having polished, stable releases ready for each bi-weekly auction.\n\nThis development process would have been impossible without a service like Appflow providing a powerful Mobile CI/CD solution and key features such as live deploy.\n\n## How often should your team be shipping?\n\nThe very best engineering teams ship often, even on mobile. These are just two examples of highly productive mobile teams. The overhead of building and publishing mobile apps is no excuse for these productive mobile teams. In fact, most are shipping weekly.\n\nShipping frequently, even weekly, has a number of major benefits:\n\n* Keeps the app top of mind - it shows up on the user’s device in the App Store updates list\n* Frequent updates demonstrate that you’re committed to the app and that it’s still maintained\n* New features drive business value and grow app adoption\n* Engineering morale is tied strongly to shipping\n\nShipping frequently is certainly better than the opposite. So, how do they do it, and how can your team do it, too?\n\nWell, shipping this frequently on mobile wouldn’t be possible without a powerful Mobile CI/CD solution that continuously builds, tests, and integrates a mobile app after each commit. And for hybrid app developers, being able to push web code updates without app store republishing is another key driver of developer agility.\n\nA leading Mobile CI/CD service with the above features is Appflow, which powers apps for companies like Burger King, AAA, and more.\n\n## Get shipping\n\nIf you’re new to Mobile CI/CD, read more about [what Mobile CI/CD is](/blog/what-is-mobile-ci-cd) and how it differs from traditional CI/CD. If you’ve also been exploring building Mobile CI/CD capabilities on top of existing CI/CD infrastructure, take a look at our post on how you could build your own Appflow-style service, and why you might not want to given the complexity of mobile.\n\nEither way, we hope your team is well on its way to shipping at least weekly and delighting users with frequent updates and bug fixes.\n",
+		contents: "---\ntitle: How Often Should your Mobile Team Ship?\ndescription: How the best mobile engineering teams work to ship frequently and drive growth\nslug: how-often-should-your-mobile-team-be-shipping\nfeaturedImage: how-often-should-your-mobile-team-be-shipping.png\nfeaturedImageAlt: figure 8 flow path with clock in the middle\ndate: 2020-08-18 12:00:00\nauthor: Max Lynch <max@ionic.io>\nauthorUrl: https://twitter.com/maxlynch\nauthorImageName: max-lynch.jpg\nrelated:\n  - https://ionicframework.com/resources/webinars/hybrid-app-development-redefined\n  - https://useappflow.com/resources/solving-mobile-cicd-with-appflow\n---\n\nA feature of highly productive engineering teams is their ability to ship new features and updates frequently.\n\nFor backend and frontend web teams, shipping is straightforward: push a commit to a git repo, trigger a build in CI/CD, and deploy a new version of the code on backend infrastructure or a static hosting service.\n\nBut for Mobile, shipping is a completely different beast, requiring a complex chain of events that culminate in an app store publishing and approval process that goes far beyond anything in the backend and frontend worlds.\n\nEven with this considerable complexity, highly productive mobile teams are shipping frequently, with some shipping multiple times per day!\n\nHow do they do it, and how frequently should your mobile teams be shipping? Let’s take a look at some highly productive mobile teams to find out:\n\n<!--more-->\n\n## How 86 400 ships weekly\n\n[86 400](https://www.86400.com.au/), Australia’s first smartbank, knew they had to meet customers where they are: on mobile. So they built the first mobile banking solution for Australia, providing fast access to savings accounts and their whole financial picture. The other thing customers expect? Frequent updates, features, and bug fixes. To do that, 86 400 reached for [Appflow](https://useappflow.com/), the leading Mobile CI/CD platform from the team behind popular open source project Ionic Framework.\n\n86 400 uses Appflow to ship updates weekly, and has used Appflow’s deploy feature to fix bugs in realtime without the delay of republishing to the app stores.\n\nThe team at 86 400 ships at least after each two week sprint, and sometimes more frequently!\n\n## How Napa Group helps Acker meet bi-weekly deadlines\n\nAcker, the world’s largest auction house for wine, engaged app consultancy Napa Group to build a development process that would help meet the need to run bi-weekly auctions on their mobile app.\n\nWith Appflow, Napa Group found a platform that enabled them to ship at the speed of development, pushing app updates daily and having polished, stable releases ready for each bi-weekly auction.\n\nThis development process would have been impossible without a service like Appflow providing a powerful Mobile CI/CD solution and key features such as live deploy.\n\n## How often should your team be shipping?\n\nThe very best engineering teams ship often, even on mobile. These are just two examples of highly productive mobile teams. The overhead of building and publishing mobile apps is no excuse for these productive mobile teams. In fact, most are shipping weekly.\n\nShipping frequently, even weekly, has a number of major benefits:\n\n* Keeps the app top of mind - it shows up on the user’s device in the App Store updates list\n* Frequent updates demonstrate that you’re committed to the app and that it’s still maintained\n* New features drive business value and grow app adoption\n* Engineering morale is tied strongly to shipping\n\nShipping frequently is certainly better than the opposite. So, how do they do it, and how can your team do it, too?\n\nWell, shipping this frequently on mobile wouldn’t be possible without a powerful Mobile CI/CD solution that continuously builds, tests, and integrates a mobile app after each commit. And for hybrid app developers, being able to push web code updates without app store republishing is another key driver of developer agility.\n\nA leading Mobile CI/CD service with the above features is Appflow, which powers apps for companies like Burger King, AAA, and more.\n\n## Get shipping\n\nIf you’re new to Mobile CI/CD, read more about [what Mobile CI/CD is](/blog/what-is-mobile-ci-cd) and how it differs from traditional CI/CD. If you’ve also been exploring building Mobile CI/CD capabilities on top of existing CI/CD infrastructure, take a look at our post on how you could build your own Appflow-style service, and why you might not want to given the complexity of mobile.\n\nEither way, we hope your team is well on its way to shipping at least weekly and delighting users with frequent updates and bug fixes.\n",
 		preview: "<p>A feature of highly productive engineering teams is their ability to ship new features and updates frequently.</p>\n<p>For backend and frontend web teams, shipping is straightforward: push a commit to a git repo, trigger a build in CI/CD, and deploy a new version of the code on backend infrastructure or a static hosting service.</p>\n<p>But for Mobile, shipping is a completely different beast, requiring a complex chain of events that culminate in an app store publishing and approval process that goes far beyond anything in the backend and frontend worlds.</p>\n<p>Even with this considerable complexity, highly productive mobile teams are shipping frequently, with some shipping multiple times per day!</p>\n<p>How do they do it, and how frequently should your mobile teams be shipping? Let’s take a look at some highly productive mobile teams to find out:</p>\n",
 		html: "<p>A feature of highly productive engineering teams is their ability to ship new features and updates frequently.</p>\n<p>For backend and frontend web teams, shipping is straightforward: push a commit to a git repo, trigger a build in CI/CD, and deploy a new version of the code on backend infrastructure or a static hosting service.</p>\n<p>But for Mobile, shipping is a completely different beast, requiring a complex chain of events that culminate in an app store publishing and approval process that goes far beyond anything in the backend and frontend worlds.</p>\n<p>Even with this considerable complexity, highly productive mobile teams are shipping frequently, with some shipping multiple times per day!</p>\n<p>How do they do it, and how frequently should your mobile teams be shipping? Let’s take a look at some highly productive mobile teams to find out:</p>\n<!--more-->\n\n<h2 id=\"how-86-400-ships-weekly\">How 86 400 ships weekly</h2>\n<p><a href=\"https://www.86400.com.au/\">86 400</a>, Australia’s first smartbank, knew they had to meet customers where they are: on mobile. So they built the first mobile banking solution for Australia, providing fast access to savings accounts and their whole financial picture. The other thing customers expect? Frequent updates, features, and bug fixes. To do that, 86 400 reached for <a href=\"https://useappflow.com/\">Appflow</a>, the leading Mobile CI/CD platform from the team behind popular open source project Ionic Framework.</p>\n<p>86 400 uses Appflow to ship updates weekly, and has used Appflow’s deploy feature to fix bugs in realtime without the delay of republishing to the app stores.</p>\n<p>The team at 86 400 ships at least after each two week sprint, and sometimes more frequently!</p>\n<h2 id=\"how-napa-group-helps-acker-meet-bi-weekly-deadlines\">How Napa Group helps Acker meet bi-weekly deadlines</h2>\n<p>Acker, the world’s largest auction house for wine, engaged app consultancy Napa Group to build a development process that would help meet the need to run bi-weekly auctions on their mobile app.</p>\n<p>With Appflow, Napa Group found a platform that enabled them to ship at the speed of development, pushing app updates daily and having polished, stable releases ready for each bi-weekly auction.</p>\n<p>This development process would have been impossible without a service like Appflow providing a powerful Mobile CI/CD solution and key features such as live deploy.</p>\n<h2 id=\"how-often-should-your-team-be-shipping\">How often should your team be shipping?</h2>\n<p>The very best engineering teams ship often, even on mobile. These are just two examples of highly productive mobile teams. The overhead of building and publishing mobile apps is no excuse for these productive mobile teams. In fact, most are shipping weekly.</p>\n<p>Shipping frequently, even weekly, has a number of major benefits:</p>\n<ul>\n<li>Keeps the app top of mind - it shows up on the user’s device in the App Store updates list</li>\n<li>Frequent updates demonstrate that you’re committed to the app and that it’s still maintained</li>\n<li>New features drive business value and grow app adoption</li>\n<li>Engineering morale is tied strongly to shipping</li>\n</ul>\n<p>Shipping frequently is certainly better than the opposite. So, how do they do it, and how can your team do it, too?</p>\n<p>Well, shipping this frequently on mobile wouldn’t be possible without a powerful Mobile CI/CD solution that continuously builds, tests, and integrates a mobile app after each commit. And for hybrid app developers, being able to push web code updates without app store republishing is another key driver of developer agility.</p>\n<p>A leading Mobile CI/CD service with the above features is Appflow, which powers apps for companies like Burger King, AAA, and more.</p>\n<h2 id=\"get-shipping\">Get shipping</h2>\n<p>If you’re new to Mobile CI/CD, read more about <a href=\"/blog/what-is-mobile-ci-cd\">what Mobile CI/CD is</a> and how it differs from traditional CI/CD. If you’ve also been exploring building Mobile CI/CD capabilities on top of existing CI/CD infrastructure, take a look at our post on how you could build your own Appflow-style service, and why you might not want to given the complexity of mobile.</p>\n<p>Either way, we hope your team is well on its way to shipping at least weekly and delighting users with frequent updates and bug fixes.</p>\n",
 		meta: {
 			title: "How Often Should your Mobile Team Ship?",
 			description: "How the best mobile engineering teams work to ship frequently and drive growth",
 			slug: "how-often-should-your-mobile-team-be-shipping",
+			featuredImage: "how-often-should-your-mobile-team-be-shipping.png",
+			featuredImageAlt: "figure 8 flow path with clock in the middle",
 			date: "2020-08-18T12:00:00.000Z",
 			author: "Max Lynch <max@ionic.io>",
 			authorUrl: "https://twitter.com/maxlynch",
@@ -7126,6 +7132,8 @@ var posts = [
 				"https://useappflow.com/resources/solving-mobile-cicd-with-appflow"
 			]
 		},
+		featuredImage: "how-often-should-your-mobile-team-be-shipping.png",
+		featuredImageAlt: "figure 8 flow path with clock in the middle",
 		related: [
 			"https://ionicframework.com/resources/webinars/hybrid-app-development-redefined",
 			"https://useappflow.com/resources/solving-mobile-cicd-with-appflow"
@@ -7140,13 +7148,15 @@ var posts = [
 		authorImageName: "max-lynch.jpg",
 		slug: "what-is-mobile-ci-cd",
 		date: "2020-08-18T08:00:00.000Z",
-		contents: "---\ntitle: What is Mobile CI/CD?\nslug: what-is-mobile-ci-cd\ndescription: Exploring what Mobile CI/CD is and how it differs from traditional CI/CD, and how Appflow is a leading Mobile CI/CD service.\ndate: 2020-08-18 08:00:00\nauthor: Max Lynch <max@ionic.io>\nauthorUrl: https://twitter.com/maxlynch\nauthorImageName: max-lynch.jpg\nrelated:\n  - https://ionicframework.com/resources/webinars/hybrid-app-development-redefined\n  - https://useappflow.com/resources/solving-mobile-cicd-with-appflow\n---\n\nContinuous Integration and Continuous Delivery (CI/CD) is one of the fastest growing sectors of the developer market. Focused on enabling teams to continuously test and integrate their apps (instead of doing it all at once before shipping), and then helping teams deliver those apps in an automated fashion, CI/CD has transformed the way developers build and ship software.\n\nA staple in the backend and, more recently, frontend ecosystems, CI/CD services have proliferated to help developers perform a set of tedious tasks on every commit to their app, including:\n\n* Running builds every commit to every branch in a git repo\n* Running test suites and tracking failing and succeeding tests\n* Performing webhooks and other actions after builds\n* Launching or deploying apps to hosting destinations after successful builds\n\nThis list applies to nearly every type of software application, whether it’s a backend, frontend web, or mobile app. This has led to a proliferation of general purpose CI/CD services that integrate with popular code repository hosting services, provide on-demand clean build infrastructure, and a system to trigger actions before and after builds.\n\n<!--more-->\n\n## What about Mobile CI/CD?\n\nMobile app development is one of the most complicated areas of software development when it comes to CI/CD solutions. Given that mobile apps utilize extensive native compilation, rigid operating system requirements, rigorous code signing, frequently-updated SDKs and tooling, complex operating system licensing, device testing, and app store submission, a CI/CD platform for mobile apps will need to have extra features to cover these unique demands.\n\nA proper Mobile CI/CD setup will feature:\n\n* Managed build environments for iOS, Android, and mobile web apps (for teams building Progressive Web Apps)\n* Managed servers and server infrastructure for legal, licensed builds on macOS and Linux.\n* Per-platform tooling: Xcode for iOS, Android SDK for Android, etc.\n* Certificate and profile management for mobile code signing\n* Deployment for web assets for hybrid mobile and Progressive Web Apps\n* Multiple deployment channels to enable easy development, beta, and production tracks\n* Automatic submission to Apple App Store and Google Play Store\n* Frequent security patches and upgrades for safe builds on the latest Apple and Google approved tools and SDKs\n\nThese are specialized mobile tasks that most CI/CD services do not handle, so clearly mobile teams will need mobile-specific CI/CD services and infrastructure.\n\n## What is Appflow?\n\n[Appflow](https://useappflow.com/) is a leading Mobile CI/CD service focused entirely on the unique nature of mobile app development, testing, and delivery. Appflow powers Mobile CI/CD at companies like Burger King, AAA, BCBS, and more. And Appflow is a major part of the Ionic app platform, a set of mobile-focused tools with millions of users and hundreds of major enterprise customers, which powers a significant portion of the Apple App Store and Google Play Store.\n\nAppflow provides fully managed build environments for iOS, Android, and Progressive Web Apps by offering genuine macOS build servers for iOS and Linux for Android and Web apps.\n\nAppflow manages signing certificates for apps and enables direct publishing of built apps to the Apple App Store and Google Play Store.\n\nFor teams building hybrid apps using Capacitor or Cordova (including users of Ionic Framework), Appflow offers some additional features such as the ability to live-update web assets in an app remotely. This means a hybrid app in the app stores can be updated in realtime for changes at the web app layer.\n\nAppflow has a powerful channel system where builds and deployments can be performed across an arbitrary number of environments to enable easy development, alpha/beta, and production builds.\n\nFinally, Appflow offers a flexible automation layer across all of these features for the easy creation of complex workflows and integrating with third party services through webhooks.\n\n## When do you need a Mobile CI/CD Solution?\n\nFor teams building and deploying app store apps, a Mobile CI/CD solution is critical. We work with many teams that are new to mobile and are bringing their existing backend or frontend CI/CD experience to mobile and struggling to adapt to the massive difference in complexity and tooling requirements for Mobile CI/CD.\n\nIt’s simply not feasible for most teams to build or run their own Mobile CI/CD infrastructure, and it’s likely not feasible for teams to add Mobile CI/CD functionality to an existing general purpose CI/CD service like Circle CI, GitHub Actions, or Azure’s various CI/CD offerings. That’s because doing so would require a full time team to build, manage, and keep updated every aspect of the Mobile CI/CD feature set described earlier. Also, the skills needed to build and maintain CI/CD infrastructure are very different from the skills needed to build frontend and mobile apps, so teams would need to hire outside of their team’s core competency.\n\n## Getting Started with Appflow\n\nWe encourage your team to explore the Mobile CI/CD space before making a decision on a platform. Appflow is a great choice for fast-growing startups and SMBs all the way up to the Fortune 1000, with plenty of enterprise-specific features for mission critical apps.\n\nGetting started with Appflow is free. Go to [useappflow.com](https://useappflow.com/), create a free account, and connect your app. Explore the [Appflow Documentation](https://ionicframework.com/docs/appflow) to see the full feature set of Appflow and integrate those features into your apps.\n\nThe Appflow team are also experts in Mobile CI/CD and are available for consultation to help your team build out a winning Mobile CI/CD strategy. Please [get in touch with the team](https://ionicframework.com/enterprise/contact) to see how Appflow and Mobile CI/CD can help your team move faster and ensure quality throughout the app development lifecycle.",
+		contents: "---\ntitle: What is Mobile CI/CD?\ndescription: Exploring what Mobile CI/CD is and how it differs from traditional CI/CD, and how Appflow is a leading Mobile CI/CD service.\nslug: what-is-mobile-ci-cd\nfeaturedImage: what-is-mobile-ci-cd.png\nfeaturedImageAlt: figure 8 with phone in the middle on raised background\ndate: 2020-08-18 08:00:00\nauthor: Max Lynch <max@ionic.io>\nauthorUrl: https://twitter.com/maxlynch\nauthorImageName: max-lynch.jpg\nrelated:\n  - https://ionicframework.com/resources/webinars/hybrid-app-development-redefined\n  - https://useappflow.com/resources/solving-mobile-cicd-with-appflow\n---\n\nContinuous Integration and Continuous Delivery (CI/CD) is one of the fastest growing sectors of the developer market. Focused on enabling teams to continuously test and integrate their apps (instead of doing it all at once before shipping), and then helping teams deliver those apps in an automated fashion, CI/CD has transformed the way developers build and ship software.\n\nA staple in the backend and, more recently, frontend ecosystems, CI/CD services have proliferated to help developers perform a set of tedious tasks on every commit to their app, including:\n\n* Running builds every commit to every branch in a git repo\n* Running test suites and tracking failing and succeeding tests\n* Performing webhooks and other actions after builds\n* Launching or deploying apps to hosting destinations after successful builds\n\nThis list applies to nearly every type of software application, whether it’s a backend, frontend web, or mobile app. This has led to a proliferation of general purpose CI/CD services that integrate with popular code repository hosting services, provide on-demand clean build infrastructure, and a system to trigger actions before and after builds.\n\n<!--more-->\n\n## What about Mobile CI/CD?\n\nMobile app development is one of the most complicated areas of software development when it comes to CI/CD solutions. Given that mobile apps utilize extensive native compilation, rigid operating system requirements, rigorous code signing, frequently-updated SDKs and tooling, complex operating system licensing, device testing, and app store submission, a CI/CD platform for mobile apps will need to have extra features to cover these unique demands.\n\nA proper Mobile CI/CD setup will feature:\n\n* Managed build environments for iOS, Android, and mobile web apps (for teams building Progressive Web Apps)\n* Managed servers and server infrastructure for legal, licensed builds on macOS and Linux.\n* Per-platform tooling: Xcode for iOS, Android SDK for Android, etc.\n* Certificate and profile management for mobile code signing\n* Deployment for web assets for hybrid mobile and Progressive Web Apps\n* Multiple deployment channels to enable easy development, beta, and production tracks\n* Automatic submission to Apple App Store and Google Play Store\n* Frequent security patches and upgrades for safe builds on the latest Apple and Google approved tools and SDKs\n\nThese are specialized mobile tasks that most CI/CD services do not handle, so clearly mobile teams will need mobile-specific CI/CD services and infrastructure.\n\n## What is Appflow?\n\n[Appflow](https://useappflow.com/) is a leading Mobile CI/CD service focused entirely on the unique nature of mobile app development, testing, and delivery. Appflow powers Mobile CI/CD at companies like Burger King, AAA, BCBS, and more. And Appflow is a major part of the Ionic app platform, a set of mobile-focused tools with millions of users and hundreds of major enterprise customers, which powers a significant portion of the Apple App Store and Google Play Store.\n\nAppflow provides fully managed build environments for iOS, Android, and Progressive Web Apps by offering genuine macOS build servers for iOS and Linux for Android and Web apps.\n\nAppflow manages signing certificates for apps and enables direct publishing of built apps to the Apple App Store and Google Play Store.\n\nFor teams building hybrid apps using Capacitor or Cordova (including users of Ionic Framework), Appflow offers some additional features such as the ability to live-update web assets in an app remotely. This means a hybrid app in the app stores can be updated in realtime for changes at the web app layer.\n\nAppflow has a powerful channel system where builds and deployments can be performed across an arbitrary number of environments to enable easy development, alpha/beta, and production builds.\n\nFinally, Appflow offers a flexible automation layer across all of these features for the easy creation of complex workflows and integrating with third party services through webhooks.\n\n## When do you need a Mobile CI/CD Solution?\n\nFor teams building and deploying app store apps, a Mobile CI/CD solution is critical. We work with many teams that are new to mobile and are bringing their existing backend or frontend CI/CD experience to mobile and struggling to adapt to the massive difference in complexity and tooling requirements for Mobile CI/CD.\n\nIt’s simply not feasible for most teams to build or run their own Mobile CI/CD infrastructure, and it’s likely not feasible for teams to add Mobile CI/CD functionality to an existing general purpose CI/CD service like Circle CI, GitHub Actions, or Azure’s various CI/CD offerings. That’s because doing so would require a full time team to build, manage, and keep updated every aspect of the Mobile CI/CD feature set described earlier. Also, the skills needed to build and maintain CI/CD infrastructure are very different from the skills needed to build frontend and mobile apps, so teams would need to hire outside of their team’s core competency.\n\n## Getting Started with Appflow\n\nWe encourage your team to explore the Mobile CI/CD space before making a decision on a platform. Appflow is a great choice for fast-growing startups and SMBs all the way up to the Fortune 1000, with plenty of enterprise-specific features for mission critical apps.\n\nGetting started with Appflow is free. Go to [useappflow.com](https://useappflow.com/), create a free account, and connect your app. Explore the [Appflow Documentation](https://ionicframework.com/docs/appflow) to see the full feature set of Appflow and integrate those features into your apps.\n\nThe Appflow team are also experts in Mobile CI/CD and are available for consultation to help your team build out a winning Mobile CI/CD strategy. Please [get in touch with the team](https://ionicframework.com/enterprise/contact) to see how Appflow and Mobile CI/CD can help your team move faster and ensure quality throughout the app development lifecycle.",
 		preview: "<p>Continuous Integration and Continuous Delivery (CI/CD) is one of the fastest growing sectors of the developer market. Focused on enabling teams to continuously test and integrate their apps (instead of doing it all at once before shipping), and then helping teams deliver those apps in an automated fashion, CI/CD has transformed the way developers build and ship software.</p>\n<p>A staple in the backend and, more recently, frontend ecosystems, CI/CD services have proliferated to help developers perform a set of tedious tasks on every commit to their app, including:</p>\n<ul>\n<li>Running builds every commit to every branch in a git repo</li>\n<li>Running test suites and tracking failing and succeeding tests</li>\n<li>Performing webhooks and other actions after builds</li>\n<li>Launching or deploying apps to hosting destinations after successful builds</li>\n</ul>\n<p>This list applies to nearly every type of software application, whether it’s a backend, frontend web, or mobile app. This has led to a proliferation of general purpose CI/CD services that integrate with popular code repository hosting services, provide on-demand clean build infrastructure, and a system to trigger actions before and after builds.</p>\n",
 		html: "<p>Continuous Integration and Continuous Delivery (CI/CD) is one of the fastest growing sectors of the developer market. Focused on enabling teams to continuously test and integrate their apps (instead of doing it all at once before shipping), and then helping teams deliver those apps in an automated fashion, CI/CD has transformed the way developers build and ship software.</p>\n<p>A staple in the backend and, more recently, frontend ecosystems, CI/CD services have proliferated to help developers perform a set of tedious tasks on every commit to their app, including:</p>\n<ul>\n<li>Running builds every commit to every branch in a git repo</li>\n<li>Running test suites and tracking failing and succeeding tests</li>\n<li>Performing webhooks and other actions after builds</li>\n<li>Launching or deploying apps to hosting destinations after successful builds</li>\n</ul>\n<p>This list applies to nearly every type of software application, whether it’s a backend, frontend web, or mobile app. This has led to a proliferation of general purpose CI/CD services that integrate with popular code repository hosting services, provide on-demand clean build infrastructure, and a system to trigger actions before and after builds.</p>\n<!--more-->\n\n<h2 id=\"what-about-mobile-cicd\">What about Mobile CI/CD?</h2>\n<p>Mobile app development is one of the most complicated areas of software development when it comes to CI/CD solutions. Given that mobile apps utilize extensive native compilation, rigid operating system requirements, rigorous code signing, frequently-updated SDKs and tooling, complex operating system licensing, device testing, and app store submission, a CI/CD platform for mobile apps will need to have extra features to cover these unique demands.</p>\n<p>A proper Mobile CI/CD setup will feature:</p>\n<ul>\n<li>Managed build environments for iOS, Android, and mobile web apps (for teams building Progressive Web Apps)</li>\n<li>Managed servers and server infrastructure for legal, licensed builds on macOS and Linux.</li>\n<li>Per-platform tooling: Xcode for iOS, Android SDK for Android, etc.</li>\n<li>Certificate and profile management for mobile code signing</li>\n<li>Deployment for web assets for hybrid mobile and Progressive Web Apps</li>\n<li>Multiple deployment channels to enable easy development, beta, and production tracks</li>\n<li>Automatic submission to Apple App Store and Google Play Store</li>\n<li>Frequent security patches and upgrades for safe builds on the latest Apple and Google approved tools and SDKs</li>\n</ul>\n<p>These are specialized mobile tasks that most CI/CD services do not handle, so clearly mobile teams will need mobile-specific CI/CD services and infrastructure.</p>\n<h2 id=\"what-is-appflow\">What is Appflow?</h2>\n<p><a href=\"https://useappflow.com/\">Appflow</a> is a leading Mobile CI/CD service focused entirely on the unique nature of mobile app development, testing, and delivery. Appflow powers Mobile CI/CD at companies like Burger King, AAA, BCBS, and more. And Appflow is a major part of the Ionic app platform, a set of mobile-focused tools with millions of users and hundreds of major enterprise customers, which powers a significant portion of the Apple App Store and Google Play Store.</p>\n<p>Appflow provides fully managed build environments for iOS, Android, and Progressive Web Apps by offering genuine macOS build servers for iOS and Linux for Android and Web apps.</p>\n<p>Appflow manages signing certificates for apps and enables direct publishing of built apps to the Apple App Store and Google Play Store.</p>\n<p>For teams building hybrid apps using Capacitor or Cordova (including users of Ionic Framework), Appflow offers some additional features such as the ability to live-update web assets in an app remotely. This means a hybrid app in the app stores can be updated in realtime for changes at the web app layer.</p>\n<p>Appflow has a powerful channel system where builds and deployments can be performed across an arbitrary number of environments to enable easy development, alpha/beta, and production builds.</p>\n<p>Finally, Appflow offers a flexible automation layer across all of these features for the easy creation of complex workflows and integrating with third party services through webhooks.</p>\n<h2 id=\"when-do-you-need-a-mobile-cicd-solution\">When do you need a Mobile CI/CD Solution?</h2>\n<p>For teams building and deploying app store apps, a Mobile CI/CD solution is critical. We work with many teams that are new to mobile and are bringing their existing backend or frontend CI/CD experience to mobile and struggling to adapt to the massive difference in complexity and tooling requirements for Mobile CI/CD.</p>\n<p>It’s simply not feasible for most teams to build or run their own Mobile CI/CD infrastructure, and it’s likely not feasible for teams to add Mobile CI/CD functionality to an existing general purpose CI/CD service like Circle CI, GitHub Actions, or Azure’s various CI/CD offerings. That’s because doing so would require a full time team to build, manage, and keep updated every aspect of the Mobile CI/CD feature set described earlier. Also, the skills needed to build and maintain CI/CD infrastructure are very different from the skills needed to build frontend and mobile apps, so teams would need to hire outside of their team’s core competency.</p>\n<h2 id=\"getting-started-with-appflow\">Getting Started with Appflow</h2>\n<p>We encourage your team to explore the Mobile CI/CD space before making a decision on a platform. Appflow is a great choice for fast-growing startups and SMBs all the way up to the Fortune 1000, with plenty of enterprise-specific features for mission critical apps.</p>\n<p>Getting started with Appflow is free. Go to <a href=\"https://useappflow.com/\">useappflow.com</a>, create a free account, and connect your app. Explore the <a href=\"https://ionicframework.com/docs/appflow\">Appflow Documentation</a> to see the full feature set of Appflow and integrate those features into your apps.</p>\n<p>The Appflow team are also experts in Mobile CI/CD and are available for consultation to help your team build out a winning Mobile CI/CD strategy. Please <a href=\"https://ionicframework.com/enterprise/contact\">get in touch with the team</a> to see how Appflow and Mobile CI/CD can help your team move faster and ensure quality throughout the app development lifecycle.</p>\n",
 		meta: {
 			title: "What is Mobile CI/CD?",
-			slug: "what-is-mobile-ci-cd",
 			description: "Exploring what Mobile CI/CD is and how it differs from traditional CI/CD, and how Appflow is a leading Mobile CI/CD service.",
+			slug: "what-is-mobile-ci-cd",
+			featuredImage: "what-is-mobile-ci-cd.png",
+			featuredImageAlt: "figure 8 with phone in the middle on raised background",
 			date: "2020-08-18T08:00:00.000Z",
 			author: "Max Lynch <max@ionic.io>",
 			authorUrl: "https://twitter.com/maxlynch",
@@ -7156,6 +7166,8 @@ var posts = [
 				"https://useappflow.com/resources/solving-mobile-cicd-with-appflow"
 			]
 		},
+		featuredImage: "what-is-mobile-ci-cd.png",
+		featuredImageAlt: "figure 8 with phone in the middle on raised background",
 		related: [
 			"https://ionicframework.com/resources/webinars/hybrid-app-development-redefined",
 			"https://useappflow.com/resources/solving-mobile-cicd-with-appflow"
@@ -8358,7 +8370,7 @@ class BlogPost {
         return { type: getResourceTypeForParam(type), uid, routing: url };
       }
     };
-    this.PostHelmet = () => (hAsync(Helmet, null, hAsync("title", null, this.post.title, " - Capacitor Blog - Cross-platform native runtime for web apps"), hAsync("meta", { name: "description", content: this.post.description }), hAsync("meta", { name: "twitter:description", content: `${this.post.description} - Capacitor Blog` }), hAsync("meta", { property: "og:image", content: this.post.featuredImage || '/assets/img/appflow-og-img.jpg' })));
+    this.PostHelmet = () => (hAsync(Helmet, null, hAsync("title", null, "Appflow Blog - ", this.post.title), hAsync("meta", { name: "description", content: this.post.description }), hAsync("meta", { name: "twitter:description", content: `${this.post.description} - Appflow Blog` }), hAsync("meta", { name: "twitter:image", content: this.ogAssetPath }), hAsync("meta", { property: "og:image", content: this.ogAssetPath })));
     this.PostDetail = () => {
       var _a;
       const { PostAuthor, PostAuthorLarge, MoreResources, PostHelmet, PostFeaturedImage, post, preview } = this;
@@ -8374,8 +8386,15 @@ class BlogPost {
     this.PostAuthor = () => {
       const { date, authorImageName, authorName, authorUrl } = this.post;
       const dateString = parseISO(date);
+      const imageParts = authorImageName === null || authorImageName === void 0 ? void 0 : authorImageName.split('.');
+      if (!imageParts || !imageParts[0] || !imageParts[1])
+        return console.error('Markdown Blog author image name not formatted correctly.  It should look like: max-lynch.png');
+      const data = {
+        name: imageParts[0],
+        type: imageParts[1]
+      };
       return (hAsync("div", { class: "author-date" }, authorImageName
-        ? hAsync("img", { src: getAssetPath(`assets/img/author/${authorImageName}`), alt: authorName, width: "56", height: "56" })
+        ? hAsync(Img, Object.assign({}, data, { path: getAssetPath(`assets/img/author/`), dimensions: "56x56", alt: authorName }))
         : null, hAsync(Paragraph, null, "By ", authorUrl ?
         hAsync("a", { href: authorUrl, target: "_blank" }, authorName) :
         authorName, " on ", hAsync(DateTime, { date: dateString }))));
@@ -8394,29 +8413,29 @@ class BlogPost {
         hAsync("more-resources", Object.assign({}, this.moreResources))
       ];
     };
-    this.PostFeaturedImage = () => {
-      const { preview, post } = this;
+    this.PostFeaturedImage = ({ post: { slug, featuredImage, featuredImageAlt }, preview }) => {
+      const imageParts = featuredImage === null || featuredImage === void 0 ? void 0 : featuredImage.split('.');
+      if (!imageParts || !imageParts[0] || !imageParts[1])
+        return console.error('Markdown Blog featured image name not formatted correctly.  It should look like: what-is-mobile-ci-cd.png');
+      const data = {
+        name: imageParts[0],
+        type: imageParts[1],
+        alt: featuredImageAlt
+      };
       return (hAsync("div", { class: "featured-image-wrapper" }, preview
-        ? hAsync("a", Object.assign({}, href(`/blog/${post.slug}`, Router)), hAsync(Img
-        // fallback={PostDefaultImage}
-        , {
-          // fallback={PostDefaultImage}
-          onClick: () => window.scrollTo(0, 0), class: "featured-image", dimensions: "1600x840", name: post.slug, alt: post.slug.split('-').join(' '), path: getAssetPath(`assets/img/hero/`)
-        }))
-        : hAsync(Img
-        // fallback={PostDefaultImage}
-        , {
-          // fallback={PostDefaultImage}
-          onClick: () => window.scrollTo(0, 0), class: "featured-image", dimensions: "1600x840", name: post.slug, alt: post.slug.split('-').join(' '), path: getAssetPath(`assets/img/hero/`)
-        })));
+        ? hAsync("a", Object.assign({}, href(`/blog/${slug}`, Router)), hAsync(Img, Object.assign({}, data, { class: "featured-image", dimensions: "1600x840", path: getAssetPath(`assets/img/hero/`) })))
+        : hAsync(Img, Object.assign({}, data, { class: "featured-image", dimensions: "1600x840", path: getAssetPath(`assets/img/hero/`) }))));
     };
   }
   componentWillLoad() {
+    var _a, _b;
     state.stickyHeader = false;
     const { slug, getRelatedResources, preview } = this;
     this.post = posts.find(p => p.slug === slug);
     if (!this.post)
       throw new Error('Could not find blog post by slug.');
+    this.ogAssetPath = ((_a = this.post) === null || _a === void 0 ? void 0 : _a.featuredImage) ? Router.url.origin + getAssetPath(`./assets/img/hero/${(_b = this.post) === null || _b === void 0 ? void 0 : _b.featuredImage}`)
+      : Router.url.origin + '/assets/img/appflow-og-img';
     if (!preview)
       getRelatedResources();
   }
@@ -8448,6 +8467,7 @@ class BlogPost {
     "$members$": {
       "slug": [1],
       "preview": [4],
+      "ogAssetPath": [32],
       "moreResources": [32]
     },
     "$listeners$": undefined,

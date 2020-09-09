@@ -10,7 +10,7 @@ interface ImgProps extends JSXBase.ImgHTMLAttributes<HTMLImageElement>{
 
   dimensions: string;
 
-  fallback?: () => HTMLImageElement;
+  // fallback?: () => HTMLImageElement;
 
   [key:string]: any;
 }

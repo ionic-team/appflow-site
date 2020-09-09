@@ -46,8 +46,8 @@ export class BlogPost {
     if (!this.post) throw new Error('Could not find blog post by slug.');  
 
     this.ogAssetPath = this.post?.featuredImage
-    ? router.url.origin + getAssetPath(`./assets/img/hero/${this.post?.featuredImage}`)
-    : router.url.origin + '/assets/img/appflow-og-img';
+    ? Router.url.origin + getAssetPath(`./assets/img/hero/${this.post?.featuredImage}`)
+    : Router.url.origin + '/assets/img/appflow-og-img';
       
     if (!preview) getRelatedResources();
   }

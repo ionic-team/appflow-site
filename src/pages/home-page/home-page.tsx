@@ -10,12 +10,12 @@ import state from '../../store';
 
 
 @Component({
-  tag: 'landing-page',
-  styleUrl: 'landing-page.scss',
+  tag: 'home-page',
+  styleUrl: 'home-page.scss',
   assetsDirs: ['assets'],
   scoped: true
 })
-export class LandingPage {
+export class HomePage {
   
   async componentWillLoad() {
     await getPage('appflow_homepage');

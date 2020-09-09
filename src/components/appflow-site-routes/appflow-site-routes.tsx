@@ -35,12 +35,12 @@ export class AppflowSiteRoutes {
           <Route
             path={match('/blog', { exact: true })}
           >
-            <blog-page viewMode="previews"/>
+            <blog-page />
           </Route>
 
           <Route
             path={match('/blog/:slug')}
-            render={({ slug }) => <blog-page slug={slug} viewMode="detail" />}
+            render={({ slug }) => <blog-post slug={slug} />}
           />
 
           <Route path="/why-appflow">

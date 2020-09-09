@@ -4,8 +4,12 @@
 
 
   .post {
+    position: relative;
+    max-width: 736px;
+    margin-inline-start: auto;
+    margin-inline-end: auto;
+    margin-block-start: var(--space-9);
     padding-block-end: var(--space-11);
-    border-bottom: 2px solid var(--c-indigo-20);
 
     .ui-heading-1 {
       margin-block-end: var(--space-5);
@@ -15,7 +19,7 @@
       }
     }
 
-    .author {
+    .author-date {
       display: flex;
       align-items: center;
       margin-block-end: var(--space-6);
@@ -89,17 +93,86 @@
   }
 }
 
-.sc-blog-post.preview {
-  .post-content {
-    & > * {
-      display: none;
+.sc-blog-post.detail {
+  .sticky-wrapper {
+    position: absolute;
+    height: 100%;
+    left: -96px;
+    top: 5px;
+  
+    blog-social-actions.top {
+      position: sticky;
+      top: calc(var(--blog-subnav-height) + var(--space-6));
     }
+  }
 
-    :first-child {
-      display: block;
+  .post-content {
+    border-bottom: 2px solid var(--c-indigo-20);
+    padding-block-end: 69px;
+  }
 
-      &::after {
-        content: '..';
+  more-resources {
+    margin-block-end: 121px;
+  }
+  .more-resources__title {
+    margin-block-end: var(--space-5); 
+  }
+  
+  disqus-comments {
+    margin-block-end: 160px;
+  }
+
+  blog-social-actions.bottom {
+    padding-inline-start: 31px;
+    padding-inline-end: 31px;
+    background: white;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .author-info{
+    display: flex;  
+    margin-block-start: var(--space-6);
+    margin-block-end: 120px;
+  
+    img {
+      width: 56px;
+      height: 56px;
+      margin-inline-end: var(--space-4);
+      border-radius: 100%;
+    }
+  
+    .description {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      .ui-heading {
+        color: #010610;
+      }
+      .ui-paragraph {
+        margin-block-start: 4px;
+        color: #92A1B3;
+      }
+    }  
+  }
+}
+
+.sc-blog-post.preview {
+  .post {
+    border-bottom: 2px solid var(--c-indigo-20);
+
+    .post-content {
+      & > * {
+        display: none;
+      }
+
+      :first-child {
+        display: block;
+
+        &::after {
+          content: '..';
+        }
       }
     }
   }
@@ -119,5 +192,4 @@
       }
     }
   }
-
 }

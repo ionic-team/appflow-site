@@ -7,6 +7,9 @@ export interface State {
   title: string,
   description: string,
   meta_image: string,
+  breadcrumbs: {
+    base: [string, string]
+  }
   showHubspotForm: boolean,
   hubspotGatedPassed: boolean
 }

@@ -29,7 +29,7 @@ export class AppflowSiteRoutes {
       <Host>
         <Router.Switch>
           <Route path={match('/', { exact: true })}>
-            <landing-page />
+            <home-page />
           </Route>
           
           <Route

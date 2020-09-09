@@ -6971,7 +6971,7 @@ class AppflowSiteRoutes {
     });
   }
   render() {
-    return (hAsync(Host, null, hAsync(Router.Switch, null, hAsync(Route, { path: match('/', { exact: true }) }, hAsync("landing-page", null)), hAsync(Route, { path: match('/blog', { exact: true }) }, hAsync("blog-page", null)), hAsync(Route, { path: match('/blog/:slug'), render: ({ slug }) => hAsync("blog-post", { slug: slug }) }), hAsync(Route, { path: "/why-appflow" }, hAsync("why-appflow", null)), hAsync(Route, { path: "/resources" }, hAsync("resources-page", null)), hAsync(Route, { path: match('/resources/:id'), render: ({ id }) => hAsync("resources-page", { prismicUid: id }) }), hAsync(Route, { path: "/pricing" }, hAsync("pricing-page", null)), hAsync(Route, { path: "/privacy-policy" }, hAsync("markdown-page", { file: "privacy-policy" })), hAsync(Route, { path: "/tos" }, hAsync("markdown-page", { file: "tos" })))));
+    return (hAsync(Host, null, hAsync(Router.Switch, null, hAsync(Route, { path: match('/', { exact: true }) }, hAsync("home-page", null)), hAsync(Route, { path: match('/blog', { exact: true }) }, hAsync("blog-page", null)), hAsync(Route, { path: match('/blog/:slug'), render: ({ slug }) => hAsync("blog-post", { slug: slug }) }), hAsync(Route, { path: "/why-appflow" }, hAsync("why-appflow", null)), hAsync(Route, { path: "/resources" }, hAsync("resources-page", null)), hAsync(Route, { path: match('/resources/:id'), render: ({ id }) => hAsync("resources-page", { prismicUid: id }) }), hAsync(Route, { path: "/pricing" }, hAsync("pricing-page", null)), hAsync(Route, { path: "/privacy-policy" }, hAsync("markdown-page", { file: "privacy-policy" })), hAsync(Route, { path: "/tos" }, hAsync("markdown-page", { file: "tos" })))));
   }
   static get style() { return appflowSiteRoutesCss; }
   static get cmpMeta() { return {
@@ -7175,7 +7175,7 @@ var posts = [
 	}
 ];
 
-const blogPageCss = ".sc-blog-page-h{display:block}blog-post.sc-blog-page+blog-post.sc-blog-page{margin-block-start:82px}.container-sm.sc-blog-page{margin-inline-start:auto;margin-inline-end:auto;position:relative;max-width:736px}";
+const blogPageCss = ".sc-blog-page-h{display:block;max-width:736px;margin-inline-start:auto;margin-inline-end:auto}blog-post.sc-blog-page+blog-post.sc-blog-page{margin-block-start:82px}.container-sm.sc-blog-page{margin-inline-start:auto;margin-inline-end:auto;position:relative;max-width:736px}";
 
 class BlogPage {
   constructor(hostRef) {
@@ -7191,7 +7191,7 @@ class BlogPage {
   render() {
     if (!this.posts)
       throw new Error('No posts received from markdown blog');
-    return (hAsync(Host, { class: "ui-container" }, hAsync("blog-subnav", { breadcrumbs: [['Blog', '/blog']] }), this.posts.map(p => (hAsync("article", null, hAsync("blog-post", { slug: p.slug, preview: true })))), hAsync("blog-newsletter", null)));
+    return (hAsync(Host, null, hAsync("blog-subnav", { breadcrumbs: [['Blog', '/blog']] }), this.posts.map(p => (hAsync("article", null, hAsync("blog-post", { slug: p.slug, preview: true })))), hAsync("blog-newsletter", null)));
   }
   get el() { return getElement(this); }
   static get style() { return blogPageCss; }

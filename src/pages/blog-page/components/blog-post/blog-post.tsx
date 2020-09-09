@@ -25,13 +25,14 @@ export class BlogPost {
   async componentWillLoad() {
     if (this.post) this.slug = this.post.slug;
     if (this.slug) this.post = (posts as RenderedBlog[]).find(p => p.slug === this.slug)
-  }
 
-  componentDidLoad() {
     this.ogAssetPath = this.post?.featuredImage
     ? router.url.origin + getAssetPath(`./assets/img/hero/${this.post?.featuredImage}`)
     : router.url.origin + '/assets/img/appflow-og-img';
+  }
 
+  componentDidLoad() {
+    console.log(this.post);
     this.keepScrollLinks.forEach(link => {
       link.addEventListener('click', () => {
         window.scrollTo(0, window.scrollY - this.el.offsetTop + 32);

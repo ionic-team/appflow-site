@@ -74,10 +74,11 @@
       margin-bottom: var(--space-2);
     }
 
-    p {
+    .ui-paragraph {
       color: #fff;
       font-weight: 500;
       line-height: 17px;
+      margin:0;
     }
 
     span {
@@ -87,9 +88,13 @@
     }
   }
 
-  .master img {
-    width: 100px;
-    height: 30px;
+
+  .master {
+
+    img {
+      width: 100px;
+      height: 30px;
+    }
   }
 
   .staging img {

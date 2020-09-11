@@ -135,9 +135,9 @@ export class BlogPost {
   PostDetail = () => {
     const { PostAuthor, PostAuthorLarge, MoreResources, PostHelmet, PostFeaturedImage, post, preview } = this;
 
-    return [
-      <blog-subnav breadcrumbs={[['Blog', '/blog'], [this.post?.title!, `/${this.slug}`]]}/>,
+    return (
       <ResponsiveContainer>
+        <blog-subnav breadcrumbs={[['Blog', '/blog'], [this.post?.title!, `/${this.slug}`]]}/>
         <article class="post">        
             <PostHelmet />
 
@@ -159,7 +159,7 @@ export class BlogPost {
             {/* <disqus-comments url={`https://useappflow.com/blog/${post.slug}`} siteId="ionic"/> */}
         </article>
       </ResponsiveContainer>
-    ];
+    );
   }
 
   PostPreview = () => {
@@ -199,7 +199,7 @@ export class BlogPost {
         {authorImageName
         ? <Img 
             {...data}
-            path={getAssetPath(`assets/img/author/`)}            
+            path={getAssetPath('./assets/img/author/')}            
             dimensions="56x56"
             alt={authorName}
           />
@@ -217,7 +217,7 @@ export class BlogPost {
 
     return (
       <a href={authorUrl} target="_blank" class="author-info">
-        <img src={getAssetPath(`assets/img/author/${authorImageName}`)} alt={authorName} width="56" height="56"/>
+        <img src={getAssetPath(`./assets/img/author/${authorImageName}`)} alt={authorName} width="56" height="56"/>
         <div class="description">
           <Heading level={5}>{authorName}</Heading>
           {authorDescription
@@ -254,14 +254,14 @@ export class BlogPost {
               {...data}
               class="featured-image"
               dimensions="1600x840"
-              path={getAssetPath(`assets/img/hero/`)}
+              path={getAssetPath(`./assets/img/hero/`)}
             />
           </a>
         : <Img
             {...data}
             class="featured-image"
             dimensions="1600x840"
-            path={getAssetPath(`assets/img/hero/`)}
+            path={getAssetPath(`./assets/img/hero/`)}
           /> }
       </div> )
   }

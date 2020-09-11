@@ -41,7 +41,7 @@ export class BlogSubnav {
       }}
     >
       <div class="subnav-wrapper">
-        <ResponsiveContainer class="content">
+        <div class="content">
           <Breadcrumbs onClick={() => window.scrollTo(0, 0)}> 
             {this.breadcrumbs.map(crumb => (
               <li>
@@ -83,7 +83,7 @@ export class BlogSubnav {
               ? <blog-pagination linkText={['Older', 'Newer']}/> : ''}
             </ResponsiveContainer>
           </div> */}
-        </ResponsiveContainer>
+        </div>
       </div>
     </Host>
   )

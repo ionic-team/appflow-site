@@ -26,25 +26,25 @@ export class AppflowActivator {
       name: 'App Publishing',
       description: 'Publish directly to the Apple and Google App Stores.',
       icon: publishIcon,
-      image: getAssetPath('assets/screen-app-publishing.png')
+      image: getAssetPath('./assets/screen-app-publishing.png')
     },
     {
       name: 'Live Updates',
       description: 'Send live updates to users without waiting on app store approval.',
       icon: updatesIcon,
-      image: getAssetPath('assets/screen-live-updates.png')
+      image: getAssetPath('./assets/screen-live-updates.png')
     },
     {
       name: 'Native Builds',
       description: 'Compile native app binaries in the cloud.',
       icon: buildsIcon,
-      image: getAssetPath('assets/screen-native-builds.png')
+      image: getAssetPath('./assets/screen-native-builds.png')
     },
     {
       name: 'Automations',
       description: 'Fully automate your app delivery pipeline.',
       icon: automationsIcon,
-      image: getAssetPath('assets/screen-automations.png')
+      image: getAssetPath('./assets/screen-automations.png')
     },
   ];
   private maxImageWidth = 1152;

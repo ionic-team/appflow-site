@@ -18,7 +18,7 @@ export class PlanPricing {
     return (
     <Host
       style={{
-        '--checkmark-path': `url(${getAssetPath('assets/checkmark-rounded.svg')})`
+        '--checkmark-path': `url(${getAssetPath('./assets/checkmark-rounded.svg')})`
       }}
     >
       <site-modal ref={e => this.contactModal = e!}>

@@ -117,7 +117,7 @@ export class BlogPost {
 
   PostHelmet = () => {
     const path = this.post!.featuredImage
-    ? 'https://useappflow.com' + getAssetPath(`./assets/img/meta/${this.post?.featuredImage}`)
+    ? 'https://useappflow.com' + getAssetPath(`./assets/img/meta/${this.post!.featuredImage}`)
     : `https://useappflow.com/assets/img/meta/default.jpg`;
   
     return (
@@ -130,6 +130,8 @@ export class BlogPost {
         <meta name="twitter:description" content={`${this.post!.description} - Appflow Blog`} />
         <meta name="twitter:image" content={path} />
         <meta property="og:image" content={path} />
+        <meta property="og:image:url" content={path} />
+        <meta property="og:image:secure_url" content={path} />
       </Helmet> );
   }
 

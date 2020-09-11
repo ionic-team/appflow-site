@@ -46,8 +46,8 @@ export class BlogPost {
     if (!this.post) throw new Error('Could not find blog post by slug.');  
 
     this.ogAssetPath = this.post?.featuredImage
-    ? Router.url.origin + getAssetPath(`./assets/img/hero/${this.post?.featuredImage}`)
-    : Router.url.origin + '/assets/img/appflow-og-img';
+    ? getAssetPath(`./assets/img/meta/${this.post?.featuredImage}`)
+    : `./assets/img/meta/default.jpg`;
       
     if (!preview) getRelatedResources();
   }
@@ -255,14 +255,14 @@ export class BlogPost {
               onClick={() => {window.scrollTo(0, 0)}}
               class="featured-image"
               dimensions="1600x840"
-              path={getAssetPath(`./assets/img/hero/`)}
+              path={getAssetPath(`./assets/img/meta/`)}
             />
           </a>
         : <Img
             {...data}
             class="featured-image"
             dimensions="1600x840"
-            path={getAssetPath(`./assets/img/hero/`)}
+            path={getAssetPath(`./assets/img/meta/`)}
           /> }
       </div> )
   }

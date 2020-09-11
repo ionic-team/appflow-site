@@ -167,7 +167,7 @@ export class BlogPost {
 
     return (
       <article class="post">
-        <Heading class="ui-theme--editorial" level={1}>
+        <Heading class="ui-theme--editorial" level={1} onClick={() => {window.scrollTo(0, 0)}}>
           <a {...href(`/blog/${slug}`, Router)}>{post!.title}</a>           
         </Heading>
         <PostAuthor />
@@ -252,6 +252,7 @@ export class BlogPost {
         ? <a {...href(`/blog/${slug}`, router)}>
             <Img
               {...data}
+              onClick={() => {window.scrollTo(0, 0)}}
               class="featured-image"
               dimensions="1600x840"
               path={getAssetPath(`./assets/img/hero/`)}

@@ -301,7 +301,7 @@ a {
   }
 
   pipeline-animator {
-  @include box($fg:1);
+  @include box($fg:1, $pos:absolute);
   }
 }
 

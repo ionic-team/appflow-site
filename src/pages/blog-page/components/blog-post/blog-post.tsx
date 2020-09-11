@@ -44,10 +44,6 @@ export class BlogPost {
 
     this.post = (posts as RenderedBlog[]).find(p => p.slug === slug);
     if (!this.post) throw new Error('Could not find blog post by slug.');  
-
-    this.ogAssetPath = this.post?.featuredImage
-    ? 'https://useappflow.com' + getAssetPath(`./assets/img/meta/${this.post?.featuredImage}`)
-    : `https://useappflow.com/assets/img/meta/default.jpg`;
       
     if (!preview) getRelatedResources();
   }
@@ -119,18 +115,23 @@ export class BlogPost {
     )
   }
 
-  PostHelmet = () => (
-    <Helmet>
-      <title>Appflow Blog - {this.post!.title}</title>
-      <meta
-        name="description"
-        content={this.post!.description}
-      />
-      <meta name="twitter:description" content={`${this.post!.description} - Appflow Blog`} />
-      <meta name="twitter:image" content={this.ogAssetPath} />
-      <meta property="og:image" content={this.ogAssetPath} />
-    </Helmet>
-  );
+  PostHelmet = () => {
+    const path = this.post!.featuredImage
+    ? 'https://useappflow.com' + getAssetPath(`./assets/img/meta/${this.post?.featuredImage}`)
+    : `https://useappflow.com/assets/img/meta/default.jpg`;
+  
+    return (
+      <Helmet>
+        <title>Appflow Blog - {this.post!.title}</title>
+        <meta
+          name="description"
+          content={this.post!.description}
+        />
+        <meta name="twitter:description" content={`${this.post!.description} - Appflow Blog`} />
+        <meta name="twitter:image" content={path} />
+        <meta property="og:image" content={path} />
+      </Helmet> );
+  }
 
   PostDetail = () => {
     const { PostAuthor, PostAuthorLarge, MoreResources, PostHelmet, PostFeaturedImage, post, preview } = this;

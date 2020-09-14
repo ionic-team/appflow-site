@@ -2,7 +2,6 @@ import { Component, h } from '@stencil/core';
 
 import state from '../../store';
 import Helmet from '@stencil/helmet';
-import router from '../../router'
 
 @Component({
   tag: 'appflow-site',
@@ -47,7 +46,7 @@ export class App {
         {/* <meta property="og:type" content="article" /> */}
         <meta property="og:title" content={state.title} />
   
-        <meta property="og:image" content={router.url.origin + state.meta_image} />
+        <meta property="og:image" content="https://useappflow.com/assets/img/appflow-og-img.jpg"/>
         <meta property="og:description" content={state.description} />
         <meta property="og:site_name" content="Appflow" />
         <meta property="article:publisher" content="https://www.facebook.com/ionicframework" />

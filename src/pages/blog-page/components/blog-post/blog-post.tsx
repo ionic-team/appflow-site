@@ -130,15 +130,11 @@ export class BlogPost {
         <meta name="twitter:description" content={`${this.post!.description} - Appflow Blog`} />
         <meta name="twitter:image" content={path} />
         <meta property="og:image" content={path} />
-        <meta property="og:image:url" content={path} />
-        <meta property="og:image:secure_url" content={path} />
       </Helmet> );
   }
 
   PostDetail = () => {
     const { PostAuthor, PostAuthorLarge, MoreResources, PostHelmet, PostFeaturedImage, post, preview } = this;
-
-    // PostHelmet.bind(this);
 
     return (
       <ResponsiveContainer>

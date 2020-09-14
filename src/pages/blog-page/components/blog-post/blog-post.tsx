@@ -117,8 +117,8 @@ export class BlogPost {
 
   PostHelmet = () => {
     const path = this.post!.featuredImage
-    ? `https://useappflow.com/assets/blog/meta/${this.post!.featuredImage}`
-    : `https://useappflow.com/assets/img/appflow-og-img.jpg`;
+    ? `${router.url.origin}/assets/blog/meta/${this.post!.featuredImage}`
+    : `${router.url.origin}assets/img/appflow-og-img.jpg`;
   
     return (
       <Helmet>
@@ -130,12 +130,12 @@ export class BlogPost {
         <meta name="twitter:description" content={`${this.post!.description} - Appflow Blog`} />
         <meta name="twitter:image" content={path} />
         <meta property="og:image" content={path} />
+        <meta property="og:url" content={router.url.href} />
       </Helmet> );
   }
 
   PostDetail = () => {
     const { PostAuthor, PostAuthorLarge, MoreResources, PostHelmet, PostFeaturedImage, post, preview } = this;
-
     return (
       <ResponsiveContainer>
         <blog-subnav breadcrumbs={[['Blog', '/blog'], [this.post?.title!, `/${this.slug}`]]}/>

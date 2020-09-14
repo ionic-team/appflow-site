@@ -11,7 +11,7 @@
     "generate": "stencil generate",
     "serve": "stencil build --dev --watch",
     "dev": "stencil build --dev --watch --serve",
-    "blog": "blog src/pages/blog-page/components/blog-post/assets/md src/pages/blog-page/components/blog-post/assets/blog.json"
+    "blog": "blog"
   },
   "devDependencies": {
     "@ionic-internal/ionic-ds": "^3.0.0-8",

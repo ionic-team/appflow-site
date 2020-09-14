@@ -2,9 +2,15 @@
 title: How Often Should your Mobile Team Ship?
 description: How the best mobile engineering teams work to ship frequently and drive growth
 slug: how-often-should-your-mobile-team-be-shipping
+featuredImage: how-often-should-your-mobile-team-be-shipping.png
+featuredImageAlt: figure 8 flow path with clock in the middle
 date: 2020-08-18 12:00:00
 author: Max Lynch <max@ionic.io>
 authorUrl: https://twitter.com/maxlynch
+authorImageName: max-lynch.jpg
+related:
+  - https://ionicframework.com/resources/webinars/hybrid-app-development-redefined
+  - https://useappflow.com/resources/solving-mobile-cicd-with-appflow
 ---
 
 A feature of highly productive engineering teams is their ability to ship new features and updates frequently.

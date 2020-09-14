@@ -2,9 +2,15 @@
 title: Building a robust Mobile CI/CD pipeline on Jenkins/Circle CI/Azure/etc.
 description: What does it take to build a scalable, robust Mobile CI/CD pipeline on popular services such as Jenkins, Circle CI, or Azure DevOps?
 slug: how-to-build-your-mobile-ci-cd-solution-on-jenkins-circleci-azure-devops
+featuredImage: how-to-build-your-mobile-ci-cd-solution-on-jenkins-circleci-azure-devops.png
+featuredImageAlt: flow chart showing pipeline to apple app store and google play store
 date: 2020-08-18 15:00:00
 author: Max Lynch <max@ionic.io>
 authorUrl: https://twitter.com/maxlynch
+authorImageName: max-lynch.jpg
+related:
+  - https://ionicframework.com/resources/webinars/hybrid-app-development-redefined
+  - https://useappflow.com/resources/solving-mobile-cicd-with-appflow
 ---
 
 Enterprise teams building mobile apps are looking to add Mobile CI/CD capabilities to their existing CI/CD workflows in use for their backend and frontend web apps.

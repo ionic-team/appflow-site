@@ -1,4 +1,4 @@
-import { Component, Prop, h, Host, Element, State, getAssetPath } from '@stencil/core';
+import { Component, Prop, h, Host, Element, State } from '@stencil/core';
 import { Heading, Paragraph, DateTime, Breakpoint, ResponsiveContainer } from '@ionic-internal/ionic-ds';
 import { Components as DS } from '@ionic-internal/ionic-ds/dist/types/components'
 import Helmet from '@stencil/helmet';
@@ -13,7 +13,7 @@ import { href } from 'stencil-router-v2';
 import Router from '../../../../router';
 import state from '../../../../store';
 
-import posts from './assets/blog.json';
+import posts from '../../../../assets/blog.json';
 import Img from 'src/components/Img/Img';
 import parseISO from 'date-fns/parseISO';
 import router from '../../../../router';
@@ -117,8 +117,8 @@ export class BlogPost {
 
   PostHelmet = () => {
     const path = this.post!.featuredImage
-    ? 'https://useappflow.com' + getAssetPath(`./assets/img/meta/${this.post!.featuredImage}`)
-    : `https://useappflow.com/assets/img/meta/default.jpg`;
+    ? `https://useappflow.com/assets/blog/meta/${this.post!.featuredImage}`
+    : `https://useappflow.com/assets/img/appflow-og-img.jpg`;
   
     return (
       <Helmet>
@@ -137,6 +137,8 @@ export class BlogPost {
 
   PostDetail = () => {
     const { PostAuthor, PostAuthorLarge, MoreResources, PostHelmet, PostFeaturedImage, post, preview } = this;
+
+    // PostHelmet.bind(this);
 
     return (
       <ResponsiveContainer>
@@ -202,7 +204,7 @@ export class BlogPost {
         {authorImageName
         ? <Img 
             {...data}
-            path={getAssetPath('./assets/img/author/')}            
+            path="/assets/blog/author/"        
             dimensions="56x56"
             alt={authorName}
           />
@@ -220,7 +222,7 @@ export class BlogPost {
 
     return (
       <a href={authorUrl} target="_blank" class="author-info">
-        <img src={getAssetPath(`./assets/img/author/${authorImageName}`)} alt={authorName} width="56" height="56"/>
+        <img src={`/assets/blog/author/${authorImageName}`} alt={authorName} width="56" height="56"/>
         <div class="description">
           <Heading level={5}>{authorName}</Heading>
           {authorDescription
@@ -258,14 +260,14 @@ export class BlogPost {
               onClick={() => {window.scrollTo(0, 0)}}
               class="featured-image"
               dimensions="1600x840"
-              path={getAssetPath(`./assets/img/meta/`)}
+              path={'/assets/blog/meta/'}
             />
           </a>
         : <Img
             {...data}
             class="featured-image"
             dimensions="1600x840"
-            path={getAssetPath(`./assets/img/meta/`)}
+            path={'/assets/blog/meta/'}
           /> }
       </div> )
   }

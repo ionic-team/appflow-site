@@ -108,6 +108,21 @@ export class BlogPost {
           'detail': !preview
         }}
       >
+        {!preview
+        ? <Helmet>
+            <title>Appflow Blog - {this.post!.title}</title>
+            <meta
+              name="description"
+              content={this.post!.description}
+            />
+            <meta name="twitter:description" content={`${this.post!.description} - Appflow Blog`} />
+            <meta property="twitter:image" content={`${router.url.origin}/assets/blog/meta/${this.post!.featuredImage}`} />
+            <meta property="twitter:image"  content={`${router.url.origin}assets/img/appflow-og-img.jpg`} />
+            <meta property="og:image" content={`${router.url.origin}/assets/blog/meta/${this.post!.featuredImage}`} />
+            <meta property="og:image" content={`${router.url.origin}assets/img/appflow-og-img.jpg`} />
+            <meta property="og:url" content={router.url.href} />
+          </Helmet>
+        : null}
         {preview 
         ? <PostPreview />
         : <PostDetail />}
@@ -115,33 +130,12 @@ export class BlogPost {
     )
   }
 
-  PostHelmet = () => {
-    const path = this.post!.featuredImage
-    ? `${router.url.origin}/assets/blog/meta/${this.post!.featuredImage}`
-    : `${router.url.origin}assets/img/appflow-og-img.jpg`;
-  
-    return (
-      <Helmet>
-        <title>Appflow Blog - {this.post!.title}</title>
-        <meta
-          name="description"
-          content={this.post!.description}
-        />
-        <meta name="twitter:description" content={`${this.post!.description} - Appflow Blog`} />
-        <meta name="twitter:image" content={path} />
-        <meta property="og:image" content={path} />
-        <meta property="og:url" content={router.url.href} />
-      </Helmet> );
-  }
-
   PostDetail = () => {
-    const { PostAuthor, PostAuthorLarge, MoreResources, PostHelmet, PostFeaturedImage, post, preview } = this;
+    const { PostAuthor, PostAuthorLarge, MoreResources, PostFeaturedImage, post, preview } = this;
     return (
       <ResponsiveContainer>
         <blog-subnav breadcrumbs={[['Blog', '/blog'], [this.post?.title!, `/${this.slug}`]]}/>
         <article class="post">        
-            <PostHelmet />
-
             <Breakpoint md={true} class="sticky-wrapper">
               <blog-social-actions post={post} column class="top" />
             </Breakpoint>  

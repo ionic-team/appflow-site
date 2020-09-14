@@ -52,7 +52,6 @@
   "homepage": "https://github.com/ionic-team/appflow-site",
   "dependencies": {
     "@ionic/core": "^5.3.2",
-    "marked": "^1.1.1",
-    "node-fetch": "^2.6.0"
+    "marked": "^1.1.1"
   }
 }

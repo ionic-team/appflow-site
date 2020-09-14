@@ -32,9 +32,9 @@ export class BlogPage {
       <Host class="ui-container">    
         <blog-subnav breadcrumbs={[['Blog', '/blog']]}/>
         <div class="content">
-          {this.posts.map(p => (
+          {this.posts.map((p, i) => (
             <article>
-              <blog-post slug={p.slug} preview />
+              <blog-post slug={p.slug} preview key={i}/>
             </article>
           ))}
           {/* <blog-pagination rssIcon /> */}

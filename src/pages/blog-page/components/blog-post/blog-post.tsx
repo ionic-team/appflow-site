@@ -1,4 +1,4 @@
-import { Component, Prop, h, Host, Element, State, Watch } from '@stencil/core';
+import { Component, Prop, h, Host, Element, State } from '@stencil/core';
 import { Heading, Paragraph, DateTime, Breakpoint, ResponsiveContainer } from '@ionic-internal/ionic-ds';
 import { Components as DS } from '@ionic-internal/ionic-ds/dist/types/components'
 import Helmet from '@stencil/helmet';

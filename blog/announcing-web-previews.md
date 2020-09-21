@@ -2,7 +2,7 @@
 title: Announcing Web Previews
 slug: announcing-web-previews
 description: The easiest way to share what you’re working on with coworkers, stakeholders, and more.
-date: 2019-09-20 08:00:00
+date: 2020-09-20 08:00:00
 author: Matt Netkow <netkow@ionic.io>
 authorUrl: https://twitter.com/dotNetkow
 featuredImage: /assets/img/blog/web-previews.png

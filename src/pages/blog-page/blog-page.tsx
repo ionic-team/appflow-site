@@ -3,6 +3,7 @@ import { RenderedBlog } from '@ionic-internal/markdown-blog/src/models';
 
 import posts from '../../assets/blog.json';
 import state from '../../store';
+import { ResponsiveContainer } from '@ionic-internal/ionic-ds';
 
  
 @Component({
@@ -29,17 +30,19 @@ export class BlogPage {
     if (!this.posts) throw new Error('No posts received from markdown blog');
 
     return (
-      <Host class="ui-container">    
+      <Host>    
         <blog-subnav breadcrumbs={[['Blog', '/blog']]}/>
-        <div class="content">
-          {this.posts.map((p, i) => (
-            <article>
-              <blog-post slug={p.slug} preview key={i}/>
-            </article>
-          ))}
-          {/* <blog-pagination rssIcon /> */}
-          <blog-newsletter />      
-        </div>  
+        <ResponsiveContainer>
+          <div class="content">
+            {this.posts.map((p, i) => (
+              <article>
+                <blog-post slug={p.slug} preview key={i}/>
+              </article>
+            ))}
+            {/* <blog-pagination rssIcon /> */}
+            <blog-newsletter />      
+          </div>  
+        </ResponsiveContainer>
       </Host> )
   }
 }

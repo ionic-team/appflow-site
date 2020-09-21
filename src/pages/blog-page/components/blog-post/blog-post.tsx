@@ -137,9 +137,10 @@ export class BlogPost {
   PostDetail = () => {
     const { PostAuthor, PostAuthorLarge, MoreResources, PostHelmet, PostFeaturedImage, post, preview } = this;
 
-    return (
+    return [
+      <blog-subnav breadcrumbs={[['Blog', '/blog'], [this.post?.title!, `/${this.slug}`]]}/>,
       <ResponsiveContainer>
-        <blog-subnav breadcrumbs={[['Blog', '/blog'], [this.post?.title!, `/${this.slug}`]]}/>
+        
         <article class="post">        
             <PostHelmet />
 
@@ -161,7 +162,7 @@ export class BlogPost {
             {/* <disqus-comments url={`https://useappflow.com/blog/${post.slug}`} siteId="ionic"/> */}
         </article>
       </ResponsiveContainer>
-    );
+    ];
   }
 
   PostPreview = () => {

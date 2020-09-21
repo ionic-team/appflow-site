@@ -254,6 +254,7 @@ export class BlogPost {
         ? <a {...href(`/blog/${slug}`, router)}>
             <Img
               {...data}
+              fallback
               onClick={() => {window.scrollTo(0, 0)}}
               class="featured-image"
               dimensions="1600x840"
@@ -262,6 +263,7 @@ export class BlogPost {
           </a>
         : <Img
             {...data}
+            fallback
             class="featured-image"
             dimensions="1600x840"
             path={'/assets/blog/meta/'}

@@ -6,7 +6,7 @@ date: 2020-09-20 08:00:00
 author: Max Lynch <max@ionic.io>
 authorUrl: https://twitter.com/maxlynch
 authorImageName: max-lynch.jpg
-featuredImage: /assets/img/blog/web-previews.png
+featuredImage: web-previews.png
 featuredImageAlt: Web Previews
 ---
 

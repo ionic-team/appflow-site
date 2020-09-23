@@ -16,7 +16,7 @@ Web Previews represent the next step in our belief in the [web first development
 
 <!--more-->
 
-The entire update is covered [on the Ionic blog](LINK once published). You can also view a short overview video to see Web Previews in action:
+The entire update is covered [on the Ionic blog](https://ionicframework.com/blog/announcing-web-previews-in-appflow/). You can also view a short overview video to see Web Previews in action:
 
 <p>
 

@@ -3,15 +3,18 @@
   border-radius: var(--radius-2);
   background: var(--c-lavender-0);
   padding: 40px 32px;
+  min-height: 128px;
 }
 
 .heading-group {
   .ui-heading {
     color: var(--c-lavender-90);
+    margin-block-end: 2px;
   }
 
   .ui-paragraph {
     color: var(--c-lavender-60);
+    margin: 0;
   }
 }
 

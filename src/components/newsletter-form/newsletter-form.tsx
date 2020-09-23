@@ -3,7 +3,7 @@ import { Component, h, State } from '@stencil/core';
 @Component({
   tag: 'newsletter-form',
   styleUrl: 'newsletter-form.scss',
-  shadow: false
+  scoped: true
 })
 export class NewsletterForm {
   @State() emailInvalid: boolean = false;

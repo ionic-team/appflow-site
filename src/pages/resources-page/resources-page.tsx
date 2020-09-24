@@ -149,9 +149,6 @@ const Feature = ({ prismicData }: { prismicData: PrismicResource }) => {
   return (
     <ResponsiveContainer id="feature" as="section">      
       <resource-card
-        style={{
-          '--image-height': '100%'
-        }}
         row
         headingLevel={1}
         prismicData={prismicData}        
@@ -176,9 +173,6 @@ const Latest = ({ prismicData }: { prismicData: PrismicResource[] }) => {
         {prismicData.map((data) => (
         <Col xs={6} sm={6} md={4} cols={12}>
           <resource-card
-            style={{
-              '--image-height': '128px'
-            }}
             routing={{
               base: '/resources',
               includeType: false,
@@ -203,9 +197,6 @@ const Mid = ({ prismicData }: { prismicData: PrismicResource[] }) => {
         {prismicData.map((data) => (
         <Col xs={6} cols={12}>
           <resource-card
-            style={{
-              '--image-height': '224px'
-            }}
             routing={{
               base: '/resources',
               includeType: false,

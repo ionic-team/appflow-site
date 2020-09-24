@@ -232,6 +232,8 @@ export class BlogPost {
   }
 
   MoreResources = () => {
+    if (!this.moreResources.resources || this.moreResources.resources.length <= 0) return;
+
     return [
       <Heading level={4} class="more-resources__title | ui-theme--editorial">You might also like...</Heading>,
       <more-resources {...this.moreResources}/>
@@ -255,6 +257,7 @@ export class BlogPost {
         ? <a {...href(`/blog/${slug}`, router)}>
             <Img
               {...data}
+              fallback
               onClick={() => {window.scrollTo(0, 0)}}
               class="featured-image"
               dimensions="1600x840"
@@ -263,6 +266,7 @@ export class BlogPost {
           </a>
         : <Img
             {...data}
+            fallback
             class="featured-image"
             dimensions="1600x840"
             path={'/assets/blog/meta/'}

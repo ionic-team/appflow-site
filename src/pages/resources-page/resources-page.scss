@@ -27,9 +27,18 @@
 
 #feature {
 @include box($mbs:var(--space-11), $mbe:var(--space-11));
+
+  resource-card {
+    --image-height: 100%;
+  }
 }
 
 #latest {
+
+  resource-card {
+    --image-height: 128px;
+  }
+
   hr.top {
   @include box($mbs: var(--space-3));
   }  
@@ -42,6 +51,10 @@
 
 #mid {
 @include box($mbs: var(--space-11));
+
+  resource-card {
+    --image-height: 224px;
+  }
 
   .card-grid {
   @include box($rg:var(--space-11));

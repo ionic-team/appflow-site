@@ -44,19 +44,19 @@ export class BlogSocialActions {
     >
       <a
         href={this.twitterUrl.join('')}
-        target="_blank" rel="noreferrer"
+        target="_blank" rel="noopener"
       >
         {twitterLogo({ main: '#CED6E0' }, { width: 20, height: 16, class: 'twitter' })}
       </a>
       <a
         href={this.facebookUrl.join('')}
-        target="_blank" rel="noreferrer"
+        target="_blank" rel="noopener"
       >
         {facebookRoundedLogo({ main: '#CED6E0' }, { width: 20, height: 20, class: 'facebook' })}
       </a>
       <a
         href={this.linkedInUrl.join('')}
-        target="_blank" rel="noreferrer"
+        target="_blank" rel="noopener"
       >
         {linkedInLogo({ main: '#CED6E0' }, { width: 20, height: 20, class: 'linked-in' })}
       </a>

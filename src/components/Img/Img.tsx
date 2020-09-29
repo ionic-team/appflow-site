@@ -11,8 +11,6 @@ interface ImgProps extends JSXBase.ImgHTMLAttributes<HTMLImageElement>{
   dimensions: string;
 
   fallback?: boolean;
-
-  [key:string]: any;
 }
 
 const Img = ({ path, name, type = 'png', alt, dimensions, fallback = false, ...props }: ImgProps) => {

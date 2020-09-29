@@ -133,15 +133,15 @@ const Companies = () => {
       <Heading level={6}>{companies}</Heading>
       <div class="logos">
         <div class="wrapper">
-          {aaaLogo({}, { width: '50' })}
-          {amtrakLogo({}, { width: '64' })}
-          {nasaLogo({}, { width: '50' })}
-          {ibmLogo({}, { width: '53' })}
+          {aaaLogo({}, { width: '49.71' })}
+          {amtrakLogo({}, { width: '63.78' })}
+          {nasaLogo({}, { width: '71.29' })}
+          {ibmLogo({}, { width: '52.53' })}
         </div>
         <div class="wrapper">
-          {burgerKingLogo({}, { width: '50' })}
-          {catLogo({}, { width: '50' })}
-          {targetLogo({}, { width: '50' })}
+          {burgerKingLogo({}, { width: '30.32' })}
+          {catLogo({}, { width: '41.27' })}
+          {targetLogo({}, { width: '32' })}
         </div>
       </div>
     </ResponsiveContainer>

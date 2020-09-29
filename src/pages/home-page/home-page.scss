@@ -83,7 +83,10 @@ a {
 }
 
 #companies {
-@include box($mbs:$section-space);
+  @include box($mbs:$section-space);
+  margin-block-start: 0;
+  padding-top: $section-space;
+  background: #fff;
 
   .ui-heading {
   @include box($color:var(--c-indigo-70), $ta:center, $mbe:var(--space-8));

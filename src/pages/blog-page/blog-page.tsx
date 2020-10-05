@@ -27,14 +27,14 @@ export class BlogPage {
   }
 
   render() {
-    if (!this.posts) throw new Error('No posts received from markdown blog');
+    if (!this.posts) console.error('No posts received from markdown blog');
 
     return (
       <Host>    
         <blog-subnav breadcrumbs={[['Blog', '/blog']]}/>
         <ResponsiveContainer>
           <div class="content">
-            {this.posts.map((p, i) => (
+            {this.posts?.map((p, i) => (
               <article>
                 <blog-post slug={p.slug} preview key={i}/>
               </article>

@@ -14,7 +14,7 @@
     "blog": "blog"
   },
   "devDependencies": {
-    "@ionic-internal/ionic-ds": "^3.0.0-8",
+    "@ionic-internal/ionic-ds": "^3.1.1",
     "@ionic-internal/markdown-blog": "^1.0.10",
     "@ionic/prettier-config": "^1.0.0",
     "@stencil/core": "^2.0.3",

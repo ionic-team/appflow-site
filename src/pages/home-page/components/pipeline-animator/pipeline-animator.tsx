@@ -123,7 +123,7 @@ export class PipelineAnimator {
     const elBottom: SVGElement  = this.bottomLocations.get(tile.location)!;
     const uiEl: HTMLElement = this.tiles.get(name)!;
 
-    if (!elTop || !elBottom || !uiEl) throw new Error('tile info not found');
+    if (!elTop || !elBottom || !uiEl) console.error('tile info not found');
 
     gsap.to(elTop, {
       duration: 0.2, 
@@ -163,7 +163,7 @@ export class PipelineAnimator {
     const delay = _delay || 0;
     const defaultColor = tile.location === 'one' ? '#DDE6F7' : '#F5F7FD';
 
-    if (!elTop || !elBottom || !uiEl) throw new Error('tile info not found');
+    if (!elTop || !elBottom || !uiEl) console.error('tile info not found');
 
     gsap.to(elBottom, {
       duration: 0.3, 
@@ -187,7 +187,7 @@ export class PipelineAnimator {
   animateConnector(name: string, direction: 'R' | 'L'){
     const tile = this.tileConfig[name];
     const el: SVGElement = this.connectors.get(`${tile.location}_${direction}`)!;
-    if (!el) throw new Error('connector not found');
+    if (!el) console.error('connector not found');
 
     gsap.set(el, {
       stroke: tile.color.top,

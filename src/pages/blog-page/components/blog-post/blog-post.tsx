@@ -43,7 +43,7 @@ export class BlogPost {
     const { slug, getRelatedResources, preview } = this;
 
     this.post = (posts as RenderedBlog[]).find(p => p.slug === slug);
-    if (!this.post) throw new Error('Could not find blog post by slug.');  
+    if (!this.post) console.error('Could not find blog post by slug.');  
       
     if (!preview) getRelatedResources();
   }
@@ -96,7 +96,7 @@ export class BlogPost {
   }
 
   render() {
-    if (!this.post) throw new Error('Could not find blog post by slug.');
+    if (!this.post) console.error('Could not find blog post by slug.');
 
     const { PostDetail, PostPreview, preview } = this;
 

@@ -12,17 +12,17 @@ featuredImageAlt: Build Stacks
 
 Today I’m thrilled to announce the release of Build Stacks in Appflow. With this exciting new feature, Appflow users now have much greater control over their cloud build environments to unlock better native build stability and easier troubleshooting.
 
-To view all available Build Stacks, refer to the Appflow docs or create a new native build within Appflow.
+To view all available Build Stacks, refer to [the Appflow docs](https://ionicframework.com/docs/appflow/build-stacks) or create a new native build within Appflow.
 
 ## More Transparent Build Configurations
 
 A Build Stack is a collection of software tooling used to build native iOS and Android apps on Appflow, including the Cordova CLI, Capacitor CLI, Ionic CLI, Node, CocoaPods, Gradle, and more. Here’s the latest iOS Build Stack, which uses macOS to build the native app:
 
-
+![iOS Build Stacks](/assets/blog/img/build-stacks-ios.png)
 
 And Android, which uses Linux to build the native app:
 
-
+![Android Build Stacks](/assets/blog/img/build-stacks-android.png)
 
 These build configurations were available previously, but this update explicitly lists the exact versions in use. 
  
@@ -40,16 +40,18 @@ Generally, the latest Build Stack is the best choice for most apps. However, you
 
 After a new Build Stack becomes available, older ones may be retired. They’ll be labeled with the retirement date within the native build screen in Appflow, and customers will be notified by email.
 
-To view all available Build Stacks, refer to the Appflow docs or create a new native build within Appflow. Build stacks are available for use with all Appflow plans.
+To view all available Build Stacks, refer to [the Appflow docs](https://ionicframework.com/docs/appflow/build-stacks) or create a new native build within Appflow. Build stacks are available for use with all Appflow plans.
 
 ## Select your Build Stack of Choice Today
 
-It’s easy to test a new Build Stack before committing to it. Create a new native build and select the desired Build Stack. If it builds then runs successfully on your device(s), you can confidently select that Stack for all subsequent native builds. If your team uses the Automation feature, the Build Stack can be automatically applied to all new native builds going forward.
+It’s easy to test a new Build Stack before committing to it. Create a new native build and select the desired Build Stack. If it builds then runs successfully on your device(s), you can confidently select that Stack for all subsequent native builds. If your team uses the [Automation feature](https://ionicframework.com/docs/appflow/automation/intro), the Build Stack can be automatically applied to all new native builds going forward.
 
 Log into Appflow and select the best Build Stack for your apps today.
 
-## Special note for Automation Users
+## Special note for Automation users
 
-Using Appflow’s Automation feature? On November 16th, 2020, the `macOS - 2020.11` Build Stack will become the default Stack for iOS apps. Currently, the default is `macOS - 2020.06`.
+Using Appflow’s [Automation feature](https://ionicframework.com/docs/appflow/automation/intro)? On November 16th, 2020, the `macOS - 2020.11` Build Stack will become the default Stack for iOS apps. Currently, the default is `macOS - 2020.06`.
 
 If you’d like to remain on `macOS - 2020.06` (or another Stack), please log into Appflow then explicitly choose it via the “Specify a build stack” option:
+
+![Appflow Automations and Build Stacks](/assets/blog/img/build-stacks-automation.png)

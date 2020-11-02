@@ -14,6 +14,8 @@ Today I’m thrilled to announce the release of Build Stacks in Appflow. With th
 
 To view all available Build Stacks, refer to [the Appflow docs](https://ionicframework.com/docs/appflow/build-stacks) or create a new native build within Appflow.
 
+<!--more-->
+
 ## More Transparent Build Configurations
 
 A Build Stack is a collection of software tooling used to build native iOS and Android apps on Appflow, including the Cordova CLI, Capacitor CLI, Ionic CLI, Node, CocoaPods, Gradle, and more. Here’s the latest iOS Build Stack, which uses macOS to build the native app:

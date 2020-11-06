@@ -42,7 +42,7 @@ Generally, the latest Build Stack is the best choice for most apps. However, you
 
 After a new Build Stack becomes available, older ones may be retired. They’ll be labeled with the retirement date within the native build screen in Appflow, and customers will be notified by email.
 
-To view all available Build Stacks, refer to [the Appflow docs](https://ionicframework.com/docs/appflow/build-stacks) or create a new native build within Appflow. Build stacks are available for use with all Appflow plans.
+To view all available Build Stacks, refer to [the Appflow docs](https://ionicframework.com/docs/appflow/build-stacks) or create a new native build within Appflow. Build stacks are available for use with Appflow plans that include [cloud native build functionality](https://ionicframework.com/pricing).
 
 ## Select your Build Stack of Choice Today
 

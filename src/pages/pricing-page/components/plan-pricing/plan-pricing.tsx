@@ -104,7 +104,7 @@ export class PlanPricing {
               Email support
             </li>
           </ul>
-          <GetStartedButton />
+          <GetStartedButton plan='developer'/>
         </div>
 
         <div id="plan-growth" class="plan__card">
@@ -155,7 +155,7 @@ export class PlanPricing {
               Email support
             </li>
           </ul>
-          <GetStartedButton />
+          <GetStartedButton plan='team'/>
         </div>
 
         <div id="plan-scale" class="plan__card plan__card">
@@ -206,6 +206,9 @@ export class PlanPricing {
   )}
 }
 
-const GetStartedButton = () => (
-  <a href="https://ionicframework.com/signup?source=appflow-site&product=appflow" class="button dark">Get started</a>
+const GetStartedButton = (props: { plan: string; }) => (
+  <a href={`https://ionicframework.com/signup?source=appflow-site&product=appflow&plan=${props.plan}`} 
+     class="button dark">
+    Get started
+  </a>
 )

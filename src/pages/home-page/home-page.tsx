@@ -86,10 +86,10 @@ const Cached = () => {
     class="ui-paragraph ui-paragraph-2 ui-paragraph--body sc-home-page" c-id=7.48.4.1><!--t.7.49.5.0-->Appflow is a Mobile DevOps platform for Ionic, Capacitor, and Cordova apps</p></div><a
     class="cta button sc-home-page" href="https://ionicframework.com/signup?source=appflow-site&amp;product=appflow"
     c-id=7.50.3.2><!--t.7.51.4.0-->Get started - it’s free to try</a></div></div><div class="activator sc-home-page"
-    c-id=7.52.1.2><appflow-activator class="sc-home-page sc-appflow-activator-h sc-appflow-activator-s hydrated"
-    c-id=7.53.2.0 s-id=8 style="--max-image-width: 1152px;"><!--r.8-->
+    c-id=7.52.1.2>
     
-    </appflow-activator></div></section>
+    <appflow-activator class="sc-home-page sc-appflow-activator-h sc-appflow-activator-s hydrated"
+    c-id=7.53.2.0 s-id=8 style="--max-image-width: 1152px;"><!--r.8--></appflow-activator></div></section>
     
     <section id=companies
     class="ui-container sc-home-page" c-id=7.54.0.1><h6 class="ui-heading ui-heading-6 sc-home-page" c-id=7.55.1.0><!--t.7.56.2.0-->Trusted by the world’s best teams</h6><div
@@ -237,24 +237,11 @@ const Cached = () => {
     class="list-item sc-home-page" c-id=7.241.4.3><svg viewBox="0 0 16 16" width=16 height=16 class="sc-home-page"
     c-id=7.242.5.0><circle cx=8 cy=8 r=8 fill=#597EFF class="sc-home-page" c-id=7.243.6.0></circle><path d="M11 5l-4.2 6L5 8.75"
     fill=none stroke=#EEFEFF stroke-linecap=round stroke-linejoin=round class="sc-home-page" c-id=7.244.6.1></path></svg><p
-    class="ui-paragraph ui-paragraph-3 ui-paragraph--body sc-home-page" c-id=7.245.5.1><!--t.7.246.6.0-->Run live A/B tests and control who sees what</p></li></ul></div><phone-animator
-    class="sc-home-page sc-phone-animator-h sc-phone-animator-s hydrated" c-id=7.247.2.1 s-id=9><!--r.9--><svg
-    class="foreground screen sc-phone-animator" viewBox="3.79372501373291 133.2659912109375 565.734130859375 307.3507995605469"
-    xmlns="http://www.w3.org/2000/svg" c-id=9.0.0.0><path opacity=0 d="M552.914 174.599L399.797 134.422C385.537 131.271 366.436 134.941 357.561 140.85L7.68016 376.88C0.286579 384.11 3.75508 392.452 15.4273 395.512L185.396 439.568C197.068 442.628 209.539 438.655 219.917 432.017L560.777 194.124C575.541 183.414 570.759 179.455 552.914 174.599Z"
-    class="sc-phone-animator" c-id=9.1.1.0></path><path d="M552.914 174.599L399.797 134.422C385.537 131.271 366.436 134.941 357.561 140.85L7.68016 376.88C0.286579 384.11 3.75508 392.452 15.4273 395.512L185.396 439.568C197.068 442.628 209.539 438.655 219.917 432.017L560.777 194.124C575.541 183.414 570.759 179.455 552.914 174.599Z"
-    class="sc-phone-animator" c-id=9.2.1.1></path><path d="M552.914 174.599L399.797 134.422C385.537 131.271 366.436 134.941 357.561 140.85L7.68016 376.88C0.286579 384.11 3.75508 392.452 15.4273 395.512L185.396 439.568C197.068 442.628 209.539 438.655 219.917 432.017L560.777 194.124C575.541 183.414 570.759 179.455 552.914 174.599Z"
-    class="sc-phone-animator" c-id=9.3.1.2></path><path d="M552.914 174.599L399.797 134.422C385.537 131.271 366.436 134.941 357.561 140.85L7.68016 376.88C0.286579 384.11 3.75508 392.452 15.4273 395.512L185.396 439.568C197.068 442.628 209.539 438.655 219.917 432.017L560.777 194.124C575.541 183.414 570.759 179.455 552.914 174.599Z"
-    class="sc-phone-animator" c-id=9.4.1.3></path></svg><div class="iphone sc-phone-animator" c-id=9.5.0.1><svg
-    class="screen sc-phone-animator" viewBox="3.79372501373291 133.2659912109375 565.734130859375 307.3507995605469"
-    fill=none xmlns="http://www.w3.org/2000/svg" c-id=9.6.1.0><path fill=#5947FB d="M552.914 174.599L399.797 134.422C385.537 131.271 366.436 134.941 357.561 140.85L7.68016 376.88C0.286579 384.11 3.75508 392.452 15.4273 395.512L185.396 439.568C197.068 442.628 209.539 438.655 219.917 432.017L560.777 194.124C575.541 183.414 570.759 179.455 552.914 174.599Z"
-    class="sc-phone-animator" c-id=9.7.2.0></path></svg><img src="/assets/phone.png" srcset="/assets/phone.png 1x,
-                      /assets/phone@2x.png 2x"
-    loading=lazy width=1780 height=1541 alt="floating iphone with blank screen" class="sc-phone-animator" c-id=9.8.1.1></div><svg
-    class="background screen sc-phone-animator" viewBox="3.79372501373291 133.2659912109375 565.734130859375 307.3507995605469"
-    fill=none xmlns="http://www.w3.org/2000/svg" c-id=9.9.0.2><path d="M552.914 174.599L399.797 134.422C385.537 131.271 366.436 134.941 357.561 140.85L7.68016 376.88C0.286579 384.11 3.75508 392.452 15.4273 395.512L185.396 439.568C197.068 442.628 209.539 438.655 219.917 432.017L560.777 194.124C575.541 183.414 570.759 179.455 552.914 174.599Z"
-    class="sc-phone-animator" c-id=9.10.1.0></path><path d="M552.914 174.599L399.797 134.422C385.537 131.271 366.436 134.941 357.561 140.85L7.68016 376.88C0.286579 384.11 3.75508 392.452 15.4273 395.512L185.396 439.568C197.068 442.628 209.539 438.655 219.917 432.017L560.777 194.124C575.541 183.414 570.759 179.455 552.914 174.599Z"
-    class="sc-phone-animator" c-id=9.11.1.1></path><path d="M552.914 174.599L399.797 134.422C385.537 131.271 366.436 134.941 357.561 140.85L7.68016 376.88C0.286579 384.11 3.75508 392.452 15.4273 395.512L185.396 439.568C197.068 442.628 209.539 438.655 219.917 432.017L560.777 194.124C575.541 183.414 570.759 179.455 552.914 174.599Z"
-    class="sc-phone-animator" c-id=9.12.1.2></path></svg></phone-animator></div></section>
+    class="ui-paragraph ui-paragraph-3 ui-paragraph--body sc-home-page" c-id=7.245.5.1><!--t.7.246.6.0-->Run live A/B tests and control who sees what</p></li></ul></div>
+    
+    <phone-animator></phone-animator>
+  
+  </div></section>
     
     <section id=native
     class="sc-home-page" c-id=7.248.0.5><div class="ui-container sc-home-page" c-id=7.249.1.0><div class="sc-home-page"
@@ -392,6 +379,9 @@ const Cached = () => {
     c-id=7.353.7.0><circle cx=8 cy=8 r=8 fill=#8C93FF class="sc-home-page" c-id=7.354.8.0></circle><path d="M11 5l-4.2 6L5 8.75"
     fill=none stroke=#EEFEFF stroke-linecap=round stroke-linejoin=round class="sc-home-page" c-id=7.355.8.1></path></svg><p
     class="ui-paragraph ui-paragraph-3 ui-paragraph--body sc-home-page" c-id=7.356.7.1><!--t.7.357.8.0-->Automate everything, from the moment code is checked in</p></li></ul></div></div></div></div></section>
+    
+    
+
     `}></div>
   )
 

@@ -17,7 +17,7 @@ import Router from '../../router';
 export class AppflowSiteRoutes {
 
   componentWillLoad() {
-    Router.onChange('url', (newValue: InternalRouterState['url'], _oldValue: InternalRouterState['url']) => {
+    Router.onChange('url', (_newValue: InternalRouterState['url'], _oldValue: InternalRouterState['url']) => {
       state.pageTheme = 'light';
       state.stickyHeader = true;
     });

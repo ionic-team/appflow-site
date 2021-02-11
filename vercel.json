@@ -17,7 +17,7 @@
     },
     {
       "source": "/resources",
-      "destination": "https://ionic.io/appflow/resources",
+      "destination": "https://ionic.io/resources",
       "permanent": true
     },
     {

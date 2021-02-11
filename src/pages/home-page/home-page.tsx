@@ -387,7 +387,7 @@ const Cached = () => {
 
 }
 
-const _Top = () => {
+const Top = () => {
   const { top, top__cta } = state.pageData;
 
   return (
@@ -475,7 +475,7 @@ const _Top = () => {
   );
 }
 
-const _Companies = () => {
+const Companies = () => {
   const { companies } = state.pageData;
 
   return (
@@ -498,7 +498,7 @@ const _Companies = () => {
   );
 }
 
-const _Ship = () => {
+const Ship = () => {
   const { ship, ship__list } = state.pageData;
 
   const icons: HTMLElement[] = [
@@ -525,7 +525,7 @@ const _Ship = () => {
   );
 }
     
-const _Push = () => {
+const Push = () => {
   const { push, push__list } = state.pageData;
 
   const icons: HTMLElement[] = [
@@ -573,7 +573,7 @@ const _Push = () => {
   )
 }
 
-const _Live = () => {
+const Live = () => {
   const { live, live__list } = state.pageData;
 
   return (
@@ -596,7 +596,7 @@ const _Live = () => {
   )
 }
 
-const _Native = () => {
+const Native = () => {
   const { native, native__subtext } = state.pageData;
 
   return (
@@ -629,7 +629,7 @@ const _Native = () => {
   )
 }
 
-const _Automate = () => {
+const Automate = () => {
   const { automate, automate__subtext } = state.pageData;
 
   return (
@@ -653,7 +653,7 @@ const _Automate = () => {
   )
 }
 
-const _Managed = () => {
+const Managed = () => {
   const { managed } = state.pageData;
 
   return (
@@ -681,7 +681,7 @@ const _Managed = () => {
   )
 }
 
-const _Experience = () => {
+const Experience = () => {
   const { experience__title, experience__subtext, experience__cta, experience__list } = state.pageData;
 
   return (

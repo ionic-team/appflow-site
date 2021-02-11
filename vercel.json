@@ -1,0 +1,34 @@
+{
+  "redirects": [
+    {
+      "source": "/",
+      "destination": "https://ionic.io/appflow",
+      "permanent": true
+    },
+    {
+      "source": "/why-appflow",
+      "destination": "https://ionic.io/appflow/why-appflow",
+      "permanent": true
+    },
+    {
+      "source": "/pricing",
+      "destination": "https://ionic.io/appflow/pricing",
+      "permanent": true
+    },
+    {
+      "source": "/resources",
+      "destination": "https://ionic.io/appflow/resources",
+      "permanent": true
+    },
+    {
+      "source": "/resources/:type",
+      "destination": "https://ionic.io/resources/:type",
+      "permanent": true
+    },
+    {
+      "source": "/resources/:type/:id",
+      "destination": "https://ionic.io/resources/:type/:id",
+      "permanent": true
+    }
+  ]
+}
